@@ -12,22 +12,20 @@ import { useState } from "react";
 export default function LanguagePicker() {
   const [language, setLanguage] = useState("mk");
   return (
-    <div className="language-select">
-      <Select
-        value={language}
-        onValueChange={function (value) {
-          setLanguage(value);
-        }}
-      >
-        <SelectTrigger className="w-[80px] border-none">
-          <SelectValue placeholder="Language" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="mk">MK</SelectItem>
-          <SelectItem value="al">AL</SelectItem>
-          <SelectItem value="en">EN</SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
+    <Select
+      value={language}
+      onValueChange={function (value) {
+        setLanguage(value);
+      }}
+    >
+      <SelectTrigger className="w-[52px] p-1 border-none text-brand-dark-blue">
+        <SelectValue placeholder="Language" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="mk">MK</SelectItem>
+        <SelectItem value="al">AL</SelectItem>
+        <SelectItem value="en">EN</SelectItem>
+      </SelectContent>
+    </Select>
   );
 }
