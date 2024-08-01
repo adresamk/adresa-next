@@ -82,6 +82,9 @@ const config = {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
+      backgroundImage: {
+        "search-filter": "url('/assets/hero-search-bg-image.jpg')",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

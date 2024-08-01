@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import LanguagePicker from "@/components/LanguagePicker";
 import userProfileBg from "@/assets/user-profile-bg.svg";
-import adresaLogo from "@/assets/adresa-logo.png";
 import { HousePlus } from "lucide-react";
 
 export default function Header() {
@@ -11,7 +10,7 @@ export default function Header() {
       <nav className="flex items-center gap-6 text-brand-dark-blue">
         <Link href="/">
           <img
-            src={adresaLogo.src}
+            src={"/assets/adresa-logo.png"}
             width={240}
             height={50}
             alt="Adresa Homepage"
