@@ -142,6 +142,15 @@ function PriceFilter({
                   type="text"
                   placeholder="10,000"
                   value={filters.price.from}
+                  onChange={(e) => {
+                    setFilters((prev: any) => ({
+                      ...prev,
+                      price: {
+                        ...prev.price,
+                        from: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </div>
               <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded-lg rounded-t-none ">
@@ -183,6 +192,15 @@ function PriceFilter({
                   type="text"
                   placeholder="10,000"
                   value={filters.price.to}
+                  onChange={(e) => {
+                    setFilters((prev: any) => ({
+                      ...prev,
+                      price: {
+                        ...prev.price,
+                        to: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </div>
               <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded-lg rounded-t-none ">
@@ -285,6 +303,15 @@ function SurfaceFilter({
                   type="text"
                   placeholder="10,000"
                   value={filters.surface.from}
+                  onChange={(e) => {
+                    setFilters((prev: any) => ({
+                      ...prev,
+                      surface: {
+                        ...prev.surface,
+                        from: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </div>
               <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded-lg rounded-t-none ">
@@ -326,6 +353,15 @@ function SurfaceFilter({
                   type="text"
                   placeholder="10,000"
                   value={filters.surface.to}
+                  onChange={(e) => {
+                    setFilters((prev: any) => ({
+                      ...prev,
+                      surface: {
+                        ...prev.surface,
+                        to: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </div>
               <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded-lg rounded-t-none ">
