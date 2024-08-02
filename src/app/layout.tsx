@@ -24,6 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        // adding this because my chrome extension is adding another class to the body
+        // and it's messing with the hydration check from next, and we need that class for the
+        // extension to work. The class being added is 'vsc-initialized'
+        suppressHydrationWarning={true}
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
