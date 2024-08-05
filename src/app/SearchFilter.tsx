@@ -482,8 +482,7 @@ function SurfaceFilter({
 }
 
 export default function SearchFilter() {
-  const [selectedFilter, setSelectedFilter] =
-    useState<string>("surface");
+  const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [filters, setFilters] = useState({
     mode: "sale",
     location: "",
