@@ -115,6 +115,23 @@ export const priceFilterOptions = [
   "4,500,000",
   "5,000,000",
 ];
+export const locationDropdownOptions = [
+  "Chalkidiki (Macedonia)",
+  "Nea Chalkidona (Athens - West)",
+  "Chalkida (Evia)",
+  "Chalkidona (Thessaloniki - Rest of Prefecture)",
+  "Poligiros (Chalkidiki)",
+  "Center (Nea Chalkidona)",
+  "Chalkidona (Nikaia)",
+  "Chalkoutsi (Oropos)",
+  "Chrisalida (Nea Chalkidona)",
+  "Anthemountas (Chalkidiki)",
+  "Arnaia (Chalkidiki)",
+  "Chalkeia (Aetolia & Acarnania)",
+  "Chalki (Dodecanese)",
+  "Kallikrateia (Chalkidiki)",
+  "Kassandra (Chalkidiki)",
+];
 export const surfaceFilterOptions = [
   "Any",
   "20",

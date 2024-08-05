@@ -2,13 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import {
+  locationDropdownOptions,
   priceFilterOptions,
   propertyTypes,
   surfaceFilterOptions,
 } from "@/global/constants";
 import { cn } from "@/lib/utils";
 import { cx } from "class-variance-authority";
-import { House, MapPin, Ruler, Tag } from "lucide-react";
+import { House, Map, MapPin, Pin, Ruler, Tag } from "lucide-react";
 import { useState } from "react";
 
 type SearchFormFilterProps = {
@@ -17,6 +18,88 @@ type SearchFormFilterProps = {
   filters: any;
   setFilters: (filter: any) => void;
 };
+function LocationFilter({
+  selectedFilter,
+  setSelectedFilter,
+  filters,
+  setFilters,
+}: SearchFormFilterProps) {
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  return (
+    <div
+      className={cx(
+        " flex-1 flex-grow  p-4  border-r rounded border-r-black overflow-visible h-[90px] min-w-[418px] w-full ",
+        selectedFilter === "location" &&
+          "shadow-lg bg-white rounded-t z-10",
+        !selectedFilter && "bg-gray-50 "
+      )}
+      onClick={() => {
+        setSelectedFilter("location");
+      }}
+    >
+      <div className="w-full">
+        <div className="  flex flex-col gap-1.5 text-brand-dark-blue">
+          <label
+            className=" h-5 flex w-full gap-2 items-center"
+            htmlFor={"location"}
+          >
+            {<MapPin size={22} />} {"Location"}
+          </label>
+          <div className="text-sm h-10 flex items-center">
+            {/* line-height: 1; border: 0; height: 40px; padding: 0;
+            flex-grow: 1; letter-spacing: -.32px; */}
+            <input
+              className=" h-8 w-full flex-grow border-none rounded leading-tight p-1 px-4 text-black outline-none bg-gray-50"
+              name="location"
+              id="location"
+              placeholder={
+                selectedFilter === "location"
+                  ? "Type at least 3 characters"
+                  : "e.g. Skopje, Kumanovo, Veles"
+              }
+              value={filters.location}
+              onChange={(e) => {
+                setFilters((prev: any) => ({
+                  ...prev,
+                  location: e.target.value,
+                }));
+                if (e.target.value.length >= 3) {
+                  setSuggestionsOpen(true);
+                }
+              }}
+            />
+          </div>
+        </div>
+        {selectedFilter === "location" && suggestionsOpen && (
+          <ul className=" w-full flex flex-col p-2 top-[5px] max-h-[280px] overflow-y-auto relative text-sm -left-4 bg-white rounded rounded-t-none  shadow-lg">
+            {locationDropdownOptions.map((location) => (
+              <li
+                key={location}
+                className={cx(
+                  "px-2 py-1 hover:bg-green-50 cursor-pointer rounded flex gap-2",
+                  filters.propertyType === location &&
+                    "bg-green-50 text-brand-dark-blue"
+                )}
+                onClick={() => {
+                  setFilters((prev: any) => ({
+                    ...prev,
+                    location: location,
+                  }));
+                  setSuggestionsOpen(false);
+                }}
+              >
+                <span>
+                  <MapPin />
+                </span>
+                <span>{location}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
 function PropertyTypeFilter({
   selectedFilter,
   setSelectedFilter,
@@ -36,21 +119,21 @@ function PropertyTypeFilter({
       }}
     >
       <div className="">
-        <div className="flex flex-col gap-3 text-brand-dark-blue">
+        <div className="flex flex-col gap-1.5 text-brand-dark-blue">
           <label
-            className="flex w-full gap-2 items-center"
+            className="h-5 flex w-full gap-2 items-center"
             htmlFor={"property-type"}
           >
             {<House size={22} />} {"Property Type"}
           </label>
-          <div className="text-sm">
+          <div className="text-sm h-10 flex items-center">
             {filters.propertyType || (
               <span className="text-gray-400">Home</span>
             )}
           </div>
         </div>
         {selectedFilter === "property-type" && (
-          <ul className=" w-[184px] p-2 top-[18px] relative text-sm -left-4 bg-white rounded-lg rounded-t-none border-t shadow-lg">
+          <ul className=" w-[184px] p-2 top-[4px] relative text-sm -left-4 bg-white rounded rounded-t-none  shadow-lg">
             {propertyTypes.map((type) => (
               <li
                 key={type}
@@ -95,11 +178,11 @@ function PriceFilter({
       }}
     >
       <div className="">
-        <div className="flex flex-col gap-3 text-brand-dark-blue">
-          <label className="flex w-full gap-2 items-center">
+        <div className="flex flex-col gap-1.5 text-brand-dark-blue">
+          <label className="h-5 flex w-full gap-2 items-center">
             {<Tag size={22} />} {"Price"}
           </label>
-          <div className="text-sm">
+          <div className="text-sm h-10 flex items-center">
             {/* both are set */}
             {filters.price.from && filters.price.to && (
               <span className="text-brand-dark-blue">
@@ -129,7 +212,7 @@ function PriceFilter({
           </div>
         </div>
         {selectedFilter === "price" && (
-          <div className="flex min-w-[458px] -left-4 relative rounded shadow-lg top-[18px] ">
+          <div className="flex min-w-[458px] -left-4 relative rounded shadow-lg top-[4px] ">
             <div className="min-w-[229px] rounded-bl  bg-white px-5 py-3  ">
               <div className="mb-1.5 focus-within:text-brand-dark-blue">
                 <label htmlFor="price-from" className="text-xs ">
@@ -153,7 +236,7 @@ function PriceFilter({
                   }}
                 />
               </div>
-              <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded-lg rounded-t-none ">
+              <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded rounded-t-none ">
                 {priceFilterOptions.map((price) => (
                   <li
                     key={price}
@@ -203,7 +286,7 @@ function PriceFilter({
                   }}
                 />
               </div>
-              <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded-lg rounded-t-none ">
+              <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded rounded-t-none ">
                 {priceFilterOptions.map((price) => (
                   <li
                     key={price}
@@ -256,11 +339,11 @@ function SurfaceFilter({
       }}
     >
       <div className="">
-        <div className="flex flex-col gap-3 text-brand-dark-blue">
-          <label className="flex w-full gap-2 items-center">
+        <div className="flex flex-col gap-1.5 text-brand-dark-blue">
+          <label className="h-5 flex w-full gap-2 items-center">
             {<Tag size={22} />} {"Surface"}
           </label>
-          <div className="text-sm">
+          <div className="text-sm h-10 flex items-center">
             {/* both are set */}
             {filters.surface.from && filters.surface.to && (
               <span className="text-brand-dark-blue">
@@ -290,7 +373,7 @@ function SurfaceFilter({
           </div>
         </div>
         {selectedFilter === "surface" && (
-          <div className="flex min-w-[458px] -left-4 relative rounded shadow-lg top-[18px] ">
+          <div className="flex min-w-[458px] -left-4 relative rounded shadow-lg top-[4px] ">
             <div className="min-w-[229px] rounded-bl  bg-white px-5 py-3  ">
               <div className="mb-1.5 focus-within:text-brand-dark-blue">
                 <label htmlFor="surface-from" className="text-xs ">
@@ -314,7 +397,7 @@ function SurfaceFilter({
                   }}
                 />
               </div>
-              <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded-lg rounded-t-none ">
+              <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded rounded-t-none ">
                 {surfaceFilterOptions.map((surface) => (
                   <li
                     key={surface}
@@ -364,7 +447,7 @@ function SurfaceFilter({
                   }}
                 />
               </div>
-              <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded-lg rounded-t-none ">
+              <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded rounded-t-none ">
                 {surfaceFilterOptions.map((surface) => (
                   <li
                     key={surface}
@@ -416,7 +499,7 @@ export default function SearchFilter() {
   });
 
   return (
-    <div className="max-w-[900px] flex flex-col gap-2 bg-white/50 backdrop-blur border-white border rounded-lg p-6">
+    <div className="max-w-[900px] flex flex-col gap-2 bg-white/50 backdrop-blur border-white border rounded p-6">
       <div className="flex gap-3">
         <Button
           onClick={() =>
@@ -452,22 +535,12 @@ export default function SearchFilter() {
       <div className="bg-gray-50 rounded">
         <form action="">
           <div className="flex flex-wrap p-2 gap-2 ">
-            <div className="border-r border-r-black px-3 py-1">
-              <label
-                className="flex w-full gap-2"
-                htmlFor={"location"}
-              >
-                {<MapPin />} {"Location"}
-              </label>
-              <div>
-                <input
-                  id={"location"}
-                  name={"location"}
-                  type="text"
-                  placeholder={"Type at least 3 characters"}
-                />
-              </div>
-            </div>
+            <LocationFilter
+              selectedFilter={selectedFilter}
+              setSelectedFilter={setSelectedFilter}
+              filters={filters}
+              setFilters={setFilters}
+            />
 
             <PropertyTypeFilter
               selectedFilter={selectedFilter}
