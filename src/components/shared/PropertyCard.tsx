@@ -54,13 +54,11 @@ export default function PropertyCard({
           </p>
           <p className="text-sm">{property.location}</p>
         </CardContent>
-        <CardFooter className="pb-3 px-4">
-          <div className="flex justify-around">
-            <span>{property.price}</span>
-            <span className="ml-auto">
-              <Heart fill={property.liked ? "blue" : "none"} />
-            </span>
-          </div>
+        <CardFooter className="pb-3 px-4 flex justify-around">
+          <span>{property.price}</span>
+          <span className="ml-auto">
+            <Heart fill={property.liked ? "blue" : "none"} />
+          </span>
         </CardFooter>
       </Card>
     </div>

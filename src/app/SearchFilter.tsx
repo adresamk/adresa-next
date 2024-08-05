@@ -9,7 +9,15 @@ import {
 } from "@/global/constants";
 import { cn } from "@/lib/utils";
 import { cx } from "class-variance-authority";
-import { House, Map, MapPin, Pin, Ruler, Tag } from "lucide-react";
+import {
+  House,
+  Map,
+  MapPin,
+  Pin,
+  Ruler,
+  Search,
+  Tag,
+} from "lucide-react";
 import { useState } from "react";
 
 type SearchFormFilterProps = {
@@ -561,6 +569,15 @@ export default function SearchFilter() {
               filters={filters}
               setFilters={setFilters}
             />
+
+            <div className="w-full max-w-[205px] flex items-center justify-center">
+              <Button
+                size={"lg"}
+                className="py-0.5 px-4 h-12 w-full font-semibold text-lg uppercase   "
+              >
+                Search <Search className="ml-3" size={18} />
+              </Button>
+            </div>
           </div>
         </form>
       </div>
