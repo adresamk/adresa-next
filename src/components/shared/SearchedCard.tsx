@@ -29,14 +29,34 @@ export default function SearchedCard({
         <CardHeader className="relative p-0">
           <img src={search?.images?.[0]} className="w-full" alt="" />
           <div className="absolute flex bottom-2 left-2 gap-1 text-[10px]">
-            {search?.filters?.map((tag: string) => (
+            <span
+              key={search.filters[0]}
+              className="bg-white text-brand-light-blue p-0.5 font-semibold px-1.5 uppercase rounded-lg"
+            >
+              {search.filters[0]}
+            </span>
+            <span
+              key={search.filters[1]}
+              className="bg-white text-brand-light-blue p-0.5 font-semibold px-1.5 uppercase rounded-lg"
+            >
+              {search.filters[1]}
+            </span>
+            {search.filters.length === 3 && (
               <span
-                key={tag}
+                key={search.filters[2]}
                 className="bg-white text-brand-light-blue p-0.5 font-semibold px-1.5 uppercase rounded-lg"
               >
-                {tag}
+                {search.filters[2]}
               </span>
-            ))}
+            )}
+            {search.filters.length > 3 && (
+              <span
+                key={search.filters[3]}
+                className="bg-white text-brand-light-blue p-0.5 font-semibold px-1.5 uppercase rounded-lg"
+              >
+                + {search.filters.length - 2} more
+              </span>
+            )}
           </div>
         </CardHeader>
         <CardContent

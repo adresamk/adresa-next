@@ -21,7 +21,7 @@ const searches = [
   {
     id: 2,
     images: ["/assets/last-searched-examples.png"],
-    filters: ["sakle", "apaertment", "third", "fourth"],
+    filters: ["sakle", "apaertment", "third"],
     results: 1228,
     newResults: 3,
     isSaved: true,
@@ -30,7 +30,7 @@ const searches = [
   {
     id: 3,
     images: ["/assets/last-searched-examples.png"],
-    filters: ["sakle", "apaertment", "third", "fourth"],
+    filters: ["sakle", "apaertment"],
     results: 1228,
     newResults: 20,
     isSaved: false,
