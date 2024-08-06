@@ -6,7 +6,7 @@ import {
   priceFilterOptions,
   propertyTypes,
   surfaceFilterOptions,
-} from "@/global/constants";
+} from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { cx } from "class-variance-authority";
 import {

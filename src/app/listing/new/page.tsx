@@ -12,6 +12,7 @@ import Step5 from "./steps/Step5";
 import Step6 from "./steps/Step6";
 import Step7 from "./steps/Step7";
 import Step8 from "./steps/Step8";
+import { Button } from "@/components/ui/button";
 
 const stepsComponents = [
   <Step1 />,
@@ -50,7 +51,7 @@ const steps: Step[] = [
   },
   {
     title: "Location",
-    description: "Select the location",
+    description: "Enter your location and address",
     fieldsMentioned: ["location"],
   },
   {
@@ -86,7 +87,7 @@ const steps: Step[] = [
 ];
 export default function NewPage() {
   const [progress, setProgress] = useState(0);
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
   return (
     <div className="flex gap-2 p-2">
       <div className="w-1/3 ">
@@ -142,6 +143,35 @@ export default function NewPage() {
       <div className="w-2/3">
         <div className="p-2 shadow-md bg-white mt-2 rounded">
           {stepsComponents[currentStep - 1]}
+          <div>
+            <Button size={"sm"} className="my-2">
+              Submit
+            </Button>
+            <div className="flex gap-2">
+              <Button
+                disabled={currentStep === 1}
+                size={"sm"}
+                onClick={() => {
+                  if (currentStep > 1) {
+                    setCurrentStep(currentStep - 1);
+                  }
+                }}
+              >
+                Prev
+              </Button>
+              <Button
+                size={"sm"}
+                disabled={currentStep === steps.length}
+                onClick={() => {
+                  if (currentStep < steps.length) {
+                    setCurrentStep(currentStep + 1);
+                  }
+                }}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

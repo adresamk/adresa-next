@@ -27,7 +27,7 @@ export default function Header() {
       </nav>
 
       <nav className="flex items-center gap-2">
-        <Link href="/">
+        <Link href="/listing/new">
           <Button size={"sm"} className="px-2.5">
             <HousePlus className="mr-3" />{" "}
             <span className="font-bold uppercase tracking-wide">

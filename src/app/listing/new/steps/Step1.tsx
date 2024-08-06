@@ -48,11 +48,14 @@ const propertyTypeOptions: Record<PropertyCategory, string[]> = {
     "other categories",
   ],
 };
+const saleIntent = ["sale", "rent"];
 export default function Step1() {
   const [propertyCategory, setPropertyCategory] =
     useState("apartment");
   return (
-    <div>
+    <div className="p-2">
+      <h2 className="text-lg">Basic information</h2>
+      <Separator className="my-2 mt-4" />
       <RadioGroupDemo
         title="Property Category"
         values={propertyCategoryOptions}
@@ -62,8 +65,17 @@ export default function Step1() {
       />
 
       <RadioGroupDemo
+        defaultValue="resitendial"
         title="Property Type"
         values={propertyTypeOptions[propertyCategory]}
+        onChange={function (value: string) {
+          // setPropertyCategory(value);
+        }}
+      />
+
+      <RadioGroupDemo
+        title="Property Type"
+        values={saleIntent}
         onChange={function (value: string) {
           // setPropertyCategory(value);
         }}
