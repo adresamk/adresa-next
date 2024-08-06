@@ -4,6 +4,12 @@ import LanguagePicker from "@/components/LanguagePicker";
 import userProfileBg from "@/assets/user-profile-bg.svg";
 import { HousePlus } from "lucide-react";
 
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+
 export default function Header() {
   return (
     <header className="flex items-center justify-between px-5 py-2 shadow-lg">
@@ -30,13 +36,12 @@ export default function Header() {
           </Button>
         </Link>
         <LanguagePicker />
+
         <Link href="/profile">
-          <img
-            src={userProfileBg.src}
-            alt="Profile"
-            height={54}
-            width={54}
-          />
+          <Avatar>
+            <AvatarImage src={userProfileBg.src} />
+            <AvatarFallback>PF</AvatarFallback>
+          </Avatar>
         </Link>
       </nav>
     </header>
