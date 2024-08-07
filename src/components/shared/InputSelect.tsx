@@ -1,9 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -22,6 +19,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState } from "react";
+import { Label } from "../ui/label";
+import { set } from "react-hook-form";
 
 type InputSelectOptions = {
   label: string;
@@ -29,6 +28,8 @@ type InputSelectOptions = {
 };
 type InputSelectProps = {
   options: InputSelectOptions[];
+  required?: boolean;
+  label: string;
   defaultValue?: string;
   notFoundText: string;
   placeholder: string;
@@ -37,63 +38,73 @@ type InputSelectProps = {
 
 export function InputSelect({
   options,
+  required,
+  label,
   defaultValue,
   notFoundText,
   placeholder,
   onSelect,
 }: InputSelectProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultValue);
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          className={cn(
-            "w-[200px] justify-between",
-            !defaultValue && "text-muted-foreground"
-          )}
-        >
-          {defaultValue
-            ? options.find((option) => option.value === defaultValue)
-                ?.label
-            : placeholder}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder={placeholder} />
-          <CommandList>
-            <CommandEmpty>{notFoundText}</CommandEmpty>
-            <CommandGroup>
-              {options.map((option) => (
-                <CommandItem
-                  value={option.label}
-                  key={option.value}
-                  onSelect={() => {
-                    console.log(option.value);
-                    setValue(option.value);
-                    onSelect(option.value);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      option.value === value
-                        ? "opacity-100"
-                        : "opacity-0"
-                    )}
-                  />
-                  {option.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <div className="flex flex-col mb-2 ">
+      <div className="mb-2">
+        <Label>{label}</Label>{" "}
+        {required && <span className="text-red-500">*</span>}
+      </div>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            className={cn(
+              "w-full justify-between",
+              !defaultValue && "text-muted-foreground"
+            )}
+          >
+            {defaultValue
+              ? options.find(
+                  (option) => option.value === defaultValue
+                )?.label
+              : placeholder}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent align="start" className="p-0">
+          <Command>
+            <CommandInput placeholder={placeholder} />
+            <CommandList>
+              <CommandEmpty>{notFoundText}</CommandEmpty>
+              <CommandGroup>
+                {options.map((option) => (
+                  <CommandItem
+                    value={option.label}
+                    key={option.value}
+                    onSelect={() => {
+                      //   console.log(option.value);
+                      setValue(option.value);
+                      onSelect(option.value);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        option.value === value
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}
+                    />
+                    {option.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }

@@ -7,32 +7,54 @@ const cities = [
   { label: "Skopje", value: "skopje" },
 ];
 
+const manucipalities = [
+  { label: "Ajducka Cesma", value: "ajducka-cesma" },
+  { label: "Tabanovce", value: "tabanovce" },
+];
+
+const populatedPlaces = [
+  { label: "Oktomvriska", value: "oktrevol" },
+  { label: "Dragomance", value: "dragomance" },
+];
+
 export default function Step2() {
-  const value = "kumanovo";
-  const [city, setCity] = useState(value);
+  const [city, setCity] = useState("kumanovo");
+  const [manucipality, setManucipality] = useState("ajducka-cesma");
+  const [populatedPlace, setPopulatedPlace] = useState("dragomance");
   return (
     <div className="p-2">
       <h2 className="text-lg">Location</h2>
       <Separator className="my-2 mt-4" />
-      <div className="flex gap-2">
-        <InputSelect
-          onSelect={(value) => setCity(value)}
-          notFoundText="City doesn't exist"
-          placeholder="Select a city"
-          defaultValue={city}
-          options={cities}
-        />
-        {/* <InputDemo title="Country" /> */}
-        {/* <InputDemo title="City" /> */}
-      </div>
-      <div className="flex gap-2">
-        {/* <InputDemo title="Street" /> */}
-        {/* <InputDemo title="Number" /> */}
-      </div>
-      <div className="flex gap-2">
-        {/* <InputDemo title="Zip Code" />
-        <InputDemo title="Neighborhood" /> */}
-      </div>
+      <InputSelect
+        label="City"
+        required
+        onSelect={(value) => setCity(value)}
+        notFoundText="City doesn't exist"
+        placeholder="Select a city"
+        defaultValue={city}
+        options={cities}
+      />
+
+      <InputSelect
+        label="Manucipality"
+        required
+        onSelect={(value) => setManucipality(value)}
+        notFoundText="Manucipality doesn't exist"
+        placeholder="Select a Manucipality"
+        defaultValue={manucipality}
+        options={manucipalities}
+      />
+
+      <InputSelect
+        label="Populated Place"
+        required
+        onSelect={(value) => setPopulatedPlace(value)}
+        notFoundText="Populated Place doesn't exist"
+        placeholder="Select a Populated Place"
+        defaultValue={populatedPlace}
+        options={populatedPlaces}
+      />
+
       <Separator className="my-2" />
       <h2 className="text-lg">Map</h2>
       {/* <MapDemo /> */}
