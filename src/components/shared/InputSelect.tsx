@@ -60,7 +60,7 @@ export function InputSelect({
             variant="outline"
             role="combobox"
             className={cn(
-              "w-full justify-between",
+              "max-w-[400px] justify-between",
               !defaultValue && "text-muted-foreground"
             )}
           >
@@ -72,7 +72,7 @@ export function InputSelect({
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="p-0">
+        <PopoverContent align="start" className=" max-w-[400px] p-0">
           <Command>
             <CommandInput placeholder={placeholder} />
             <CommandList>
