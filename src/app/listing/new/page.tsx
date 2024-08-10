@@ -36,7 +36,7 @@ type Step = {
 const stepStatus: StepStatus = {
   "Property Category": "completed",
   Location: "completed",
-  "Main characters": "in-progress",
+  "Main characteristics": "in-progress",
   "Additional features & heating": "incomplete",
   Description: "incomplete",
   "Photos and Video": "incomplete",
@@ -55,7 +55,7 @@ const steps: Step[] = [
     fieldsMentioned: ["location"],
   },
   {
-    title: "Main characters",
+    title: "Main characteristics",
     description: "Set the price, area size and key features",
     fieldsMentioned: ["bedrooms", "bathrooms", "area", "price"],
   },
@@ -87,7 +87,7 @@ const steps: Step[] = [
 ];
 export default function NewPage() {
   const [progress, setProgress] = useState(0);
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(3);
   return (
     <div className="flex gap-2 p-2">
       <div className="w-1/3 ">

@@ -1,1 +1,32 @@
 /* This is basically index.css */
+
+.p-inputgroup {
+  display: flex;
+  /* align-items: stretch; */
+  width: 100%;
+}
+
+.p-inputgroup-addon:first-child,
+.p-inputgroup button:first-child,
+.p-inputgroup input:first-child,
+.p-inputgroup > .p-inputwrapper:first-child,
+.p-inputgroup > .p-inputwrapper:first-child > .p-inputtext {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.p-inputgroup-addon {
+  background: #f3f4f6;
+  color: #6b7280;
+  border-top: 1px solid #d1d5db;
+  border-left: 1px solid #d1d5db;
+  border-bottom: 1px solid #d1d5db;
+  padding: 0.75rem 0.75rem;
+  min-width: 2rem;
+}
+
+.p-inputgroup-addon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

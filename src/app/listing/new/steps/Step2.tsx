@@ -1,7 +1,15 @@
 import { InputSelect } from "@/components/shared/InputSelect";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+} from "react-leaflet";
 const cities = [
   { label: "Kumanovo", value: "kumanovo" },
   { label: "Skopje", value: "skopje" },
@@ -21,6 +29,10 @@ export default function Step2() {
   const [city, setCity] = useState("kumanovo");
   const [manucipality, setManucipality] = useState("ajducka-cesma");
   const [populatedPlace, setPopulatedPlace] = useState("dragomance");
+
+  const [address, setAddress] = useState("");
+  const position = [51.505, -0.09];
+
   return (
     <div className="p-2">
       <h2 className="text-lg">Location</h2>
@@ -55,8 +67,36 @@ export default function Step2() {
         options={populatedPlaces}
       />
 
+      <Label htmlFor="address">Address</Label>
+      <Input
+        placeholder="Your address"
+        name="address"
+        id={"address"}
+        value={address}
+        onChange={(e) => {
+          setAddress(e.target.value);
+        }}
+      />
+
+      <h2 className="text-lg">Confirm your location</h2>
+
+      <MapContainer
+        center={position}
+        zoom={13}
+        scrollWheelZoom={false}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={position}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </MapContainer>
+
       <Separator className="my-2" />
-      <h2 className="text-lg">Map</h2>
       {/* <MapDemo /> */}
     </div>
   );

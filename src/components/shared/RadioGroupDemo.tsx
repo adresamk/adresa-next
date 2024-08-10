@@ -4,22 +4,38 @@ import {
   RadioGroupItem,
 } from "@/components/ui/radio-group";
 import { Separator } from "../ui/separator";
+import { cx } from "class-variance-authority";
 
 export function RadioGroupDemo({
   title = "Default title",
   defaultValue,
   values = [],
+  direction = "vertical",
   onChange,
 }: {
   title: string;
   defaultValue?: string;
+  direction: "horisontal" | "vertical";
   values: string[];
   onChange: (value: string) => void;
 }) {
   return (
-    <div className="mt-4">
-      <h2 className="font-semibold mb-2">{title}</h2>
+    <div
+      className={cx(
+        "mt-4",
+        direction === "horisontal" && "flex gap-2 items-center"
+      )}
+    >
+      <h2
+        className={cx(
+          "font-semibold",
+          direction === "vertical" && "mb-2"
+        )}
+      >
+        {title}
+      </h2>
       <RadioGroup
+        className={cx("", direction === "horisontal" && "flex gap-2")}
         defaultValue={defaultValue}
         onClick={(e) => {
           const target = e.target as HTMLInputElement;
