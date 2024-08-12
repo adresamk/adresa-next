@@ -3,6 +3,7 @@ import { SelectDemo } from "@/components/shared/SelectDemo";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { formatNumberWithDelimiter } from "@/lib/utils";
 import {
   Bed,
   Building,
@@ -16,10 +17,6 @@ import {
   Utensils,
 } from "lucide-react";
 import { useState } from "react";
-
-const formatNumberWithDelimiter = (value: string) => {
-  return value.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Replace with your desired delimiter
-};
 
 const orientationOptions: { label: string; value: string }[] = [
   { label: "North", value: "N" },

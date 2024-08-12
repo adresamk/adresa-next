@@ -69,7 +69,7 @@ export default function Step7() {
       </div>
 
       <div className="flex flex-col gap-3 mb-2">
-        <Label htmlFor="contact-hours">Telephone</Label>
+        <Label htmlFor="contact-hours">Contact Hours</Label>
         <SelectDemo
           value={contactHours}
           options={contactHoursOptions}
