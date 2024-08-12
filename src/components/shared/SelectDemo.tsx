@@ -12,7 +12,7 @@ import {
 
 interface SelectDemoProps {
   value: string;
-  placeholder: string;
+  placeholder?: string;
   onClick: (value: string) => void;
   options: { label: string; value: string }[];
 }
@@ -21,7 +21,7 @@ export function SelectDemo({
   value,
   options,
   onClick,
-  placeholder,
+  placeholder = "",
 }: SelectDemoProps) {
   return (
     <Select
