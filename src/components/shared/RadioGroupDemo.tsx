@@ -15,7 +15,7 @@ export function RadioGroupDemo({
 }: {
   title: string;
   defaultValue?: string;
-  direction: "horisontal" | "vertical";
+  direction?: "horisontal" | "vertical";
   values: string[];
   onChange: (value: string) => void;
 }) {

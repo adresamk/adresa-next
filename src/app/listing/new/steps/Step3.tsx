@@ -17,49 +17,6 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-const propertyCategory = [
-  "resitendial",
-  "commercial",
-  "land",
-  "other",
-];
-
-const propertyType = {
-  residential: [
-    "apartment",
-    "studio flat",
-    "maisonette",
-    "detached house",
-    "villa",
-    "loft",
-    "bungalow",
-    "building",
-    "apartment complex",
-    "farm",
-    "houseboat",
-    "other categories",
-  ],
-  commercial: [
-    "office",
-    "store",
-    "warehouse",
-    "industrial space",
-    "craft space",
-    "hotel",
-    "business building",
-    "showroom",
-    "other categories",
-  ],
-  land: ["land plot", "parcel", "island", "other categories"],
-  other: [
-    "garage",
-    "business",
-    "prefabricated",
-    "detachable",
-    "air",
-    "other categories",
-  ],
-};
 const formatNumberWithDelimiter = (value: string) => {
   return value.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Replace with your desired delimiter
 };
@@ -93,7 +50,7 @@ export default function Step3() {
     bathroom: 1,
   });
 
-  const [extraFeatures, setExtraFeatures] = useState({
+  const [extraFeatures, setExtraFeatures] = useState<any>({
     parking: true,
     elevator: false,
     terace: false,
@@ -307,7 +264,7 @@ export default function Step3() {
               title="Parking"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
-                setExtraFeatures((prev) => ({
+                setExtraFeatures((prev: any) => ({
                   ...prev,
                   parking: value === "yes",
                 }))
@@ -321,7 +278,7 @@ export default function Step3() {
               title="elevator"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
-                setExtraFeatures((prev) => ({
+                setExtraFeatures((prev: any) => ({
                   ...prev,
                   elevator: value === "yes",
                 }))
@@ -335,7 +292,7 @@ export default function Step3() {
               title="Terace"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
-                setExtraFeatures((prev) => ({
+                setExtraFeatures((prev: any) => ({
                   ...prev,
                   terace: value === "yes",
                 }))
@@ -349,7 +306,7 @@ export default function Step3() {
               title="Yard"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
-                setExtraFeatures((prev) => ({
+                setExtraFeatures((prev: any) => ({
                   ...prev,
                   yard: value === "yes",
                 }))
@@ -363,7 +320,7 @@ export default function Step3() {
               title="Basement"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
-                setExtraFeatures((prev) => ({
+                setExtraFeatures((prev: any) => ({
                   ...prev,
                   basement: value === "yes",
                 }))

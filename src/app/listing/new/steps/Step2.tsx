@@ -80,7 +80,7 @@ export default function Step2() {
 
       <h2 className="text-lg">Confirm your location</h2>
 
-      <MapContainer
+      {/* <MapContainer
         center={position}
         zoom={13}
         scrollWheelZoom={false}
@@ -94,7 +94,7 @@ export default function Step2() {
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
-      </MapContainer>
+      </MapContainer> */}
 
       <Separator className="my-2" />
       {/* <MapDemo /> */}
