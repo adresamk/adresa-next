@@ -4,49 +4,6 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 
-const propertyCategory = [
-  "resitendial",
-  "commercial",
-  "land",
-  "other",
-];
-
-const propertyType = {
-  residential: [
-    "apartment",
-    "studio flat",
-    "maisonette",
-    "detached house",
-    "villa",
-    "loft",
-    "bungalow",
-    "building",
-    "apartment complex",
-    "farm",
-    "houseboat",
-    "other categories",
-  ],
-  commercial: [
-    "office",
-    "store",
-    "warehouse",
-    "industrial space",
-    "craft space",
-    "hotel",
-    "business building",
-    "showroom",
-    "other categories",
-  ],
-  land: ["land plot", "parcel", "island", "other categories"],
-  other: [
-    "garage",
-    "business",
-    "prefabricated",
-    "detachable",
-    "air",
-    "other categories",
-  ],
-};
 // Opis Description
 export default function Step5() {
   const [description, setDescription] = useState("");
@@ -58,8 +15,7 @@ export default function Step5() {
 
       <div className="flex flex-col gap-2">
         <Label htmlFor="description">
-          {" "}
-          Detailed description for the property{" "}
+          Detailed description for the property
         </Label>
 
         <div className="">

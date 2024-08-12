@@ -87,7 +87,7 @@ const steps: Step[] = [
 ];
 export default function NewPage() {
   const [progress, setProgress] = useState(0);
-  const [currentStep, setCurrentStep] = useState(5);
+  const [currentStep, setCurrentStep] = useState(6);
   return (
     <div className="flex gap-2 p-2">
       <div className="w-1/3 ">
