@@ -1,3 +1,4 @@
+"use client";
 import { Globe, Phone } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
