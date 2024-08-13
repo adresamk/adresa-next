@@ -12,7 +12,7 @@ import {
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-between px-5 py-2 shadow-lg">
+    <header className=" bg-white flex items-center justify-between px-5 py-2 shadow-lg">
       <nav className="flex items-center gap-6 text-brand-dark-blue">
         <Link href="/">
           <img
