@@ -33,8 +33,8 @@ export default function ProfileLayout({
 }>) {
   const pathname = usePathname();
   return (
-    <main className=" flex max-w-[900px] mx-auto px-6 ">
-      <div className="w-1/4 min-w-[240px] bg-white shadow min-h-screen">
+    <main className=" flex max-w-[1100px] mx-auto px-6 ">
+      <div className=" min-w-[220px] bg-white shadow min-h-screen">
         <div className="px-3 py-6">
           <p>Welcome</p>
           <p className="text-xl">Martin Martinovski</p>
@@ -59,7 +59,7 @@ export default function ProfileLayout({
           </ul>
         </nav>
       </div>
-      <div className="w-3/4">{children}</div>
+      <div className="w-full">{children}</div>
     </main>
   );
 }
