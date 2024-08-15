@@ -15,6 +15,7 @@ interface SelectDemoProps {
   placeholder?: string;
   onClick: (value: string) => void;
   options: { label: string; value: string }[];
+  triggerWidth?: string;
 }
 
 export function SelectDemo({
@@ -22,6 +23,7 @@ export function SelectDemo({
   options,
   onClick,
   placeholder = "",
+  triggerWidth = "180px",
 }: SelectDemoProps) {
   return (
     <Select
@@ -31,7 +33,7 @@ export function SelectDemo({
         onClick(value);
       }}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className={`w-[${triggerWidth}]`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

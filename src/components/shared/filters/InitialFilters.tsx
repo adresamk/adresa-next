@@ -18,6 +18,7 @@ import {
   Search,
   Tag,
 } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 type SearchFormFilterProps = {
@@ -571,12 +572,14 @@ export default function SearchFilter() {
             />
 
             <div className="w-full max-w-[205px] flex items-center justify-center">
-              <Button
-                size={"lg"}
-                className="py-0.5 px-4 h-12 w-full font-semibold text-lg uppercase   "
-              >
-                Search <Search className="ml-3" size={18} />
-              </Button>
+              <Link href={"/search"}>
+                <Button
+                  size={"lg"}
+                  className="py-0.5 px-4 h-12 w-full font-semibold text-lg uppercase   "
+                >
+                  Search <Search className="ml-3" size={18} />
+                </Button>
+              </Link>
             </div>
           </div>
         </form>
