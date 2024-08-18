@@ -9,7 +9,7 @@ export default function Listings({
   listings: Listing[];
 }) {
   return (
-    <div className="w-3/5 border px-6 order-1">
+    <div className="lg:w-3/5 border px-6 order-1">
       <div className="flex items-center justify-between py-3">
         <div className="text-sm">
           <span>Prodazba na stanovi</span> {">"}{" "}

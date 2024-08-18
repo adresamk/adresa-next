@@ -117,3 +117,110 @@ export const listings: Listing[] = [
     isPaidPromo: false,
   },
 ];
+
+export const agencyExample = {
+  name: "Agency Martin",
+  logo: "/assets/agency-logo.png",
+  slug: "agency-martin",
+  location: "Скопје, ул. Партизански одреди бр.42 3/5",
+  branding: {
+    primary: "#1C2D45",
+  },
+  contactPerson: "Stole stolevski",
+  workHours: "Пон - Петок 09:00 - 17:00",
+  mapLocation: "",
+  description:
+    "Ние сме водечка агенција за недвижнини која нуди професионални услуги во купување, продавање и изнајмување на имоти. Со нашиот тим од искусни агенти, Ви обезбедуваме целосна поддршка и насоки низ целиот процес. Посветени сме на прецизно исполнување на Вашите желби и потреби, обезбедувајќи сигурни и транспарентни трансакции. Нашето портфолио вклучува широк спектар на резиденцијални и комерцијални објекти, прилагодени на секој буџет и стил. Дозволете ни да Ви помогнеме да го најдете идеалниот дом или инвестиција.",
+  shortDescription: "agencija za nedviznosti",
+  selling: [
+    {
+      type: "apartment",
+    },
+    {
+      type: "business",
+    },
+  ],
+  renting: [
+    {
+      type: "object-building",
+    },
+    {
+      type: "object-key",
+    },
+  ],
+  listings: [{}, {}],
+  properties: [
+    {
+      id: 1,
+      images: ["/assets/demo-property-bg.png"],
+      type: "Apartment",
+      area: "60m²",
+      price: 200000,
+      mode: "sale",
+      tags: ["new", "featured"],
+      location: "Skope, Centar",
+      liked: true,
+    },
+    {
+      id: 2,
+      images: ["/assets/demo-property-bg.png"],
+      type: "Apartment",
+      area: "60m²",
+      price: 200000,
+      mode: "rent",
+      tags: ["new"],
+      location: "Skope, Centar",
+
+      liked: false,
+    },
+    {
+      id: 3,
+      images: ["/assets/demo-property-bg.png"],
+      type: "Apartment",
+      area: "60m²",
+      price: 200000,
+
+      mode: "sale",
+      tags: [],
+      location: "Skope, Centar",
+
+      liked: false,
+    },
+    {
+      id: 4,
+      images: ["/assets/demo-property-bg.png"],
+      type: "Apartment",
+      area: "60m²",
+      price: 1_000,
+      mode: "sale",
+      tags: [],
+      location: "Skope, Centar",
+
+      liked: false,
+    },
+    {
+      id: 5,
+      images: ["/assets/demo-property-bg.png"],
+      type: "Apartment",
+      area: "60m²",
+      price: 200000,
+      mode: "sale",
+      tags: [],
+      location: "Skope, Centar",
+
+      liked: false,
+    },
+    {
+      id: 6,
+      images: ["/assets/demo-property-bg.png"],
+      type: "Apartment",
+      area: "60m²",
+      price: 200000,
+      mode: "sale",
+      tags: [],
+      location: "Skope, Centar",
+
+      liked: false,
+    },
+  ],
+};

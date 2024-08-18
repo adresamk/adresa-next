@@ -1,3 +1,4 @@
+"use client";
 import { SelectDemo } from "@/components/shared/SelectDemo";
 import { cx } from "class-variance-authority";
 import {
