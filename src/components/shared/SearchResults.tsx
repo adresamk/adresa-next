@@ -27,7 +27,7 @@ function AgencyBanner({ agency }: { agency?: any }) {
       <Link href={`/agency/${agency.slug}`}>
         <Button
           variant={"outline"}
-          className={`  bg-[${agency?.branding.primary}}]`}
+          className={`bg-[${agency?.branding.primary}}]`}
         >
           Contact
         </Button>
