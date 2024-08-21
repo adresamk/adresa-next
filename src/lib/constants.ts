@@ -1,3 +1,5 @@
+import { propertyTypeValues } from "./types";
+
 export const priceFilterOptions = [
   "Any",
   "10,000",
@@ -132,7 +134,7 @@ export const locationDropdownOptions = [
   "Kallikrateia (Chalkidiki)",
   "Kassandra (Chalkidiki)",
 ];
-export const surfaceFilterOptions = [
+export const areaFilterOptions = [
   "Any",
   "20",
   "25",
@@ -356,8 +358,8 @@ export const surfaceFilterOptions = [
   "180,000",
   "190,000",
   "200,000",
-];
-export const propertyTypes = [
+] as const;
+export const propertyTypes: propertyTypeValues[] = [
   "Apartment",
   "House",
   "Home",
@@ -366,4 +368,4 @@ export const propertyTypes = [
   "Industrial",
   "Garage",
   "Other",
-];
+] as const;

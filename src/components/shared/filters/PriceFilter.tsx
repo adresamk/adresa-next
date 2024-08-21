@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { SearchFormFilterProps } from "./filter-types";
 import { Tag } from "lucide-react";
 import { priceFilterOptions } from "@/lib/constants";
 import {
@@ -7,63 +6,79 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useSelectedFilter } from "@/hooks/useSelectedFilter";
+import { useFilters } from "@/hooks/useFilters";
 
-export default function PriceFilter({
-  selectedFilter,
-  setSelectedFilter,
-  filters,
-  setFilters,
-}: SearchFormFilterProps) {
+function BigVariant() {
+  const focusedFilter = useSelectedFilter(
+    (store) => store.selectedFilter
+  );
+
+  const setFocusedFilter = useSelectedFilter(
+    (store) => store.setSelectedFilter
+  );
+  const filters = useFilters((store) => store.filters);
+  return (
+    <div
+      className={cn(
+        "p-4 border-r border-r-black overflow-visible h-[90px] w-[230px]",
+        focusedFilter === "price" &&
+          "shadow-lg bg-white rounded-t z-10",
+        !focusedFilter && "bg-gray-50 "
+      )}
+      onClick={() => {
+        setFocusedFilter("price");
+      }}
+    >
+      <div className="">
+        <div className="flex flex-col gap-1.5 text-brand-dark-blue">
+          <label className="h-5 flex w-full gap-2 items-center">
+            {<Tag size={22} />} {"Price"}
+          </label>
+          <div className="text-sm h-10 flex items-center">
+            {/* both are set */}
+            {filters.priceLow && filters.priceHigh && (
+              <span className="text-brand-dark-blue">
+                {filters.priceLow} - {filters.priceHigh} $
+              </span>
+            )}
+
+            {/* only from is set */}
+            {filters.priceLow && !filters.priceHigh && (
+              <span className="text-brand-dark-blue">
+                From {filters.priceLow} $
+              </span>
+            )}
+
+            {/* only to is set */}
+            {!filters.priceLow && filters.priceHigh && (
+              <span className="text-brand-dark-blue">
+                Up to {filters.priceHigh} $
+              </span>
+            )}
+            {/* nothing is set */}
+            {!filters.priceLow && !filters.priceHigh && (
+              <span className="text-gray-400 tracking-tighter">
+                $ From - To
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+interface PriceFilterProps {
+  variant: "homepage" | "search";
+}
+export default function PriceFilter({ variant }: PriceFilterProps) {
+  const filters = useFilters((store) => store.filters);
+  const updateFilters = useFilters((store) => store.updateFilters);
+
   return (
     <Popover>
       <PopoverTrigger>
-        <div
-          className={cn(
-            "p-4 border-r border-r-black overflow-visible h-[90px] w-[230px]",
-            selectedFilter === "price" &&
-              "shadow-lg bg-white rounded-t z-10",
-            !selectedFilter && "bg-gray-50 "
-          )}
-          onClick={() => {
-            setSelectedFilter("price");
-          }}
-        >
-          <div className="">
-            <div className="flex flex-col gap-1.5 text-brand-dark-blue">
-              <label className="h-5 flex w-full gap-2 items-center">
-                {<Tag size={22} />} {"Price"}
-              </label>
-              <div className="text-sm h-10 flex items-center">
-                {/* both are set */}
-                {filters.price.from && filters.price.to && (
-                  <span className="text-brand-dark-blue">
-                    {filters.price.from} - {filters.price.to} $
-                  </span>
-                )}
-
-                {/* only from is set */}
-                {filters.price.from && !filters.price.to && (
-                  <span className="text-brand-dark-blue">
-                    From {filters.price.from} $
-                  </span>
-                )}
-
-                {/* only to is set */}
-                {!filters.price.from && filters.price.to && (
-                  <span className="text-brand-dark-blue">
-                    Up to {filters.price.to} $
-                  </span>
-                )}
-                {/* nothing is set */}
-                {!filters.price.from && !filters.price.to && (
-                  <span className="text-gray-400 tracking-tighter">
-                    $ From - To
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+        {variant === "homepage" ? <BigVariant /> : <div>small</div>}
       </PopoverTrigger>
       <PopoverContent>
         <div className="flex min-w-[458px] -left-4 relative rounded shadow-lg top-[4px] ">
@@ -78,15 +93,9 @@ export default function PriceFilter({
                 id="price-from"
                 type="text"
                 placeholder="10,000"
-                value={filters.price.from}
+                value={filters.priceLow}
                 onChange={(e) => {
-                  setFilters((prev: any) => ({
-                    ...prev,
-                    price: {
-                      ...prev.price,
-                      from: e.target.value,
-                    },
-                  }));
+                  updateFilters({ priceLow: e.target.value });
                 }}
               />
             </div>
@@ -96,20 +105,16 @@ export default function PriceFilter({
                   key={price}
                   className={cn(
                     "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    filters.price.from === price &&
+                    filters.priceLow === price &&
                       "bg-green-50 text-brand-dark-blue",
-                    filters.price.from === "" &&
+                    filters.priceLow === "" &&
                       price === "Any" &&
                       "bg-green-50 text-brand-dark-blue"
                   )}
                   onClick={() => {
-                    setFilters((prev: any) => ({
-                      ...prev,
-                      price: {
-                        ...prev.price,
-                        from: price === "Any" ? "" : price,
-                      },
-                    }));
+                    updateFilters({
+                      priceLow: price === "Any" ? "" : price,
+                    });
                   }}
                 >
                   {price}
@@ -128,15 +133,11 @@ export default function PriceFilter({
                 id="price-to"
                 type="text"
                 placeholder="10,000"
-                value={filters.price.to}
+                value={filters.priceHigh}
                 onChange={(e) => {
-                  setFilters((prev: any) => ({
-                    ...prev,
-                    price: {
-                      ...prev.price,
-                      to: e.target.value,
-                    },
-                  }));
+                  updateFilters({
+                    priceHigh: e.target.value,
+                  });
                 }}
               />
             </div>
@@ -146,20 +147,16 @@ export default function PriceFilter({
                   key={price}
                   className={cn(
                     "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    filters.price.to === price &&
+                    filters.priceHigh === price &&
                       "bg-green-50 text-brand-dark-blue",
-                    filters.price.to === "" &&
+                    filters.priceHigh === "" &&
                       price === "Any" &&
                       "bg-green-50 text-brand-dark-blue"
                   )}
                   onClick={() => {
-                    setFilters((prev: any) => ({
-                      ...prev,
-                      price: {
-                        ...prev.price,
-                        to: price === "Any" ? "" : price,
-                      },
-                    }));
+                    updateFilters({
+                      priceHigh: price === "Any" ? "" : price,
+                    });
                   }}
                 >
                   {price}

@@ -30,3 +30,7 @@
   align-items: center;
   justify-content: center;
 }
+
+body[data-scroll-locked] {
+  padding-top: 80px !important;
+}

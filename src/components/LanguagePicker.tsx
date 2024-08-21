@@ -21,7 +21,7 @@ export default function LanguagePicker() {
       <SelectTrigger className="w-[52px] p-1 border-none text-brand-dark-blue">
         <SelectValue placeholder="Language" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="z-[110]">
         <SelectItem value="mk">MK</SelectItem>
         <SelectItem value="al">AL</SelectItem>
         <SelectItem value="en">EN</SelectItem>
