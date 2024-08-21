@@ -1,7 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { ChevronDown, House } from "lucide-react";
-import { propertyTypes } from "@/lib/constants";
 import {
   Popover,
   PopoverContent,
@@ -9,7 +8,6 @@ import {
 } from "@/components/ui/popover";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { useFilters } from "@/hooks/useFilters";
-import { propertyTypeValues } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 function BigVariant() {
   const focusedFilter = useSelectedFilter(
@@ -42,7 +40,7 @@ function BigVariant() {
             {<House size={22} />} {"Property Type"}
           </label>
           <div className="text-sm h-10 flex items-center">
-            {filters.propertyType || (
+            {filters.subType || (
               <span className="text-gray-400">Home</span>
             )}
           </div>
@@ -51,12 +49,12 @@ function BigVariant() {
     </div>
   );
 }
-interface PropertyTypeFilterProps {
+interface SubTypeFilterProps {
   variant: "homepage" | "search";
 }
-export default function PropertyTypeFilter({
+export default function SubTypeFilter({
   variant,
-}: PropertyTypeFilterProps) {
+}: SubTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
 
@@ -68,7 +66,7 @@ export default function PropertyTypeFilter({
         ) : (
           <Button variant="outline">
             <span className="capitalize">
-              {filters.propertyType || "Property Type"}
+              {filters.subType || "Subtype"}
             </span>
             <ChevronDown width={20} className="ml-2" />{" "}
           </Button>
@@ -76,16 +74,26 @@ export default function PropertyTypeFilter({
       </PopoverTrigger>
       <PopoverContent asChild align="start">
         <ul className="w-[184px] p-2  relative text-sm  bg-white rounded rounded-t-none  shadow-lg">
-          {propertyTypes.map((type: propertyTypeValues) => (
+          {[
+            "office",
+            "store",
+            "warehouse",
+            "industrial space",
+            "craft space",
+            "hotel",
+            "business building",
+            "showroom",
+            "other categories",
+          ].map((type: string) => (
             <li
               key={type}
               className={cn(
-                "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                filters.propertyType === type &&
+                "px-2 py-1 hover:bg-green-50 cursor-pointer rounded capitalize",
+                filters.subType === type &&
                   "bg-green-50 text-brand-dark-blue"
               )}
               onClick={() => {
-                updateFilters({ propertyType: type });
+                updateFilters({ subType: type });
               }}
             >
               {type}

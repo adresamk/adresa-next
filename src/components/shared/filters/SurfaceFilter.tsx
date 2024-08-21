@@ -1,5 +1,6 @@
+"use client";
 import { cn } from "@/lib/utils";
-import { Tag } from "lucide-react";
+import { ChevronDown, Tag } from "lucide-react";
 import { areaFilterOptions } from "@/lib/constants";
 import {
   Popover,
@@ -8,6 +9,7 @@ import {
 } from "@/components/ui/popover";
 import { useFilters } from "@/hooks/useFilters";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
+import { Button } from "@/components/ui/button";
 
 function BigVariant() {
   const focusedFilter = useSelectedFilter(
@@ -72,7 +74,7 @@ function BigVariant() {
 interface PropertyTypeFilterProps {
   variant: "homepage" | "search";
 }
-export default function areaFilter({
+export default function SurfaceFilter({
   variant,
 }: PropertyTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
@@ -80,11 +82,51 @@ export default function areaFilter({
   return (
     <Popover>
       <PopoverTrigger>
-        {variant === "homepage" ? <BigVariant /> : <div>small</div>}
+        {variant === "homepage" && <BigVariant />}
+
+        {variant === "search" && (
+          <Button variant="outline">
+            <div className="text-sm h-10 flex items-center">
+              {/* both are set */}
+              {filters.areaLow && filters.areaHigh && (
+                <span className="">
+                  {filters.areaLow} - {filters.areaHigh} m²
+                </span>
+              )}
+
+              {/* only from is set */}
+              {filters.areaLow && !filters.areaHigh && (
+                <span className="">From {filters.areaLow} m²</span>
+              )}
+
+              {/* only to is set */}
+              {!filters.areaLow && filters.areaHigh && (
+                <span className="">Up to {filters.areaHigh} m²</span>
+              )}
+              {/* nothing is set */}
+              {!filters.areaLow && !filters.areaHigh && (
+                <span className=" tracking-tighter">Surface</span>
+              )}
+            </div>
+            <ChevronDown width={20} className="ml-2" />{" "}
+          </Button>
+        )}
       </PopoverTrigger>
-      <PopoverContent>
-        <div className="flex min-w-[458px] -left-4 relative rounded shadow-lg top-[4px] ">
-          <div className="min-w-[229px] rounded-bl  bg-white px-5 py-3  ">
+      <PopoverContent asChild align="start">
+        <div
+          className={cn(
+            " flex p-0 relative rounded shadow-lg  ",
+            variant === "homepage" && "w-[418px]",
+            variant === "search" && "w-[300px]"
+          )}
+        >
+          <div
+            className={cn(
+              " rounded-bl  bg-white  py-3",
+              variant === "homepage" && "w-[209px] px-5",
+              variant === "search" && "w-[150px] px-2"
+            )}
+          >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
               <label htmlFor="area-from" className="text-xs ">
                 m² From
@@ -126,7 +168,13 @@ export default function areaFilter({
               ))}
             </ul>
           </div>
-          <div className="min-w-[229px] rounded-tr rounded-br  bg-white px-5 py-3  ">
+          <div
+            className={cn(
+              " rounded-tr rounded-brbg-white  py-3  ",
+              variant === "homepage" && "w-[229px] px-5",
+              variant === "search" && "w-[150px] px-2"
+            )}
+          >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
               <label htmlFor="area-to" className="text-xs ">
                 m² Up to

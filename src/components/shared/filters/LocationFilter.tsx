@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/popover";
 import { useFilters } from "@/hooks/useFilters";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
+import { Button } from "@/components/ui/button";
 
 function BigVariant() {
   const focusedFilter = useSelectedFilter(
@@ -75,6 +76,7 @@ function BigVariant() {
     </div>
   );
 }
+
 interface LocationFilterProps {
   variant: "homepage" | "search";
 }
@@ -114,31 +116,29 @@ export default function LocationFilter({
         <PopoverTrigger>
           {variant === "homepage" ? <BigVariant /> : <div>small</div>}
         </PopoverTrigger>
-        <PopoverContent>
-          <div>
-            {focusedFilter === "location" && (
-              <ul className=" w-full flex flex-col p-2 top-[5px] max-h-[280px] overflow-y-auto relative text-sm -left-4 bg-white rounded rounded-t-none  shadow-lg">
-                {locationDropdownOptions.map((location) => (
-                  <li
-                    key={location}
-                    className={cn(
-                      "px-2 py-1 hover:bg-green-50 cursor-pointer rounded flex gap-2",
-                      filters.propertyType === location &&
-                        "bg-green-50 text-brand-dark-blue"
-                    )}
-                    onClick={() => {
-                      updateFilters({ location });
-                    }}
-                  >
-                    <span>
-                      <MapPin />
-                    </span>
-                    <span>{location}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+        <PopoverContent asChild>
+          {focusedFilter === "location" && (
+            <ul className=" w-full min-w-[418px] flex flex-col p-2 max-h-[280px] overflow-y-auto relative text-sm bg-white rounded   shadow-lg">
+              {locationDropdownOptions.map((location) => (
+                <li
+                  key={location}
+                  className={cn(
+                    "p-1  hover:bg-green-50 cursor-pointer rounded flex gap-2",
+                    filters.propertyType === location &&
+                      "bg-green-50 text-brand-dark-blue"
+                  )}
+                  onClick={() => {
+                    updateFilters({ location });
+                  }}
+                >
+                  <span>
+                    <MapPin />
+                  </span>
+                  <span>{location}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </PopoverContent>
       </Popover>
     </div>

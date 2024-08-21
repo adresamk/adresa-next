@@ -1,5 +1,6 @@
+"use client";
 import { cn } from "@/lib/utils";
-import { Tag } from "lucide-react";
+import { ChevronDown, Tag } from "lucide-react";
 import { priceFilterOptions } from "@/lib/constants";
 import {
   Popover,
@@ -8,6 +9,7 @@ import {
 } from "@/components/ui/popover";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { useFilters } from "@/hooks/useFilters";
+import { Button } from "@/components/ui/button";
 
 function BigVariant() {
   const focusedFilter = useSelectedFilter(
@@ -78,11 +80,50 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
   return (
     <Popover>
       <PopoverTrigger>
-        {variant === "homepage" ? <BigVariant /> : <div>small</div>}
+        {variant === "homepage" && <BigVariant />}
+
+        {variant === "search" && (
+          <Button variant="outline">
+            <span className="capitalize">
+              {filters.priceLow && filters.priceHigh && (
+                <span className="">
+                  {filters.priceLow} - {filters.priceHigh} $
+                </span>
+              )}
+
+              {/* only from is set */}
+              {filters.priceLow && !filters.priceHigh && (
+                <span className="">From {filters.priceLow} $</span>
+              )}
+
+              {/* only to is set */}
+              {!filters.priceLow && filters.priceHigh && (
+                <span className="">Up to {filters.priceHigh} $</span>
+              )}
+              {/* nothing is set */}
+              {!filters.priceLow && !filters.priceHigh && (
+                <span className=" tracking-tighter">Price</span>
+              )}
+            </span>
+            <ChevronDown width={20} className="ml-2" />{" "}
+          </Button>
+        )}
       </PopoverTrigger>
-      <PopoverContent>
-        <div className="flex min-w-[458px] -left-4 relative rounded shadow-lg top-[4px] ">
-          <div className="min-w-[229px] rounded-bl  bg-white px-5 py-3  ">
+      <PopoverContent asChild align="start">
+        <div
+          className={cn(
+            "flex  px-1 relative rounded shadow-lg  ",
+            variant === "homepage" && "w-[458px]",
+            variant === "search" && "w-[300px]"
+          )}
+        >
+          <div
+            className={cn(
+              " rounded-bl  bg-white  py-3  ",
+              variant === "homepage" && "w-[229px] px-5",
+              variant === "search" && "w-[150px] px-2"
+            )}
+          >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
               <label htmlFor="price-from" className="text-xs ">
                 $ From
@@ -99,7 +140,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                 }}
               />
             </div>
-            <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded rounded-t-none ">
+            <ul className="max-h-[175px] overflow-y-auto  relative text-sm bg-white rounded rounded-t-none ">
               {priceFilterOptions.map((price) => (
                 <li
                   key={price}
@@ -122,7 +163,13 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
               ))}
             </ul>
           </div>
-          <div className="min-w-[229px] rounded-tr rounded-br  bg-white px-5 py-3  ">
+          <div
+            className={cn(
+              " rounded-bl  bg-white  py-3  ",
+              variant === "homepage" && "w-[229px] px-5",
+              variant === "search" && "w-[150px] px-2"
+            )}
+          >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
               <label htmlFor="price-to" className="text-xs ">
                 $ Up to

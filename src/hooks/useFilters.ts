@@ -7,6 +7,7 @@ interface FiltersObject {
   mode: modeOptions;
   location: string;
   propertyType: propertyTypeValues[number];
+  subType: string;
   priceLow: string;
   priceHigh: string;
   areaLow: string;
@@ -21,9 +22,10 @@ interface useFiltersStore {
 
 export const useFilters = create<useFiltersStore>((set) => ({
   filters: {
-    mode: "sale" as modeOptions,
+    mode: "" as modeOptions,
     location: "",
-    propertyType: "Apartment",
+    propertyType: "",
+    subType: "",
     priceLow: "",
     priceHigh: "",
     areaLow: "",
