@@ -369,3 +369,5 @@ export const propertyTypes: propertyTypeValues[] = [
   "Garage",
   "Other",
 ] as const;
+
+export const floorsLowOptions = [];

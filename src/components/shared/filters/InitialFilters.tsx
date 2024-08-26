@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import LocationFilter from "./LocationFilter";
-import PropertyTypeFilter from "./PropertyTypeFilter";
-import PriceFilter from "./PriceFilter";
-import SurfaceFilter from "./SurfaceFilter";
-import ModeFilter from "./ModeFilter";
+import LocationFilter from "./primary/LocationFilter";
+import PropertyTypeFilter from "./primary/PropertyTypeFilter";
+import PriceFilter from "./primary/PriceFilter";
+import SurfaceFilter from "./primary/SurfaceFilter";
+import ModeFilter from "./primary/ModeFilter";
 
 export default function SearchFilter() {
   return (

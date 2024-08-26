@@ -7,3 +7,32 @@ export type propertyTypeValues =
   | "Industrial"
   | "Garage"
   | "Other";
+
+export type modeOptions = "sale" | "rent";
+
+export interface FiltersObject {
+  // primary
+  mode: modeOptions;
+  location: string;
+  propertyType: propertyTypeValues[number];
+  subType: string;
+  priceLow: string;
+  priceHigh: string;
+  areaLow: string;
+  areaHigh: string;
+  // secondary
+  floorNumberLow: string;
+  floorNumberHigh: string;
+  bedroomsNumberLow: string;
+  bedroomsNumberHigh: string;
+  constructionYearLow: string;
+  constructionYearHigh: string;
+  isNewDevelopment: boolean;
+  heatingType: string;
+  isFurnitureIncluded: boolean;
+  externalFeatures: string[];
+  internalFeatures: string[];
+  lastUpdated: string;
+  creationDate: string;
+}
+export type PartialFiltersObject = Partial<FiltersObject>;

@@ -16,6 +16,7 @@ interface SelectDemoProps {
   onClick: (value: string) => void;
   options: { label: string; value: string }[];
   triggerWidth?: string;
+  name?: string;
 }
 
 export function SelectDemo({
@@ -24,19 +25,21 @@ export function SelectDemo({
   onClick,
   placeholder = "",
   triggerWidth = "180px",
+  name,
 }: SelectDemoProps) {
   return (
     <Select
+      name={name}
       value={value}
       onValueChange={(value) => {
         console.log(value);
         onClick(value);
       }}
     >
-      <SelectTrigger className={`w-[${triggerWidth}]`}>
+      <SelectTrigger className={`w-[${triggerWidth}] z-[125]`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="z-[125] max-h-64">
         {options.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             {option.label}

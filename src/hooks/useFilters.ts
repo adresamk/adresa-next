@@ -1,27 +1,20 @@
-import { propertyTypeValues } from "@/lib/types";
+import {
+  FiltersObject,
+  modeOptions,
+  PartialFiltersObject,
+} from "@/lib/types";
 import { create } from "zustand";
-
-type modeOptions = "sale" | "rent";
-
-interface FiltersObject {
-  mode: modeOptions;
-  location: string;
-  propertyType: propertyTypeValues[number];
-  subType: string;
-  priceLow: string;
-  priceHigh: string;
-  areaLow: string;
-  areaHigh: string;
-}
-type PartialFiltersObject = Partial<FiltersObject>;
 
 interface useFiltersStore {
   filters: FiltersObject;
   updateFilters: (newFilters: PartialFiltersObject) => void;
+  updateSecondarySearchParams: (router: any) => void;
+  clearSecondaryFilters: () => void;
 }
 
 export const useFilters = create<useFiltersStore>((set) => ({
   filters: {
+    // primary
     mode: "" as modeOptions,
     location: "",
     propertyType: "",
@@ -30,12 +23,60 @@ export const useFilters = create<useFiltersStore>((set) => ({
     priceHigh: "",
     areaLow: "",
     areaHigh: "",
+    // secondary
+    floorNumberLow: "",
+    floorNumberHigh: "",
+    bedroomsNumberLow: "",
+    bedroomsNumberHigh: "",
+    constructionYearLow: "",
+    constructionYearHigh: "",
+    isNewDevelopment: false,
+    heatingType: "",
+    isFurnitureIncluded: false,
+    externalFeatures: ["ac"],
+    internalFeatures: [],
+    lastUpdated: "",
+    creationDate: "",
   },
   updateFilters: (newFilters: PartialFiltersObject) =>
-    set((state) => ({
-      filters: {
-        ...state.filters,
+    set((prevState) => {
+      const newState = {
+        ...prevState.filters,
         ...newFilters,
-      },
-    })),
+      };
+      console.log(newState);
+      return {
+        filters: newState,
+      };
+    }),
+
+  updateSecondarySearchParams: (router: any) =>
+    //@ts-ignore
+    set((prevState) => {}),
+  clearSecondaryFilters: () =>
+    set((prevState) => {
+      const secondaryFilters = {
+        floorNumberLow: "",
+        floorNumberHigh: "",
+        bedroomsNumberLow: "",
+        bedroomsNumberHigh: "",
+        constructionYearLow: "",
+        constructionYearHigh: "",
+        isNewDevelopment: false,
+        heatingType: "",
+        isFurnitureIncluded: false,
+        externalFeatures: ["ac"],
+        internalFeatures: [],
+        lastUpdated: "",
+        creationDate: "",
+      };
+      const newState = {
+        ...prevState.filters,
+        ...secondaryFilters,
+      };
+      console.log(newState);
+      return {
+        filters: newState,
+      };
+    }),
 }));

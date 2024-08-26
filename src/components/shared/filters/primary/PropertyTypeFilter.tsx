@@ -75,7 +75,7 @@ export default function PropertyTypeFilter({
         )}
       </PopoverTrigger>
       <PopoverContent asChild align="start">
-        <ul className="w-[184px] p-2  relative text-sm  bg-white rounded rounded-t-none  shadow-lg">
+        <ul className="w-[184px] p-2  relative text-sm  bg-white rounded shadow-lg">
           {propertyTypes.map((type: propertyTypeValues) => (
             <li
               key={type}

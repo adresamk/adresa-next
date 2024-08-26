@@ -122,7 +122,7 @@ export default function SurfaceFilter({
         >
           <div
             className={cn(
-              " rounded-bl  bg-white  py-3",
+              " rounded  bg-white  py-3",
               variant === "homepage" && "w-[209px] px-5",
               variant === "search" && "w-[150px] px-2"
             )}
@@ -145,7 +145,7 @@ export default function SurfaceFilter({
                 }}
               />
             </div>
-            <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded rounded-t-none ">
+            <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded  ">
               {areaFilterOptions.map((area) => (
                 <li
                   key={area}
