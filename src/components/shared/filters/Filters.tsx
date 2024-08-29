@@ -12,7 +12,7 @@ import {
   SlidersVertical,
 } from "lucide-react";
 import SmartOverlay from "../SmartOverlay";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FloorsFilter from "./secondary/FloorsFilter";
 import BedroomsFilter from "./secondary/BedroomsFilter";
 import ConstructionYearFilter from "./secondary/ConstructionYearFilter";
@@ -22,13 +22,23 @@ import ExternalFeaturesFilter from "./secondary/ExternalFeaturesFilter";
 import InternalFeaturesFilter from "./secondary/InternalFeaturesFilter";
 import LastUpdatedFilter from "./secondary/LastUpdatedFilter";
 import CreationDateFilter from "./secondary/CreationDateFilter";
-import { useFilters } from "@/hooks/useFilters";
-import { useRouter, NextRouter } from "next/router";
 
-function Footer() {
-  const router: NextRouter = useRouter();
+import { defaultFilters, useFilters } from "@/hooks/useFilters";
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+
+export const dynamic = "force-dynamic";
+
+export default function Filters() {
+  const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(true);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const filters = useFilters((store) => store.filters);
-  // const updateFilters = useFilters((store) => store.updateFilters);
+  const updateFilters = useFilters((store) => store.updateFilters);
   const clearSecondaryFilters = useFilters(
     (store) => store.clearSecondaryFilters
   );
@@ -48,47 +58,38 @@ function Footer() {
       lastUpdated: filters.lastUpdated,
       creationDate: filters.creationDate,
     };
-    const currentSearchParams = new URLSearchParams(router.asPath);
+    const currentSearchParams = new URLSearchParams(
+      window.location.search
+    );
+
     Object.entries(secondaryFilters).forEach(([key, value]) => {
-      if (value !== undefined && value !== "") {
-        currentSearchParams.set(key, String(value));
-      } else {
+      // @ts-ignore
+      if (defaultFilters[key] === value) {
         currentSearchParams.delete(key);
+      } else {
+        currentSearchParams.set(key, String(value));
       }
     });
-    router.push(
-      `${router.pathname}?${currentSearchParams.toString()}`
-    );
-    const results = {
-      length: Math.floor(Math.random() * 100),
-    };
-    return (
-      <div className="flex justify-between items-end w-full">
-        <Button
-          variant="ghost"
-          className="text-gray-500"
-          onClick={() => {
-            clearSecondaryFilters();
-          }}
-        >
-          Clear all
-        </Button>
-        <Button
-          onClick={() => {
-            updateSecondarySearchParams();
-          }}
-          className="bg-brand-light-blue"
-        >
-          <Search width={20} className="mr-2" />
-          View {results.length} Results
-        </Button>
-      </div>
-    );
+    router.push(`${pathname}?${currentSearchParams.toString()}`);
   };
+
+  //
+  useEffect(() => {
+    const updatedFilters: { [key: string]: string | null } = {};
+    for (const [key, value] of Object.entries(defaultFilters)) {
+      if (searchParams.has(key)) {
+        updatedFilters[key as keyof typeof defaultFilters] =
+          searchParams.get(key);
+      }
+    }
+    updateFilters({
+      ...updatedFilters,
+    });
+  }, []);
   const results = {
     length: Math.floor(Math.random() * 100),
   };
-  return (
+  const footer = (
     <div className="flex justify-between items-end w-full">
       <Button
         variant="ghost"
@@ -110,9 +111,7 @@ function Footer() {
       </Button>
     </div>
   );
-}
-export default function Filters() {
-  const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(true);
+
   return (
     <aside className="flex gap-3 items-center px-6 min-h-[70px] top-[80px] sticky z-10 shadow-md bg-white">
       <ModeFilter variant="search" />
@@ -140,7 +139,7 @@ export default function Filters() {
         title="More Filters"
         description="Select more filters to refine your search"
         innerScroll
-        footerJSX={<Footer />}
+        footerJSX={footer}
       >
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap border-b-2 py-2.5 px-1.5">

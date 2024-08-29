@@ -12,31 +12,34 @@ interface useFiltersStore {
   clearSecondaryFilters: () => void;
 }
 
+export const defaultFilters = {
+  // primary
+  mode: "" as modeOptions,
+  location: "",
+  propertyType: "",
+  subType: "",
+  priceLow: "",
+  priceHigh: "",
+  areaLow: "",
+  areaHigh: "",
+  // secondary
+  floorNumberLow: "",
+  floorNumberHigh: "",
+  bedroomsNumberLow: "",
+  bedroomsNumberHigh: "",
+  constructionYearLow: "",
+  constructionYearHigh: "",
+  isNewDevelopment: false,
+  heatingType: "",
+  isFurnitureIncluded: false,
+  externalFeatures: ["ac"],
+  internalFeatures: [],
+  lastUpdated: "",
+  creationDate: "",
+};
 export const useFilters = create<useFiltersStore>((set) => ({
   filters: {
-    // primary
-    mode: "" as modeOptions,
-    location: "",
-    propertyType: "",
-    subType: "",
-    priceLow: "",
-    priceHigh: "",
-    areaLow: "",
-    areaHigh: "",
-    // secondary
-    floorNumberLow: "",
-    floorNumberHigh: "",
-    bedroomsNumberLow: "",
-    bedroomsNumberHigh: "",
-    constructionYearLow: "",
-    constructionYearHigh: "",
-    isNewDevelopment: false,
-    heatingType: "",
-    isFurnitureIncluded: false,
-    externalFeatures: ["ac"],
-    internalFeatures: [],
-    lastUpdated: "",
-    creationDate: "",
+    ...defaultFilters,
   },
   updateFilters: (newFilters: PartialFiltersObject) =>
     set((prevState) => {
