@@ -30,14 +30,15 @@ import {
   useSearchParams,
 } from "next/navigation";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export default function Filters() {
-  const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(true);
+  const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const filters = useFilters((store) => store.filters);
+  const shouldUpdate = useFilters((store) => store.shouldUpdate);
   const updateFilters = useFilters((store) => store.updateFilters);
   const clearSecondaryFilters = useFilters(
     (store) => store.clearSecondaryFilters
@@ -71,9 +72,10 @@ export default function Filters() {
       }
     });
     router.push(`${pathname}?${currentSearchParams.toString()}`);
+    router.refresh();
   };
 
-  //
+  // update the filters state based on search params on mount
   useEffect(() => {
     const updatedFilters: { [key: string]: string | null } = {};
     for (const [key, value] of Object.entries(defaultFilters)) {
@@ -86,6 +88,26 @@ export default function Filters() {
       ...updatedFilters,
     });
   }, []);
+
+  // need to finish this
+  useEffect(() => {
+    if (shouldUpdate) {
+      const currentSearchParams = new URLSearchParams(
+        window.location.search
+      );
+
+      Object.entries(filters).forEach(([key, value]) => {
+        // @ts-ignore
+        if (defaultFilters[key] === value) {
+          currentSearchParams.delete(key);
+        } else {
+          currentSearchParams.set(key, String(value));
+        }
+      });
+      router.push(`${pathname}?${currentSearchParams.toString()}`);
+      router.refresh();
+    }
+  }, [shouldUpdate]);
   const results = {
     length: Math.floor(Math.random() * 100),
   };

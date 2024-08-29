@@ -58,6 +58,8 @@ export default function ListingsList({
 }: ListingListProps) {
   const loweredPriceListings = 2;
   const [sorting, setSorting] = useState("");
+
+  return null;
   return (
     <div>
       <h3 className="text-2xl font-semibold mb-2">{title}</h3>

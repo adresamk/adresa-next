@@ -16,8 +16,10 @@ interface ModeFilterProps {
 export default function ModeFilter({ variant }: ModeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
+
   const [label, setLabel] = useState("Available For");
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       {variant === "homepage" && (

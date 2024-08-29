@@ -7,6 +7,7 @@ import { create } from "zustand";
 
 interface useFiltersStore {
   filters: FiltersObject;
+  shouldUpdate: boolean;
   updateFilters: (newFilters: PartialFiltersObject) => void;
   updateSecondarySearchParams: (router: any) => void;
   clearSecondaryFilters: () => void;
@@ -37,12 +38,27 @@ export const defaultFilters = {
   lastUpdated: "",
   creationDate: "",
 };
+const primaryFilters = [
+  "mode",
+  "location",
+  "propertyType",
+  "subType",
+  "priceLow",
+  "priceHigh",
+  "areaLow",
+  "areaHigh",
+];
 export const useFilters = create<useFiltersStore>((set) => ({
   filters: {
     ...defaultFilters,
   },
+  shouldUpdate: false,
   updateFilters: (newFilters: PartialFiltersObject) =>
     set((prevState) => {
+      const primaryFiltersChanged = Object.keys(newFilters).some(
+        (key) => primaryFilters.includes(key)
+      );
+
       const newState = {
         ...prevState.filters,
         ...newFilters,
@@ -50,6 +66,7 @@ export const useFilters = create<useFiltersStore>((set) => ({
       console.log(newState);
       return {
         filters: newState,
+        shouldUpdate: primaryFiltersChanged,
       };
     }),
 
