@@ -15,11 +15,11 @@ export const secondaryFiltersParsers = {
   heatingType: parseAsString.withDefault(""),
   isFurnitureIncluded: parseAsBoolean.withDefault(false),
   externalFeatures: parseAsArrayOf(parseAsString, ",").withDefault([
+    "",
+  ]),
+  internalFeatures: parseAsArrayOf(parseAsString, ",").withDefault([
     "ac",
   ]),
-  internalFeatures: parseAsArrayOf(parseAsString, ",").withDefault(
-    []
-  ),
   lastUpdated: parseAsString.withDefault(""),
   creationDate: parseAsString.withDefault(""),
 };
