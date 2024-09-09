@@ -63,7 +63,6 @@ export const useFilters = create<useFiltersStore>((set) => ({
         ...prevState.filters,
         ...newFilters,
       };
-      console.log(newState);
       return {
         filters: newState,
         shouldUpdate: primaryFiltersChanged,

@@ -17,3 +17,15 @@ longitudeHigh: 55.713357
 zoom: 4
 withinCityPlan: true
 defaults: searchResults
+
+
+TODO:
+
+
+1. Make filter selections work
+2. Add auth with Kinde
+3. Add options for data to know what to work with
+4. Make a fake database with some database
+5. Make the Map interactive
+6. Add language support? 
+7. Make the create form work

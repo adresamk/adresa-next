@@ -1,9 +1,9 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import ModeFilter from "./primary/ModeFilter";
 import PriceFilter from "./primary/PriceFilter";
 import PropertyTypeFilter from "./primary/PropertyTypeFilter";
-import SubTypeFilter from "./primary/SubtypeFilter";
 import SurfaceFilter from "./primary/SurfaceFilter";
 import {
   Bed,
@@ -29,85 +29,71 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
+import SubTypeFilter from "./primary/SubTypeFilter";
+import {
+  parseAsArrayOf,
+  parseAsBoolean,
+  parseAsString,
+  useQueryStates,
+} from "nuqs";
+import { secondaryFiltersParsers } from "@/app/searchParams";
+import { revalidatePath } from "next/cache";
+import { set } from "react-hook-form";
 
-// export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 export default function Filters() {
-  const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(false);
+  // not sure why we need this
   const router = useRouter();
-  const searchParams = useSearchParams();
   const pathname = usePathname();
-  const filters = useFilters((store) => store.filters);
   const shouldUpdate = useFilters((store) => store.shouldUpdate);
+
+  const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(false);
+  const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
   const clearSecondaryFilters = useFilters(
     (store) => store.clearSecondaryFilters
   );
-  const updateSecondarySearchParams = () => {
-    const secondaryFilters = {
-      floorNumberLow: filters.floorNumberLow,
-      floorNumberHigh: filters.floorNumberHigh,
-      bedroomsNumberLow: filters.bedroomsNumberLow,
-      bedroomsNumberHigh: filters.bedroomsNumberHigh,
-      constructionYearLow: filters.constructionYearLow,
-      constructionYearHigh: filters.constructionYearHigh,
-      isNewDevelopment: filters.isNewDevelopment,
-      heatingType: filters.heatingType,
-      isFurnitureIncluded: filters.isFurnitureIncluded,
-      externalFeatures: filters.externalFeatures,
-      internalFeatures: filters.internalFeatures,
-      lastUpdated: filters.lastUpdated,
-      creationDate: filters.creationDate,
-    };
-    const currentSearchParams = new URLSearchParams(
-      window.location.search
-    );
 
-    Object.entries(secondaryFilters).forEach(([key, value]) => {
-      // @ts-ignore
-      if (defaultFilters[key] === value) {
-        currentSearchParams.delete(key);
-      } else {
-        currentSearchParams.set(key, String(value));
-      }
+  let [secondarySearchParams, setSecondarySearchParams] =
+    useQueryStates(secondaryFiltersParsers, {
+      history: "push",
     });
-    router.push(`${pathname}?${currentSearchParams.toString()}`);
-    router.refresh();
-  };
+  let {
+    floorNumberLow,
+    floorNumberHigh,
+    bedroomsNumberLow,
+    bedroomsNumberHigh,
+    constructionYearLow,
+    constructionYearHigh,
+    isNewDevelopment,
+    heatingType,
+    isFurnitureIncluded,
+    externalFeatures,
+    internalFeatures,
+    lastUpdated,
+    creationDate,
+  } = secondarySearchParams;
 
   // update the filters state based on search params on mount
   useEffect(() => {
-    const updatedFilters: { [key: string]: string | null } = {};
-    for (const [key, value] of Object.entries(defaultFilters)) {
-      if (searchParams.has(key)) {
-        updatedFilters[key as keyof typeof defaultFilters] =
-          searchParams.get(key);
-      }
-    }
     updateFilters({
-      ...updatedFilters,
+      floorNumberLow,
+      floorNumberHigh,
+      bedroomsNumberLow,
+      bedroomsNumberHigh,
+      constructionYearLow,
+      constructionYearHigh,
+      isNewDevelopment,
+      heatingType,
+      isFurnitureIncluded,
+      externalFeatures,
+      internalFeatures,
+      lastUpdated,
+      creationDate,
     });
-  }, []);
+  }, [secondarySearchParams]);
 
-  // need to finish this
-  useEffect(() => {
-    if (shouldUpdate) {
-      const currentSearchParams = new URLSearchParams(
-        window.location.search
-      );
-
-      Object.entries(filters).forEach(([key, value]) => {
-        // @ts-ignore
-        if (defaultFilters[key] === value) {
-          currentSearchParams.delete(key);
-        } else {
-          currentSearchParams.set(key, String(value));
-        }
-      });
-      router.push(`${pathname}?${currentSearchParams.toString()}`);
-      router.refresh();
-    }
-  }, [shouldUpdate]);
   const results = {
     length: Math.floor(Math.random() * 100),
   };
@@ -124,7 +110,26 @@ export default function Filters() {
       </Button>
       <Button
         onClick={() => {
-          updateSecondarySearchParams();
+          setSecondarySearchParams({
+            floorNumberLow: filters.floorNumberLow,
+            floorNumberHigh: filters.floorNumberHigh,
+            bedroomsNumberLow: filters.bedroomsNumberLow,
+            bedroomsNumberHigh: filters.bedroomsNumberHigh,
+            constructionYearLow: filters.constructionYearLow,
+            constructionYearHigh: filters.constructionYearHigh,
+            isNewDevelopment: filters.isNewDevelopment,
+            heatingType: filters.heatingType,
+            isFurnitureIncluded: filters.isFurnitureIncluded,
+            externalFeatures: filters.externalFeatures,
+            internalFeatures: filters.internalFeatures,
+            lastUpdated: filters.lastUpdated,
+            creationDate: filters.creationDate,
+          });
+          setTimeout(() => {
+            // to force the new queries on the server, without setTimeout its late one click
+            router.refresh();
+            setAreMoreFiltersOpen(false);
+          }, 0);
         }}
         className="bg-brand-light-blue"
       >

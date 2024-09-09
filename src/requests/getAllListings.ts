@@ -4,6 +4,7 @@ import products from "../../data/products.json";
 export default function getAllListings(
   search: string = ""
 ): Promise<Product[]> {
+  search = "gimme";
   console.log("this is the search on the server", search);
   return new Promise((resolve) => {
     setTimeout(() => {

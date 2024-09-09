@@ -10,66 +10,8 @@ import {
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { useFilters } from "@/hooks/useFilters";
 import { Button } from "@/components/ui/button";
+import { parseAsString, useQueryState } from "nuqs";
 
-function BigVariant() {
-  const focusedFilter = useSelectedFilter(
-    (store) => store.selectedFilter
-  );
-
-  const setFocusedFilter = useSelectedFilter(
-    (store) => store.setSelectedFilter
-  );
-  const filters = useFilters((store) => store.filters);
-  return (
-    <div
-      className={cn(
-        "p-4 border-r border-r-black overflow-visible h-[90px] w-[230px]",
-        focusedFilter === "price" &&
-          "shadow-lg bg-white rounded-t z-10",
-        !focusedFilter && "bg-gray-50 "
-      )}
-      onClick={() => {
-        setFocusedFilter("price");
-      }}
-    >
-      <div className="">
-        <div className="flex flex-col gap-1.5 text-brand-dark-blue">
-          <label className="h-5 flex w-full gap-2 items-center">
-            {<Tag size={22} />} {"Price"}
-          </label>
-          <div className="text-sm h-10 flex items-center">
-            {/* both are set */}
-            {filters.priceLow && filters.priceHigh && (
-              <span className="text-brand-dark-blue">
-                {filters.priceLow} - {filters.priceHigh} $
-              </span>
-            )}
-
-            {/* only from is set */}
-            {filters.priceLow && !filters.priceHigh && (
-              <span className="text-brand-dark-blue">
-                From {filters.priceLow} $
-              </span>
-            )}
-
-            {/* only to is set */}
-            {!filters.priceLow && filters.priceHigh && (
-              <span className="text-brand-dark-blue">
-                Up to {filters.priceHigh} $
-              </span>
-            )}
-            {/* nothing is set */}
-            {!filters.priceLow && !filters.priceHigh && (
-              <span className="text-gray-400 tracking-tighter">
-                $ From - To
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 interface PriceFilterProps {
   variant: "homepage" | "search";
 }
@@ -77,37 +19,104 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
 
+  let [priceLow, setPriceLow] = useQueryState(
+    "priceLow",
+    parseAsString.withOptions({ shallow: false }).withDefault("")
+  );
+  let [priceHigh, setPriceHigh] = useQueryState(
+    "priceHigh",
+    parseAsString.withOptions({ shallow: false }).withDefault("")
+  );
+  const focusedFilter = useSelectedFilter(
+    (store) => store.selectedFilter
+  );
+
+  const setFocusedFilter = useSelectedFilter(
+    (store) => store.setSelectedFilter
+  );
+
+  if (variant === "homepage") {
+    priceLow = filters.priceLow;
+    priceHigh = filters.priceHigh;
+  }
+
   return (
     <Popover>
-      <PopoverTrigger>
-        {variant === "homepage" && <BigVariant />}
+      <PopoverTrigger asChild>
+        {variant === "homepage" ? (
+          <div
+            className={cn(
+              "p-4 border-r border-r-black overflow-visible h-[90px] w-[230px]",
+              focusedFilter === "price" &&
+                "shadow-lg bg-white rounded-t z-10",
+              !focusedFilter && "bg-gray-50 "
+            )}
+            onClick={() => {
+              setFocusedFilter("price");
+            }}
+          >
+            <div className="">
+              <div className="flex flex-col gap-1.5 text-brand-dark-blue">
+                <label className="h-5 flex w-full gap-2 items-center">
+                  {<Tag size={22} />} {"Price"}
+                </label>
+                <div className="text-sm h-10 flex items-center">
+                  {/* both are set */}
+                  {priceLow && priceHigh && (
+                    <span className="text-brand-dark-blue">
+                      {priceLow} - {priceHigh} $
+                    </span>
+                  )}
 
-        {variant === "search" && (
+                  {/* only from is set */}
+                  {priceLow && !priceHigh && (
+                    <span className="text-brand-dark-blue">
+                      From {priceLow} $
+                    </span>
+                  )}
+
+                  {/* only to is set */}
+                  {!priceLow && priceHigh && (
+                    <span className="text-brand-dark-blue">
+                      Up to {priceHigh} $
+                    </span>
+                  )}
+                  {/* nothing is set */}
+                  {!priceLow && !priceHigh && (
+                    <span className="text-gray-400 tracking-tighter">
+                      $ From - To
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : variant === "search" ? (
           <Button variant="outline">
             <span className="capitalize">
-              {filters.priceLow && filters.priceHigh && (
+              {priceLow && priceHigh && (
                 <span className="">
-                  {filters.priceLow} - {filters.priceHigh} $
+                  {priceLow} - {priceHigh} $
                 </span>
               )}
 
               {/* only from is set */}
-              {filters.priceLow && !filters.priceHigh && (
-                <span className="">From {filters.priceLow} $</span>
+              {priceLow && !priceHigh && (
+                <span className="">From {priceLow} $</span>
               )}
 
               {/* only to is set */}
-              {!filters.priceLow && filters.priceHigh && (
-                <span className="">Up to {filters.priceHigh} $</span>
+              {!priceLow && priceHigh && (
+                <span className="">Up to {priceHigh} $</span>
               )}
               {/* nothing is set */}
-              {!filters.priceLow && !filters.priceHigh && (
+              {!priceLow && !priceHigh && (
                 <span className=" tracking-tighter">Price</span>
               )}
             </span>
             <ChevronDown width={20} className="ml-2" />{" "}
           </Button>
-        )}
+        ) : null}
       </PopoverTrigger>
       <PopoverContent asChild align="start">
         <div
@@ -134,9 +143,15 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                 id="price-from"
                 type="text"
                 placeholder="10,000"
-                value={filters.priceLow}
+                value={priceLow}
                 onChange={(e) => {
-                  updateFilters({ priceLow: e.target.value });
+                  if (variant === "homepage") {
+                    updateFilters({
+                      priceLow: e.target.value,
+                    });
+                  } else {
+                    setPriceLow(e.target.value);
+                  }
                 }}
               />
             </div>
@@ -146,16 +161,20 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                   key={price}
                   className={cn(
                     "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    filters.priceLow === price &&
+                    priceLow === price &&
                       "bg-green-50 text-brand-dark-blue",
-                    filters.priceLow === "" &&
+                    priceLow === "" &&
                       price === "Any" &&
                       "bg-green-50 text-brand-dark-blue"
                   )}
                   onClick={() => {
-                    updateFilters({
-                      priceLow: price === "Any" ? "" : price,
-                    });
+                    if (variant === "homepage") {
+                      updateFilters({
+                        priceLow: price === "Any" ? "" : price,
+                      });
+                    } else {
+                      setPriceLow(price === "Any" ? "" : price);
+                    }
                   }}
                 >
                   {price}
@@ -180,11 +199,15 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                 id="price-to"
                 type="text"
                 placeholder="10,000"
-                value={filters.priceHigh}
+                value={priceHigh}
                 onChange={(e) => {
-                  updateFilters({
-                    priceHigh: e.target.value,
-                  });
+                  if (variant === "homepage") {
+                    updateFilters({
+                      priceHigh: e.target.value,
+                    });
+                  } else {
+                    setPriceHigh(e.target.value);
+                  }
                 }}
               />
             </div>
@@ -194,16 +217,20 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                   key={price}
                   className={cn(
                     "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    filters.priceHigh === price &&
+                    priceHigh === price &&
                       "bg-green-50 text-brand-dark-blue",
-                    filters.priceHigh === "" &&
+                    priceHigh === "" &&
                       price === "Any" &&
                       "bg-green-50 text-brand-dark-blue"
                   )}
                   onClick={() => {
-                    updateFilters({
-                      priceHigh: price === "Any" ? "" : price,
-                    });
+                    if (variant === "homepage") {
+                      updateFilters({
+                        priceHigh: price === "Any" ? "" : price,
+                      });
+                    } else {
+                      setPriceHigh(price === "Any" ? "" : price);
+                    }
                   }}
                 >
                   {price}

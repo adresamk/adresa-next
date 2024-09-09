@@ -10,67 +10,9 @@ import {
 import { useFilters } from "@/hooks/useFilters";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { Button } from "@/components/ui/button";
+import { parseAsString, useQueryState } from "nuqs";
+import { set } from "react-hook-form";
 
-function BigVariant() {
-  const focusedFilter = useSelectedFilter(
-    (store) => store.selectedFilter
-  );
-
-  const setFocusedFilter = useSelectedFilter(
-    (store) => store.setSelectedFilter
-  );
-  const filters = useFilters((store) => store.filters);
-
-  return (
-    <div
-      className={cn(
-        "p-4 border-r border-r-black overflow-visible h-[90px] w-[230px] ",
-        focusedFilter === "area-size" &&
-          "shadow-lg bg-white rounded-t z-10",
-        !focusedFilter && "bg-gray-50 "
-      )}
-      onClick={() => {
-        setFocusedFilter("area-size");
-      }}
-    >
-      <div className="">
-        <div className="flex flex-col gap-1.5 text-brand-dark-blue">
-          <label className="h-5 flex w-full gap-2 items-center">
-            {<Tag size={22} />} {"Surface"}
-          </label>
-          <div className="text-sm h-10 flex items-center">
-            {/* both are set */}
-            {filters.areaLow && filters.areaHigh && (
-              <span className="text-brand-dark-blue">
-                {filters.areaLow} - {filters.areaHigh} m²
-              </span>
-            )}
-
-            {/* only from is set */}
-            {filters.areaLow && !filters.areaHigh && (
-              <span className="text-brand-dark-blue">
-                From {filters.areaLow} m²
-              </span>
-            )}
-
-            {/* only to is set */}
-            {!filters.areaLow && filters.areaHigh && (
-              <span className="text-brand-dark-blue">
-                Up to {filters.areaHigh} m²
-              </span>
-            )}
-            {/* nothing is set */}
-            {!filters.areaLow && !filters.areaHigh && (
-              <span className="text-gray-400 tracking-tighter">
-                m² From - To
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 interface PropertyTypeFilterProps {
   variant: "homepage" | "search";
 }
@@ -79,38 +21,107 @@ export default function SurfaceFilter({
 }: PropertyTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
+
+  let [areaLow, setAreaLow] = useQueryState(
+    "areaLow",
+    parseAsString.withOptions({ shallow: false }).withDefault("")
+  );
+  let [areaHigh, setAreaHigh] = useQueryState(
+    "areaHigh",
+    parseAsString.withOptions({ shallow: false }).withDefault("")
+  );
+
+  const focusedFilter = useSelectedFilter(
+    (store) => store.selectedFilter
+  );
+
+  const setFocusedFilter = useSelectedFilter(
+    (store) => store.setSelectedFilter
+  );
+
+  if (variant === "homepage") {
+    areaLow = filters.areaLow;
+    areaHigh = filters.areaHigh;
+  }
+
   return (
     <Popover>
-      <PopoverTrigger>
-        {variant === "homepage" && <BigVariant />}
+      <PopoverTrigger asChild>
+        {variant === "homepage" ? (
+          <div
+            className={cn(
+              "p-4 border-r border-r-black overflow-visible h-[90px] w-[230px] ",
+              focusedFilter === "area-size" &&
+                "shadow-lg bg-white rounded-t z-10",
+              !focusedFilter && "bg-gray-50 "
+            )}
+            onClick={() => {
+              setFocusedFilter("area-size");
+            }}
+          >
+            <div className="">
+              <div className="flex flex-col gap-1.5 text-brand-dark-blue">
+                <label className="h-5 flex w-full gap-2 items-center">
+                  {<Tag size={22} />} {"Surface"}
+                </label>
+                <div className="text-sm h-10 flex items-center">
+                  {/* both are set */}
+                  {areaLow && areaHigh && (
+                    <span className="text-brand-dark-blue">
+                      {areaLow} - {areaHigh} m²
+                    </span>
+                  )}
 
-        {variant === "search" && (
+                  {/* only from is set */}
+                  {areaLow && !areaHigh && (
+                    <span className="text-brand-dark-blue">
+                      From {areaLow} m²
+                    </span>
+                  )}
+
+                  {/* only to is set */}
+                  {!areaLow && areaHigh && (
+                    <span className="text-brand-dark-blue">
+                      Up to {areaHigh} m²
+                    </span>
+                  )}
+                  {/* nothing is set */}
+                  {!areaLow && !areaHigh && (
+                    <span className="text-gray-400 tracking-tighter">
+                      m² From - To
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : variant === "search" ? (
           <Button variant="outline">
             <div className="text-sm h-10 flex items-center">
               {/* both are set */}
-              {filters.areaLow && filters.areaHigh && (
+              {areaLow && areaHigh && (
                 <span className="">
-                  {filters.areaLow} - {filters.areaHigh} m²
+                  {areaLow} - {areaHigh} m²
                 </span>
               )}
 
               {/* only from is set */}
-              {filters.areaLow && !filters.areaHigh && (
-                <span className="">From {filters.areaLow} m²</span>
+              {areaLow && !areaHigh && (
+                <span className="">From {areaLow} m²</span>
               )}
 
               {/* only to is set */}
-              {!filters.areaLow && filters.areaHigh && (
-                <span className="">Up to {filters.areaHigh} m²</span>
+              {!areaLow && areaHigh && (
+                <span className="">Up to {areaHigh} m²</span>
               )}
               {/* nothing is set */}
-              {!filters.areaLow && !filters.areaHigh && (
+              {!areaLow && !areaHigh && (
                 <span className=" tracking-tighter">Surface</span>
               )}
             </div>
             <ChevronDown width={20} className="ml-2" />{" "}
           </Button>
-        )}
+        ) : null}
       </PopoverTrigger>
       <PopoverContent asChild align="start">
         <div
@@ -137,11 +148,15 @@ export default function SurfaceFilter({
                 id="area-from"
                 type="text"
                 placeholder="10,000"
-                value={filters.areaLow}
+                value={areaLow}
                 onChange={(e) => {
-                  updateFilters({
-                    areaLow: e.target.value,
-                  });
+                  if (variant === "homepage") {
+                    updateFilters({
+                      areaLow: e.target.value,
+                    });
+                  } else {
+                    setAreaLow(e.target.value);
+                  }
                 }}
               />
             </div>
@@ -151,16 +166,20 @@ export default function SurfaceFilter({
                   key={area}
                   className={cn(
                     "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    filters.areaLow === area &&
+                    areaLow === area &&
                       "bg-green-50 text-brand-dark-blue",
-                    filters.areaLow === "" &&
+                    areaLow === "" &&
                       area === "Any" &&
                       "bg-green-50 text-brand-dark-blue"
                   )}
                   onClick={() => {
-                    updateFilters({
-                      areaLow: area === "Any" ? "" : area,
-                    });
+                    if (variant === "homepage") {
+                      updateFilters({
+                        areaLow: area === "Any" ? "" : area,
+                      });
+                    } else {
+                      setAreaLow(area === "Any" ? "" : area);
+                    }
                   }}
                 >
                   {area}
@@ -185,11 +204,15 @@ export default function SurfaceFilter({
                 id="area-to"
                 type="text"
                 placeholder="10,000"
-                value={filters.areaHigh}
+                value={areaHigh}
                 onChange={(e) => {
-                  updateFilters({
-                    areaHigh: e.target.value,
-                  });
+                  if (variant === "homepage") {
+                    updateFilters({
+                      areaHigh: e.target.value,
+                    });
+                  } else {
+                    setAreaHigh(e.target.value);
+                  }
                 }}
               />
             </div>
@@ -199,16 +222,20 @@ export default function SurfaceFilter({
                   key={area}
                   className={cn(
                     "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    filters.areaHigh === area &&
+                    areaHigh === area &&
                       "bg-green-50 text-brand-dark-blue",
-                    filters.areaHigh === "" &&
+                    areaHigh === "" &&
                       area === "Any" &&
                       "bg-green-50 text-brand-dark-blue"
                   )}
                   onClick={() => {
-                    updateFilters({
-                      areaHigh: area === "Any" ? "" : area,
-                    });
+                    if (variant === "homepage") {
+                      updateFilters({
+                        areaHigh: area === "Any" ? "" : area,
+                      });
+                    } else {
+                      setAreaHigh(area === "Any" ? "" : area);
+                    }
                   }}
                 >
                   {area}

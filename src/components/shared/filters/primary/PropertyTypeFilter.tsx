@@ -10,9 +10,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
-import { useFilters } from "@/hooks/useFilters";
 import { propertyTypeValues } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import { useFilters } from "@/hooks/useFilters";
 
 interface PropertyTypeFilterProps {
   variant: "homepage" | "search";
@@ -25,22 +25,23 @@ export default function PropertyTypeFilter({
   const focusedFilter = useSelectedFilter(
     (store) => store.selectedFilter
   );
-
   const setFocusedFilter = useSelectedFilter(
     (store) => store.setSelectedFilter
   );
-  const [propertyType, setPropertyType] = useQueryState(
+  let [propertyType, setPropertyType] = useQueryState(
     "propertyType",
     {
       shallow: false,
     }
   );
 
-  const filterValue = propertyType;
+  if (variant === "homepage") {
+    propertyType = filters.propertyType;
+  }
 
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         {variant === "homepage" ? (
           // BIG VARIANT
           <div
@@ -63,7 +64,7 @@ export default function PropertyTypeFilter({
                   {<House size={22} />} {"Property Type"}
                 </label>
                 <div className="text-sm h-10 flex items-center">
-                  {filterValue || (
+                  {propertyType || (
                     <span className="text-gray-400">Home</span>
                   )}
                 </div>
@@ -73,7 +74,7 @@ export default function PropertyTypeFilter({
         ) : (
           <Button variant="outline">
             <span className="capitalize">
-              {filterValue || "Property Type"}
+              {propertyType || "Property Type"}
             </span>
             <ChevronDown width={20} className="ml-2" />{" "}
           </Button>
@@ -86,12 +87,17 @@ export default function PropertyTypeFilter({
               key={type}
               className={cn(
                 "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                filterValue === type &&
+                propertyType === type &&
                   "bg-green-50 text-brand-dark-blue"
               )}
               onClick={() => {
-                setPropertyType(type);
-                // updateFilters({ propertyType: type });
+                if (variant === "homepage") {
+                  updateFilters({
+                    propertyType: type.toLowerCase(),
+                  });
+                } else {
+                  setPropertyType(type.toLowerCase());
+                }
               }}
             >
               {type}

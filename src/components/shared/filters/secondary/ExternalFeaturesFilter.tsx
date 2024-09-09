@@ -1,6 +1,6 @@
 import { useFilters } from "@/hooks/useFilters";
 import { ToggleGroupDemo } from "../../ToggleGroupDemo";
-import { AirVentIcon, AlertCircle, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 const externalFeaturesOptions = [
   {
@@ -32,6 +32,7 @@ const externalFeaturesOptions = [
 export default function ExternalFeaturesFilter() {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
+
   return (
     <div className="flex flex-col gap-2">
       <div className="font-semibold leading-6 flex">
