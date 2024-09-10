@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  name           String?
+  hashedPassword String
+  sessions       Session[]
+  listings       Listing[]
+  role           Role      @relation(fields: [roleId], references: [id])
+  roleId         String
+}
+
+model Role {
+  id   String @id @default(uuid())
+  name String
+  user User[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model Listing {
+  id               String   @id @default(uuid())
+  title            String
+  content          String
+  published        Boolean  @default(false)
+  userId           String
+  owner            User     @relation(fields: [userId], references: [id])
+  mainImage        String // img will be hosted elsewhere, used to showcase the listing, usually first image in array
+  type             String
+  area             Int
+  price            Int
+  mode             String
+  tags             String[]
+  gpsLocation      String // lng,lat 
+  address          String
+  description      String
+  isLiked          Boolean
+  internalFeatures String[]
+  externalFeatures String[]
+  isPaidPromo      Boolean
+  // Not every listing is owned by an Agency
+  agency           Agency?  @relation(fields: [agencyId], references: [id])
+  agencyId         String?
+}
+
+model Agency {
+  id               String    @id @default(uuid())
+  name             String
+  slug             String
+  logoUrl          String
+  address          String
+  gpsLocation      String // lng,lat
+  contactPerson    String
+  workHours        String
+  description      String
+  shortDescription String
+  listings         Listing[]
+  branding         Json // or maybe use it as stringified json
+}
