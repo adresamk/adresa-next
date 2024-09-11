@@ -15,20 +15,36 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  email          String    @unique
+  id             String     @id @default(uuid())
+  email          String     @unique
   name           String?
   hashedPassword String
   sessions       Session[]
   listings       Listing[]
-  role           Role      @relation(fields: [roleId], references: [id])
-  roleId         String
+  roles          UserRole[]
+  agency         Agency?    @relation(fields: [agencyId], references: [id])
+  agencyId       String?    @unique
+
+  @@map("user")
 }
 
 model Role {
-  id   String @id @default(uuid())
-  name String
-  user User[]
+  id    String     @id @default(uuid())
+  name  String     @unique
+  users UserRole[]
+
+  @@map("role")
+}
+
+model UserRole {
+  userId String
+  roleId String
+
+  user User @relation(fields: [userId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
+
+  @@id([userId, roleId])
+  @@map("user_role")
 }
 
 model Session {
@@ -76,4 +92,7 @@ model Agency {
   shortDescription String
   listings         Listing[]
   branding         Json // or maybe use it as stringified json
+  users            User[]
+
+  @@map("agency")
 }
