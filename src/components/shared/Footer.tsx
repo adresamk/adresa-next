@@ -77,7 +77,10 @@ export default function Footer() {
                     </div>
                   </div>
                   {footerColumns.map((column, index) => (
-                    <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
+                    <div
+                      key={column.title}
+                      className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full"
+                    >
                       <div className="flex flex-col grow items-start mt-4 text-xl font-light rounded-none text-violet-950 max-md:mt-10">
                         <div className="text-2xl font-semibold">
                           {column.title}

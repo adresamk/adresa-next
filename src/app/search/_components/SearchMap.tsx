@@ -1,6 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Listing } from "@/global/types";
+import { Listing } from "@prisma/client";
 export default function SearchMap({
   listings,
 }: {
@@ -32,7 +32,7 @@ export default function SearchMap({
           <img
             src="/assets/map-example.png"
             alt=""
-            className="h-100 object-cover max-w-max"
+            className="h-100 object-cover max-w-max rounded"
           />
         </div>
       </div>

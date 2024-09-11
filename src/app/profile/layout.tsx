@@ -26,18 +26,20 @@ const profileNavigation = [
     path: "/profile/liked",
   },
 ];
-export default function ProfileLayout({
+export default async function ProfileLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  //
+
   return (
     <main className=" flex max-w-[1100px] mx-auto px-6 ">
       <div className=" min-w-[220px] bg-white shadow min-h-screen">
         <div className="px-3 py-6">
           <p>Welcome</p>
-          <p className="text-xl">Martin Martinovski</p>
+          <p className="text-xl">"Martin M"</p>
         </div>
         <nav>
           <ul>

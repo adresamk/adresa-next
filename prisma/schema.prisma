@@ -3,7 +3,6 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,26 +13,27 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model Account {
+  id String @id @default(uuid())
+}
+
 model User {
   id             String     @id @default(uuid())
   email          String     @unique
   name           String?
-  hashedPassword String
+  hashedPassword String?
+  picture        String?
   sessions       Session[]
   listings       Listing[]
   roles          UserRole[]
   agency         Agency?    @relation(fields: [agencyId], references: [id])
   agencyId       String?    @unique
-
-  @@map("user")
 }
 
 model Role {
   id    String     @id @default(uuid())
   name  String     @unique
   users UserRole[]
-
-  @@map("role")
 }
 
 model UserRole {
@@ -44,7 +44,6 @@ model UserRole {
   role Role @relation(fields: [roleId], references: [id])
 
   @@id([userId, roleId])
-  @@map("user_role")
 }
 
 model Session {
@@ -56,6 +55,9 @@ model Session {
 
 model Listing {
   id               String   @id @default(uuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  publishedAt      DateTime
   title            String
   content          String
   published        Boolean  @default(false)
@@ -67,13 +69,14 @@ model Listing {
   price            Int
   mode             String
   tags             String[]
-  gpsLocation      String // lng,lat 
   address          String
+  gpsLocation      String // lng,lat 
   description      String
   isLiked          Boolean
   internalFeatures String[]
   externalFeatures String[]
   isPaidPromo      Boolean
+  images           String[]
   // Not every listing is owned by an Agency
   agency           Agency?  @relation(fields: [agencyId], references: [id])
   agencyId         String?
@@ -93,6 +96,4 @@ model Agency {
   listings         Listing[]
   branding         Json // or maybe use it as stringified json
   users            User[]
-
-  @@map("agency")
 }

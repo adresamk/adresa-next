@@ -1,6 +1,7 @@
 "use client";
 import { SelectDemo } from "@/components/shared/SelectDemo";
 import { cx } from "class-variance-authority";
+import { Listing } from "@prisma/client";
 import {
   ArrowDown,
   Crown,
@@ -28,7 +29,6 @@ import {
   ShowerHead,
 } from "lucide-react";
 import { formatNumberWithDelimiter } from "@/lib/utils";
-import { Listing } from "@/global/types";
 
 const icons: { [key: string]: JSX.Element } = {
   bathroom: <ShowerHead width={16} height={16} />,
@@ -47,10 +47,27 @@ const sortingOptions = [
   { value: "lowPrice", label: "Lowest First" },
   { value: "highPrice", label: "Highest First" },
 ];
+function convertFeaturesArray(featuresArray: string[]) {
+  // Initialize an empty object to hold the counts
+  const featuresCount: { [key: string]: number } = {};
 
+  // Iterate over each feature in the array
+  featuresArray.forEach((feature: string) => {
+    // Check if the feature already exists in the object
+    if (featuresCount[feature]) {
+      // Increment the count if it already exists
+      featuresCount[feature] += 1;
+    } else {
+      // Add the feature to the object with a count of 1 if it doesn't exist
+      featuresCount[feature] = 1;
+    }
+  });
+
+  return featuresCount;
+}
 interface ListingListProps {
   title: string;
-  listings: any[];
+  listings: Listing[];
 }
 export default function ListingsList({
   title,
@@ -59,7 +76,6 @@ export default function ListingsList({
   const loweredPriceListings = 2;
   const [sorting, setSorting] = useState("");
 
-  return null;
   return (
     <div>
       <h3 className="text-2xl font-semibold mb-2">{title}</h3>
@@ -97,7 +113,7 @@ export default function ListingsList({
             >
               <div className="w-[200px] relative">
                 <div className="absolute top-1 left-1 flex text-slate-200 text-sm items-center">
-                  <Image width={20} /> {listing.imagesCount}
+                  <Image width={20} /> {listing.images.length}
                 </div>
                 <div className="absolute top-1 right-2 flex gap-1 ">
                   {listing.tags.map((t) => (
@@ -124,22 +140,22 @@ export default function ListingsList({
                       </span>
                       {listing.isPaidPromo && <Crown />} <MapPin />{" "}
                     </h3>
-                    <p className="mb-1">{listing.location}</p>
+                    <p className="mb-1">{listing.address}</p>
                     <p className="text-xs text-slate-500">
-                      posted at {listing.postedAt}
+                      posted at {listing.publishedAt.toString()}
                     </p>
                   </div>
-                  {listing.agency && (
+                  {listing.agencyId && (
                     <div className="flex items-center justify-center bg-slate-100 border-slate-300 border rounded-lg py-2 px-4">
-                      <img
+                      {/* <img
                         width={50}
                         height={54}
                         src={listing.agency.logo}
                         alt={listing.agency.slug}
-                      />
+                      /> */}
                     </div>
                   )}
-                  {listing.user && (
+                  {listing.userId && (
                     <UserCircle width={43} height={43} />
                   )}
                 </div>
@@ -147,13 +163,18 @@ export default function ListingsList({
                   {listing.description}
                 </div>
                 <div className="flex gap-2.5">
-                  {Object.keys(listing.features).map((feature) => (
+                  {Object.keys(
+                    convertFeaturesArray(listing.externalFeatures)
+                  ).map((feature) => (
                     <div className="flex gap-1 items-center justify-center ">
                       {icons[feature]}
                       <div className="text-sm font-light ">
                         <span className="mr-1">
-                          {(listing.features[feature] ?? 0) > 1
-                            ? listing.features[feature]
+                          {/* @ts-ignore */}
+                          {(listing.externalFeatures[feature] ?? 0) >
+                          1
+                            ? //@ts-ignore
+                              listing.externalFeatures[feature]
                             : null}
                         </span>
                         <span>{feature}</span>
@@ -169,14 +190,14 @@ export default function ListingsList({
                       )}
                       $
                     </span>
-                    {listing.oldPrice && (
+                    {listing.price && (
                       <span className="text text-gray-500/70 flex line-through">
                         <ArrowDown
                           stroke="green"
                           className="mx-1.5"
                         />
                         {formatNumberWithDelimiter(
-                          listing.oldPrice.toString()
+                          listing.price.toString()
                         )}
                         $
                       </span>

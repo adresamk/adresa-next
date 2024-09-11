@@ -1,22 +1,18 @@
 // src/auth.ts
-import prisma from "@/lib/db";
-import { Lucia, User, Session } from "lucia";
+import { Lucia, User, Session, TimeSpan } from "lucia";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
-import { PrismaClient } from "@prisma/client";
+import prismadb from "@/lib/db";
 import { cache } from "react";
 import { cookies } from "next/headers";
-import { env } from "process";
-// const adapter = new BetterSQLite3Adapter(db); // your adapter
 
-// const client = new PrismaClient();
-// const adapter = new PrismaAdapter(client.session, client.user);
-
-const adapter = new PrismaAdapter(prisma.session, prisma.user);
+const adapter = new PrismaAdapter(prismadb.session, prismadb.user);
 
 export const lucia = new Lucia(adapter, {
+  sessionExpiresIn: new TimeSpan(3, "d"),
   sessionCookie: {
     // this sets cookies with super long expiration
     // since Next.js doesn't allow Lucia to extend cookie expiration when rendering pages
+    name: "lucia-auth-cookie",
     expires: false,
     attributes: {
       // set to `true` when using HTTPS
@@ -27,11 +23,33 @@ export const lucia = new Lucia(adapter, {
     return {
       email: attributes.email,
       id: attributes.id,
+      name: attributes.name,
       //   hashedPassword: attributes.hashedPassword,
     };
   },
 });
-
+export async function getUser() {
+  const { user } = await validateRequest();
+  // here instead of returning the result, we can go with prisma and get the User object with all the fields on it
+  // because up to here we only kinda have access to the id, name etc, but not all the
+  // related fields and stuff so if we need that we do that
+  if (!user) {
+    return null;
+  }
+  const dbUser = await prismadb.user.findUnique({
+    where: {
+      id: user.id,
+    },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      picture: true,
+      // hashedPassword: true,
+    },
+  });
+  return dbUser;
+}
 export const validateRequest = cache(
   async (): Promise<
     { user: User; session: Session } | { user: null; session: null }
@@ -45,6 +63,7 @@ export const validateRequest = cache(
     // next.js throws when you attempt to set cookie when rendering page
     try {
       if (result.session && result.session.fresh) {
+        // refreshing the session cookie
         const sessionCookie = lucia.createSessionCookie(
           result.session.id
         );
@@ -63,6 +82,9 @@ export const validateRequest = cache(
         );
       }
     } catch {}
+    // here instead of returning the result, we can go with prisma and get the User object with all the fields on it
+    // because up to here we only kinda have access to the id, name etc, but not all the
+    // related fields and stuff so if we need that we do that
     return result;
   }
 );
@@ -75,6 +97,7 @@ declare module "lucia" {
 }
 interface DatabaseUserAttributes {
   id: string;
+  name?: string;
   email: string;
   hashedPassword: string;
 }

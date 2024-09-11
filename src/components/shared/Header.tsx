@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import LanguagePicker from "@/components/LanguagePicker";
-import userProfileBg from "@/assets/user-profile-bg.svg";
 import { HousePlus } from "lucide-react";
 
 import {
@@ -9,6 +8,8 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+import AuthUserControls from "../AuthUserControls/AuthUserControls";
+import { createListing } from "@/actions/listings";
 
 export default function Header() {
   return (
@@ -25,22 +26,19 @@ export default function Header() {
       </nav>
 
       <nav className="flex items-center gap-2">
-        <Link href="/listing/new">
+        {/* <Link href="/listing/new"> */}
+        <form action={createListing} method="POST">
           <Button size={"sm"} className="px-2.5">
             <HousePlus className="mr-3" />{" "}
             <span className="font-bold uppercase tracking-wide">
               Create Listing
             </span>
           </Button>
-        </Link>
+        </form>
+        {/* </Link> */}
         <LanguagePicker />
 
-        <Link href="/profile">
-          <Avatar>
-            <AvatarImage src={userProfileBg.src} />
-            <AvatarFallback>PF</AvatarFallback>
-          </Avatar>
-        </Link>
+        <AuthUserControls />
       </nav>
     </header>
   );

@@ -1,36 +1,14 @@
 import { Product } from "../../types/types";
+import { Listing } from "@prisma/client";
 import products from "../../data/products.json";
+import prismadb from "@/lib/db";
 
-export default function getAllListings(
+export default async function getAllListings(
   search: string = ""
-): Promise<Product[]> {
-  search = "gimme";
+): Promise<Listing[]> {
   console.log("this is the search on the server", search);
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(
-        products.products.filter((product) => {
-          return (
-            filterByName(product, search) ||
-            filterByCategory(product, search) ||
-            filterByPrice(product, search)
-          );
-        })
-      );
-    }, 200);
-  });
-}
 
-function filterByName(product: Product, search: string) {
-  return product.title.toLowerCase().includes(search.toLowerCase());
-}
-
-function filterByCategory(product: Product, search: string) {
-  return product.category
-    .toLowerCase()
-    .includes(search.toLowerCase());
-}
-
-function filterByPrice(product: Product, search: string) {
-  return product.price.toString().includes(search);
+  const listings = await prismadb.listing.findMany();
+  console.log("returned listings ; ", listings);
+  return listings;
 }
