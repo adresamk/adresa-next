@@ -5,14 +5,11 @@ import ModeFilter from "./primary/ModeFilter";
 import PriceFilter from "./primary/PriceFilter";
 import PropertyTypeFilter from "./primary/PropertyTypeFilter";
 import SurfaceFilter from "./primary/SurfaceFilter";
-import {
-  Bed,
-  ChevronDown,
-  Search,
-  SlidersVertical,
-} from "lucide-react";
+import SubTypeFilter from "./primary/SubTypeFilter";
+
+import { ChevronDown, Search, SlidersVertical } from "lucide-react";
 import SmartOverlay from "../SmartOverlay";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FloorsFilter from "./secondary/FloorsFilter";
 import BedroomsFilter from "./secondary/BedroomsFilter";
 import ConstructionYearFilter from "./secondary/ConstructionYearFilter";
@@ -23,22 +20,10 @@ import InternalFeaturesFilter from "./secondary/InternalFeaturesFilter";
 import LastUpdatedFilter from "./secondary/LastUpdatedFilter";
 import CreationDateFilter from "./secondary/CreationDateFilter";
 
-import { defaultFilters, useFilters } from "@/hooks/useFilters";
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import {
-  parseAsArrayOf,
-  parseAsBoolean,
-  parseAsString,
-  useQueryStates,
-} from "nuqs";
+import { useFilters } from "@/hooks/useFilters";
+import { usePathname, useRouter } from "next/navigation";
+import { useQueryStates } from "nuqs";
 import { secondaryFiltersParsers } from "@/app/searchParams";
-import { revalidatePath } from "next/cache";
-import { set } from "react-hook-form";
-import SubTypeFilter from "./primary/SubTypeFilter";
 
 export const dynamic = "force-dynamic";
 
