@@ -29,7 +29,6 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import SubTypeFilter from "./primary/SubTypeFilter";
 import {
   parseAsArrayOf,
   parseAsBoolean,
@@ -39,6 +38,7 @@ import {
 import { secondaryFiltersParsers } from "@/app/searchParams";
 import { revalidatePath } from "next/cache";
 import { set } from "react-hook-form";
+import SubTypeFilter from "./primary/SubTypeFilter";
 
 export const dynamic = "force-dynamic";
 
