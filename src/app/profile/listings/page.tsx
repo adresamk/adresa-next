@@ -73,7 +73,10 @@ export default function ProfileListingsPage() {
             return e;
           })
           .map((p) => (
-            <div className="flex gap-3 h-[190px] shadow-md">
+            <div
+              key={p.id}
+              className="flex gap-3 h-[190px] shadow-md"
+            >
               <div className="w-4/12 min-w-[250px]">
                 <img
                   src={p.mainImage}

@@ -43,7 +43,7 @@ export function RadioGroupDemo({
         }}
       >
         {values.map((value) => (
-          <div className="flex items-center space-x-2">
+          <div key={value} className="flex items-center space-x-2">
             <RadioGroupItem value={value} id={value} />
             <Label htmlFor={value} className="capitalize">
               {value}

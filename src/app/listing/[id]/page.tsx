@@ -52,7 +52,7 @@ const images = [
     position: 6,
   },
 ];
-const icons = {
+const icons: { [key: string]: JSX.Element } = {
   bathroom: <ShowerHead size={30} />,
   ac: <AirVentIcon size={30} />,
   garage: <House size={30} />,
@@ -62,7 +62,7 @@ const icons = {
   spajz: <DoorOpen />,
   terace: <Fence />,
   facade: <BrickWall />,
-};
+} as { [key: string]: JSX.Element };
 export default function SingleListing() {
   const { id } = useParams();
   const listing = {
@@ -122,6 +122,7 @@ export default function SingleListing() {
         <div className="w-1/2 grid grid-cols-2 gap-3">
           {images.slice(1, 5).map((image) => (
             <img
+              key={image.position}
               src={image.url}
               alt="Room image"
               className="rounded"
@@ -163,12 +164,16 @@ export default function SingleListing() {
               </div>
               <div className="flex gap-3">
                 {Object.keys(listing.features).map((feature) => (
-                  <div className="flex flex-col items-center justify-center">
+                  <div
+                    key={feature}
+                    className="flex flex-col items-center justify-center"
+                  >
                     {icons[feature]}
                     <div className="text-sm">
-                      {listing.features[feature] > 1
+                      3
+                      {/* {listing.features[feature] > 1
                         ? listing.features[feature]
-                        : null}{" "}
+                        : null}{" "} */}
                       {feature}
                     </div>
                   </div>
@@ -337,12 +342,16 @@ export default function SingleListing() {
 
                 <div className="flex gap-3 items-center px-2">
                   {Object.keys(listing.inside).map((feature) => (
-                    <div className="flex flex-col items-center justify-center">
+                    <div
+                      key={feature}
+                      className="flex flex-col items-center justify-center"
+                    >
                       {icons[feature]}
                       <div className="text-sm">
-                        {listing.inside[feature] > 1
+                        3
+                        {/* {listing.inside[feature] > 1
                           ? listing.inside[feature]
-                          : null}{" "}
+                          : null}{" "} */}
                         {feature}
                       </div>
                     </div>
@@ -355,12 +364,16 @@ export default function SingleListing() {
 
                 <div className="flex gap-3 items-center px-2">
                   {Object.keys(listing.outside).map((feature) => (
-                    <div className="flex flex-col items-center justify-center">
+                    <div
+                      key={feature}
+                      className="flex flex-col items-center justify-center"
+                    >
                       {icons[feature]}
                       <div className="text-sm">
-                        {listing.outside[feature] > 1
+                        3
+                        {/* {listing.outside[feature] > 1
                           ? listing.outside[feature]
-                          : null}{" "}
+                          : null}{" "} */}
                         {feature}
                       </div>
                     </div>

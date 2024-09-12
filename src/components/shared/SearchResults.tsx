@@ -13,7 +13,7 @@ export default function SearchResults({
 }) {
   return (
     <div className="w-full ">
-      {agency && <AgencyBanner agency={agency} />} " "
+      {agency && <AgencyBanner agency={agency} />}
       <Filters />
       <section className="flex flex-col-reverse lg:flex-row relative z-0 w-full">
         <Listings listings={listings} />

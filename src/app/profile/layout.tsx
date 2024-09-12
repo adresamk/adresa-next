@@ -39,12 +39,12 @@ export default async function ProfileLayout({
       <div className=" min-w-[220px] bg-white shadow min-h-screen">
         <div className="px-3 py-6">
           <p>Welcome</p>
-          <p className="text-xl">"Martin M"</p>
+          <p className="text-xl">Martin M</p>
         </div>
         <nav>
           <ul>
             {profileNavigation.map((nav) => (
-              <Link href={nav.path} prefetch>
+              <Link key={nav.path} href={nav.path} prefetch>
                 <li
                   key={nav.label}
                   className={cn(

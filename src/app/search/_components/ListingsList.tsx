@@ -102,7 +102,7 @@ export default function ListingsList({
       </div>
       <ul className="">
         {listings.map((listing: Listing) => (
-          <Link href={"/listing/" + listing.id}>
+          <Link key={listing.id} href={"/listing/" + listing.id}>
             <li
               key={listing.id}
               className={cx(
@@ -166,7 +166,10 @@ export default function ListingsList({
                   {Object.keys(
                     convertFeaturesArray(listing.externalFeatures)
                   ).map((feature) => (
-                    <div className="flex gap-1 items-center justify-center ">
+                    <div
+                      key={feature}
+                      className="flex gap-1 items-center justify-center "
+                    >
                       {icons[feature]}
                       <div className="text-sm font-light ">
                         <span className="mr-1">

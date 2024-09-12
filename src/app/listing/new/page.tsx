@@ -15,14 +15,14 @@ import Step8 from "./steps/Step8";
 import { Button } from "@/components/ui/button";
 
 const stepsComponents = [
-  <Step1 />,
-  <Step2 />,
-  <Step3 />,
-  <Step4 />,
-  <Step5 />,
-  <Step6 />,
-  <Step7 />,
-  <Step8 />,
+  <Step1 key={"1"} />,
+  <Step2 key={"2"} />,
+  <Step3 key={"3"} />,
+  <Step4 key={"4"} />,
+  <Step5 key={"5"} />,
+  <Step6 key={"6"} />,
+  <Step7 key={"7"} />,
+  <Step8 key={"8"} />,
 ];
 
 type StepStatus = {
