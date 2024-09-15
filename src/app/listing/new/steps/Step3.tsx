@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { formatNumberWithDelimiter } from "@/lib/utils";
 import {
+  Bath,
   Bed,
   Building,
   ChefHat,
@@ -19,14 +20,14 @@ import {
 import { useState } from "react";
 
 const orientationOptions: { label: string; value: string }[] = [
-  { label: "North", value: "N" },
-  { label: "South", value: "S" },
-  { label: "East", value: "E" },
-  { label: "West", value: "W" },
-  { label: "North East", value: "NE" },
-  { label: "North West", value: "NW" },
-  { label: "South East", value: "SE" },
-  { label: "South West", value: "SW" },
+  { label: "North", value: "north" },
+  { label: "South", value: "south" },
+  { label: "East", value: "east" },
+  { label: "West", value: "west" },
+  { label: "North East", value: "north-east" },
+  { label: "North West", value: "north-west" },
+  { label: "South East", value: "south-east" },
+  { label: "South West", value: "south-west" },
 ];
 
 const featuresSelectionOptions = [
@@ -57,11 +58,12 @@ export default function Step3() {
 
   return (
     <div className="p-2">
+      <input type="string" className="hidden" value="3" name="step" />
       <h2 className="text-lg">Location</h2>
       <Separator className="my-2 mt-4" />
 
       <div className="flex flex-col gap-3">
-        <Label htmlFor="property-price">
+        <Label htmlFor="price">
           Property Price <span className="text-red-500">*</span>
         </Label>
         <div className="flex items-center w-1/2 min-w-[300px] mb-2">
@@ -70,7 +72,7 @@ export default function Step3() {
           </div>
           <Input
             required
-            name="property-price"
+            name="price"
             placeholder="Enter price in euros"
             value={propertyPrice}
             onChange={(e) => {
@@ -83,7 +85,7 @@ export default function Step3() {
         </div>
       </div>
       <div className="flex flex-col gap-3">
-        <Label>
+        <Label htmlFor="area">
           Property Area <span className="text-red-500">*</span>
         </Label>
         <div className="flex items-center w-1/2 min-w-[300px] mb-2">
@@ -93,7 +95,7 @@ export default function Step3() {
           <Input
             required
             type="number"
-            name="property-area"
+            name="area"
             min={1}
             max={3000}
             placeholder="Enter area in m2"
@@ -107,15 +109,15 @@ export default function Step3() {
       </div>
 
       <div className="flex flex-col gap-3">
-        <Label>Floors</Label>
+        <Label htmlFor="floorNumber">Floor</Label>
         <div className="flex items-center w-1/2 min-w-[300px] mb-2">
           <Input
             required
             type="number"
-            name="property-area"
+            name="floorNumber"
             min={0}
             max={30}
-            placeholder="Enter area in m2"
+            placeholder="Put what floor is the property on"
             value={floor}
             onChange={(e) => {
               const newValue = e.target.value.replace(/[^0-9]/g, "");
@@ -126,9 +128,10 @@ export default function Step3() {
       </div>
 
       <div className="flex flex-col gap-3">
-        <Label>Orientation</Label>
+        <Label htmlFor="orientation">Orientation</Label>
         <div className="flex items-center w-1/2 min-w-[300px] mb-2">
           <SelectDemo
+            name="orientation"
             onClick={(value) => setOrientation(value)}
             placeholder="Select orientation"
             value={orientation}
@@ -145,7 +148,7 @@ export default function Step3() {
             <Input
               required
               type="number"
-              name="sleeping"
+              name="bedrooms"
               defaultValue={1}
               min={0}
               max={10}
@@ -167,7 +170,7 @@ export default function Step3() {
             <Input
               required
               type="number"
-              name="bathroom"
+              name="bathrooms"
               defaultValue={1}
               min={0}
               max={10}
@@ -183,13 +186,33 @@ export default function Step3() {
             />
             <span>bathroom </span>
           </div>
-
+          <div className="flex gap-3 items-center">
+            <Bath size={50} />
+            <Input
+              required
+              type="number"
+              name="wc"
+              defaultValue={1}
+              min={0}
+              max={10}
+              placeholder="Enter area in m2"
+              value={rooms.dining}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setRooms((prev) => ({
+                  ...prev,
+                  dining: Number(e.target.value),
+                }));
+              }}
+            />
+            <span>dining </span>
+          </div>
           <div className="flex gap-3 items-center">
             <ChefHat size={50} />
             <Input
               required
               type="number"
-              name="kitchen"
+              name="kitchens"
               defaultValue={1}
               min={0}
               max={10}
@@ -211,7 +234,7 @@ export default function Step3() {
             <Input
               required
               type="number"
-              name="living"
+              name="livingRooms"
               defaultValue={1}
               min={0}
               max={10}
@@ -227,36 +250,15 @@ export default function Step3() {
             />
             <span>living </span>
           </div>
-
-          <div className="flex gap-3 items-center">
-            <Utensils size={50} />
-            <Input
-              required
-              type="number"
-              name="dining"
-              defaultValue={1}
-              min={0}
-              max={10}
-              placeholder="Enter area in m2"
-              value={rooms.dining}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setRooms((prev) => ({
-                  ...prev,
-                  dining: Number(e.target.value),
-                }));
-              }}
-            />
-            <span>dining </span>
-          </div>
         </div>
       </div>
       <div className="flex flex-col gap-3">
         <Label>Other characteristics</Label>
         <div className="flex flex-col   w-1/2 min-w-[300px] mb-2">
-          <div>
+          <div className="flex items-center">
             <ParkingSquare />
             <RadioGroupDemo
+              name="parking"
               direction="horisontal"
               title="Parking"
               values={["yes", "no", "idk"]}
@@ -268,11 +270,12 @@ export default function Step3() {
               }
             />
           </div>
-          <div>
+          <div className="flex items-center">
             <DoorClosed />
             <RadioGroupDemo
+              name="elevator"
               direction="horisontal"
-              title="elevator"
+              title="Elevator"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
                 setExtraFeatures((prev: any) => ({
@@ -282,11 +285,12 @@ export default function Step3() {
               }
             />
           </div>
-          <div>
+          <div className="flex items-center">
             <Fence />
             <RadioGroupDemo
+              name="balcony"
               direction="horisontal"
-              title="Terace"
+              title="Balcony"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
                 setExtraFeatures((prev: any) => ({
@@ -296,10 +300,11 @@ export default function Step3() {
               }
             />
           </div>
-          <div>
+          <div className="flex items-center">
             <Fence />
             <RadioGroupDemo
               direction="horisontal"
+              name="yard"
               title="Yard"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
@@ -310,10 +315,11 @@ export default function Step3() {
               }
             />
           </div>
-          <div>
+          <div className="flex items-center">
             <Building />
             <RadioGroupDemo
               direction="horisontal"
+              name="basement"
               title="Basement"
               values={["yes", "no", "idk"]}
               onChange={(value) =>

@@ -8,12 +8,14 @@ import { cx } from "class-variance-authority";
 
 export function RadioGroupDemo({
   title = "Default title",
+  name,
   defaultValue,
   values = [],
   direction = "vertical",
   onChange,
 }: {
   title: string;
+  name: string;
   defaultValue?: string;
   direction?: "horisontal" | "vertical";
   values: string[];
@@ -35,6 +37,7 @@ export function RadioGroupDemo({
         {title}
       </h2>
       <RadioGroup
+        name={name}
         className={cx("", direction === "horisontal" && "flex gap-2")}
         defaultValue={defaultValue}
         onClick={(e) => {

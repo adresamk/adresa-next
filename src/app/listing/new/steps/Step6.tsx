@@ -45,6 +45,8 @@ export default function Step6() {
   ]);
   return (
     <div className="p-2">
+      <input type="string" className="hidden" value="6" name="step" />
+
       <h2 className="text-lg">Images and Video</h2>
       <Separator className="my-2 mt-4" />
 

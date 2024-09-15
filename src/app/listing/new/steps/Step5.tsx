@@ -10,6 +10,8 @@ export default function Step5() {
   const [translation, setTranslation] = useState("");
   return (
     <div className="p-2">
+      <input type="string" className="hidden" value="5" name="step" />
+
       <h2 className="text-lg">Location</h2>
       <Separator className="my-2 mt-4" />
 

@@ -54,23 +54,65 @@ model Session {
 }
 
 model Listing {
-  id               String   @id @default(uuid())
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  publishedAt      DateTime
-  title            String
-  content          String
-  published        Boolean  @default(false)
-  userId           String
-  owner            User     @relation(fields: [userId], references: [id])
-  mainImage        String // img will be hosted elsewhere, used to showcase the listing, usually first image in array
-  type             String
-  area             Int
-  price            Int
-  mode             String
-  tags             String[]
-  address          String
-  gpsLocation      String // lng,lat 
+  // Generated automatically
+  id                String    @id @default(uuid())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  userId            String
+  owner             User      @relation(fields: [userId], references: [id])
+  isAvailable       Boolean   @default(true)
+  availabilityDate  DateTime?
+  // Required for creation in form
+  transactionType   String // rent, sale
+  category          String // Won't be changed later
+  type              String // Can be changed later, different types of the same category
+  // Location Step
+  manucipality      String?
+  place             String? // village or town
+  district          String? // naseleno mesto
+  address           String? // the name of street and number
+  longitude         Float?
+  latitude          Float?
+  locationPrecision String? // 'exact', 'approximate', 'wide | How precise the location is shown on the map
+  // Main Characteristics
+  price             Int?
+  area              Int?
+  orientation       String? // 'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
+  floorNumber       Int? // 0 for ground floor, and coded values for others
+  // additional to floor
+  // isPenthouse       Boolean?  @default(false)
+  // isAtCorner        Boolean?  @default(false)
+  // levels            Int?
+  // rooms
+  bedrooms          Int?      @default(0)
+  bathrooms         Int?      @default(0)
+  wcs               Int?      @default(0)
+  kitchens          Int?      @default(0)
+  livingRooms       Int?      @default(0)
+  // Other features that are on spitogatos
+  parking           Boolean?  @default(false)
+  elevator          Boolean?  @default(false)
+  balcony           Boolean?  @default(false)
+  yard              Boolean?  @default(false)
+  basement          Boolean?  @default(false)
+
+  // equiped           Boolean?  @default(false)
+  // alarm             Boolean?  @default(false)
+  // loadingRamp       Boolean?  @default(false)
+  // garage            Boolean?  @default(false)
+  // secureDoor        Boolean?  @default(false)
+  // view              Boolean?  @default(false)
+  // zoning            String?
+  // roadType          String? // access From?
+
+  publishedAt      DateTime?
+  published        Boolean   @default(false)
+  title            String?
+  shortDescription String?
+  mainImage        String? // img will be hosted elsewhere, used to showcase the listing, usually first image in array
+
+  tags String[]
+
   description      String
   isLiked          Boolean
   internalFeatures String[]

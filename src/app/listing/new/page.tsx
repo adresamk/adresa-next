@@ -13,6 +13,7 @@ import Step6 from "./steps/Step6";
 import Step7 from "./steps/Step7";
 import Step8 from "./steps/Step8";
 import { Button } from "@/components/ui/button";
+import { addNewListing } from "./actions";
 
 const stepsComponents = [
   <Step1 key={"1"} />,
@@ -142,11 +143,13 @@ export default function NewPage() {
       </div>
       <div className="w-2/3">
         <div className="p-2 shadow-md bg-white mt-2 rounded">
-          {stepsComponents[currentStep - 1]}
-          <div>
+          <form action={addNewListing}>
+            {stepsComponents[currentStep - 1]}
             <Button size={"sm"} className="my-2">
               Submit
             </Button>
+          </form>
+          <div>
             <div className="flex gap-2">
               <Button
                 disabled={currentStep === 1}

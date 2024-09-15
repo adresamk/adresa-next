@@ -29,6 +29,7 @@ type InputSelectOptions = {
 type InputSelectProps = {
   options: InputSelectOptions[];
   required?: boolean;
+  name?: string;
   label: string;
   defaultValue?: string;
   notFoundText: string;
@@ -39,6 +40,7 @@ type InputSelectProps = {
 export function InputSelect({
   options,
   required,
+  name,
   label,
   defaultValue,
   notFoundText,
@@ -54,6 +56,14 @@ export function InputSelect({
         <Label>{label}</Label>{" "}
         {required && <span className="text-red-500">*</span>}
       </div>
+      {name && (
+        <input
+          type="text"
+          value={value}
+          name={name}
+          className="hidden"
+        />
+      )}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

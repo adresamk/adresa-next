@@ -21,11 +21,12 @@ defaults: searchResults
 
 TODO:
 
+1. Make the listing work form work. Verify the fields and add them to DB 
+2. Make the stepper work by adding it to the DB
+- Should the listings have a complex location field? When we search them by municipality state etc.
+3. Create an endpoint for adding listings
+4. Make sure we filter the listings after that
+5. Add to query params the rent/sale mode and the page field on query params
+6. Make the listings actually listable
+7. Work on the single page listing to make it better
 
-1. Make filter selections work
-2. Add auth with Kinde
-3. Add options for data to know what to work with
-4. Make a fake database with some database
-5. Make the Map interactive
-6. Add language support? 
-7. Make the create form work

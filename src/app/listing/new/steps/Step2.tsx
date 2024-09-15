@@ -26,7 +26,7 @@ const populatedPlaces = [
 ];
 
 export default function Step2() {
-  const [city, setCity] = useState("kumanovo");
+  const [place, setPlace] = useState("kumanovo");
   const [manucipality, setManucipality] = useState("ajducka-cesma");
   const [populatedPlace, setPopulatedPlace] = useState("dragomance");
 
@@ -35,20 +35,12 @@ export default function Step2() {
 
   return (
     <div className="p-2">
+      <input type="string" className="hidden" value="2" name="step" />
       <h2 className="text-lg">Location</h2>
       <Separator className="my-2 mt-4" />
       <InputSelect
-        label="City"
-        required
-        onSelect={(value) => setCity(value)}
-        notFoundText="City doesn't exist"
-        placeholder="Select a city"
-        defaultValue={city}
-        options={cities}
-      />
-
-      <InputSelect
         label="Manucipality"
+        name="manucipality"
         required
         onSelect={(value) => setManucipality(value)}
         notFoundText="Manucipality doesn't exist"
@@ -56,8 +48,19 @@ export default function Step2() {
         defaultValue={manucipality}
         options={manucipalities}
       />
+      <InputSelect
+        name="place"
+        label="City"
+        required
+        onSelect={(value) => setPlace(value)}
+        notFoundText="City doesn't exist"
+        placeholder="Select a city"
+        defaultValue={place}
+        options={cities}
+      />
 
       <InputSelect
+        name="district"
         label="Populated Place"
         required
         onSelect={(value) => setPopulatedPlace(value)}
@@ -79,6 +82,20 @@ export default function Step2() {
       />
 
       <h2 className="text-lg">Confirm your location</h2>
+
+      <Label htmlFor="longitude">longitude</Label>
+      <Input
+        placeholder="Your longitude"
+        name="longitude"
+        id={"longitude"}
+      />
+
+      <Label htmlFor="latitude">latitude</Label>
+      <Input
+        placeholder="Your latitude"
+        name="latitude"
+        id={"latitude"}
+      />
 
       {/* <MapContainer
         center={position}
