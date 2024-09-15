@@ -18,32 +18,20 @@ model Account {
 }
 
 model User {
-  id             String     @id @default(uuid())
-  email          String     @unique
-  name           String?
+  id             String    @id @default(uuid())
+  email          String    @unique
+  emailVerified  DateTime?
+  phone          String?
+  phoneVerified  DateTime?
+  firstName      String?
+  lastName       String?
   hashedPassword String?
   picture        String?
   sessions       Session[]
   listings       Listing[]
-  roles          UserRole[]
-  agency         Agency?    @relation(fields: [agencyId], references: [id])
-  agencyId       String?    @unique
-}
-
-model Role {
-  id    String     @id @default(uuid())
-  name  String     @unique
-  users UserRole[]
-}
-
-model UserRole {
-  userId String
-  roleId String
-
-  user User @relation(fields: [userId], references: [id])
-  role Role @relation(fields: [roleId], references: [id])
-
-  @@id([userId, roleId])
+  role           String
+  agency         Agency?   @relation(fields: [agencyId], references: [id])
+  agencyId       String?   @unique
 }
 
 model Session {
@@ -51,6 +39,17 @@ model Session {
   userId    String
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model EnquirerData {
+  id           String  @id @default(uuid())
+  firstName    String
+  lastName     String
+  email        String
+  phone        String
+  contactHours String // "morning", "afternoon", "evening" or hours
+  listingId    String
+  listing      Listing @relation(fields: [listingId], references: [id])
 }
 
 model Listing {
@@ -61,7 +60,7 @@ model Listing {
   userId            String
   owner             User      @relation(fields: [userId], references: [id])
   isAvailable       Boolean   @default(true)
-  availabilityDate  DateTime?
+  availabilityDate  DateTime? // if it is in the past it is available
   // Required for creation in form
   transactionType   String // rent, sale
   category          String // Won't be changed later
@@ -76,6 +75,8 @@ model Listing {
   locationPrecision String? // 'exact', 'approximate', 'wide | How precise the location is shown on the map
   // Main Characteristics
   price             Int?
+  previousPrice     Int?
+  priceHistory      Json?
   area              Int?
   orientation       String? // 'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
   floorNumber       Int? // 0 for ground floor, and coded values for others
@@ -95,7 +96,6 @@ model Listing {
   balcony           Boolean?  @default(false)
   yard              Boolean?  @default(false)
   basement          Boolean?  @default(false)
-
   // equiped           Boolean?  @default(false)
   // alarm             Boolean?  @default(false)
   // loadingRamp       Boolean?  @default(false)
@@ -104,28 +104,53 @@ model Listing {
   // view              Boolean?  @default(false)
   // zoning            String?
   // roadType          String? // access From?
+  // Additional Features & Heating
+  // renovated              Boolean?  @default(false)
+  // requiresRenovation     Boolean?  @default(false)
+  // luxurious              Boolean?  @default(false)
+  // underConstruction      Boolean?  @default(false)
+  // constructionYear       Int?
+  // averageMonthlyExpenses Int? // in euros
+  // heatingType            String? // 'autonomous', 'central', 'air-condition', 'none'
+  // heatingFuel            String? // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
+  // additional heating options
+  // fireplace         Boolean?  @default(false)
+  // solar      Boolean?  @default(false)
+  // airCondition           Boolean?  @default(false)
+  // underFloorHeating      Boolean?  @default(false)
+  // Description
+  description       String    @db.VarChar(5000)
+  mkdDescription    String?   @db.VarChar(5000)
+  albDescription    String?   @db.VarChar(5000)
+  // short description
+  // shortDescription  String?
+  // Images and Video
+  mainImage         String? // img will be hosted elsewhere, used to showcase the listing, usually first image in array
+  images            String[]
+  videoLink         String? // youtube or vimeo for the property
+  // Publishing info
+  isArchived        Boolean   @default(false)
+  isPublished       Boolean   @default(false)
+  publishedAt       DateTime?
+  publishEndDate    DateTime? // usually one month after publishedAt
 
-  publishedAt      DateTime?
-  published        Boolean   @default(false)
-  title            String?
-  shortDescription String?
-  mainImage        String? // img will be hosted elsewhere, used to showcase the listing, usually first image in array
-
-  tags String[]
-
-  description      String
-  isLiked          Boolean
-  internalFeatures String[]
-  externalFeatures String[]
-  isPaidPromo      Boolean
-  images           String[]
-  // Not every listing is owned by an Agency
-  agency           Agency?  @relation(fields: [agencyId], references: [id])
-  agencyId         String?
+  // Unexplained
+  // publishedAt DateTime?
+  // published   Boolean   @default(false)
+  // title       String?
+  // isPaidPromo  Boolean
+  // tags         String[]
+  // isLiked      Boolean
+  // internalFeatures String[]
+  // externalFeatures String[]
+  // Not every listing is owned by an Agency, these info will go through user
+  // agency           Agency?  @relation(fields: [agencyId], references: [id])
+  // agencyId         String?
+  EnquirerData EnquirerData[]
 }
 
 model Agency {
-  id               String    @id @default(uuid())
+  id               String @id @default(uuid())
   name             String
   slug             String
   logoUrl          String
@@ -135,7 +160,6 @@ model Agency {
   workHours        String
   description      String
   shortDescription String
-  listings         Listing[]
   branding         Json // or maybe use it as stringified json
   users            User[]
 }

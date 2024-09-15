@@ -12,6 +12,9 @@ const nextConfig = {
       {
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        hostname: "https://utfs.io/",
+      },
     ],
   },
 };
