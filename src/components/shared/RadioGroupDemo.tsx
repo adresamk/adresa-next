@@ -48,7 +48,10 @@ export function RadioGroupDemo({
         {values.map((value) => (
           <div key={value} className="flex items-center space-x-2">
             <RadioGroupItem value={value} id={value} />
-            <Label htmlFor={value} className="capitalize">
+            <Label
+              htmlFor={value}
+              className="capitalize cursor-pointer"
+            >
               {value}
             </Label>
           </div>

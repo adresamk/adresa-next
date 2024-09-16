@@ -59,28 +59,10 @@ export default function Step1() {
       <Separator className="my-2 mt-4" />
 
       <RadioGroupDemo
-        name="category"
-        title="Property Category"
-        values={propertyCategoryOptions}
-        onChange={function (value: string) {
-          setPropertyCategory(value);
-        }}
-      />
-
-      <RadioGroupDemo
         name="type"
-        defaultValue="resitendial"
+        defaultValue="apartment"
         title="Property Type"
-        values={propertyTypeOptions[propertyCategory]}
-        onChange={function (value: string) {
-          // setPropertyCategory(value);
-        }}
-      />
-
-      <RadioGroupDemo
-        name="transactionType"
-        title="Available for"
-        values={transactionTypeOptions}
+        values={propertyTypeOptions["residential"]}
         onChange={function (value: string) {
           // setPropertyCategory(value);
         }}

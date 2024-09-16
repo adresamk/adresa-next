@@ -5,7 +5,7 @@ export default function UploadThing() {
   return (
     <div>
       <UploadButton
-        endpoint="imageUploader"
+        endpoint="listingImagesUpload"
         onClientUploadComplete={(res) => {
           // Do something with the response
           console.log("Files: ", res);
