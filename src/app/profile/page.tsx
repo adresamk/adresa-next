@@ -6,7 +6,8 @@ export default async function ProfilePage() {
   return (
     <div>
       my Profile
-      {user?.name || "Martin Martinovski"}
+      {user?.firstName || "Hardcoded Name Martin"}
+      {user?.lastName || "Hardcoded LastName Luther"}
       {user?.picture && <img src={user.picture} alt="profile" />}
     </div>
   );

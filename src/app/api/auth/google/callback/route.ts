@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import prismadb from "@/lib/db";
 import { lucia } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { UserRoles } from "@/global/data";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   console.log(req);
@@ -65,9 +66,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
   if (existingUser) {
     userId = existingUser.id;
   } else {
+    const [firstName, lastName] = googleData.name.split(" ");
     const user = await prismadb.user.create({
       data: {
-        name: googleData.name,
+        firstName,
+        lastName,
+        role: UserRoles.AGENCY,
         email: googleData.email,
         picture: googleData.picture,
       },
