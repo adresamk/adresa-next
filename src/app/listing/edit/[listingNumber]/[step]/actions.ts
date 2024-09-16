@@ -231,7 +231,39 @@ async function editDescription(formData: FormData) {
     success: true,
   };
 }
-async function editMedia(formData: FormData) {}
+async function editMedia(formData: FormData) {
+  const videoLink = formData.get("videoLink");
+
+  if (typeof videoLink !== "string") {
+    return {
+      error: "Invalid Inputs",
+      success: false,
+    };
+  }
+
+  const listingId = formData.get("listingId")! as string;
+  const listing = await prismadb.listing.findUnique({
+    where: {
+      id: listingId,
+    },
+  });
+
+  if (!listing) {
+    return {
+      error: "Listing not found",
+      success: false,
+    };
+  }
+
+  await prismadb.listing.update({
+    where: {
+      id: listingId,
+    },
+    data: {
+      videoLink,
+    },
+  });
+}
 async function editContactDetails(formData: FormData) {}
 async function editPublishing(formData: FormData) {
   // cookies().delete("listingId");
