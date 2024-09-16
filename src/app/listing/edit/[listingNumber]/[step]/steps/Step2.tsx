@@ -93,14 +93,14 @@ export default function Step2({ listing }: { listing: Listing }) {
       <Label htmlFor="longitude">longitude</Label>
       <Input
         placeholder="Your longitude"
-        value={listing.longitude || ""}
+        defaultValue={listing.longitude || ""}
         name="longitude"
         id={"longitude"}
       />
 
       <Label htmlFor="latitude">latitude</Label>
       <Input
-        value={listing.latitude || ""}
+        defaultValue={listing.latitude || ""}
         placeholder="Your latitude"
         name="latitude"
         id={"latitude"}

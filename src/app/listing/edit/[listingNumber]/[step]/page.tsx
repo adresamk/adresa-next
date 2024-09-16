@@ -183,12 +183,24 @@ export default async function EditListingPage({
             {currentStepIdx === 1 && (
               <Step2 listing={listing} key={"2"} />
             )}
-            {currentStepIdx === 2 && <Step3 key={"3"} />}
-            {currentStepIdx === 3 && <Step4 key={"4"} />}
-            {currentStepIdx === 4 && <Step5 key={"5"} />}
-            {currentStepIdx === 5 && <Step6 key={"6"} />}
-            {currentStepIdx === 6 && <Step7 key={"7"} />}
-            {currentStepIdx === 7 && <Step8 key={"8"} />}
+            {currentStepIdx === 2 && (
+              <Step3 listing={listing} key={"3"} />
+            )}
+            {currentStepIdx === 3 && (
+              <Step4 listing={listing} key={"4"} />
+            )}
+            {currentStepIdx === 4 && (
+              <Step5 listing={listing} key={"5"} />
+            )}
+            {currentStepIdx === 5 && (
+              <Step6 listing={listing} key={"6"} />
+            )}
+            {currentStepIdx === 6 && (
+              <Step7 listing={listing} key={"7"} />
+            )}
+            {currentStepIdx === 7 && (
+              <Step8 listing={listing} key={"8"} />
+            )}
             {/* {stepsComponents[currentStepIdx]} */}
             <Button size={"sm"} className="my-2">
               Submit

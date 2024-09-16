@@ -96,7 +96,95 @@ async function editLocation(formData: FormData) {
     success: true,
   };
 }
-async function editCharacteristics(formData: FormData) {}
+async function editCharacteristics(formData: FormData) {
+  const price = formData.get("price");
+  const area = formData.get("area");
+  const floorNumber = formData.get("floorNumber");
+  const orientation = formData.get("orientation");
+  const bedrooms = formData.get("bedrooms");
+  const bathrooms = formData.get("bathrooms");
+  const wcs = formData.get("wcs");
+  const kitchens = formData.get("kitchens");
+  const livingRooms = formData.get("livingRooms");
+  const parking = formData.get("parking");
+  const elevator = formData.get("elevator");
+  const balcony = formData.get("balcony");
+  const yard = formData.get("yard");
+  const basement = formData.get("basement");
+
+  if (
+    typeof price !== "string" ||
+    typeof area !== "string" ||
+    typeof floorNumber !== "string" ||
+    typeof orientation !== "string" ||
+    typeof bedrooms !== "string" ||
+    typeof bathrooms !== "string" ||
+    typeof wcs !== "string" ||
+    typeof kitchens !== "string" ||
+    typeof livingRooms !== "string" ||
+    typeof parking !== "string" ||
+    typeof elevator !== "string" ||
+    typeof balcony !== "string" ||
+    typeof yard !== "string" ||
+    typeof basement !== "string"
+  ) {
+    return {
+      error: "Invalid Inputs",
+      success: false,
+    };
+  }
+  const listingId = formData.get("listingId")! as string;
+  const listing = await prismadb.listing.findUnique({
+    where: {
+      id: listingId!,
+    },
+  });
+
+  if (!listing) {
+    return {
+      error: "Listing not found",
+      success: false,
+    };
+  }
+
+  function featuresValue(value: string) {
+    if (value === "yes") {
+      return true;
+    }
+    if (value === "no") {
+      return false;
+    }
+    if (value === "idk") {
+      return undefined;
+    }
+  }
+
+  await prismadb.listing.update({
+    where: {
+      id: listingId,
+    },
+    data: {
+      area: Number(area),
+      price: Number(price),
+      floorNumber: Number(floorNumber),
+      orientation,
+      bedrooms: Number(bedrooms),
+      bathrooms: Number(bathrooms),
+      wcs: Number(wcs),
+      kitchens: Number(kitchens),
+      livingRooms: Number(livingRooms),
+      parking: featuresValue(parking),
+      elevator: featuresValue(elevator),
+      balcony: featuresValue(balcony),
+      yard: featuresValue(yard),
+      basement: featuresValue(basement),
+    },
+  });
+
+  return {
+    success: true,
+  };
+}
 async function editFeatures(formData: FormData) {}
 async function editDescription(formData: FormData) {}
 async function editMedia(formData: FormData) {}

@@ -5,9 +5,10 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { Listing } from "@prisma/client";
 
 // Opis Description
-export default function Step5() {
+export default function Step5({ listing }: { listing: Listing }) {
   const [description, setDescription] = useState("");
   const [translation, setTranslation] = useState("");
   return (

@@ -5,6 +5,8 @@ import { SelectDemo } from "@/components/shared/SelectDemo";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Listing } from "@prisma/client";
+
 import { formatNumberWithDelimiter } from "@/lib/utils";
 import {
   Bath,
@@ -37,7 +39,7 @@ const featuresSelectionOptions = [
   { label: "no", value: false },
   { label: "idk", value: null },
 ];
-export default function Step3() {
+export default function Step3({ listing }: { listing: Listing }) {
   const [propertyPrice, setPropertyPrice] = useState("");
   const [propertyArea, setPropertyArea] = useState("");
   const [floor, setFloor] = useState("");
@@ -193,7 +195,7 @@ export default function Step3() {
             <Input
               required
               type="number"
-              name="wc"
+              name="wcs"
               defaultValue={1}
               min={0}
               max={10}
@@ -262,6 +264,7 @@ export default function Step3() {
             <RadioGroupDemo
               name="parking"
               direction="horisontal"
+              defaultValue="idk"
               title="Parking"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
@@ -276,6 +279,7 @@ export default function Step3() {
             <DoorClosed />
             <RadioGroupDemo
               name="elevator"
+              defaultValue="idk"
               direction="horisontal"
               title="Elevator"
               values={["yes", "no", "idk"]}
@@ -293,6 +297,7 @@ export default function Step3() {
               name="balcony"
               direction="horisontal"
               title="Balcony"
+              defaultValue="idk"
               values={["yes", "no", "idk"]}
               onChange={(value) =>
                 setExtraFeatures((prev: any) => ({
@@ -309,6 +314,7 @@ export default function Step3() {
               name="yard"
               title="Yard"
               values={["yes", "no", "idk"]}
+              defaultValue="idk"
               onChange={(value) =>
                 setExtraFeatures((prev: any) => ({
                   ...prev,
@@ -324,6 +330,7 @@ export default function Step3() {
               name="basement"
               title="Basement"
               values={["yes", "no", "idk"]}
+              defaultValue="idk"
               onChange={(value) =>
                 setExtraFeatures((prev: any) => ({
                   ...prev,

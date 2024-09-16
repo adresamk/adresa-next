@@ -32,3 +32,5 @@ TODO:
 
 1. Use middleware for auth where you can to prevent dynamic routes 
 2. Make progress work with percentages in adding new listing
+3. Fix where after update and then going into next steps the values are old, 
+but on refresh they work

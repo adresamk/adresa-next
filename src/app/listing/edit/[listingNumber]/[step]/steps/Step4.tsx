@@ -1,4 +1,6 @@
-export default function Step4() {
+import { Listing } from "@prisma/client";
+
+export default function Step4({ listing }: { listing: Listing }) {
   return (
     <div>
       <input type="string" className="hidden" value="4" name="step" />

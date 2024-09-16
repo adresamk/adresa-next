@@ -11,12 +11,14 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Check, Info } from "lucide-react";
 import { useState } from "react";
+import { Listing } from "@prisma/client";
+
 const contactHoursOptions = [
   { label: "Anytime", value: "anytime" },
   { label: "Morning", value: "morning" },
   { label: "Evening", value: "evening" },
 ];
-export default function Step7() {
+export default function Step7({ listing }: { listing: Listing }) {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [tel, setTel] = useState("");

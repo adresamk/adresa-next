@@ -6,8 +6,9 @@ import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import CustomImageUpload from "./CustomImageUpload";
 import UploadThing from "./UploadThing";
+import { Listing } from "@prisma/client";
 
-export default function Step6() {
+export default function Step6({ listing }: { listing: Listing }) {
   const [ytLink, setYtLink] = useState("");
 
   return (
