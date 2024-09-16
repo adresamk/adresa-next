@@ -9,8 +9,15 @@ import { Listing } from "@prisma/client";
 
 // Opis Description
 export default function Step5({ listing }: { listing: Listing }) {
-  const [description, setDescription] = useState("");
-  const [translation, setTranslation] = useState("");
+  const [description, setDescription] = useState(
+    listing.description || ""
+  );
+  const [mkdDescription, setMkdDescription] = useState(
+    listing.mkdDescription || ""
+  );
+  const [albDescription, setAlbDescription] = useState(
+    listing.albDescription || ""
+  );
   return (
     <div className="p-2">
       <input type="string" className="hidden" value="5" name="step" />
@@ -20,15 +27,17 @@ export default function Step5({ listing }: { listing: Listing }) {
 
       <div className="flex flex-col gap-2">
         <Label htmlFor="description">
-          Detailed description for the property
+          Detailed english description for the property
         </Label>
 
         <div className="">
           <Textarea
+            name="description"
             className="pb-2"
             rows={10}
             id="description"
             value={description}
+            maxLength={5000}
             onChange={(e) => {
               setDescription(e.target.value);
             }}
@@ -42,21 +51,50 @@ export default function Step5({ listing }: { listing: Listing }) {
 
       <div className="flex flex-col gap-2 mt-3">
         <div className="flex gap-3">
-          <Label htmlFor="description">Translation </Label>
+          <Label htmlFor="mkdDescription">
+            Macedonian Translation{" "}
+          </Label>
         </div>
 
         <div className="">
           <Textarea
             className="pb-2"
             rows={10}
-            id="description"
-            value={translation}
+            id="mkdDescription"
+            name="mkdDescription"
+            value={mkdDescription}
+            maxLength={5000}
             onChange={(e) => {
-              setTranslation(e.target.value);
+              setMkdDescription(e.target.value);
             }}
           />
           <div className="mt-1 text-sm text-slate-400">
-            {translation.length}/5000 characters
+            {mkdDescription.length}/5000 characters
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2 mt-3">
+        <div className="flex gap-3">
+          <Label htmlFor="albDescription">
+            Albanian Translation{" "}
+          </Label>
+        </div>
+
+        <div className="">
+          <Textarea
+            className="pb-2"
+            rows={10}
+            maxLength={5000}
+            id="albDescription"
+            name="albDescription"
+            value={albDescription}
+            onChange={(e) => {
+              setAlbDescription(e.target.value);
+            }}
+          />
+          <div className="mt-1 text-sm text-slate-400">
+            {albDescription.length}/5000 characters
           </div>
         </div>
       </div>
