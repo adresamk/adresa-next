@@ -2,9 +2,9 @@
 import { RadioGroupDemo } from "@/components/shared/RadioGroupDemo";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-
+import { Listing } from "@prisma/client";
 const propertyCategoryOptions = [
-  "resitendial",
+  "residential",
   "commercial",
   "land",
   "other",
@@ -13,43 +13,23 @@ const propertyCategoryOptions = [
 type PropertyCategory = (typeof propertyCategoryOptions)[number];
 
 const propertyTypeOptions: Record<PropertyCategory, string[]> = {
-  residential: [
-    "apartment",
-    "studio flat",
-    "maisonette",
-    "detached house",
-    "villa",
-    "loft",
-    "bungalow",
-    "building",
-    "apartment complex",
-    "farm",
-    "houseboat",
-    "other categories",
-  ],
+  residential: ["apartment", "house", "vacation house", "other"],
   commercial: [
     "office",
     "store",
     "warehouse",
     "industrial space",
-    "craft space",
-    "hotel",
-    "business building",
-    "showroom",
-    "other categories",
+    "other",
   ],
-  land: ["land plot", "parcel", "island", "other categories"],
+  land: ["construction", "agricultural", "other"],
   other: [
     "garage",
     "business",
-    "prefabricated",
-    "detachable",
-    "air",
-    "other categories",
+    "assembly facilities", // montazni objekti
+    "other",
   ],
 };
-const transactionTypeOptions = ["sale", "rent"];
-export default function Step1() {
+export default function Step1({ listing }: { listing: Listing }) {
   const [propertyCategory, setPropertyCategory] =
     useState("apartment");
   return (
@@ -60,12 +40,9 @@ export default function Step1() {
 
       <RadioGroupDemo
         name="type"
-        defaultValue="apartment"
+        defaultValue={listing.type}
         title="Property Type"
-        values={propertyTypeOptions["residential"]}
-        onChange={function (value: string) {
-          // setPropertyCategory(value);
-        }}
+        values={propertyTypeOptions[listing.category]}
       />
     </div>
   );

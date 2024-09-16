@@ -31,7 +31,7 @@ type InputSelectProps = {
   required?: boolean;
   name?: string;
   label: string;
-  defaultValue?: string;
+  defaultValue?: string | null;
   notFoundText: string;
   placeholder: string;
   onSelect: (value: string) => void;
@@ -48,7 +48,8 @@ export function InputSelect({
   onSelect,
 }: InputSelectProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(defaultValue);
+  const startingValue = defaultValue ?? "";
+  const [value, setValue] = useState(startingValue);
 
   return (
     <div className="flex flex-col mb-2 ">

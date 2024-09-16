@@ -16,17 +16,7 @@ import Link from "next/link";
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-
-const stepsComponents = [
-  <Step1 key={"1"} />,
-  <Step2 key={"2"} />,
-  <Step3 key={"3"} />,
-  <Step4 key={"4"} />,
-  <Step5 key={"5"} />,
-  <Step6 key={"6"} />,
-  <Step7 key={"7"} />,
-  <Step8 key={"8"} />,
-];
+import prismadb from "@/lib/db";
 
 type StepStatus = {
   [key: string]: "completed" | "incomplete" | "in-progress";
@@ -109,6 +99,16 @@ export default async function EditListingPage({
     cookies().set("signin-redirect", "/listing/edit");
     redirect("/signin");
   }
+
+  const listing = await prismadb.listing.findUnique({
+    where: {
+      id: params.id,
+    },
+  });
+  if (!listing) {
+    redirect("/404");
+  }
+
   const progress = 22;
   const currentStep = params.step;
   const currentStepIdx = stepsFlow.indexOf(params.step);
@@ -132,10 +132,10 @@ export default async function EditListingPage({
             <ul>
               {steps.map((step: Step, index) => (
                 <Link
+                  key={step.title}
                   href={`/listing/edit/${params.id}/${steps[index].uniquePath}`}
                 >
                   <li
-                    key={step.title}
                     className={cn(
                       "flex p-4 pr-1 cursor-pointer hover:bg-gray-50",
                       currentStep === steps[index].uniquePath &&
@@ -171,7 +171,25 @@ export default async function EditListingPage({
       <div className="w-2/3">
         <div className="p-2 shadow-md bg-white mt-2 rounded">
           <form action={editListing}>
-            {stepsComponents[currentStepIdx]}
+            <input
+              type="text"
+              className="hidden"
+              value={listing.id}
+              name="listingId"
+            />
+            {currentStepIdx === 0 && (
+              <Step1 listing={listing} key={"1"} />
+            )}
+            {currentStepIdx === 1 && (
+              <Step2 listing={listing} key={"2"} />
+            )}
+            {currentStepIdx === 2 && <Step3 key={"3"} />}
+            {currentStepIdx === 3 && <Step4 key={"4"} />}
+            {currentStepIdx === 4 && <Step5 key={"5"} />}
+            {currentStepIdx === 5 && <Step6 key={"6"} />}
+            {currentStepIdx === 6 && <Step7 key={"7"} />}
+            {currentStepIdx === 7 && <Step8 key={"8"} />}
+            {/* {stepsComponents[currentStepIdx]} */}
             <Button size={"sm"} className="my-2">
               Submit
             </Button>

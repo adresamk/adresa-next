@@ -42,8 +42,7 @@ export async function addNewListing(formData: FormData) {
   });
 
   console.log("Listing created", listing);
-  cookies().set("listingId", listing.id);
+  // not needed we are adding hidden field for listing id
+  // cookies().set("listingId", listing.id);
   redirect("/listing/edit/" + listing.id);
-
-  // redirect to edit/ID
 }

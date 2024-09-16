@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
+import { Listing } from "@prisma/client";
 import {
   MapContainer,
   Marker,
@@ -11,6 +12,7 @@ import {
   TileLayer,
   useMap,
 } from "react-leaflet";
+import { list } from "postcss";
 const cities = [
   { label: "Kumanovo", value: "kumanovo" },
   { label: "Skopje", value: "skopje" },
@@ -26,12 +28,16 @@ const populatedPlaces = [
   { label: "Dragomance", value: "dragomance" },
 ];
 
-export default function Step2() {
-  const [place, setPlace] = useState("kumanovo");
-  const [manucipality, setManucipality] = useState("ajducka-cesma");
-  const [populatedPlace, setPopulatedPlace] = useState("dragomance");
+export default function Step2({ listing }: { listing: Listing }) {
+  const [place, setPlace] = useState(listing.place);
+  const [manucipality, setManucipality] = useState(
+    listing.manucipality
+  );
+  const [populatedPlace, setPopulatedPlace] = useState(
+    listing.district
+  );
 
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(listing.address);
   const position = [51.505, -0.09];
 
   return (
@@ -76,7 +82,7 @@ export default function Step2() {
         placeholder="Your address"
         name="address"
         id={"address"}
-        value={address}
+        value={address || ""}
         onChange={(e) => {
           setAddress(e.target.value);
         }}
@@ -87,12 +93,14 @@ export default function Step2() {
       <Label htmlFor="longitude">longitude</Label>
       <Input
         placeholder="Your longitude"
+        value={listing.longitude || ""}
         name="longitude"
         id={"longitude"}
       />
 
       <Label htmlFor="latitude">latitude</Label>
       <Input
+        value={listing.latitude || ""}
         placeholder="Your latitude"
         name="latitude"
         id={"latitude"}
