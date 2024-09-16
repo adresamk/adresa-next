@@ -76,10 +76,9 @@ export async function signIn(
     sessionCookie.attributes
   );
 
-  if (cookies().get("signin-redirect")) {
-    const redirectPath = cookies().get("signin-redirect")?.value;
-    cookies().delete("signin-redirect");
-    redirect(redirectPath || "/");
+  const redirectPath = formData.get("redirect")?.toString();
+  if (typeof redirectPath === "string") {
+    redirect(redirectPath);
   }
   return redirect("/");
 }

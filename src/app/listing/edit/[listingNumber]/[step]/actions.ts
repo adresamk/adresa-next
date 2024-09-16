@@ -131,6 +131,7 @@ async function editLocation(formData: FormData) {
       address,
       longitude: Number(longitude),
       latitude: Number(latitude),
+      fullAddress: `${manucipality}, ${place}, ${district}, ${address}`,
     },
   });
 

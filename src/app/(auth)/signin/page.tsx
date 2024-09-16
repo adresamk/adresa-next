@@ -4,12 +4,20 @@ import { redirect } from "next/navigation";
 import { signIn } from "./actions";
 import { Form } from "@/components/Form";
 import GoogleOAuthButton from "../GoogleOAuthButton";
-export default async function SignIn() {
+
+interface SignInPageProps {
+  searchParams: Record<string, string>;
+}
+
+export default async function SignInPage({
+  searchParams,
+}: SignInPageProps) {
   const { user } = await validateRequest();
   if (user) {
     return redirect("/");
   }
 
+  const redirectRoute = searchParams.redirect || "/";
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -24,6 +32,14 @@ export default async function SignIn() {
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
         <Form action={signIn}>
+          <div>
+            <input
+              type="text"
+              className="hidden"
+              name="redirect"
+              defaultValue={redirectRoute}
+            />
+          </div>
           <div>
             <label
               htmlFor="email"

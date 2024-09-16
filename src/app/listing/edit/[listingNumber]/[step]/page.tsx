@@ -96,8 +96,7 @@ export default async function EditListingPage({
 }) {
   const { user } = await validateRequest();
   if (!user) {
-    cookies().set("signin-redirect", "/listing/edit");
-    redirect("/signin");
+    redirect("/signin?redirect=/listing/edit");
   }
 
   const listing = await prismadb.listing.findUnique({

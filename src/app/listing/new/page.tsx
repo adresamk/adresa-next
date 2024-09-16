@@ -8,7 +8,6 @@ import InitialStep from "./InitialStep";
 import { addNewListing } from "./actions";
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 type StepStatus = {
   [key: string]: "completed" | "incomplete" | "in-progress";
@@ -30,8 +29,7 @@ const initialStep: Step = {
 export default async function NewPage() {
   const { user } = await validateRequest();
   if (!user) {
-    cookies().set("signin-redirect", "/listing/new");
-    redirect("/signin");
+    redirect("/signin?redirect=/listing/new");
   }
 
   const progress = 10;

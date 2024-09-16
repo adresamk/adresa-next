@@ -1,5 +1,6 @@
 "use server";
 
+import { setCookie } from "@/actions/cookies";
 import { getUser, validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { ListingContactData } from "@/lib/types";
@@ -9,8 +10,9 @@ import { redirect } from "next/navigation";
 export async function addNewListing(formData: FormData) {
   const user = await getUser();
   if (!user) {
-    cookies().set("signin-redirect", "/listing/new");
-    redirect("/signin");
+    // await setCookie("signin-redirect", "/listing/new");
+    // cookies().set("signin-redirect", "/listing/new");
+    redirect("/signin?redirect=/listing/new");
 
     return {
       success: false,
@@ -78,7 +80,6 @@ export async function addNewListing(formData: FormData) {
   });
 
   console.log("Listing created", listing);
-  // not needed we are adding hidden field for listing id
-  // cookies().set("listingId", listing.id);
-  redirect("/listing/edit/" + listing.listingNumber + "/category");
+
+  redirect("/listing/edit/" + listing.listingNumber + "/location");
 }
