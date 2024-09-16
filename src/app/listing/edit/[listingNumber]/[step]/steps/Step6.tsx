@@ -46,7 +46,7 @@ export default function Step6({ listing }: { listing: Listing }) {
             if (imagesAttachingToListing.success) {
               setImages([...images, ...res.map((file) => file.url)]);
             }
-            alert("Upload Completed");
+            // alert("Upload Completed");
           }}
           onUploadError={(error: Error) => {
             // Do something with the error.
