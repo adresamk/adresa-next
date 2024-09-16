@@ -51,10 +51,16 @@ model EnquirerData {
   listing      Listing?
 }
 
+model Counter {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  value Int    @default(1)
+}
+
 model Listing {
   // Generated automatically
   id                String    @id @default(uuid())
-  listingNumber     Int       @unique // 6 digit number 
+  listingNumber     Int       @unique @default(autoincrement()) // 6 digit number  
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   isAvailable       Boolean?  @default(true)
@@ -92,11 +98,11 @@ model Listing {
   kitchens          Int?      @default(0)
   livingRooms       Int?      @default(0)
   // Other features that are on spitogatos
-  parking           Boolean?  @default(false)
-  elevator          Boolean?  @default(false)
-  balcony           Boolean?  @default(false)
-  yard              Boolean?  @default(false)
-  basement          Boolean?  @default(false)
+  parking           Boolean? // true = there is, false = there isn't, null = not specified
+  elevator          Boolean?
+  balcony           Boolean?
+  yard              Boolean?
+  basement          Boolean?
   // equiped           Boolean?  @default(false)
   // alarm             Boolean?  @default(false)
   // loadingRamp       Boolean?  @default(false)

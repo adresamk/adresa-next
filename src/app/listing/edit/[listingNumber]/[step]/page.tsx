@@ -92,7 +92,7 @@ const stepsFlow = steps.map((step) => step.uniquePath);
 export default async function EditListingPage({
   params,
 }: {
-  params: { id: string; step: string };
+  params: { listingNumber: string; step: string };
 }) {
   const { user } = await validateRequest();
   if (!user) {
@@ -102,7 +102,7 @@ export default async function EditListingPage({
 
   const listing = await prismadb.listing.findUnique({
     where: {
-      id: params.id,
+      listingNumber: Number(params.listingNumber),
     },
   });
   if (!listing) {
@@ -133,7 +133,7 @@ export default async function EditListingPage({
               {steps.map((step: Step, index) => (
                 <Link
                   key={step.title}
-                  href={`/listing/edit/${params.id}/${steps[index].uniquePath}`}
+                  href={`/listing/edit/${params.listingNumber}/${steps[index].uniquePath}`}
                 >
                   <li
                     className={cn(
@@ -201,7 +201,7 @@ export default async function EditListingPage({
                 size={"sm"}
               >
                 <Link
-                  href={`/listing/edit/${params.id}/${
+                  href={`/listing/edit/${params.listingNumber}/${
                     steps[currentStepIdx - 1]?.uniquePath
                   }`}
                 >
@@ -213,7 +213,7 @@ export default async function EditListingPage({
                 size={"sm"}
               >
                 <Link
-                  href={`/listing/edit/${params.id}/${
+                  href={`/listing/edit/${params.listingNumber}/${
                     steps[currentStepIdx + 1]?.uniquePath
                   }`}
                 >
