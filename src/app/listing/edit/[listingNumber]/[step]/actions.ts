@@ -165,7 +165,7 @@ async function editCharacteristics(formData: FormData) {
     },
     data: {
       area: Number(area),
-      price: Number(price),
+      price: Number(price.replace(/\./g, "")),
       floorNumber: Number(floorNumber),
       orientation,
       bedrooms: Number(bedrooms),

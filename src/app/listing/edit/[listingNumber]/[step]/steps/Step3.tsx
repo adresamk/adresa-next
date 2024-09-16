@@ -39,25 +39,30 @@ const featuresSelectionOptions = [
   { label: "no", value: false },
   { label: "idk", value: null },
 ];
-export default function Step3({ listing }: { listing: Listing }) {
-  const [propertyPrice, setPropertyPrice] = useState("");
-  const [propertyArea, setPropertyArea] = useState("");
-  const [floor, setFloor] = useState("");
-  const [orientation, setOrientation] = useState("");
-  const [rooms, setRooms] = useState({
-    sleeping: 1,
-    living: 1,
-    dining: 1,
-    kitchen: 1,
-    bathroom: 1,
-  });
 
-  const [extraFeatures, setExtraFeatures] = useState<any>({
-    parking: true,
-    elevator: false,
-    terace: false,
-    yard: true,
-    basement: null,
+const extraFeaturesValues = ["yes", "no", "idk"];
+function featuresValues(value: boolean | null) {
+  if (value === true) return "yes";
+  if (value === false) return "no";
+  return "idk";
+}
+export default function Step3({ listing }: { listing: Listing }) {
+  const [propertyPrice, setPropertyPrice] = useState(
+    formatNumberWithDelimiter(listing.price?.toString() || "")
+  );
+  const [propertyArea, setPropertyArea] = useState(
+    listing.area?.toString()
+  );
+  const [floor, setFloor] = useState(listing.floorNumber?.toString());
+  const [orientation, setOrientation] = useState(
+    listing.orientation || ""
+  );
+  const [rooms, setRooms] = useState({
+    bedroom: listing.bedrooms || 1,
+    living: listing.livingRooms || 1,
+    wcs: listing.wcs || 1,
+    kitchen: listing.kitchens || 1,
+    bathroom: listing.bathrooms || 1,
   });
 
   return (
@@ -78,7 +83,7 @@ export default function Step3({ listing }: { listing: Listing }) {
             required
             name="price"
             placeholder="Enter price in euros"
-            value={propertyPrice}
+            value={propertyPrice || ""}
             onChange={(e) => {
               const newValue = e.target.value.replace(/[^0-9]/g, "");
               const formattedValue =
@@ -103,9 +108,12 @@ export default function Step3({ listing }: { listing: Listing }) {
             min={1}
             max={3000}
             placeholder="Enter area in m2"
-            value={propertyArea}
+            value={propertyArea || 1}
             onChange={(e) => {
-              const newValue = e.target.value.replace(/[^0-9]/g, "");
+              let newValue = e.target.value.replace(/[^0-9]/g, "");
+              if (Number(newValue) > 3000) {
+                newValue = "3000";
+              }
               setPropertyArea(newValue);
             }}
           />
@@ -124,7 +132,10 @@ export default function Step3({ listing }: { listing: Listing }) {
             placeholder="Put what floor is the property on"
             value={floor}
             onChange={(e) => {
-              const newValue = e.target.value.replace(/[^0-9]/g, "");
+              let newValue = e.target.value.replace(/[^0-9]/g, "");
+              if (Number(newValue) > 30) {
+                newValue = "30";
+              }
               setFloor(newValue);
             }}
           />
@@ -157,16 +168,16 @@ export default function Step3({ listing }: { listing: Listing }) {
               min={0}
               max={10}
               placeholder="Enter area in m2"
-              value={rooms.sleeping}
+              value={rooms.bedroom}
               onChange={(e) => {
                 console.log(e.target.value);
                 setRooms((prev) => ({
                   ...prev,
-                  sleeping: Number(e.target.value),
+                  bedroom: Number(e.target.value),
                 }));
               }}
             />
-            <span>sleeping </span>
+            <span>bedroom </span>
           </div>
 
           <div className="flex gap-3 items-center">
@@ -200,16 +211,16 @@ export default function Step3({ listing }: { listing: Listing }) {
               min={0}
               max={10}
               placeholder="Enter area in m2"
-              value={rooms.dining}
+              value={rooms.wcs}
               onChange={(e) => {
                 console.log(e.target.value);
                 setRooms((prev) => ({
                   ...prev,
-                  dining: Number(e.target.value),
+                  wcs: Number(e.target.value),
                 }));
               }}
             />
-            <span>dining </span>
+            <span>wcs </span>
           </div>
           <div className="flex gap-3 items-center">
             <ChefHat size={50} />
@@ -239,7 +250,6 @@ export default function Step3({ listing }: { listing: Listing }) {
               required
               type="number"
               name="livingRooms"
-              defaultValue={1}
               min={0}
               max={10}
               placeholder="Enter area in m2"
@@ -252,10 +262,11 @@ export default function Step3({ listing }: { listing: Listing }) {
                 }));
               }}
             />
-            <span>living </span>
+            <span>livingroom</span>
           </div>
         </div>
       </div>
+
       <div className="flex flex-col gap-3">
         <Label>Other characteristics</Label>
         <div className="flex flex-col   w-1/2 min-w-[300px] mb-2">
@@ -264,31 +275,19 @@ export default function Step3({ listing }: { listing: Listing }) {
             <RadioGroupDemo
               name="parking"
               direction="horisontal"
-              defaultValue="idk"
+              defaultValue={featuresValues(listing.parking)}
               title="Parking"
-              values={["yes", "no", "idk"]}
-              onChange={(value) =>
-                setExtraFeatures((prev: any) => ({
-                  ...prev,
-                  parking: value === "yes",
-                }))
-              }
+              values={extraFeaturesValues}
             />
           </div>
           <div className="flex items-center">
             <DoorClosed />
             <RadioGroupDemo
               name="elevator"
-              defaultValue="idk"
               direction="horisontal"
               title="Elevator"
-              values={["yes", "no", "idk"]}
-              onChange={(value) =>
-                setExtraFeatures((prev: any) => ({
-                  ...prev,
-                  elevator: value === "yes",
-                }))
-              }
+              values={extraFeaturesValues}
+              defaultValue={featuresValues(listing.elevator)}
             />
           </div>
           <div className="flex items-center">
@@ -297,14 +296,8 @@ export default function Step3({ listing }: { listing: Listing }) {
               name="balcony"
               direction="horisontal"
               title="Balcony"
-              defaultValue="idk"
-              values={["yes", "no", "idk"]}
-              onChange={(value) =>
-                setExtraFeatures((prev: any) => ({
-                  ...prev,
-                  terace: value === "yes",
-                }))
-              }
+              values={extraFeaturesValues}
+              defaultValue={featuresValues(listing.balcony)}
             />
           </div>
           <div className="flex items-center">
@@ -313,14 +306,8 @@ export default function Step3({ listing }: { listing: Listing }) {
               direction="horisontal"
               name="yard"
               title="Yard"
-              values={["yes", "no", "idk"]}
-              defaultValue="idk"
-              onChange={(value) =>
-                setExtraFeatures((prev: any) => ({
-                  ...prev,
-                  yard: value === "yes",
-                }))
-              }
+              values={extraFeaturesValues}
+              defaultValue={featuresValues(listing.yard)}
             />
           </div>
           <div className="flex items-center">
@@ -329,14 +316,8 @@ export default function Step3({ listing }: { listing: Listing }) {
               direction="horisontal"
               name="basement"
               title="Basement"
-              values={["yes", "no", "idk"]}
-              defaultValue="idk"
-              onChange={(value) =>
-                setExtraFeatures((prev: any) => ({
-                  ...prev,
-                  basement: value === "yes",
-                }))
-              }
+              values={extraFeaturesValues}
+              defaultValue={featuresValues(listing.basement)}
             />
           </div>
         </div>
