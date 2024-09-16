@@ -20,6 +20,7 @@ model Account {
 model User {
   id             String    @id @default(uuid())
   email          String    @unique
+  role           String
   emailVerified  DateTime?
   phone          String?
   phoneVerified  DateTime?
@@ -29,7 +30,6 @@ model User {
   picture        String?
   sessions       Session[]
   listings       Listing[]
-  role           String
   agency         Agency?   @relation(fields: [agencyId], references: [id])
   agencyId       String?   @unique
 }
@@ -42,26 +42,26 @@ model Session {
 }
 
 model EnquirerData {
-  id           String  @id @default(uuid())
+  id           String   @id @default(uuid())
   firstName    String
   lastName     String
   email        String
   phone        String
   contactHours String // "morning", "afternoon", "evening" or hours
-  listingId    String
-  listing      Listing @relation(fields: [listingId], references: [id])
+  listing      Listing?
 }
 
 model Listing {
   // Generated automatically
   id                String    @id @default(uuid())
+  listingNumber     Int       @unique // 6 digit number 
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-  userId            String
-  owner             User      @relation(fields: [userId], references: [id])
-  isAvailable       Boolean   @default(true)
+  isAvailable       Boolean?  @default(true)
   availabilityDate  DateTime? // if it is in the past it is available
   // Required for creation in form
+  owner             User      @relation(fields: [userId], references: [id])
+  userId            String
   transactionType   String // rent, sale
   category          String // Won't be changed later
   type              String // Can be changed later, different types of the same category
@@ -70,6 +70,7 @@ model Listing {
   place             String? // village or town
   district          String? // naseleno mesto
   address           String? // the name of street and number
+  fullAddress       String? // the full address (manucipality + place + district + address)
   longitude         Float?
   latitude          Float?
   locationPrecision String? // 'exact', 'approximate', 'wide | How precise the location is shown on the map
@@ -119,7 +120,7 @@ model Listing {
   // airCondition           Boolean?  @default(false)
   // underFloorHeating      Boolean?  @default(false)
   // Description
-  description       String    @db.VarChar(5000)
+  description       String?   @db.VarChar(5000)
   mkdDescription    String?   @db.VarChar(5000)
   albDescription    String?   @db.VarChar(5000)
   // short description
@@ -129,8 +130,8 @@ model Listing {
   images            String[]
   videoLink         String? // youtube or vimeo for the property
   // Publishing info
-  isArchived        Boolean   @default(false)
-  isPublished       Boolean   @default(false)
+  isArchived        Boolean?  @default(false)
+  isPublished       Boolean?  @default(false)
   publishedAt       DateTime?
   publishEndDate    DateTime? // usually one month after publishedAt
 
@@ -146,7 +147,8 @@ model Listing {
   // Not every listing is owned by an Agency, these info will go through user
   // agency           Agency?  @relation(fields: [agencyId], references: [id])
   // agencyId         String?
-  EnquirerData EnquirerData[]
+  enquirerData   EnquirerData? @relation(fields: [enquirerDataId], references: [id])
+  enquirerDataId String?       @unique
 }
 
 model Agency {

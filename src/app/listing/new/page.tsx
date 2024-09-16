@@ -1,13 +1,14 @@
-"use client";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { CircleAlert, CircleCheck } from "lucide-react";
-import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import InitialStep from "./InitialStep";
 import { addNewListing } from "./actions";
+import { validateRequest } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 type StepStatus = {
   [key: string]: "completed" | "incomplete" | "in-progress";
@@ -26,9 +27,14 @@ const initialStep: Step = {
   fieldsMentioned: ["category"],
 };
 
-export default function NewPage() {
-  const [progress, setProgress] = useState(0);
+export default async function NewPage() {
+  const { user } = await validateRequest();
+  if (!user) {
+    cookies().set("signin-redirect", "/listing/new");
+    redirect("/signin");
+  }
 
+  const progress = 10;
   return (
     <div className="flex gap-2 p-2">
       <div className="w-1/3 ">

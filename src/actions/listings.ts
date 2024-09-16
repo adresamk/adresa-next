@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 export async function createListing() {
   const { user, session } = await validateRequest();
   if (!session) {
-    cookies().set("next-redirect", "/listing/new");
+    cookies().set("signin-redirect", "/listing/new");
     redirect("/signin");
   } else {
     redirect("/listing/new");

@@ -14,9 +14,6 @@ export async function signIn(
   "use server";
   const email = formData.get("email")?.toString();
 
-  const cookiesa = cookies().getAll();
-  console.log("Cookies", cookiesa);
-
   if (!email || !emailRegex.test(email)) {
     return {
       error: "Invalid email",
@@ -79,9 +76,9 @@ export async function signIn(
     sessionCookie.attributes
   );
 
-  if (cookies().get("next-redirect")) {
-    const redirectPath = cookies().get("next-redirect")?.value;
-    cookies().delete("next-redirect");
+  if (cookies().get("signin-redirect")) {
+    const redirectPath = cookies().get("signin-redirect")?.value;
+    cookies().delete("signin-redirect");
     redirect(redirectPath || "/");
   }
   return redirect("/");

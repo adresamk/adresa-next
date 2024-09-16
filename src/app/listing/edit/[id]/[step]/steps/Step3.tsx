@@ -1,3 +1,5 @@
+"use client";
+
 import { RadioGroupDemo } from "@/components/shared/RadioGroupDemo";
 import { SelectDemo } from "@/components/shared/SelectDemo";
 import { Input } from "@/components/ui/input";

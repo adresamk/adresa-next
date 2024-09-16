@@ -3,8 +3,55 @@ import { RadioGroupDemo } from "@/components/shared/RadioGroupDemo";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 
+// const propertyCategoryOptions = [
+//   "residential",
+//   "commercial",
+//   "land",
+//   "other",
+// ];
+
+// type PropertyCategory = (typeof propertyCategoryOptions)[number];
+
+// const propertyTypeOptions: Record<PropertyCategory, string[]> = {
+//   residential: [
+//     "apartment",
+//     "studio flat",
+//     "maisonette",
+//     "detached house",
+//     "villa",
+//     "loft",
+//     "bungalow",
+//     "building",
+//     "apartment complex",
+//     "farm",
+//     "houseboat",
+//     "other categories",
+//   ],
+//   commercial: [
+//     "office",
+//     "store",
+//     "warehouse",
+//     "industrial space",
+//     "craft space",
+//     "hotel",
+//     "business building",
+//     "showroom",
+//     "other categories",
+//   ],
+//   land: ["land plot", "parcel", "island", "other categories"],
+//   other: [
+//     "garage",
+//     "business",
+//     "prefabricated",
+//     "detachable",
+//     "air",
+//     "other categories",
+//   ],
+// };
+
+// THESE HERE ARE VALUES FOR ADRESA.MK
 const propertyCategoryOptions = [
-  "resitendial",
+  "residential",
   "commercial",
   "land",
   "other",
@@ -13,45 +60,25 @@ const propertyCategoryOptions = [
 type PropertyCategory = (typeof propertyCategoryOptions)[number];
 
 const propertyTypeOptions: Record<PropertyCategory, string[]> = {
-  residential: [
-    "apartment",
-    "studio flat",
-    "maisonette",
-    "detached house",
-    "villa",
-    "loft",
-    "bungalow",
-    "building",
-    "apartment complex",
-    "farm",
-    "houseboat",
-    "other categories",
-  ],
+  residential: ["apartment", "house", "vacation house", "other"],
   commercial: [
     "office",
     "store",
     "warehouse",
     "industrial space",
-    "craft space",
-    "hotel",
-    "business building",
-    "showroom",
-    "other categories",
+    "other",
   ],
-  land: ["land plot", "parcel", "island", "other categories"],
+  land: ["construction", "agricultural", "other"],
   other: [
     "garage",
     "business",
-    "prefabricated",
-    "detachable",
-    "air",
-    "other categories",
+    "assembly facilities", // montazni objekti
+    "other",
   ],
 };
 const transactionTypeOptions = ["sale", "rent"];
 export default function InitialStep() {
-  const [propertyCategory, setPropertyCategory] =
-    useState("apartment");
+  const [propertyCategory, setPropertyCategory] = useState("");
   return (
     <div className="p-2">
       <input type="string" className="hidden" value="0" name="step" />
@@ -61,29 +88,25 @@ export default function InitialStep() {
       <RadioGroupDemo
         name="category"
         title="Property Category"
+        description="(can't be changed later!)"
         values={propertyCategoryOptions}
         onChange={function (value: string) {
+          console.log(value);
           setPropertyCategory(value);
         }}
       />
 
       <RadioGroupDemo
         name="type"
-        defaultValue="resitendial"
         title="Property Type"
         values={propertyTypeOptions[propertyCategory]}
-        onChange={function (value: string) {
-          // setPropertyCategory(value);
-        }}
       />
 
       <RadioGroupDemo
         name="transactionType"
         title="Available for"
+        description="(can't be changed later!)"
         values={transactionTypeOptions}
-        onChange={function (value: string) {
-          // setPropertyCategory(value);
-        }}
       />
     </div>
   );

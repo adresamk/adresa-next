@@ -1,3 +1,10 @@
+enum UserRole {
+  USER = "USER",
+  ADMIN = "ADMIN",
+  SUPER_ADMIN = "SUPER_ADMIN",
+  AGENCY = "AGENCY",
+  SUPPORT = "SUPPORT",
+}
 export type Product = {
   id: number;
   title: string;

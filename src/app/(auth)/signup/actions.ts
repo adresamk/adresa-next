@@ -1,4 +1,5 @@
 import { ActionResult } from "@/components/Form";
+import { UserRoles } from "@/global/data";
 import { lucia } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { cookies } from "next/headers";
@@ -60,6 +61,7 @@ export async function signUp(
 
     const user = await prismadb.user.create({
       data: {
+        role: UserRoles.USER,
         email,
         hashedPassword,
       },
@@ -79,18 +81,5 @@ export async function signUp(
     };
   }
 
-  //   const user = await registerUserUseCase(email, password);
-  //   const session = await lucia.createSession(user.id, {});
-  //   const sessionCookie = lucia.createSessionCookie(session.id);
-  //   cookies().set(
-  //     sessionCookie.name,
-  //     sessionCookie.value,
-  //     sessionCookie.attributes
-  //   );
-  // } catch (error) {
-  //   return {
-  //     error: "An account with that email already exists",
-  //   };
-  // }
   return redirect("/");
 }

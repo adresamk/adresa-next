@@ -30,3 +30,5 @@ TODO:
 6. Make the listings actually listable
 7. Work on the single page listing to make it better
 
+1. Use middleware for auth where you can to prevent dynamic routes 
+2. Make progress work with percentages in adding new listing
