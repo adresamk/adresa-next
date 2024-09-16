@@ -8,7 +8,18 @@ export default async function getAllListings(
 ): Promise<Listing[]> {
   console.log("this is the search on the server", search);
 
-  const listings = await prismadb.listing.findMany();
-  console.log("returned listings ; ", listings);
+  const listings = await prismadb.listing.findMany({
+    where: {
+      isPublished: true,
+      // isAvailable: true,
+      // user: {
+
+      // }
+    },
+    // include: {
+    // user: {}
+    // }
+  });
+  console.log("returned listings ; ", listings.length);
   return listings;
 }

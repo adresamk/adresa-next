@@ -50,7 +50,7 @@ const sortingOptions = [
 function convertFeaturesArray(featuresArray: string[]) {
   // Initialize an empty object to hold the counts
   const featuresCount: { [key: string]: number } = {};
-
+  return {};
   // Iterate over each feature in the array
   featuresArray.forEach((feature: string) => {
     // Check if the feature already exists in the object
@@ -126,7 +126,7 @@ export default function ListingsList({
                   ))}
                 </div>
                 <img
-                  src={listing.mainImage}
+                  src={listing.mainImage ?? ""}
                   alt="Apartment photo"
                   className="w-full h-full bg-cover rounded"
                 />
@@ -142,19 +142,19 @@ export default function ListingsList({
                     </h3>
                     <p className="mb-1">{listing.address}</p>
                     <p className="text-xs text-slate-500">
-                      posted at {listing.publishedAt.toString()}
+                      posted at {listing.publishedAt?.toString()}
                     </p>
                   </div>
-                  {listing.agencyId && (
+                  {/* {listing.agencyId && (
                     <div className="flex items-center justify-center bg-slate-100 border-slate-300 border rounded-lg py-2 px-4">
-                      {/* <img
+                      <img
                         width={50}
                         height={54}
                         src={listing.agency.logo}
                         alt={listing.agency.slug}
-                      /> */}
+                      />
                     </div>
-                  )}
+                  )} */}
                   {listing.userId && (
                     <UserCircle width={43} height={43} />
                   )}
@@ -189,7 +189,7 @@ export default function ListingsList({
                   <div className="flex items-center">
                     <span className="font-semibold text-xl">
                       {formatNumberWithDelimiter(
-                        listing.price.toString()
+                        listing.price?.toString() || ""
                       )}
                       $
                     </span>
@@ -209,14 +209,15 @@ export default function ListingsList({
                       {"|"}{" "}
                       {formatNumberWithDelimiter(
                         Math.round(
-                          listing.price / listing.area
+                          listing.price! / listing.area!
                         ).toString()
                       )}{" "}
                       $/m2
                     </span>
                   </div>
                   <div className="flex gap-2">
-                    <Heart fill={listing.isLiked ? "blue" : "none"} />
+                    {/* <Heart fill={listing.isLiked ? "blue" : "none"} /> */}
+                    <Heart />
                     <Mail />
                   </div>
                 </div>

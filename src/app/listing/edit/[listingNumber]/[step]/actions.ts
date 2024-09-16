@@ -37,6 +37,7 @@ export async function attachImagesToListing(
     },
     data: {
       images,
+      mainImage: images[0],
     },
   });
 

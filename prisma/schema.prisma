@@ -132,10 +132,10 @@ model Listing {
   publishEndDate    DateTime? // usually one month after publishedAt
   // Unresolved
   tags              String[]  @default([])
+  isPaidPromo       Boolean   @default(false)
   // Unexplained
   // published   Boolean   @default(false)
   // title       String?
-  // isPaidPromo  Boolean
   // isLiked      Boolean
   // internalFeatures String[]
   // externalFeatures String[]
