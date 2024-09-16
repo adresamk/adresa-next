@@ -7,10 +7,15 @@ import { useState } from "react";
 import CustomImageUpload from "./CustomImageUpload";
 import { Listing } from "@prisma/client";
 import { UploadButton } from "@/lib/uploadthing";
+import {
+  ClientUploadedFileData,
+  FileUploadData,
+} from "uploadthing/types";
+import { attachImagesToListing } from "../actions";
 
 export default function Step6({ listing }: { listing: Listing }) {
   const [ytLink, setYtLink] = useState(listing.videoLink || "");
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<any[]>(listing.images || []);
   const ytLinkRegex =
     /^(?:https?:\/\/)?(?:(?:www|m)\.)?((?:youtube\.com|youtu.be)\/(?:watch\?v=)?)([\w\-_]+)(?:\?[^#]*)?$/;
   return (
@@ -24,9 +29,23 @@ export default function Step6({ listing }: { listing: Listing }) {
       <div className="w-max">
         <UploadButton
           endpoint="listingImagesUpload"
-          onClientUploadComplete={(res) => {
+          onClientUploadComplete={async (res) => {
             // Do something with the response
             console.log("Files: ", res);
+            const imagesAttachingToListing =
+              await attachImagesToListing(
+                [...images, ...res.map((file) => file.url)],
+                listing.listingNumber
+              );
+
+            console.log(
+              "imagesAttachingToListing: ",
+              imagesAttachingToListing
+            );
+
+            if (imagesAttachingToListing.success) {
+              setImages([...images, ...res.map((file) => file.url)]);
+            }
             alert("Upload Completed");
           }}
           onUploadError={(error: Error) => {
@@ -34,6 +53,16 @@ export default function Step6({ listing }: { listing: Listing }) {
             alert(`ERROR! ${error.message}`);
           }}
         />
+      </div>
+      <div className="flex gap-1">
+        {images.map((imageUrl, idx) => (
+          <img
+            key={idx}
+            src={imageUrl}
+            alt={"Property Image"}
+            className="w-32 h-32 rounded"
+          />
+        ))}
       </div>
       <div className="flex flex-col gap-2 mt-4">
         <Label htmlFor="videoLink"> Link to YouTube video</Label>

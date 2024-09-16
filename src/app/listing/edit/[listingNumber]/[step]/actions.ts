@@ -3,6 +3,46 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import prismadb from "@/lib/db";
+import { validateRequest } from "@/lib/auth";
+
+export async function attachImagesToListing(
+  images: string[],
+  listingNumber: number
+) {
+  const { user } = await validateRequest();
+  if (!user) {
+    return {
+      success: false,
+      error: "Unauthenticated to upload images",
+    };
+  }
+
+  const listing = await prismadb.listing.findFirst({
+    where: {
+      listingNumber,
+    },
+  });
+
+  if (!listing) {
+    return {
+      success: false,
+      error: "Listing not found",
+    };
+  }
+
+  await prismadb.listing.update({
+    where: {
+      id: listing.id,
+    },
+    data: {
+      images,
+    },
+  });
+
+  return {
+    success: true,
+  };
+}
 
 async function editType(formData: FormData) {
   const type = formData.get("type");
