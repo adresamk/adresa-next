@@ -43,6 +43,8 @@ export default function Step6({ listing }: { listing: Listing }) {
           onClientUploadComplete={async (res) => {
             // Do something with the response
             console.log("Files: ", res);
+            // here on res we have a value key, that should be used for deleting the files
+            // afterwards so maybe add this to the db as well?
             const imagesAttachingToListing =
               await attachImagesToListing(
                 [...images, ...res.map((file) => file.url)],

@@ -4,7 +4,6 @@ import { setCookie } from "@/actions/cookies";
 import { getUser, validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { ListingContactData } from "@/lib/types";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function addNewListing(formData: FormData) {
@@ -27,7 +26,11 @@ export async function addNewListing(formData: FormData) {
   const transactionType = formData.get("transactionType")?.toString();
 
   // validate the form data
-  if (!category || !type || !transactionType) {
+  if (
+    typeof category !== "string" ||
+    typeof type !== "string" ||
+    typeof transactionType !== "string"
+  ) {
     return {
       success: false,
       error: "Invalid form data",
