@@ -163,27 +163,27 @@ export default function ListingsList({
                   {listing.description}
                 </div>
                 <div className="flex gap-2.5">
-                  {Object.keys(
-                    convertFeaturesArray(listing.externalFeatures)
-                  ).map((feature) => (
-                    <div
-                      key={feature}
-                      className="flex gap-1 items-center justify-center "
-                    >
-                      {icons[feature]}
-                      <div className="text-sm font-light ">
-                        <span className="mr-1">
-                          {/* @ts-ignore */}
-                          {(listing.externalFeatures[feature] ?? 0) >
-                          1
-                            ? //@ts-ignore
-                              listing.externalFeatures[feature]
-                            : null}
-                        </span>
-                        <span>{feature}</span>
+                  {Object.keys(convertFeaturesArray([])).map(
+                    (feature) => (
+                      <div
+                        key={feature}
+                        className="flex gap-1 items-center justify-center "
+                      >
+                        {icons[feature]}
+                        <div className="text-sm font-light ">
+                          <span className="mr-1">
+                            {/* @ts-ignore */}
+                            {(listing.externalFeatures[feature] ??
+                              0) > 1
+                              ? //@ts-ignore
+                                listing.externalFeatures[feature]
+                              : null}
+                          </span>
+                          <span>{feature}</span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
