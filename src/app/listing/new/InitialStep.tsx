@@ -81,7 +81,12 @@ export default function InitialStep() {
   const [propertyCategory, setPropertyCategory] = useState("");
   return (
     <div className="p-2">
-      <input type="string" className="hidden" value="0" name="step" />
+      <input
+        type="string"
+        className="hidden"
+        defaultValue="0"
+        name="step"
+      />
       <h2 className="text-lg">Basic information</h2>
       <Separator className="my-2 mt-4" />
 

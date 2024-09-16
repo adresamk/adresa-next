@@ -20,7 +20,12 @@ export default function Step5({ listing }: { listing: Listing }) {
   );
   return (
     <div className="p-2">
-      <input type="string" className="hidden" value="5" name="step" />
+      <input
+        type="string"
+        className="hidden"
+        defaultValue="5"
+        name="step"
+      />
 
       <h2 className="text-lg">Location</h2>
       <Separator className="my-2 mt-4" />

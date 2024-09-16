@@ -34,3 +34,4 @@ TODO:
 2. Make progress work with percentages in adding new listing
 3. Fix where after update and then going into next steps the values are old, 
 but on refresh they work
+4. Handle if images are deleted or to reorder them

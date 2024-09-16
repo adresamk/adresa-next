@@ -27,7 +27,12 @@ export default function Step7({ listing }: { listing: Listing }) {
   const emailVerified = true;
   return (
     <div className="p-2">
-      <input type="string" className="hidden" value="7" name="step" />
+      <input
+        type="string"
+        className="hidden"
+        defaultValue="7"
+        name="step"
+      />
 
       <h2 className="text-lg">Contact Details</h2>
       <Separator className="my-2 mt-4" />

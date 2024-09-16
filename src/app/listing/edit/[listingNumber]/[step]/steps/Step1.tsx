@@ -34,7 +34,12 @@ export default function Step1({ listing }: { listing: Listing }) {
     useState("apartment");
   return (
     <div className="p-2">
-      <input type="string" className="hidden" value="1" name="step" />
+      <input
+        type="string"
+        className="hidden"
+        defaultValue="1"
+        name="step"
+      />
       <h2 className="text-lg">Basic information</h2>
       <Separator className="my-2 mt-4" />
 

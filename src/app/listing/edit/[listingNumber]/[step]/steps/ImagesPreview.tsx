@@ -1,64 +1,32 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
-interface PropertyImage {
-  url: string;
-  isMain: boolean;
-  position: number;
-}
-export default function CustomImageUpload() {
-  const [images, setImages] = useState<PropertyImage[]>([
-    {
-      url: "/assets/demo-property-bg.png",
-      isMain: true,
-      position: 1,
-    },
-    {
-      url: "/assets/demo-property-bg.png",
-      isMain: false,
-      position: 2,
-    },
-    {
-      url: "/assets/demo-property-bg.png",
-      isMain: false,
-      position: 3,
-    },
-    {
-      url: "/assets/demo-property-bg.png",
-      isMain: false,
-      position: 4,
-    },
-    {
-      url: "/assets/demo-property-bg.png",
-      isMain: false,
-      position: 5,
-    },
-    {
-      url: "/assets/demo-property-bg.png",
-      isMain: false,
-      position: 6,
-    },
-  ]);
+
+export default function ImagesPreview({
+  images,
+  setImages,
+}: {
+  images: string[];
+  setImages: (images: string[]) => void;
+}) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between">
         <span>Images for your property</span>
-        <span>3/15</span>
+        <span>{images.length}/15</span>
       </div>
-      <div>
-        <Button size={"sm"}>Upload</Button>
-      </div>
+
       <div className="h-[400px] grid gap-4  grid-cols-2 overflow-y-auto">
-        {images.map((i) => {
+        {images.map((imageUrl, idx) => {
           return (
-            <div key={i.url} className="relative">
+            <div key={imageUrl} className="relative border">
               <img
-                src={i.url}
-                className="rounded"
+                src={imageUrl}
+                className=" w-32 h-32 rounded"
                 width={325}
                 height={198}
               />
-              {i.isMain && (
+              {idx === 0 && (
                 <div className="absolute bottom-2 w-full">
                   <div
                     className=" 

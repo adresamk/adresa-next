@@ -174,7 +174,7 @@ export default async function EditListingPage({
             <input
               type="text"
               className="hidden"
-              value={listing.id}
+              defaultValue={listing.id}
               name="listingId"
             />
             {currentStepIdx === 0 && (

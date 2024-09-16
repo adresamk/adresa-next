@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-import CustomImageUpload from "./CustomImageUpload";
+import CustomImageUpload from "./ImagesPreview";
 import { Listing } from "@prisma/client";
 import { UploadButton } from "@/lib/uploadthing";
 import {
@@ -12,15 +12,26 @@ import {
   FileUploadData,
 } from "uploadthing/types";
 import { attachImagesToListing } from "../actions";
+import ImagesPreview from "./ImagesPreview";
 
 export default function Step6({ listing }: { listing: Listing }) {
   const [ytLink, setYtLink] = useState(listing.videoLink || "");
   const [images, setImages] = useState<any[]>(listing.images || []);
   const ytLinkRegex =
     /^(?:https?:\/\/)?(?:(?:www|m)\.)?((?:youtube\.com|youtu.be)\/(?:watch\?v=)?)([\w\-_]+)(?:\?[^#]*)?$/;
+  // const validYtLink = ytLinkRegex.test(ytLink);
+  const [left, right] = ytLink.split("v=");
+  const validYtLink =
+    left.startsWith("https://www.youtube.com/watch?") &&
+    right.length === 11;
   return (
     <div className="p-2">
-      <input type="string" className="hidden" value="6" name="step" />
+      <input
+        type="string"
+        className="hidden"
+        defaultValue="6"
+        name="step"
+      />
 
       <h2 className="text-lg">Images and Video</h2>
       <Separator className="my-2 mt-4" />
@@ -54,16 +65,8 @@ export default function Step6({ listing }: { listing: Listing }) {
           }}
         />
       </div>
-      <div className="flex gap-1">
-        {images.map((imageUrl, idx) => (
-          <img
-            key={idx}
-            src={imageUrl}
-            alt={"Property Image"}
-            className="w-32 h-32 rounded"
-          />
-        ))}
-      </div>
+      <ImagesPreview images={images} setImages={setImages} />
+
       <div className="flex flex-col gap-2 mt-4">
         <Label htmlFor="videoLink"> Link to YouTube video</Label>
         <span className="text-xs text-gray-500">
@@ -79,7 +82,7 @@ export default function Step6({ listing }: { listing: Listing }) {
             setYtLink(e.target.value);
           }}
         />
-        {ytLink && ytLink.match(ytLinkRegex) && (
+        {ytLink && validYtLink && (
           <iframe
             width="320"
             height="185"
