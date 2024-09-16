@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import prismadb from "@/lib/db";
 import { validateRequest } from "@/lib/auth";
+import { ListingContactData } from "@/lib/types";
 
 export async function attachImagesToListing(
   images: string[],
@@ -304,10 +305,96 @@ async function editMedia(formData: FormData) {
     },
   });
 }
-async function editContactDetails(formData: FormData) {}
+async function editContactDetails(formData: FormData) {
+  const firstName = formData.get("firstName");
+  const lastName = formData.get("lastName");
+  const email = formData.get("email");
+  const phone = formData.get("phone");
+  const contactHours = formData.get("contactHours");
+
+  if (
+    typeof firstName !== "string" ||
+    typeof lastName !== "string" ||
+    typeof email !== "string" ||
+    typeof phone !== "string" ||
+    typeof contactHours !== "string"
+  ) {
+    return {
+      error: "Invalid Inputs",
+      success: false,
+    };
+  }
+
+  const listingId = formData.get("listingId")! as string;
+  const listing = await prismadb.listing.findUnique({
+    where: {
+      id: listingId,
+    },
+  });
+
+  if (!listing) {
+    return {
+      error: "Listing not found",
+      success: false,
+    };
+  }
+  await prismadb.listing.update({
+    where: {
+      id: listingId,
+    },
+    data: {
+      contactData: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        emailVerified: false,
+        phone,
+        phoneVerified: false,
+        contactHours,
+      } as ListingContactData),
+    },
+  });
+}
 async function editPublishing(formData: FormData) {
-  // cookies().delete("listingId");
-  // redirect("/");
+  const isPublished = formData.get("isPublished");
+  if (typeof isPublished !== "string") {
+    return {
+      error: "Invalid Inputs",
+      success: false,
+    };
+  }
+
+  const makePublished = isPublished === "yes" ? true : false;
+
+  const listingId = formData.get("listingId")! as string;
+  const listing = await prismadb.listing.findUnique({
+    where: {
+      id: listingId,
+    },
+  });
+
+  if (!listing) {
+    return {
+      error: "Listing not found",
+      success: false,
+    };
+  }
+  const oneMonthFromNow = new Date();
+  oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+
+  await prismadb.listing.update({
+    where: {
+      id: listingId,
+    },
+    data: {
+      isPublished: makePublished,
+      publishedAt: makePublished ? new Date() : null,
+      publishEndDate: makePublished ? oneMonthFromNow : null,
+    },
+  });
+  return {
+    success: true,
+  };
 }
 export async function editListing(formData: FormData) {
   console.log("Editing listing", formData);

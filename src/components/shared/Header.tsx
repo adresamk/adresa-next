@@ -27,7 +27,7 @@ export default function Header() {
 
       <nav className="flex items-center gap-2">
         {/* <Link href="/listing/new"> */}
-        <form action={createListing} method="POST">
+        <form action={createListing}>
           <Button size={"sm"} className="px-2.5">
             <HousePlus className="mr-3" />{" "}
             <span className="font-bold uppercase tracking-wide">

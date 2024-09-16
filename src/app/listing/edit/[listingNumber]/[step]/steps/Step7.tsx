@@ -12,19 +12,30 @@ import { Separator } from "@/components/ui/separator";
 import { Check, Info } from "lucide-react";
 import { useState } from "react";
 import { Listing } from "@prisma/client";
+import { ListingContactData } from "@/lib/types";
 
 const contactHoursOptions = [
   { label: "Anytime", value: "anytime" },
   { label: "Morning", value: "morning" },
   { label: "Evening", value: "evening" },
 ];
+const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
 export default function Step7({ listing }: { listing: Listing }) {
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [tel, setTel] = useState("");
-  const [email, setEmail] = useState("macesmajli@gmail.com");
-  const [contactHours, setContactHours] = useState("anytime");
-  const emailVerified = true;
+  const contactData: ListingContactData =
+    listing.contactData && JSON.parse(listing.contactData);
+
+  const [firstName, setFirstName] = useState(
+    contactData?.firstName || ""
+  );
+  const [lastName, setLastName] = useState(
+    contactData?.lastName || ""
+  );
+  const [phone, setPhone] = useState(contactData?.phone || "");
+  const [email, setEmail] = useState(contactData?.email || "");
+  const [contactHours, setContactHours] = useState(
+    contactData?.contactHours || "anytime"
+  );
+  const emailVerified = contactData?.emailVerified;
   return (
     <div className="p-2">
       <input
@@ -38,27 +49,27 @@ export default function Step7({ listing }: { listing: Listing }) {
       <Separator className="my-2 mt-4" />
 
       <div className="flex flex-col gap-3 mb-2">
-        <Label htmlFor="name">
+        <Label htmlFor="firstName">
           First name <span className="text-red-500">*</span>
         </Label>
         <Input
           required
-          id="name"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          id="firstName"
+          name="firstName"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
           placeholder="Your first name"
         />
       </div>
 
       <div className="flex flex-col gap-3 mb-2">
-        <Label htmlFor="last-name">
+        <Label htmlFor="lastName">
           Last name <span className="text-red-500">*</span>
         </Label>
         <Input
           required
-          id="last-name"
-          name="last-name"
+          id="lastName"
+          name="lastName"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           placeholder="Your last name"
@@ -66,15 +77,16 @@ export default function Step7({ listing }: { listing: Listing }) {
       </div>
 
       <div className="flex flex-col gap-3 mb-2">
-        <Label htmlFor="tel">
-          Telephone <span className="text-red-500">*</span>
+        <Label htmlFor="phone">
+          Phone <span className="text-red-500">*</span>
         </Label>
         <Input
           required
-          id="tel"
-          name="tel"
-          value={tel}
-          onChange={(e) => setTel(e.target.value)}
+          type="tel"
+          id="phone"
+          name="phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
           placeholder="(389)77 777 777 "
         />
       </div>
@@ -82,6 +94,7 @@ export default function Step7({ listing }: { listing: Listing }) {
       <div className="flex flex-col gap-3 mb-2">
         <Label htmlFor="contact-hours">Contact Hours</Label>
         <SelectDemo
+          name="contactHours"
           value={contactHours}
           options={contactHoursOptions}
           onClick={(e) => setContactHours(e)}
@@ -93,7 +106,9 @@ export default function Step7({ listing }: { listing: Listing }) {
           Email <span className="text-red-500">*</span>
         </Label>
         <Input
+          // pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
           required
+          type="email"
           id="email"
           name="email"
           value={email}

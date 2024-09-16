@@ -41,16 +41,6 @@ model Session {
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
-model EnquirerData {
-  id           String   @id @default(uuid())
-  firstName    String
-  lastName     String
-  email        String
-  phone        String
-  contactHours String // "morning", "afternoon", "evening" or hours
-  listing      Listing?
-}
-
 model Counter {
   id    Int    @id @default(autoincrement())
   name  String @unique
@@ -59,14 +49,14 @@ model Counter {
 
 model Listing {
   // Generated automatically
-  id                String        @id @default(uuid())
-  listingNumber     Int           @unique @default(autoincrement()) // 6 digit number  
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-  isAvailable       Boolean?      @default(true)
+  id                String    @id @default(uuid())
+  listingNumber     Int       @unique @default(autoincrement()) // 6 digit number  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  isAvailable       Boolean?  @default(true)
   availabilityDate  DateTime? // if it is in the past it is available
   // Required for creation in form
-  owner             User          @relation(fields: [userId], references: [id])
+  owner             User      @relation(fields: [userId], references: [id])
   userId            String
   transactionType   String // rent, sale
   category          String // Won't be changed later
@@ -92,11 +82,11 @@ model Listing {
   // isAtCorner        Boolean?  @default(false)
   // levels            Int?
   // rooms
-  bedrooms          Int?          @default(0)
-  bathrooms         Int?          @default(0)
-  wcs               Int?          @default(0)
-  kitchens          Int?          @default(0)
-  livingRooms       Int?          @default(0)
+  bedrooms          Int?      @default(0)
+  bathrooms         Int?      @default(0)
+  wcs               Int?      @default(0)
+  kitchens          Int?      @default(0)
+  livingRooms       Int?      @default(0)
   // Other features that are on spitogatos
   parking           Boolean? // true = there is, false = there isn't, null = not specified
   elevator          Boolean?
@@ -126,9 +116,9 @@ model Listing {
   // airCondition           Boolean?  @default(false)
   // underFloorHeating      Boolean?  @default(false)
   // Description
-  description       String?       @db.VarChar(5000)
-  mkdDescription    String?       @db.VarChar(5000)
-  albDescription    String?       @db.VarChar(5000)
+  description       String?   @db.VarChar(5000)
+  mkdDescription    String?   @db.VarChar(5000)
+  albDescription    String?   @db.VarChar(5000)
   // short description
   // shortDescription  String?
   // Images and Video
@@ -136,12 +126,12 @@ model Listing {
   images            String[]
   videoLink         String? // youtube or vimeo for the property
   // Publishing info
-  isArchived        Boolean?      @default(false)
-  isPublished       Boolean?      @default(false)
+  isArchived        Boolean   @default(false)
+  isPublished       Boolean   @default(false)
   publishedAt       DateTime?
   publishEndDate    DateTime? // usually one month after publishedAt
   // Unresolved
-  tags              String[]      @default([])
+  tags              String[]  @default([])
   // Unexplained
   // published   Boolean   @default(false)
   // title       String?
@@ -152,9 +142,22 @@ model Listing {
   // Not every listing is owned by an Agency, these info will go through user
   // agency           Agency?  @relation(fields: [agencyId], references: [id])
   // agencyId         String?
-  enquirerData      EnquirerData? @relation(fields: [enquirerDataId], references: [id])
-  enquirerDataId    String?       @unique
+  contactData       String?   @default("") // JSON with contact data
+  // enquirerData      EnquirerData @relation(fields: [enquirerDataId], references: [id])
+  // enquirerDataId    String       @unique
+  // EnquirerData      EnquirerData[]
 }
+
+// model EnquirerData {
+//   id           String  @id @default(uuid())
+//   firstName    String?
+//   lastName     String?
+//   email        String?
+//   phone        String?
+//   contactHours String? // "morning", "afternoon", "evening" or hours
+// listingId    String
+// listing      Listing @relation(fields: [listingId], references: [id])
+// }
 
 model Agency {
   id               String @id @default(uuid())

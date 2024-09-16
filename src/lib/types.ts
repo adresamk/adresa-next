@@ -1,3 +1,12 @@
+export interface ListingContactData {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  emailVerified: boolean;
+  phone?: string;
+  phoneVerified: boolean;
+  contactHours?: string;
+}
 export type propertyTypeValues =
   | "Apartment"
   | "House"

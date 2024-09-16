@@ -1,12 +1,13 @@
 "use server";
 
-import { validateRequest } from "@/lib/auth";
+import { getUser, validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
+import { ListingContactData } from "@/lib/types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function addNewListing(formData: FormData) {
-  const { user } = await validateRequest();
+  const user = await getUser();
   if (!user) {
     cookies().set("signin-redirect", "/listing/new");
     redirect("/signin");
@@ -52,6 +53,15 @@ export async function addNewListing(formData: FormData) {
       transactionType: transactionType,
       userId: user.id,
       listingNumber: listingNumber.value + 1,
+      contactData: JSON.stringify({
+        email: user.email,
+        emailVerified: user.emailVerified ? true : false,
+        phone: user.phone,
+        phoneVerified: user.phoneVerified ? true : false,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        contactHours: "anytime",
+      } as ListingContactData),
     },
   });
 
