@@ -43,3 +43,6 @@ but on refresh they work
 1. Fix individual listing page
 2. Make filters work
 3. handle login as an agency or staff
+
+Handle previous price, when updating make the check for previous price
+Finish breadcrumbs to also work on page 

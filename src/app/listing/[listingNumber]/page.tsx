@@ -64,7 +64,7 @@ const icons: { [key: string]: JSX.Element } = {
   facade: <BrickWall />,
 } as { [key: string]: JSX.Element };
 export default function SingleListing() {
-  const { id } = useParams();
+  const { listingNumber } = useParams();
   const listing = {
     title: "Stan, 60m2",
     location: "Skopje, Centar",
@@ -104,7 +104,7 @@ export default function SingleListing() {
 
         <div>
           Home sales {">"} Skopje, Centar {">"} Stanovi {">"} Listing{" "}
-          {id}{" "}
+          {listingNumber}{" "}
         </div>
       </div>
       {/* Images */}
@@ -329,7 +329,7 @@ export default function SingleListing() {
                       Post Number
                     </td>
                     <td className="px-2 font-semibold text-black border border-slate-600">
-                      {id}
+                      {listingNumber}
                     </td>
                   </tr>
                 </table>
