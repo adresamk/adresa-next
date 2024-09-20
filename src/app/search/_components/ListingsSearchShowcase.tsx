@@ -17,51 +17,49 @@ import {
 import Link from "next/link";
 import { formatNumberWithDelimiter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import ImagesCarousel from "./ImagesCarousel";
 
 export default function ListingsSearchShowcase({
   listing,
 }: {
   listing: Listing;
 }) {
-  const missingImage = "/assets/missing-image.jpg";
   return (
-    <Link key={listing.id} href={"/listing/" + listing.listingNumber}>
-      <li
-        key={listing.id}
-        className={cn(
-          "",
-          listing.isPaidPromo && "border border-brand-light-blue"
-        )}
-      >
-        <article className="w-full mb-5">
-          <div className="w-full rounded-lg flex relative overflow-hidden bg-white border-solid border drop-shadow transition-all ease-linear">
-            <figure className="my-0 mx-auto block">
-              {/* image header */}
-              <div className="absolute top-0 left-0 w-full flex items-center py-2.5 px-3.5 pointer-events-none overflow-hidden">
-                <div className="text-white flex items-center gap-1.5">
-                  <ImageIcon size={14} />
-                  <span className="font-bold">
-                    {listing.images.length}
-                  </span>
-                </div>
-                <div>
-                  {/* Place to use tags when we have them */}
-                  {/* {listing.tags} */}
-                </div>
+    <li key={listing.id} className={cn("")}>
+      <article className="w-full mb-5">
+        <div
+          className={cn(
+            "w-full rounded-lg flex relative overflow-hidden bg-white border-solid border drop-shadow transition-all ease-linear  shadow-md group",
+            listing.isPaidPromo && "border border-brand-light-blue"
+          )}
+        >
+          <figure className="my-0 mx-auto block">
+            {/* image header */}
+            <div className="absolute top-0 left-0 w-full hidden items-center py-2.5 px-3.5 pointer-events-none overflow-hidden group-hover:flex">
+              <div className="text-white flex items-center gap-1.5">
+                <ImageIcon size={14} />
+                <span className="font-bold">
+                  {listing.images.length}
+                </span>
               </div>
-              <div className="w-[260px] h-[240px]">
-                <Image
-                  src={listing.mainImage || missingImage}
-                  width={260}
-                  height={240}
-                  alt="Property first image"
-                />
+              <div>
+                {/* Place to use tags when we have them */}
+                {/* {listing.tags} */}
               </div>
-              <figcaption className="hidden">
-                {listing.type}, {listing.area}m²
-              </figcaption>
-            </figure>
-            <div className="flex-1 px-5 pt-3.5 pb-2.5">
+            </div>
+            <div className="w-[260px] h-[240px]">
+              <ImagesCarousel images={listing.images} />
+            </div>
+            <figcaption className="hidden">
+              {listing.type}, {listing.area}m²
+            </figcaption>
+          </figure>
+          <div className="flex-1 px-5 pt-3.5 pb-2.5">
+            <Link
+              tabIndex={-1}
+              key={listing.id}
+              href={"/listing/" + listing.listingNumber}
+            >
               <div className="flex flex-col justify-between h-full">
                 <div className="max-w-full mb-2">
                   <h3 className="text-lg leading-6 font-medium mb-1.5 overflow-hidden">
@@ -148,7 +146,7 @@ export default function ListingsSearchShowcase({
                       )}
                     </div>
                     {/* actions */}
-                    <div className="ml-auto">
+                    <div className="ml-auto hidden group-hover:block">
                       <ul className="flex gap-1">
                         <li>
                           <Button
@@ -179,10 +177,10 @@ export default function ListingsSearchShowcase({
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
-        </article>
-      </li>
-    </Link>
+        </div>
+      </article>
+    </li>
   );
 }
