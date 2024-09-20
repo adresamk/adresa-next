@@ -39,3 +39,7 @@ x 3. Create an endpoint for adding listings
 3. Fix where after update and then going into next steps the values are old, 
 but on refresh they work
 4. Handle if images are deleted or to reorder them
+
+1. Fix individual listing page
+2. Make filters work
+3. handle login as an agency or staff
