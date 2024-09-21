@@ -29,11 +29,11 @@ export default function ImagesCarousel({
     <Carousel className="w-full max-w-xs relative ">
       <CarouselContent>
         {images.map((imageSrc, index) => (
-          <CarouselItem key={index}>
+          <CarouselItem key={index} className="overflow-hidden">
             <Image
               src={imageSrc || missingImage}
               // hack for now
-              className="h-full"
+              className="h-full overflow-hidden  rounded-tr-lg rounded-tl-lg"
               width={260}
               height={240}
               alt="Property first image"

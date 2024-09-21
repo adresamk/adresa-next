@@ -34,3 +34,23 @@
 body[data-scroll-locked] {
   padding-top: 80px !important;
 }
+
+/* Leaflet overrides */
+
+#search-page-map .leaflet-popup-content-wrapper {
+  padding: 0;
+}
+#search-page-map .leaflet-popup-content {
+  margin: 0;
+}
+
+.m-y-2 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+#search-page-map {
+}
+#search-page-map {
+}
+#search-page-map {
+}
