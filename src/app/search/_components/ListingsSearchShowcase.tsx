@@ -29,13 +29,13 @@ export default function ListingsSearchShowcase({
       <article className="w-full mb-5">
         <div
           className={cn(
-            "w-full rounded-lg flex relative overflow-hidden bg-white border-solid border drop-shadow transition-all ease-linear  shadow-md group",
+            "w-full rounded-lg flex relative overflow-hidden bg-white border-solid border drop-shadow transition-all ease-linear  shadow hover:shadow-md group",
             listing.isPaidPromo && "border border-brand-light-blue"
           )}
         >
-          <figure className="my-0 mx-auto block">
+          <figure className="my-0 mx-auto block relative">
             {/* image header */}
-            <div className="absolute top-0 left-0 w-full hidden items-center py-2.5 px-3.5 pointer-events-none overflow-hidden group-hover:flex">
+            <div className="absolute z-50 top-0 left-0 w-full hidden items-center py-2.5 px-3.5 pointer-events-none overflow-hidden group-hover:flex">
               <div className="text-white flex items-center gap-1.5">
                 <ImageIcon size={14} />
                 <span className="font-bold">
@@ -124,7 +124,7 @@ export default function ListingsSearchShowcase({
                       €{listing.price}
                     </p>
                   </div>
-                  <div className="flex">
+                  <div className="flex items-center">
                     {/* labels */}
                     <div className="flex gap-1">
                       {listing.isPaidPromo && (
@@ -146,7 +146,7 @@ export default function ListingsSearchShowcase({
                       )}
                     </div>
                     {/* actions */}
-                    <div className="ml-auto hidden group-hover:block">
+                    <div className="ml-auto invisible group-hover:visible">
                       <ul className="flex gap-1">
                         <li>
                           <Button

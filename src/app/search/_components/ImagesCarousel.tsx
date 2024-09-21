@@ -41,8 +41,8 @@ export default function ImagesCarousel({
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="absolute top-[50%] left-1 z-[250]" />
-      <CarouselNext className="absolute top-[50%] right-1 z-[250]" />
+      <CarouselPrevious className="absolute top-[50%] left-1 " />
+      <CarouselNext className="absolute top-[50%] right-1 " />
     </Carousel>
   );
 }
