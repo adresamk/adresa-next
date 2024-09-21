@@ -54,14 +54,14 @@ export default function ListingsSearchShowcase({
               {listing.type}, {listing.area}m²
             </figcaption>
           </figure>
-          <div className="flex-1 px-5 pt-3.5 pb-2.5">
+          <div className="flex-1 px-5 pt-3.5 pb-2.5 ">
             <Link
               tabIndex={-1}
               key={listing.id}
               href={"/listing/" + listing.listingNumber}
             >
               <div className="flex flex-col justify-between h-full">
-                <div className="max-w-full mb-2">
+                <div className="max-w-full mb-2 relative">
                   <h3 className="text-lg leading-6 font-medium mb-1.5 overflow-hidden">
                     <span className="capitalize">{listing.type}</span>
                     , {listing.area}m²
@@ -143,6 +143,19 @@ export default function ListingsSearchShowcase({
                       </time>
                     </p>
                   </div>
+                  {/* If user is an agency */}
+                  {/* {listing.userId && (
+                    <Link
+                      className="w-[80px] h-[40px] overflow-hidden absolute top-0 right-0 rounded hidden xl:flex justify-end"
+                      href={`/agency/slug}`}
+                    >
+                      <img
+                        className="rounded opacity-30 grayscale transition-all group-hover:grayscale-0 group-hover:opacity-100 max-w-full max-h-full object-contain"
+                        src="/assets/spitogato-agency-logo.webp"
+                        alt=""
+                      />
+                    </Link>
+                  )} */}
                 </div>
                 <div className="mt-auto max-w-full">
                   <div className="flex items-center mb-1.5">
