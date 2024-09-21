@@ -134,7 +134,13 @@ export default function ListingMapCard({
           </div>
           {/* Price */}
           <div className="flex items-center mb-1.5 ">
-            <p className="font-bold leading-4 tracking-tighter text-xl m-y-2">
+            <p
+              className="font-bold leading-4 tracking-tighter text-xl "
+              style={{
+                marginTop: 8,
+                marginBottom: 8,
+              }}
+            >
               €
               {formatNumberWithDelimiter(
                 listing.price?.toString() || ""
