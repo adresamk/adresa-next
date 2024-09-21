@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const formatNumberWithDelimiter = (value: string) => {
-  return value.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Replace with your desired delimiter
+  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Replace with your desired delimiter
 };

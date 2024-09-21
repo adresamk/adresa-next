@@ -74,28 +74,54 @@ export default function ListingsSearchShowcase({
                   </p>
 
                   {/* Extras/features */}
-                  <div className="flex gap-6">
-                    <ul className="flex gap-1">
+                  <div className="flex gap-6 items-center">
+                    <ul className="flex gap-1.5">
                       <li
                         title="Floor"
                         className="text-xs tracking-tighter flex items-center"
                       >
-                        <LampFloor width={17} height={17} />
-                        <span>{listing.floorNumber}</span>
+                        <LampFloor
+                          width={17}
+                          height={17}
+                          className="mr-1"
+                        />
+                        <span>
+                          <span className="font-medium text-sm mr-0.5">
+                            {listing.floorNumber}
+                          </span>
+                        </span>
                       </li>
                       <li
                         title="Bedrooms"
                         className="text-xs tracking-tighter flex items-center"
                       >
-                        <Bed width={17} height={17} />
-                        <span>{listing.bedrooms} br</span>
+                        <Bed
+                          width={17}
+                          height={17}
+                          className="mr-1"
+                        />
+                        <span>
+                          <span className="font-medium text-sm mr-0.5">
+                            {listing.bedrooms}
+                          </span>
+                          br
+                        </span>
                       </li>
                       <li
                         title="Bathrooms"
                         className="text-xs tracking-tighter flex items-center"
                       >
-                        <Bath width={17} height={17} />
-                        <span>{listing.bathrooms} ba</span>
+                        <Bath
+                          width={17}
+                          height={17}
+                          className="mr-1"
+                        />
+                        <span>
+                          <span className="font-medium text-sm mr-0.5">
+                            {listing.bathrooms}
+                          </span>
+                          ba
+                        </span>
                       </li>
                     </ul>
                     <p className="text-xs ">
@@ -121,7 +147,10 @@ export default function ListingsSearchShowcase({
                 <div className="mt-auto max-w-full">
                   <div className="flex items-center mb-1.5">
                     <p className="font-bold leading-4 tracking-tighter text-xl">
-                      €{listing.price}
+                      €
+                      {formatNumberWithDelimiter(
+                        listing.price?.toString() || ""
+                      )}
                     </p>
                   </div>
                   <div className="flex items-center">
