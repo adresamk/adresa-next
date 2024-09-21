@@ -152,6 +152,21 @@ export default function ListingsSearchShowcase({
                         listing.price?.toString() || ""
                       )}
                     </p>
+                    {/* old price */}
+                    {listing.previousPrice && (
+                      <div className="flex items-center">
+                        <ArrowDown
+                          className="mr-1 ml-2.5"
+                          stroke="green"
+                        />
+                        <span className="text-sm text-gray-400 line-through">
+                          €
+                          {formatNumberWithDelimiter(
+                            listing.previousPrice?.toString() || ""
+                          )}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center">
                     {/* labels */}
