@@ -34,8 +34,8 @@ export default function ImagesCarousel({
               src={imageSrc || missingImage}
               // hack for now
               className="h-full overflow-hidden  rounded-tr-lg rounded-tl-lg"
-              width={260}
-              height={240}
+              width={240}
+              height={160}
               alt="Property first image"
             />
           </CarouselItem>

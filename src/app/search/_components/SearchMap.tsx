@@ -82,9 +82,21 @@ export default function SearchMap({
                   fillColor: "#0069fe",
                   fillOpacity: 1,
                 }}
+                eventHandlers={{
+                  mouseover: (e) => {
+                    // console.log(e.target);
+                    e.target._path.setAttribute("fill", "#35f3ff");
+                    e.target._path.setAttribute("stroke", "#35f3ff");
+                    e.target.openPopup();
+                  },
+                  mouseout: (e) => {
+                    e.target.closePopup();
+                    e.target._path.setAttribute("fill", "#0069fe");
+                    e.target._path.setAttribute("stroke", "#0069fe");
+                  },
+                }}
               >
-                <Popup className="test">
-                  {/* {[listing.latitude, listing.longitude]} */}
+                <Popup className="test" autoPan={false}>
                   <ListingMapCard listing={listing} />
                 </Popup>
                 {/* <Tooltip
@@ -111,7 +123,7 @@ export default function SearchMap({
                 fillOpacity: 1,
               }}
             >
-              <Popup className="">
+              <Popup className="" keepInView>
                 {[listings[0].latitude, listings[0].longitude]}
                 {/* <ListingMapCard listing={listings[0]} /> */}
               </Popup>

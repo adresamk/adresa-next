@@ -20,7 +20,7 @@ export default function ListingMapCard({
   listing: Listing;
 }) {
   return (
-    <div className="max-w-[400px]  ">
+    <div className="max-w-[240px]  ">
       <figure className="my-0 mx-auto block relative">
         {/* image header */}
         <div className="absolute z-50 top-0 left-0 w-full  items-center py-2.5 px-3.5 pointer-events-none overflow-hidden flex">
@@ -33,7 +33,7 @@ export default function ListingMapCard({
             {/* {listing.tags} */}
           </div>
         </div>
-        <div className="w-[200px] h-[160px] relative overflow-hidden">
+        <div className="w-[240px] h-[160px] relative overflow-hidden">
           <ImagesCarousel images={listing.images} />
           <div className="flex gap-1 absolute bottom-1 left-1 ">
             {listing.isPaidPromo && (
