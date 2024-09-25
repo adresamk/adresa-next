@@ -27,13 +27,13 @@ const agencies = [
     propertiesManaged: 10,
   },
   {
-    id: 1,
+    id: 4,
     images: ["/assets/agency-logo.png"],
     name: "Martin Agency",
     propertiesManaged: 10,
   },
   {
-    id: 4,
+    id: 45,
     images: ["/assets/agency-logo.png"],
     name: "Martin Agency",
     propertiesManaged: 10,

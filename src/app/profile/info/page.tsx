@@ -1,81 +1,73 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { getUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 import { useState } from "react";
+import { updateUserInfo } from "./actions";
 
-const user = {
-  name: "Mario",
-  lastName: "Krstevski",
-  tel: "077755554",
-  email: "test@gmail.com",
-};
-
-export default function ProfileContactPage() {
-  const [name, setName] = useState(user.name);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [tel, setTel] = useState(user.tel);
-  const [email, setEmail] = useState(user.email);
+export default async function ProfileInfoPage() {
+  // we always expect user because of the layout auth
+  const user = await getUser();
+  // if (!user) {
+  //   redirect("/signin?redirect=/profile/info");
+  // }
   return (
     <div className="p-8 mt-4 ml-4 bg-white   rounded-lg shadow">
       <h3 className="text-2xl font-semibold mb-3 ">Profile Info</h3>
-      <form className=" py-2" action="">
+      <form className=" py-2" action={updateUserInfo}>
         <div className="flex flex-col gap-3 mb-2">
-          <Label htmlFor="name">
+          <Label htmlFor="firstName">
             First name <span className="text-red-500">*</span>
           </Label>
           <Input
             required
-            id="name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            id="firstName"
+            defaultValue={user?.firstName || ""}
+            name="firstName"
             placeholder="Your first name"
           />
         </div>
 
         <div className="flex flex-col gap-3 mb-2">
-          <Label htmlFor="last-name">
+          <Label htmlFor="lastName">
             Last name <span className="text-red-500">*</span>
           </Label>
           <Input
             required
-            id="last-name"
-            name="last-name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            id="lastName"
+            name="lastName"
+            defaultValue={user?.lastName || ""}
             placeholder="Your last name"
           />
         </div>
 
-        <h3 className="text-2xl font-semibold mb-3 ">Contact Info</h3>
+        <h3 className="text-2xl font-semibold mb-3 mt-5 ">
+          Contact Info
+        </h3>
 
         <div className="flex flex-col gap-3 mb-2">
-          <Label htmlFor="tel">
+          <Label htmlFor="phone">
             Telephone <span className="text-red-500">*</span>
           </Label>
           <Input
             required
-            id="tel"
-            name="tel"
-            value={tel}
-            onChange={(e) => setTel(e.target.value)}
+            id="phone"
+            name="phone"
+            defaultValue={user?.phone || ""}
             placeholder="(389)77 777 777 "
           />
         </div>
 
         <div className="flex flex-col gap-3 mb-2">
-          <Label htmlFor="email">
-            Email <span className="text-red-500">*</span>
-          </Label>
+          <Label htmlFor="email">Email</Label>
           <Input
             required
             id="email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="example@google.com "
+            defaultValue={user?.email || ""}
+            disabled
           />
         </div>
 

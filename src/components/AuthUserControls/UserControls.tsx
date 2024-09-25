@@ -24,7 +24,7 @@ export default function UserControls({
       <PopoverContent className="z-[220] p-4">
         <ul className="flex flex-col gap-2">
           <li>
-            <Link href="/profile">Profile</Link>
+            <Link href="/profile/info">Profile</Link>
           </li>
           {/* <li>
               <Link href="/profile/settings">Settings</Link>
