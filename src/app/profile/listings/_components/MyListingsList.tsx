@@ -12,36 +12,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { UserRoles } from "@/global/data";
-
-const user = {
-  type: "agency",
-  properties: [
-    {
-      id: "2544387",
-      uniqueListingNumber: "2544387",
-      type: "apartment",
-      area: 60,
-      createdAt: "1 Јун 2024",
-      postedAt: null,
-      completed: false,
-      views: null,
-      visible: false,
-      mainImage: "/assets/demo-property-bg.png",
-    },
-    {
-      id: "2544387",
-      uniqueListingNumber: "2544387",
-      type: "apartment",
-      area: 60,
-      createdAt: "1 Јун 2024",
-      postedAt: "1 Јун 2024",
-      completed: false,
-      views: 2563,
-      visible: false,
-      mainImage: "/assets/demo-property-bg.png",
-    },
-  ],
-};
+import Link from "next/link";
 
 export default function MyListingsList({
   listings,
@@ -80,7 +51,7 @@ export default function MyListingsList({
           .map((p: Listing) => (
             <div
               key={p.id}
-              className="flex gap-3 h-[190px] shadow-md rounded-md"
+              className="flex gap-3 h-[190px] border  shadow-md rounded-md"
             >
               <div className="w-4/12 min-w-[250px]">
                 <img
@@ -156,6 +127,16 @@ export default function MyListingsList({
               </div>
             </div>
           ))}
+        <div className="flex gap-3 h-[190px] border  shadow-md rounded-md items-center justify-center">
+          <Link href={"/listing/new"}>
+            <Button
+              size={"lg"}
+              className="uppercase text-brand-light-blue bg-white border border-brand-light-blue hover:text-brand-light-blue hover:bg-slate-50"
+            >
+              Create new listing
+            </Button>
+          </Link>
+        </div>
       </div>
     </>
   );
