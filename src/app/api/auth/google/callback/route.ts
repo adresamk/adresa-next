@@ -86,7 +86,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  cookies().set("auth-cookie-exists", "", {
+  cookies().set("auth-cookie-exists", userId, {
     ...sessionCookie.attributes,
     httpOnly: false,
   });

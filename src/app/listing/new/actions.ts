@@ -1,7 +1,6 @@
 "use server";
 
-import { setCookie } from "@/actions/cookies";
-import { getUser, validateRequest } from "@/lib/auth";
+import { getUser } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { ListingContactData } from "@/lib/types";
 import { redirect } from "next/navigation";

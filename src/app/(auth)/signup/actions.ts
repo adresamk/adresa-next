@@ -74,7 +74,7 @@ export async function signUp(
       sessionCookie.value,
       sessionCookie.attributes
     );
-    cookies().set("auth-cookie-exists", "", {
+    cookies().set("auth-cookie-exists", user.id, {
       ...sessionCookie.attributes,
       httpOnly: false,
     });

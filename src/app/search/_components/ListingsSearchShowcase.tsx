@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, getLoggedInUserId } from "@/lib/utils";
 import { Listing } from "@prisma/client";
 import Image from "next/image";
 import {
@@ -19,19 +19,29 @@ import { formatNumberWithDelimiter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import ImagesCarousel from "./ImagesCarousel";
 import LikeListingButton from "./LikeListingButton";
+import TestButton from "./TestButton";
+import { ListingWithRelations } from "@/lib/types";
+import { getUser } from "@/lib/auth";
 
-export default function ListingsSearchShowcase({
+export default async function ListingsSearchShowcase({
   listing,
 }: {
   listing: Listing;
 }) {
+  const listingRef = listing as ListingWithRelations;
+  const user = await getUser();
+
+  const userLikedIt = listingRef.favoritedBy.some(
+    (e: any) => e.userId === user?.id
+  );
+
   return (
-    <li key={listing.id} className={cn("")}>
+    <li key={listingRef.id} className={cn("")}>
       <article className="w-full mb-5">
         <div
           className={cn(
             "w-full rounded-lg flex relative overflow-hidden bg-white border-solid border drop-shadow transition-all ease-linear  shadow hover:shadow-md group",
-            listing.isPaidPromo && "border border-brand-light-blue"
+            listingRef.isPaidPromo && "border border-brand-light-blue"
           )}
         >
           <figure className="my-0 mx-auto block relative">
@@ -40,33 +50,35 @@ export default function ListingsSearchShowcase({
               <div className="text-white flex items-center gap-1.5">
                 <ImageIcon size={14} />
                 <span className="font-bold">
-                  {listing.images.length}
+                  {listingRef.images.length}
                 </span>
               </div>
               <div>
                 {/* Place to use tags when we have them */}
-                {/* {listing.tags} */}
+                {/* {listingRef.tags} */}
               </div>
             </div>
             <div className="w-[260px] h-[240px]">
-              <ImagesCarousel images={listing.images} />
+              <ImagesCarousel images={listingRef.images} />
             </div>
             <figcaption className="hidden">
-              {listing.type}, {listing.area}m²
+              {listingRef.type}, {listingRef.area}m²
             </figcaption>
           </figure>
           <div className="flex-1 px-5 pt-3.5 pb-2.5 relative ">
             <div className="flex flex-col justify-between h-full">
               <div className="max-w-full mb-2 relative">
                 <h3 className="text-lg leading-6 font-medium mb-1.5 overflow-hidden">
-                  <span className="capitalize">{listing.type}</span>,{" "}
-                  {listing.area}m²
+                  <span className="capitalize">
+                    {listingRef.type}
+                  </span>
+                  , {listingRef.area}m²
                 </h3>
                 <h3 className="text-xs leading-5 mb-2.5 overflow-hidden">
-                  {listing.manucipality || "Municipality"}
+                  {listingRef.manucipality || "Municipality"}
                 </h3>
                 <p className="line-clamp-2 text-xs leading-5 mb-2.5 overflow-hidden">
-                  {listing.description}
+                  {listingRef.description}
                 </p>
 
                 {/* Extras/features */}
@@ -83,7 +95,7 @@ export default function ListingsSearchShowcase({
                       />
                       <span>
                         <span className="font-medium text-sm mr-0.5">
-                          {listing.floorNumber}
+                          {listingRef.floorNumber}
                         </span>
                       </span>
                     </li>
@@ -94,7 +106,7 @@ export default function ListingsSearchShowcase({
                       <Bed width={17} height={17} className="mr-1" />
                       <span>
                         <span className="font-medium text-sm mr-0.5">
-                          {listing.bedrooms}
+                          {listingRef.bedrooms}
                         </span>
                         br
                       </span>
@@ -106,7 +118,7 @@ export default function ListingsSearchShowcase({
                       <Bath width={17} height={17} className="mr-1" />
                       <span>
                         <span className="font-medium text-sm mr-0.5">
-                          {listing.bathrooms}
+                          {listingRef.bathrooms}
                         </span>
                         ba
                       </span>
@@ -115,14 +127,14 @@ export default function ListingsSearchShowcase({
                   <p className="text-xs ">
                     <span className="text-gray-500">Updated: </span>
                     <time
-                      dateTime={listing.updatedAt
+                      dateTime={listingRef.updatedAt
                         .toISOString()
                         .split("T")[0]
                         .split("-")
                         .reverse()
                         .join("/")}
                     >
-                      {listing.updatedAt
+                      {listingRef.updatedAt
                         .toISOString()
                         .split("T")[0]
                         .split("-")
@@ -132,7 +144,7 @@ export default function ListingsSearchShowcase({
                   </p>
                 </div>
                 {/* If user is an agency */}
-                {/* {listing.userId && (
+                {/* {listingRef.userId && (
                     <Link
                       className="w-[80px] h-[40px] overflow-hidden absolute top-0 right-0 rounded hidden xl:flex justify-end"
                       href={`/agency/slug}`}
@@ -150,11 +162,11 @@ export default function ListingsSearchShowcase({
                   <p className="font-bold leading-4 tracking-tighter text-xl">
                     €
                     {formatNumberWithDelimiter(
-                      listing.price?.toString() || ""
+                      listingRef.price?.toString() || ""
                     )}
                   </p>
                   {/* old price */}
-                  {listing.previousPrice && (
+                  {listingRef.previousPrice && (
                     <div className="flex items-center">
                       <ArrowDown
                         className="mr-1 ml-2.5"
@@ -163,7 +175,7 @@ export default function ListingsSearchShowcase({
                       <span className="text-sm text-gray-400 line-through">
                         €
                         {formatNumberWithDelimiter(
-                          listing.previousPrice?.toString() || ""
+                          listingRef.previousPrice?.toString() || ""
                         )}
                       </span>
                     </div>
@@ -172,7 +184,7 @@ export default function ListingsSearchShowcase({
                 <div className="flex items-center">
                   {/* labels */}
                   <div className="flex gap-1">
-                    {listing.isPaidPromo && (
+                    {listingRef.isPaidPromo && (
                       <span
                         title="Featured Listing"
                         className="border inline-block p-0.5 rounded items-center gap-1.5 text-xs  shadow-sm"
@@ -181,7 +193,7 @@ export default function ListingsSearchShowcase({
                       </span>
                     )}
 
-                    {listing.locationPrecision === "exact" && (
+                    {listingRef.locationPrecision === "exact" && (
                       <span
                         title="Exact location on map"
                         className="border inline-block p-0.5 rounded items-center gap-1.5 text-xs shadow-sm"
@@ -201,10 +213,11 @@ export default function ListingsSearchShowcase({
                           <EyeOff className="w-5 h-5" />
                         </Button>
                       </li>
+
                       <li>
                         <LikeListingButton
-                          listingId={listing.id}
-                          isFavorite={false}
+                          listingId={listingRef.id}
+                          isFavorite={userLikedIt}
                         />
                       </li>
                       <li>
@@ -222,9 +235,9 @@ export default function ListingsSearchShowcase({
             </div>
             <Link
               tabIndex={-1}
-              key={listing.id}
+              key={listingRef.id}
               className="inset-0 absolute z-0"
-              href={"/listing/" + listing.listingNumber}
+              href={"/listing/" + listingRef.listingNumber}
             ></Link>
           </div>
         </div>

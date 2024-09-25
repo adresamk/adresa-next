@@ -66,7 +66,7 @@ export const validateRequest = cache(
           sessionCookie.value,
           sessionCookie.attributes
         );
-        cookies().set("auth-cookie-exists", "", {
+        cookies().set("auth-cookie-exists", result.user.id, {
           ...sessionCookie.attributes,
           httpOnly: false,
         });

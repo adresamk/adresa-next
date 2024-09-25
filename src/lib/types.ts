@@ -1,3 +1,21 @@
+import { Listing } from "@prisma/client";
+
+export type ListingWithRelations = Listing & {
+  owner: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+  };
+  favoritedBy: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+  }[];
+};
 export interface ListingContactData {
   firstName?: string;
   lastName?: string;

@@ -76,7 +76,7 @@ export async function signIn(
     sessionCookie.attributes
   );
 
-  cookies().set("auth-cookie-exists", "", {
+  cookies().set("auth-cookie-exists", existingUser.id, {
     ...sessionCookie.attributes,
     httpOnly: false,
   });

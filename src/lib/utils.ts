@@ -12,7 +12,13 @@ export function formatNumberWithDelimiter(value: string) {
 export function capitalizeString(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
+export function getLoggedInUserId() {
+  if (typeof window === "undefined") {
+    return;
+  }
+  const userId = document.cookie.split("auth-cookie-exists=")[1];
+  return userId;
+}
 export function isLoggedInClient() {
   if (typeof window === "undefined") {
     return;
