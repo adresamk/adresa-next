@@ -75,7 +75,7 @@ export default function SuggestedAgencies() {
                 <img src={agency.images?.[0]} alt={agency.name} />
                 <h4 className="mt-3">{agency.name}</h4>
                 <p className="mt-1">
-                  {agency.propertiesManaged} suggestions
+                  {agency.propertiesManaged} recommendations
                 </p>
               </div>
             </CarouselItem>

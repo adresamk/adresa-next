@@ -94,6 +94,13 @@ export default function Step2({ listing }: { listing: Listing }) {
       />
 
       <h2 className="text-lg">Confirm your location</h2>
+      <Label htmlFor="latitude">latitude</Label>
+      <Input
+        defaultValue={listing.latitude || ""}
+        placeholder="Your latitude"
+        name="latitude"
+        id={"latitude"}
+      />
 
       <Label htmlFor="longitude">longitude</Label>
       <Input
@@ -101,14 +108,6 @@ export default function Step2({ listing }: { listing: Listing }) {
         defaultValue={listing.longitude || ""}
         name="longitude"
         id={"longitude"}
-      />
-
-      <Label htmlFor="latitude">latitude</Label>
-      <Input
-        defaultValue={listing.latitude || ""}
-        placeholder="Your latitude"
-        name="latitude"
-        id={"latitude"}
       />
 
       {/* <MapContainer
