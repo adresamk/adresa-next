@@ -2,7 +2,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Listing } from "@prisma/client";
-import { LatLngExpression } from "leaflet";
+import { Icon, LatLngExpression, divIcon } from "leaflet";
 import {
   MapContainer,
   TileLayer,
@@ -18,8 +18,9 @@ import ListingMapCard from "./ListingMapCard";
 import MapWithBounds from "./MapWithBounds";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Compass, Ghost } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Compass, Ghost, MapPinCheck } from "lucide-react";
+import { cn, formatNumberWithDelimiter } from "@/lib/utils";
+import { renderToStaticMarkup } from "react-dom/server";
 
 export default function SearchMap({
   listings,
@@ -32,6 +33,10 @@ export default function SearchMap({
   const [mapSearchedCounter, setMapSearchedCounter] = useState(0);
 
   const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
+  const pin1: LatLngExpression = [
+    42.009505818991286, 21.349934451934097,
+  ];
+
   function handleMapMove(
     target: "resultsFilters" | "mapFilters" | "both",
     coordinates: string
@@ -109,7 +114,7 @@ export default function SearchMap({
 
         <MapContainer
           center={skopjeLatLng}
-          zoom={13}
+          zoom={11}
           style={{ height: "100%", width: "100%" }}
         >
           <MapWithBounds
@@ -122,6 +127,58 @@ export default function SearchMap({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           <LayerGroup>
+            <Marker
+              position={pin1}
+              icon={divIcon({
+                html: renderToStaticMarkup(
+                  <div className="bg-brand-light-blue text-white  font-medium rounded outline-black px-1.5 py-1 w-fit border-white border">
+                    Test
+                  </div>
+                ),
+              })}
+            >
+              <Popup>
+                <div>Mario 123</div>
+              </Popup>
+            </Marker>
+            {listings.map((listing) => (
+              <Marker
+                icon={divIcon({
+                  html: renderToStaticMarkup(
+                    <div className="relative left-1/2 -translate-x-1/2 bg-brand-light-blue text-nowrap text-white  font-medium rounded-3xl outline-black px-1.5 py-1 w-fit border-white border">
+                      €
+                      {formatNumberWithDelimiter(
+                        listing.price?.toString() || "No price set"
+                      )}
+                    </div>
+                  ),
+                })}
+                key={listing.id}
+                position={
+                  [
+                    listing.latitude,
+                    listing.longitude,
+                  ] as LatLngExpression
+                }
+                eventHandlers={{
+                  mouseover: (e) => {
+                    // console.log(e.target);
+                    // e.target._path.setAttribute("fill", "#35f3ff");
+                    // e.target._path.setAttribute("stroke", "#35f3ff");
+                    e.target.openPopup();
+                  },
+                  mouseout: (e) => {
+                    e.target.closePopup();
+                    // e.target._path.setAttribute("fill", "#0069fe");
+                    // e.target._path.setAttribute("stroke", "#0069fe");
+                  },
+                }}
+              >
+                <Popup className="test" autoPan={false}>
+                  <ListingMapCard listing={listing} />
+                </Popup>
+              </Marker>
+            ))}
             {listings.map((listing) => (
               <CircleMarker
                 key={listing.id}
@@ -158,7 +215,7 @@ export default function SearchMap({
                 </Popup>
               </CircleMarker>
             ))}
-            <CircleMarker
+            {/* <CircleMarker
               center={skopjeLatLng}
               className="relative"
               radius={8}
@@ -168,7 +225,7 @@ export default function SearchMap({
                 fillColor: "#0069fe",
                 fillOpacity: 1,
               }}
-            ></CircleMarker>
+            ></CircleMarker> */}
           </LayerGroup>
         </MapContainer>
       </div>
