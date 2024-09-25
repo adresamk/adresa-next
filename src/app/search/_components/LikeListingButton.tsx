@@ -28,6 +28,7 @@ export default function LikeListingButton({
   isFavorite: boolean;
 }) {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isLiked, setIsLiked] = useState(isFavorite);
   return (
     <>
       <AlertDialog open={isAlertOpen}>
@@ -55,26 +56,30 @@ export default function LikeListingButton({
       </AlertDialog>
       <Button
         onClick={async (e) => {
-          e.stopPropagation();
-          e.preventDefault();
-
           const isLoggedIn = isLoggedInClient();
           if (!isLoggedIn) {
             setIsAlertOpen(true);
             return;
           }
-
-          if (!isFavorite) {
-            await addListingAsFavorite(listingId);
+          console.log("is liked");
+          // probably show toast with error maybe?
+          if (!isLiked) {
+            const resp = await addListingAsFavorite(listingId);
+            if (resp.success) {
+              setIsLiked(true);
+            }
           }
-          if (isFavorite) {
-            await removeListingAsFavorite(listingId);
+          if (isLiked) {
+            const resp = await removeListingAsFavorite(listingId);
+            if (resp.success) {
+              setIsLiked(false);
+            }
           }
         }}
         variant="ghost"
         className="w-10 h-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
       >
-        <Heart fill={!isFavorite ? "blue" : "none"} />
+        <Heart fill={isLiked ? "blue" : "none"} />
       </Button>
     </>
   );

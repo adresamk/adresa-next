@@ -1,6 +1,8 @@
 "use server";
 
 import { validateRequest } from "@/lib/auth";
+import prismadb from "@/lib/db";
+import { error } from "console";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -23,6 +25,17 @@ export async function addListingAsFavorite(listingId: string) {
       error: "Unauthorized",
     };
   }
+  await prismadb.favorite.create({
+    data: {
+      userId: user.id,
+      listingId: listingId,
+    },
+  });
+  return {
+    status: 200,
+    success: true,
+    error: null,
+  };
 }
 
 export async function removeListingAsFavorite(listingId: string) {
@@ -35,4 +48,18 @@ export async function removeListingAsFavorite(listingId: string) {
       error: "Unauthorized",
     };
   }
+
+  await prismadb.favorite.delete({
+    where: {
+      userId_listingId: {
+        userId: user.id,
+        listingId: listingId,
+      },
+    },
+  });
+  return {
+    status: 200,
+    success: true,
+    error: null,
+  };
 }

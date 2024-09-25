@@ -204,7 +204,7 @@ export default function ListingsSearchShowcase({
                       <li>
                         <LikeListingButton
                           listingId={listing.id}
-                          isFavorite={true}
+                          isFavorite={false}
                         />
                       </li>
                       <li>
