@@ -1,5 +1,6 @@
 "use server";
 
+import { listings } from "@/global/data";
 import { validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { error } from "console";
@@ -62,4 +63,27 @@ export async function removeListingAsFavorite(listingId: string) {
     success: true,
     error: null,
   };
+}
+
+export async function getLikedListingsByUser() {
+  const { user } = await validateRequest();
+
+  if (!user) {
+    redirect("/");
+  }
+  const likedListingsByUser = await prismadb.favorite.findMany({
+    where: {
+      userId: user.id,
+    },
+    select: {
+      listing: true,
+    },
+  });
+
+  // Extract listings from the result
+  const listings = likedListingsByUser.map(
+    (favorite) => favorite.listing
+  );
+
+  return listings;
 }
