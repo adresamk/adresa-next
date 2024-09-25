@@ -66,6 +66,10 @@ export const validateRequest = cache(
           sessionCookie.value,
           sessionCookie.attributes
         );
+        cookies().set("auth-cookie-exists", "", {
+          ...sessionCookie.attributes,
+          httpOnly: false,
+        });
       }
       if (!result.session) {
         const sessionCookie = lucia.createBlankSessionCookie();
@@ -74,6 +78,10 @@ export const validateRequest = cache(
           sessionCookie.value,
           sessionCookie.attributes
         );
+        cookies().set("auth-cookie-exists", "", {
+          ...sessionCookie.attributes,
+          httpOnly: false,
+        });
       }
     } catch {}
     // here instead of returning the result, we can go with prisma and get the User object with all the fields on it

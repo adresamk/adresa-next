@@ -12,6 +12,10 @@ export async function logout() {
     sessionCookie.value,
     sessionCookie.attributes
   );
+  cookies().set("auth-cookie-exists", "", {
+    ...sessionCookie.attributes,
+    httpOnly: false,
+  });
   redirect("/");
 }
 

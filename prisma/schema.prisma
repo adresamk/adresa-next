@@ -18,10 +18,10 @@ model Account {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  email          String    @unique
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id             String     @id @default(uuid())
+  email          String     @unique
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
   role           String
   emailVerified  DateTime?
   phone          String?
@@ -32,8 +32,10 @@ model User {
   picture        String?
   sessions       Session[]
   listings       Listing[]
-  agency         Agency?   @relation(fields: [agencyId], references: [id])
-  agencyId       String?   @unique
+  agency         Agency?    @relation(fields: [agencyId], references: [id])
+  agencyId       String?    @unique
+  // 
+  favorites      Favorite[]
 }
 
 model Session {
@@ -51,14 +53,14 @@ model Counter {
 
 model Listing {
   // Generated automatically
-  id                String    @id @default(uuid())
-  listingNumber     Int       @unique @default(autoincrement()) // 6 digit number  
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  isAvailable       Boolean?  @default(true)
+  id                String     @id @default(uuid())
+  listingNumber     Int        @unique @default(autoincrement()) // 6 digit number  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  isAvailable       Boolean?   @default(true)
   availabilityDate  DateTime? // if it is in the past it is available
   // Required for creation in form
-  owner             User      @relation(fields: [userId], references: [id])
+  owner             User       @relation(fields: [userId], references: [id])
   userId            String
   transactionType   String // rent, sale
   category          String // Won't be changed later
@@ -84,11 +86,11 @@ model Listing {
   // isAtCorner        Boolean?  @default(false)
   // levels            Int?
   // rooms
-  bedrooms          Int?      @default(0)
-  bathrooms         Int?      @default(0)
-  wcs               Int?      @default(0)
-  kitchens          Int?      @default(0)
-  livingRooms       Int?      @default(0)
+  bedrooms          Int?       @default(0)
+  bathrooms         Int?       @default(0)
+  wcs               Int?       @default(0)
+  kitchens          Int?       @default(0)
+  livingRooms       Int?       @default(0)
   // Other features that are on spitogatos
   parking           Boolean? // true = there is, false = there isn't, null = not specified
   elevator          Boolean?
@@ -118,9 +120,9 @@ model Listing {
   // airCondition           Boolean?  @default(false)
   // underFloorHeating      Boolean?  @default(false)
   // Description
-  description       String?   @db.VarChar(5000)
-  mkdDescription    String?   @db.VarChar(5000)
-  albDescription    String?   @db.VarChar(5000)
+  description       String?    @db.VarChar(5000)
+  mkdDescription    String?    @db.VarChar(5000)
+  albDescription    String?    @db.VarChar(5000)
   // short description
   // shortDescription  String?
   // Images and Video
@@ -128,13 +130,15 @@ model Listing {
   images            String[]
   videoLink         String? // youtube or vimeo for the property
   // Publishing info
-  isArchived        Boolean   @default(false)
-  isPublished       Boolean   @default(false)
+  isArchived        Boolean    @default(false)
+  isPublished       Boolean    @default(false)
   publishedAt       DateTime?
   publishEndDate    DateTime? // usually one month after publishedAt
   // Unresolved
-  tags              String[]  @default([])
-  isPaidPromo       Boolean   @default(false)
+  tags              String[]   @default([])
+  isPaidPromo       Boolean    @default(false)
+  // favourites
+  favoritedBy       Favorite[]
   // Unexplained
   // published   Boolean   @default(false)
   // title       String?
@@ -144,10 +148,23 @@ model Listing {
   // Not every listing is owned by an Agency, these info will go through user
   // agency           Agency?  @relation(fields: [agencyId], references: [id])
   // agencyId         String?
-  contactData       String?   @default("") // JSON with contact data
+  contactData       String?    @default("") // JSON with contact data
   // enquirerData      EnquirerData @relation(fields: [enquirerDataId], references: [id])
   // enquirerDataId    String       @unique
   // EnquirerData      EnquirerData[]
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  listingId String
+  createdAt DateTime @default(now())
+
+  // Relationships
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, listingId]) // Ensure a user can't favorite the same listing twice
 }
 
 // model EnquirerData {

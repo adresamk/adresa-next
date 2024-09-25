@@ -76,6 +76,11 @@ export async function signIn(
     sessionCookie.attributes
   );
 
+  cookies().set("auth-cookie-exists", "", {
+    ...sessionCookie.attributes,
+    httpOnly: false,
+  });
+
   const redirectPath = formData.get("redirect")?.toString();
   if (typeof redirectPath === "string") {
     redirect(redirectPath);

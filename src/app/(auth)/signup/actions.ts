@@ -74,6 +74,10 @@ export async function signUp(
       sessionCookie.value,
       sessionCookie.attributes
     );
+    cookies().set("auth-cookie-exists", "", {
+      ...sessionCookie.attributes,
+      httpOnly: false,
+    });
   } catch (error) {
     return {
       error: "Something went wrong",

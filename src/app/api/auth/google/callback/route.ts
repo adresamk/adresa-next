@@ -86,6 +86,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
     sessionCookie.value,
     sessionCookie.attributes
   );
+  cookies().set("auth-cookie-exists", "", {
+    ...sessionCookie.attributes,
+    httpOnly: false,
+  });
 
   redirect("/");
 }

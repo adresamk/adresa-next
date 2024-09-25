@@ -12,3 +12,27 @@ export async function createListing() {
     redirect("/listing/new");
   }
 }
+
+export async function addListingAsFavorite(listingId: string) {
+  const { user } = await validateRequest();
+
+  if (!user) {
+    return {
+      status: 401,
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+}
+
+export async function removeListingAsFavorite(listingId: string) {
+  const { user } = await validateRequest();
+
+  if (!user) {
+    return {
+      status: 401,
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+}
