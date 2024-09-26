@@ -59,7 +59,7 @@ export default function MyLikedListings({
             }
           })
           .map((listing) => (
-            <ListingCard listing={listing} />
+            <ListingCard key={listing.id} listing={listing} />
           ))}
       </div>
       {/* <pre>{JSON.stringify(listings, null, 2)}</pre> */}
