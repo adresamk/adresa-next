@@ -7,7 +7,12 @@ import PropertyTypeFilter from "./primary/PropertyTypeFilter";
 import SurfaceFilter from "./primary/SurfaceFilter";
 import SubTypeFilter from "./primary/SubTypeFilter";
 
-import { ChevronDown, Search, SlidersVertical } from "lucide-react";
+import {
+  BellPlus,
+  ChevronDown,
+  Search,
+  SlidersVertical,
+} from "lucide-react";
 import SmartOverlay from "../SmartOverlay";
 import { useEffect, useState } from "react";
 import FloorsFilter from "./secondary/FloorsFilter";
@@ -24,6 +29,7 @@ import { useFilters } from "@/hooks/useFilters";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryStates } from "nuqs";
 import { secondaryFiltersParsers } from "@/app/searchParams";
+import CreateSavedSearch from "./CreateSavedSearch";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +40,7 @@ export default function Filters() {
   const shouldUpdate = useFilters((store) => store.shouldUpdate);
 
   const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(false);
+
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
   const clearSecondaryFilters = useFilters(
@@ -82,7 +89,7 @@ export default function Filters() {
   const results = {
     length: Math.floor(Math.random() * 100),
   };
-  const footer = (
+  const moreFiltersFooter = (
     <div className="flex justify-between items-end w-full">
       <Button
         variant="ghost"
@@ -150,13 +157,14 @@ export default function Filters() {
         <span className="capitalize">Filters</span>
         <ChevronDown width={20} className="ml-2" />{" "}
       </Button>
+      <CreateSavedSearch />
       <SmartOverlay
         isOpen={areMoreFiltersOpen}
         onClose={() => setAreMoreFiltersOpen(false)}
         title="More Filters"
         description="Select more filters to refine your search"
         innerScroll
-        footerJSX={footer}
+        footerJSX={moreFiltersFooter}
       >
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap border-b-2 py-2.5 px-1.5">

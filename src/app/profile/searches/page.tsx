@@ -2,46 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { HousePlus, Search } from "lucide-react";
 import MySavedSearchesList from "./_components/MySavedSearchesList";
+import { get } from "http";
+import { getMySavedSearches } from "@/actions/savedSearches";
 
-const mySavedSearches: any[] = [
-  {
-    id: 1,
-    transactionType: "rent",
-    type: "apartment",
-    location: "Lekki",
-    manucipality: "Lagos",
-    listingsCount: 10,
-    newListingsCount: 5,
-    img: "/assets/saved-search-map-polygon.png",
-    isNotificationOn: true,
-    notificationInterval: "daily",
-  },
-  {
-    id: 2,
-    transactionType: "buy",
-    type: "house",
-    location: "Ikeja",
-    manucipality: "Lagos",
-    listingsCount: 14,
-    newListingsCount: 5,
-    img: "/assets/saved-search-map-polygon.png",
-    isNotificationOn: false,
-    notificationInterval: "weekly",
-  },
-  {
-    id: 3,
-    transactionType: "rent",
-    type: "apartment",
-    location: "Lekki",
-    manucipality: "Lagos",
-    listingsCount: 110,
-    newListingsCount: 2,
-    img: "/assets/saved-search-map-polygon.png",
-    isNotificationOn: true,
-    notificationInterval: "live",
-  },
-];
-export default function MySavedSearchesPage() {
+export default async function MySavedSearchesPage() {
+  const mySavedSearches = await getMySavedSearches();
   return (
     <div className="w-full">
       <div className="p-8 mt-4 ml-4 bg-white   rounded-lg shadow w-full">

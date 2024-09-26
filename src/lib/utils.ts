@@ -43,3 +43,13 @@ function checkCookie(cookieName: string) {
   }
   return false; // Cookie does not exist
 }
+
+export function parseQueryString(queryString: string) {
+  const params = new URLSearchParams(queryString);
+  console.log(params);
+  const obj: { [key: string]: string } = {};
+  params.forEach((value, key) => {
+    obj[key] = value;
+  });
+  return params;
+}
