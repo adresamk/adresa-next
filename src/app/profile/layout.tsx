@@ -13,7 +13,7 @@ export default async function ProfileLayout({
   }
 
   return (
-    <main className=" flex max-w-[1100px] mx-auto px-6 ">
+    <main className=" flex max-w-[1200px] mx-auto px-6 ">
       <div className=" min-w-[220px] bg-white shadow min-h-screen">
         <div className="px-3 py-6">
           <p>Welcome</p>
