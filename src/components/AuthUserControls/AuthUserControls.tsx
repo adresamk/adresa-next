@@ -13,7 +13,7 @@ export default async function AuthUserControls() {
   const user = await getUser();
 
   if (user) {
-    return <UserControls img={user.picture} />;
+    return <UserControls user={user} />;
   }
 
   return (
