@@ -7,11 +7,25 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { createSavedSearch } from "@/actions/savedSearches";
 import { useFormState } from "react-dom";
+import { isLoggedInClient } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import Link from "next/link";
 const notificationIntervalOptions = ["daily", "weekly", "live"];
 
 export default function CreateSavedSearch() {
   const [isSavedSearchModalOpen, setIsSavedSearchModalOpen] =
     useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [areNotificationsOn, setareNotificationsOn] = useState(false);
   const [searchParams, setSearchParams] = useState("");
   const [response, formAction] = useFormState(
@@ -32,8 +46,37 @@ export default function CreateSavedSearch() {
   }, [response]);
   return (
     <>
+      <AlertDialog open={isAlertOpen}>
+        {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Login needed</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action requires you to be logged in first
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel
+              onClick={() => {
+                setIsAlertOpen(false);
+              }}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction>
+              <Link href="/signin?redirect=/search">Sign in</Link>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <Button
         onClick={() => {
+          const isLoggedIn = isLoggedInClient();
+          console.log("isLoggedIn", isLoggedIn);
+          if (!isLoggedIn) {
+            setIsAlertOpen(true);
+            return;
+          }
           setIsSavedSearchModalOpen(true);
         }}
       >
@@ -82,7 +125,7 @@ export default function CreateSavedSearch() {
                   type="text"
                   className="hidden"
                   name="isNotificationOn"
-                  value={areNotificationsOn ? "on" : "off"}
+                  defaultValue={areNotificationsOn ? "on" : "off"}
                 />
                 <Input
                   className=""

@@ -93,7 +93,7 @@ model Listing {
   fullAddress       String? // the full address (manucipality + place + district + address)
   longitude         Float?
   latitude          Float?
-  locationPrecision String? // 'exact', 'approximate', 'wide | How precise the location is shown on the map
+  locationPrecision String? // 'exact', 'approximate', 'wide' | How precise the location is shown on the map
   // Main Characteristics
   price             Int?
   previousPrice     Int?
