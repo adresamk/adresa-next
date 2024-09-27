@@ -87,9 +87,10 @@ export async function deleteSavedSearch(id: string) {
 
 export async function updateSavedSearch(
   id: string,
-  field: "isNotificationOn" | "notificationInterval",
-  value: boolean | string
+  field: "isNotificationOn" | "notificationInterval" | "lastOpenedAt",
+  value: any
 ) {
+  console.log("updateSavedSearch", id, field, value);
   const { user } = await validateRequest();
   if (!user) {
     return {
@@ -110,6 +111,26 @@ export async function updateSavedSearch(
       },
       data: {
         isNotificationOn: value,
+      },
+    });
+    return {
+      success: true,
+    };
+  }
+  if (field === "lastOpenedAt") {
+    console.log("lastOpenedAt", value, typeof value);
+    if (typeof value !== "object") {
+      return {
+        success: false,
+        error: "Invalid value",
+      };
+    }
+    await prismadb.savedSearch.update({
+      where: {
+        id,
+      },
+      data: {
+        lastOpenedAt: new Date(),
       },
     });
     return {

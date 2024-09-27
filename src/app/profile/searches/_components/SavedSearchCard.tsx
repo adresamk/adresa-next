@@ -60,14 +60,32 @@ export default function SavedSearchCard({
           {/* {searchParamsExtracted} */}
           <div className="text-lg font-semibold">
             <h4>
-              <Link
-                target="_blank"
-                href={"/search?" + savedSearch.searchParams}
-                className="flex items-center text-brand-dark-blue hover:text-brand-light-blue"
+              <div
+                // target="_blank"
+                // href={"/search?" + savedSearch.searchParams}
+                className="text-brand-dark-blue hover:text-brand-light-blue"
               >
-                <LinkIcon className="mr-2 w-5 h-5" />{" "}
-                {savedSearch.name}
-              </Link>
+                <span
+                  className="cursor-pointer flex items-center "
+                  onClick={async (e) => {
+                    console.log("here");
+                    const resp = await updateSavedSearch(
+                      savedSearch.id,
+                      "lastOpenedAt",
+                      null
+                    );
+                    if (resp.success) {
+                      window.open(
+                        "/search?" + savedSearch.searchParams,
+                        "_blank"
+                      );
+                    }
+                  }}
+                >
+                  <LinkIcon className="mr-2 w-5 h-5" />{" "}
+                  {savedSearch.name}
+                </span>
+              </div>
             </h4>
             Search params here
             {/* <span className="capitalize">{savedSearch.type}</span>
