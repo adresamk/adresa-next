@@ -75,6 +75,7 @@ export default function SavedSearchCard({
                       null
                     );
                     if (resp.success) {
+                      // or change this to click a hidden link element
                       window.open(
                         "/search?" + savedSearch.searchParams,
                         "_blank"
