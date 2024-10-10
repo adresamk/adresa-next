@@ -23,18 +23,11 @@ import { z } from "zod";
 import { useFormState } from "react-dom";
 import { editListing, EditListingResponse } from "./actions";
 
-// const EditListingSchema = z.object({
-//   propertyType: z.string(),
-//   listingId: z.string(),
-//   step: z.string(),
-// });
-
-// type EditListingSchemaType = z.infer<typeof EditListingSchema>;
 export default function ListingEditForm({
   loadedListing,
   requestedStep,
 }: ListingEditFormProps) {
-  const [listing, setListing] = useState(loadedListing);
+  // const [listing, setListing] = useState(loadedListing);
   const [state, formAction] = useFormState(editListing, {
     success: true,
     data: {
@@ -44,25 +37,15 @@ export default function ListingEditForm({
   const { data, success, error } = state;
 
   console.log(data);
-  //   const listing = data ? data.listing : loadedListing;
+  const listing = data ? data.listing : loadedListing;
 
   const [currentStep, setCurrentStep] = useState(requestedStep);
   const [progress, setProgress] = useState(22);
   const stepsFlow = steps.map((step) => step.uniquePath);
   const currentStepIdx = stepsFlow.indexOf(currentStep);
 
-  useEffect(() => {
-    console.log("something returned", state);
-    if (state.data && state.data.listing) {
-      //   @ts-ignore
-      setListing(state.data.listing);
-    }
-  }, [state]);
-
   return (
     <>
-      <div>MANU {listing.manucipality || "Nema"}</div>
-      <div>PRICE {listing.price || "Nema"}</div>
       <ListingEditSideMenu
         currentStep={currentStep}
         listing={listing}
@@ -71,17 +54,7 @@ export default function ListingEditForm({
       />
       <div className="w-2/3">
         <div className="p-2 shadow-md bg-white mt-2 rounded">
-          <form
-            action={formAction}
-            // onSubmit={(e) => {
-            //   e.preventDefault();
-            //   console.log(e);
-            //   const fd = new FormData(e.target as HTMLFormElement);
-            //   const obj = Object.fromEntries(fd);
-            //   console.log(obj);
-            //   //   handleSubmit(onSubmit);
-            // }}
-          >
+          <form action={formAction}>
             <input
               type="text"
               className="hidden"

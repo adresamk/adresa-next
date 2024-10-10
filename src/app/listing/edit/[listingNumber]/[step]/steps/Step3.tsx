@@ -76,6 +76,7 @@ export default function Step3({ listing }: { listing: Listing }) {
       <h2 className="text-lg">Location</h2>
       <Separator className="my-2 mt-4" />
 
+      {/* Price */}
       <div className="flex flex-col gap-3">
         <Label htmlFor="price">
           Property Price <span className="text-red-500">*</span>
@@ -87,6 +88,7 @@ export default function Step3({ listing }: { listing: Listing }) {
           <Input
             required
             name="price"
+            id="price"
             placeholder="Enter price in euros"
             value={propertyPrice || ""}
             onChange={(e) => {
@@ -98,6 +100,7 @@ export default function Step3({ listing }: { listing: Listing }) {
           />
         </div>
       </div>
+      {/* Area */}
       <div className="flex flex-col gap-3">
         <Label htmlFor="area">
           Property Area <span className="text-red-500">*</span>
@@ -110,6 +113,7 @@ export default function Step3({ listing }: { listing: Listing }) {
             required
             type="number"
             name="area"
+            id="area"
             min={1}
             max={3000}
             placeholder="Enter area in m2"
@@ -124,14 +128,14 @@ export default function Step3({ listing }: { listing: Listing }) {
           />
         </div>
       </div>
-
+      {/* Floor Number */}
       <div className="flex flex-col gap-3">
         <Label htmlFor="floorNumber">Floor</Label>
         <div className="flex items-center w-1/2 min-w-[300px] mb-2">
           <Input
-            required
             type="number"
             name="floorNumber"
+            id="floorNumber"
             min={0}
             max={30}
             placeholder="Put what floor is the property on"
@@ -147,6 +151,7 @@ export default function Step3({ listing }: { listing: Listing }) {
         </div>
       </div>
 
+      {/* Orientation */}
       <div className="flex flex-col gap-3">
         <Label htmlFor="orientation">Orientation</Label>
         <div className="flex items-center w-1/2 min-w-[300px] mb-2">
@@ -159,16 +164,18 @@ export default function Step3({ listing }: { listing: Listing }) {
           />
         </div>
       </div>
-
+      {/* Rooms */}
       <div className="flex flex-col gap-3">
         <Label>Rooms</Label>
         <div className="flex flex-col  w-1/2 min-w-[300px] mb-2">
+          {/* Bedrooms */}
           <div className="flex gap-3 items-center">
             <Bed size={50} />
             <Input
               required
               type="number"
               name="bedrooms"
+              id="bedrooms"
               min={0}
               max={10}
               placeholder="Enter area in m2"
@@ -183,13 +190,14 @@ export default function Step3({ listing }: { listing: Listing }) {
             />
             <span>bedroom </span>
           </div>
-
+          {/* Bathrooms */}
           <div className="flex gap-3 items-center">
             <ShowerHead size={50} />
             <Input
               required
               type="number"
               name="bathrooms"
+              id="bathrooms"
               min={0}
               max={10}
               placeholder="Enter area in m2"
@@ -204,12 +212,14 @@ export default function Step3({ listing }: { listing: Listing }) {
             />
             <span>bathroom </span>
           </div>
+          {/* WCS */}
           <div className="flex gap-3 items-center">
             <Bath size={50} />
             <Input
               required
               type="number"
               name="wcs"
+              id="wcs"
               min={0}
               max={10}
               placeholder="Enter area in m2"
@@ -224,12 +234,14 @@ export default function Step3({ listing }: { listing: Listing }) {
             />
             <span>wcs </span>
           </div>
+          {/* Kitchens */}
           <div className="flex gap-3 items-center">
             <ChefHat size={50} />
             <Input
               required
               type="number"
               name="kitchens"
+              id="kitchens"
               min={0}
               max={10}
               placeholder="Enter area in m2"
@@ -245,12 +257,14 @@ export default function Step3({ listing }: { listing: Listing }) {
             <span>kitchen </span>
           </div>
 
+          {/* Living Rooms */}
           <div className="flex gap-3 items-center">
             <Sofa size={50} />
             <Input
               required
               type="number"
               name="livingRooms"
+              id="livingRooms"
               min={0}
               max={10}
               placeholder="Enter area in m2"
@@ -271,6 +285,7 @@ export default function Step3({ listing }: { listing: Listing }) {
       <div className="flex flex-col gap-3">
         <Label>Other characteristics</Label>
         <div className="flex flex-col   w-1/2 min-w-[300px] mb-2">
+          {/* Parking */}
           <div className="flex items-center">
             <ParkingSquare />
             <RadioGroupDemo
@@ -281,6 +296,7 @@ export default function Step3({ listing }: { listing: Listing }) {
               values={extraFeaturesValues}
             />
           </div>
+          {/* Elevator */}
           <div className="flex items-center">
             <DoorClosed />
             <RadioGroupDemo
@@ -291,6 +307,7 @@ export default function Step3({ listing }: { listing: Listing }) {
               defaultValue={featuresValues(listing.elevator)}
             />
           </div>
+          {/* Balcony */}
           <div className="flex items-center">
             <Fence />
             <RadioGroupDemo
@@ -301,6 +318,7 @@ export default function Step3({ listing }: { listing: Listing }) {
               defaultValue={featuresValues(listing.balcony)}
             />
           </div>
+          {/* Yard */}
           <div className="flex items-center">
             <Fence />
             <RadioGroupDemo
@@ -311,6 +329,7 @@ export default function Step3({ listing }: { listing: Listing }) {
               defaultValue={featuresValues(listing.yard)}
             />
           </div>
+          {/* Basement */}
           <div className="flex items-center">
             <Building />
             <RadioGroupDemo

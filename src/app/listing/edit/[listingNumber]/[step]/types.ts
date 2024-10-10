@@ -10,7 +10,7 @@ export type Step = {
   uniquePath: string;
 };
 export const stepStatus: StepStatus = {
-  "Property Category": "completed",
+  "Property Type": "completed",
   Location: "completed",
   "Main characteristics": "in-progress",
   "Additional features & heating": "incomplete",
@@ -21,7 +21,7 @@ export const stepStatus: StepStatus = {
 };
 export const steps: Step[] = [
   {
-    title: "Property Category",
+    title: "Property Type",
     description: "Select the category",
     fieldsMentioned: ["category"],
     uniquePath: "category",

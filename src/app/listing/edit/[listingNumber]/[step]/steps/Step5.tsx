@@ -27,7 +27,7 @@ export default function Step5({ listing }: { listing: Listing }) {
         name="step"
       />
 
-      <h2 className="text-lg">Location</h2>
+      <h2 className="text-lg">Description</h2>
       <Separator className="my-2 mt-4" />
 
       <div className="flex flex-col gap-2">

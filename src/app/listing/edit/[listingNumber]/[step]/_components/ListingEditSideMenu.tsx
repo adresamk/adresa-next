@@ -3,7 +3,6 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { Listing } from "@prisma/client";
-import Link from "next/link";
 import { steps, Step, stepStatus } from "../types";
 
 interface ListingEditSideMenuProps {
@@ -12,61 +11,177 @@ interface ListingEditSideMenuProps {
   listing: Listing;
   setCurrentStep: (step: string) => void;
 }
+interface stepsValueSystemType {
+  [key: string]: {
+    [fieldName: string]: number;
+  };
+}
+const stepsValueSystem: stepsValueSystemType = {
+  "Property Type": {
+    type: 100,
+  },
+  Location: {
+    manucipality: 20,
+    place: 20,
+    district: 20,
+    address: 20,
+    latitude: 10,
+    longitude: 10,
+  },
+  "Main characteristics": {
+    price: 20,
+    area: 20,
+    floorNumber: 5,
+    orientation: 5,
+    bedrooms: 5,
+    bathrooms: 5,
+    wcs: 5,
+    kitchens: 5,
+    livingRooms: 5,
+    parking: 5,
+    elevator: 5,
+    balcony: 5,
+    yard: 5,
+    basement: 5,
+  },
+  "Additional features & heating": {},
+  Description: {
+    description: 32,
+    mkdDescription: 33,
+    albDescription: 33,
+  },
+  "Photos and Video": {
+    images: 50,
+    videoLink: 50,
+  },
+  "Contact Details": {
+    firstName: 20,
+    lastName: 20,
+    phone: 20,
+    contactHours: 20,
+    email: 20,
+  },
+  "Publish listing": {
+    isPublished: 100,
+  },
+};
 export default function ListingEditSideMenu({
   currentStep,
   progress,
   listing,
   setCurrentStep,
 }: ListingEditSideMenuProps) {
+  const stepsProgress = steps.map((step) => {
+    let stepProgress = Object.entries(
+      stepsValueSystem[step.title] || {}
+    )
+      .map(([key, value]) => {
+        if (listing.hasOwnProperty(key)) {
+          console.log(key, value, listing[key as keyof Listing]);
+          if (
+            !listing[key as keyof Listing] ||
+            (Array.isArray(listing[key as keyof Listing]) &&
+              (listing[key as keyof Listing] as any[]).length === 0)
+          ) {
+            return 0;
+          } else {
+            return value;
+          }
+        }
+      })
+      .reduce((acc, curr) => acc! + curr!, 0);
+
+    if (step.title === "Contact Details") {
+      const contactData = JSON.parse(listing.contactData as string);
+      stepProgress = Object.entries(
+        stepsValueSystem[step.title] || {}
+      )
+        .map(([key, value]) => {
+          if (contactData.hasOwnProperty(key)) {
+            console.log(key, value, contactData[key as string]);
+            if (
+              contactData[key as string] === null ||
+              contactData[key as string] === undefined ||
+              contactData[key as string] === ""
+            ) {
+              return 0;
+            } else {
+              return value;
+            }
+          }
+        })
+        .reduce((acc, curr) => acc! + curr!, 0);
+    }
+    return stepProgress;
+  });
+
+  const stepsProgressSum = stepsProgress.reduce(
+    (acc, curr) => acc! + curr!,
+    0
+  )!;
+  console.log(stepsProgressSum);
+  const formProgress = Math.round((stepsProgressSum / 800) * 100);
   return (
     <div className="w-1/3 ">
       <div className="shadow-md rounded  m-2 bg-white">
         <div className="p-2">
           <p>
-            <span>{progress}%</span> completed{" "}
+            <span>{formProgress}%</span> completed{" "}
           </p>
           <p>New Listing</p>
 
           <div className="mt-4">
-            <Progress value={progress} />
+            <Progress value={formProgress} />
           </div>
         </div>
         <Separator className="mt-2" />
         <div>
           <ul>
-            {steps.map((step: Step, index) => (
-              <li
-                key={step.title}
-                onClick={() => {
-                  setCurrentStep(steps[index].uniquePath);
-                }}
-                className={cn(
-                  "flex p-4 pr-1 cursor-pointer hover:bg-gray-50",
-                  currentStep === steps[index].uniquePath &&
-                    "bg-gray-50 border-l-4 border-l-brand-light-blue"
-                )}
-              >
-                <div className="flex-1 ">
-                  <p>{step.title}</p>
-                  <p className="text-sm text-gray-500">
-                    {step.description}
-                  </p>
-                </div>
-                <div className="flex items-center px-2">
-                  {stepStatus[step.title] === "completed" && (
-                    <CircleCheck fill="green" />
-                  )}
+            {steps.map((step: Step, index) => {
+              const stepProgress = stepsProgress[index];
 
-                  {stepStatus[step.title] === "in-progress" && (
-                    <CircleCheck fill="orange" />
+              return (
+                <li
+                  key={step.title}
+                  onClick={() => {
+                    setCurrentStep(steps[index].uniquePath);
+                  }}
+                  className={cn(
+                    "flex p-4 pr-1  cursor-pointer hover:bg-gray-50 relative",
+                    currentStep === steps[index].uniquePath &&
+                      "bg-gray-50 border-l-4 border-l-brand-light-blue"
                   )}
+                >
+                  <div className=" bg-slate-200 absolute bottom-0.5 left-0.5 rounded-2xl h-1 right-1 w-[98%]">
+                    <div
+                      className="bg-slate-400 h-1 rounded-2xl"
+                      style={{
+                        width: `${stepProgress}%`,
+                      }}
+                    ></div>
+                  </div>
+                  <div className="flex items-center px-2 absolute top-1.5    right-0">
+                    {stepStatus[step.title] === "completed" && (
+                      <CircleCheck fill="green" />
+                    )}
 
-                  {stepStatus[step.title] === "incomplete" && (
-                    <CircleAlert fill="red" />
-                  )}
-                </div>
-              </li>
-            ))}
+                    {stepStatus[step.title] === "in-progress" && (
+                      <CircleCheck fill="orange" />
+                    )}
+
+                    {stepStatus[step.title] === "incomplete" && (
+                      <CircleAlert fill="red" />
+                    )}
+                  </div>
+                  <div className="flex-1 relative">
+                    <p>{step.title}</p>
+                    <p className="text-sm text-gray-500">
+                      {step.description}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

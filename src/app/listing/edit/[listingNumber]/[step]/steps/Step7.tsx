@@ -92,7 +92,7 @@ export default function Step7({ listing }: { listing: Listing }) {
       </div>
 
       <div className="flex flex-col gap-3 mb-2">
-        <Label htmlFor="contact-hours">Contact Hours</Label>
+        <Label htmlFor="contactHours">Contact Hours</Label>
         <SelectDemo
           name="contactHours"
           value={contactHours}
@@ -102,7 +102,7 @@ export default function Step7({ listing }: { listing: Listing }) {
       </div>
 
       <div className="flex flex-col gap-3 mb-2">
-        <Label htmlFor="tel">
+        <Label htmlFor="email">
           Email <span className="text-red-500">*</span>
         </Label>
         <Input

@@ -81,8 +81,11 @@ export default function Step2({ listing }: { listing: Listing }) {
         options={populatedPlaces}
       />
 
-      <Label htmlFor="address">Address</Label>
+      <Label htmlFor="address">
+        Address <span className="text-red-500 text-base">*</span>{" "}
+      </Label>
       <Input
+        required
         placeholder="Your address"
         name="address"
         id={"address"}
