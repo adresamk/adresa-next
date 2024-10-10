@@ -239,7 +239,7 @@ export default function ListingEditSideMenu({
             <span>{formProgress}%</span> completed{" "}
           </p>
           <p>
-            {stepStatus["Publish listing"] !== "in-progress" && (
+            {stepStatus["Publish listing"] === "in-progress" && (
               <span className="text-red-500 text-sm">
                 {" "}
                 Fill out all required fields!
