@@ -12,7 +12,6 @@ import {
   TileLayer,
   useMap,
 } from "react-leaflet";
-import { list } from "postcss";
 const cities = [
   { label: "Kumanovo", value: "kumanovo" },
   { label: "Skopje", value: "skopje" },

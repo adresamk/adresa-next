@@ -1,10 +1,17 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import prismadb from "@/lib/db";
 import { validateRequest } from "@/lib/auth";
 import { ListingContactData } from "@/lib/types";
+import { Listing } from "@prisma/client";
+import { error } from "console";
+export interface EditListingResponse {
+  data?: {
+    listing: Listing;
+  };
+  success: boolean;
+  error?: string;
+}
 
 export async function attachImagesToListing(
   images: string[],
@@ -50,8 +57,8 @@ async function editType(formData: FormData) {
   const type = formData.get("type");
   if (typeof type !== "string") {
     return {
-      error: "Invalid type",
       success: false,
+      error: "Invalid type",
     };
   }
 
@@ -64,13 +71,13 @@ async function editType(formData: FormData) {
 
   if (!listing) {
     return {
-      error: "Listing not found",
       success: false,
+      error: "Listing not found",
     };
   }
-
+  let updatedListing = null;
   if (listing.type !== type) {
-    await prismadb.listing.update({
+    updatedListing = await prismadb.listing.update({
       where: {
         id: listingId,
       },
@@ -78,11 +85,14 @@ async function editType(formData: FormData) {
         type,
       },
     });
-
-    return {
-      success: true,
-    };
   }
+  return {
+    success: true,
+    error: "",
+    data: {
+      listing: updatedListing ? updatedListing : listing,
+    },
+  };
 }
 async function editLocation(formData: FormData) {
   const manucipality = formData.get("manucipality");
@@ -101,8 +111,8 @@ async function editLocation(formData: FormData) {
     typeof latitude !== "string"
   ) {
     return {
-      error: "Invalid Inputs",
       success: false,
+      error: "Invalid Inputs",
     };
   }
 
@@ -115,12 +125,12 @@ async function editLocation(formData: FormData) {
 
   if (!listing) {
     return {
-      error: "Listing not found",
       success: false,
+      error: "Listing not found",
     };
   }
 
-  await prismadb.listing.update({
+  const updatedListing = await prismadb.listing.update({
     where: {
       id: listingId,
     },
@@ -137,6 +147,9 @@ async function editLocation(formData: FormData) {
 
   return {
     success: true,
+    data: {
+      listing: updatedListing,
+    },
   };
 }
 async function editCharacteristics(formData: FormData) {
@@ -172,8 +185,8 @@ async function editCharacteristics(formData: FormData) {
     typeof basement !== "string"
   ) {
     return {
-      error: "Invalid Inputs",
       success: false,
+      error: "Invalid Inputs",
     };
   }
   const listingId = formData.get("listingId")! as string;
@@ -185,8 +198,8 @@ async function editCharacteristics(formData: FormData) {
 
   if (!listing) {
     return {
-      error: "Listing not found",
       success: false,
+      error: "Listing not found",
     };
   }
 
@@ -202,7 +215,7 @@ async function editCharacteristics(formData: FormData) {
     }
   }
 
-  await prismadb.listing.update({
+  const updatedListing = await prismadb.listing.update({
     where: {
       id: listingId,
     },
@@ -226,9 +239,16 @@ async function editCharacteristics(formData: FormData) {
 
   return {
     success: true,
+    data: {
+      listing: updatedListing,
+    },
   };
 }
-async function editFeatures(formData: FormData) {}
+async function editFeatures(formData: FormData) {
+  return {
+    success: true,
+  };
+}
 async function editDescription(formData: FormData) {
   const description = formData.get("description");
   const mkdDescription = formData.get("mkdDescription");
@@ -240,8 +260,8 @@ async function editDescription(formData: FormData) {
     typeof albDescription !== "string"
   ) {
     return {
-      error: "Invalid Inputs",
       success: false,
+      error: "Invalid Inputs",
     };
   }
 
@@ -254,12 +274,12 @@ async function editDescription(formData: FormData) {
 
   if (!listing) {
     return {
-      error: "Listing not found",
       success: false,
+      error: "Listing not found",
     };
   }
 
-  await prismadb.listing.update({
+  const updatedListing = await prismadb.listing.update({
     where: {
       id: listingId,
     },
@@ -272,6 +292,9 @@ async function editDescription(formData: FormData) {
 
   return {
     success: true,
+    data: {
+      listing: updatedListing,
+    },
   };
 }
 async function editMedia(formData: FormData) {
@@ -279,8 +302,8 @@ async function editMedia(formData: FormData) {
 
   if (typeof videoLink !== "string") {
     return {
-      error: "Invalid Inputs",
       success: false,
+      error: "Invalid Inputs",
     };
   }
 
@@ -293,12 +316,12 @@ async function editMedia(formData: FormData) {
 
   if (!listing) {
     return {
-      error: "Listing not found",
       success: false,
+      error: "Listing not found",
     };
   }
 
-  await prismadb.listing.update({
+  const updatedListing = await prismadb.listing.update({
     where: {
       id: listingId,
     },
@@ -306,6 +329,12 @@ async function editMedia(formData: FormData) {
       videoLink,
     },
   });
+  return {
+    success: true,
+    data: {
+      listing: updatedListing,
+    },
+  };
 }
 async function editContactDetails(formData: FormData) {
   const firstName = formData.get("firstName");
@@ -322,8 +351,8 @@ async function editContactDetails(formData: FormData) {
     typeof contactHours !== "string"
   ) {
     return {
-      error: "Invalid Inputs",
       success: false,
+      error: "Invalid Inputs",
     };
   }
 
@@ -336,11 +365,11 @@ async function editContactDetails(formData: FormData) {
 
   if (!listing) {
     return {
-      error: "Listing not found",
       success: false,
+      error: "Listing not found",
     };
   }
-  await prismadb.listing.update({
+  const updatedListing = await prismadb.listing.update({
     where: {
       id: listingId,
     },
@@ -356,13 +385,20 @@ async function editContactDetails(formData: FormData) {
       } as ListingContactData),
     },
   });
+
+  return {
+    success: true,
+    data: {
+      listing: updatedListing,
+    },
+  };
 }
 async function editPublishing(formData: FormData) {
   const isPublished = formData.get("isPublished");
   if (typeof isPublished !== "string") {
     return {
-      error: "Invalid Inputs",
       success: false,
+      error: "Invalid Inputs",
     };
   }
 
@@ -377,14 +413,14 @@ async function editPublishing(formData: FormData) {
 
   if (!listing) {
     return {
-      error: "Listing not found",
       success: false,
+      error: "Listing not found",
     };
   }
   const oneMonthFromNow = new Date();
   oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
 
-  await prismadb.listing.update({
+  const updatedListing = await prismadb.listing.update({
     where: {
       id: listingId,
     },
@@ -396,9 +432,15 @@ async function editPublishing(formData: FormData) {
   });
   return {
     success: true,
+    data: {
+      listing: updatedListing,
+    },
   };
 }
-export async function editListing(formData: FormData) {
+export async function editListing(
+  ps: EditListingResponse,
+  formData: FormData
+) {
   console.log("Editing listing", formData);
 
   const step = formData.get("step");
@@ -422,32 +464,37 @@ export async function editListing(formData: FormData) {
     };
   }
 
+  let output: EditListingResponse = {
+    success: false,
+  };
+
   switch (Number(step)) {
     case 1:
-      editType(formData);
+      output = await editType(formData);
       break;
     case 2:
-      editLocation(formData);
+      output = await editLocation(formData);
       break;
     case 3:
-      editCharacteristics(formData);
+      output = await editCharacteristics(formData);
       break;
     case 4:
-      editFeatures(formData);
+      output = await editFeatures(formData);
       break;
     case 5:
-      editDescription(formData);
+      output = await editDescription(formData);
       break;
     case 6:
-      editMedia(formData);
+      output = await editMedia(formData);
       break;
     case 7:
-      editContactDetails(formData);
+      output = await editContactDetails(formData);
       break;
     case 8:
-      editPublishing(formData);
+      output = await editPublishing(formData);
       break;
     default:
       break;
   }
+  return output;
 }

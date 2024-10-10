@@ -61,6 +61,7 @@ export function InputSelect({
         <input
           type="text"
           value={value}
+          onChange={() => {}}
           name={name}
           className="hidden"
         />

@@ -1,3 +1,5 @@
+export interface FormData {}
+
 type StepStatus = {
   [key: string]: "completed" | "incomplete" | "in-progress";
 };

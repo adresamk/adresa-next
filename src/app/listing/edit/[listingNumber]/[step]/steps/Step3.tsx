@@ -169,7 +169,6 @@ export default function Step3({ listing }: { listing: Listing }) {
               required
               type="number"
               name="bedrooms"
-              defaultValue={1}
               min={0}
               max={10}
               placeholder="Enter area in m2"
@@ -191,7 +190,6 @@ export default function Step3({ listing }: { listing: Listing }) {
               required
               type="number"
               name="bathrooms"
-              defaultValue={1}
               min={0}
               max={10}
               placeholder="Enter area in m2"
@@ -212,7 +210,6 @@ export default function Step3({ listing }: { listing: Listing }) {
               required
               type="number"
               name="wcs"
-              defaultValue={1}
               min={0}
               max={10}
               placeholder="Enter area in m2"
@@ -233,7 +230,6 @@ export default function Step3({ listing }: { listing: Listing }) {
               required
               type="number"
               name="kitchens"
-              defaultValue={1}
               min={0}
               max={10}
               placeholder="Enter area in m2"

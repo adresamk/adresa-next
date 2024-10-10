@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import prismadb from "@/lib/db";
 import ListingEditForm from "./ListingEditForm";
 import { Step, steps } from "./types";
+import TestForm from "./TestForm";
 
 export default async function EditListingPage({
   params,
@@ -35,8 +36,10 @@ export default async function EditListingPage({
 
   return (
     <div className="flex gap-2 p-2">
+      {/* <TestForm /> */}
+
       <ListingEditForm
-        listing={listing}
+        loadedListing={listing}
         requestedStep={requestedStep}
       />
     </div>
