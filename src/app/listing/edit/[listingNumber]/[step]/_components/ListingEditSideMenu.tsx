@@ -323,7 +323,7 @@ export default function ListingEditSideMenu({
   const stepDescriptions: StepDescription =
     generateStepDescriptions(listing);
   return (
-    <div className="w-1/3 ">
+    <div className="w-[335px]">
       <div className="shadow-md rounded  m-2 bg-white">
         <div className="p-2">
           <p>
@@ -363,40 +363,43 @@ export default function ListingEditSideMenu({
                     setCurrentStep(steps[index].uniquePath);
                   }}
                   className={cn(
-                    "flex p-4 pr-1  cursor-pointer hover:bg-gray-50 relative",
+                    "flex  cursor-pointer hover:bg-gray-50 relative",
                     currentStep === steps[index].uniquePath &&
                       "bg-gray-50 border-l-4 border-l-brand-light-blue"
                   )}
                 >
-                  <div className=" bg-slate-200 absolute bottom-0.5 left-0.5 rounded-2xl h-1 right-1 w-[98%]">
-                    <div
-                      className="bg-slate-400 h-1 rounded-2xl"
-                      style={{
-                        width: `${stepProgress}%`,
-                      }}
-                    ></div>
-                  </div>
-                  <div className="flex items-center px-2 absolute top-1.5    right-0">
-                    {stepStatus[step.title] === "completed" && (
-                      <CircleCheck stroke="green" strokeWidth={1.2} />
-                    )}
+                  <div className="w-full py-3 px-4">
+                    <div className="flex items-center px-2 absolute top-1.5    right-0">
+                      {stepStatus[step.title] === "completed" && (
+                        <CircleCheck
+                          stroke="green"
+                          strokeWidth={1.2}
+                        />
+                      )}
 
-                    {stepStatus[step.title] === "in-progress" && (
-                      <CircleCheck
-                        stroke="orange"
-                        strokeWidth={1.2}
-                      />
-                    )}
+                      {stepStatus[step.title] === "in-progress" && (
+                        <CircleCheck
+                          stroke="orange"
+                          strokeWidth={1.2}
+                        />
+                      )}
 
-                    {stepStatus[step.title] === "incomplete" && (
-                      <CircleAlert stroke="red" strokeWidth={1.2} />
-                    )}
-                  </div>
-                  <div className="flex-1 relative">
-                    <p>{step.title}</p>
-                    <p className="text-sm text-gray-500 line-clamp-2">
+                      {stepStatus[step.title] === "incomplete" && (
+                        <CircleAlert stroke="red" strokeWidth={1.2} />
+                      )}
+                    </div>
+                    <p className="">{step.title}</p>
+                    <p className=" w-full text-sm text-gray-500 line-clamp-2 overflow-x-hidden whitespace-nowrap text-ellipsis">
                       {stepDescriptions[step.title]}
                     </p>
+                    <div className="bg-slate-100 mt-3  rounded-2xl">
+                      <div
+                        className="bg-slate-400 h-1 rounded-2xl"
+                        style={{
+                          width: `${stepProgress}%`,
+                        }}
+                      ></div>
+                    </div>
                   </div>
                 </li>
               );

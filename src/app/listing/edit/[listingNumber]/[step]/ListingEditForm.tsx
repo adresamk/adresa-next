@@ -52,7 +52,7 @@ export default function ListingEditForm({
         setCurrentStep={setCurrentStep}
         progress={progress}
       />
-      <div className="w-2/3">
+      <div className="min-w-[460px] pl-10">
         <div className="p-2 shadow-md bg-white mt-2 rounded">
           <form action={formAction}>
             <input
