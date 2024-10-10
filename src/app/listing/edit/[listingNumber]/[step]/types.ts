@@ -19,7 +19,7 @@ export const steps: Step[] = [
   },
   {
     title: "Location",
-    description: "Enter your location and address",
+    description: "Enter your district and place",
     fieldsMentioned: ["location"],
     uniquePath: "location",
   },

@@ -1,6 +1,10 @@
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
+import {
+  capitalizeString,
+  cn,
+  formatNumberWithDelimiter,
+} from "@/lib/utils";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { Listing } from "@prisma/client";
 import { steps, Step, StepStatus } from "../types";
@@ -176,6 +180,91 @@ function calculateStepStatus(listing: Listing): StepStatus {
   }
   return statuses;
 }
+type StepDescription = {
+  [key: string]: string;
+};
+function generateStepDescriptions(listing: Listing): StepDescription {
+  const descriptions: StepDescription = {};
+  for (const step of steps) {
+    if (step.title === "Property Type") {
+      let properties = [];
+      if (listing.category) {
+        properties.push(listing.category);
+      }
+      if (listing.type) {
+        properties.push(listing.type);
+      }
+      descriptions[step.title] = properties.length
+        ? properties.map(capitalizeString).join(", ")
+        : step.description;
+    }
+    if (step.title === "Location") {
+      let properties = [];
+      if (listing.manucipality && listing.place && listing.district) {
+        properties.push(listing.district);
+        properties.push(listing.place);
+
+        descriptions[step.title] = properties.length
+          ? properties.map(capitalizeString).join(", ")
+          : step.description;
+      }
+    }
+    if (step.title === "Main characteristics") {
+      let properties = [];
+
+      if (listing.price && listing.area) {
+        properties.push(
+          formatNumberWithDelimiter(listing.price.toString()) + " €"
+        );
+        properties.push(listing.area + " m²");
+
+        descriptions[step.title] = properties.length
+          ? properties.map(capitalizeString).join(", ")
+          : step.description;
+      }
+    }
+    if (step.title === "Additional features & heating") {
+      descriptions[step.title] =
+        "Fill in heating details and other information";
+    }
+    if (step.title === "Description") {
+      let properties = [];
+      if (listing.description) {
+        properties.push(listing.description);
+
+        descriptions[step.title] = properties.length
+          ? properties.map(capitalizeString).join(", ")
+          : step.description;
+      }
+    }
+    if (step.title === "Photos and Video") {
+      let properties = [];
+
+      if (listing.images && listing.images.length > 0) {
+        properties.push(listing.images.length + " images");
+      }
+      if (listing.videoLink) {
+        properties.push("YouTube video");
+      }
+
+      descriptions[step.title] = properties.length
+        ? properties.map(capitalizeString).join(", ")
+        : step.description;
+    }
+    if (step.title === "Contact Details") {
+      const contactData = JSON.parse(listing.contactData as string);
+      if (contactData.email) {
+        descriptions[step.title] = contactData.email;
+      } else {
+        descriptions[step.title] = step.description;
+      }
+    }
+    if (step.title === "Publish listing") {
+      descriptions[step.title] = step.description;
+    }
+  }
+  return descriptions;
+}
 export default function ListingEditSideMenu({
   currentStep,
   progress,
@@ -231,6 +320,8 @@ export default function ListingEditSideMenu({
   const formProgress = Math.round((stepsProgressSum / 800) * 100);
 
   const stepStatus: StepStatus = calculateStepStatus(listing);
+  const stepDescriptions: StepDescription =
+    generateStepDescriptions(listing);
   return (
     <div className="w-1/3 ">
       <div className="shadow-md rounded  m-2 bg-white">
@@ -303,8 +394,8 @@ export default function ListingEditSideMenu({
                   </div>
                   <div className="flex-1 relative">
                     <p>{step.title}</p>
-                    <p className="text-sm text-gray-500">
-                      {step.description}
+                    <p className="text-sm text-gray-500 line-clamp-2">
+                      {stepDescriptions[step.title]}
                     </p>
                   </div>
                 </li>
