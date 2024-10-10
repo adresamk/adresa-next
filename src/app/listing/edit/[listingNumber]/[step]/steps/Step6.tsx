@@ -4,13 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-import CustomImageUpload from "./ImagesPreview";
 import { Listing } from "@prisma/client";
 import { UploadButton } from "@/lib/uploadthing";
-import {
-  ClientUploadedFileData,
-  FileUploadData,
-} from "uploadthing/types";
+
 import { attachImagesToListing } from "../actions";
 import ImagesPreview from "./ImagesPreview";
 
