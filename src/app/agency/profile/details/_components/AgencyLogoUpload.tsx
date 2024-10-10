@@ -2,8 +2,12 @@
 import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
 import { useState } from "react";
 
-export default function AgencyLogoUpload() {
-  const [logo, setLogo] = useState("");
+export default function AgencyLogoUpload({
+  existingLogo,
+}: {
+  existingLogo: string | null | undefined;
+}) {
+  const [logo, setLogo] = useState(existingLogo || "");
   return (
     <div>
       <input

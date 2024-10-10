@@ -65,7 +65,7 @@ export default async function AgencyProfileDetailsPage() {
           <Label htmlFor="logoUrl">
             Agency Logo <span className="text-red-500">*</span>
           </Label>
-          <AgencyLogoUpload />
+          <AgencyLogoUpload existingLogo={agency?.logoUrl} />
           {/* <Input
             id="logoUrl"
             required
