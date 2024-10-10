@@ -1,6 +1,6 @@
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import ProfileSideMenu from "./ProfileSideMenu";
+import AgencyProfileSideMenu from "./AgencyProfileSideMenu";
 
 export default async function ProfileLayout({
   children,
@@ -12,12 +12,6 @@ export default async function ProfileLayout({
     redirect("/signin");
   }
 
-  if (user.role !== "USER") {
-    if (user.role === "AGENCY") {
-      redirect("/agency/profile/info");
-    }
-  }
-
   return (
     <main className=" flex max-w-[1200px] mx-auto px-6 ">
       <div className=" min-w-[220px] bg-white shadow min-h-screen">
@@ -27,7 +21,7 @@ export default async function ProfileLayout({
             {user.firstName} {user.lastName}
           </p>
         </div>
-        <ProfileSideMenu />
+        <AgencyProfileSideMenu />
       </div>
       <div className="w-full">{children}</div>
     </main>

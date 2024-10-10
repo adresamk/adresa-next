@@ -5,9 +5,10 @@ import prismadb from "@/lib/db";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
+
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-export async function signUpAsUser(
+export async function signUpAsAgency(
   _: any,
   formData: FormData
 ): Promise<ActionResult> {
@@ -26,9 +27,9 @@ export async function signUpAsUser(
     };
   }
 
-  if (typeof password !== "string" || password.length !== 8) {
+  if (typeof password !== "string") {
     return {
-      error: "Invalid password, it must be 8 characters long",
+      error: "Invalid password",
       success: false,
     };
   }
@@ -58,12 +59,17 @@ export async function signUpAsUser(
     }
 
     const hashedPassword = await new Argon2id().hash(password);
+    // create new agency for user
+    const newAgency = await prismadb.agency.create({
+      data: {},
+    });
 
     const user = await prismadb.user.create({
       data: {
-        role: UserRoles.USER,
+        role: UserRoles.AGENCY,
         email,
         hashedPassword,
+        agencyId: newAgency.id,
       },
     });
 
@@ -79,11 +85,12 @@ export async function signUpAsUser(
       httpOnly: false,
     });
   } catch (error) {
+    console.error(error);
     return {
       error: "Something went wrong",
       success: false,
     };
   }
 
-  return redirect("/");
+  return redirect("/agency/profile/details");
 }

@@ -3,11 +3,6 @@ import { Button } from "@/components/ui/button";
 import LanguagePicker from "@/components/LanguagePicker";
 import { HousePlus } from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
 import AuthUserControls from "../AuthUserControls/AuthUserControls";
 import { createListing } from "@/actions/listings";
 

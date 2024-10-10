@@ -17,12 +17,17 @@ model Account {
   id String @id @default(uuid())
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
 model User {
   id             String        @id @default(uuid())
   email          String        @unique
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
-  role           String
+  role           String // UserRole type
   emailVerified  DateTime?
   phone          String?
   phoneVerified  DateTime?
@@ -200,16 +205,21 @@ model Favorite {
 // }
 
 model Agency {
-  id               String @id @default(uuid())
-  name             String
-  slug             String
-  logoUrl          String
-  address          String
-  gpsLocation      String // lng,lat
-  contactPerson    String
-  workHours        String
-  description      String
-  shortDescription String
-  branding         Json // or maybe use it as stringified json
+  id                    String  @id @default(uuid())
+  name                  String? @unique
+  slug                  String? @unique
+  address               String?
+  website               String?
+  phone                 String?
+  logoUrl               String?
+  contactPersonFullName String?
+  contactPersonEmail    String?
+  contactPersonPhone    String?
+  workHours             String?
+
+  gpsLocation      String? // lng,lat
+  description      String?
+  shortDescription String?
+  branding         String? // or maybe use it as stringified json
   users            User[]
 }
