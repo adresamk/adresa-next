@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { Listing } from "@prisma/client";
-import { steps, Step, stepStatus } from "../types";
+import { steps, Step, StepStatus } from "../types";
 
 interface ListingEditSideMenuProps {
   currentStep: string;
@@ -65,6 +65,117 @@ const stepsValueSystem: stepsValueSystemType = {
     isPublished: 100,
   },
 };
+function calculateStepStatus(listing: Listing): StepStatus {
+  let statuses: StepStatus = {};
+  for (const step of steps) {
+    if (step.title === "Property Type") {
+      if (listing.type) {
+        statuses[step.title] = "completed";
+      } else {
+        statuses[step.title] = "incomplete";
+      }
+    }
+    if (step.title === "Location") {
+      // manucipality: 20,
+      // place: 20,
+      // district: 20,
+      // address: 20,
+      if (
+        !listing.manucipality &&
+        !listing.place &&
+        !listing.district &&
+        !listing.address
+      ) {
+        statuses[step.title] = "incomplete";
+      }
+
+      if (
+        listing.manucipality &&
+        listing.place &&
+        listing.district &&
+        listing.address
+      ) {
+        statuses[step.title] = "completed";
+      } else {
+        statuses[step.title] = "in-progress";
+      }
+    }
+    if (step.title === "Main characteristics") {
+      if (!listing.price && !listing.area) {
+        console.log(1);
+        statuses[step.title] = "incomplete";
+      }
+
+      if (listing.price && listing.area) {
+        console.log(2);
+
+        statuses[step.title] = "completed";
+      } else {
+        console.log(3);
+
+        statuses[step.title] = "in-progress";
+      }
+    }
+    if (step.title === "Additional features & heating") {
+      statuses[step.title] = "none";
+    }
+    if (step.title === "Description") {
+      // description: 32,
+      // mkdDescription: 33,
+      // albDescription: 33,
+      if (
+        listing.description &&
+        listing.mkdDescription &&
+        listing.albDescription
+      ) {
+        statuses[step.title] = "completed";
+      } else {
+        statuses[step.title] = "none";
+      }
+    }
+    if (step.title === "Photos and Video") {
+      if (
+        listing.images &&
+        listing.images.length > 0 &&
+        listing.videoLink
+      ) {
+        statuses[step.title] = "completed";
+      } else {
+        statuses[step.title] = "none";
+      }
+    }
+    if (step.title === "Contact Details") {
+      const contactData = JSON.parse(listing.contactData as string);
+      if (
+        !contactData.firstName &&
+        !contactData.lastName &&
+        !contactData.phone &&
+        !contactData.email
+      ) {
+        statuses[step.title] = "incomplete";
+      }
+      if (
+        contactData.firstName &&
+        contactData.lastName &&
+        contactData.phone &&
+        contactData.email
+      ) {
+        statuses[step.title] = "completed";
+      } else {
+        statuses[step.title] = "in-progress";
+      }
+    }
+    if (step.title === "Publish listing") {
+      if (
+        Object.values(statuses).includes("incomplete") ||
+        Object.values(statuses).includes("in-progress")
+      ) {
+        statuses[step.title] = "in-progress";
+      }
+    }
+  }
+  return statuses;
+}
 export default function ListingEditSideMenu({
   currentStep,
   progress,
@@ -77,7 +188,6 @@ export default function ListingEditSideMenu({
     )
       .map(([key, value]) => {
         if (listing.hasOwnProperty(key)) {
-          console.log(key, value, listing[key as keyof Listing]);
           if (
             !listing[key as keyof Listing] ||
             (Array.isArray(listing[key as keyof Listing]) &&
@@ -98,7 +208,6 @@ export default function ListingEditSideMenu({
       )
         .map(([key, value]) => {
           if (contactData.hasOwnProperty(key)) {
-            console.log(key, value, contactData[key as string]);
             if (
               contactData[key as string] === null ||
               contactData[key as string] === undefined ||
@@ -119,8 +228,9 @@ export default function ListingEditSideMenu({
     (acc, curr) => acc! + curr!,
     0
   )!;
-  console.log(stepsProgressSum);
   const formProgress = Math.round((stepsProgressSum / 800) * 100);
+
+  const stepStatus: StepStatus = calculateStepStatus(listing);
   return (
     <div className="w-1/3 ">
       <div className="shadow-md rounded  m-2 bg-white">
@@ -140,6 +250,11 @@ export default function ListingEditSideMenu({
             {steps.map((step: Step, index) => {
               const stepProgress = stepsProgress[index];
 
+              console.log(
+                "stepstatus",
+                step.title,
+                stepStatus[step.title]
+              );
               return (
                 <li
                   key={step.title}
@@ -162,15 +277,18 @@ export default function ListingEditSideMenu({
                   </div>
                   <div className="flex items-center px-2 absolute top-1.5    right-0">
                     {stepStatus[step.title] === "completed" && (
-                      <CircleCheck fill="green" />
+                      <CircleCheck stroke="green" strokeWidth={1.2} />
                     )}
 
                     {stepStatus[step.title] === "in-progress" && (
-                      <CircleCheck fill="orange" />
+                      <CircleCheck
+                        stroke="orange"
+                        strokeWidth={1.2}
+                      />
                     )}
 
                     {stepStatus[step.title] === "incomplete" && (
-                      <CircleAlert fill="red" />
+                      <CircleAlert stroke="red" strokeWidth={1.2} />
                     )}
                   </div>
                   <div className="flex-1 relative">

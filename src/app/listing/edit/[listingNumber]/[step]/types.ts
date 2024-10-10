@@ -1,7 +1,7 @@
 export interface FormData {}
 
-type StepStatus = {
-  [key: string]: "completed" | "incomplete" | "in-progress";
+export type StepStatus = {
+  [key: string]: "completed" | "incomplete" | "in-progress" | "none";
 };
 export type Step = {
   title: string;
@@ -9,16 +9,7 @@ export type Step = {
   fieldsMentioned: string[];
   uniquePath: string;
 };
-export const stepStatus: StepStatus = {
-  "Property Type": "completed",
-  Location: "completed",
-  "Main characteristics": "in-progress",
-  "Additional features & heating": "incomplete",
-  Description: "incomplete",
-  "Photos and Video": "incomplete",
-  "Contact Details": "incomplete",
-  "Publish listing": "incomplete",
-};
+
 export const steps: Step[] = [
   {
     title: "Property Type",
