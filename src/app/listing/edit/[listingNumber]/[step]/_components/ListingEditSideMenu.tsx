@@ -238,10 +238,20 @@ export default function ListingEditSideMenu({
           <p>
             <span>{formProgress}%</span> completed{" "}
           </p>
-          <p>New Listing</p>
+          <p>
+            {stepStatus["Publish listing"] !== "in-progress" && (
+              <span className="text-red-500 text-sm">
+                {" "}
+                Fill out all required fields!
+              </span>
+            )}
+          </p>
 
           <div className="mt-4">
-            <Progress value={formProgress} />
+            <Progress
+              value={formProgress}
+              className="bg-slate-200 text-brand-light-blue "
+            />
           </div>
         </div>
         <Separator className="mt-2" />
