@@ -38,26 +38,24 @@ export default function ListingEditForm({
               <Button
                 disabled={currentStep === "category"}
                 size={"sm"}
-              >
-                <Link
-                  href={`/listing/edit/${listing.listingNumber}/${
+                onClick={() => {
+                  setCurrentStep(
                     steps[currentStepIdx - 1]?.uniquePath
-                  }`}
-                >
-                  Prev
-                </Link>
+                  );
+                }}
+              >
+                Prev
               </Button>
               <Button
                 disabled={currentStep === "publish"}
                 size={"sm"}
-              >
-                <Link
-                  href={`/listing/edit/${listing.listingNumber}/${
+                onClick={() => {
+                  setCurrentStep(
                     steps[currentStepIdx + 1]?.uniquePath
-                  }`}
-                >
-                  Next
-                </Link>
+                  );
+                }}
+              >
+                Next
               </Button>
             </div>
           </div>

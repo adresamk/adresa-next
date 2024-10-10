@@ -35,38 +35,37 @@ export default function ListingEditSideMenu({
         <div>
           <ul>
             {steps.map((step: Step, index) => (
-              <Link
+              <li
                 key={step.title}
-                href={`/listing/edit/${listing.listingNumber}/${steps[index].uniquePath}`}
+                onClick={() => {
+                  setCurrentStep(steps[index].uniquePath);
+                }}
+                className={cn(
+                  "flex p-4 pr-1 cursor-pointer hover:bg-gray-50",
+                  currentStep === steps[index].uniquePath &&
+                    "bg-gray-50 border-l-4 border-l-brand-light-blue"
+                )}
               >
-                <li
-                  className={cn(
-                    "flex p-4 pr-1 cursor-pointer hover:bg-gray-50",
-                    currentStep === steps[index].uniquePath &&
-                      "bg-gray-50 border-l-4 border-l-brand-light-blue"
+                <div className="flex-1 ">
+                  <p>{step.title}</p>
+                  <p className="text-sm text-gray-500">
+                    {step.description}
+                  </p>
+                </div>
+                <div className="flex items-center px-2">
+                  {stepStatus[step.title] === "completed" && (
+                    <CircleCheck fill="green" />
                   )}
-                >
-                  <div className="flex-1 ">
-                    <p>{step.title}</p>
-                    <p className="text-sm text-gray-500">
-                      {step.description}
-                    </p>
-                  </div>
-                  <div className="flex items-center px-2">
-                    {stepStatus[step.title] === "completed" && (
-                      <CircleCheck fill="green" />
-                    )}
 
-                    {stepStatus[step.title] === "in-progress" && (
-                      <CircleCheck fill="orange" />
-                    )}
+                  {stepStatus[step.title] === "in-progress" && (
+                    <CircleCheck fill="orange" />
+                  )}
 
-                    {stepStatus[step.title] === "incomplete" && (
-                      <CircleAlert fill="red" />
-                    )}
-                  </div>
-                </li>
-              </Link>
+                  {stepStatus[step.title] === "incomplete" && (
+                    <CircleAlert fill="red" />
+                  )}
+                </div>
+              </li>
             ))}
           </ul>
         </div>
