@@ -1,6 +1,10 @@
 "use client";
 import { RadioGroupDemo } from "@/components/shared/RadioGroupDemo";
 import { Separator } from "@/components/ui/separator";
+import {
+  listingCategoryOptions,
+  listingTypeOptions,
+} from "@/global/data";
 import { useState } from "react";
 
 // const propertyCategoryOptions = [
@@ -50,35 +54,10 @@ import { useState } from "react";
 // };
 
 // THESE HERE ARE VALUES FOR ADRESA.MK
-const propertyCategoryOptions = [
-  "residential",
-  "commercial",
-  "land",
-  "other",
-];
 
-type PropertyCategory = (typeof propertyCategoryOptions)[number];
-
-const propertyTypeOptions: Record<PropertyCategory, string[]> = {
-  residential: ["apartment", "house", "vacation house", "other"],
-  commercial: [
-    "office",
-    "store",
-    "warehouse",
-    "industrial space",
-    "other",
-  ],
-  land: ["construction", "agricultural", "other"],
-  other: [
-    "garage",
-    "business",
-    "assembly facilities", // montazni objekti
-    "other",
-  ],
-};
 const transactionTypeOptions = ["sale", "rent"];
 export default function InitialStep() {
-  const [propertyCategory, setPropertyCategory] = useState("");
+  const [listingCategory, setListingCategory] = useState("");
   return (
     <div className="p-2">
       <input
@@ -94,17 +73,17 @@ export default function InitialStep() {
         name="category"
         title="Property Category"
         description="(can't be changed later!)"
-        values={propertyCategoryOptions}
+        values={listingCategoryOptions}
         onChange={function (value: string) {
           console.log(value);
-          setPropertyCategory(value);
+          setListingCategory(value);
         }}
       />
 
       <RadioGroupDemo
         name="type"
         title="Property Type"
-        values={propertyTypeOptions[propertyCategory]}
+        values={listingTypeOptions[listingCategory]}
       />
 
       <RadioGroupDemo

@@ -3,6 +3,7 @@ import { RadioGroupDemo } from "@/components/shared/RadioGroupDemo";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { Listing } from "@prisma/client";
+import { listingTypeOptions } from "@/global/data";
 const propertyCategoryOptions = [
   "residential",
   "commercial",
@@ -12,23 +13,6 @@ const propertyCategoryOptions = [
 
 type PropertyCategory = (typeof propertyCategoryOptions)[number];
 
-const propertyTypeOptions: Record<PropertyCategory, string[]> = {
-  residential: ["apartment", "house", "vacation house", "other"],
-  commercial: [
-    "office",
-    "store",
-    "warehouse",
-    "industrial space",
-    "other",
-  ],
-  land: ["construction", "agricultural", "other"],
-  other: [
-    "garage",
-    "business",
-    "assembly facilities", // montazni objekti
-    "other",
-  ],
-};
 export default function Step1({ listing }: { listing: Listing }) {
   const [propertyCategory, setPropertyCategory] =
     useState("apartment");
@@ -47,7 +31,7 @@ export default function Step1({ listing }: { listing: Listing }) {
         name="type"
         defaultValue={listing.type}
         title="Property Type"
-        values={propertyTypeOptions[listing.category]}
+        values={listingTypeOptions[listing.category]}
       />
     </div>
   );
