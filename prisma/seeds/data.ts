@@ -272,7 +272,12 @@ export const nUsers: User[] = [
 export const regularListings: Listing[] = [
   {
     id: "listing1",
+    listingNumber: 1,
+    createdAt: new Date(),
     updatedAt: new Date(),
+    isAvailable: true,
+    availabilityDate: new Date(),
+    // userId: "a112c3d4-e5f6-7890-abcd-ef12345678901",
     userId: "a112c3d4-e5f6-7890-abcd-ef12345678901",
     transactionType: faker.helpers.arrayElement(
       listingTransactionTypeOptions
@@ -295,7 +300,7 @@ export const regularListings: Listing[] = [
     ///
     price: 100000,
     previousPrice: 120000,
-    priceHistory: [],
+    priceHistory: null,
     area: 100,
     orientation: "north",
     floorNumber: 1,
@@ -323,16 +328,14 @@ export const regularListings: Listing[] = [
     isArchived: false,
     isPublished: true,
     publishedAt: new Date(),
-    createdAt: new Date(),
+    publishEndDate: new Date(
+      new Date().setMonth(new Date().getMonth() + 1)
+    ),
     //
     tags: [],
     isPaidPromo: false,
     ///
     contactData: "",
-    listingNumber: 0,
-    isAvailable: null,
-    availabilityDate: null,
-    publishEndDate: null,
   },
 ];
 export const agencyListings: Listing[] = [];

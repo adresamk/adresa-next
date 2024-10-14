@@ -2,6 +2,12 @@
 
 import { PrismaClient } from "@prisma/client";
 import { Argon2id } from "oslo/password";
+import { faker } from "@faker-js/faker";
+import {
+  listingCategoryOptions,
+  listingTransactionTypeOptions,
+  listingTypeOptions,
+} from "@/global/data";
 import {
   a,
   agencyListings,
@@ -9,6 +15,7 @@ import {
   nUsers,
   regularListings,
 } from "./data";
+import { Listing } from "@/global/types";
 
 const prisma = new PrismaClient();
 
@@ -64,13 +71,18 @@ async function main() {
   await Promise.all(agenciyUsersPromises);
 
   // LISTINGS FOR REGULAR USERS
-
   const regularListingsPromises = regularListings.map(
     async (listing) => {
       await prisma.listing.upsert({
         where: { id: listing.id },
         update: {},
-        create: listing,
+        create: {
+          ...listing,
+          priceHistory: {
+            prices: [100, 120, 130], // Example JSON
+            dates: ["2021-01-01", "2021-02-01"],
+          },
+        },
       });
       console.log("added listing", listing.id);
     }
@@ -80,18 +92,18 @@ async function main() {
 
   // LISTINGS FOR AGENCY USERS
 
-  const agenciesListingsPromises = agencyListings.map(
-    async (listing) => {
-      await prisma.listing.upsert({
-        where: { id: listing.id },
-        update: {},
-        create: listing,
-      });
-      console.log("added listing", listing.id);
-    }
-  );
+  // const agenciesListingsPromises = agencyListings.map(
+  //   async (listing) => {
+  //     await prisma.listing.upsert({
+  //       where: { id: listing.id },
+  //       update: {},
+  //       create: listing,
+  //     });
+  //     console.log("added listing", listing.id);
+  //   }``````
+  // );
 
-  await Promise.all(agenciesListingsPromises);
+  // await Promise.all(agenciesListingsPromises);
 }
 
 main()
