@@ -23,7 +23,7 @@ export async function signIn(
   const password = formData.get("password");
   console.log("Existing user", email, password);
 
-  if (typeof password !== "string" || password.length !== 8) {
+  if (typeof password !== "string") {
     return {
       error: "Invalid password",
       success: false,

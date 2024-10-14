@@ -9,9 +9,14 @@
     "lint": "next lint",
     "postinstall": "npx prisma generate",
     "migration:create": "prisma migrate dev --create-only",
-    "migration": "prisma migrate deploy"
+    "migration": "prisma migrate deploy",
+    "seed": "tsc && node prisma/seeds/dist/ual.mjs"
+  },
+  "prisma": {
+    "seed": "ts-node --esm prisma/seeds/ual.mts"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.0.3",
     "@hookform/resolvers": "^3.9.0",
     "@lucia-auth/adapter-prisma": "^4.0.1",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -67,6 +72,7 @@
     "postcss": "^8",
     "prisma": "^5.19.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
   }
 }
