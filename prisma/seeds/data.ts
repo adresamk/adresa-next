@@ -9,8 +9,10 @@ import {
   manucipalities,
   orientationOptions,
   populatedPlaces,
+  randomPropertyImagesCollection,
   randomSkopjeCoordinates,
 } from "@/global/data";
+import { ListingContactData } from "@/lib/types";
 
 export const a: Agency[] = [
   {
@@ -291,7 +293,20 @@ for (let index = 1; index < 50; index++) {
   const district = faker.helpers.arrayElement(districts);
   const address = faker.location.streetAddress(true);
   const fullAddress = `${address}, ${place}, ${manucipality}`;
+  const images = faker.helpers.arrayElements(
+    randomPropertyImagesCollection,
+    6
+  );
 
+  const contactData = {
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    email: faker.internet.email(),
+    emailVerified: false,
+    phone: faker.phone.number(),
+    phoneVerified: false,
+    contactHours: "9:00 AM - 5:00 PM",
+  };
   regularListings.push({
     id: "listing" + index,
     listingNumber: index,
@@ -339,13 +354,24 @@ for (let index = 1; index < 50; index++) {
     yard: faker.datatype.boolean(),
     basement: faker.datatype.boolean(),
     ///
-    description: `This is a description of listing 1.`,
-    mkdDescription: `This is a description of listing 1 in Macedonian.`,
-    albDescription: `This is a description of listing 1 in Albanian.`,
+    description: faker.lorem.paragraph({
+      min: 3,
+      max: 6,
+    }),
+    mkdDescription:
+      faker.lorem.paragraph({
+        min: 3,
+        max: 6,
+      }) + " in Macedonian",
+    albDescription:
+      faker.lorem.paragraph({
+        min: 3,
+        max: 6,
+      }) + " in Albanian",
     ///
-    mainImage: "https://m1.spitogatos.gr/94825956_100x50.jpg",
-    images: [],
-    videoLink: "",
+    mainImage: images[0],
+    images: images,
+    videoLink: "https://www.youtube.com/watch?v=R8OejFuUYqo",
     ///
     isArchived: false,
     isPublished: true,
@@ -357,7 +383,7 @@ for (let index = 1; index < 50; index++) {
     tags: [],
     isPaidPromo: false,
     ///
-    contactData: "",
+    contactData: JSON.stringify(contactData as ListingContactData),
   });
 }
 export const agencyListings: Listing[] = [];
