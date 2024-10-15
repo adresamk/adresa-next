@@ -1,7 +1,7 @@
 import Listings from "@/app/search/_components/Listings";
 import SearchMap from "@/app/search/_components/SearchMap";
 import Filters from "@/components/shared/filters/Filters";
-import { Listing } from "@prisma/client";
+import { Listing, Agency } from "@prisma/client";
 import AgencyBanner from "./AgencyBanner";
 
 export default function SearchResults({
@@ -9,7 +9,7 @@ export default function SearchResults({
   agency,
 }: {
   listings: Listing[];
-  agency?: any;
+  agency?: Agency;
 }) {
   return (
     <div className="w-full ">

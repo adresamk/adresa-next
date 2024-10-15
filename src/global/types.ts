@@ -1,3 +1,7 @@
+export interface BrandingType {
+  primary: string;
+  secondary?: string;
+}
 export interface Listing {
   id: string;
   mainImage: string;
