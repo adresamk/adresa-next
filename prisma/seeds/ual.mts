@@ -2,12 +2,7 @@
 
 import { PrismaClient } from "@prisma/client";
 import { Argon2id } from "oslo/password";
-import { faker } from "@faker-js/faker";
-import {
-  listingCategoryOptions,
-  listingTransactionTypeOptions,
-  listingTypeOptions,
-} from "@/global/data";
+
 import {
   a,
   agencyListings,

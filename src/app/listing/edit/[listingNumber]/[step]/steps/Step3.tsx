@@ -22,17 +22,7 @@ import {
   Utensils,
 } from "lucide-react";
 import { useState } from "react";
-
-const orientationOptions: { label: string; value: string }[] = [
-  { label: "North", value: "north" },
-  { label: "South", value: "south" },
-  { label: "East", value: "east" },
-  { label: "West", value: "west" },
-  { label: "North East", value: "north-east" },
-  { label: "North West", value: "north-west" },
-  { label: "South East", value: "south-east" },
-  { label: "South West", value: "south-west" },
-];
+import { orientationOptions } from "@/global/data";
 
 const featuresSelectionOptions = [
   { label: "yes", value: true },

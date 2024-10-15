@@ -1,9 +1,15 @@
 import { User, Agency, Listing } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import {
+  districts,
   listingCategoryOptions,
   listingTransactionTypeOptions,
   listingTypeOptions,
+  locationPrecisionOptions,
+  manucipalities,
+  orientationOptions,
+  populatedPlaces,
+  randomSkopjeCoordinates,
 } from "@/global/data";
 
 export const a: Agency[] = [
@@ -280,6 +286,11 @@ for (let index = 1; index < 50; index++) {
   );
   const c = faker.helpers.arrayElement(listingCategoryOptions);
   const t = faker.helpers.arrayElement(listingTypeOptions[c]);
+  const manucipality = faker.helpers.arrayElement(manucipalities);
+  const place = faker.helpers.arrayElement(populatedPlaces);
+  const district = faker.helpers.arrayElement(districts);
+  const address = faker.location.streetAddress(true);
+  const fullAddress = `${address}, ${place}, ${manucipality}`;
 
   regularListings.push({
     id: "listing" + index,
@@ -293,33 +304,40 @@ for (let index = 1; index < 50; index++) {
     category: c,
     type: t,
     ///
-    manucipality: "Skopje",
-    place: "Karposh",
-    district: "Karposh 1",
-    address: "123 Main Street, Anytown, USA",
-    fullAddress: "123 Main Street, Anytown, USA",
-    longitude: 41.99646,
-    latitude: 21.43141,
-    locationPrecision: "exact",
+    manucipality: manucipality,
+    place: place,
+    district: district,
+    address: address,
+    fullAddress: fullAddress,
+    longitude: randomSkopjeCoordinates[index - 1].lng,
+    latitude: randomSkopjeCoordinates[index - 1].lat,
+    locationPrecision: faker.helpers.arrayElement(
+      locationPrecisionOptions
+    ),
     ///
-    price: 100000,
-    previousPrice: 120000,
+    price: faker.number.int({ min: 50000, max: 300000 }),
+    previousPrice: faker.helpers.arrayElement([
+      null,
+      faker.number.int({ min: 50000, max: 300000 }),
+    ]),
     priceHistory: null,
-    area: 100,
-    orientation: "north",
-    floorNumber: 1,
+    area: faker.number.int({ min: 25, max: 600 }),
+    orientation: faker.helpers.arrayElement(
+      orientationOptions.map((o) => o.value)
+    ),
+    floorNumber: faker.number.int({ min: 1, max: 15 }),
     ///
-    bedrooms: 2,
-    bathrooms: 1,
-    wcs: 1,
-    kitchens: 1,
-    livingRooms: 1,
+    bedrooms: faker.number.int({ min: 1, max: 5 }),
+    bathrooms: faker.number.int({ min: 1, max: 5 }),
+    wcs: faker.number.int({ min: 1, max: 5 }),
+    kitchens: faker.number.int({ min: 1, max: 5 }),
+    livingRooms: faker.number.int({ min: 1, max: 5 }),
     ///
-    parking: true,
-    elevator: true,
-    balcony: true,
-    yard: false,
-    basement: false,
+    parking: faker.datatype.boolean(),
+    elevator: faker.datatype.boolean(),
+    balcony: faker.datatype.boolean(),
+    yard: faker.datatype.boolean(),
+    basement: faker.datatype.boolean(),
     ///
     description: `This is a description of listing 1.`,
     mkdDescription: `This is a description of listing 1 in Macedonian.`,
