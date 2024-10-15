@@ -1,10 +1,7 @@
 "use server";
 
-import { listings } from "@/global/data";
 import { validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
-import { error } from "console";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function createListing() {

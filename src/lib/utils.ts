@@ -53,3 +53,7 @@ export function parseQueryString(queryString: string) {
   });
   return params;
 }
+
+export function createSlug(text: string) {
+  return text.replace(/\s+/g, "-").toLowerCase();
+}

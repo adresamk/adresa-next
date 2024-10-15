@@ -269,25 +269,29 @@ export const nUsers: User[] = [
   },
 ];
 
-export const regularListings: Listing[] = [
-  {
-    id: "listing1",
-    listingNumber: 1,
+const userIds = [...aUsers, ...nUsers].map((user) => user.id);
+
+export const regularListings: Listing[] = [];
+
+for (let index = 1; index < 50; index++) {
+  const userIndex = Math.floor(index / 5);
+  const tType = faker.helpers.arrayElement(
+    listingTransactionTypeOptions
+  );
+  const c = faker.helpers.arrayElement(listingCategoryOptions);
+  const t = faker.helpers.arrayElement(listingTypeOptions[c]);
+
+  regularListings.push({
+    id: "listing" + index,
+    listingNumber: index,
     createdAt: new Date(),
     updatedAt: new Date(),
     isAvailable: true,
     availabilityDate: new Date(),
-    // userId: "a112c3d4-e5f6-7890-abcd-ef12345678901",
-    userId: "a112c3d4-e5f6-7890-abcd-ef12345678901",
-    transactionType: faker.helpers.arrayElement(
-      listingTransactionTypeOptions
-    ),
-    category: faker.helpers.arrayElement(listingCategoryOptions),
-    type: faker.helpers.arrayElement(
-      listingTypeOptions[
-        faker.helpers.arrayElement(listingCategoryOptions)
-      ]
-    ),
+    userId: userIds[userIndex],
+    transactionType: tType,
+    category: c,
+    type: t,
     ///
     manucipality: "Skopje",
     place: "Karposh",
@@ -336,6 +340,6 @@ export const regularListings: Listing[] = [
     isPaidPromo: false,
     ///
     contactData: "",
-  },
-];
+  });
+}
 export const agencyListings: Listing[] = [];

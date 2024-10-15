@@ -8,6 +8,7 @@ import {
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { Listing } from "@prisma/client";
 import { steps, Step, StepStatus } from "../types";
+import CircularProgress from "@/components/ui/circular-progress";
 
 interface ListingEditSideMenuProps {
   currentStep: string;
@@ -203,11 +204,10 @@ function generateStepDescriptions(listing: Listing): StepDescription {
       if (listing.manucipality && listing.place && listing.district) {
         properties.push(listing.district);
         properties.push(listing.place);
-
-        descriptions[step.title] = properties.length
-          ? properties.map(capitalizeString).join(", ")
-          : step.description;
       }
+      descriptions[step.title] = properties.length
+        ? properties.map(capitalizeString).join(", ")
+        : step.description;
     }
     if (step.title === "Main characteristics") {
       let properties = [];
@@ -217,11 +217,10 @@ function generateStepDescriptions(listing: Listing): StepDescription {
           formatNumberWithDelimiter(listing.price.toString()) + " €"
         );
         properties.push(listing.area + " m²");
-
-        descriptions[step.title] = properties.length
-          ? properties.map(capitalizeString).join(", ")
-          : step.description;
       }
+      descriptions[step.title] = properties.length
+        ? properties.map(capitalizeString).join(", ")
+        : step.description;
     }
     if (step.title === "Additional features & heating") {
       descriptions[step.title] =
@@ -231,11 +230,10 @@ function generateStepDescriptions(listing: Listing): StepDescription {
       let properties = [];
       if (listing.description) {
         properties.push(listing.description);
-
-        descriptions[step.title] = properties.length
-          ? properties.map(capitalizeString).join(", ")
-          : step.description;
       }
+      descriptions[step.title] = properties.length
+        ? properties.map(capitalizeString).join(", ")
+        : step.description;
     }
     if (step.title === "Photos and Video") {
       let properties = [];
@@ -325,10 +323,11 @@ export default function ListingEditSideMenu({
   return (
     <div className="w-[335px]">
       <div className="shadow-md rounded  m-2 bg-white">
-        <div className="p-2">
-          <p>
-            <span>{formProgress}%</span> completed{" "}
-          </p>
+        <div className="p-2 flex gap-1 items-center">
+          <div className="w-20 h-20">
+            <CircularProgress percentage={formProgress} />
+          </div>
+
           <p>
             {stepStatus["Publish listing"] === "in-progress" && (
               <span className="text-red-500 text-sm">

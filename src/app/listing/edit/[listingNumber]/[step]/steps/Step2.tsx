@@ -12,29 +12,35 @@ import {
   TileLayer,
   useMap,
 } from "react-leaflet";
-const cities = [
-  { label: "Kumanovo", value: "kumanovo" },
-  { label: "Skopje", value: "skopje" },
-];
+import {
+  districts,
+  manucipalities,
+  populatedPlaces,
+} from "@/global/data";
+import { createSlug } from "@/lib/utils";
 
-const manucipalities = [
-  { label: "Ajducka Cesma", value: "ajducka-cesma" },
-  { label: "Tabanovce", value: "tabanovce" },
-];
+const districtOptions = districts.map((district) => ({
+  label: district,
+  value: createSlug(district),
+}));
 
-const populatedPlaces = [
-  { label: "Oktomvriska", value: "oktrevol" },
-  { label: "Dragomance", value: "dragomance" },
-];
+const manucipalityOptions = manucipalities.map((manucipality) => ({
+  label: manucipality,
+  value: createSlug(manucipality),
+}));
+
+const populatedPlaceOptions = populatedPlaces.map((place) => ({
+  label: place,
+  value: createSlug(place),
+}));
 
 export default function Step2({ listing }: { listing: Listing }) {
-  const [place, setPlace] = useState(listing.place);
   const [manucipality, setManucipality] = useState(
     listing.manucipality
   );
-  const [populatedPlace, setPopulatedPlace] = useState(
-    listing.district
-  );
+  const [populatedPlace, setPopulatedPlace] = useState(listing.place);
+
+  const [district, setDistrict] = useState(listing.district);
 
   const [address, setAddress] = useState(listing.address);
   const position = [51.505, -0.09];
@@ -57,28 +63,28 @@ export default function Step2({ listing }: { listing: Listing }) {
         notFoundText="Manucipality doesn't exist"
         placeholder="Select a Manucipality"
         defaultValue={manucipality}
-        options={manucipalities}
+        options={manucipalityOptions}
       />
       <InputSelect
         name="place"
-        label="City"
+        label="City/Village/Region"
         required
-        onSelect={(value) => setPlace(value)}
-        notFoundText="City doesn't exist"
-        placeholder="Select a city"
-        defaultValue={place}
-        options={cities}
+        onSelect={(value) => setPopulatedPlace(value)}
+        notFoundText="Place doesn't exist"
+        placeholder="Select a place"
+        defaultValue={populatedPlace}
+        options={populatedPlaceOptions}
       />
 
       <InputSelect
         name="district"
-        label="Populated Place"
+        label="District"
         required
-        onSelect={(value) => setPopulatedPlace(value)}
-        notFoundText="Populated Place doesn't exist"
-        placeholder="Select a Populated Place"
-        defaultValue={populatedPlace}
-        options={populatedPlaces}
+        onSelect={(value) => setDistrict(value)}
+        notFoundText="District doesn't exist"
+        placeholder="Select a district"
+        defaultValue={district}
+        options={districtOptions}
       />
 
       <Label htmlFor="address">

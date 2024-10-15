@@ -1,13 +1,12 @@
 import { searchParamsCache } from "@/app/searchParams";
 import SearchResults from "@/components/shared/SearchResults";
-import { agencyExample } from "@/global/data";
 import getAllListings from "@/requests/getAllListings";
 
 interface SearchPageProps {
   searchParams: Record<string, string>;
 }
 
-const agency = agencyExample;
+const agency = null;
 export default async function SearchPage({
   searchParams,
 }: SearchPageProps) {
