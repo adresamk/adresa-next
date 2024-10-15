@@ -277,12 +277,12 @@ export const nUsers: User[] = [
   },
 ];
 
-const userIds = [...aUsers, ...nUsers].map((user) => user.id);
+const regularUserIds = [...aUsers].map((user) => user.id);
 
-export const regularListings: Listing[] = [];
+const rL: Listing[] = [];
 
 for (let index = 1; index < 50; index++) {
-  const userIndex = Math.floor(index / 5);
+  const userIndex = Math.floor(index / 10);
   const tType = faker.helpers.arrayElement(
     listingTransactionTypeOptions
   );
@@ -307,14 +307,14 @@ for (let index = 1; index < 50; index++) {
     phoneVerified: false,
     contactHours: "9:00 AM - 5:00 PM",
   };
-  regularListings.push({
+  rL.push({
     id: "listing" + index,
     listingNumber: index,
     createdAt: new Date(),
     updatedAt: new Date(),
     isAvailable: true,
     availabilityDate: new Date(),
-    userId: userIds[userIndex],
+    userId: regularUserIds[userIndex],
     transactionType: tType,
     category: c,
     type: t,
@@ -386,4 +386,117 @@ for (let index = 1; index < 50; index++) {
     contactData: JSON.stringify(contactData as ListingContactData),
   });
 }
-export const agencyListings: Listing[] = [];
+
+export const regularListings: Listing[] = rL;
+
+const agencyUserIds = [...aUsers].map((user) => user.id);
+
+const aL: Listing[] = [];
+
+for (let index = 1; index < 50; index++) {
+  const userIndex = Math.floor(index / 10);
+  const tType = faker.helpers.arrayElement(
+    listingTransactionTypeOptions
+  );
+  const c = faker.helpers.arrayElement(listingCategoryOptions);
+  const t = faker.helpers.arrayElement(listingTypeOptions[c]);
+  const manucipality = faker.helpers.arrayElement(manucipalities);
+  const place = faker.helpers.arrayElement(populatedPlaces);
+  const district = faker.helpers.arrayElement(districts);
+  const address = faker.location.streetAddress(true);
+  const fullAddress = `${address}, ${place}, ${manucipality}`;
+  const images = faker.helpers.arrayElements(
+    randomPropertyImagesCollection,
+    6
+  );
+
+  const contactData = {
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    email: faker.internet.email(),
+    emailVerified: false,
+    phone: faker.phone.number(),
+    phoneVerified: false,
+    contactHours: "9:00 AM - 5:00 PM",
+  };
+  aL.push({
+    id: "listing" + index,
+    listingNumber: index,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    isAvailable: true,
+    availabilityDate: new Date(),
+    userId: agencyUserIds[userIndex],
+    transactionType: tType,
+    category: c,
+    type: t,
+    ///
+    manucipality: manucipality,
+    place: place,
+    district: district,
+    address: address,
+    fullAddress: fullAddress,
+    longitude: randomSkopjeCoordinates[index - 1].lng,
+    latitude: randomSkopjeCoordinates[index - 1].lat,
+    locationPrecision: faker.helpers.arrayElement(
+      locationPrecisionOptions
+    ),
+    ///
+    price: faker.number.int({ min: 50000, max: 300000 }),
+    previousPrice: faker.helpers.arrayElement([
+      null,
+      faker.number.int({ min: 50000, max: 300000 }),
+    ]),
+    priceHistory: null,
+    area: faker.number.int({ min: 25, max: 600 }),
+    orientation: faker.helpers.arrayElement(
+      orientationOptions.map((o) => o.value)
+    ),
+    floorNumber: faker.number.int({ min: 1, max: 15 }),
+    ///
+    bedrooms: faker.number.int({ min: 1, max: 5 }),
+    bathrooms: faker.number.int({ min: 1, max: 5 }),
+    wcs: faker.number.int({ min: 1, max: 5 }),
+    kitchens: faker.number.int({ min: 1, max: 5 }),
+    livingRooms: faker.number.int({ min: 1, max: 5 }),
+    ///
+    parking: faker.datatype.boolean(),
+    elevator: faker.datatype.boolean(),
+    balcony: faker.datatype.boolean(),
+    yard: faker.datatype.boolean(),
+    basement: faker.datatype.boolean(),
+    ///
+    description: faker.lorem.paragraph({
+      min: 3,
+      max: 6,
+    }),
+    mkdDescription:
+      faker.lorem.paragraph({
+        min: 3,
+        max: 6,
+      }) + " in Macedonian",
+    albDescription:
+      faker.lorem.paragraph({
+        min: 3,
+        max: 6,
+      }) + " in Albanian",
+    ///
+    mainImage: images[0],
+    images: images,
+    videoLink: "https://www.youtube.com/watch?v=R8OejFuUYqo",
+    ///
+    isArchived: false,
+    isPublished: true,
+    publishedAt: new Date(),
+    publishEndDate: new Date(
+      new Date().setMonth(new Date().getMonth() + 1)
+    ),
+    //
+    tags: [],
+    isPaidPromo: false,
+    ///
+    contactData: JSON.stringify(contactData as ListingContactData),
+  });
+}
+
+export const agencyListings: Listing[] = aL;

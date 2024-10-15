@@ -79,7 +79,7 @@ async function main() {
           },
         },
       });
-      console.log("added listing", listing.id);
+      console.log("added u listing", listing.id);
     }
   );
 
@@ -87,18 +87,24 @@ async function main() {
 
   // LISTINGS FOR AGENCY USERS
 
-  // const agenciesListingsPromises = agencyListings.map(
-  //   async (listing) => {
-  //     await prisma.listing.upsert({
-  //       where: { id: listing.id },
-  //       update: {},
-  //       create: listing,
-  //     });
-  //     console.log("added listing", listing.id);
-  //   }``````
-  // );
+  const agencyListingsPromises = agencyListings.map(
+    async (listing) => {
+      await prisma.listing.upsert({
+        where: { id: listing.id },
+        update: {},
+        create: {
+          ...listing,
+          priceHistory: {
+            prices: [100, 120, 130], // Example JSON
+            dates: ["2021-01-01", "2021-02-01"],
+          },
+        },
+      });
+      console.log("added a listing", listing.id);
+    }
+  );
 
-  // await Promise.all(agenciesListingsPromises);
+  await Promise.all(agencyListingsPromises);
 }
 
 main()
