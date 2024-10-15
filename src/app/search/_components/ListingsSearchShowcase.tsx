@@ -95,7 +95,7 @@ export default async function ListingsSearchShowcase({
                       />
                       <span>
                         <span className="font-medium text-sm mr-0.5">
-                          {listingRef.floorNumber}
+                          {listingRef.livingRooms}
                         </span>
                       </span>
                     </li>
