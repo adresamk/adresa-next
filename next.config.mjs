@@ -15,6 +15,9 @@ const nextConfig = {
       {
         hostname: "utfs.io",
       },
+      {
+        hostname: "img.halooglasi.com",
+      },
     ],
   },
 };
