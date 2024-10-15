@@ -33,6 +33,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.js",
+    "**/*.mjs",
     ".next/types/**/*.ts",
     "prismaConnectionTest.js",
     "prisma/seeds/**/*.ts",

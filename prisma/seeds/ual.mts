@@ -10,7 +10,6 @@ import {
   nUsers,
   regularListings,
 } from "./data";
-import { Listing } from "@/global/types";
 
 const prisma = new PrismaClient();
 

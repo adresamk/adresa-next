@@ -1,20 +1,26 @@
-import { User, Agency, Listing } from "@prisma/client";
-import { faker } from "@faker-js/faker";
-import {
-  districts,
-  listingCategoryOptions,
-  listingTransactionTypeOptions,
-  listingTypeOptions,
-  locationPrecisionOptions,
-  manucipalities,
-  orientationOptions,
-  populatedPlaces,
-  randomPropertyImagesCollection,
-  randomSkopjeCoordinates,
-} from "@/global/data";
-import { ListingContactData } from "@/lib/types";
-
-export const a: Agency[] = [
+"use strict";
+var __spreadArray =
+  (this && this.__spreadArray) ||
+  function (to, from, pack) {
+    if (pack || arguments.length === 2)
+      for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+        }
+      }
+    return to.concat(ar || Array.prototype.slice.call(from));
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.agencyListings =
+  exports.regularListings =
+  exports.nUsers =
+  exports.aUsers =
+  exports.a =
+    void 0;
+var faker_1 = require("@faker-js/faker");
+var data_1 = require("../../../src/global/data.js");
+exports.a = [
   {
     id: "agency1",
     name: "Agency 1",
@@ -28,8 +34,8 @@ export const a: Agency[] = [
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
     gpsLocation: "40.7128, -74.0060",
-    description: `BINSWANGER BINIARIS Company represents exclusively in Greece the International Group BINSWANGER AMERICA LLC (www.binswanger.com), leader in the international real estate market, with clients 2/3 of the companies of FORTUNE 500, providing complete solutions to multinational companies related to their needs in the real estate sector.
-    Our Company, in addition to the activity of its residential sector, with the support of the specialized in-house departments of our engineering and legal consultants, provides additional integrated solutions in special real estate issues, such as the relocation of multinational companies, the renegotiation of rents, the appraisal of the property, the preparation of studies, the full consulting coverage of our clients, etc.`,
+    description:
+      "BINSWANGER BINIARIS Company represents exclusively in Greece the International Group BINSWANGER AMERICA LLC (www.binswanger.com), leader in the international real estate market, with clients 2/3 of the companies of FORTUNE 500, providing complete solutions to multinational companies related to their needs in the real estate sector.\n    Our Company, in addition to the activity of its residential sector, with the support of the specialized in-house departments of our engineering and legal consultants, provides additional integrated solutions in special real estate issues, such as the relocation of multinational companies, the renegotiation of rents, the appraisal of the property, the preparation of studies, the full consulting coverage of our clients, etc.",
     shortDescription: "A brief description of Agency 1.",
     branding: "",
   },
@@ -46,13 +52,8 @@ export const a: Agency[] = [
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
     gpsLocation: "40.7128, -74.0060",
-    description: `Who we are
-    At Real Estate One, we provide high quality services in the field of Property Management through many years of professional knowledge and expertise.
-    
-    At our offices, our specialized Consultants, with integrity and professionalism will help you find the property you really want through our portfolio of more than 30,000 properties.
-    
-    Our Knowledge & Expertise are always at your service!
-    `,
+    description:
+      "Who we are\n    At Real Estate One, we provide high quality services in the field of Property Management through many years of professional knowledge and expertise.\n    \n    At our offices, our specialized Consultants, with integrity and professionalism will help you find the property you really want through our portfolio of more than 30,000 properties.\n    \n    Our Knowledge & Expertise are always at your service!\n    ",
     shortDescription: "A brief description of Agency 2.",
     branding: "",
   },
@@ -69,10 +70,8 @@ export const a: Agency[] = [
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
     gpsLocation: "40.7128, -74.0060",
-    description: `The real estate agency Keller Williams Athens Riviera operates in Attica, especially in the area of the southern suburbs of Athens. Our experience in the real estate industry begins in 1977 as a construction company in Neo Kosmos.
-    
-    Our main concern is to be a quality choice in the provision of real estate services, offering vertically integrated services to the entire range of the real estate market. Our team consists of trained real estate consultants to Keller Williams standards and is complemented by an engineer, architect, decorator, mechanical engineer, REV/MRICS real estate appraiser, attorney and notary public
-    `,
+    description:
+      "The real estate agency Keller Williams Athens Riviera operates in Attica, especially in the area of the southern suburbs of Athens. Our experience in the real estate industry begins in 1977 as a construction company in Neo Kosmos.\n    \n    Our main concern is to be a quality choice in the provision of real estate services, offering vertically integrated services to the entire range of the real estate market. Our team consists of trained real estate consultants to Keller Williams standards and is complemented by an engineer, architect, decorator, mechanical engineer, REV/MRICS real estate appraiser, attorney and notary public\n    ",
     shortDescription: "A brief description of Agency 3.",
     branding: "",
   },
@@ -89,7 +88,7 @@ export const a: Agency[] = [
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
     gpsLocation: "40.7128, -74.0060",
-    description: ``,
+    description: "",
     shortDescription: "A brief description of Agency 4.",
     branding: "",
   },
@@ -106,19 +105,13 @@ export const a: Agency[] = [
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
     gpsLocation: "40.7128, -74.0060",
-    description: `The real estate market is one of its most demanding and competitive industries
-    economy, as it is directly linked to all productive sectors.
-    
-    BlueBrick and its partners, with responsibility, knowledge and reliability, making use of it
-    their many years of experience, excellent training, new technologies and modern developments
-    in the real estate industry, provides comprehensive and high-level consulting
-    services, in the field of research and information about the real estate market, the
-    investment opportunities in the industry as well as finding properties at very affordable prices`,
+    description:
+      "The real estate market is one of its most demanding and competitive industries\n    economy, as it is directly linked to all productive sectors.\n    \n    BlueBrick and its partners, with responsibility, knowledge and reliability, making use of it\n    their many years of experience, excellent training, new technologies and modern developments\n    in the real estate industry, provides comprehensive and high-level consulting\n    services, in the field of research and information about the real estate market, the\n    investment opportunities in the industry as well as finding properties at very affordable prices",
     shortDescription: "A brief description of Agency 5.",
     branding: "",
   },
 ];
-export const aUsers: User[] = [
+exports.aUsers = [
   {
     id: "g112c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency1@example.com",
@@ -195,7 +188,7 @@ export const aUsers: User[] = [
     phoneVerified: new Date(),
   },
 ];
-export const nUsers: User[] = [
+exports.nUsers = [
   {
     id: "a112c3d4-e5f6-7890-abcd-ef12345678901",
     email: "user1@example.com",
@@ -229,7 +222,6 @@ export const nUsers: User[] = [
   },
   {
     id: "a132c3d4-e5f6-7890-abcd-ef12345678901",
-
     email: "user3@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -245,7 +237,6 @@ export const nUsers: User[] = [
   },
   {
     id: "a142c3d4-e5f6-7890-abcd-ef12345678901",
-
     email: "user4@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -261,7 +252,6 @@ export const nUsers: User[] = [
   },
   {
     id: "a152c3d4-e5f6-7890-abcd-ef12345678901",
-
     email: "user5@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -276,37 +266,45 @@ export const nUsers: User[] = [
     phoneVerified: new Date(),
   },
 ];
-
-const regularUserIds = [...aUsers].map((user) => user.id);
-
-const rL: Listing[] = [];
-
-for (let index = 1; index < 50; index++) {
-  const userIndex: number = Math.floor(index / 10);
-  const tType: string = faker.helpers.arrayElement(
-    listingTransactionTypeOptions
+var regularUserIds = __spreadArray([], exports.aUsers, true).map(
+  function (user) {
+    return user.id;
+  }
+);
+var rL = [];
+for (var index = 1; index < 50; index++) {
+  var userIndex = Math.floor(index / 10);
+  var tType = faker_1.faker.helpers.arrayElement(
+    data_1.listingTransactionTypeOptions
   );
-  const c: string = faker.helpers.arrayElement(
-    listingCategoryOptions
+  var c = faker_1.faker.helpers.arrayElement(
+    data_1.listingCategoryOptions
   );
-  const t: string = faker.helpers.arrayElement(listingTypeOptions[c]);
-  const manucipality: string =
-    faker.helpers.arrayElement(manucipalities);
-  const place: string = faker.helpers.arrayElement(populatedPlaces);
-  const district: string = faker.helpers.arrayElement(districts);
-  const address: string = faker.location.streetAddress(true);
-  const fullAddress: string = `${address}, ${place}, ${manucipality}`;
-  const images: string[] = faker.helpers.arrayElements(
-    randomPropertyImagesCollection,
+  var t = faker_1.faker.helpers.arrayElement(
+    data_1.listingTypeOptions[c]
+  );
+  var manucipality = faker_1.faker.helpers.arrayElement(
+    data_1.manucipalities
+  );
+  var place = faker_1.faker.helpers.arrayElement(
+    data_1.populatedPlaces
+  );
+  var district = faker_1.faker.helpers.arrayElement(data_1.districts);
+  var address = faker_1.faker.location.streetAddress(true);
+  var fullAddress = ""
+    .concat(address, ", ")
+    .concat(place, ", ")
+    .concat(manucipality);
+  var images = faker_1.faker.helpers.arrayElements(
+    data_1.randomPropertyImagesCollection,
     6
   );
-
-  const contactData: ListingContactData = {
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    email: faker.internet.email(),
+  var contactData = {
+    firstName: faker_1.faker.person.firstName(),
+    lastName: faker_1.faker.person.lastName(),
+    email: faker_1.faker.internet.email(),
     emailVerified: false,
-    phone: faker.phone.number(),
+    phone: faker_1.faker.phone.number(),
     phoneVerified: false,
     contactHours: "9:00 AM - 5:00 PM",
   };
@@ -327,47 +325,49 @@ for (let index = 1; index < 50; index++) {
     district: district,
     address: address,
     fullAddress: fullAddress,
-    longitude: randomSkopjeCoordinates[index - 1].lng,
-    latitude: randomSkopjeCoordinates[index - 1].lat,
-    locationPrecision: faker.helpers.arrayElement(
-      locationPrecisionOptions
+    longitude: data_1.randomSkopjeCoordinates[index - 1].lng,
+    latitude: data_1.randomSkopjeCoordinates[index - 1].lat,
+    locationPrecision: faker_1.faker.helpers.arrayElement(
+      data_1.locationPrecisionOptions
     ),
     ///
-    price: faker.number.int({ min: 50000, max: 300000 }),
-    previousPrice: faker.helpers.arrayElement([
+    price: faker_1.faker.number.int({ min: 50000, max: 300000 }),
+    previousPrice: faker_1.faker.helpers.arrayElement([
       null,
-      faker.number.int({ min: 50000, max: 300000 }),
+      faker_1.faker.number.int({ min: 50000, max: 300000 }),
     ]),
     priceHistory: null,
-    area: faker.number.int({ min: 25, max: 600 }),
-    orientation: faker.helpers.arrayElement(
-      orientationOptions.map((o) => o.value)
+    area: faker_1.faker.number.int({ min: 25, max: 600 }),
+    orientation: faker_1.faker.helpers.arrayElement(
+      data_1.orientationOptions.map(function (o) {
+        return o.value;
+      })
     ),
-    floorNumber: faker.number.int({ min: 1, max: 15 }),
+    floorNumber: faker_1.faker.number.int({ min: 1, max: 15 }),
     ///
-    bedrooms: faker.number.int({ min: 1, max: 5 }),
-    bathrooms: faker.number.int({ min: 1, max: 5 }),
-    wcs: faker.number.int({ min: 1, max: 5 }),
-    kitchens: faker.number.int({ min: 1, max: 5 }),
-    livingRooms: faker.number.int({ min: 1, max: 5 }),
+    bedrooms: faker_1.faker.number.int({ min: 1, max: 5 }),
+    bathrooms: faker_1.faker.number.int({ min: 1, max: 5 }),
+    wcs: faker_1.faker.number.int({ min: 1, max: 5 }),
+    kitchens: faker_1.faker.number.int({ min: 1, max: 5 }),
+    livingRooms: faker_1.faker.number.int({ min: 1, max: 5 }),
     ///
-    parking: faker.datatype.boolean(),
-    elevator: faker.datatype.boolean(),
-    balcony: faker.datatype.boolean(),
-    yard: faker.datatype.boolean(),
-    basement: faker.datatype.boolean(),
+    parking: faker_1.faker.datatype.boolean(),
+    elevator: faker_1.faker.datatype.boolean(),
+    balcony: faker_1.faker.datatype.boolean(),
+    yard: faker_1.faker.datatype.boolean(),
+    basement: faker_1.faker.datatype.boolean(),
     ///
-    description: faker.lorem.paragraph({
+    description: faker_1.faker.lorem.paragraph({
       min: 3,
       max: 6,
     }),
     mkdDescription:
-      faker.lorem.paragraph({
+      faker_1.faker.lorem.paragraph({
         min: 3,
         max: 6,
       }) + " in Macedonian",
     albDescription:
-      faker.lorem.paragraph({
+      faker_1.faker.lorem.paragraph({
         min: 3,
         max: 6,
       }) + " in Albanian",
@@ -386,39 +386,49 @@ for (let index = 1; index < 50; index++) {
     tags: [],
     isPaidPromo: false,
     ///
-    contactData: JSON.stringify(contactData as ListingContactData),
+    contactData: JSON.stringify(contactData),
   });
 }
-
-export const regularListings: Listing[] = rL;
-
-const agencyUserIds = [...aUsers].map((user) => user.id);
-
-const aL: Listing[] = [];
-
-for (let index = 1; index < 50; index++) {
-  const userIndex = Math.floor(index / 10);
-  const tType = faker.helpers.arrayElement(
-    listingTransactionTypeOptions
+exports.regularListings = rL;
+var agencyUserIds = __spreadArray([], exports.aUsers, true).map(
+  function (user) {
+    return user.id;
+  }
+);
+var aL = [];
+for (var index = 1; index < 50; index++) {
+  var userIndex = Math.floor(index / 10);
+  var tType = faker_1.faker.helpers.arrayElement(
+    data_1.listingTransactionTypeOptions
   );
-  const c = faker.helpers.arrayElement(listingCategoryOptions);
-  const t = faker.helpers.arrayElement(listingTypeOptions[c]);
-  const manucipality = faker.helpers.arrayElement(manucipalities);
-  const place = faker.helpers.arrayElement(populatedPlaces);
-  const district = faker.helpers.arrayElement(districts);
-  const address = faker.location.streetAddress(true);
-  const fullAddress = `${address}, ${place}, ${manucipality}`;
-  const images = faker.helpers.arrayElements(
-    randomPropertyImagesCollection,
+  var c = faker_1.faker.helpers.arrayElement(
+    data_1.listingCategoryOptions
+  );
+  var t = faker_1.faker.helpers.arrayElement(
+    data_1.listingTypeOptions[c]
+  );
+  var manucipality = faker_1.faker.helpers.arrayElement(
+    data_1.manucipalities
+  );
+  var place = faker_1.faker.helpers.arrayElement(
+    data_1.populatedPlaces
+  );
+  var district = faker_1.faker.helpers.arrayElement(data_1.districts);
+  var address = faker_1.faker.location.streetAddress(true);
+  var fullAddress = ""
+    .concat(address, ", ")
+    .concat(place, ", ")
+    .concat(manucipality);
+  var images = faker_1.faker.helpers.arrayElements(
+    data_1.randomPropertyImagesCollection,
     6
   );
-
-  const contactData = {
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    email: faker.internet.email(),
+  var contactData = {
+    firstName: faker_1.faker.person.firstName(),
+    lastName: faker_1.faker.person.lastName(),
+    email: faker_1.faker.internet.email(),
     emailVerified: false,
-    phone: faker.phone.number(),
+    phone: faker_1.faker.phone.number(),
     phoneVerified: false,
     contactHours: "9:00 AM - 5:00 PM",
   };
@@ -439,47 +449,49 @@ for (let index = 1; index < 50; index++) {
     district: district,
     address: address,
     fullAddress: fullAddress,
-    longitude: randomSkopjeCoordinates[index - 1].lng,
-    latitude: randomSkopjeCoordinates[index - 1].lat,
-    locationPrecision: faker.helpers.arrayElement(
-      locationPrecisionOptions
+    longitude: data_1.randomSkopjeCoordinates[index - 1].lng,
+    latitude: data_1.randomSkopjeCoordinates[index - 1].lat,
+    locationPrecision: faker_1.faker.helpers.arrayElement(
+      data_1.locationPrecisionOptions
     ),
     ///
-    price: faker.number.int({ min: 50000, max: 300000 }),
-    previousPrice: faker.helpers.arrayElement([
+    price: faker_1.faker.number.int({ min: 50000, max: 300000 }),
+    previousPrice: faker_1.faker.helpers.arrayElement([
       null,
-      faker.number.int({ min: 50000, max: 300000 }),
+      faker_1.faker.number.int({ min: 50000, max: 300000 }),
     ]),
     priceHistory: null,
-    area: faker.number.int({ min: 25, max: 600 }),
-    orientation: faker.helpers.arrayElement(
-      orientationOptions.map((o) => o.value)
+    area: faker_1.faker.number.int({ min: 25, max: 600 }),
+    orientation: faker_1.faker.helpers.arrayElement(
+      data_1.orientationOptions.map(function (o) {
+        return o.value;
+      })
     ),
-    floorNumber: faker.number.int({ min: 1, max: 15 }),
+    floorNumber: faker_1.faker.number.int({ min: 1, max: 15 }),
     ///
-    bedrooms: faker.number.int({ min: 1, max: 5 }),
-    bathrooms: faker.number.int({ min: 1, max: 5 }),
-    wcs: faker.number.int({ min: 1, max: 5 }),
-    kitchens: faker.number.int({ min: 1, max: 5 }),
-    livingRooms: faker.number.int({ min: 1, max: 5 }),
+    bedrooms: faker_1.faker.number.int({ min: 1, max: 5 }),
+    bathrooms: faker_1.faker.number.int({ min: 1, max: 5 }),
+    wcs: faker_1.faker.number.int({ min: 1, max: 5 }),
+    kitchens: faker_1.faker.number.int({ min: 1, max: 5 }),
+    livingRooms: faker_1.faker.number.int({ min: 1, max: 5 }),
     ///
-    parking: faker.datatype.boolean(),
-    elevator: faker.datatype.boolean(),
-    balcony: faker.datatype.boolean(),
-    yard: faker.datatype.boolean(),
-    basement: faker.datatype.boolean(),
+    parking: faker_1.faker.datatype.boolean(),
+    elevator: faker_1.faker.datatype.boolean(),
+    balcony: faker_1.faker.datatype.boolean(),
+    yard: faker_1.faker.datatype.boolean(),
+    basement: faker_1.faker.datatype.boolean(),
     ///
-    description: faker.lorem.paragraph({
+    description: faker_1.faker.lorem.paragraph({
       min: 3,
       max: 6,
     }),
     mkdDescription:
-      faker.lorem.paragraph({
+      faker_1.faker.lorem.paragraph({
         min: 3,
         max: 6,
       }) + " in Macedonian",
     albDescription:
-      faker.lorem.paragraph({
+      faker_1.faker.lorem.paragraph({
         min: 3,
         max: 6,
       }) + " in Albanian",
@@ -498,8 +510,7 @@ for (let index = 1; index < 50; index++) {
     tags: [],
     isPaidPromo: false,
     ///
-    contactData: JSON.stringify(contactData as ListingContactData),
+    contactData: JSON.stringify(contactData),
   });
 }
-
-export const agencyListings: Listing[] = aL;
+exports.agencyListings = aL;
