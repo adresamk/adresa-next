@@ -277,7 +277,7 @@ export const nUsers: User[] = [
   },
 ];
 
-const regularUserIds = [...aUsers].map((user) => user.id);
+const regularUserIds = [...nUsers].map((user) => user.id);
 
 const rL: Listing[] = [];
 
