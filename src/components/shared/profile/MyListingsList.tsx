@@ -87,7 +87,7 @@ export default function MyListingsList({
                     alt="Property image"
                     className={cn(
                       "max-h-[200px] object-cover w-full h-full bg-cover rounded-tl-md rounded-bl-md  rounded-tr-none rounded-br-none",
-                      !l.publishedAt && "opacity-70 grayscale"
+                      hasRequiredFieldsLeft && "opacity-50"
                     )}
                   />
                 </div>
