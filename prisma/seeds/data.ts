@@ -423,6 +423,7 @@ for (let index = 1; index < 100; index++) {
     videoLink: "https://www.youtube.com/watch?v=R8OejFuUYqo",
     ///
     isArchived: false,
+    isVisible: true,
     isPublished: true,
     publishedAt: new Date(),
     publishEndDate: new Date(
@@ -541,6 +542,7 @@ for (let index = 1; index < 100; index++) {
     videoLink: "https://www.youtube.com/watch?v=R8OejFuUYqo",
     ///
     isArchived: false,
+    isVisible: true,
     isPublished: true,
     publishedAt: new Date(),
     publishEndDate: new Date(

@@ -159,7 +159,8 @@ model Listing {
   videoLink         String? // youtube or vimeo for the property
   // Publishing info
   isArchived        Boolean    @default(false)
-  isPublished       Boolean    @default(false)
+  isPublished       Boolean    @default(false) // meaning someone paid for this and its shown unless its hidden
+  isVisible         Boolean    @default(true) // user can turn it off/on which is different from isPublished
   publishedAt       DateTime?
   publishEndDate    DateTime? // usually one month after publishedAt
   // Unresolved

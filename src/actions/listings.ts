@@ -117,3 +117,49 @@ export async function deleteListing(formData: FormData) {
     error: false,
   };
 }
+
+export async function adjustListingVisibility(formData: FormData) {
+  console.log(formData);
+  const listingId = formData.get("listingId")?.valueOf();
+  const isVisible = formData.get("isVisible")?.valueOf();
+
+  if (typeof listingId !== "string" || !listingId) {
+    return {
+      success: false,
+      error: "Listing ID necessary",
+    };
+  }
+
+  if (
+    typeof isVisible !== "string" ||
+    (isVisible !== "true" && isVisible !== "false")
+  ) {
+    return {
+      success: false,
+      error: "isVisible is incorrect value",
+    };
+  }
+  const { user, session } = await validateRequest();
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+
+  const wasVisible = isVisible === "true";
+  await prismadb.listing.update({
+    where: {
+      id: listingId,
+    },
+    data: {
+      isVisible: !wasVisible,
+    },
+  });
+
+  revalidatePath("/profile/listings");
+  return {
+    success: true,
+    error: false,
+  };
+}

@@ -15,6 +15,7 @@ import { UserRoles } from "@/global/data";
 import Link from "next/link";
 import { ListingContactData } from "@/lib/types";
 import ListingDeleteButton from "../listing/ListingDeleteButton";
+import ListingVisibilityButton from "../listing/ListingVisibilityButton";
 
 export default function MyListingsList({
   listings,
@@ -50,6 +51,12 @@ export default function MyListingsList({
             // some logic where we can use searchFilter
             return l;
           })
+          .sort(
+            (a, b) =>
+              new Date(b.updatedAt).getTime() -
+              new Date(a.updatedAt).getTime()
+          )
+
           .map((l: Listing) => {
             // check against all require fields
             const contactData = l.contactData
@@ -71,7 +78,7 @@ export default function MyListingsList({
 
             return (
               <div
-                key={l.id}
+                key={l.id + l.isVisible.toString()}
                 className="flex min-h-[202px] border  shadow-md rounded-md"
               >
                 <div className="w-4/12 min-w-[250px]">
@@ -103,13 +110,7 @@ export default function MyListingsList({
                           </Button>
                         </Link>
                       ) : (
-                        <Button
-                          variant={"ghost"}
-                          size={"sm"}
-                          className="text-xs  px-2"
-                        >
-                          <EyeOff className="mr-2" /> Hide
-                        </Button>
+                        <ListingVisibilityButton listing={l} />
                       )}
                       <ListingDeleteButton listingId={l.id} />
                     </div>
