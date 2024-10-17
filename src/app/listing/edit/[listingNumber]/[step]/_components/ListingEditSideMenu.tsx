@@ -107,17 +107,12 @@ function calculateStepStatus(listing: Listing): StepStatus {
     }
     if (step.title === "Main characteristics") {
       if (!listing.price && !listing.area) {
-        console.log(1);
         statuses[step.title] = "incomplete";
       }
 
       if (listing.price && listing.area) {
-        console.log(2);
-
         statuses[step.title] = "completed";
       } else {
-        console.log(3);
-
         statuses[step.title] = "in-progress";
       }
     }
@@ -350,11 +345,11 @@ export default function ListingEditSideMenu({
             {steps.map((step: Step, index) => {
               const stepProgress = stepsProgress[index];
 
-              console.log(
-                "stepstatus",
-                step.title,
-                stepStatus[step.title]
-              );
+              // console.log(
+              //   "stepstatus",
+              //   step.title,
+              //   stepStatus[step.title]
+              // );
               return (
                 <li
                   key={step.title}

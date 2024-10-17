@@ -13,6 +13,8 @@ import {
 import { useState } from "react";
 import { UserRoles } from "@/global/data";
 import Link from "next/link";
+import { ListingContactData } from "@/lib/types";
+import ListingDeleteButton from "../listing/ListingDeleteButton";
 
 export default function MyListingsList({
   listings,
@@ -44,41 +46,62 @@ export default function MyListingsList({
       )}
       <div className="flex flex-col gap-5">
         {listings
-          .filter((e: Listing) => {
+          .filter((l: Listing) => {
             // some logic where we can use searchFilter
-            return e;
+            return l;
           })
-          .map((p: Listing) => {
-            const hasRequiredFieldsLeft = true;
+          .map((l: Listing) => {
+            // check against all require fields
+            const contactData = l.contactData
+              ? JSON.parse(l.contactData)
+              : null;
+
+            const hasRequiredFieldsLeft =
+              !l.type ||
+              !l.manucipality ||
+              !l.place ||
+              !l.district ||
+              !l.address ||
+              !l.price ||
+              !l.area ||
+              !contactData.email ||
+              !contactData.phone ||
+              !contactData.firstName ||
+              !contactData.lastName;
+
             return (
               <div
-                key={p.id}
+                key={l.id}
                 className="flex min-h-[202px] border  shadow-md rounded-md"
               >
                 <div className="w-4/12 min-w-[250px]">
                   <img
-                    src={p.mainImage || ""}
+                    src={l.mainImage || ""}
                     alt="Property image"
                     className={cn(
-                      "w-full h-full bg-cover rounded-tl-md rounded-bl-md  rounded-tr-none rounded-br-none",
-                      !p.publishedAt && "opacity-70 grayscale"
+                      "max-h-[200px] object-cover w-full h-full bg-cover rounded-tl-md rounded-bl-md  rounded-tr-none rounded-br-none",
+                      !l.publishedAt && "opacity-70 grayscale"
                     )}
                   />
                 </div>
                 <div className="w-8/12 p-5 flex flex-col">
                   <div className="flex justify-between items-center">
                     <p className="text-sm">
-                      Listing: {p.listingNumber}
+                      Listing: {l.listingNumber}
                     </p>
                     <div className="flex  justify-end  text-xs ">
-                      {!p.publishedAt ? (
-                        <Button
-                          variant={"ghost"}
-                          size={"sm"}
-                          className="text-xs px-2 "
+                      {!l.publishedAt ? (
+                        <Link
+                          href={`/listing/edit/${l.listingNumber}/whatever`}
                         >
-                          <Edit className="mr-2" /> Edit
-                        </Button>
+                          <Button
+                            variant={"ghost"}
+                            size={"sm"}
+                            className="text-xs px-2 "
+                          >
+                            <Edit className="mr-2" /> Edit
+                          </Button>
+                        </Link>
                       ) : (
                         <Button
                           variant={"ghost"}
@@ -88,27 +111,21 @@ export default function MyListingsList({
                           <EyeOff className="mr-2" /> Hide
                         </Button>
                       )}
-                      <Button
-                        variant={"ghost"}
-                        size={"sm"}
-                        className="text-red-400 hover:text-red-600 text-xs px-2"
-                      >
-                        <Trash className="mr-2" /> Delete
-                      </Button>
+                      <ListingDeleteButton listingId={l.id} />
                     </div>
                   </div>
                   <div>
                     <h4 className="my-4 font-semibold">
-                      <span className="capitalize">{p.type}</span>,{" "}
-                      {p.area} m2
+                      <span className="capitalize">{l.type}</span>,{" "}
+                      {l.area} m2
                     </h4>
                     <p className="text-xs">
                       <span>
-                        created at {p.createdAt.toLocaleString()}
+                        created at {l.createdAt.toLocaleString()}
                       </span>{" "}
                       |
                       <span>
-                        published at {p.publishedAt?.toLocaleString()}
+                        published at {l.publishedAt?.toLocaleString()}
                       </span>
                     </p>
                   </div>
@@ -131,15 +148,19 @@ export default function MyListingsList({
                       )}
                     </div>
                     <div className="min-w-[120px]">
-                      {p.isPublished && (
-                        <Button
-                          variant={"outline"}
-                          className={"w-full text-brand-light-blue"}
+                      {l.isPublished && (
+                        <Link
+                          href={`/listing/edit/${l.listingNumber}/whatever`}
                         >
-                          Edit
-                        </Button>
+                          <Button
+                            variant={"outline"}
+                            className={"w-full text-brand-light-blue"}
+                          >
+                            Edit
+                          </Button>
+                        </Link>
                       )}
-                      {!p.isPublished && (
+                      {!l.isPublished && (
                         <Button className="w-full text-white border-brand-light-blue hover:text-brand-dark-blue">
                           Publish
                         </Button>

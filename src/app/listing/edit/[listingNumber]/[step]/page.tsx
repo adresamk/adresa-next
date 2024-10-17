@@ -9,9 +9,15 @@ export default async function EditListingPage({
 }: {
   params: { listingNumber: string; step: string };
 }) {
+  const requestedStep = params.step;
+  const stepExists = steps.find(
+    (step: Step) => step.uniquePath === requestedStep
+  );
   const { user } = await validateRequest();
   if (!user) {
-    redirect("/signin?redirect=/listing/edit");
+    redirect(
+      `/signin?redirect=/listing/edit/${params.listingNumber}/${steps[0].uniquePath}`
+    );
   }
 
   const listing = await prismadb.listing.findUnique({
@@ -23,10 +29,11 @@ export default async function EditListingPage({
     redirect("/404");
   }
 
-  const requestedStep = params.step;
-  const stepExists = steps.find(
-    (step: Step) => step.uniquePath === requestedStep
-  );
+  // check if user owns the listing
+  if (listing.userId !== user.id) {
+    return <div>You don't own this one |change on launch| </div>;
+  }
+
   if (!stepExists) {
     redirect(
       `/listing/edit/${params.listingNumber}/${steps[0].uniquePath}`

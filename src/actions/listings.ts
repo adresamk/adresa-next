@@ -2,6 +2,7 @@
 
 import { validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function createListing() {
@@ -83,4 +84,36 @@ export async function getLikedListingsByUser() {
   );
 
   return listings;
+}
+
+export async function deleteListing(formData: FormData) {
+  console.log(formData);
+  const listingId = formData.get("listingId")?.valueOf();
+
+  if (typeof listingId !== "string" || !listingId) {
+    return {
+      success: false,
+      error: "Listing ID necessary",
+    };
+  }
+
+  const { user, session } = await validateRequest();
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+
+  await prismadb.listing.delete({
+    where: {
+      id: listingId,
+    },
+  });
+
+  revalidatePath("/profile/listings");
+  return {
+    success: true,
+    error: false,
+  };
 }

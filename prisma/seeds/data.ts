@@ -12,6 +12,9 @@ import {
   randomPropertyImagesCollection,
 } from "@/global/data";
 import { ListingContactData } from "@/lib/types";
+function createSlug(text: string) {
+  return text.replace(/\s+/g, "-").toLowerCase();
+}
 
 type Coordinate = {
   lng: number;
@@ -23,28 +26,27 @@ function generateRandomCoordinates(
   radiusKm: number,
   count: number
 ) {
-  const newCoordinates = [];
+  const newCoordinates: Coordinate[] = [];
 
   for (let i = 0; i < count; i++) {
-    // Random distance in km from the center
-    const distKm = Math.random() * radiusKm;
-
-    // Random angle in radians
+    // Random angle in radians (uniform between 0 and 2 * Pi)
     const angle = Math.random() * 2 * Math.PI;
+
+    // Random distance, taking the square root to ensure uniform distribution
+    const distKm = Math.sqrt(Math.random()) * radiusKm;
 
     // Offset latitude
     const deltaLat = distKm / 110.574; // 1 degree of latitude is ~110.574 km
-    const newLat =
-      center.lat + (Math.random() < 0.5 ? -1 : 1) * deltaLat;
+    const newLat = center.lat + deltaLat * Math.cos(angle);
 
     // Offset longitude
     const deltaLng =
-      distKm / (111.32 * Math.cos(newLat * (Math.PI / 180))); // 1 degree of longitude depends on latitude
-    const newLng =
-      center.lng + (Math.random() < 0.5 ? -1 : 1) * deltaLng;
+      distKm / (111.32 * Math.cos(center.lat * (Math.PI / 180))); // 1 degree of longitude depends on latitude
+    const newLng = center.lng + deltaLng * Math.sin(angle);
 
     newCoordinates.push({ lng: newLng, lat: newLat });
   }
+
   return newCoordinates;
 }
 
@@ -324,20 +326,21 @@ const rL: Listing[] = [];
 
 for (let index = 1; index < 100; index++) {
   const userIndex: number = Math.floor(index / 20);
-  const tType: string = faker.helpers.arrayElement(
+  const tType = faker.helpers.arrayElement(
     listingTransactionTypeOptions
   );
-  const c: string = faker.helpers.arrayElement(
-    listingCategoryOptions
+  const c = faker.helpers.arrayElement(listingCategoryOptions);
+  const t = faker.helpers.arrayElement(listingTypeOptions[c]);
+  const manucipality = createSlug(
+    faker.helpers.arrayElement(manucipalities)
   );
-  const t: string = faker.helpers.arrayElement(listingTypeOptions[c]);
-  const manucipality: string =
-    faker.helpers.arrayElement(manucipalities);
-  const place: string = faker.helpers.arrayElement(populatedPlaces);
-  const district: string = faker.helpers.arrayElement(districts);
-  const address: string = faker.location.streetAddress(true);
-  const fullAddress: string = `${address}, ${place}, ${manucipality}`;
-  const images: string[] = faker.helpers.arrayElements(
+  const place = createSlug(
+    faker.helpers.arrayElement(populatedPlaces)
+  );
+  const district = createSlug(faker.helpers.arrayElement(districts));
+  const address = faker.location.streetAddress(true);
+  const fullAddress = `${address}, ${place}, ${manucipality}`;
+  const images = faker.helpers.arrayElements(
     randomPropertyImagesCollection,
     6
   );
@@ -352,8 +355,9 @@ for (let index = 1; index < 100; index++) {
     contactHours: "9:00 AM - 5:00 PM",
   };
   rL.push({
-    id: "listing" + index,
-    listingNumber: index,
+    id: "u-listing" + index,
+    externalRef: null,
+    listingNumber: 122 + index,
     createdAt: new Date(),
     updatedAt: new Date(),
     isAvailable: true,
@@ -374,6 +378,7 @@ for (let index = 1; index < 100; index++) {
       locationPrecisionOptions
     ),
     ///
+    title: faker.lorem.words(4),
     price: faker.number.int({ min: 50000, max: 300000 }),
     previousPrice: faker.helpers.arrayElement([
       null,
@@ -444,9 +449,13 @@ for (let index = 1; index < 100; index++) {
   );
   const c = faker.helpers.arrayElement(listingCategoryOptions);
   const t = faker.helpers.arrayElement(listingTypeOptions[c]);
-  const manucipality = faker.helpers.arrayElement(manucipalities);
-  const place = faker.helpers.arrayElement(populatedPlaces);
-  const district = faker.helpers.arrayElement(districts);
+  const manucipality = createSlug(
+    faker.helpers.arrayElement(manucipalities)
+  );
+  const place = createSlug(
+    faker.helpers.arrayElement(populatedPlaces)
+  );
+  const district = createSlug(faker.helpers.arrayElement(districts));
   const address = faker.location.streetAddress(true);
   const fullAddress = `${address}, ${place}, ${manucipality}`;
   const images = faker.helpers.arrayElements(
@@ -464,7 +473,8 @@ for (let index = 1; index < 100; index++) {
     contactHours: "9:00 AM - 5:00 PM",
   };
   aL.push({
-    id: "listing" + index,
+    id: "a-listing" + index,
+    externalRef: null,
     listingNumber: index,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -486,6 +496,7 @@ for (let index = 1; index < 100; index++) {
       locationPrecisionOptions
     ),
     ///
+    title: faker.lorem.words(4),
     price: faker.number.int({ min: 50000, max: 300000 }),
     previousPrice: faker.helpers.arrayElement([
       null,

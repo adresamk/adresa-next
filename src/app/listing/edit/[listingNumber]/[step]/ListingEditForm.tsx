@@ -13,7 +13,6 @@ import Step8 from "./steps/Step8";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { steps } from "./types";
-import { SubmitHandler, useForm } from "react-hook-form";
 interface ListingEditFormProps {
   loadedListing: Listing;
   requestedStep: string;
@@ -36,7 +35,6 @@ export default function ListingEditForm({
   });
   const { data, success, error } = state;
 
-  console.log(data);
   const listing = data ? data.listing : loadedListing;
 
   const [currentStep, setCurrentStep] = useState(requestedStep);

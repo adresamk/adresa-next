@@ -80,6 +80,7 @@ model Counter {
 model Listing {
   // Generated automatically
   id                String     @id @default(uuid())
+  externalRef       String?    @unique // External ID for importing data from other sources
   listingNumber     Int        @unique @default(autoincrement()) // 6 digit number  
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
@@ -101,6 +102,7 @@ model Listing {
   latitude          Float?
   locationPrecision String? // 'exact', 'approximate', 'wide' | How precise the location is shown on the map
   // Main Characteristics
+  title             String?    @default("") // Title that will show up in listing that they wanted
   price             Int?
   previousPrice     Int?
   priceHistory      Json?

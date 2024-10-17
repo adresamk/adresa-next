@@ -20,22 +20,23 @@ exports.agencyListings =
     void 0;
 var faker_1 = require("@faker-js/faker");
 var data_1 = require("../../../src/global/data.js");
+function createSlug(text) {
+  return text.replace(/\s+/g, "-").toLowerCase();
+}
 function generateRandomCoordinates(center, radiusKm, count) {
   var newCoordinates = [];
   for (var i = 0; i < count; i++) {
-    // Random distance in km from the center
-    var distKm = Math.random() * radiusKm;
-    // Random angle in radians
+    // Random angle in radians (uniform between 0 and 2 * Pi)
     var angle = Math.random() * 2 * Math.PI;
+    // Random distance, taking the square root to ensure uniform distribution
+    var distKm = Math.sqrt(Math.random()) * radiusKm;
     // Offset latitude
     var deltaLat = distKm / 110.574; // 1 degree of latitude is ~110.574 km
-    var newLat =
-      center.lat + (Math.random() < 0.5 ? -1 : 1) * deltaLat;
+    var newLat = center.lat + deltaLat * Math.cos(angle);
     // Offset longitude
     var deltaLng =
-      distKm / (111.32 * Math.cos(newLat * (Math.PI / 180))); // 1 degree of longitude depends on latitude
-    var newLng =
-      center.lng + (Math.random() < 0.5 ? -1 : 1) * deltaLng;
+      distKm / (111.32 * Math.cos(center.lat * (Math.PI / 180))); // 1 degree of longitude depends on latitude
+    var newLng = center.lng + deltaLng * Math.sin(angle);
     newCoordinates.push({ lng: newLng, lat: newLat });
   }
   return newCoordinates;
@@ -311,13 +312,15 @@ for (var index = 1; index < 100; index++) {
   var t = faker_1.faker.helpers.arrayElement(
     data_1.listingTypeOptions[c]
   );
-  var manucipality = faker_1.faker.helpers.arrayElement(
-    data_1.manucipalities
+  var manucipality = createSlug(
+    faker_1.faker.helpers.arrayElement(data_1.manucipalities)
   );
-  var place = faker_1.faker.helpers.arrayElement(
-    data_1.populatedPlaces
+  var place = createSlug(
+    faker_1.faker.helpers.arrayElement(data_1.populatedPlaces)
   );
-  var district = faker_1.faker.helpers.arrayElement(data_1.districts);
+  var district = createSlug(
+    faker_1.faker.helpers.arrayElement(data_1.districts)
+  );
   var address = faker_1.faker.location.streetAddress(true);
   var fullAddress = ""
     .concat(address, ", ")
@@ -337,8 +340,9 @@ for (var index = 1; index < 100; index++) {
     contactHours: "9:00 AM - 5:00 PM",
   };
   rL.push({
-    id: "listing" + index,
-    listingNumber: index,
+    id: "u-listing" + index,
+    externalRef: null,
+    listingNumber: 122 + index,
     createdAt: new Date(),
     updatedAt: new Date(),
     isAvailable: true,
@@ -359,6 +363,7 @@ for (var index = 1; index < 100; index++) {
       data_1.locationPrecisionOptions
     ),
     ///
+    title: faker_1.faker.lorem.words(4),
     price: faker_1.faker.number.int({ min: 50000, max: 300000 }),
     previousPrice: faker_1.faker.helpers.arrayElement([
       null,
@@ -435,13 +440,15 @@ for (var index = 1; index < 100; index++) {
   var t = faker_1.faker.helpers.arrayElement(
     data_1.listingTypeOptions[c]
   );
-  var manucipality = faker_1.faker.helpers.arrayElement(
-    data_1.manucipalities
+  var manucipality = createSlug(
+    faker_1.faker.helpers.arrayElement(data_1.manucipalities)
   );
-  var place = faker_1.faker.helpers.arrayElement(
-    data_1.populatedPlaces
+  var place = createSlug(
+    faker_1.faker.helpers.arrayElement(data_1.populatedPlaces)
   );
-  var district = faker_1.faker.helpers.arrayElement(data_1.districts);
+  var district = createSlug(
+    faker_1.faker.helpers.arrayElement(data_1.districts)
+  );
   var address = faker_1.faker.location.streetAddress(true);
   var fullAddress = ""
     .concat(address, ", ")
@@ -461,7 +468,8 @@ for (var index = 1; index < 100; index++) {
     contactHours: "9:00 AM - 5:00 PM",
   };
   aL.push({
-    id: "listing" + index,
+    id: "a-listing" + index,
+    externalRef: null,
     listingNumber: index,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -483,6 +491,7 @@ for (var index = 1; index < 100; index++) {
       data_1.locationPrecisionOptions
     ),
     ///
+    title: faker_1.faker.lorem.words(4),
     price: faker_1.faker.number.int({ min: 50000, max: 300000 }),
     previousPrice: faker_1.faker.helpers.arrayElement([
       null,
