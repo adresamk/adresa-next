@@ -1,4 +1,4 @@
-import MyListingsList from "@/components/shared/MyListingsList";
+import MyListingsList from "@/components/shared/profile/MyListingsList";
 import { Separator } from "@/components/ui/separator";
 
 import { getUser } from "@/lib/auth";
