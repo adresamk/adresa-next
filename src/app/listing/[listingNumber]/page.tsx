@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+
 import {
   AirVentIcon,
   AlarmCheck,
@@ -21,6 +23,10 @@ import { formatNumberWithDelimiter } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
 import { ListingContactData } from "@/lib/types";
+import ListingBreadcrumbs from "./_components/ListingBreadcrumbs";
+import Link from "next/link";
+import ListingActions from "./_components/ListingActions";
+import ListingImages from "./_components/ListingImages";
 
 const icons: { [key: string]: JSX.Element } = {
   bathroom: <ShowerHead size={30} />,
@@ -38,6 +44,10 @@ export default async function SingleListingPage({
 }: {
   params: { listingNumber: string };
 }) {
+  console.log(params);
+  if (isNaN(Number(params.listingNumber))) {
+    redirect("/404");
+  }
   const listing = await prismadb.listing.findUnique({
     where: {
       listingNumber: Number(params.listingNumber),
@@ -52,43 +62,27 @@ export default async function SingleListingPage({
     redirect("/404");
   }
   return (
-    <div className="p-4">
-      SingleListing works
-      <div className="flex items-center">
-        <Button className="mr-10" variant={"ghost"}>
-          Back
-        </Button>
-
-        <div>
-          Home sales {">"} Skopje, Centar {">"} Stanovi {">"} Listing
-          {listing.listingNumber}
+    <article className="">
+      {/* Above Images Breadcrumbs and Action Buttons */}
+      <section className="py-4 px-0">
+        <div className="flex flex-col items-center w-full px-5 mx-auto max-w-7xl md:flex-row  ">
+          {/* Figure out what back means, where the link should lead to */}
+          <Link
+            href="/"
+            className="inline-flex items-center text-xs mr-5 font-semibold"
+          >
+            <Button variant={"ghost"}>
+              <ArrowLeft className="mr-2 h-4 w-4" /> Back
+            </Button>
+          </Link>
+          <ListingBreadcrumbs listing={listing} />
+          <ListingActions listing={listing} />
         </div>
-      </div>
+      </section>
       {/* Images */}
-      <div className="flex gap-3 relative mb-5">
-        <div className="absolute bottom-1 right-1 flex gap-2 bg-slate-300/90 p-1 rounded items-center cursor-pointer">
-          <PictureInPicture2 size={16} /> +{" "}
-          {/* 5 are already shown */}
-          {listing.images.length - 5}
-        </div>
-        <div className="w-1/2">
-          <img
-            src={listing.mainImage || ""}
-            alt="Main image"
-            className="w-full h-full rounded"
-          />
-        </div>
-        <div className="w-1/2 grid grid-cols-2 gap-3">
-          {listing.images.slice(1, 5).map((imageUrl, idx) => (
-            <img
-              key={idx}
-              src={imageUrl}
-              alt="Room image"
-              className="rounded"
-            />
-          ))}
-        </div>
-      </div>
+      <section className=" w-full px-5 mx-auto max-w-7xl">
+        <ListingImages listing={listing} />
+      </section>
       <div className="flex">
         <div className="w-2/3 pl-2 pr-4">
           <div className="flex justify-between mb-4">
@@ -339,6 +333,6 @@ export default async function SingleListingPage({
           <MiniContactForm />
         </div>
       </div>
-    </div>
+    </article>
   );
 }
