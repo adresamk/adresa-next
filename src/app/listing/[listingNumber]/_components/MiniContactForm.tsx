@@ -1,3 +1,4 @@
+"use client";
 import RevealButton from "@/components/shared/RevealButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   AirVentIcon,
@@ -15,43 +14,14 @@ import {
   ShareIcon,
   ShowerHead,
 } from "lucide-react";
-import { useParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import MiniContactForm from "./_components/MiniContactForm";
 import RevealButton from "@/components/shared/RevealButton";
 import { formatNumberWithDelimiter } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-const images = [
-  {
-    url: "/assets/demo-property-bg.png",
-    isMain: true,
-    position: 1,
-  },
-  {
-    url: "/assets/demo-property-bg.png",
-    isMain: false,
-    position: 2,
-  },
-  {
-    url: "/assets/demo-property-bg.png",
-    isMain: false,
-    position: 3,
-  },
-  {
-    url: "/assets/demo-property-bg.png",
-    isMain: false,
-    position: 4,
-  },
-  {
-    url: "/assets/demo-property-bg.png",
-    isMain: false,
-    position: 5,
-  },
-  {
-    url: "/assets/demo-property-bg.png",
-    isMain: false,
-    position: 6,
-  },
-];
+import prismadb from "@/lib/db";
+import { ListingContactData } from "@/lib/types";
+
 const icons: { [key: string]: JSX.Element } = {
   bathroom: <ShowerHead size={30} />,
   ac: <AirVentIcon size={30} />,
@@ -63,37 +33,24 @@ const icons: { [key: string]: JSX.Element } = {
   terace: <Fence />,
   facade: <BrickWall />,
 } as { [key: string]: JSX.Element };
-export default function SingleListing() {
-  const { listingNumber } = useParams();
-  const listing = {
-    title: "Stan, 60m2",
-    location: "Skopje, Centar",
-    phone: "077 777 777",
-    postedDate: "1 Jun 2024",
-    price: 50_000,
-    area: 55,
-    floors: 3,
-    yearMade: "2020",
-    lastModified: "20 07 2024",
-    features: {
-      bathroom: 2,
-      ac: 1,
-      garage: 1,
-      kitchen: 1,
+export default async function SingleListingPage({
+  params,
+}: {
+  params: { listingNumber: string };
+}) {
+  const listing = await prismadb.listing.findUnique({
+    where: {
+      listingNumber: Number(params.listingNumber),
     },
-    inside: {
-      ac: 1,
-      elevator: 1,
-      alart: 1,
-      protectionDoor: 1,
-      spajz: 1,
-    },
-    outside: {
-      terace: 1,
-      facade: 1,
-    },
-    description: `Se prodava 113m2 stan so 3 spalni i 3 kupatila vo Kapistec vo nova zgrada zavrsena 2024 godina.Stanot se naogja na visoko prizemje i moze da se koristi za ziveenje, no i kako kancelariski prostor..Vo zadniot del od zgradata ima platforma vo prodolzetok na stanot na koja moze da se napravi golema terasa/dvor.Site materijali koristeni kako vrati, prozori, parket, plocki, sanitarija se od najvisok kvalitet.Greenjeto i ladenjeto e reseno so toplotna pumpa, resenie koe e najpogodno za efikasnost, ekonomicnost i niski smetki za struja.Stanot se naogja na mirna lokacija, na slepata ulica Sharski Odredi br. 3.Parkiranjeto e reseno so nalepnici na POC za stanarite na opstina Centar.Poseduva cist imoten list.`,
-  };
+  });
+
+  const contactData: ListingContactData = JSON.parse(
+    listing?.contactData || "{}"
+  );
+
+  if (!listing) {
+    redirect("/404");
+  }
   return (
     <div className="p-4">
       SingleListing works
@@ -103,27 +60,29 @@ export default function SingleListing() {
         </Button>
 
         <div>
-          Home sales {">"} Skopje, Centar {">"} Stanovi {">"} Listing{" "}
-          {listingNumber}{" "}
+          Home sales {">"} Skopje, Centar {">"} Stanovi {">"} Listing
+          {listing.listingNumber}
         </div>
       </div>
       {/* Images */}
       <div className="flex gap-3 relative mb-5">
         <div className="absolute bottom-1 right-1 flex gap-2 bg-slate-300/90 p-1 rounded items-center cursor-pointer">
-          <PictureInPicture2 size={16} /> + {images.length - 5}
+          <PictureInPicture2 size={16} /> +{" "}
+          {/* 5 are already shown */}
+          {listing.images.length - 5}
         </div>
         <div className="w-1/2">
           <img
-            src={images[0].url}
+            src={listing.mainImage || ""}
             alt="Main image"
             className="w-full h-full rounded"
           />
         </div>
         <div className="w-1/2 grid grid-cols-2 gap-3">
-          {images.slice(1, 5).map((image) => (
+          {listing.images.slice(1, 5).map((imageUrl, idx) => (
             <img
-              key={image.position}
-              src={image.url}
+              key={idx}
+              src={imageUrl}
               alt="Room image"
               className="rounded"
             />
@@ -135,16 +94,19 @@ export default function SingleListing() {
           <div className="flex justify-between mb-4">
             <div>
               <p className="text-xl font-semibold">{listing.title}</p>
-              <p>{listing.location}</p>
+              <p>{listing.address}</p>
             </div>
             <div>
               <RevealButton
                 variant="outline"
                 usecase="phone"
-                value={listing.phone}
+                value={contactData.phone || ""}
               />
               <p className="text-sm">
-                Posted on {listing.postedDate}
+                Posted on{" "}
+                {listing.publishedAt
+                  ? listing.publishedAt.toDateString()
+                  : ""}
               </p>
             </div>
           </div>
@@ -153,32 +115,19 @@ export default function SingleListing() {
               <div className="flex items-center gap-3 text-xl">
                 <span className="font-semibold ">
                   {formatNumberWithDelimiter(
-                    listing.price.toString()
-                  )}{" "}
-                  ${" "}
+                    listing.price ? listing.price.toString() : ""
+                  )}
+                  $
                 </span>
                 <span>| </span>
                 <span className="text-slate-400">
-                  {Math.round(listing.price / listing.area)} $/m2
+                  {listing.price &&
+                    listing.area &&
+                    Math.round(listing.price / listing.area)}{" "}
+                  $/m2
                 </span>
               </div>
-              <div className="flex gap-3">
-                {Object.keys(listing.features).map((feature) => (
-                  <div
-                    key={feature}
-                    className="flex flex-col items-center justify-center"
-                  >
-                    {icons[feature]}
-                    <div className="text-sm">
-                      3
-                      {/* {listing.features[feature] > 1
-                        ? listing.features[feature]
-                        : null}{" "} */}
-                      {feature}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <div className="flex gap-3">{/* ADD Feaures */}</div>
             </div>
             <div className="flex gap-2">
               <div className="flex flex-col gap-2 items-center">
@@ -195,7 +144,6 @@ export default function SingleListing() {
           <div className="flex justify-between items-center px-3">
             <span>Moznost za kreditiranje</span>
             <Button>
-              {" "}
               <Percent /> Check now !
             </Button>
           </div>
@@ -219,119 +167,116 @@ export default function SingleListing() {
             <div>
               <div>
                 <table className="w-full">
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Price
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {formatNumberWithDelimiter(
-                        listing.price.toString()
-                      )}{" "}
-                      $
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Price per m2
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {formatNumberWithDelimiter(
-                        Math.round(
-                          listing.price / listing.area
-                        ).toString()
-                      )}{" "}
-                      $
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Area
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {listing.area} m2
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Floors
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {listing.floors}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Kat
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      5 (од вкупно 7)
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Kitchen
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {listing.features.kitchen}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Bathroom
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {listing.features.bathroom}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Garage/Parking
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {listing.features.garage} Parking
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Year Made
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {listing.yearMade}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Posted Date
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {listing.postedDate}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Last Modified
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {listing.lastModified}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
-                      Post Number
-                    </td>
-                    <td className="px-2 font-semibold text-black border border-slate-600">
-                      {listingNumber}
-                    </td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Price
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {formatNumberWithDelimiter(
+                          listing.price
+                            ? listing.price.toString()
+                            : ""
+                        )}
+                        $
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Price per m2
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.price &&
+                          listing.area &&
+                          formatNumberWithDelimiter(
+                            Math.round(
+                              listing.price / listing.area
+                            ).toString()
+                          )}
+                        $
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Area
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.area} m2
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Floors
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.floorNumber}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Kat
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.floorNumber} (од вкупно 7)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Kitchen
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.kitchens}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Bathroom
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.bathrooms}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Garage/Parking
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.parking} Parking
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Year Made
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {"Year Made 2023"}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Posted Date
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.publishedAt?.toDateString()}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Last Modified
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.updatedAt?.toDateString()}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-[150px] border border-slate-600 py-2 text-center px-2 bg-gray-200 text-slate-600 ">
+                        Post Number
+                      </td>
+                      <td className="px-2 font-semibold text-black border border-slate-600">
+                        {listing.listingNumber}
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
 
@@ -341,21 +286,7 @@ export default function SingleListing() {
                 </div>
 
                 <div className="flex gap-3 items-center px-2">
-                  {Object.keys(listing.inside).map((feature) => (
-                    <div
-                      key={feature}
-                      className="flex flex-col items-center justify-center"
-                    >
-                      {icons[feature]}
-                      <div className="text-sm">
-                        3
-                        {/* {listing.inside[feature] > 1
-                          ? listing.inside[feature]
-                          : null}{" "} */}
-                        {feature}
-                      </div>
-                    </div>
-                  ))}
+                  {/* Add Inside features */}
                 </div>
 
                 <div className="flex gap-2 itemsce my-3">
@@ -363,21 +294,7 @@ export default function SingleListing() {
                 </div>
 
                 <div className="flex gap-3 items-center px-2">
-                  {Object.keys(listing.outside).map((feature) => (
-                    <div
-                      key={feature}
-                      className="flex flex-col items-center justify-center"
-                    >
-                      {icons[feature]}
-                      <div className="text-sm">
-                        3
-                        {/* {listing.outside[feature] > 1
-                          ? listing.outside[feature]
-                          : null}{" "} */}
-                        {feature}
-                      </div>
-                    </div>
-                  ))}
+                  {/* Add outside features */}
                 </div>
               </div>
             </div>
@@ -386,7 +303,7 @@ export default function SingleListing() {
 
           <div>
             <h3 className="text-lg font-semibold mb-3">Location</h3>
-            <p className="my-3 text-2xl">{listing.location}</p>
+            <p className="my-3 text-2xl">{listing.address}</p>
             <div>
               <img src="/assets/google-map-location.png" alt="" />
             </div>
@@ -411,7 +328,7 @@ export default function SingleListing() {
                   <p>Контакт период: 9 - 16 часот</p>
                   <RevealButton
                     usecase="phone"
-                    value={listing.phone}
+                    value={contactData.phone || ""}
                   />
                 </div>
               </div>
