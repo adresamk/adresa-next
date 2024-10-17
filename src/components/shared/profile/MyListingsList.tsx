@@ -94,7 +94,9 @@ export default function MyListingsList({
                 <div className="w-8/12 p-5 flex flex-col">
                   <div className="flex justify-between items-center">
                     <p className="text-sm">
-                      Listing: {l.listingNumber}
+                      <Link href={`/listing/${l.listingNumber}`}>
+                        Listing: {l.listingNumber}
+                      </Link>
                     </p>
                     <div className="flex  justify-end  text-xs ">
                       {!l.publishedAt ? (
@@ -116,10 +118,12 @@ export default function MyListingsList({
                     </div>
                   </div>
                   <div>
-                    <h4 className="my-4 font-semibold">
-                      <span className="capitalize">{l.type}</span>,{" "}
-                      {l.area} m2
-                    </h4>
+                    <Link href={`/listing/${l.listingNumber}`}>
+                      <h4 className="my-4 font-semibold">
+                        <span className="capitalize">{l.type}</span>,{" "}
+                        {l.area} m2
+                      </h4>
+                    </Link>
                     <p className="text-xs">
                       <span>
                         created at {l.createdAt.toLocaleString()}
