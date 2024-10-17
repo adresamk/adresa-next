@@ -20,6 +20,34 @@ exports.agencyListings =
     void 0;
 var faker_1 = require("@faker-js/faker");
 var data_1 = require("../../../src/global/data.js");
+function generateRandomCoordinates(center, radiusKm, count) {
+  var newCoordinates = [];
+  for (var i = 0; i < count; i++) {
+    // Random distance in km from the center
+    var distKm = Math.random() * radiusKm;
+    // Random angle in radians
+    var angle = Math.random() * 2 * Math.PI;
+    // Offset latitude
+    var deltaLat = distKm / 110.574; // 1 degree of latitude is ~110.574 km
+    var newLat =
+      center.lat + (Math.random() < 0.5 ? -1 : 1) * deltaLat;
+    // Offset longitude
+    var deltaLng =
+      distKm / (111.32 * Math.cos(newLat * (Math.PI / 180))); // 1 degree of longitude depends on latitude
+    var newLng =
+      center.lng + (Math.random() < 0.5 ? -1 : 1) * deltaLng;
+    newCoordinates.push({ lng: newLng, lat: newLat });
+  }
+  return newCoordinates;
+}
+var center = { lng: 21.432767, lat: 41.998129 };
+var radiusKm = 12;
+var count = 220;
+var randomSkopjeCoordinates = generateRandomCoordinates(
+  center,
+  radiusKm,
+  count
+);
 exports.a = [
   {
     id: "agency1",
@@ -113,7 +141,7 @@ exports.a = [
 ];
 exports.aUsers = [
   {
-    id: "g112c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g112c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency1@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -128,7 +156,7 @@ exports.aUsers = [
     phoneVerified: new Date(),
   },
   {
-    id: "g122c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g122c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency2@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -143,7 +171,7 @@ exports.aUsers = [
     phoneVerified: new Date(),
   },
   {
-    id: "g132c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g132c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency3@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -158,7 +186,7 @@ exports.aUsers = [
     phoneVerified: new Date(),
   },
   {
-    id: "g142c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g142c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency4@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -173,7 +201,7 @@ exports.aUsers = [
     phoneVerified: new Date(),
   },
   {
-    id: "g152c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g152c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency5@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -190,7 +218,7 @@ exports.aUsers = [
 ];
 exports.nUsers = [
   {
-    id: "a112c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a112c3d4-e5f6-7890-abcd-ef12345678901",
     email: "user1@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -206,7 +234,7 @@ exports.nUsers = [
     phoneVerified: new Date(),
   },
   {
-    id: "a122c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a122c3d4-e5f6-7890-abcd-ef12345678901",
     email: "user2@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -221,7 +249,7 @@ exports.nUsers = [
     phoneVerified: new Date(),
   },
   {
-    id: "a132c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a132c3d4-e5f6-7890-abcd-ef12345678901",
     email: "user3@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -236,7 +264,7 @@ exports.nUsers = [
     phoneVerified: new Date(),
   },
   {
-    id: "a142c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a142c3d4-e5f6-7890-abcd-ef12345678901",
     email: "user4@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -251,7 +279,7 @@ exports.nUsers = [
     phoneVerified: new Date(),
   },
   {
-    id: "a152c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a152c3d4-e5f6-7890-abcd-ef12345678901",
     email: "user5@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -266,14 +294,14 @@ exports.nUsers = [
     phoneVerified: new Date(),
   },
 ];
-var regularUserIds = __spreadArray([], exports.aUsers, true).map(
+var regularUserIds = __spreadArray([], exports.nUsers, true).map(
   function (user) {
     return user.id;
   }
 );
 var rL = [];
-for (var index = 1; index < 50; index++) {
-  var userIndex = Math.floor(index / 10);
+for (var index = 1; index < 100; index++) {
+  var userIndex = Math.floor(index / 20);
   var tType = faker_1.faker.helpers.arrayElement(
     data_1.listingTransactionTypeOptions
   );
@@ -325,8 +353,8 @@ for (var index = 1; index < 50; index++) {
     district: district,
     address: address,
     fullAddress: fullAddress,
-    longitude: data_1.randomSkopjeCoordinates[index - 1].lng,
-    latitude: data_1.randomSkopjeCoordinates[index - 1].lat,
+    longitude: randomSkopjeCoordinates[index - 1].lng,
+    latitude: randomSkopjeCoordinates[index - 1].lat,
     locationPrecision: faker_1.faker.helpers.arrayElement(
       data_1.locationPrecisionOptions
     ),
@@ -396,8 +424,8 @@ var agencyUserIds = __spreadArray([], exports.aUsers, true).map(
   }
 );
 var aL = [];
-for (var index = 1; index < 50; index++) {
-  var userIndex = Math.floor(index / 10);
+for (var index = 1; index < 100; index++) {
+  var userIndex = Math.floor(index / 20);
   var tType = faker_1.faker.helpers.arrayElement(
     data_1.listingTransactionTypeOptions
   );
@@ -449,8 +477,8 @@ for (var index = 1; index < 50; index++) {
     district: district,
     address: address,
     fullAddress: fullAddress,
-    longitude: data_1.randomSkopjeCoordinates[index - 1].lng,
-    latitude: data_1.randomSkopjeCoordinates[index - 1].lat,
+    longitude: randomSkopjeCoordinates[index + 101 - 1].lng,
+    latitude: randomSkopjeCoordinates[index + 101 - 1].lat,
     locationPrecision: faker_1.faker.helpers.arrayElement(
       data_1.locationPrecisionOptions
     ),

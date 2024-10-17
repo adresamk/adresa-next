@@ -1,6 +1,6 @@
+import MyListingsList from "@/components/shared/MyListingsList";
 import { Separator } from "@/components/ui/separator";
 
-import MyListingsList from "./_components/MyListingsList";
 import { getUser } from "@/lib/auth";
 import prismadb from "@/lib/db";
 

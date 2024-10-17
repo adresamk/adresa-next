@@ -10,9 +10,50 @@ import {
   orientationOptions,
   populatedPlaces,
   randomPropertyImagesCollection,
-  randomSkopjeCoordinates,
 } from "@/global/data";
 import { ListingContactData } from "@/lib/types";
+
+type Coordinate = {
+  lng: number;
+  lat: number;
+};
+
+function generateRandomCoordinates(
+  center: Coordinate,
+  radiusKm: number,
+  count: number
+) {
+  const newCoordinates = [];
+
+  for (let i = 0; i < count; i++) {
+    // Random distance in km from the center
+    const distKm = Math.random() * radiusKm;
+
+    // Random angle in radians
+    const angle = Math.random() * 2 * Math.PI;
+
+    // Offset latitude
+    const deltaLat = distKm / 110.574; // 1 degree of latitude is ~110.574 km
+    const newLat =
+      center.lat + (Math.random() < 0.5 ? -1 : 1) * deltaLat;
+
+    // Offset longitude
+    const deltaLng =
+      distKm / (111.32 * Math.cos(newLat * (Math.PI / 180))); // 1 degree of longitude depends on latitude
+    const newLng =
+      center.lng + (Math.random() < 0.5 ? -1 : 1) * deltaLng;
+
+    newCoordinates.push({ lng: newLng, lat: newLat });
+  }
+  return newCoordinates;
+}
+
+const center: Coordinate = { lng: 21.432767, lat: 41.998129 };
+const radiusKm = 12;
+const count = 220;
+
+const randomSkopjeCoordinates: Coordinate[] =
+  generateRandomCoordinates(center, radiusKm, count);
 
 export const a: Agency[] = [
   {
@@ -120,7 +161,7 @@ export const a: Agency[] = [
 ];
 export const aUsers: User[] = [
   {
-    id: "g112c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g112c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency1@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -135,7 +176,7 @@ export const aUsers: User[] = [
     phoneVerified: new Date(),
   },
   {
-    id: "g122c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g122c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency2@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -150,7 +191,7 @@ export const aUsers: User[] = [
     phoneVerified: new Date(),
   },
   {
-    id: "g132c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g132c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency3@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -165,7 +206,7 @@ export const aUsers: User[] = [
     phoneVerified: new Date(),
   },
   {
-    id: "g142c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g142c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency4@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -180,7 +221,7 @@ export const aUsers: User[] = [
     phoneVerified: new Date(),
   },
   {
-    id: "g152c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "agency-g152c3d4-e5f6-7890-abcd-ef12345678901",
     email: "agency5@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -197,7 +238,7 @@ export const aUsers: User[] = [
 ];
 export const nUsers: User[] = [
   {
-    id: "a112c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a112c3d4-e5f6-7890-abcd-ef12345678901",
     email: "user1@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -213,7 +254,7 @@ export const nUsers: User[] = [
     phoneVerified: new Date(),
   },
   {
-    id: "a122c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a122c3d4-e5f6-7890-abcd-ef12345678901",
     email: "user2@example.com",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -228,7 +269,7 @@ export const nUsers: User[] = [
     phoneVerified: new Date(),
   },
   {
-    id: "a132c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a132c3d4-e5f6-7890-abcd-ef12345678901",
 
     email: "user3@example.com",
     createdAt: new Date(),
@@ -244,7 +285,7 @@ export const nUsers: User[] = [
     phoneVerified: new Date(),
   },
   {
-    id: "a142c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a142c3d4-e5f6-7890-abcd-ef12345678901",
 
     email: "user4@example.com",
     createdAt: new Date(),
@@ -260,7 +301,7 @@ export const nUsers: User[] = [
     phoneVerified: new Date(),
   },
   {
-    id: "a152c3d4-e5f6-7890-abcd-ef12345678901",
+    id: "user-a152c3d4-e5f6-7890-abcd-ef12345678901",
 
     email: "user5@example.com",
     createdAt: new Date(),
@@ -281,8 +322,8 @@ const regularUserIds = [...nUsers].map((user) => user.id);
 
 const rL: Listing[] = [];
 
-for (let index = 1; index < 50; index++) {
-  const userIndex: number = Math.floor(index / 10);
+for (let index = 1; index < 100; index++) {
+  const userIndex: number = Math.floor(index / 20);
   const tType: string = faker.helpers.arrayElement(
     listingTransactionTypeOptions
   );
@@ -396,8 +437,8 @@ const agencyUserIds = [...aUsers].map((user) => user.id);
 
 const aL: Listing[] = [];
 
-for (let index = 1; index < 50; index++) {
-  const userIndex = Math.floor(index / 10);
+for (let index = 1; index < 100; index++) {
+  const userIndex = Math.floor(index / 20);
   const tType = faker.helpers.arrayElement(
     listingTransactionTypeOptions
   );
@@ -439,8 +480,8 @@ for (let index = 1; index < 50; index++) {
     district: district,
     address: address,
     fullAddress: fullAddress,
-    longitude: randomSkopjeCoordinates[index - 1].lng,
-    latitude: randomSkopjeCoordinates[index - 1].lat,
+    longitude: randomSkopjeCoordinates[index + 101 - 1].lng,
+    latitude: randomSkopjeCoordinates[index + 101 - 1].lat,
     locationPrecision: faker.helpers.arrayElement(
       locationPrecisionOptions
     ),
