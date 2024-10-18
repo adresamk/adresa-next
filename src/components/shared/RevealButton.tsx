@@ -17,6 +17,7 @@ export default function RevealButton({
   return (
     <Button
       variant={variant}
+      className="min-w-[160px] whitespace-nowrap"
       onClick={() => {
         setIsRevealed(true);
       }}

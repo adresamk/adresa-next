@@ -1,4 +1,10 @@
-import { Listing } from "@prisma/client";
+import { Listing, Agency } from "@prisma/client";
+
+export type ListingWithOwnerAndAgency = Listing & {
+  owner: {
+    agency: Agency;
+  };
+};
 
 export type ListingWithRelations = Listing & {
   owner: {
