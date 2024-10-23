@@ -33,6 +33,7 @@ import ExternalFeatures from "./_components/ExternalFeatures";
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import StickyControls from "./_components/StickyControls";
 // import MapLocationPreview from "@/components/shared/MapLocationPreview";
 const MapLocationPreview = dynamic(
   () => import("@/components/shared/MapLocationPreview"),
@@ -103,6 +104,9 @@ export default async function SingleListingPage({
           <ListingActions listing={listing} />
         </div>
       </section>
+
+      {/* Sticky Header */}
+      <StickyControls listing={listing} />
       {/* Images */}
       <section className="mx-auto w-full max-w-7xl px-5">
         <ListingImages listing={listing} />
@@ -124,19 +128,19 @@ export default async function SingleListingPage({
                 </p>
               </div>
               <div className="max-w-[230px] flex-shrink-0 flex-grow-0">
-                <div className="">
+                <span className="float-right">
                   <RevealButton
                     variant="outline"
                     usecase="phone"
                     value={contactData.phone || ""}
                   />
-                  <p className="mt-2.5 text-sm">
-                    Posted on{" "}
-                    {listing.publishedAt
-                      ? listing.publishedAt.toDateString()
-                      : ""}
-                  </p>
-                </div>
+                </span>
+                <p className="mt-2.5 text-sm">
+                  Posted on{" "}
+                  {listing.publishedAt
+                    ? listing.publishedAt.toDateString()
+                    : ""}
+                </p>
               </div>
             </div>
 
@@ -197,7 +201,7 @@ export default async function SingleListingPage({
 
             {/* Mortgages Options */}
             <Separator className="my-3 bg-slate-400" />
-            <div className="mb-8 flex items-center justify-between gap-4 px-3">
+            <div className="my-4 flex items-center justify-between gap-4">
               <img src="/assets/halkbank-logo.png" alt="Halkbank" />
               <span>Check your options</span>
               <Button className="flex gap-2">
@@ -227,7 +231,7 @@ export default async function SingleListingPage({
                 </div>
 
                 <div>
-                  <div className="my-3 flex items-center gap-2">
+                  <div className="my-3 flex items-center gap-3 overflow-x-hidden">
                     Inside <Separator />
                   </div>
 
@@ -236,7 +240,7 @@ export default async function SingleListingPage({
                     <InternalFeatures listing={listing} />
                   </div>
 
-                  <div className="my-3 flex items-center gap-2">
+                  <div className="my-3 flex items-center gap-3 overflow-x-hidden">
                     Outside <Separator />
                   </div>
 
@@ -253,7 +257,7 @@ export default async function SingleListingPage({
             <div>
               <h3 className="text-lg font-semibold">Location</h3>
               <p className="my-2.5 text-xl font-light">{listing.address}</p>
-              <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
+              <div className="mb-10 h-[276px] overflow-hidden border">
                 <MapLocationPreview
                   latitude={listing.latitude}
                   longitude={listing.longitude}
