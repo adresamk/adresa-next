@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Bath } from "lucide-react";
 
 import {
   AirVentIcon,
@@ -27,7 +27,19 @@ import ListingBreadcrumbs from "./_components/ListingBreadcrumbs";
 import Link from "next/link";
 import ListingActions from "./_components/ListingActions";
 import ListingImages from "./_components/ListingImages";
+import FeaturesTable from "./_components/FeaturesTable";
+import InternalFeatures from "./_components/InternalFeatures";
+import ExternalFeatures from "./_components/ExternalFeatures";
 
+import dynamic from "next/dynamic";
+import Image from "next/image";
+// import MapLocationPreview from "@/components/shared/MapLocationPreview";
+const MapLocationPreview = dynamic(
+  () => import("@/components/shared/MapLocationPreview"),
+  {
+    ssr: false, // Disable server-side rendering
+  },
+);
 const icons: { [key: string]: JSX.Element } = {
   bathroom: <ShowerHead size={30} />,
   ac: <AirVentIcon size={30} />,
@@ -100,11 +112,11 @@ export default async function SingleListingPage({
         <div className="flex flex-wrap">
           {/* Listing Main */}
 
-          <div className="flex-1 px-6 py-2 md:mr-2.5 lg:mr-12">
-            {/* Title */}
-            <div className="flex">
+          <div className="flex-1 md:pr-2.5 lg:pr-12">
+            {/* Main Info - Title - Address Phone */}
+            <div className="flex md:py-9">
               <div className="flex-1 pr-7">
-                <h1 className="pt-4 text-xl font-semibold md:pt-2 md:text-3xl">
+                <h1 className="text-xl font-medium md:text-3xl">
                   {listing.title}
                 </h1>
                 <p className="pt-2 text-sm tracking-tight md:text-base">
@@ -127,8 +139,10 @@ export default async function SingleListingPage({
                 </div>
               </div>
             </div>
-            <div className="flex justify-between">
-              <div className="flex flex-col gap-3">
+
+            {/* Price and Buttons - Interactions */}
+            <div className="flex">
+              <div className="flex flex-1 flex-col gap-3">
                 <div className="flex items-center gap-3 text-xl">
                   <span className="font-semibold">
                     {formatNumberWithDelimiter(
@@ -146,7 +160,7 @@ export default async function SingleListingPage({
                 </div>
                 <div className="flex gap-3">{/* ADD Feaures */}</div>
               </div>
-              <div className="flex gap-2">
+              <div className="ml-auto flex gap-2">
                 <div className="flex flex-col items-center gap-2">
                   <Heart />
                   favourite
@@ -157,136 +171,59 @@ export default async function SingleListingPage({
                 </div>
               </div>
             </div>
+
+            {/* Features Highlight - some imporant features mentioned */}
+
+            <div className="mb-6 flex gap-9">
+              <div className="flex flex-col items-center">
+                <Bath className="h-8 w-8" />
+                <span>
+                  {listing.bathrooms} bathroom
+                  {listing.bathrooms && listing.bathrooms > 1 && "s"}
+                </span>
+              </div>
+              <div className="flex flex-col items-center">
+                <AirVentIcon className="h-8 w-8" />
+                <span>
+                  {1} aircon
+                  {1 && 1 > 1 && "s"}
+                </span>
+              </div>
+              <div className="flex flex-col items-center">
+                <AirVentIcon className="h-8 w-8" />
+                <span>{listing.parking} garage</span>
+              </div>
+            </div>
+
+            {/* Mortgages Options */}
             <Separator className="my-3 bg-slate-400" />
-            <div className="flex items-center justify-between px-3">
-              <span>Moznost za kreditiranje</span>
-              <Button>
-                <Percent /> Check now !
+            <div className="mb-8 flex items-center justify-between gap-4 px-3">
+              <img src="/assets/halkbank-logo.png" alt="Halkbank" />
+              <span>Check your options</span>
+              <Button className="flex gap-2">
+                <Percent
+                  className="h-6 w-6 rounded-full bg-white p-1"
+                  stroke="#0069fe"
+                />{" "}
+                Calculate payments
               </Button>
             </div>
             <Separator className="my-3 bg-slate-400" />
 
-            <div>
+            {/* Description */}
+            <div className="my-7">
               <h3 className="mb-3 text-lg font-semibold">Description</h3>
-              <p className="text-lg text-slate-500">{listing.description}</p>
+              <p className="text-lg text-gray-700">{listing.description}</p>
             </div>
 
             <Separator className="my-3 bg-slate-400" />
 
-            <div className="px-2">
+            {/* Characteristics */}
+            <div className="my-7 px-2">
               <h3 className="mb-3 text-lg font-semibold">Characteristics</h3>
               <div>
                 <div>
-                  <table className="w-full">
-                    <tbody>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Price
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {formatNumberWithDelimiter(
-                            listing.price ? listing.price.toString() : "",
-                          )}
-                          $
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Price per m2
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.price &&
-                            listing.area &&
-                            formatNumberWithDelimiter(
-                              Math.round(
-                                listing.price / listing.area,
-                              ).toString(),
-                            )}
-                          $
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Area
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.area} m2
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Floors
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.floorNumber}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Kat
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.floorNumber} (од вкупно 7)
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Kitchen
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.kitchens}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Bathroom
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.bathrooms}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Garage/Parking
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.parking} Parking
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Year Made
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {"Year Made 2023"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Posted Date
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.publishedAt?.toDateString()}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Last Modified
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.updatedAt?.toDateString()}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-                          Post Number
-                        </td>
-                        <td className="border border-slate-600 px-2 font-semibold text-black">
-                          {listing.listingNumber}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <FeaturesTable listing={listing} />
                 </div>
 
                 <div>
@@ -296,46 +233,68 @@ export default async function SingleListingPage({
 
                   <div className="flex items-center gap-3 px-2">
                     {/* Add Inside features */}
+                    <InternalFeatures listing={listing} />
                   </div>
 
-                  <div className="itemsce my-3 flex gap-2">
+                  <div className="my-3 flex items-center gap-2">
                     Outside <Separator />
                   </div>
 
                   <div className="flex items-center gap-3 px-2">
                     {/* Add outside features */}
+                    <ExternalFeatures listing={listing} />
                   </div>
                 </div>
               </div>
             </div>
             <Separator className="my-3 bg-slate-400" />
 
+            {/* Map Location */}
             <div>
-              <h3 className="mb-3 text-lg font-semibold">Location</h3>
-              <p className="my-3 text-2xl">{listing.address}</p>
-              <div>
-                <img src="/assets/google-map-location.png" alt="" />
+              <h3 className="text-lg font-semibold">Location</h3>
+              <p className="my-2.5 text-xl font-light">{listing.address}</p>
+              <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
+                <MapLocationPreview
+                  latitude={listing.latitude}
+                  longitude={listing.longitude}
+                />
               </div>
             </div>
             <Separator className="my-3 bg-slate-400" />
 
-            <div>
-              <h3 className="mb-3 text-lg font-semibold">Posted By</h3>
+            {/* Publisher  */}
+            <div className="my-6">
+              <h3 className="mb-3 text-lg font-semibold">
+                Publisher Information
+              </h3>
               <div className="flex gap-2">
-                <div className="flex items-center justify-center rounded-xl border border-slate-400 bg-slate-100 px-8 py-4">
-                  <img src="/assets/agency-logo.png" alt="" />
+                <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl border border-slate-400 bg-slate-100 px-8 py-4">
+                  <img
+                    src={listing.owner.agency.logoUrl || ""}
+                    width={200}
+                    height={130}
+                    className="max-w-full"
+                    alt="Agency Logo"
+                  />
                 </div>
-                <div>
+                <div className="pl-5">
                   <div className="mb-5">
-                    <p>realestate agency</p>
-                    <h3 className="text-xl font-semibold">Agency Marting</h3>
-                    <p>Скопје, ул. Партизански одреди бр.42 3/5</p>
+                    <p className="mb-1.5 leading-4">
+                      {listing.owner.agency.shortDescription}
+                    </p>
+                    <h3 className="mb-2 text-2xl font-semibold">
+                      {listing.owner.agency.name}
+                    </h3>
+                    <p className="mb-1.5 leading-4">
+                      {listing.owner.agency.address}
+                    </p>
                   </div>
-                  <div>
-                    <p>Контакт период: 9 - 16 часот</p>
+                  <div className="mt-10">
+                    <p>Contact Hours:</p>
+                    <p>{listing.owner.agency.workHours}</p>
                     <RevealButton
                       usecase="phone"
-                      value={contactData.phone || ""}
+                      value={listing.owner.agency.phone || ""}
                     />
                   </div>
                 </div>
@@ -348,7 +307,7 @@ export default async function SingleListingPage({
           </div>
         </div>
         {/* Publisher (Agency) Details */}
-        <div className="mt-10 flex flex-wrap md:mt-14"></div>
+        {/* <div className="mt-10 flex flex-wrap md:mt-14"></div> */}
       </section>
     </article>
   );
