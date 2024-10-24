@@ -25,9 +25,9 @@ export default function StickyControls({ listing }: { listing: Listing }) {
         isVisible ? "fixed opacity-100" : "hidden opacity-0",
       )}
     >
-      <div className="flex w-full">
+      <div className="flex w-full px-5">
         <div className="relative flex w-full flex-1 flex-shrink flex-nowrap items-center pl-[80px]">
-          <div className="absolute -bottom-2.5 -top-2.5 left-0 h-auto w-[60px]">
+          <div className="absolute -bottom-2.5 -top-2.5 left-0 h-16 w-[60px]">
             <img
               src={listing.mainImage || ""}
               className="relateive h-full w-full object-cover object-center"
