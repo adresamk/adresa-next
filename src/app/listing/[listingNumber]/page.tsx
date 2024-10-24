@@ -19,7 +19,7 @@ import {
 import { redirect } from "next/navigation";
 import MiniContactForm from "./_components/MiniContactForm";
 import RevealButton from "@/components/shared/RevealButton";
-import { formatNumberWithDelimiter } from "@/lib/utils";
+import { cn, formatNumberWithDelimiter } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
 import { ListingContactData, ListingWithOwnerAndAgency } from "@/lib/types";
@@ -79,12 +79,36 @@ export default async function SingleListingPage({
 
   console.log("Listing", listing);
 
+  if (!listing) {
+    redirect("/404");
+  }
   const contactData: ListingContactData = JSON.parse(
     listing?.contactData || "{}",
   );
 
-  if (!listing) {
-    redirect("/404");
+  const publisherData = {
+    imgUrl: "",
+    name: "",
+    address: "",
+    shortDescription: "",
+    phone: "",
+    workHours: "",
+  };
+  if (listing.owner.agency) {
+    publisherData.imgUrl = listing.owner.agency.logoUrl || "";
+    publisherData.name = listing.owner.agency.name || "";
+    publisherData.address = listing.owner.agency.address || "";
+    publisherData.shortDescription =
+      listing.owner.agency.shortDescription || "";
+    publisherData.phone = listing.owner.agency.phone || "";
+    publisherData.workHours = listing.owner.agency.workHours || "";
+  } else {
+    publisherData.imgUrl = "";
+    publisherData.name = contactData.firstName + " " + contactData.lastName;
+    publisherData.address = "";
+    publisherData.shortDescription = "";
+    publisherData.phone = contactData.phone || "";
+    publisherData.workHours = contactData.contactHours || "";
   }
   return (
     <article className="">
@@ -112,7 +136,7 @@ export default async function SingleListingPage({
         <ListingImages listing={listing} />
       </section>
       {/* Main section with Info */}
-      <section className="mx-auto w-full px-5 lg:max-w-5xl">
+      <section className="mx-auto w-full px-5 lg:max-w-6xl">
         <div className="flex flex-wrap">
           {/* Listing Main */}
 
@@ -201,7 +225,7 @@ export default async function SingleListingPage({
 
             {/* Mortgages Options */}
             <Separator className="my-3 bg-slate-400" />
-            <div className="my-4 flex items-center justify-between gap-4">
+            <div className="my-4 flex flex-wrap items-center justify-between gap-4 lg:flex-nowrap">
               <img src="/assets/halkbank-logo.png" alt="Halkbank" />
               <span>Check your options</span>
               <Button className="flex gap-2">
@@ -272,33 +296,35 @@ export default async function SingleListingPage({
                 Publisher Information
               </h3>
               <div className="flex gap-2">
-                <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl border border-slate-400 bg-slate-100 px-8 py-4">
-                  <img
-                    src={listing.owner.agency.logoUrl || ""}
-                    width={200}
-                    height={130}
-                    className="max-w-full"
-                    alt="Agency Logo"
-                  />
-                </div>
-                <div className="pl-5">
+                {publisherData.imgUrl && (
+                  <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl border border-slate-400 bg-slate-100 px-8 py-4">
+                    <img
+                      src={publisherData.imgUrl || ""}
+                      width={200}
+                      height={130}
+                      className="max-w-full"
+                      alt="Agency Logo"
+                    />
+                  </div>
+                )}
+                <div className={cn("", publisherData.imgUrl && "pl-5")}>
                   <div className="mb-5">
-                    <p className="mb-1.5 leading-4">
-                      {listing.owner.agency.shortDescription}
-                    </p>
+                    {publisherData.shortDescription && (
+                      <p className="mb-1.5 leading-4">
+                        {publisherData.shortDescription}
+                      </p>
+                    )}
                     <h3 className="mb-2 text-2xl font-semibold">
-                      {listing.owner.agency.name}
+                      {publisherData.name}
                     </h3>
-                    <p className="mb-1.5 leading-4">
-                      {listing.owner.agency.address}
-                    </p>
+                    <p className="mb-1.5 leading-4">{publisherData.address}</p>
                   </div>
                   <div className="mt-10">
                     <p>Contact Hours:</p>
-                    <p>{listing.owner.agency.workHours}</p>
+                    <p>{publisherData.workHours}</p>
                     <RevealButton
                       usecase="phone"
-                      value={listing.owner.agency.phone || ""}
+                      value={publisherData.phone || ""}
                     />
                   </div>
                 </div>

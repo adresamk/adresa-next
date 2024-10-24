@@ -21,7 +21,7 @@ export default function StickyControls({ listing }: { listing: Listing }) {
   return (
     <section
       className={cn(
-        "left-0 right-0 top-0 z-[300] h-16 overflow-hidden bg-white py-2.5 shadow-md",
+        "left-0 right-0 top-0 z-[500] h-16 overflow-hidden bg-white py-2.5 shadow-md",
         isVisible ? "fixed opacity-100" : "hidden opacity-0",
       )}
     >
