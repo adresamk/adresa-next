@@ -44,20 +44,18 @@ export const Modal: React.FC<ModalProps> = ({
     <Dialog open={isOpen} modal onOpenChange={onChange}>
       <DialogContent
         className={cn(
-          "overflow-y-auto max-h-[95dvh] transition-all duration-700",
-          className
+          "max-h-[95dvh] w-full overflow-y-auto transition-all duration-700",
+          className,
         )}
       >
-        <DialogHeader>
+        <DialogHeader className="h-max">
           <DialogTitle>{title}</DialogTitle>
-          {description && (
-            <DialogDescription>{description}</DialogDescription>
-          )}
+          {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
         <div
           className={cn(
-            "border-t border-b py-2  overflow-y-auto",
-            innerScroll && "max-h-[calc(95dvh-150px)]"
+            "overflow-y-auto border-b border-t py-2",
+            innerScroll && "max-h-[calc(95dvh-150px)]",
           )}
         >
           {children}
