@@ -16,9 +16,11 @@ import {
 
 export default function ListingImages({ listing }: { listing: Listing }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [openTab, setOpenTab] = useState("singleAtATime");
+  const [openTab, setOpenTab] = useState("overview");
   const [openImageIndex, setOpenImageIndex] = useState<null | number>(null);
   function onClose() {
+    setOpenTab("overview");
+    setOpenImageIndex(null);
     setIsOpen(false);
   }
   function handlePhotoSelection(idx: number) {
