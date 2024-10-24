@@ -118,7 +118,7 @@ export default async function SingleListingPage({
 
           <div className="flex-1 md:pr-2.5 lg:pr-12">
             {/* Main Info - Title - Address Phone */}
-            <div className="flex md:py-9">
+            <div className="flex pb-5 pt-9 md:py-9">
               <div className="flex-1 pr-7">
                 <h1 className="text-xl font-medium md:text-3xl">
                   {listing.title}
@@ -128,7 +128,7 @@ export default async function SingleListingPage({
                 </p>
               </div>
               <div className="max-w-[230px] flex-shrink-0 flex-grow-0">
-                <span className="float-right">
+                <span className="float-right mb-3">
                   <RevealButton
                     variant="outline"
                     usecase="phone"
@@ -306,7 +306,7 @@ export default async function SingleListingPage({
             </div>
           </div>
           {/* Listing Sidebar */}
-          <div className="w-1/3 max-w-full flex-shrink-0 pt-9 md:w-[330px] lg:w-[380px]">
+          <div className="w-full max-w-full flex-shrink-0 pt-9 md:w-[330px] lg:w-[380px]">
             <MiniContactForm listing={listing} />
           </div>
         </div>

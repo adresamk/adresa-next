@@ -30,8 +30,8 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased pt-[80px]",
-          fontSans.variable
+          "min-h-screen bg-background pt-[80px] font-sans antialiased",
+          fontSans.variable,
         )}
       >
         <Header />
