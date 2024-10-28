@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Modal } from "@/components/shared/Modal";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formatNumberWithDelimiter } from "@/lib/utils";
+import { capitalizeString, formatNumberWithDelimiter } from "@/lib/utils";
 import {
   Carousel,
   CarouselContent,
@@ -13,6 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { manucipalitiesOptions, populatedPlacesOptions } from "@/global/data";
 
 export default function ListingImages({ listing }: { listing: Listing }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,11 +32,19 @@ export default function ListingImages({ listing }: { listing: Listing }) {
     setOpenTab("singleAtATime");
     setOpenImageIndex(idx);
   }
+  const place = populatedPlacesOptions.find(
+    (place) => place.value === listing.place,
+  )?.label;
+
+  const manucipality = manucipalitiesOptions.find(
+    (manucipality) => manucipality.value === listing.manucipality,
+  )?.label;
+
   return (
     <>
       <Modal
-        title={"All Images"}
-        description={"Explore everything"}
+        title={`${capitalizeString(listing.type)}, ${listing.area}m²`}
+        description={`${capitalizeString(place || "no place set")}, ${capitalizeString(manucipality || "no manucipality set")},€${formatNumberWithDelimiter(listing.price?.toString() || "")}`}
         isOpen={isOpen}
         onClose={onClose}
         className="h-full max-w-[97vw]"
@@ -60,6 +69,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               <div className="photoGridContainer flex flex-grow flex-wrap overflow-auto">
                 {listing.images.map((imageUrl, idx) => (
                   <div
+                    key={idx}
                     onClick={() => handlePhotoSelection(idx)}
                     className="mb-3 h-fit w-full max-w-full flex-shrink-0 px-1.5 min-[440px]:w-1/2 sm:flex-auto sm:flex-shrink sm:flex-grow md:w-1/3"
                   >
@@ -180,23 +190,6 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               />
             </div>
           </div>
-          {/* <div className="w-1/2">
-          <img
-            src={listing.mainImage || ""}
-            alt="Main image"
-            className="w-full h-full rounded"
-          />
-        </div> */}
-          {/* <div className="w-1/2 grid grid-cols-2 gap-3">
-          {listing.images.slice(1, 5).map((imageUrl, idx) => (
-            <img
-              key={idx}
-              src={imageUrl}
-              alt="Room image"
-              className="rounded"
-            />
-          ))}
-        </div> */}
         </div>
         <div className="px- absolute bottom-1.5 right-2 inline-flex cursor-pointer items-center rounded border border-gray-400 bg-white/20 p-1 py-0.5 text-white backdrop-blur-sm">
           <ImageIcon className="mr-1 h-4 w-4" /> {/* 5 are already shown */}

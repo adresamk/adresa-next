@@ -77,7 +77,7 @@ export default async function SingleListingPage({
     },
   })) as ListingWithOwnerAndAgency;
 
-  console.log("Listing", listing);
+  // console.log("Listing", listing);
 
   if (!listing) {
     redirect("/404");

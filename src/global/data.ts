@@ -1,3 +1,5 @@
+import { createSlug } from "@/lib/utils";
+
 export const UserRoles = {
   USER: "USER",
   ADMIN: "ADMIN",
@@ -17,13 +19,7 @@ type ListingCategory = (typeof listingCategoryOptions)[number];
 
 export const listingTypeOptions: Record<ListingCategory, string[]> = {
   residential: ["apartment", "house", "vacation house", "other"],
-  commercial: [
-    "office",
-    "store",
-    "warehouse",
-    "industrial space",
-    "other",
-  ],
+  commercial: ["office", "store", "warehouse", "industrial space", "other"],
   land: ["construction", "agricultural", "other"],
   other: [
     "garage",
@@ -118,6 +114,7 @@ const manucipalitiesMkd = [
   "Центар",
   "Шуто Оризари",
 ];
+
 export const manucipalities = [
   "Berovo",
   "Bitola",
@@ -191,7 +188,10 @@ export const manucipalities = [
   "Zrnovci",
   "Češinovo-Obleševo",
 ];
-
+export const manucipalitiesOptions = manucipalities.map((manucipality) => ({
+  label: manucipality,
+  value: createSlug(manucipality),
+}));
 // export const manucipalities = [
 //   { label: "Kumanovo", value: "kumanovo" },
 //   { label: "Skopje", value: "skopje" },
@@ -199,25 +199,28 @@ export const manucipalities = [
 
 export const populatedPlaces = ["Ajducka Cesma", "Tabanovce"];
 
+export const populatedPlacesOptions = populatedPlaces.map((place) => ({
+  label: place,
+  value: createSlug(place),
+}));
 export const districts = ["Oktomvriska", "Dragomance"];
+export const districtsOptions = districts.map((district) => ({
+  label: district,
+  value: createSlug(district),
+}));
 // ------------------------------------------------------------
 // ------------------------------------------------------------
-export const locationPrecisionOptions = [
-  "exact",
-  "approximate",
-  "wide",
+export const locationPrecisionOptions = ["exact", "approximate", "wide"];
+export const orientationOptions: { label: string; value: string }[] = [
+  { label: "North", value: "north" },
+  { label: "South", value: "south" },
+  { label: "East", value: "east" },
+  { label: "West", value: "west" },
+  { label: "North East", value: "north-east" },
+  { label: "North West", value: "north-west" },
+  { label: "South East", value: "south-east" },
+  { label: "South West", value: "south-west" },
 ];
-export const orientationOptions: { label: string; value: string }[] =
-  [
-    { label: "North", value: "north" },
-    { label: "South", value: "south" },
-    { label: "East", value: "east" },
-    { label: "West", value: "west" },
-    { label: "North East", value: "north-east" },
-    { label: "North West", value: "north-west" },
-    { label: "South East", value: "south-east" },
-    { label: "South West", value: "south-west" },
-  ];
 
 export const randomSkopjeCoordinates = [
   { lng: 21.432767, lat: 41.998129 },

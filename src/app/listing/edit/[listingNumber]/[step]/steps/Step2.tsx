@@ -5,39 +5,19 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { Listing } from "@prisma/client";
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import {
   districts,
+  districtsOptions,
   manucipalities,
+  manucipalitiesOptions,
   populatedPlaces,
+  populatedPlacesOptions,
 } from "@/global/data";
 import { createSlug } from "@/lib/utils";
 
-const districtOptions = districts.map((district) => ({
-  label: district,
-  value: createSlug(district),
-}));
-
-const manucipalityOptions = manucipalities.map((manucipality) => ({
-  label: manucipality,
-  value: createSlug(manucipality),
-}));
-
-const populatedPlaceOptions = populatedPlaces.map((place) => ({
-  label: place,
-  value: createSlug(place),
-}));
-
 export default function Step2({ listing }: { listing: Listing }) {
-  const [manucipality, setManucipality] = useState(
-    listing.manucipality
-  );
+  const [manucipality, setManucipality] = useState(listing.manucipality);
   const [populatedPlace, setPopulatedPlace] = useState(listing.place);
 
   const [district, setDistrict] = useState(listing.district);
@@ -47,12 +27,7 @@ export default function Step2({ listing }: { listing: Listing }) {
 
   return (
     <div className="p-2">
-      <input
-        type="string"
-        className="hidden"
-        defaultValue="2"
-        name="step"
-      />
+      <input type="string" className="hidden" defaultValue="2" name="step" />
       <h2 className="text-lg">Location</h2>
       <Separator className="my-2 mt-4" />
       <InputSelect
@@ -63,7 +38,7 @@ export default function Step2({ listing }: { listing: Listing }) {
         notFoundText="Manucipality doesn't exist"
         placeholder="Select a Manucipality"
         defaultValue={manucipality}
-        options={manucipalityOptions}
+        options={manucipalitiesOptions}
       />
       <InputSelect
         name="place"
@@ -73,7 +48,7 @@ export default function Step2({ listing }: { listing: Listing }) {
         notFoundText="Place doesn't exist"
         placeholder="Select a place"
         defaultValue={populatedPlace}
-        options={populatedPlaceOptions}
+        options={populatedPlacesOptions}
       />
 
       <InputSelect
@@ -84,11 +59,11 @@ export default function Step2({ listing }: { listing: Listing }) {
         notFoundText="District doesn't exist"
         placeholder="Select a district"
         defaultValue={district}
-        options={districtOptions}
+        options={districtsOptions}
       />
 
       <Label htmlFor="address">
-        Address <span className="text-red-500 text-base">*</span>{" "}
+        Address <span className="text-base text-red-500">*</span>{" "}
       </Label>
       <Input
         required
