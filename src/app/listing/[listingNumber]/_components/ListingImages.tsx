@@ -88,7 +88,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               </div>
             </TabsContent>
             <TabsContent value="singleAtATime">
-              <div className="relative max-h-full w-full overflow-auto bg-slate-200 px-12">
+              <div className="relative max-h-full w-full overflow-auto px-12">
                 <Carousel
                   className="h-fit"
                   opts={{
@@ -115,8 +115,8 @@ export default function ListingImages({ listing }: { listing: Listing }) {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className="ml-2" />
-                  <CarouselNext className="mr-2" />
+                  <CarouselPrevious className="ml-2 border-slate-400" />
+                  <CarouselNext className="mr-2 border-slate-400" />
                 </Carousel>
               </div>
             </TabsContent>

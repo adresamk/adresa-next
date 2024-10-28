@@ -38,11 +38,7 @@ export default function MapLocationPreview({
           fillColor: "#0069fe",
           fillOpacity: 1,
         }}
-      >
-        <Popup>
-          <div>Mario 123</div>
-        </Popup>
-      </CircleMarker>
+      ></CircleMarker>
     </MapContainer>
   );
 }
