@@ -88,7 +88,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               </div>
             </TabsContent>
             <TabsContent value="singleAtATime">
-              <div className="relative max-h-full w-full overflow-auto bg-slate-800 px-12">
+              <div className="relative max-h-full w-full overflow-auto bg-slate-200 px-12">
                 <Carousel
                   className="h-fit"
                   opts={{
