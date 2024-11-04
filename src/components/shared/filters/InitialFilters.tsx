@@ -20,7 +20,7 @@ export default function SearchFilter() {
       <ModeFilter variant="homepage" />
       <div
         className={cn(
-          "relative mt-2.5 flex w-full flex-wrap rounded-lg bg-slate-50 xl:h-[90px]",
+          "relative mt-2.5 flex w-full flex-wrap rounded-xl bg-slate-50 xl:h-[90px]",
           focusedFilter === "location" && "rounded-bl-none",
         )}
       >

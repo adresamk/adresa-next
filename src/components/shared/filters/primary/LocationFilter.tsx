@@ -13,7 +13,7 @@ import {
 import { useFilters } from "@/hooks/useFilters";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 
-function BigVariant() {
+function BigVariant({ isOpen }: { isOpen: boolean }) {
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
 
   const setFocusedFilter = useSelectedFilter(
@@ -32,7 +32,7 @@ function BigVariant() {
   return (
     <div
       className={cn(
-        "relative -ml-[1px] w-full max-w-full rounded-xl border border-transparent pb-[6px] pl-[20px] pr-[19px] pt-[17px]",
+        "relative h-[90px] w-full max-w-full rounded-xl border border-transparent pb-[6px] pl-[20px] pr-[19px] pt-[17px]",
         focusedFilter === "location" && "rounded-b-none",
         !focusedFilter && "bg-gray-50",
       )}
@@ -76,8 +76,8 @@ function BigVariant() {
               updateFilters({ location: e.target.value });
             }}
           />
-          {focusedFilter === "location" && (
-            <ul className="absolute left-0 top-full z-[100] -ml-[20px] mt-[6px] max-h-[280px] w-[calc(100%_+_41px)] overflow-auto rounded-b-xl bg-white shadow-sm">
+          {focusedFilter === "location" && isOpen && (
+            <ul className="absolute left-0 top-full z-[100] -ml-[21px] mt-[6px] max-h-[280px] w-[calc(100%_+_41px)] overflow-auto rounded-b-xl bg-white shadow-sm">
               {locationDropdownOptions.map((location) => (
                 <li
                   key={location}
@@ -111,6 +111,9 @@ export default function LocationFilter({ variant }: LocationFilterProps) {
   const locationFilterDivRef = useRef(null);
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
   const filters = useFilters((store) => store.filters);
+  const setFocusedFilter = useSelectedFilter(
+    (store) => store.setSelectedFilter,
+  );
   const updateFilters = useFilters((store) => store.updateFilters);
   const [isOpen, setisOpen] = useState(false);
 
@@ -124,6 +127,7 @@ export default function LocationFilter({ variant }: LocationFilterProps) {
   }, [filters.location]);
   const handleClickOutside = () => {
     setisOpen(false);
+    setFocusedFilter("");
   };
   useOnClickOutside(locationFilterDivRef, handleClickOutside);
   return (
@@ -152,7 +156,11 @@ export default function LocationFilter({ variant }: LocationFilterProps) {
           }}
         >
           <PopoverTrigger asChild>
-            {variant === "homepage" ? <BigVariant /> : <div>small</div>}
+            {variant === "homepage" ? (
+              <BigVariant isOpen={isOpen} />
+            ) : (
+              <div>small</div>
+            )}
           </PopoverTrigger>
           <PopoverContent asChild>
             {/* <ul className="test relative flex max-h-[280px] w-full min-w-[418px] flex-col overflow-y-auto rounded bg-white p-2 text-sm shadow-lg">
