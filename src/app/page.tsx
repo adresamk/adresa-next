@@ -5,6 +5,7 @@ import SuggestedAgencies from "./SuggestedAgencies";
 import LastSearches from "./LastSearches";
 import SearchHero from "./SearchHero";
 import { getUser } from "@/lib/auth";
+import UserGreeting from "./UserGreeting";
 
 export default async function Home() {
   // works on the server side
@@ -12,7 +13,12 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <SearchHero />
-      {user && <LastSearches />}
+      {user && (
+        <>
+          <UserGreeting />
+          <LastSearches />
+        </>
+      )}
       <LastOpenedProperties />
       <SuggestedProperties />
       <Banner />
