@@ -18,7 +18,6 @@ export default function MiniContactForm({
   const [tel, setTel] = useState("");
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("macesmajli@gmail.com");
-  console.log();
   const agency = listing.owner.agency;
 
   return (
