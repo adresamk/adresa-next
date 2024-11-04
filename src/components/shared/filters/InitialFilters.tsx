@@ -10,31 +10,35 @@ import PropertyTypeFilter from "./primary/PropertyTypeFilter";
 import PriceFilter from "./primary/PriceFilter";
 import SurfaceFilter from "./primary/SurfaceFilter";
 import ModeFilter from "./primary/ModeFilter";
+import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 
 export default function SearchFilter() {
-  return (
-    <div className="max-w-[900px] flex flex-col gap-2 bg-white/50 backdrop-blur border-white border rounded p-6">
-      <ModeFilter variant="homepage" />
-      <div className="bg-gray-50 rounded">
-        <form action="">
-          <div className="flex flex-wrap p-2 gap-2 ">
-            <LocationFilter variant="homepage" />
-            <PropertyTypeFilter variant="homepage" />
-            <PriceFilter variant="homepage" />
-            <SurfaceFilter variant="homepage" />
+  const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
 
-            <div className="w-full max-w-[205px] flex items-center justify-center">
-              <Link href={"/search"}>
-                <Button
-                  size={"lg"}
-                  className="py-0.5 px-4 h-12 w-full font-semibold text-lg uppercase   "
-                >
-                  Search <Search className="ml-3" size={18} />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </form>
+  return (
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 rounded-3xl border border-slate-100 bg-white/50 p-6 px-5 backdrop-blur">
+      <ModeFilter variant="homepage" />
+      <div
+        className={cn(
+          "relative mt-2.5 flex w-full flex-wrap rounded-lg bg-slate-50 xl:h-[90px]",
+          focusedFilter === "location" && "rounded-bl-none",
+        )}
+      >
+        <LocationFilter variant="homepage" />
+        <PropertyTypeFilter variant="homepage" />
+        <PriceFilter variant="homepage" />
+        <SurfaceFilter variant="homepage" />
+
+        <div className="flex w-full max-w-[205px] items-center justify-center">
+          <Link href={"/search"}>
+            <Button
+              size={"lg"}
+              className="h-12 w-full px-4 py-0.5 text-lg font-semibold uppercase"
+            >
+              Search <Search className="ml-3" size={18} />
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

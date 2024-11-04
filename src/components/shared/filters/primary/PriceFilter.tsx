@@ -21,18 +21,16 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
 
   let [priceLow, setPriceLow] = useQueryState(
     "priceLow",
-    parseAsString.withOptions({ shallow: false }).withDefault("")
+    parseAsString.withOptions({ shallow: false }).withDefault(""),
   );
   let [priceHigh, setPriceHigh] = useQueryState(
     "priceHigh",
-    parseAsString.withOptions({ shallow: false }).withDefault("")
+    parseAsString.withOptions({ shallow: false }).withDefault(""),
   );
-  const focusedFilter = useSelectedFilter(
-    (store) => store.selectedFilter
-  );
+  const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
 
   const setFocusedFilter = useSelectedFilter(
-    (store) => store.setSelectedFilter
+    (store) => store.setSelectedFilter,
   );
 
   if (variant === "homepage") {
@@ -46,10 +44,9 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
         {variant === "homepage" ? (
           <div
             className={cn(
-              "p-4 border-r border-r-black overflow-visible h-[90px] w-[230px]",
-              focusedFilter === "price" &&
-                "shadow-lg bg-white rounded-t z-10",
-              !focusedFilter && "bg-gray-50 "
+              "h-[90px] w-[230px] overflow-visible border-r border-r-black p-4",
+              focusedFilter === "price" && "z-10 rounded-t bg-white shadow-lg",
+              !focusedFilter && "bg-gray-50",
             )}
             onClick={() => {
               setFocusedFilter("price");
@@ -57,10 +54,10 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
           >
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
-                <label className="h-5 flex w-full gap-2 items-center">
-                  {<Tag size={22} />} {"Price"}
+                <label className="flex h-5 w-full items-center gap-2">
+                  {<Tag className="h-4 w-4" />} {"Price"}
                 </label>
-                <div className="text-sm h-10 flex items-center">
+                <div className="flex h-10 items-center text-sm">
                   {/* both are set */}
                   {priceLow && priceHigh && (
                     <span className="text-brand-dark-blue">
@@ -83,7 +80,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                   )}
                   {/* nothing is set */}
                   {!priceLow && !priceHigh && (
-                    <span className="text-gray-400 tracking-tighter">
+                    <span className="tracking-tighter text-gray-400">
                       $ From - To
                     </span>
                   )}
@@ -111,7 +108,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
               )}
               {/* nothing is set */}
               {!priceLow && !priceHigh && (
-                <span className=" tracking-tighter">Price</span>
+                <span className="tracking-tighter">Price</span>
               )}
             </span>
             <ChevronDown width={20} className="ml-2" />{" "}
@@ -121,24 +118,24 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
       <PopoverContent asChild align="start">
         <div
           className={cn(
-            "flex  px-1 relative rounded shadow-lg  ",
+            "relative flex rounded px-1 shadow-lg",
             variant === "homepage" && "w-[458px]",
-            variant === "search" && "w-[300px]"
+            variant === "search" && "w-[300px]",
           )}
         >
           <div
             className={cn(
-              " rounded-bl  bg-white  py-3  ",
+              "rounded-bl bg-white py-3",
               variant === "homepage" && "w-[229px] px-5",
-              variant === "search" && "w-[150px] px-2"
+              variant === "search" && "w-[150px] px-2",
             )}
           >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
-              <label htmlFor="price-from" className="text-xs ">
+              <label htmlFor="price-from" className="text-xs">
                 $ From
               </label>
               <input
-                className="border border-gray-300 rounded w-full p-1 px-4 text-black "
+                className="w-full rounded border border-gray-300 p-1 px-4 text-black"
                 name="price-from"
                 id="price-from"
                 type="text"
@@ -155,17 +152,16 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                 }}
               />
             </div>
-            <ul className="max-h-[175px] overflow-y-auto  relative text-sm bg-white rounded rounded-t-none ">
+            <ul className="relative max-h-[175px] overflow-y-auto rounded rounded-t-none bg-white text-sm">
               {priceFilterOptions.map((price) => (
                 <li
                   key={price}
                   className={cn(
-                    "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    priceLow === price &&
-                      "bg-green-50 text-brand-dark-blue",
+                    "cursor-pointer rounded px-2 py-1 hover:bg-green-50",
+                    priceLow === price && "bg-green-50 text-brand-dark-blue",
                     priceLow === "" &&
                       price === "Any" &&
-                      "bg-green-50 text-brand-dark-blue"
+                      "bg-green-50 text-brand-dark-blue",
                   )}
                   onClick={() => {
                     if (variant === "homepage") {
@@ -184,17 +180,17 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
           </div>
           <div
             className={cn(
-              " rounded-bl  bg-white  py-3  ",
+              "rounded-bl bg-white py-3",
               variant === "homepage" && "w-[229px] px-5",
-              variant === "search" && "w-[150px] px-2"
+              variant === "search" && "w-[150px] px-2",
             )}
           >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
-              <label htmlFor="price-to" className="text-xs ">
+              <label htmlFor="price-to" className="text-xs">
                 $ Up to
               </label>
               <input
-                className="border border-gray-300 rounded w-full p-1 px-4 text-black "
+                className="w-full rounded border border-gray-300 p-1 px-4 text-black"
                 name="price-to"
                 id="price-to"
                 type="text"
@@ -211,17 +207,16 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                 }}
               />
             </div>
-            <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded rounded-t-none ">
+            <ul className="relative max-h-[175px] overflow-y-auto rounded rounded-t-none bg-white p-2 text-sm">
               {priceFilterOptions.map((price) => (
                 <li
                   key={price}
                   className={cn(
-                    "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    priceHigh === price &&
-                      "bg-green-50 text-brand-dark-blue",
+                    "cursor-pointer rounded px-2 py-1 hover:bg-green-50",
+                    priceHigh === price && "bg-green-50 text-brand-dark-blue",
                     priceHigh === "" &&
                       price === "Any" &&
-                      "bg-green-50 text-brand-dark-blue"
+                      "bg-green-50 text-brand-dark-blue",
                   )}
                   onClick={() => {
                     if (variant === "homepage") {

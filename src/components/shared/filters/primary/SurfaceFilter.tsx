@@ -16,27 +16,23 @@ import { set } from "react-hook-form";
 interface PropertyTypeFilterProps {
   variant: "homepage" | "search";
 }
-export default function SurfaceFilter({
-  variant,
-}: PropertyTypeFilterProps) {
+export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
 
   let [areaLow, setAreaLow] = useQueryState(
     "areaLow",
-    parseAsString.withOptions({ shallow: false }).withDefault("")
+    parseAsString.withOptions({ shallow: false }).withDefault(""),
   );
   let [areaHigh, setAreaHigh] = useQueryState(
     "areaHigh",
-    parseAsString.withOptions({ shallow: false }).withDefault("")
+    parseAsString.withOptions({ shallow: false }).withDefault(""),
   );
 
-  const focusedFilter = useSelectedFilter(
-    (store) => store.selectedFilter
-  );
+  const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
 
   const setFocusedFilter = useSelectedFilter(
-    (store) => store.setSelectedFilter
+    (store) => store.setSelectedFilter,
   );
 
   if (variant === "homepage") {
@@ -50,10 +46,10 @@ export default function SurfaceFilter({
         {variant === "homepage" ? (
           <div
             className={cn(
-              "p-4 border-r border-r-black overflow-visible h-[90px] w-[230px] ",
+              "h-[90px] w-[230px] overflow-visible border-r border-r-black p-4",
               focusedFilter === "area-size" &&
-                "shadow-lg bg-white rounded-t z-10",
-              !focusedFilter && "bg-gray-50 "
+                "z-10 rounded-t bg-white shadow-lg",
+              !focusedFilter && "bg-gray-50",
             )}
             onClick={() => {
               setFocusedFilter("area-size");
@@ -61,10 +57,10 @@ export default function SurfaceFilter({
           >
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
-                <label className="h-5 flex w-full gap-2 items-center">
-                  {<Tag size={22} />} {"Surface"}
+                <label className="flex h-5 w-full items-center gap-2">
+                  {<Tag className="h-4 w-4" />} {"Surface"}
                 </label>
-                <div className="text-sm h-10 flex items-center">
+                <div className="flex h-10 items-center text-sm">
                   {/* both are set */}
                   {areaLow && areaHigh && (
                     <span className="text-brand-dark-blue">
@@ -87,7 +83,7 @@ export default function SurfaceFilter({
                   )}
                   {/* nothing is set */}
                   {!areaLow && !areaHigh && (
-                    <span className="text-gray-400 tracking-tighter">
+                    <span className="tracking-tighter text-gray-400">
                       m² From - To
                     </span>
                   )}
@@ -97,7 +93,7 @@ export default function SurfaceFilter({
           </div>
         ) : variant === "search" ? (
           <Button variant="outline">
-            <div className="text-sm h-10 flex items-center">
+            <div className="flex h-10 items-center text-sm">
               {/* both are set */}
               {areaLow && areaHigh && (
                 <span className="">
@@ -116,7 +112,7 @@ export default function SurfaceFilter({
               )}
               {/* nothing is set */}
               {!areaLow && !areaHigh && (
-                <span className=" tracking-tighter">Surface</span>
+                <span className="tracking-tighter">Surface</span>
               )}
             </div>
             <ChevronDown width={20} className="ml-2" />{" "}
@@ -126,24 +122,24 @@ export default function SurfaceFilter({
       <PopoverContent asChild align="start">
         <div
           className={cn(
-            " flex p-0 relative rounded shadow-lg  ",
+            "relative flex rounded p-0 shadow-lg",
             variant === "homepage" && "w-[418px]",
-            variant === "search" && "w-[300px]"
+            variant === "search" && "w-[300px]",
           )}
         >
           <div
             className={cn(
-              " rounded  bg-white  py-3",
+              "rounded bg-white py-3",
               variant === "homepage" && "w-[209px] px-5",
-              variant === "search" && "w-[150px] px-2"
+              variant === "search" && "w-[150px] px-2",
             )}
           >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
-              <label htmlFor="area-from" className="text-xs ">
+              <label htmlFor="area-from" className="text-xs">
                 m² From
               </label>
               <input
-                className="border border-gray-300 rounded w-full p-1 px-4 text-black "
+                className="w-full rounded border border-gray-300 p-1 px-4 text-black"
                 name="area-from"
                 id="area-from"
                 type="text"
@@ -160,17 +156,16 @@ export default function SurfaceFilter({
                 }}
               />
             </div>
-            <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded  ">
+            <ul className="relative max-h-[175px] overflow-y-auto rounded bg-white p-2 text-sm">
               {areaFilterOptions.map((area) => (
                 <li
                   key={area}
                   className={cn(
-                    "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    areaLow === area &&
-                      "bg-green-50 text-brand-dark-blue",
+                    "cursor-pointer rounded px-2 py-1 hover:bg-green-50",
+                    areaLow === area && "bg-green-50 text-brand-dark-blue",
                     areaLow === "" &&
                       area === "Any" &&
-                      "bg-green-50 text-brand-dark-blue"
+                      "bg-green-50 text-brand-dark-blue",
                   )}
                   onClick={() => {
                     if (variant === "homepage") {
@@ -189,17 +184,17 @@ export default function SurfaceFilter({
           </div>
           <div
             className={cn(
-              " rounded-tr rounded-brbg-white  py-3  ",
+              "rounded-brbg-white rounded-tr py-3",
               variant === "homepage" && "w-[229px] px-5",
-              variant === "search" && "w-[150px] px-2"
+              variant === "search" && "w-[150px] px-2",
             )}
           >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
-              <label htmlFor="area-to" className="text-xs ">
+              <label htmlFor="area-to" className="text-xs">
                 m² Up to
               </label>
               <input
-                className="border border-gray-300 rounded w-full p-1 px-4 text-black "
+                className="w-full rounded border border-gray-300 p-1 px-4 text-black"
                 name="area-to"
                 id="area-to"
                 type="text"
@@ -216,17 +211,16 @@ export default function SurfaceFilter({
                 }}
               />
             </div>
-            <ul className="max-h-[175px] overflow-y-auto p-2  relative text-sm bg-white rounded rounded-t-none ">
+            <ul className="relative max-h-[175px] overflow-y-auto rounded rounded-t-none bg-white p-2 text-sm">
               {areaFilterOptions.map((area) => (
                 <li
                   key={area}
                   className={cn(
-                    "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                    areaHigh === area &&
-                      "bg-green-50 text-brand-dark-blue",
+                    "cursor-pointer rounded px-2 py-1 hover:bg-green-50",
+                    areaHigh === area && "bg-green-50 text-brand-dark-blue",
                     areaHigh === "" &&
                       area === "Any" &&
-                      "bg-green-50 text-brand-dark-blue"
+                      "bg-green-50 text-brand-dark-blue",
                   )}
                   onClick={() => {
                     if (variant === "homepage") {

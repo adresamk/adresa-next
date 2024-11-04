@@ -22,18 +22,13 @@ export default function PropertyTypeFilter({
 }: PropertyTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
-  const focusedFilter = useSelectedFilter(
-    (store) => store.selectedFilter
-  );
+  const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
   const setFocusedFilter = useSelectedFilter(
-    (store) => store.setSelectedFilter
+    (store) => store.setSelectedFilter,
   );
-  let [propertyType, setPropertyType] = useQueryState(
-    "propertyType",
-    {
-      shallow: false,
-    }
-  );
+  let [propertyType, setPropertyType] = useQueryState("propertyType", {
+    shallow: false,
+  });
 
   if (variant === "homepage") {
     propertyType = filters.propertyType;
@@ -46,10 +41,10 @@ export default function PropertyTypeFilter({
           // BIG VARIANT
           <div
             className={cn(
-              "p-4  border-r border-r-black overflow-visible h-[90px] w-[185px] ",
+              "h-[90px] w-[185px] overflow-visible border-r border-r-black p-4",
               focusedFilter === "property-type" &&
-                "shadow-lg bg-white rounded-t z-10",
-              !focusedFilter && "bg-gray-50 "
+                "z-10 rounded-t bg-white shadow-lg",
+              !focusedFilter && "bg-gray-50",
             )}
             onClick={() => {
               setFocusedFilter("property-type");
@@ -58,15 +53,13 @@ export default function PropertyTypeFilter({
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
                 <label
-                  className="h-5 flex w-full gap-2 items-center"
+                  className="flex h-5 w-full items-center gap-2"
                   htmlFor={"property-type"}
                 >
-                  {<House size={22} />} {"Property Type"}
+                  {<House className="h-4 w-4" />} {"Property Type"}
                 </label>
-                <div className="text-sm h-10 flex items-center">
-                  {propertyType || (
-                    <span className="text-gray-400">Home</span>
-                  )}
+                <div className="flex h-10 items-center text-sm">
+                  {propertyType || <span className="text-gray-400">Home</span>}
                 </div>
               </div>
             </div>
@@ -81,14 +74,13 @@ export default function PropertyTypeFilter({
         )}
       </PopoverTrigger>
       <PopoverContent asChild align="start">
-        <ul className="w-[184px] p-2  relative text-sm  bg-white rounded shadow-lg">
+        <ul className="relative w-[184px] rounded bg-white p-2 text-sm shadow-lg">
           {propertyTypes.map((type: propertyTypeValues) => (
             <li
               key={type}
               className={cn(
-                "px-2 py-1 hover:bg-green-50 cursor-pointer rounded",
-                propertyType === type &&
-                  "bg-green-50 text-brand-dark-blue"
+                "cursor-pointer rounded px-2 py-1 hover:bg-green-50",
+                propertyType === type && "bg-green-50 text-brand-dark-blue",
               )}
               onClick={() => {
                 if (variant === "homepage") {

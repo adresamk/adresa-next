@@ -44,12 +44,6 @@ body[data-scroll-locked] {
   margin: 0;
 }
 
-#search-page-map {
-}
-#search-page-map {
-}
-#search-page-map {
-}
 /* media query for large screens  */
 @media (min-width: 1024px) {
   .photoGridContainer div:nth-child(3),
