@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
+import { usePathname, useRouter } from "next/navigation";
 export default function LikeListingButton({
   listingId,
   isFavorite,
@@ -27,12 +29,10 @@ export default function LikeListingButton({
   isFavorite: boolean;
   className?: string;
 }) {
+  const router = useRouter();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [isLiked, setIsLiked] = useState(isFavorite);
   //test
-  useEffect(() => {
-    setIsLiked(isFavorite);
-  }, [isFavorite]);
+
   return (
     <>
       <AlertDialog open={isAlertOpen}>
@@ -69,20 +69,16 @@ export default function LikeListingButton({
             setIsAlertOpen(true);
             return;
           }
-          console.log("is liked");
           // probably show toast with error maybe?
-          if (!isLiked) {
+          if (!isFavorite) {
             const resp = await addListingAsFavorite(listingId);
-            if (resp.success) {
-              setIsLiked(true);
-            }
           }
-          if (isLiked) {
+          if (isFavorite) {
             const resp = await removeListingAsFavorite(listingId);
-            if (resp.success) {
-              setIsLiked(false);
-            }
           }
+          // we need to call this so that it can update in all places for the liked version
+          // this is costly so becareful with this
+          router.refresh();
         }}
         variant="ghost"
         className={cn(
@@ -90,7 +86,7 @@ export default function LikeListingButton({
           className,
         )}
       >
-        <Heart fill={isLiked ? "blue" : "none"} />
+        <Heart fill={isFavorite ? "blue" : "none"} />
       </Button>
     </>
   );

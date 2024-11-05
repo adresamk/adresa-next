@@ -1,7 +1,6 @@
 import LikeListingButton from "@/app/search/_components/LikeListingButton";
 import { Button } from "@/components/ui/button";
-import { validateRequest } from "@/lib/auth";
-import prismadb from "@/lib/db";
+
 import { Listing } from "@prisma/client";
 import {
   EyeOff,
@@ -13,7 +12,7 @@ import {
   Share2,
 } from "lucide-react";
 
-export default async function ListingActions({
+export default function ListingActions({
   listing,
   isFavorited,
 }: {
