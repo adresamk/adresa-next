@@ -1,23 +1,15 @@
-import { validateRequest } from "@/lib/auth";
-import { redirect } from "next/navigation";
+"use client";
+
 import Link from "next/link";
-import { signIn } from "./actions";
-import { Form } from "@/components/Form";
+
 import GoogleOAuthButton from "../GoogleOAuthButton";
+import SignInFormWrapper from "./SignInFormWrapper";
 
 interface SignInFormProps {
   searchParams: Record<string, string> | null;
 }
-export default async function SignInForm({
-  searchParams = null,
-}: SignInFormProps) {
-  const { user } = await validateRequest();
-  if (user) {
-    return redirect("/");
-  }
 
-  const redirectRoute = searchParams ? searchParams.redirect : "/";
-
+export default function SignInForm({ searchParams = null }: SignInFormProps) {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -31,15 +23,7 @@ export default async function SignInForm({
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-        <Form action={signIn}>
-          <div>
-            <input
-              type="text"
-              className="hidden"
-              name="redirect"
-              defaultValue={redirectRoute}
-            />
-          </div>
+        <SignInFormWrapper>
           <div>
             <label
               htmlFor="email"
@@ -96,7 +80,7 @@ export default async function SignInForm({
               Sign in
             </button>
           </div>
-        </Form>
+        </SignInFormWrapper>
 
         <p className="mt-10 text-center text-sm text-gray-500">
           Don&apos;t have an account?{" "}

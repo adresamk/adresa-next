@@ -15,10 +15,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useState } from "react";
-import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 export default function LikeListingButton({
   listingId,
@@ -29,6 +27,10 @@ export default function LikeListingButton({
 }) {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(isFavorite);
+  //test
+  useEffect(() => {
+    console.log("rendered");
+  }, []);
   return (
     <>
       <AlertDialog open={isAlertOpen}>
@@ -48,8 +50,12 @@ export default function LikeListingButton({
             >
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction>
-              <Link href="/signin?redirect=/search">Sign in</Link>
+            <AlertDialogAction
+              onClick={() => {
+                setIsAlertOpen(false);
+              }}
+            >
+              <Link href="/signin">Sign in</Link>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -77,7 +83,7 @@ export default function LikeListingButton({
           }
         }}
         variant="ghost"
-        className="w-10 h-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
+        className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
       >
         <Heart fill={isLiked ? "blue" : "none"} />
       </Button>

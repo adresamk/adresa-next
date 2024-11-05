@@ -10,13 +10,13 @@ export async function logout() {
   cookies().set(
     sessionCookie.name,
     sessionCookie.value,
-    sessionCookie.attributes
+    sessionCookie.attributes,
   );
   cookies().set("auth-cookie-exists", "", {
     ...sessionCookie.attributes,
     httpOnly: false,
   });
-  redirect("/");
+  return { success: true };
 }
 
 export async function getGoogleOAuthConsentURL() {
@@ -37,7 +37,7 @@ export async function getGoogleOAuthConsentURL() {
       codeVerifier,
       {
         scopes: ["email", "profile"],
-      }
+      },
     );
 
     return { success: true, url: authUrl.toString() };

@@ -1,15 +1,21 @@
+"use client";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { User } from "@prisma/client";
 import userProfileBg from "@/assets/user-profile-bg.svg";
 import { logout } from "@/app/(auth)/action";
+import { useRouter } from "next/navigation";
 
 export default function UserControls({ user }: { user: User }) {
+  const router = useRouter();
+
+  async function handleLogout() {
+    const result = await logout();
+    if (result.success) {
+      router.refresh();
+    }
+  }
   return (
     <Popover>
       <PopoverTrigger>
@@ -19,8 +25,8 @@ export default function UserControls({ user }: { user: User }) {
               user.picture
                 ? user.picture
                 : !user.firstName || !user.lastName
-                ? undefined
-                : userProfileBg
+                  ? undefined
+                  : userProfileBg
             }
           />
           <AvatarFallback>
@@ -44,7 +50,7 @@ export default function UserControls({ user }: { user: User }) {
               <Link href="/profile/settings">Settings</Link>
             </li> */}
           <li>
-            <form action={logout}>
+            <form action={handleLogout}>
               <button>Logout</button>
             </form>
           </li>

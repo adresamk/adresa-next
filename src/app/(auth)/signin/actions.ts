@@ -1,3 +1,4 @@
+"use server";
 import { lucia } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -8,10 +9,9 @@ import { Argon2id } from "oslo/password";
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 export async function signIn(
-  prevState: ActionResult,
-  formData: FormData
+  prevState: any,
+  formData: FormData,
 ): Promise<ActionResult> {
-  "use server";
   const email = formData.get("email")?.toString();
 
   if (!email || !emailRegex.test(email)) {
@@ -49,7 +49,7 @@ export async function signIn(
 
   const validPassword = await new Argon2id().verify(
     existingUser.hashedPassword!,
-    password
+    password,
   );
 
   if (!validPassword) {
@@ -73,7 +73,7 @@ export async function signIn(
   cookies().set(
     sessionCookie.name,
     sessionCookie.value,
-    sessionCookie.attributes
+    sessionCookie.attributes,
   );
 
   cookies().set("auth-cookie-exists", existingUser.id, {
@@ -81,9 +81,8 @@ export async function signIn(
     httpOnly: false,
   });
 
-  const redirectPath = formData.get("redirect")?.toString();
-  if (typeof redirectPath === "string") {
-    redirect(redirectPath);
-  }
-  return redirect("/");
+  return {
+    success: true,
+    error: null,
+  };
 }
