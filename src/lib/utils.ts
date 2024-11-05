@@ -24,13 +24,13 @@ export function isLoggedInClient() {
     return;
   }
   const authCookieExists = checkCookie("auth-cookie-exists");
-  console.log(authCookieExists);
+  // console.log(authCookieExists);
   return authCookieExists;
 }
 
 function checkCookie(cookieName: string) {
   const cookies = document.cookie.split(";"); // Split the cookie string by semicolons to get individual cookies
-  console.log(cookies);
+  // console.log(cookies);
 
   for (let cookie of cookies) {
     // Trim leading/trailing spaces

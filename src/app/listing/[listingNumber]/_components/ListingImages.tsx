@@ -14,8 +14,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { manucipalitiesOptions, populatedPlacesOptions } from "@/global/data";
+import { SerializedListing } from "@/lib/types";
 
-export default function ListingImages({ listing }: { listing: Listing }) {
+export default function ListingImages({
+  listing,
+}: {
+  listing: SerializedListing;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [openTab, setOpenTab] = useState("overview");
   const [openImageIndex, setOpenImageIndex] = useState<null | number>(null);

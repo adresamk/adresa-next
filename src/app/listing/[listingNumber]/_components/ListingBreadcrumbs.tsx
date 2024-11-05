@@ -13,12 +13,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SerializedListing } from "@/lib/types";
 import { Listing } from "@prisma/client";
 
 export default function ListingBreadcrumbs({
   listing,
 }: {
-  listing: Listing;
+  listing: SerializedListing;
 }) {
   return (
     <Breadcrumb>
@@ -42,9 +43,7 @@ export default function ListingBreadcrumbs({
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/docs/components">
-            Components
-          </BreadcrumbLink>
+          <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -56,18 +55,10 @@ export default function ListingBreadcrumbs({
 }
 function enemy() {
   return (
-    <div
-      className="breadcrumb--ellipsis"
-      data-v-e12d7cfe=""
-      data-v-534f0694=""
-    >
+    <div className="breadcrumb--ellipsis" data-v-e12d7cfe="" data-v-534f0694="">
       <div className="breadcrumb--ellipsis-item" data-v-e12d7cfe="">
         <div className="breadcrumb" data-v-e12d7cfe="">
-          <a
-            href="/en/sale"
-            className="breadcrumb__item"
-            data-v-e12d7cfe=""
-          >
+          <a href="/en/sale" className="breadcrumb__item" data-v-e12d7cfe="">
             Homes for sale
           </a>
         </div>

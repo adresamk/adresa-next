@@ -1,7 +1,7 @@
 import LikeListingButton from "@/app/search/_components/LikeListingButton";
 import { Button } from "@/components/ui/button";
+import { SerializedListing } from "@/lib/types";
 
-import { Listing } from "@prisma/client";
 import {
   EyeOff,
   Heart,
@@ -14,10 +14,8 @@ import {
 
 export default function ListingActions({
   listing,
-  isFavorited,
 }: {
-  listing: Listing;
-  isFavorited: boolean;
+  listing: SerializedListing;
 }) {
   return (
     <ul className="mt-2 flex h-10 items-center gap-2.5 p-0 md:ml-auto md:mt-0">
@@ -64,7 +62,7 @@ export default function ListingActions({
       <li>
         <LikeListingButton
           listingId={listing.id}
-          isFavorite={isFavorited}
+          // isFavorite={isFavorited}
           className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         />
       </li>{" "}

@@ -3,12 +3,11 @@ import { Listing } from "@prisma/client";
 import ListingActions from "./ListingActions";
 import { cn, formatNumberWithDelimiter } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { SerializedListing } from "@/lib/types";
 export default function StickyControls({
   listing,
-  isFavorited,
 }: {
-  listing: Listing;
-  isFavorited: boolean;
+  listing: SerializedListing;
 }) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -55,7 +54,7 @@ export default function StickyControls({
             </div>
           </div>
         </div>
-        <ListingActions isFavorited={isFavorited} listing={listing} />
+        <ListingActions listing={listing} />
       </div>
     </section>
   );

@@ -2,8 +2,9 @@
 
 import { validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
+import { ListingWithOwnerAndAgency } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export async function createListing() {
   const { user, session } = await validateRequest();
@@ -79,9 +80,7 @@ export async function getLikedListingsByUser() {
   });
 
   // Extract listings from the result
-  const listings = likedListingsByUser.map(
-    (favorite) => favorite.listing
-  );
+  const listings = likedListingsByUser.map((favorite) => favorite.listing);
 
   return listings;
 }
@@ -162,4 +161,59 @@ export async function adjustListingVisibility(formData: FormData) {
     success: true,
     error: false,
   };
+}
+
+export async function getListing(listingNumber: string) {
+  try {
+    const listing = (await prismadb.listing.findUnique({
+      where: {
+        listingNumber: Number(listingNumber),
+      },
+      include: {
+        owner: {
+          select: {
+            agency: true,
+          },
+        },
+      },
+    })) as ListingWithOwnerAndAgency;
+
+    if (!listing) {
+      notFound();
+    }
+
+    // Clean up the data for serialization
+    // const serializedListing = {
+    //   ...listing,
+    //   createdAt: listing.createdAt.toISOString(),
+    //   updatedAt: listing.updatedAt.toISOString(),
+    //   owner: {
+    //     ...listing.owner,
+    //     agency: listing.owner.agency
+    //       ? {
+    //           ...listing.owner.agency,
+    //         }
+    //       : null,
+    //   },
+    // };
+
+    return listing;
+  } catch (error) {
+    console.error("Error fetching listing:", error);
+    notFound();
+  }
+}
+
+export async function getFavoriteStatus(listingId: string) {
+  const { user } = await validateRequest();
+  if (!user) return false;
+
+  const favorite = await prismadb.favorite.findFirst({
+    where: {
+      listingId,
+      userId: user.id,
+    },
+  });
+
+  return !!favorite;
 }

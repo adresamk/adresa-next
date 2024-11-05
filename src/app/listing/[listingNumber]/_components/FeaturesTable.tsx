@@ -1,7 +1,12 @@
+import { SerializedListing } from "@/lib/types";
 import { formatNumberWithDelimiter } from "@/lib/utils";
 import { Listing } from "@prisma/client";
 
-export default function FeaturesTable({ listing }: { listing: Listing }) {
+export default function FeaturesTable({
+  listing,
+}: {
+  listing: SerializedListing;
+}) {
   return (
     <table className="w-full">
       <tbody>
@@ -90,7 +95,7 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
             Posted Date
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.publishedAt?.toDateString()}
+            {listing.publishedAt}
           </td>
         </tr>
         <tr>
@@ -98,7 +103,7 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
             Last Modified
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.updatedAt?.toDateString()}
+            {listing.updatedAt}
           </td>
         </tr>
         <tr>

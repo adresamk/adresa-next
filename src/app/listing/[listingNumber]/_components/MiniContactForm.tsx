@@ -6,12 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Listing } from "@prisma/client";
-import { ListingWithOwnerAndAgency } from "@/lib/types";
+import { ListingWithOwnerAndAgency, SerializedListing } from "@/lib/types";
 
 export default function MiniContactForm({
   listing,
 }: {
-  listing: ListingWithOwnerAndAgency;
+  listing: SerializedListing;
 }) {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");

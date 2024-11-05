@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "buildnolint": "next build --no-lint",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "npx prisma generate",

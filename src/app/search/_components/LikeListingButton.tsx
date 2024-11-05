@@ -1,6 +1,7 @@
 "use client";
 import {
   addListingAsFavorite,
+  getFavoriteStatus,
   removeListingAsFavorite,
 } from "@/actions/listings";
 import { Button } from "@/components/ui/button";
@@ -18,21 +19,34 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 export default function LikeListingButton({
   listingId,
-  isFavorite,
   className,
 }: {
   listingId: string;
-  isFavorite: boolean;
   className?: string;
 }) {
   const router = useRouter();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  //test
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
 
+  useEffect(() => {
+    async function checkFavoriteStatus() {
+      setIsLoading(true);
+      try {
+        const isFavorited = await getFavoriteStatus(listingId);
+        setIsFavorite(isFavorited);
+      } catch (error) {
+        console.error("Failed to check favorite status:", error);
+        setIsFavorite(false);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    checkFavoriteStatus();
+  }, [listingId]);
   return (
     <>
       <AlertDialog open={isAlertOpen}>
@@ -63,6 +77,7 @@ export default function LikeListingButton({
         </AlertDialogContent>
       </AlertDialog>
       <Button
+        disabled={isLoading}
         onClick={async (e) => {
           const isLoggedIn = isLoggedInClient();
           if (!isLoggedIn) {
@@ -72,13 +87,20 @@ export default function LikeListingButton({
           // probably show toast with error maybe?
           if (!isFavorite) {
             const resp = await addListingAsFavorite(listingId);
+            router.refresh();
+            if (resp.success) {
+              // setIsFavorite(true);
+            }
           }
           if (isFavorite) {
             const resp = await removeListingAsFavorite(listingId);
+            if (resp.success) {
+              // setIsFavorite(false);
+              router.refresh();
+            }
           }
           // we need to call this so that it can update in all places for the liked version
           // this is costly so becareful with this
-          router.refresh();
         }}
         variant="ghost"
         className={cn(

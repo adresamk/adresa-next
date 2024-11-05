@@ -1,3 +1,10 @@
+export const dynamic = "force-static";
+export const revalidate = 3600;
+
+export const metadata = {
+  title: "Listing Details",
+  description: "View property listing details",
+};
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Bath } from "lucide-react";
 
@@ -22,7 +29,11 @@ import RevealButton from "@/components/shared/RevealButton";
 import { cn, formatNumberWithDelimiter } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
-import { ListingContactData, ListingWithOwnerAndAgency } from "@/lib/types";
+import {
+  ListingContactData,
+  ListingWithOwnerAndAgency,
+  SerializedListing,
+} from "@/lib/types";
 import ListingBreadcrumbs from "./_components/ListingBreadcrumbs";
 import Link from "next/link";
 import ListingActions from "./_components/ListingActions";
@@ -31,12 +42,13 @@ import FeaturesTable from "./_components/FeaturesTable";
 import InternalFeatures from "./_components/InternalFeatures";
 import ExternalFeatures from "./_components/ExternalFeatures";
 
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import Image from "next/image";
 import StickyControls from "./_components/StickyControls";
 import { validateRequest } from "@/lib/auth";
+import { getListing } from "@/actions/listings";
 // import MapLocationPreview from "@/components/shared/MapLocationPreview";
-const MapLocationPreview = dynamic(
+const MapLocationPreview = dynamicImport(
   () => import("@/components/shared/MapLocationPreview"),
   {
     ssr: false, // Disable server-side rendering
@@ -53,6 +65,18 @@ const icons: { [key: string]: JSX.Element } = {
   terace: <Fence />,
   facade: <BrickWall />,
 } as { [key: string]: JSX.Element };
+
+function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
+  return {
+    ...listing,
+    createdAt: listing.createdAt.toISOString(),
+    updatedAt: listing.updatedAt.toISOString(),
+    availabilityDate: listing.availabilityDate?.toISOString() || null,
+    publishedAt: listing.publishedAt?.toISOString() || null,
+    publishEndDate: listing.publishEndDate?.toISOString() || null,
+  };
+}
+
 export default async function SingleListingPage({
   params,
 }: {
@@ -63,41 +87,11 @@ export default async function SingleListingPage({
     redirect("/404");
   }
 
-  // improve type of listing to include the owner and agency
-
-  const { user } = await validateRequest();
-
-  const listing = (await prismadb.listing.findUnique({
-    where: {
-      listingNumber: Number(params.listingNumber),
-    },
-    include: {
-      owner: {
-        select: {
-          agency: true,
-        },
-      },
-    },
-  })) as ListingWithOwnerAndAgency;
-
+  const rawListing = await getListing(params.listingNumber);
+  const listing = serializeDates(rawListing);
   // console.log("Listing", listing);
 
-  if (!listing) {
-    redirect("/404");
-  }
-
   // Query the database to check if this listing is favorited by the user
-  const favorite = user
-    ? await prismadb.favorite.findFirst({
-        where: {
-          listingId: listing.id,
-          userId: user.id,
-        },
-      })
-    : null;
-
-  console.log("The user", user, favorite);
-  const isFavorited = !!favorite;
 
   const contactData: ListingContactData = JSON.parse(
     listing?.contactData || "{}",
@@ -142,12 +136,12 @@ export default async function SingleListingPage({
             </Button>
           </Link>
           <ListingBreadcrumbs listing={listing} />
-          <ListingActions listing={listing} isFavorited={isFavorited} />
+          <ListingActions listing={listing} />
         </div>
       </section>
 
       {/* Sticky Header */}
-      <StickyControls listing={listing} isFavorited={isFavorited} />
+      <StickyControls listing={listing} />
       {/* Images */}
       <section className="mx-auto w-full max-w-7xl px-5">
         <ListingImages listing={listing} />
@@ -177,10 +171,7 @@ export default async function SingleListingPage({
                   />
                 </span>
                 <p className="mt-2.5 text-sm">
-                  Posted on{" "}
-                  {listing.publishedAt
-                    ? listing.publishedAt.toDateString()
-                    : ""}
+                  Posted on {listing.publishedAt ? listing.publishedAt : ""}
                 </p>
               </div>
             </div>
@@ -358,4 +349,15 @@ export default async function SingleListingPage({
       </section>
     </article>
   );
+}
+
+export async function generateStaticParams() {
+  // Get all possible listing numbers from your database
+  const listings = await prismadb.listing.findMany({
+    select: { listingNumber: true },
+  });
+
+  return listings.map((listing) => ({
+    listingNumber: listing.listingNumber.toString(),
+  }));
 }

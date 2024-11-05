@@ -5,7 +5,19 @@ export type ListingWithOwnerAndAgency = Listing & {
     agency: Agency;
   };
 };
+// Helper type that converts Date to string in an object
+type DateFieldsToString<T> = {
+  [K in keyof T]: T[K] extends Date
+    ? string
+    : T[K] extends Date | null
+      ? string | null
+      : T[K] extends object
+        ? DateFieldsToString<T[K]>
+        : T[K];
+};
 
+// Your serialized listing type that only changes Date fields to strings
+export type SerializedListing = DateFieldsToString<ListingWithOwnerAndAgency>;
 export type ListingWithRelations = Listing & {
   owner: {
     id: string;
