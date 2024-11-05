@@ -31,6 +31,8 @@ export const lucia = new Lucia(adapter, {
   },
 });
 export async function getUser() {
+  "use server";
+
   const { user } = await validateRequest();
   // here instead of returning the result, we can go with prisma and get the User object with all the fields on it
   // because up to here we only kinda have access to the id, name etc, but not all the
@@ -49,8 +51,9 @@ export const validateRequest = cache(
   async (): Promise<
     { user: User; session: Session } | { user: null; session: null }
   > => {
-    const sessionId =
-      cookies().get(lucia.sessionCookieName)?.value ?? null;
+    "use server";
+
+    const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
     if (!sessionId) {
       return { user: null, session: null };
     }
@@ -59,13 +62,11 @@ export const validateRequest = cache(
     try {
       if (result.session && result.session.fresh) {
         // refreshing the session cookie
-        const sessionCookie = lucia.createSessionCookie(
-          result.session.id
-        );
+        const sessionCookie = lucia.createSessionCookie(result.session.id);
         cookies().set(
           sessionCookie.name,
           sessionCookie.value,
-          sessionCookie.attributes
+          sessionCookie.attributes,
         );
         cookies().set("auth-cookie-exists", result.user.id, {
           ...sessionCookie.attributes,
@@ -77,7 +78,7 @@ export const validateRequest = cache(
         cookies().set(
           sessionCookie.name,
           sessionCookie.value,
-          sessionCookie.attributes
+          sessionCookie.attributes,
         );
         cookies().set("auth-cookie-exists", "", {
           ...sessionCookie.attributes,
@@ -89,7 +90,7 @@ export const validateRequest = cache(
     // because up to here we only kinda have access to the id, name etc, but not all the
     // related fields and stuff so if we need that we do that
     return result;
-  }
+  },
 );
 // IMPORTANT!
 declare module "lucia" {

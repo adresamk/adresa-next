@@ -4,7 +4,7 @@ import {
   removeListingAsFavorite,
 } from "@/actions/listings";
 import { Button } from "@/components/ui/button";
-import { isLoggedInClient } from "@/lib/utils";
+import { cn, isLoggedInClient } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import {
   AlertDialog,
@@ -21,16 +21,18 @@ import Link from "next/link";
 export default function LikeListingButton({
   listingId,
   isFavorite,
+  className,
 }: {
   listingId: string;
   isFavorite: boolean;
+  className?: string;
 }) {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(isFavorite);
   //test
   useEffect(() => {
-    console.log("rendered");
-  }, []);
+    setIsLiked(isFavorite);
+  }, [isFavorite]);
   return (
     <>
       <AlertDialog open={isAlertOpen}>
@@ -83,7 +85,10 @@ export default function LikeListingButton({
           }
         }}
         variant="ghost"
-        className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
+        className={cn(
+          "h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue",
+          className,
+        )}
       >
         <Heart fill={isLiked ? "blue" : "none"} />
       </Button>

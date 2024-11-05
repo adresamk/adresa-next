@@ -1,4 +1,7 @@
+import LikeListingButton from "@/app/search/_components/LikeListingButton";
 import { Button } from "@/components/ui/button";
+import { validateRequest } from "@/lib/auth";
+import prismadb from "@/lib/db";
 import { Listing } from "@prisma/client";
 import {
   EyeOff,
@@ -10,19 +13,21 @@ import {
   Share2,
 } from "lucide-react";
 
-export default function ListingActions({
+export default async function ListingActions({
   listing,
+  isFavorited,
 }: {
   listing: Listing;
+  isFavorited: boolean;
 }) {
   return (
-    <ul className="flex p-0 h-10 gap-2.5 items-center md:ml-auto mt-2 md:mt-0">
+    <ul className="mt-2 flex h-10 items-center gap-2.5 p-0 md:ml-auto md:mt-0">
       <li>
         <Button
           size={"icon"}
           title="Print the Listing"
           variant={"outline"}
-          className="text-brand-light-blue hover:text-brand-dark-blue border border-gray-500"
+          className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >
           <Printer />
         </Button>
@@ -32,7 +37,7 @@ export default function ListingActions({
           size={"icon"}
           title="Share"
           variant={"outline"}
-          className="text-brand-light-blue hover:text-brand-dark-blue border border-gray-500"
+          className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >
           <Share2 />
         </Button>
@@ -42,7 +47,7 @@ export default function ListingActions({
           size={"icon"}
           title="Notes"
           variant={"outline"}
-          className="text-brand-light-blue hover:text-brand-dark-blue border border-gray-500"
+          className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >
           <NotebookText />
         </Button>
@@ -52,20 +57,17 @@ export default function ListingActions({
           size={"icon"}
           title="Hide"
           variant={"outline"}
-          className="text-brand-light-blue hover:text-brand-dark-blue border border-gray-500"
+          className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >
           <EyeOff />
         </Button>
       </li>{" "}
       <li>
-        <Button
-          size={"icon"}
-          title="Add to Favorites"
-          variant={"outline"}
-          className="text-brand-light-blue hover:text-brand-dark-blue border border-gray-500"
-        >
-          <Heart />
-        </Button>
+        <LikeListingButton
+          listingId={listing.id}
+          isFavorite={isFavorited}
+          className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
+        />
       </li>{" "}
       <li className="contact-button">
         <Button title="Send Message">

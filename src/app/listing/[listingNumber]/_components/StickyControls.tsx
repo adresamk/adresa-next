@@ -3,7 +3,13 @@ import { Listing } from "@prisma/client";
 import ListingActions from "./ListingActions";
 import { cn, formatNumberWithDelimiter } from "@/lib/utils";
 import { useEffect, useState } from "react";
-export default function StickyControls({ listing }: { listing: Listing }) {
+export default function StickyControls({
+  listing,
+  isFavorited,
+}: {
+  listing: Listing;
+  isFavorited: boolean;
+}) {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleScroll = () => {
@@ -49,7 +55,7 @@ export default function StickyControls({ listing }: { listing: Listing }) {
             </div>
           </div>
         </div>
-        <ListingActions listing={listing} />
+        <ListingActions isFavorited={isFavorited} listing={listing} />
       </div>
     </section>
   );

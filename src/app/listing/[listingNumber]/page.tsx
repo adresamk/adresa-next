@@ -34,6 +34,7 @@ import ExternalFeatures from "./_components/ExternalFeatures";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import StickyControls from "./_components/StickyControls";
+import { validateRequest } from "@/lib/auth";
 // import MapLocationPreview from "@/components/shared/MapLocationPreview";
 const MapLocationPreview = dynamic(
   () => import("@/components/shared/MapLocationPreview"),
@@ -64,6 +65,8 @@ export default async function SingleListingPage({
 
   // improve type of listing to include the owner and agency
 
+  const { user } = await validateRequest();
+
   const listing = (await prismadb.listing.findUnique({
     where: {
       listingNumber: Number(params.listingNumber),
@@ -82,6 +85,20 @@ export default async function SingleListingPage({
   if (!listing) {
     redirect("/404");
   }
+
+  // Query the database to check if this listing is favorited by the user
+  const favorite = user
+    ? await prismadb.favorite.findFirst({
+        where: {
+          listingId: listing.id,
+          userId: user.id,
+        },
+      })
+    : null;
+
+  console.log("The user", user, favorite);
+  const isFavorited = !!favorite;
+
   const contactData: ListingContactData = JSON.parse(
     listing?.contactData || "{}",
   );
@@ -125,12 +142,12 @@ export default async function SingleListingPage({
             </Button>
           </Link>
           <ListingBreadcrumbs listing={listing} />
-          <ListingActions listing={listing} />
+          <ListingActions listing={listing} isFavorited={isFavorited} />
         </div>
       </section>
 
       {/* Sticky Header */}
-      <StickyControls listing={listing} />
+      <StickyControls listing={listing} isFavorited={isFavorited} />
       {/* Images */}
       <section className="mx-auto w-full max-w-7xl px-5">
         <ListingImages listing={listing} />
