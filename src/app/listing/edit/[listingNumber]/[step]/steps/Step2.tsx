@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { Listing } from "@prisma/client";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import {
   districts,
   districtsOptions,
@@ -15,7 +14,13 @@ import {
   populatedPlacesOptions,
 } from "@/global/data";
 import { createSlug } from "@/lib/utils";
-
+import { LatLngExpression } from "leaflet";
+import MapConfirmLocation from "../_components/MapConfirmLocation";
+import { randomSkopjeCoordinates } from "@/global/dataa";
+interface Location {
+  lat: number;
+  lng: number;
+}
 export default function Step2({ listing }: { listing: Listing }) {
   const [manucipality, setManucipality] = useState(listing.manucipality);
   const [populatedPlace, setPopulatedPlace] = useState(listing.place);
@@ -23,7 +28,15 @@ export default function Step2({ listing }: { listing: Listing }) {
   const [district, setDistrict] = useState(listing.district);
 
   const [address, setAddress] = useState(listing.address);
-  const position = [51.505, -0.09];
+  const [pinLocation, setPinLocation] = useState<Location | null>(() => {
+    if (!listing.latitude || !listing.longitude) {
+      return null;
+    }
+    return {
+      lat: listing.latitude,
+      lng: listing.longitude,
+    };
+  });
 
   return (
     <div className="p-2">
@@ -79,7 +92,14 @@ export default function Step2({ listing }: { listing: Listing }) {
       <h2 className="text-lg">Confirm your location</h2>
       <Label htmlFor="latitude">latitude</Label>
       <Input
-        defaultValue={listing.latitude || ""}
+        value={pinLocation ? pinLocation.lat : ""}
+        onChange={(e) => {
+          setPinLocation({
+            ...pinLocation,
+            lat: parseFloat(parseFloat(e.target.value).toFixed(5)),
+            lng: pinLocation ? pinLocation.lng : 0,
+          });
+        }}
         placeholder="Your latitude"
         name="latitude"
         id={"latitude"}
@@ -87,30 +107,25 @@ export default function Step2({ listing }: { listing: Listing }) {
 
       <Label htmlFor="longitude">longitude</Label>
       <Input
+        onChange={(e) => {
+          setPinLocation({
+            ...pinLocation,
+            lng: parseFloat(parseFloat(e.target.value).toFixed(5)),
+            lat: pinLocation ? pinLocation.lat : 0,
+          });
+        }}
         placeholder="Your longitude"
-        defaultValue={listing.longitude || ""}
+        value={pinLocation ? pinLocation.lng : ""}
         name="longitude"
         id={"longitude"}
       />
 
-      {/* <MapContainer
-        center={position}
-        zoom={13}
-        scrollWheelZoom={false}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={position}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer> */}
-
       <Separator className="my-2" />
       {/* <MapDemo /> */}
+      <MapConfirmLocation
+        pinLocation={pinLocation}
+        setPinLocation={setPinLocation}
+      />
     </div>
   );
 }
