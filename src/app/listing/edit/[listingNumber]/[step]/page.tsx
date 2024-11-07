@@ -11,12 +11,12 @@ export default async function EditListingPage({
 }) {
   const requestedStep = params.step;
   const stepExists = steps.find(
-    (step: Step) => step.uniquePath === requestedStep
+    (step: Step) => step.uniquePath === requestedStep,
   );
   const { user } = await validateRequest();
   if (!user) {
     redirect(
-      `/signin?redirect=/listing/edit/${params.listingNumber}/${steps[0].uniquePath}`
+      `/signin?redirect=/listing/edit/${params.listingNumber}/${steps[0].uniquePath}`,
     );
   }
 
@@ -31,21 +31,16 @@ export default async function EditListingPage({
 
   // check if user owns the listing
   if (listing.userId !== user.id) {
-    return <div>You don't own this one |change on launch| </div>;
+    return <div>You don&apost own this one |change on launch| </div>;
   }
 
   if (!stepExists) {
-    redirect(
-      `/listing/edit/${params.listingNumber}/${steps[0].uniquePath}`
-    );
+    redirect(`/listing/edit/${params.listingNumber}/${steps[0].uniquePath}`);
   }
 
   return (
     <div className="flex gap-2 p-2">
-      <ListingEditForm
-        loadedListing={listing}
-        requestedStep={requestedStep}
-      />
+      <ListingEditForm loadedListing={listing} requestedStep={requestedStep} />
     </div>
   );
 }
