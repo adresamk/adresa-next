@@ -12,7 +12,7 @@ const searches = [
   {
     id: 1,
     images: ["/assets/last-searched-examples.png"],
-    filters: ["sakle", "apaertment", "third", "fourth"],
+    filters: ["sale", "apaertment", "third", "fourth"],
     results: 1228,
     newResults: 20,
     isSaved: false,
@@ -21,7 +21,7 @@ const searches = [
   {
     id: 2,
     images: ["/assets/last-searched-examples.png"],
-    filters: ["sakle", "apaertment", "third"],
+    filters: ["sale", "apaertment", "third"],
     results: 1228,
     newResults: 3,
     isSaved: true,
@@ -30,7 +30,7 @@ const searches = [
   {
     id: 3,
     images: ["/assets/last-searched-examples.png"],
-    filters: ["sakle", "apaertment"],
+    filters: ["sale", "apaertment"],
     results: 1228,
     newResults: 20,
     isSaved: false,
@@ -39,7 +39,7 @@ const searches = [
   {
     id: 4,
     images: ["/assets/last-searched-examples.png"],
-    filters: ["sakle", "apaertment", "third", "fourth"],
+    filters: ["sale", "apaertment", "third", "fourth"],
     results: 1228,
     newResults: 20,
     isSaved: false,
@@ -48,7 +48,7 @@ const searches = [
   {
     id: 5,
     images: ["/assets/last-searched-examples.png"],
-    filters: ["sakle", "apaertment", "third", "fourth"],
+    filters: ["sale", "apaertment", "third", "fourth"],
     results: 1228,
     newResults: 20,
     isSaved: false,
@@ -57,7 +57,7 @@ const searches = [
 ];
 export default function LastSearches() {
   return (
-    <div className="flex flex-col gap-3 pb-3 pt-6">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-14 pb-3 pt-6">
       <h3 className="flex gap-4">
         <Heart /> Last Searches
       </h3>
@@ -66,7 +66,7 @@ export default function LastSearches() {
           align: "start",
         }}
       >
-        <CarouselContent className="max-w-[900px]">
+        <CarouselContent className="">
           {searches.map((search) => (
             <CarouselItem key={search.id} className="basis-1/3">
               <SearchedCard search={search} />

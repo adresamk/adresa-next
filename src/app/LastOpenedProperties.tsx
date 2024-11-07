@@ -1,3 +1,4 @@
+import ListingCard from "@/components/shared/ListingCard";
 import PropertyCard from "@/components/shared/PropertyCard";
 import {
   Carousel,
@@ -6,84 +7,19 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import prismadb from "@/lib/db";
 import { SearchCheck } from "lucide-react";
-const properties = [
-  {
-    id: 1,
-    images: ["/assets/demo-property-bg.png"],
-    type: "Apartment",
-    area: "60m²",
-    price: 200000,
-    mode: "sale",
-    tags: ["new", "featured"],
-    location: "Skope, Centar",
-    liked: true,
-  },
-  {
-    id: 2,
-    images: ["/assets/demo-property-bg.png"],
-    type: "Apartment",
-    area: "60m²",
-    price: 200000,
-    mode: "rent",
-    tags: ["new"],
-    location: "Skope, Centar",
 
-    liked: false,
-  },
-  {
-    id: 3,
-    images: ["/assets/demo-property-bg.png"],
-    type: "Apartment",
-    area: "60m²",
-    price: 200000,
-
-    mode: "sale",
-    tags: [],
-    location: "Skope, Centar",
-
-    liked: false,
-  },
-  {
-    id: 4,
-    images: ["/assets/demo-property-bg.png"],
-    type: "Apartment",
-    area: "60m²",
-    price: 1_000,
-    mode: "sale",
-    tags: [],
-    location: "Skope, Centar",
-
-    liked: false,
-  },
-  {
-    id: 5,
-    images: ["/assets/demo-property-bg.png"],
-    type: "Apartment",
-    area: "60m²",
-    price: 200000,
-    mode: "sale",
-    tags: [],
-    location: "Skope, Centar",
-
-    liked: false,
-  },
-  {
-    id: 6,
-    images: ["/assets/demo-property-bg.png"],
-    type: "Apartment",
-    area: "60m²",
-    price: 200000,
-    mode: "sale",
-    tags: [],
-    location: "Skope, Centar",
-
-    liked: false,
-  },
-];
-export default function LastOpenedProperties() {
+export default async function LastOpenedProperties() {
+  const listings = await prismadb.listing.findMany({
+    take: 6,
+    orderBy: {
+      id: "desc",
+    },
+    skip: Math.floor(Math.random() * 20), // Assuming there are at least 1000 listings
+  });
   return (
-    <div className="flex flex-col gap-3 pb-3 pt-6">
+    <div className="mx-auto flex flex-col gap-3 px-12 pb-3 pt-6">
       <h3 className="flex gap-4">
         <SearchCheck /> Last Opened Properties
       </h3>
@@ -93,9 +29,9 @@ export default function LastOpenedProperties() {
         }}
       >
         <CarouselContent className="max-w-[900px]">
-          {properties.map((property) => (
-            <CarouselItem key={property.id} className="basis-1/3">
-              <PropertyCard property={property} />
+          {listings.map((listing) => (
+            <CarouselItem key={listing.id} className="basis-1/3">
+              <ListingCard listing={listing} />
             </CarouselItem>
           ))}
         </CarouselContent>

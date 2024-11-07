@@ -18,33 +18,29 @@ type SearchCardType = {
   isSaved: boolean;
 };
 
-export default function SearchedCard({
-  search,
-}: {
-  search: SearchCardType;
-}) {
+export default function SearchedCard({ search }: { search: SearchCardType }) {
   return (
     <div>
       <Card className="max-w-[325px]">
         <CardHeader className="relative p-0">
           <img src={search?.images?.[0]} className="w-full" alt="" />
-          <div className="absolute flex bottom-2 left-2 gap-1 text-[10px]">
+          <div className="absolute bottom-2 left-2 flex gap-1 text-[10px]">
             <span
               key={search.filters[0]}
-              className="bg-white text-brand-light-blue p-0.5 font-semibold px-1.5 uppercase rounded-lg"
+              className="rounded-lg bg-white p-0.5 px-1.5 font-semibold uppercase text-brand-light-blue"
             >
               {search.filters[0]}
             </span>
             <span
               key={search.filters[1]}
-              className="bg-white text-brand-light-blue p-0.5 font-semibold px-1.5 uppercase rounded-lg"
+              className="rounded-lg bg-white p-0.5 px-1.5 font-semibold uppercase text-brand-light-blue"
             >
               {search.filters[1]}
             </span>
             {search.filters.length === 3 && (
               <span
                 key={search.filters[2]}
-                className="bg-white text-brand-light-blue p-0.5 font-semibold px-1.5 uppercase rounded-lg"
+                className="rounded-lg bg-white p-0.5 px-1.5 font-semibold uppercase text-brand-light-blue"
               >
                 {search.filters[2]}
               </span>
@@ -52,23 +48,20 @@ export default function SearchedCard({
             {search.filters.length > 3 && (
               <span
                 key={search.filters[3]}
-                className="bg-white text-brand-light-blue p-0.5 font-semibold px-1.5 uppercase rounded-lg"
+                className="rounded-lg bg-white p-0.5 px-1.5 font-semibold uppercase text-brand-light-blue"
               >
                 + {search.filters.length - 2} more
               </span>
             )}
           </div>
         </CardHeader>
-        <CardContent
-          className="
-          px-4 pt-2"
-        >
+        <CardContent className="px-4 pt-2">
           <p className="text-sm">{search.location}</p>
         </CardContent>
-        <CardFooter className="pb-3 px-4 flex items-center justify-between">
+        <CardFooter className="flex items-center justify-between px-4 pb-3">
           <div>
             <p>{search.results} results</p>
-            <p>{search.newResults} new</p>
+            <p className="text-brand-light-blue">{search.newResults} new</p>
           </div>
           <span className="ml-auto flex flex-col items-center">
             <Bell fill={search.isSaved ? "blue" : "none"} />

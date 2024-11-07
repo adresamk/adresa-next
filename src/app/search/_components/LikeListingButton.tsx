@@ -89,14 +89,14 @@ export default function LikeListingButton({
             const resp = await addListingAsFavorite(listingId);
             router.refresh();
             if (resp.success) {
-              // setIsFavorite(true);
+              setIsFavorite(true);
             }
           }
           if (isFavorite) {
             const resp = await removeListingAsFavorite(listingId);
             if (resp.success) {
-              // setIsFavorite(false);
-              router.refresh();
+              setIsFavorite(false);
+              // router.refresh();
             }
           }
           // we need to call this so that it can update in all places for the liked version

@@ -15,7 +15,13 @@ export default function ListingCard({ listing }: { listing: Listing }) {
   return (
     <Card className="max-w-[325px]">
       <CardHeader className="relative p-0">
-        <img src={listing?.mainImage || ""} className="w-full" alt="" />
+        <img
+          src={listing?.mainImage || ""}
+          className="h-[200px] w-[325px] object-cover"
+          alt=""
+          width={325}
+          height={200}
+        />
         <div className="absolute bottom-2 left-2 flex gap-1 text-[10px]">
           {listing?.tags?.map((tag: string) => (
             <span

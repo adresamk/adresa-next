@@ -16,9 +16,14 @@ export default async function Home() {
       {user && (
         <>
           <UserGreeting />
-          <LastSearches />
         </>
       )}
+      <LastSearches />
+      {/* Comes from LS or COOKIES, keep last search there */},
+      {/* en_latestSearchedGeographies */}
+      {/* en_recentSearches */}
+      {/* en_recentlyViewedProperties */}
+      {/* Latest Searches ? */}
       <LastOpenedProperties />
       <SuggestedProperties />
       <Banner />

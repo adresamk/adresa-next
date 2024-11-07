@@ -29,32 +29,25 @@ export default function PropertyCard({
     <div>
       <Card className="max-w-[325px]">
         <CardHeader className="relative p-0">
-          <img
-            src={property?.images?.[0]}
-            className="w-full"
-            alt=""
-          />
-          <div className="absolute flex bottom-2 left-2 gap-1 text-[10px]">
+          <img src={property?.images?.[0]} className="w-full" alt="" />
+          <div className="absolute bottom-2 left-2 flex gap-1 text-[10px]">
             {property?.tags?.map((tag: string) => (
               <span
                 key={tag}
-                className="bg-white text-brand-light-blue p-0.5 font-semibold px-1.5 uppercase rounded-lg"
+                className="rounded-lg bg-white p-0.5 px-1.5 font-semibold uppercase text-brand-light-blue"
               >
                 {tag}
               </span>
             ))}
           </div>
         </CardHeader>
-        <CardContent
-          className="
-        px-4 pt-2"
-        >
+        <CardContent className="px-4 pt-2">
           <p>
             {property.type}, {property.area}
           </p>
           <p className="text-sm">{property.location}</p>
         </CardContent>
-        <CardFooter className="pb-3 px-4 flex justify-around">
+        <CardFooter className="flex justify-around px-4 pb-3">
           <span>{property.price}</span>
           <span className="ml-auto">
             <Heart fill={property.liked ? "blue" : "none"} />
