@@ -32,80 +32,72 @@ export default async function ListingsSearchShowcase({
   const user = await getUser();
 
   const userLikedIt = listingRef.favoritedBy.some(
-    (e: any) => e.userId === user?.id
+    (e: any) => e.userId === user?.id,
   );
 
   return (
     <li key={listingRef.id} className={cn("")}>
-      <article className="w-full mb-5">
+      <article className="mb-5 w-full">
         <div
           className={cn(
-            "w-full rounded-lg flex relative overflow-hidden bg-white border-solid border drop-shadow transition-all ease-linear  shadow hover:shadow-md group",
-            listingRef.isPaidPromo && "border border-brand-light-blue"
+            "group relative flex w-full overflow-hidden rounded-lg border border-solid bg-white shadow drop-shadow transition-all ease-linear hover:shadow-md",
+            listingRef.isPaidPromo && "border border-brand-light-blue",
           )}
         >
-          <figure className="my-0 mx-auto block relative">
+          <figure className="relative mx-auto my-0 block">
             {/* image header */}
-            <div className="absolute z-50 top-0 left-0 w-full hidden items-center py-2.5 px-3.5 pointer-events-none overflow-hidden group-hover:flex">
-              <div className="text-white flex items-center gap-1.5">
+            <div className="pointer-events-none absolute left-0 top-0 z-50 hidden w-full items-center overflow-hidden px-3.5 py-2.5 group-hover:flex">
+              <div className="flex items-center gap-1.5 text-white">
                 <ImageIcon size={14} />
-                <span className="font-bold">
-                  {listingRef.images.length}
-                </span>
+                <span className="font-bold">{listingRef.images.length}</span>
               </div>
               <div>
                 {/* Place to use tags when we have them */}
                 {/* {listingRef.tags} */}
               </div>
             </div>
-            <div className="w-[260px] h-[240px]">
+            <div className="h-[240px] w-[260px]">
               <ImagesCarousel images={listingRef.images} />
             </div>
             <figcaption className="hidden">
               {listingRef.type}, {listingRef.area}m²
             </figcaption>
           </figure>
-          <div className="flex-1 px-5 pt-3.5 pb-2.5 relative ">
-            <div className="flex flex-col justify-between h-full">
-              <div className="max-w-full mb-2 relative">
-                <h3 className="text-lg leading-6 font-medium mb-1.5 overflow-hidden">
-                  <span className="capitalize">
-                    {listingRef.type}
-                  </span>
-                  , {listingRef.area}m²
+          <div className="relative flex-1 px-5 pb-2.5 pt-3.5">
+            <div className="flex h-full flex-col justify-between">
+              <div className="relative mb-2 max-w-full">
+                <h3 className="mb-1.5 overflow-hidden text-lg font-medium leading-6">
+                  <span className="capitalize">{listingRef.type}</span>,{" "}
+                  {listingRef.area}m²
                 </h3>
-                <h3 className="text-xs leading-5 mb-2.5 overflow-hidden">
+                <h3 className="mb-2.5 overflow-hidden text-xs leading-5">
                   {listingRef.manucipality || "Municipality"}
                 </h3>
-                <p className="line-clamp-2 text-xs leading-5 mb-2.5 overflow-hidden">
+                <p className="mb-2.5 line-clamp-2 overflow-hidden text-xs leading-5">
                   {listingRef.description}
                 </p>
 
                 {/* Extras/features */}
-                <div className="flex gap-6 items-center">
+                <div className="flex items-center gap-6">
                   <ul className="flex gap-1.5">
                     <li
                       title="Floor"
-                      className="text-xs tracking-tighter flex items-center"
+                      className="flex items-center text-xs tracking-tighter"
                     >
-                      <LampFloor
-                        width={17}
-                        height={17}
-                        className="mr-1"
-                      />
+                      <LampFloor width={17} height={17} className="mr-1" />
                       <span>
-                        <span className="font-medium text-sm mr-0.5">
+                        <span className="mr-0.5 text-sm font-medium">
                           {listingRef.livingRooms}
                         </span>
                       </span>
                     </li>
                     <li
                       title="Bedrooms"
-                      className="text-xs tracking-tighter flex items-center"
+                      className="flex items-center text-xs tracking-tighter"
                     >
                       <Bed width={17} height={17} className="mr-1" />
                       <span>
-                        <span className="font-medium text-sm mr-0.5">
+                        <span className="mr-0.5 text-sm font-medium">
                           {listingRef.bedrooms}
                         </span>
                         br
@@ -113,18 +105,18 @@ export default async function ListingsSearchShowcase({
                     </li>
                     <li
                       title="Bathrooms"
-                      className="text-xs tracking-tighter flex items-center"
+                      className="flex items-center text-xs tracking-tighter"
                     >
                       <Bath width={17} height={17} className="mr-1" />
                       <span>
-                        <span className="font-medium text-sm mr-0.5">
+                        <span className="mr-0.5 text-sm font-medium">
                           {listingRef.bathrooms}
                         </span>
                         ba
                       </span>
                     </li>
                   </ul>
-                  <p className="text-xs ">
+                  <p className="text-xs">
                     <span className="text-gray-500">Updated: </span>
                     <time
                       dateTime={listingRef.updatedAt
@@ -158,24 +150,21 @@ export default async function ListingsSearchShowcase({
                   )} */}
               </div>
               <div className="mt-auto max-w-full">
-                <div className="flex items-center mb-1.5">
-                  <p className="font-bold leading-4 tracking-tighter text-xl">
+                <div className="mb-1.5 flex items-center">
+                  <p className="text-xl font-bold leading-4 tracking-tighter">
                     €
                     {formatNumberWithDelimiter(
-                      listingRef.price?.toString() || ""
+                      listingRef.price?.toString() || "",
                     )}
                   </p>
                   {/* old price */}
                   {listingRef.previousPrice && (
                     <div className="flex items-center">
-                      <ArrowDown
-                        className="mr-1 ml-2.5"
-                        stroke="green"
-                      />
+                      <ArrowDown className="ml-2.5 mr-1" stroke="green" />
                       <span className="text-sm text-gray-400 line-through">
                         €
                         {formatNumberWithDelimiter(
-                          listingRef.previousPrice?.toString() || ""
+                          listingRef.previousPrice?.toString() || "",
                         )}
                       </span>
                     </div>
@@ -187,7 +176,7 @@ export default async function ListingsSearchShowcase({
                     {listingRef.isPaidPromo && (
                       <span
                         title="Featured Listing"
-                        className="border inline-block p-0.5 rounded items-center gap-1.5 text-xs  shadow-sm"
+                        className="inline-block items-center gap-1.5 rounded border p-0.5 text-xs shadow-sm"
                       >
                         <Crown size={16} />
                       </span>
@@ -196,34 +185,31 @@ export default async function ListingsSearchShowcase({
                     {listingRef.locationPrecision === "exact" && (
                       <span
                         title="Exact location on map"
-                        className="border inline-block p-0.5 rounded items-center gap-1.5 text-xs shadow-sm"
+                        className="inline-block items-center gap-1.5 rounded border p-0.5 text-xs shadow-sm"
                       >
                         <MapPin size={16} />
                       </span>
                     )}
                   </div>
                   {/* actions */}
-                  <div className="ml-auto invisible group-hover:visible relative z-10">
+                  <div className="invisible relative z-10 ml-auto group-hover:visible">
                     <ul className="flex gap-1">
                       <li>
                         <Button
                           variant="ghost"
-                          className="w-10 h-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
+                          className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
                         >
-                          <EyeOff className="w-5 h-5" />
+                          <EyeOff className="h-5 w-5" />
                         </Button>
                       </li>
 
                       <li>
-                        <LikeListingButton
-                          listingId={listingRef.id}
-                          isFavorite={userLikedIt}
-                        />
+                        <LikeListingButton listingId={listingRef.id} />
                       </li>
                       <li>
                         <Button
                           variant="ghost"
-                          className="w-10 h-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
+                          className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
                         >
                           <Mail />
                         </Button>
@@ -236,7 +222,7 @@ export default async function ListingsSearchShowcase({
             <Link
               tabIndex={-1}
               key={listingRef.id}
-              className="inset-0 absolute z-0"
+              className="absolute inset-0 z-0"
               href={"/listing/" + listingRef.listingNumber}
             ></Link>
           </div>
