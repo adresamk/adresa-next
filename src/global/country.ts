@@ -2063,6 +2063,8 @@ export const populatedPlacesWithNesting = [
   },
   {
     id: "10012",
+    jsonId: 12952787,
+    name_mk: "Центар Жупа",
     name: "Centar Zhupa",
     inner: [
       { id: "21201", name: "Bajramovci" },
