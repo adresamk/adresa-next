@@ -2,46 +2,69 @@
 import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { populatedPlaces2, structuredMunicipalities } from "@/global/country";
+import { populatedPlaces } from "@/global/dataa";
 
-interface Municipality {
+interface PopulatedPlace {
+  id: string;
   name: string;
+  centerPoint: [number, number];
   coordinates: [number, number][]; // Array of coordinates for polygons
 }
 
-interface City {
-  name: string;
-  coordinates: [number, number]; // Single coordinate for markers
-}
 const skopjeCoordinates: [number, number] = [42.005, 21.422];
 const northMacedoniaCoordinates: [number, number] = [41.56614, 21.698];
-const municipalities: Municipality[] = [
-  // Example data
-  {
-    name: "Municipality A",
-    coordinates: [
-      [42.5, 21.5],
-      [42.6, 21.6],
-    ],
-  },
-  {
-    name: "Municipality B",
-    coordinates: [
-      [42.7, 21.7],
-      [42.8, 21.8],
-    ],
-  },
-];
-
-const cities: City[] = [
-  // Example data
-  { name: "City A", coordinates: [42.5, 21.5] },
-  { name: "City B", coordinates: [42.6, 21.6] },
-];
 
 export default function MapWithControls() {
+  //   console.log(structuredMunicipalities);
   const [selectedMunicipality, setSelectedMunicipality] =
-    useState<Municipality | null>(null);
-  const [selectedCity, setSelectedCity] = useState<City | null>(null);
+    useState<PopulatedPlace | null>(null);
+  const [selectedCity, setSelectedCity] = useState<PopulatedPlace | null>(null);
+  const [cities, setCities] = useState<PopulatedPlace[]>(() => {
+    return [];
+  });
+  const [municipalities, setMunicipalities] = useState<PopulatedPlace[]>(() => {
+    console.log(structuredMunicipalities);
+    const municipalitiesArray: PopulatedPlace[] = [];
+    Object.keys(structuredMunicipalities).forEach((key) => {
+      const place = populatedPlaces2.find((pp) => pp.id === key);
+      if (!place) {
+        console.log("my key ", key);
+      }
+      municipalitiesArray.push({
+        id: key,
+        name: place?.name || "Name",
+        centerPoint: [42, 40],
+        coordinates: [],
+      });
+    });
+    return municipalitiesArray;
+  });
+
+  //effect description
+  useEffect(() => {
+    console.log(selectedMunicipality);
+    if (selectedMunicipality) {
+      setCities(() => {
+        const citiesArray: PopulatedPlace[] = [];
+
+        structuredMunicipalities[selectedMunicipality.id].forEach(
+          (cityId: string) => {
+            const city = populatedPlaces2.find((pp) => pp.id === cityId);
+            if (city) {
+              citiesArray.push({
+                id: cityId,
+                name: city.name || "Name",
+                centerPoint: [42, 40],
+                coordinates: [],
+              });
+            }
+          },
+        );
+        return citiesArray;
+      });
+    }
+  }, [selectedMunicipality]);
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
@@ -62,7 +85,7 @@ export default function MapWithControls() {
         >
           <option value="">Select Municipality</option>
           {municipalities.map((m) => (
-            <option key={m.name} value={m.name}>
+            <option key={m.id} value={m.name}>
               {m.name}
             </option>
           ))}
@@ -76,7 +99,7 @@ export default function MapWithControls() {
         >
           <option value="">Select City/Village</option>
           {cities.map((c) => (
-            <option key={c.name} value={c.name}>
+            <option key={c.id} value={c.name}>
               {c.name}
             </option>
           ))}
@@ -95,7 +118,7 @@ export default function MapWithControls() {
           <Polygon positions={selectedMunicipality.coordinates} color="blue" />
         )}
         {selectedCity && (
-          <Marker position={selectedCity.coordinates}>
+          <Marker position={selectedCity.centerPoint}>
             <Popup>{selectedCity.name}</Popup>
           </Marker>
         )}
