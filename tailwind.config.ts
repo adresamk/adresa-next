@@ -1,15 +1,19 @@
 import type { Config } from "tailwindcss";
 import { withUt } from "uploadthing/tw";
+import fluid, { extract } from "fluid-tailwind";
 
 const { fontFamily } = require("tailwindcss/defaultTheme");
 const config = withUt({
   darkMode: ["class"],
-  content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
+  content: {
+    files: [
+      "./pages/**/*.{ts,tsx}",
+      "./components/**/*.{ts,tsx}",
+      "./app/**/*.{ts,tsx}",
+      "./src/**/*.{ts,tsx}",
+    ],
+    extract,
+  },
   prefix: "",
   theme: {
     container: {
@@ -88,7 +92,7 @@ const config = withUt({
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), fluid],
 }) satisfies Config;
 
 export default config;
