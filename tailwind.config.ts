@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import { withUt } from "uploadthing/tw";
-import fluid, { extract } from "fluid-tailwind";
+import fluid, { extract, screens, fontSize } from "fluid-tailwind";
 
 const { fontFamily } = require("tailwindcss/defaultTheme");
 const config = withUt({
@@ -23,6 +23,8 @@ const config = withUt({
         "2xl": "1400px",
       },
     },
+    screens,
+    fontSize,
     extend: {
       colors: {
         border: "hsl(var(--border))",
