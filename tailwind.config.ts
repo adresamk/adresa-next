@@ -92,6 +92,9 @@ const config = withUt({
       backgroundImage: {
         "search-filter": "url('/assets/hero-search-bg-image.jpg')",
       },
+      screens: {
+        xs: "20rem",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), fluid],
