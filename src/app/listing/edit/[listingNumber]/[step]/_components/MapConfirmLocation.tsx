@@ -492,7 +492,7 @@ export default function MapConfirmLocation({
   //update position when inputs chage
   useEffect(() => {
     if (pinLocation && pinLocation.lat && pinLocation.lng) {
-      console.log(pinLocation);
+      // console.log(pinLocation);
       const marker = markerRef.current;
       marker?.setLatLng(pinLocation);
     }
@@ -521,7 +521,7 @@ export default function MapConfirmLocation({
     kumanovoInfo.geometry.coordinates[0][0].map(
       (coord) => [coord[1], coord[0]] as LatLngExpression,
     );
-  console.log(kumanovoCoordinates);
+  // console.log(kumanovoCoordinates);
   function handleBS() {
     setIsBigger(!isBigger);
   }

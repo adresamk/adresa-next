@@ -18,12 +18,7 @@ import {
   municipalitiesOptions,
 } from "@/lib/data/macedonia/importantData";
 import { northMacedoniaCoordinates } from "@/lib/data/macedonia/importantData";
-
-interface PopulatedPlace {
-  id: string;
-  label: string;
-  jsonId: number | undefined;
-}
+import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
 
 export default function MapWithControls() {
   const [cities, setCities] = useState<PopulatedPlace[]>([]);
@@ -92,7 +87,7 @@ export default function MapWithControls() {
           <option value="">Select Municipality</option>
           {municipalitiesOptions.map((m) => (
             <option key={m.id} value={m.id}>
-              {m.label}
+              {m.name}
             </option>
           ))}
         </select>
@@ -104,7 +99,7 @@ export default function MapWithControls() {
           <option value="">Select City/Village</option>
           {cities.map((c) => (
             <option key={c.id} value={c.id}>
-              {c.label}
+              {c.name}
             </option>
           ))}
         </select>

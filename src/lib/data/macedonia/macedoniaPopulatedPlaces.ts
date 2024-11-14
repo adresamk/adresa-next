@@ -1,4 +1,12 @@
-export const populatedPlaces = [
+export interface PopulatedPlace {
+  id: string;
+  name: string;
+  name_mk?: string;
+  jsonId?: number;
+  inner?: PopulatedPlace[];
+}
+
+export const populatedPlaces: PopulatedPlace[] = [
   {
     id: "00001",
     name: "Skopje",
@@ -4385,7 +4393,7 @@ export const populatedPlaces = [
   },
   {
     id: "10037",
-    name: "Konche",
+    name: "Konche2",
     inner: [
       {
         id: "23701",

@@ -4,23 +4,29 @@ type MappedCoordinates = {
 import { LatLngExpression } from "leaflet";
 import mappedCoordinates from "./macedoniaCoordinatesById.json";
 const typedMappedCoordinates = mappedCoordinates as MappedCoordinates;
-import { populatedPlaces } from "./macedoniaPopulatedPlaces";
+import { PopulatedPlace, populatedPlaces } from "./macedoniaPopulatedPlaces";
 
 // Define the type for mappedCoordinates
 
 export const skopjeCoordinates: [number, number] = [42.005, 21.422];
 export const northMacedoniaCoordinates: [number, number] = [41.56614, 21.698];
 
-export const municipalitiesOptions = populatedPlaces.map((place) => {
-  return {
-    id: place.id,
-    jsonId: place.jsonId,
-    label: place.name,
-  };
-});
+export const municipalitiesOptions: PopulatedPlace[] = populatedPlaces.map(
+  (place) => {
+    return {
+      id: place.id,
+      jsonId: place.jsonId,
+      name: place.name,
+    };
+  },
+);
 
-export function getMunicipalityPlaces(municipalityId: string) {
-  const places = populatedPlaces.find((place) => place.id === municipalityId);
+export function getMunicipalityPlaces(
+  municipalityId: string,
+): PopulatedPlace[] | null {
+  const places: PopulatedPlace | undefined = populatedPlaces.find(
+    (place) => place.id === municipalityId,
+  );
   if (places) {
     if (!places.inner) {
       return null;
@@ -32,7 +38,7 @@ export function getMunicipalityPlaces(municipalityId: string) {
       return {
         id: place.id,
         jsonId: place.jsonId,
-        label: place.name,
+        name: place.name,
       };
     });
   } else {
