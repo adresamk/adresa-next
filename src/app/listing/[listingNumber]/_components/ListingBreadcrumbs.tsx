@@ -1,3 +1,4 @@
+"use client";
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -13,41 +14,110 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  getMunicipalityPlaces,
+  municipalitiesOptions,
+} from "@/lib/data/macedonia/importantData";
 import { SerializedListing } from "@/lib/types";
+import { capitalizeString } from "@/lib/utils";
 import { Listing } from "@prisma/client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { forwardRef } from "react";
+import { LinkProps } from "next/link";
+
+const SelectLink = forwardRef<
+  HTMLAnchorElement,
+  LinkProps & { children: React.ReactNode }
+>(function SelectLink({ href, children, ...props }, ref) {
+  return (
+    <Link ref={ref} href={href} {...props}>
+      {children}
+    </Link>
+  );
+});
 
 export default function ListingBreadcrumbs({
   listing,
 }: {
   listing: SerializedListing;
 }) {
+  const router = useRouter();
+  const currentMunicipality = capitalizeString(
+    municipalitiesOptions.find(
+      (m) => m.name === capitalizeString(listing.manucipality ?? ""),
+    )?.name ?? "",
+  );
+  const currentMunicipalityId =
+    municipalitiesOptions.find((m) => m.name === currentMunicipality)?.id ?? "";
+
+  const populatedPlacesOptions = getMunicipalityPlaces(currentMunicipalityId);
   return (
     <Breadcrumb>
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      <BreadcrumbList className="gap-0.5 md:gap-0.5">
+        <BreadcrumbItem className="text-xs">
+          <BreadcrumbLink href={`/search?mode=${listing.transactionType}`}>
+            {"Home for " + listing.transactionType}
+          </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1">
-              <BreadcrumbEllipsis className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem>Documentation</DropdownMenuItem>
-              <DropdownMenuItem>Themes</DropdownMenuItem>
-              <DropdownMenuItem>GitHub</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <BreadcrumbItem className="text-xs">
+          <Select
+            value={currentMunicipality.toLowerCase()}
+            onValueChange={(value) => {
+              console.log(value);
+              router.push(
+                `/search?mode=${listing.transactionType}&municipality=${value}`,
+              );
+            }}
+          >
+            <SelectTrigger className="h-auto border-none px-1 py-0.5 text-xs">
+              <SelectValue placeholder="Municipality" />
+            </SelectTrigger>
+            <SelectContent>
+              {municipalitiesOptions.map((m) => {
+                return (
+                  <SelectItem key={m.id} value={m.name.toLowerCase()}>
+                    {m.name}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        <BreadcrumbItem className="text-xs">
+          <Select
+            value={currentMunicipality.toLowerCase()}
+            onValueChange={(value) => {
+              console.log(value);
+              router.push(
+                `/search?mode=${listing.transactionType}&municipality=${value}`,
+              );
+            }}
+          >
+            <SelectTrigger className="h-auto border-none px-1 py-0.5 text-xs">
+              <SelectValue placeholder="Municipality" />
+            </SelectTrigger>
+            <SelectContent>
+              {populatedPlacesOptions?.map((m) => {
+                return (
+                  <SelectItem key={m.id} value={m.name.toLowerCase()}>
+                    {m.name}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
