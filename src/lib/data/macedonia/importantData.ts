@@ -64,8 +64,6 @@ export function getMunicipalityPlaces(
 }
 
 export function getPlaceCoordinates(placeId: number | undefined) {
-  console.log("placeId");
-  console.log(placeId);
   if (!placeId) {
     return null;
   }
@@ -82,7 +80,6 @@ export function getPlaceCoordinates(placeId: number | undefined) {
       });
     });
   });
-  console.log(swappedCoordinates);
   if (placeCoordinates) {
     return swappedCoordinates as LatLngExpression[][][];
   }

@@ -1,5 +1,10 @@
 "use client";
-import L, { LatLngExpression, Map, Marker as MarkerType } from "leaflet";
+import L, {
+  LatLng,
+  LatLngExpression,
+  Map,
+  Marker as MarkerType,
+} from "leaflet";
 import {
   MapContainer,
   Marker,
@@ -486,7 +491,69 @@ const kumanovoInfo = {
     ],
   },
 };
+function snapToBoundary(
+  point: LatLng,
+  polygonCoordinates: LatLngExpression[][][],
+): LatLng {
+  // Convert the first array of coordinates to LatLng objects
+  const polygonPoints = polygonCoordinates[0][0].map((coord) => {
+    if (Array.isArray(coord)) {
+      return L.latLng(coord[0], coord[1]);
+    }
+    return L.latLng(coord);
+  });
 
+  let closestPoint = polygonPoints[0];
+  let minDistance = point.distanceTo(polygonPoints[0]);
+
+  for (let i = 1; i < polygonPoints.length; i++) {
+    const distance = point.distanceTo(polygonPoints[i]);
+    if (distance < minDistance) {
+      minDistance = distance;
+      closestPoint = polygonPoints[i];
+    }
+  }
+
+  return closestPoint;
+}
+function isPointWithinPolygon(
+  point: LatLng,
+  polygonCoordinates: LatLngExpression[][][],
+): boolean {
+  // Create a Leaflet polygon from the coordinates
+  const poly = L.polygon(polygonCoordinates[0]);
+  const polyPoints = poly.getLatLngs()[0] as LatLng[];
+
+  const x = point.lat;
+  const y = point.lng;
+
+  // console.log("Checking point:", { lat: x, lng: y });
+  // console.log("First polygon point:", polyPoints[0]);
+  // console.log("Number of polygon points:", polyPoints.length);
+  // console.log("Sample of polygon points:", polyPoints.slice(0, 3));
+
+  let inside = false;
+  for (let i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+    const xi = polyPoints[i].lat;
+    const yi = polyPoints[i].lng;
+    const xj = polyPoints[j].lat;
+    const yj = polyPoints[j].lng;
+
+    const intersect =
+      yi > y != yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+
+    if (intersect) {
+      console.log("Intersection found at points:", {
+        point1: { lat: xi, lng: yi },
+        point2: { lat: xj, lng: yj },
+      });
+      inside = !inside;
+    }
+  }
+
+  console.log("Result:", inside);
+  return inside;
+}
 export default function MapConfirmLocation({
   pinLocation,
   populatedPlace,
@@ -503,10 +570,10 @@ export default function MapConfirmLocation({
 
   const mapRef = useRef<Map | null>(null);
 
-  console.log("municipalityCoordinates");
-  console.log(municipalityCoordinates);
-  console.log("populatedPlaceCoordinates");
-  console.log(populatedPlaceCoordinates);
+  // console.log("municipalityCoordinates");
+  // console.log(municipalityCoordinates);
+  // console.log("populatedPlaceCoordinates");
+  // console.log(populatedPlaceCoordinates);
   //update position when inputs change
   useEffect(() => {
     if (pinLocation && pinLocation.lat && pinLocation.lng) {
@@ -553,7 +620,7 @@ export default function MapConfirmLocation({
               : null;
           if (
             polygonToCheckAgainst &&
-            L.polygon(polygonToCheckAgainst).getBounds().contains({ lat, lng })
+            isPointWithinPolygon(marker.getLatLng(), polygonToCheckAgainst)
           ) {
             const fixedTo5 = {
               lat: parseFloat(lat.toFixed(5)),
@@ -562,7 +629,13 @@ export default function MapConfirmLocation({
             setPosition(fixedTo5);
             setPinLocation(fixedTo5);
           } else {
-            alert("You are not in the selected area");
+            // alert("You are not in the selected area");
+            const snappedPosition = snapToBoundary(
+              marker.getLatLng(),
+              polygonToCheckAgainst as LatLngExpression[][][],
+            );
+            setPosition(snappedPosition);
+            setPinLocation(snappedPosition);
           }
         }
       },
