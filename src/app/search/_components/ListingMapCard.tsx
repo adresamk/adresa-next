@@ -105,24 +105,6 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                 </span>
               </li>
             </ul>
-            {/* <p className="text-xs ">
-            <span className="text-gray-500">Updated: </span>
-            <time
-              dateTime={listing.updatedAt
-                .toISOString()
-                .split("T")[0]
-                .split("-")
-                .reverse()
-                .join("/")}
-            >
-              {listing.updatedAt
-                .toISOString()
-                .split("T")[0]
-                .split("-")
-                .reverse()
-                .join("/")}
-            </time>
-          </p> */}
           </div>
           {/* Price */}
           <div className="mb-1.5 flex items-center">
