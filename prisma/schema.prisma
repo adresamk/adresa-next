@@ -56,7 +56,7 @@ model SavedSearch {
   // transactionType      String // e.g., rent, sale
   // type                 String // e.g., apartment, house
   // location             String? // general location name
-  // manucipality         String? // specific area or municipality
+  // municipality         String? // specific area or municipality
   name                 String // user defined name for the search
   // listingsCount        Int      @default(0) // total number of listings
   // newListingsCount     Int      @default(0) // number of new listings since last check
@@ -93,11 +93,11 @@ model Listing {
   category          String // Won't be changed later
   type              String // Can be changed later, different types of the same category
   // Location Step
-  manucipality      String?
+  municipality      String?
   place             String? // village or town
   district          String? // naseleno mesto
   address           String? // the name of street and number
-  fullAddress       String? // the full address (manucipality + place + district + address)
+  fullAddress       String? // the full address (municipality + place + district + address)
   longitude         Float?
   latitude          Float?
   locationPrecision String? // 'exact', 'approximate', 'wide' | How precise the location is shown on the map

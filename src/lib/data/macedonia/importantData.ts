@@ -1,12 +1,29 @@
-type MappedCoordinates = {
-  [key: string]: LatLngExpression[][][]; // Adjust the inner type as necessary
-};
 import { LatLngExpression } from "leaflet";
 import mappedCoordinates from "./macedoniaCoordinatesById.json";
-const typedMappedCoordinates = mappedCoordinates as MappedCoordinates;
-import { PopulatedPlace, populatedPlaces } from "./macedoniaPopulatedPlaces";
 
-// Define the type for mappedCoordinates
+// Define the MappedCoordinates type
+type MappedCoordinates = {
+  [key: string]: LatLngExpression[][][]; // Expecting a 3D array
+};
+
+// Transform the data if necessary
+const typedMappedCoordinates: MappedCoordinates = Object.fromEntries(
+  Object.entries(mappedCoordinates).map(([key, value]) => [
+    key,
+    value.map(
+      (
+        coords: number[][][], // Adjusted to expect a 3D array
+      ) =>
+        coords.map(
+          (
+            coord: number[][], // Change type to number[][]
+          ) => coord.map((c: number[]) => [c[0], c[1]] as LatLngExpression), // Ensure each coordinate is a LatLngExpression
+        ),
+    ),
+  ]),
+);
+
+import { PopulatedPlace, populatedPlaces } from "./macedoniaPopulatedPlaces";
 
 export const skopjeCoordinates: [number, number] = [42.005, 21.422];
 export const northMacedoniaCoordinates: [number, number] = [41.56614, 21.698];
