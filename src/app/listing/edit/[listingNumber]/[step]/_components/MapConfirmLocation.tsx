@@ -491,6 +491,15 @@ const kumanovoInfo = {
     ],
   },
 };
+
+function roundToNearest5(num: number) {
+  // Multiply by 100000 to work with the 5th decimal place
+  const scaled = num * 100000;
+  // Round to nearest 5
+  const rounded = Math.round(scaled / 5) * 5;
+  // Convert back to original scale
+  return rounded / 100000;
+}
 function snapToBoundary(
   point: LatLng,
   polygonCoordinates: LatLngExpression[][][],
@@ -543,24 +552,111 @@ function isPointWithinPolygon(
       yi > y != yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
 
     if (intersect) {
-      console.log("Intersection found at points:", {
-        point1: { lat: xi, lng: yi },
-        point2: { lat: xj, lng: yj },
-      });
+      // console.log("Intersection found at points:", {
+      //   point1: { lat: xi, lng: yi },
+      //   point2: { lat: xj, lng: yj },
+      // });
       inside = !inside;
     }
   }
 
-  console.log("Result:", inside);
+  // console.log("Result:", inside);
   return inside;
 }
+
+function getActivePolygon(
+  populatedPlaceCoords: LatLngExpression[][][] | null,
+  municipalityCoords: LatLngExpression[][][] | null,
+): LatLngExpression[][][] | null {
+  return populatedPlaceCoords || municipalityCoords || null;
+}
+
+function handleMarkerPosition(
+  marker: MarkerType,
+  polygonCoords: LatLngExpression[][][],
+  setPosition: (pos: LatLng) => void,
+  setPinLocation: (pos: LatLng) => void,
+) {
+  const markerPosition = marker.getLatLng();
+
+  if (isPointWithinPolygon(markerPosition, polygonCoords)) {
+    const snappedPosition = {
+      lat: roundToNearest5(markerPosition.lat),
+      lng: roundToNearest5(markerPosition.lng),
+    };
+    const newPos = L.latLng(snappedPosition.lat, snappedPosition.lng);
+    setPosition(newPos);
+    setPinLocation(newPos);
+  } else {
+    const snappedPosition = snapToBoundary(markerPosition, polygonCoords);
+    setPosition(snappedPosition);
+    setPinLocation(snappedPosition);
+  }
+}
+
+interface MapPosition {
+  lat: number;
+  lng: number;
+}
+
+interface MarkerHandlers {
+  setPosition: (pos: LatLng) => void;
+  setPinLocation: (pos: LatLng) => void;
+}
+
+interface PolygonBoundaries {
+  populatedPlaceCoords: LatLngExpression[][][] | null;
+  municipalityCoords: LatLngExpression[][][] | null;
+}
+
+const CONSTANTS = {
+  DECIMAL_PRECISION: 100000,
+  ROUNDING_STEP: 5,
+  MAP_PADDING: [50, 50] as [number, number],
+  DEFAULT_ZOOM: 7,
+} as const;
+
+function useMarkerPosition(initialLocation: MapPosition | null) {
+  const [position, setPosition] = useState<LatLng | null>(() => {
+    if (!initialLocation) return null;
+    return L.latLng(
+      roundToNearest5(initialLocation.lat),
+      roundToNearest5(initialLocation.lng),
+    );
+  });
+
+  const updatePosition = useCallback((newPos: MapPosition) => {
+    setPosition(
+      L.latLng(roundToNearest5(newPos.lat), roundToNearest5(newPos.lng)),
+    );
+  }, []);
+
+  return { position, updatePosition };
+}
+
+const mapUtils = {
+  centerOnPolygon(map: Map, coordinates: LatLngExpression[][][]) {
+    const polygon = L.polygon(coordinates);
+    const bounds = polygon.getBounds();
+    map.fitBounds(bounds, { animate: true, padding: CONSTANTS.MAP_PADDING });
+    return polygon.getBounds().getCenter();
+  },
+
+  roundCoordinates(position: MapPosition): MapPosition {
+    return {
+      lat: roundToNearest5(position.lat),
+      lng: roundToNearest5(position.lng),
+    };
+  },
+};
+
 export default function MapConfirmLocation({
   pinLocation,
   populatedPlace,
   municipality,
   setPinLocation,
 }: MapConfirmLocationProps) {
-  const [position, setPosition] = useState(pinLocation);
+  const { position, updatePosition } = useMarkerPosition(pinLocation);
   const [isBigger, setIsBigger] = useState(false);
   const markerRef = useRef<MarkerType | null>(null);
   const municipalityCoordinates: LatLngExpression[][][] | null =
@@ -576,12 +672,15 @@ export default function MapConfirmLocation({
   // console.log(populatedPlaceCoordinates);
   //update position when inputs change
   useEffect(() => {
+    if (pinLocation) {
+      updatePosition(pinLocation);
+    }
     if (pinLocation && pinLocation.lat && pinLocation.lng) {
       // console.log(pinLocation);
       const marker = markerRef.current;
       marker?.setLatLng(pinLocation);
     }
-  }, [pinLocation]);
+  }, [pinLocation?.lat, pinLocation?.lng]);
 
   //update marker when they change municipality or populated place
   useEffect(() => {
@@ -611,36 +710,22 @@ export default function MapConfirmLocation({
     () => ({
       dragend() {
         const marker = markerRef.current;
-        if (marker != null) {
-          const { lat, lng } = marker.getLatLng();
-          const polygonToCheckAgainst = populatedPlaceCoordinates
-            ? populatedPlaceCoordinates
-            : municipalityCoordinates
-              ? municipalityCoordinates
-              : null;
-          if (
-            polygonToCheckAgainst &&
-            isPointWithinPolygon(marker.getLatLng(), polygonToCheckAgainst)
-          ) {
-            const fixedTo5 = {
-              lat: parseFloat(lat.toFixed(5)),
-              lng: parseFloat(lng.toFixed(5)),
-            };
-            setPosition(fixedTo5);
-            setPinLocation(fixedTo5);
-          } else {
-            // alert("You are not in the selected area");
-            const snappedPosition = snapToBoundary(
-              marker.getLatLng(),
-              polygonToCheckAgainst as LatLngExpression[][][],
-            );
-            setPosition(snappedPosition);
-            setPinLocation(snappedPosition);
-          }
+        const activePolygon = getActivePolygon(
+          populatedPlaceCoordinates,
+          municipalityCoordinates,
+        );
+
+        if (marker && activePolygon) {
+          handleMarkerPosition(
+            marker,
+            activePolygon,
+            updatePosition,
+            setPinLocation,
+          );
         }
       },
     }),
-    [municipalityCoordinates, populatedPlaceCoordinates],
+    [municipalityCoordinates, populatedPlaceCoordinates, setPinLocation],
   );
   //   const toggleDraggable = useCallback(() => {
   //     setDraggable((d) => !d);
@@ -652,22 +737,54 @@ export default function MapConfirmLocation({
   // console.log(kumanovoCoordinates);
   function handleBS() {
     setIsBigger(!isBigger);
+
+    // Add a small delay to ensure the container has resized
+    setTimeout(() => {
+      const map = mapRef.current;
+      if (!map) return;
+
+      // Invalidate size to handle container resize
+      map.invalidateSize();
+
+      // Recenter and adjust view
+      const activePolygon = getActivePolygon(
+        populatedPlaceCoordinates,
+        municipalityCoordinates,
+      );
+
+      if (activePolygon) {
+        const polygon = L.polygon(activePolygon);
+        const bounds = polygon.getBounds();
+        map.fitBounds(bounds, {
+          animate: true,
+          padding: CONSTANTS.MAP_PADDING,
+        });
+      } else if (position) {
+        map.setView(position, map.getZoom());
+      }
+    }, 100);
   }
   return (
     <div
       className={cn(
-        "h-[250px] overflow-hidden bg-white",
-
-        isBigger && "fixed left-10 top-10 z-[3200] h-[70vh] w-[75vw]",
+        "relative h-[250px] overflow-hidden bg-white",
+        isBigger && "fixed left-10 top-10 z-[3200] h-[70vh] w-[75vw] bg-white",
       )}
+      role="region"
+      aria-label="Interactive location map"
     >
-      <button onClick={handleBS}>Bigger/Smaller</button>
+      <button
+        onClick={handleBS}
+        className="absolute right-2 top-2 z-[3201] rounded bg-white px-2 py-1 shadow-md"
+        aria-label={isBigger ? "Reduce map size" : "Expand map size"}
+      >
+        {isBigger ? "Reduce" : "Expand"}
+      </button>
       <MapContainer
         center={randomSkopjeCoordinates[0]}
-        zoom={7}
+        zoom={CONSTANTS.DEFAULT_ZOOM}
         ref={mapRef}
         className="h-full w-full"
-        // style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
