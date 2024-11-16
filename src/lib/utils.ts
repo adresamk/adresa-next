@@ -57,3 +57,12 @@ export function parseQueryString(queryString: string) {
 export function createSlug(text: string) {
   return text.replace(/\s+/g, "-").toLowerCase();
 }
+
+export function writeToLocalStorage(key: string, value: any) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+export function getFromLocalStorage(key: string) {
+  const value = localStorage.getItem(key);
+  return value ? JSON.parse(value) : null;
+}
