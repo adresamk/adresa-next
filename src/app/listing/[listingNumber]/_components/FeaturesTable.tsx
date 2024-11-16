@@ -1,5 +1,10 @@
 import { SerializedListing } from "@/lib/types";
-import { formatNumberWithDelimiter } from "@/lib/utils";
+import {
+  displayArea,
+  displayDate,
+  displayPrice,
+  displayPricePerSquare,
+} from "@/lib/utils";
 import { Listing } from "@prisma/client";
 
 export default function FeaturesTable({
@@ -15,10 +20,7 @@ export default function FeaturesTable({
             Price
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {formatNumberWithDelimiter(
-              listing.price ? listing.price.toString() : "",
-            )}
-            $
+            {displayPrice(listing.price)}
           </td>
         </tr>
         <tr>
@@ -26,12 +28,7 @@ export default function FeaturesTable({
             Price per m2
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.price &&
-              listing.area &&
-              formatNumberWithDelimiter(
-                Math.round(listing.price / listing.area).toString(),
-              )}
-            $
+            {displayPricePerSquare(listing.price, listing.area)}
           </td>
         </tr>
         <tr>
@@ -39,7 +36,7 @@ export default function FeaturesTable({
             Area
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.area} m2
+            {displayArea(listing.area)}
           </td>
         </tr>
         <tr>
@@ -95,7 +92,7 @@ export default function FeaturesTable({
             Posted Date
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.publishedAt}
+            {displayDate(listing.publishedAt)}
           </td>
         </tr>
         <tr>
@@ -103,7 +100,7 @@ export default function FeaturesTable({
             Last Modified
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.updatedAt}
+            {displayDate(listing.updatedAt)}
           </td>
         </tr>
         <tr>

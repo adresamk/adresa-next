@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Heart } from "lucide-react";
 import LikeListingButton from "@/app/search/_components/LikeListingButton";
-import { formatNumberWithDelimiter } from "@/lib/utils";
+import { displayPrice } from "@/lib/utils";
 
 export default function ListingCard({ listing }: { listing: Listing }) {
   return (
@@ -40,9 +40,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
         <p className="text-sm capitalize">{listing.manucipality}</p>
       </CardContent>
       <CardFooter className="flex justify-around px-4 pb-3">
-        <span>
-          €{formatNumberWithDelimiter(listing.price?.toString() || "")}
-        </span>
+        <span>{displayPrice(listing.price)}</span>
         <span className="ml-auto">
           <LikeListingButton listingId={listing.id} />
         </span>

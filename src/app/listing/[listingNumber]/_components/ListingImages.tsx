@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Modal } from "@/components/shared/Modal";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { capitalizeString, formatNumberWithDelimiter } from "@/lib/utils";
+import { capitalizeString, displayArea, displayPrice } from "@/lib/utils";
 import {
   Carousel,
   CarouselContent,
@@ -49,7 +49,7 @@ export default function ListingImages({
     <>
       <Modal
         title={`${capitalizeString(listing.type)}, ${listing.area}m²`}
-        description={`${capitalizeString(place || "no place set")}, ${capitalizeString(manucipality || "no manucipality set")},€${formatNumberWithDelimiter(listing.price?.toString() || "")}`}
+        description={`${capitalizeString(place || "no place set")}, ${capitalizeString(manucipality || "no manucipality set")},€${displayPrice(listing.price)}`}
         isOpen={isOpen}
         onClose={onClose}
         className="h-full max-w-[97vw]"
@@ -81,7 +81,7 @@ export default function ListingImages({
                     <figure className="h-[25vh] max-h-[300px] min-h-[100px] cursor-pointer overflow-hidden rounded-xl">
                       <img
                         src={imageUrl}
-                        alt={`Photo ${idx + 1},${listing.type}, ${listing.area}m²,${listing.place}, ${listing.manucipality},€${formatNumberWithDelimiter(listing.price?.toString() || "")}`}
+                        alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.manucipality},${displayPrice(listing.price)}`}
                         width={800}
                         height={533}
                         className="h-full w-full object-cover object-center"
@@ -110,7 +110,7 @@ export default function ListingImages({
                         <figure className="max-w-fit">
                           <img
                             src={imageUrl}
-                            alt={`Photo ${idx + 1},${listing.type}, ${listing.area}m²,${listing.place}, ${listing.manucipality},€${formatNumberWithDelimiter(listing.price?.toString() || "")}`}
+                            alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.manucipality},${displayPrice(listing.price)}`}
                             width={800}
                             height={533}
                             className="h-full w-full object-cover object-center"

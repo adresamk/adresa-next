@@ -19,27 +19,21 @@ import MapWithBounds from "./MapWithBounds";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Compass, Ghost, MapPinCheck } from "lucide-react";
-import { cn, formatNumberWithDelimiter } from "@/lib/utils";
+import { cn, displayPrice } from "@/lib/utils";
 import { renderToStaticMarkup } from "react-dom/server";
 
-export default function SearchMap({
-  listings,
-}: {
-  listings: Listing[];
-}) {
+export default function SearchMap({ listings }: { listings: Listing[] }) {
   const [resultsFilters, setResultsFilters] = useState("");
   const [mapFilters, setMapFilters] = useState("");
   const [searchOnMove, setSearchOnMove] = useState(false);
   const [mapSearchedCounter, setMapSearchedCounter] = useState(0);
 
   const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
-  const pin1: LatLngExpression = [
-    42.009505818991286, 21.349934451934097,
-  ];
+  const pin1: LatLngExpression = [42.009505818991286, 21.349934451934097];
 
   function handleMapMove(
     target: "resultsFilters" | "mapFilters" | "both",
-    coordinates: string
+    coordinates: string,
   ) {
     if (target === "both") {
       setResultsFilters(coordinates);
@@ -54,16 +48,13 @@ export default function SearchMap({
   }
   const mapMovedWithoutSearching = resultsFilters !== mapFilters;
   return (
-    <div className="lg:w-2/5 mb-10 border lg:sticky lg:top-[150px] lg:z-20 shrink-0 order-2 h-[300px] lg:h-[calc(100vh_-_150px)] overflow-hidden">
-      <div
-        id="search-page-map"
-        className="mb-10 w-full h-full relative"
-      >
-        <aside className="left-0 absolute right-0 top-0 w-full z-[1050] h-0 text-center">
+    <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
+      <div id="search-page-map" className="relative mb-10 h-full w-full">
+        <aside className="absolute left-0 right-0 top-0 z-[1050] h-0 w-full text-center">
           <div
             className={cn(
-              "inline-block mt-5  rounded-md shadow bg-white",
-              !mapMovedWithoutSearching && "py-2.5 px-3.5 "
+              "mt-5 inline-block rounded-md bg-white shadow",
+              !mapMovedWithoutSearching && "px-3.5 py-2.5",
             )}
           >
             {/* <div>
@@ -88,10 +79,7 @@ export default function SearchMap({
                     setSearchOnMove(newState);
                   }}
                 />
-                <Label
-                  className="font-semibold "
-                  htmlFor="search-on-pan"
-                >
+                <Label className="font-semibold" htmlFor="search-on-pan">
                   Search as I move
                 </Label>
               </div>
@@ -99,9 +87,8 @@ export default function SearchMap({
           </div>
         </aside>
         <aside className="absolute bottom-0 left-0 z-[1050]">
-          <div className="rounded-tr-md py-2.5 px-3.5 text-sm bg-white shadow">
-            View 300 of {listings.length} properties with a pin on the
-            map
+          <div className="rounded-tr-md bg-white px-3.5 py-2.5 text-sm shadow">
+            View 300 of {listings.length} properties with a pin on the map
           </div>
         </aside>
         {/* <div className="overflow-hidden lg:h-[calc(100vh_-_150px)]">
@@ -131,9 +118,9 @@ export default function SearchMap({
               position={pin1}
               icon={divIcon({
                 html: renderToStaticMarkup(
-                  <div className="bg-brand-light-blue text-white  font-medium rounded outline-black px-1.5 py-1 w-fit border-white border">
+                  <div className="w-fit rounded border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
                     Test
-                  </div>
+                  </div>,
                 ),
               })}
             >
@@ -145,20 +132,14 @@ export default function SearchMap({
               <Marker
                 icon={divIcon({
                   html: renderToStaticMarkup(
-                    <div className="relative left-1/2 -translate-x-1/2 bg-brand-light-blue text-nowrap text-white  font-medium rounded-3xl outline-black px-1.5 py-1 w-fit border-white border">
-                      €
-                      {formatNumberWithDelimiter(
-                        listing.price?.toString() || "No price set"
-                      )}
-                    </div>
+                    <div className="relative left-1/2 w-fit -translate-x-1/2 text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
+                      {displayPrice(listing.price)}
+                    </div>,
                   ),
                 })}
                 key={listing.id}
                 position={
-                  [
-                    listing.latitude,
-                    listing.longitude,
-                  ] as LatLngExpression
+                  [listing.latitude, listing.longitude] as LatLngExpression
                 }
                 eventHandlers={{
                   mouseover: (e) => {
@@ -183,10 +164,7 @@ export default function SearchMap({
               <CircleMarker
                 key={listing.id}
                 center={
-                  [
-                    listing.latitude,
-                    listing.longitude,
-                  ] as LatLngExpression
+                  [listing.latitude, listing.longitude] as LatLngExpression
                 }
                 className="relative"
                 radius={8}

@@ -1,10 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import {
-  capitalizeString,
-  cn,
-  formatNumberWithDelimiter,
-} from "@/lib/utils";
+import { capitalizeString, cn, displayArea, displayPrice } from "@/lib/utils";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { Listing } from "@prisma/client";
 import { steps, Step, StepStatus } from "../types";
@@ -134,11 +130,7 @@ function calculateStepStatus(listing: Listing): StepStatus {
       }
     }
     if (step.title === "Photos and Video") {
-      if (
-        listing.images &&
-        listing.images.length > 0 &&
-        listing.videoLink
-      ) {
+      if (listing.images && listing.images.length > 0 && listing.videoLink) {
         statuses[step.title] = "completed";
       } else {
         statuses[step.title] = "none";
@@ -208,10 +200,8 @@ function generateStepDescriptions(listing: Listing): StepDescription {
       let properties = [];
 
       if (listing.price && listing.area) {
-        properties.push(
-          formatNumberWithDelimiter(listing.price.toString()) + " €"
-        );
-        properties.push(listing.area + " m²");
+        properties.push(displayPrice(listing.price));
+        properties.push(displayArea(listing.area));
       }
       descriptions[step.title] = properties.length
         ? properties.map(capitalizeString).join(", ")
@@ -265,9 +255,7 @@ export default function ListingEditSideMenu({
   setCurrentStep,
 }: ListingEditSideMenuProps) {
   const stepsProgress = steps.map((step) => {
-    let stepProgress = Object.entries(
-      stepsValueSystem[step.title] || {}
-    )
+    let stepProgress = Object.entries(stepsValueSystem[step.title] || {})
       .map(([key, value]) => {
         if (listing.hasOwnProperty(key)) {
           if (
@@ -285,9 +273,7 @@ export default function ListingEditSideMenu({
 
     if (step.title === "Contact Details") {
       const contactData = JSON.parse(listing.contactData as string);
-      stepProgress = Object.entries(
-        stepsValueSystem[step.title] || {}
-      )
+      stepProgress = Object.entries(stepsValueSystem[step.title] || {})
         .map(([key, value]) => {
           if (contactData.hasOwnProperty(key)) {
             if (
@@ -308,24 +294,23 @@ export default function ListingEditSideMenu({
 
   const stepsProgressSum = stepsProgress.reduce(
     (acc, curr) => acc! + curr!,
-    0
+    0,
   )!;
   const formProgress = Math.round((stepsProgressSum / 800) * 100);
 
   const stepStatus: StepStatus = calculateStepStatus(listing);
-  const stepDescriptions: StepDescription =
-    generateStepDescriptions(listing);
+  const stepDescriptions: StepDescription = generateStepDescriptions(listing);
   return (
     <div className="w-[335px]">
-      <div className="shadow-md rounded  m-2 bg-white">
-        <div className="p-2 flex gap-1 items-center">
-          <div className="w-20 h-20">
+      <div className="m-2 rounded bg-white shadow-md">
+        <div className="flex items-center gap-1 p-2">
+          <div className="h-20 w-20">
             <CircularProgress percentage={formProgress} />
           </div>
 
           <p>
             {stepStatus["Publish listing"] === "in-progress" && (
-              <span className="text-red-500 text-sm">
+              <span className="text-sm text-red-500">
                 {" "}
                 Fill out all required fields!
               </span>
@@ -335,7 +320,7 @@ export default function ListingEditSideMenu({
           <div className="mt-4">
             <Progress
               value={formProgress}
-              className="bg-slate-200 text-brand-light-blue "
+              className="bg-slate-200 text-brand-light-blue"
             />
           </div>
         </div>
@@ -357,25 +342,19 @@ export default function ListingEditSideMenu({
                     setCurrentStep(steps[index].uniquePath);
                   }}
                   className={cn(
-                    "flex  cursor-pointer hover:bg-gray-50 relative",
+                    "relative flex cursor-pointer hover:bg-gray-50",
                     currentStep === steps[index].uniquePath &&
-                      "bg-gray-50 border-l-4 border-l-brand-light-blue"
+                      "border-l-4 border-l-brand-light-blue bg-gray-50",
                   )}
                 >
-                  <div className="w-full py-3 px-4">
-                    <div className="flex items-center px-2 absolute top-1.5    right-0">
+                  <div className="w-full px-4 py-3">
+                    <div className="absolute right-0 top-1.5 flex items-center px-2">
                       {stepStatus[step.title] === "completed" && (
-                        <CircleCheck
-                          stroke="green"
-                          strokeWidth={1.2}
-                        />
+                        <CircleCheck stroke="green" strokeWidth={1.2} />
                       )}
 
                       {stepStatus[step.title] === "in-progress" && (
-                        <CircleCheck
-                          stroke="orange"
-                          strokeWidth={1.2}
-                        />
+                        <CircleCheck stroke="orange" strokeWidth={1.2} />
                       )}
 
                       {stepStatus[step.title] === "incomplete" && (
@@ -383,12 +362,12 @@ export default function ListingEditSideMenu({
                       )}
                     </div>
                     <p className="">{step.title}</p>
-                    <p className=" w-full text-sm text-gray-500 line-clamp-2 overflow-x-hidden whitespace-nowrap text-ellipsis">
+                    <p className="line-clamp-2 w-full overflow-x-hidden text-ellipsis whitespace-nowrap text-sm text-gray-500">
                       {stepDescriptions[step.title]}
                     </p>
-                    <div className="bg-slate-100 mt-3  rounded-2xl">
+                    <div className="mt-3 rounded-2xl bg-slate-100">
                       <div
-                        className="bg-slate-400 h-1 rounded-2xl"
+                        className="h-1 rounded-2xl bg-slate-400"
                         style={{
                           width: `${stepProgress}%`,
                         }}

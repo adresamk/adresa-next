@@ -5,8 +5,73 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatNumberWithDelimiter(value: string) {
-  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Replace with your desired delimiter
+export function displayPrice(value: number | null, currency: string = "USD") {
+  if (value === null) {
+    return "Number was null, check data";
+  }
+  if (currency !== "USD" && currency !== "EUR") {
+    throw new Error("Invalid currency. Only USD and EUR are allowed.");
+  }
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency,
+    minimumFractionDigits: 0, // Show no decimals if not needed
+    maximumFractionDigits: 2, // Show 2 decimals if needed
+  }).format(value);
+}
+
+export function displayArea(value: number | null) {
+  if (value === null) {
+    return "Number was null, check data";
+  }
+  return `${value} m²`;
+}
+
+export function displayPricePerSquare(
+  price: number | null,
+  area: number | null,
+) {
+  if (!price || !area || area <= 0) return null; // Handle invalid inputs gracefully
+
+  const pricePerSquare = price / area;
+  return displayPrice(pricePerSquare); // Use the displayPrice function
+}
+
+function parseDateString(dateString: string, delimiter: string): Date | null {
+  const parts = dateString.split(delimiter);
+  if (parts.length === 3) {
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // Months are 0-indexed
+    const year = parseInt(parts[2], 10);
+    const parsedDate = new Date(year, month, day);
+    return isNaN(parsedDate.getTime()) ? null : parsedDate; // Return null if invalid date
+  }
+  return null; // Return null if format is incorrect
+}
+
+export function displayDate(date: Date | string | null, delimiter = "/") {
+  let parsedDate: Date | null = null;
+  if (typeof date === "string") {
+    parsedDate = parseDateString(date, delimiter) || new Date(date); // Try parsing, fallback to Date constructor
+
+    if (isNaN(parsedDate?.getTime() || NaN)) {
+      console.error("Invalid date string provided");
+      return "N/A";
+    }
+  } else if (date instanceof Date) {
+    parsedDate = date;
+  }
+
+  if (!parsedDate || isNaN(parsedDate.getTime())) {
+    console.error("Invalid date provided");
+    return null;
+  }
+
+  const day = String(parsedDate.getDate()).padStart(2, "0"); // Ensure 2-digit day
+  const month = String(parsedDate.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+  const year = parsedDate.getFullYear();
+
+  return `${day}${delimiter}${month}${delimiter}${year}`;
 }
 
 export function capitalizeString(str: string) {

@@ -26,7 +26,12 @@ import {
 import { redirect } from "next/navigation";
 import MiniContactForm from "./_components/MiniContactForm";
 import RevealButton from "@/components/shared/RevealButton";
-import { cn, formatNumberWithDelimiter } from "@/lib/utils";
+import {
+  cn,
+  displayDate,
+  displayPrice,
+  displayPricePerSquare,
+} from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
 import {
@@ -67,11 +72,11 @@ const icons: { [key: string]: JSX.Element } = {
 function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
   return {
     ...listing,
-    createdAt: listing.createdAt.toISOString(),
-    updatedAt: listing.updatedAt.toISOString(),
-    availabilityDate: listing.availabilityDate?.toISOString() || null,
-    publishedAt: listing.publishedAt?.toISOString() || null,
-    publishEndDate: listing.publishEndDate?.toISOString() || null,
+    createdAt: displayDate(listing.createdAt) || "",
+    updatedAt: displayDate(listing.updatedAt) || "",
+    availabilityDate: displayDate(listing.availabilityDate) || "",
+    publishedAt: displayDate(listing.publishedAt),
+    publishEndDate: displayDate(listing.publishEndDate),
   };
 }
 
@@ -169,7 +174,7 @@ export default async function SingleListingPage({
                   />
                 </span>
                 <p className="mt-2.5 text-sm">
-                  Posted on {listing.publishedAt ? listing.publishedAt : ""}
+                  Posted on {displayDate(listing.publishedAt)}
                 </p>
               </div>
             </div>
@@ -179,17 +184,11 @@ export default async function SingleListingPage({
               <div className="flex flex-1 flex-col gap-3">
                 <div className="flex items-center gap-3 text-xl">
                   <span className="font-semibold">
-                    {formatNumberWithDelimiter(
-                      listing.price ? listing.price.toString() : "",
-                    )}
-                    $
+                    {displayPrice(listing.price)}
                   </span>
                   <span>| </span>
                   <span className="text-slate-400">
-                    {listing.price &&
-                      listing.area &&
-                      Math.round(listing.price / listing.area)}{" "}
-                    $/m2
+                    {displayPricePerSquare(listing.price, listing.area)}
                   </span>
                 </div>
                 <div className="flex gap-3">{/* ADD Feaures */}</div>

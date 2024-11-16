@@ -1,7 +1,7 @@
 "use client";
 import { Listing } from "@prisma/client";
 import ListingActions from "./ListingActions";
-import { cn, formatNumberWithDelimiter } from "@/lib/utils";
+import { cn, displayPrice } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { SerializedListing } from "@/lib/types";
 export default function StickyControls({
@@ -48,9 +48,7 @@ export default function StickyControls({
           </div>
           <div className="flex-1 flex-shrink pl-[8%]">
             <div className="font-semibold">
-              <span>
-                ${formatNumberWithDelimiter(listing.price?.toString() || "")}
-              </span>
+              <span>{displayPrice(listing.price)}</span>
             </div>
           </div>
         </div>

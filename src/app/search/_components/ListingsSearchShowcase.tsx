@@ -15,7 +15,7 @@ import {
   UserCircle,
 } from "lucide-react";
 import Link from "next/link";
-import { formatNumberWithDelimiter } from "@/lib/utils";
+import { displayPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import ImagesCarousel from "./ImagesCarousel";
 import LikeListingButton from "./LikeListingButton";
@@ -152,20 +152,14 @@ export default async function ListingsSearchShowcase({
               <div className="mt-auto max-w-full">
                 <div className="mb-1.5 flex items-center">
                   <p className="text-xl font-bold leading-4 tracking-tighter">
-                    €
-                    {formatNumberWithDelimiter(
-                      listingRef.price?.toString() || "",
-                    )}
+                    {displayPrice(listingRef.price)}
                   </p>
                   {/* old price */}
                   {listingRef.previousPrice && (
                     <div className="flex items-center">
                       <ArrowDown className="ml-2.5 mr-1" stroke="green" />
                       <span className="text-sm text-gray-400 line-through">
-                        €
-                        {formatNumberWithDelimiter(
-                          listingRef.previousPrice?.toString() || "",
-                        )}
+                        €{displayPrice(listingRef.previousPrice)}
                       </span>
                     </div>
                   )}

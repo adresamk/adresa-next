@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Listing } from "@prisma/client";
 
-import { formatNumberWithDelimiter } from "@/lib/utils";
+import { displayPrice } from "@/lib/utils";
 import {
   Bath,
   Bed,
@@ -38,15 +38,11 @@ function featuresValues(value: boolean | null) {
 }
 export default function Step3({ listing }: { listing: Listing }) {
   const [propertyPrice, setPropertyPrice] = useState(
-    formatNumberWithDelimiter(listing.price?.toString() || "")
+    displayPrice(listing.price),
   );
-  const [propertyArea, setPropertyArea] = useState(
-    listing.area?.toString()
-  );
+  const [propertyArea, setPropertyArea] = useState(listing.area?.toString());
   const [floor, setFloor] = useState(listing.floorNumber?.toString());
-  const [orientation, setOrientation] = useState(
-    listing.orientation || ""
-  );
+  const [orientation, setOrientation] = useState(listing.orientation || "");
   const [rooms, setRooms] = useState({
     bedroom: listing.bedrooms || 1,
     living: listing.livingRooms || 1,
@@ -57,12 +53,7 @@ export default function Step3({ listing }: { listing: Listing }) {
 
   return (
     <div className="p-2">
-      <input
-        type="string"
-        className="hidden"
-        defaultValue="3"
-        name="step"
-      />
+      <input type="string" className="hidden" defaultValue="3" name="step" />
       <h2 className="text-lg">Location</h2>
       <Separator className="my-2 mt-4" />
 
@@ -71,7 +62,7 @@ export default function Step3({ listing }: { listing: Listing }) {
         <Label htmlFor="price">
           Property Price <span className="text-red-500">*</span>
         </Label>
-        <div className="flex items-center w-1/2 min-w-[300px] mb-2">
+        <div className="mb-2 flex w-1/2 min-w-[300px] items-center">
           <div className="mr-2 w-5">
             <Euro size={18} />
           </div>
@@ -83,8 +74,7 @@ export default function Step3({ listing }: { listing: Listing }) {
             value={propertyPrice || ""}
             onChange={(e) => {
               const newValue = e.target.value.replace(/[^0-9]/g, "");
-              const formattedValue =
-                formatNumberWithDelimiter(newValue);
+              const formattedValue = displayPrice(Number(newValue));
               setPropertyPrice(formattedValue);
             }}
           />
@@ -95,7 +85,7 @@ export default function Step3({ listing }: { listing: Listing }) {
         <Label htmlFor="area">
           Property Area <span className="text-red-500">*</span>
         </Label>
-        <div className="flex items-center w-1/2 min-w-[300px] mb-2">
+        <div className="mb-2 flex w-1/2 min-w-[300px] items-center">
           <div className="mr-2 w-5">
             m<sup>2</sup>
           </div>
@@ -121,7 +111,7 @@ export default function Step3({ listing }: { listing: Listing }) {
       {/* Floor Number */}
       <div className="flex flex-col gap-3">
         <Label htmlFor="floorNumber">Floor</Label>
-        <div className="flex items-center w-1/2 min-w-[300px] mb-2">
+        <div className="mb-2 flex w-1/2 min-w-[300px] items-center">
           <Input
             type="number"
             name="floorNumber"
@@ -144,7 +134,7 @@ export default function Step3({ listing }: { listing: Listing }) {
       {/* Orientation */}
       <div className="flex flex-col gap-3">
         <Label htmlFor="orientation">Orientation</Label>
-        <div className="flex items-center w-1/2 min-w-[300px] mb-2">
+        <div className="mb-2 flex w-1/2 min-w-[300px] items-center">
           <SelectDemo
             name="orientation"
             onClick={(value) => setOrientation(value)}
@@ -157,9 +147,9 @@ export default function Step3({ listing }: { listing: Listing }) {
       {/* Rooms */}
       <div className="flex flex-col gap-3">
         <Label>Rooms</Label>
-        <div className="flex flex-col  w-1/2 min-w-[300px] mb-2">
+        <div className="mb-2 flex w-1/2 min-w-[300px] flex-col">
           {/* Bedrooms */}
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <Bed size={50} />
             <Input
               required
@@ -181,7 +171,7 @@ export default function Step3({ listing }: { listing: Listing }) {
             <span>bedroom </span>
           </div>
           {/* Bathrooms */}
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <ShowerHead size={50} />
             <Input
               required
@@ -203,7 +193,7 @@ export default function Step3({ listing }: { listing: Listing }) {
             <span>bathroom </span>
           </div>
           {/* WCS */}
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <Bath size={50} />
             <Input
               required
@@ -225,7 +215,7 @@ export default function Step3({ listing }: { listing: Listing }) {
             <span>wcs </span>
           </div>
           {/* Kitchens */}
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <ChefHat size={50} />
             <Input
               required
@@ -248,7 +238,7 @@ export default function Step3({ listing }: { listing: Listing }) {
           </div>
 
           {/* Living Rooms */}
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <Sofa size={50} />
             <Input
               required
@@ -274,7 +264,7 @@ export default function Step3({ listing }: { listing: Listing }) {
 
       <div className="flex flex-col gap-3">
         <Label>Other characteristics</Label>
-        <div className="flex flex-col   w-1/2 min-w-[300px] mb-2">
+        <div className="mb-2 flex w-1/2 min-w-[300px] flex-col">
           {/* Parking */}
           <div className="flex items-center">
             <ParkingSquare />
