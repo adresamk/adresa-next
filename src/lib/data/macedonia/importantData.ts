@@ -64,11 +64,16 @@ export function getMunicipalityPlaces(
 }
 
 export function getPlaceCoordinates(placeId: number | undefined) {
+  console.log("placeId");
+  console.log(placeId);
   if (!placeId) {
     return null;
   }
   const placeCoordinates = typedMappedCoordinates[String(placeId)];
   // itterate and swap coordinates lat and lng positions
+  if (!placeCoordinates) {
+    return null;
+  }
   const swappedCoordinates = placeCoordinates.map((first) => {
     return first.map((second) => {
       return second.map((coordinates) => {
@@ -79,7 +84,7 @@ export function getPlaceCoordinates(placeId: number | undefined) {
   });
   console.log(swappedCoordinates);
   if (placeCoordinates) {
-    return swappedCoordinates;
+    return swappedCoordinates as LatLngExpression[][][];
   }
   return null;
 }

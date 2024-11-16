@@ -1,8 +1,9 @@
 "use client";
-import { LatLngExpression, Marker as MarkerType } from "leaflet";
+import L, { LatLngExpression, Map, Marker as MarkerType } from "leaflet";
 import {
   MapContainer,
   Marker,
+  Polygon,
   Polyline,
   Popup,
   TileLayer,
@@ -14,6 +15,8 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { randomSkopjeCoordinates } from "@/global/dataa";
 import { cn } from "@/lib/utils";
+import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
+import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
 interface Location {
   lat: number;
   lng: number;
@@ -21,6 +24,8 @@ interface Location {
 interface MapConfirmLocationProps {
   pinLocation: Location | null;
   setPinLocation: (location: Location) => void;
+  populatedPlace: PopulatedPlace | null;
+  municipality: PopulatedPlace | null;
 }
 const kumanovoInfo = {
   type: "Feature",
@@ -484,12 +489,25 @@ const kumanovoInfo = {
 
 export default function MapConfirmLocation({
   pinLocation,
+  populatedPlace,
+  municipality,
   setPinLocation,
 }: MapConfirmLocationProps) {
   const [position, setPosition] = useState(pinLocation);
   const [isBigger, setIsBigger] = useState(false);
   const markerRef = useRef<MarkerType | null>(null);
-  //update position when inputs chage
+  const municipalityCoordinates: LatLngExpression[][][] | null =
+    getPlaceCoordinates(Number(municipality?.jsonId));
+  const populatedPlaceCoordinates: LatLngExpression[][][] | null =
+    getPlaceCoordinates(Number(populatedPlace?.jsonId));
+
+  const mapRef = useRef<Map | null>(null);
+
+  console.log("municipalityCoordinates");
+  console.log(municipalityCoordinates);
+  console.log("populatedPlaceCoordinates");
+  console.log(populatedPlaceCoordinates);
+  //update position when inputs change
   useEffect(() => {
     if (pinLocation && pinLocation.lat && pinLocation.lng) {
       // console.log(pinLocation);
@@ -497,22 +515,59 @@ export default function MapConfirmLocation({
       marker?.setLatLng(pinLocation);
     }
   }, [pinLocation]);
+
+  //update marker when they change municipality or populated place
+  useEffect(() => {
+    if (municipalityCoordinates) {
+      const marker = markerRef.current;
+      const map = mapRef.current;
+      if (populatedPlaceCoordinates) {
+        // find center of polygon
+        const polygon = L.polygon(populatedPlaceCoordinates);
+        const centerOfPolygon = polygon.getBounds().getCenter();
+        marker?.setLatLng(centerOfPolygon);
+        // fit map to polygon
+        // const bounds = L.latLngBounds(populatedPlaceCoordinates[0][0]);
+        const bounds = polygon.getBounds();
+        map?.fitBounds(bounds, { animate: true, padding: [50, 50] });
+        return;
+      }
+      const polygon = L.polygon(municipalityCoordinates);
+      const centerOfPolygon = polygon.getBounds().getCenter();
+      marker?.setLatLng(centerOfPolygon);
+      // fit map to polygon
+      const bounds = polygon.getBounds();
+      map?.fitBounds(bounds, { animate: true, padding: [50, 50] });
+    }
+  }, [municipality, populatedPlace]);
   const eventHandlers = useMemo(
     () => ({
       dragend() {
         const marker = markerRef.current;
         if (marker != null) {
           const { lat, lng } = marker.getLatLng();
-          const fixedTo5 = {
-            lat: parseFloat(lat.toFixed(5)),
-            lng: parseFloat(lng.toFixed(5)),
-          };
-          setPosition(fixedTo5);
-          setPinLocation(fixedTo5);
+          const polygonToCheckAgainst = populatedPlaceCoordinates
+            ? populatedPlaceCoordinates
+            : municipalityCoordinates
+              ? municipalityCoordinates
+              : null;
+          if (
+            polygonToCheckAgainst &&
+            L.polygon(polygonToCheckAgainst).getBounds().contains({ lat, lng })
+          ) {
+            const fixedTo5 = {
+              lat: parseFloat(lat.toFixed(5)),
+              lng: parseFloat(lng.toFixed(5)),
+            };
+            setPosition(fixedTo5);
+            setPinLocation(fixedTo5);
+          } else {
+            alert("You are not in the selected area");
+          }
         }
       },
     }),
-    [],
+    [municipalityCoordinates, populatedPlaceCoordinates],
   );
   //   const toggleDraggable = useCallback(() => {
   //     setDraggable((d) => !d);
@@ -536,7 +591,8 @@ export default function MapConfirmLocation({
       <button onClick={handleBS}>Bigger/Smaller</button>
       <MapContainer
         center={randomSkopjeCoordinates[0]}
-        zoom={13}
+        zoom={7}
+        ref={mapRef}
         className="h-full w-full"
         // style={{ height: "100%", width: "100%" }}
       >
@@ -545,10 +601,19 @@ export default function MapConfirmLocation({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
 
-        <Polyline
-          pathOptions={{ color: "black" }}
-          positions={kumanovoCoordinates}
-        />
+        {municipalityCoordinates && (
+          <Polygon
+            pathOptions={{ color: "black" }}
+            positions={municipalityCoordinates}
+          />
+        )}
+
+        {populatedPlaceCoordinates && (
+          <Polygon
+            pathOptions={{ color: "red" }}
+            positions={populatedPlaceCoordinates}
+          />
+        )}
         {position && position.lat && position.lng && (
           <Marker
             draggable

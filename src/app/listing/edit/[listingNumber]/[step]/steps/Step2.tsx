@@ -15,6 +15,7 @@ import {
   getMunicipalityPlaces,
   municipalitiesOptions as municipalitiesOptionsData,
 } from "@/lib/data/macedonia/importantData";
+import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
 interface Location {
   lat: number;
   lng: number;
@@ -27,6 +28,14 @@ const municipalitiesOptions = municipalitiesOptionsData.map((o) => ({
 export default function Step2({ listing }: { listing: Listing }) {
   const [municipality, setMunicipality] = useState(listing.manucipality);
   const [populatedPlace, setPopulatedPlace] = useState(listing.place);
+
+  const [usedPlaces, setUsedPlaces] = useState<{
+    populatedPlace: PopulatedPlace | null;
+    municipality: PopulatedPlace | null;
+  }>({
+    populatedPlace: null,
+    municipality: null,
+  });
 
   const [populatedPlacesOptions, setPopulatedPlacesOptions] = useState<
     { label: string; value: string }[]
@@ -42,6 +51,10 @@ export default function Step2({ listing }: { listing: Listing }) {
             label: p.name,
             value: p.name.toLowerCase(),
           }));
+          setUsedPlaces({
+            populatedPlace: null,
+            municipality: municipalityUsed,
+          });
           setPopulatedPlace(populatedPlacesOptions[0].value);
           return populatedPlacesOptions;
         }
@@ -76,6 +89,10 @@ export default function Step2({ listing }: { listing: Listing }) {
             label: p.name,
             value: p.name.toLowerCase(),
           }));
+          setUsedPlaces({
+            populatedPlace: places[0],
+            municipality: municipalityUsed,
+          });
           console.log(populatedPlacesOptions);
           setPopulatedPlacesOptions(populatedPlacesOptions);
         }
@@ -86,6 +103,20 @@ export default function Step2({ listing }: { listing: Listing }) {
   useEffect(() => {
     setPopulatedPlace(populatedPlacesOptions[0].value);
   }, [populatedPlacesOptions]);
+
+  //updated Selected Place
+  useEffect(() => {
+    if (usedPlaces.municipality?.id) {
+      const places = getMunicipalityPlaces(usedPlaces.municipality.id);
+      if (places) {
+        setUsedPlaces({
+          ...usedPlaces,
+          populatedPlace:
+            places.find((p) => p.name.toLowerCase() === populatedPlace) || null,
+        });
+      }
+    }
+  }, [populatedPlace]);
   return (
     <div className="p-2">
       <input type="string" className="hidden" defaultValue="2" name="step" />
@@ -171,6 +202,8 @@ export default function Step2({ listing }: { listing: Listing }) {
       <Separator className="my-2" />
       {/* <MapDemo /> */}
       <MapConfirmLocation
+        municipality={usedPlaces.municipality}
+        populatedPlace={usedPlaces.populatedPlace}
         pinLocation={pinLocation}
         setPinLocation={setPinLocation}
       />
