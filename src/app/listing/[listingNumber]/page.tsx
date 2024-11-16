@@ -43,9 +43,7 @@ import InternalFeatures from "./_components/InternalFeatures";
 import ExternalFeatures from "./_components/ExternalFeatures";
 
 import dynamicImport from "next/dynamic";
-import Image from "next/image";
 import StickyControls from "./_components/StickyControls";
-import { validateRequest } from "@/lib/auth";
 import { getListing } from "@/actions/listings";
 // import MapLocationPreview from "@/components/shared/MapLocationPreview";
 const MapLocationPreview = dynamicImport(
