@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Listing, User } from "@prisma/client";
-import { cn } from "@/lib/utils";
+import { cn, displayDate } from "@/lib/utils";
 import {
   AlertCircle,
   Edit,
@@ -28,7 +28,7 @@ export default function MyListingsList({
   return (
     <>
       {user.role === UserRoles.AGENCY && (
-        <div className="flex justify-between items-center my-2">
+        <div className="my-2 flex items-center justify-between">
           <Input
             className="max-w-[300px]"
             type="search"
@@ -38,7 +38,7 @@ export default function MyListingsList({
           />
           <Button
             variant={"outline"}
-            className="text-brand-light-blue border-brand-light-blue hover:text-brand-dark-blue"
+            className="border-brand-light-blue text-brand-light-blue hover:text-brand-dark-blue"
           >
             {" "}
             Upload CSV{" "}
@@ -53,8 +53,7 @@ export default function MyListingsList({
           })
           .sort(
             (a, b) =>
-              new Date(b.updatedAt).getTime() -
-              new Date(a.updatedAt).getTime()
+              new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
           )
 
           .map((l: Listing) => {
@@ -79,26 +78,26 @@ export default function MyListingsList({
             return (
               <div
                 key={l.id + l.isVisible.toString()}
-                className="flex min-h-[202px] border  shadow-md rounded-md"
+                className="flex min-h-[202px] rounded-md border shadow-md"
               >
                 <div className="w-4/12 min-w-[250px]">
                   <img
                     src={l.mainImage || ""}
                     alt="Property image"
                     className={cn(
-                      "max-h-[200px] object-cover w-full h-full bg-cover rounded-tl-md rounded-bl-md  rounded-tr-none rounded-br-none",
-                      hasRequiredFieldsLeft && "opacity-50"
+                      "h-full max-h-[200px] w-full rounded-bl-md rounded-br-none rounded-tl-md rounded-tr-none bg-cover object-cover",
+                      hasRequiredFieldsLeft && "opacity-50",
                     )}
                   />
                 </div>
-                <div className="w-8/12 p-5 flex flex-col">
-                  <div className="flex justify-between items-center">
+                <div className="flex w-8/12 flex-col p-5">
+                  <div className="flex items-center justify-between">
                     <p className="text-sm">
                       <Link href={`/listing/${l.listingNumber}`}>
                         Listing: {l.listingNumber}
                       </Link>
                     </p>
-                    <div className="flex  justify-end  text-xs ">
+                    <div className="flex justify-end text-xs">
                       {!l.publishedAt ? (
                         <Link
                           href={`/listing/edit/${l.listingNumber}/whatever`}
@@ -106,7 +105,7 @@ export default function MyListingsList({
                           <Button
                             variant={"ghost"}
                             size={"sm"}
-                            className="text-xs px-2 "
+                            className="px-2 text-xs"
                           >
                             <Edit className="mr-2" /> Edit
                           </Button>
@@ -120,31 +119,24 @@ export default function MyListingsList({
                   <div>
                     <Link href={`/listing/${l.listingNumber}`}>
                       <h4 className="my-4 font-semibold">
-                        <span className="capitalize">{l.type}</span>,{" "}
-                        {l.area} m2
+                        <span className="capitalize">{l.type}</span>, {l.area}{" "}
+                        m2
                       </h4>
                     </Link>
                     <p className="text-xs">
-                      <span>
-                        created at {l.createdAt.toLocaleString()}
-                      </span>{" "}
-                      |
-                      <span>
-                        published at {l.publishedAt?.toLocaleString()}
-                      </span>
+                      <span>created at {displayDate(l.createdAt)}</span> |
+                      <span>published at {displayDate(l.publishedAt)}</span>
                     </p>
                   </div>
-                  <div className="flex justify-between mt-auto items-center">
+                  <div className="mt-auto flex items-center justify-between">
                     <div className="">
                       {hasRequiredFieldsLeft ? (
-                        <div className="flex gap-3 items-center">
+                        <div className="flex items-center gap-3">
                           <AlertCircle stroke="orange" />{" "}
-                          <span>
-                            Fill in all the required fields!
-                          </span>
+                          <span>Fill in all the required fields!</span>
                         </div>
                       ) : (
-                        <div className="flex gap-3 items-center">
+                        <div className="flex items-center gap-3">
                           <MousePointerClick fill="blue" />{" "}
                           <span className="font-bold text-brand-light-blue">
                             {0} views
@@ -166,7 +158,7 @@ export default function MyListingsList({
                         </Link>
                       )}
                       {!l.isPublished && (
-                        <Button className="w-full text-white border-brand-light-blue hover:text-brand-dark-blue">
+                        <Button className="w-full border-brand-light-blue text-white hover:text-brand-dark-blue">
                           Publish
                         </Button>
                       )}
@@ -176,11 +168,11 @@ export default function MyListingsList({
               </div>
             );
           })}
-        <div className="flex gap-3 h-[190px] border  shadow-md rounded-md items-center justify-center">
+        <div className="flex h-[190px] items-center justify-center gap-3 rounded-md border shadow-md">
           <Link href={"/listing/new"}>
             <Button
               size={"lg"}
-              className="uppercase text-brand-light-blue bg-white border border-brand-light-blue hover:text-brand-light-blue hover:bg-slate-50"
+              className="border border-brand-light-blue bg-white uppercase text-brand-light-blue hover:bg-slate-50 hover:text-brand-light-blue"
             >
               Create new listing
             </Button>

@@ -1,4 +1,4 @@
-import { cn, getLoggedInUserId } from "@/lib/utils";
+import { cn, displayDate, getLoggedInUserId } from "@/lib/utils";
 import { Listing } from "@prisma/client";
 import Image from "next/image";
 import {
@@ -118,20 +118,8 @@ export default async function ListingsSearchShowcase({
                   </ul>
                   <p className="text-xs">
                     <span className="text-gray-500">Updated: </span>
-                    <time
-                      dateTime={listingRef.updatedAt
-                        .toISOString()
-                        .split("T")[0]
-                        .split("-")
-                        .reverse()
-                        .join("/")}
-                    >
-                      {listingRef.updatedAt
-                        .toISOString()
-                        .split("T")[0]
-                        .split("-")
-                        .reverse()
-                        .join("/")}
+                    <time dateTime={displayDate(listingRef.updatedAt) || ""}>
+                      {displayDate(listingRef.updatedAt) || ""}
                     </time>
                   </p>
                 </div>
