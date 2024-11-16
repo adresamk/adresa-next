@@ -54,7 +54,7 @@ export const Modal: React.FC<ModalProps> = ({
         </DialogHeader>
         <div
           className={cn(
-            "overflow-y-auto border-b border-t py-2",
+            "overflow-y-hidden border-b border-t py-2",
             innerScroll && "max-h-[calc(95dvh-150px)]",
           )}
         >

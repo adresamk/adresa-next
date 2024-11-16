@@ -54,7 +54,7 @@ export default function ListingImages({
         onClose={onClose}
         className="h-full max-w-[97vw]"
       >
-        <div className="h-[calc(97vh_-_90px)] max-h-[97vh] min-h-full">
+        <div className="h-[calc(100vh_-_120px)] max-h-[97vh] overflow-y-scroll">
           <Tabs value={openTab} className="w-fit">
             <TabsList className="grid w-fit grid-cols-2">
               <TabsTrigger
@@ -71,12 +71,12 @@ export default function ListingImages({
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview">
-              <div className="photoGridContainer flex flex-grow flex-wrap overflow-auto">
+              <div className="photoGridContainer flex flex-grow flex-wrap overflow-y-hidden">
                 {listing.images.map((imageUrl, idx) => (
                   <div
                     key={idx}
                     onClick={() => handlePhotoSelection(idx)}
-                    className="mb-3 h-fit w-full max-w-full flex-shrink-0 px-1.5 min-[440px]:w-1/2 sm:flex-auto sm:flex-shrink sm:flex-grow md:w-1/3"
+                    className="min-[440px]:w-1/2 mb-3 h-fit w-full max-w-full flex-shrink-0 px-1.5 sm:flex-auto sm:flex-shrink sm:flex-grow md:w-1/3"
                   >
                     <figure className="h-[25vh] max-h-[300px] min-h-[100px] cursor-pointer overflow-hidden rounded-xl">
                       <img
@@ -93,9 +93,9 @@ export default function ListingImages({
               </div>
             </TabsContent>
             <TabsContent value="singleAtATime">
-              <div className="relative max-h-full w-full overflow-auto px-12">
+              <div className="relative max-h-full w-full px-12">
                 <Carousel
-                  className="h-fit"
+                  className="h-full"
                   opts={{
                     align: "start",
                     startIndex: openImageIndex || 0,
