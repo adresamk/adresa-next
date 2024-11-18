@@ -1,5 +1,7 @@
 "use client";
 
+import { startTransition } from "react";
+
 export function Form({
   children,
   action,
@@ -7,20 +9,23 @@ export function Form({
   className,
 }: {
   children: React.ReactNode;
-  action: (formData: FormData) => void; // Updated type to only accept void
+  action: (formData: FormData) => void;
   state: ActionResult;
   className?: string;
 }) {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    action(formData); // Call action directly
-  };
+
+    startTransition(() => {
+      action(formData);
+    });
+  }
+
   return (
     <form onSubmit={handleSubmit} className={className}>
       {children}
       <p className="my-3 text-red-400">{state.error}</p>
-      {/* Removed state handling since action is now void */}
     </form>
   );
 }
