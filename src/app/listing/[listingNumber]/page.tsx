@@ -45,17 +45,6 @@ import { getListing } from "@/actions/listings";
 import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
 import Image from "next/image";
 import { extractPublisherData } from "./helpers";
-const icons: { [key: string]: JSX.Element } = {
-  bathroom: <ShowerHead size={30} />,
-  ac: <AirVentIcon size={30} />,
-  garage: <House size={30} />,
-  elevator: <DoorClosed />,
-  alart: <AlarmCheck />,
-  protectionDoor: <DoorOpen />,
-  spajz: <DoorOpen />,
-  terace: <Fence />,
-  facade: <BrickWall />,
-} as { [key: string]: JSX.Element };
 
 function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
   return {
@@ -171,6 +160,11 @@ export default async function SingleListingPage({
             {/* Features Highlight - some imporant features mentioned */}
 
             <div className="mb-6 flex gap-9">
+              {/* { renderHighLightedFeatures({
+                'bathroom: listing.bathrooms,
+                'aircon': 1,
+                'garage': listing.parking
+              })} */}
               <div className="flex flex-col items-center">
                 <Bath className="h-8 w-8" />
                 <span>

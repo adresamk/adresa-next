@@ -74,6 +74,7 @@ export default function MyListingsList({
                 className="flex min-h-[202px] rounded-md border shadow-md"
               >
                 <div className="w-4/12 min-w-[250px]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={l.mainImage || ""}
                     alt="Property image"
