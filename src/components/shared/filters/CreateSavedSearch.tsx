@@ -6,7 +6,6 @@ import { RadioGroupDemo } from "../RadioGroupDemo";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { createSavedSearch } from "@/actions/savedSearches";
-import { useFormState } from "react-dom";
 import { isLoggedInClient } from "@/lib/utils";
 import {
   AlertDialog,
@@ -23,14 +22,16 @@ import Link from "next/link";
 const notificationIntervalOptions = ["daily", "weekly", "live"];
 
 export default function CreateSavedSearch() {
-  const [isSavedSearchModalOpen, setIsSavedSearchModalOpen] =
-    useState(false);
+  const [isSavedSearchModalOpen, setIsSavedSearchModalOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [areNotificationsOn, setareNotificationsOn] = useState(false);
   const [searchParams, setSearchParams] = useState("");
-  const [response, formAction] = useFormState(
-    createSavedSearch,
-    null
+  const [response, formAction] = useActionState(
+    (state, formData) => createSavedSearch(state, formData),
+    {
+      success: false,
+      error: null,
+    },
   );
   //effect description
   useEffect(() => {
@@ -90,7 +91,7 @@ export default function CreateSavedSearch() {
         innerScroll
         footerJSX={null}
       >
-        <div className="flex px-2 flex-col gap-3">
+        <div className="flex flex-col gap-3 px-2">
           <form action={formAction}>
             <input
               type="text"
@@ -116,11 +117,11 @@ export default function CreateSavedSearch() {
                 alt="saved search polygon img"
               />
             </div>
-            <div className="flex items-center gap-3 ">
+            <div className="flex items-center gap-3">
               <Label htmlFor="isNotificationOn" className="text-xl">
                 Notifications
               </Label>
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <input
                   type="text"
                   className="hidden"
@@ -147,7 +148,7 @@ export default function CreateSavedSearch() {
               title=""
               values={notificationIntervalOptions}
             />
-            <div className="flex justify-end items-center w-full">
+            <div className="flex w-full items-center justify-end">
               <Button
                 onClick={() => {
                   // saveSearch

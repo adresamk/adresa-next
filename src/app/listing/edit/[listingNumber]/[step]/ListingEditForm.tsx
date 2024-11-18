@@ -13,25 +13,22 @@ import Step8 from "./steps/Step8";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { steps } from "./types";
+import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { editListing } from "./actions";
+
 interface ListingEditFormProps {
   loadedListing: Listing;
   requestedStep: string;
 }
 
-import { z } from "zod";
-import { useFormState } from "react-dom";
-import { editListing, EditListingResponse } from "./actions";
-
 export default function ListingEditForm({
   loadedListing,
   requestedStep,
 }: ListingEditFormProps) {
-  // const [listing, setListing] = useState(loadedListing);
-  const [state, formAction] = useFormState(editListing, {
-    success: true,
-    data: {
-      listing: loadedListing,
-    },
+  const router = useRouter();
+  const [state, formAction] = useActionState(editListing, {
+    // initial state if needed
   });
   const { data, success, error } = state;
 
@@ -51,7 +48,7 @@ export default function ListingEditForm({
         progress={progress}
       />
       <div className="min-w-[460px] pl-10">
-        <div className="p-2 shadow-md bg-white mt-2 rounded">
+        <div className="mt-2 rounded bg-white p-2 shadow-md">
           <form action={formAction}>
             <input
               type="text"
@@ -59,30 +56,14 @@ export default function ListingEditForm({
               defaultValue={listing.id}
               name="listingId"
             />
-            {currentStepIdx === 0 && (
-              <Step1 listing={listing} key={"1"} />
-            )}
-            {currentStepIdx === 1 && (
-              <Step2 listing={listing} key={"2"} />
-            )}
-            {currentStepIdx === 2 && (
-              <Step3 listing={listing} key={"3"} />
-            )}
-            {currentStepIdx === 3 && (
-              <Step4 listing={listing} key={"4"} />
-            )}
-            {currentStepIdx === 4 && (
-              <Step5 listing={listing} key={"5"} />
-            )}
-            {currentStepIdx === 5 && (
-              <Step6 listing={listing} key={"6"} />
-            )}
-            {currentStepIdx === 6 && (
-              <Step7 listing={listing} key={"7"} />
-            )}
-            {currentStepIdx === 7 && (
-              <Step8 listing={listing} key={"8"} />
-            )}
+            {currentStepIdx === 0 && <Step1 listing={listing} key={"1"} />}
+            {currentStepIdx === 1 && <Step2 listing={listing} key={"2"} />}
+            {currentStepIdx === 2 && <Step3 listing={listing} key={"3"} />}
+            {currentStepIdx === 3 && <Step4 listing={listing} key={"4"} />}
+            {currentStepIdx === 4 && <Step5 listing={listing} key={"5"} />}
+            {currentStepIdx === 5 && <Step6 listing={listing} key={"6"} />}
+            {currentStepIdx === 6 && <Step7 listing={listing} key={"7"} />}
+            {currentStepIdx === 7 && <Step8 listing={listing} key={"8"} />}
             {/* {stepsComponents[currentStepIdx]} */}
             <Button size={"sm"} className="my-2" type="submit">
               Submit
@@ -94,9 +75,7 @@ export default function ListingEditForm({
                 disabled={currentStep === "category"}
                 size={"sm"}
                 onClick={() => {
-                  setCurrentStep(
-                    steps[currentStepIdx - 1]?.uniquePath
-                  );
+                  setCurrentStep(steps[currentStepIdx - 1]?.uniquePath);
                 }}
               >
                 Prev
@@ -105,9 +84,7 @@ export default function ListingEditForm({
                 disabled={currentStep === "publish"}
                 size={"sm"}
                 onClick={() => {
-                  setCurrentStep(
-                    steps[currentStepIdx + 1]?.uniquePath
-                  );
+                  setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
                 }}
               >
                 Next

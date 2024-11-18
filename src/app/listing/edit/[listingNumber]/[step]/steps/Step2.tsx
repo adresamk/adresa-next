@@ -16,6 +16,7 @@ import {
   municipalitiesOptions as municipalitiesOptionsData,
 } from "@/lib/data/macedonia/importantData";
 import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
+import ConfirmLocation from "../_components/ConfirmLocation";
 interface Location {
   lat: number;
   lng: number;
@@ -201,7 +202,7 @@ export default function Step2({ listing }: { listing: Listing }) {
 
       <Separator className="my-2" />
       {/* <MapDemo /> */}
-      <MapConfirmLocation
+      <ConfirmLocation
         municipality={usedPlaces.municipality}
         populatedPlace={usedPlaces.populatedPlace}
         pinLocation={pinLocation}

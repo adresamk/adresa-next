@@ -4,25 +4,24 @@ import prismadb from "@/lib/db";
 import ListingEditForm from "./ListingEditForm";
 import { Step, steps } from "./types";
 
-export default async function EditListingPage({
-  params,
-}: {
-  params: { listingNumber: string; step: string };
-}) {
-  const requestedStep = params.step;
+type Params = Promise<{ listingNumber: string; step: string }>;
+
+export default async function EditListingPage({ params }: { params: Params }) {
+  const { listingNumber, step: requestedStep } = await params;
+
   const stepExists = steps.find(
     (step: Step) => step.uniquePath === requestedStep,
   );
   const { user } = await validateRequest();
   if (!user) {
     redirect(
-      `/signin?redirect=/listing/edit/${params.listingNumber}/${steps[0].uniquePath}`,
+      `/signin?redirect=/listing/edit/${listingNumber}/${steps[0].uniquePath}`,
     );
   }
 
   const listing = await prismadb.listing.findUnique({
     where: {
-      listingNumber: Number(params.listingNumber),
+      listingNumber: Number(listingNumber),
     },
   });
   if (!listing) {
@@ -35,7 +34,7 @@ export default async function EditListingPage({
   }
 
   if (!stepExists) {
-    redirect(`/listing/edit/${params.listingNumber}/${steps[0].uniquePath}`);
+    redirect(`/listing/edit/${listingNumber}/${steps[0].uniquePath}`);
   }
 
   return (

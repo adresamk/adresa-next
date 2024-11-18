@@ -1,25 +1,26 @@
 "use client";
 
-import { useFormState } from "react-dom";
-
 export function Form({
   children,
   action,
+  state,
+  className,
 }: {
   children: React.ReactNode;
-  action: (
-    prevState: any,
-    formData: FormData
-  ) => Promise<ActionResult>;
+  action: (formData: FormData) => void; // Updated type to only accept void
+  state: ActionResult;
+  className?: string;
 }) {
-  const [state, formAction] = useFormState(action, {
-    error: null,
-    success: false,
-  });
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    action(formData); // Call action directly
+  };
   return (
-    <form action={formAction}>
+    <form onSubmit={handleSubmit} className={className}>
       {children}
       <p className="my-3 text-red-400">{state.error}</p>
+      {/* Removed state handling since action is now void */}
     </form>
   );
 }

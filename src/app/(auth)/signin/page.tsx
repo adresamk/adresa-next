@@ -1,9 +1,10 @@
 import SignInForm from "./SignInForm";
 
 interface SignInPageProps {
-  searchParams: Record<string, string>;
+  searchParams: Promise<Record<string, string>>;
 }
 
 export default async function SignInPage({ searchParams }: SignInPageProps) {
-  return <SignInForm searchParams={searchParams} />;
+  const params = await searchParams;
+  return <SignInForm searchParams={params} />;
 }

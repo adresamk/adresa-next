@@ -9,7 +9,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { updateAgencyDetails } from "./actions";
 
-export default async function AgencyProfileDetailsPage() {
+type Params = Promise<Record<string, string>>;
+
+export default async function AgencyProfileDetailsPage({
+  searchParams,
+}: {
+  searchParams: Params;
+}) {
+  const params = await searchParams;
   const user = await getUser();
   if (!user || !user.agencyId) {
     return <div>Unauthorized</div>;
@@ -21,19 +28,19 @@ export default async function AgencyProfileDetailsPage() {
   });
 
   return (
-    <div className="p-8 mt-4 ml-4 bg-white   rounded-lg shadow">
-      <h3 className="text-2xl font-semibold mb-3 ">Profile Info</h3>
+    <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+      <h3 className="mb-3 text-2xl font-semibold">Profile Info</h3>
 
-      <Alert className="mt-10 mb-4">
-        <Info className="h-4 w-4 " />
+      <Alert className="mb-4 mt-10">
+        <Info className="h-4 w-4" />
         <AlertDescription className="text-slate-900">
-          These information will be displayed on your profile page and
-          the listings you own.
+          These information will be displayed on your profile page and the
+          listings you own.
         </AlertDescription>
       </Alert>
       <form action={updateAgencyDetails} className="py-2">
         {/* Agency Name */}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="name">
             Agency Name <span className="text-red-500">*</span>
           </Label>
@@ -47,7 +54,7 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Agency Adress */}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="address">
             Agency Adress <span className="text-red-500">*</span>
           </Label>
@@ -61,7 +68,7 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Agency Logo */}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="logoUrl">
             Agency Logo <span className="text-red-500">*</span>
           </Label>
@@ -77,7 +84,7 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Agency Website */}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="website">Agency Website</Label>
           <Input
             id="website"
@@ -88,7 +95,7 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Agency Phone */}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="phone">Agency Phone</Label>
           <Input
             id="phone"
@@ -99,7 +106,7 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Agency Description */}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="description">Agency Description</Label>
           <Textarea
             rows={5}
@@ -111,10 +118,8 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Agency Short Description */}
-        <div className="flex flex-col gap-3 mb-2">
-          <Label htmlFor="shortDescription">
-            Agency Short Description
-          </Label>
+        <div className="mb-2 flex flex-col gap-3">
+          <Label htmlFor="shortDescription">Agency Short Description</Label>
           <Input
             id="shortDescription"
             defaultValue={agency?.shortDescription || ""}
@@ -124,7 +129,7 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Agency Map Coordinates*/}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="gpsLocation">Agency Map Coordinates</Label>
           <Input
             id="gpsLocation"
@@ -135,7 +140,7 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Agency Branding */}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="branding">Agency Branding Details</Label>
           <Input
             id="branding"
@@ -145,9 +150,9 @@ export default async function AgencyProfileDetailsPage() {
           />
         </div>
 
-        <h3 className="font-semibold my-4 text-lg">Contact Person</h3>
+        <h3 className="my-4 text-lg font-semibold">Contact Person</h3>
         {/* Contact Person Full Name */}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="contactPersonFullName">
             Contact Person Full Name
           </Label>
@@ -160,10 +165,8 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Contact Person Email  */}
-        <div className="flex flex-col gap-3 mb-2">
-          <Label htmlFor="contactPersonEmail">
-            Contact Person Email
-          </Label>
+        <div className="mb-2 flex flex-col gap-3">
+          <Label htmlFor="contactPersonEmail">Contact Person Email</Label>
           <Input
             id="contactPersonEmail"
             defaultValue={agency?.contactPersonEmail || ""}
@@ -173,10 +176,8 @@ export default async function AgencyProfileDetailsPage() {
         </div>
 
         {/* Contact Person Phone  */}
-        <div className="flex flex-col gap-3 mb-2">
-          <Label htmlFor="contactPersonPhone">
-            Contact Person Phone
-          </Label>
+        <div className="mb-2 flex flex-col gap-3">
+          <Label htmlFor="contactPersonPhone">Contact Person Phone</Label>
           <Input
             id="contactPersonPhone"
             defaultValue={agency?.contactPersonPhone || ""}
@@ -185,9 +186,9 @@ export default async function AgencyProfileDetailsPage() {
           />
         </div>
 
-        <h3 className="font-semibold my-4 text-lg">Work Hours</h3>
+        <h3 className="my-4 text-lg font-semibold">Work Hours</h3>
         {/* Contact Person Full Name */}
-        <div className="flex flex-col gap-3 mb-2">
+        <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="workHours">Work hours</Label>
           <Textarea
             rows={6}

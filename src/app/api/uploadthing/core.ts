@@ -46,7 +46,8 @@ export const ourFileRouter = {
       // This code runs on your server before upload
       //   const user = await auth(req);
       const user = await getUser();
-      const listingId = cookies().get("listingId")?.value;
+      const cookieStore = await cookies();
+      const listingId = cookieStore.get("listingId")?.value;
 
       // If you throw, the user will not be able to upload
       if (!user) throw new UploadThingError("Unauthorized");
