@@ -15,7 +15,7 @@ export interface EditListingResponse {
 
 export async function attachImagesToListing(
   images: string[],
-  listingNumber: number
+  listingNumber: number,
 ) {
   const { user } = await validateRequest();
   if (!user) {
@@ -438,18 +438,14 @@ async function editPublishing(formData: FormData) {
   };
 }
 export async function editListing(
-  ps: EditListingResponse,
-  formData: FormData
+  prevState: EditListingResponse,
+  formData: FormData,
 ) {
   console.log("Editing listing", formData);
 
   const step = formData.get("step");
 
-  if (
-    typeof step !== "string" ||
-    Number(step) < 0 ||
-    Number(step) > 8
-  ) {
+  if (typeof step !== "string" || Number(step) < 0 || Number(step) > 8) {
     return {
       error: "Invalid step",
       success: false,

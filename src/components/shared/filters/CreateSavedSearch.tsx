@@ -26,13 +26,10 @@ export default function CreateSavedSearch() {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [areNotificationsOn, setareNotificationsOn] = useState(false);
   const [searchParams, setSearchParams] = useState("");
-  const [response, formAction] = useActionState(
-    (state, formData) => createSavedSearch(state, formData),
-    {
-      success: false,
-      error: null,
-    },
-  );
+  const [response, formAction] = useActionState(createSavedSearch, {
+    success: false,
+    error: null,
+  });
   //effect description
   useEffect(() => {
     setSearchParams(window.location.href.split("/search?")[1]);

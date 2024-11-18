@@ -1,5 +1,6 @@
 "use server";
 
+import { ActionResult } from "@/components/Form";
 import { validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { redirect } from "next/navigation";
@@ -19,7 +20,10 @@ export async function getMySavedSearches() {
   return savedSearches;
 }
 
-export async function createSavedSearch(ps: any, formData: FormData) {
+export const createSavedSearch = async (
+  state: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> => {
   console.log("ss", formData);
 
   const { user } = await validateRequest();
@@ -61,9 +65,10 @@ export async function createSavedSearch(ps: any, formData: FormData) {
   });
 
   return {
+    error: null,
     success: true,
   };
-}
+};
 
 export async function deleteSavedSearch(id: string) {
   const { user } = await validateRequest();
@@ -88,7 +93,7 @@ export async function deleteSavedSearch(id: string) {
 export async function updateSavedSearch(
   id: string,
   field: "isNotificationOn" | "notificationInterval" | "lastOpenedAt",
-  value: any
+  value: any,
 ) {
   console.log("updateSavedSearch", id, field, value);
   const { user } = await validateRequest();

@@ -29,6 +29,7 @@ export default function ListingEditForm({
   const router = useRouter();
   const [state, formAction] = useActionState(editListing, {
     // initial state if needed
+    success: false,
   });
   const { data, success, error } = state;
 
