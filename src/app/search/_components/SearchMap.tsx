@@ -16,11 +16,22 @@ import {
 import "leaflet/dist/leaflet.css";
 import ListingMapCard from "./ListingMapCard";
 import MapWithBounds from "./MapWithBounds";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Compass, Ghost, MapPinCheck } from "lucide-react";
 import { cn, displayPrice } from "@/lib/utils";
 import { renderToStaticMarkup } from "react-dom/server";
+
+interface MemoizedMapProps {
+  children: React.ReactNode;
+  [key: string]: any;
+}
+
+const MemoizedMap: React.FC<MemoizedMapProps> = memo(
+  ({ children, ...props }) => (
+    <MapContainer {...props}>{children}</MapContainer>
+  ),
+);
 
 export default function SearchMap({ listings }: { listings: Listing[] }) {
   const [resultsFilters, setResultsFilters] = useState("");
@@ -99,7 +110,8 @@ export default function SearchMap({ listings }: { listings: Listing[] }) {
           />
         </div> */}
 
-        <MapContainer
+        <MemoizedMap
+          key={`map-${mapSearchedCounter}`}
           center={skopjeLatLng}
           zoom={11}
           style={{ height: "100%", width: "100%" }}
@@ -205,7 +217,7 @@ export default function SearchMap({ listings }: { listings: Listing[] }) {
               }}
             ></CircleMarker> */}
           </LayerGroup>
-        </MapContainer>
+        </MemoizedMap>
       </div>
     </div>
   );
