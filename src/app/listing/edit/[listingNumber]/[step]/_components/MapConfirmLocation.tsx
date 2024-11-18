@@ -75,9 +75,9 @@ export default function MapConfirmLocation({
     if (pinLocation && pinLocation.lat && pinLocation.lng) {
       // console.log(pinLocation);
       const marker = markerRef.current;
-      marker?.setLatLng(pinLocation);
+      marker?.setLatLng({ lat: pinLocation.lat, lng: pinLocation.lng });
     }
-  }, [pinLocation?.lat, pinLocation?.lng]);
+  }, [pinLocation, updatePosition]);
 
   //update marker when they change municipality or populated place
   useEffect(() => {
@@ -102,7 +102,12 @@ export default function MapConfirmLocation({
       const bounds = polygon.getBounds();
       map?.fitBounds(bounds, { animate: true, padding: [50, 50] });
     }
-  }, [municipality, populatedPlace]);
+  }, [
+    municipality,
+    municipalityCoordinates,
+    populatedPlace,
+    populatedPlaceCoordinates,
+  ]);
   const eventHandlers = useMemo(
     () => ({
       dragend() {
@@ -122,7 +127,12 @@ export default function MapConfirmLocation({
         }
       },
     }),
-    [municipalityCoordinates, populatedPlaceCoordinates, setPinLocation],
+    [
+      municipalityCoordinates,
+      populatedPlaceCoordinates,
+      setPinLocation,
+      updatePosition,
+    ],
   );
   //   const toggleDraggable = useCallback(() => {
   //     setDraggable((d) => !d);

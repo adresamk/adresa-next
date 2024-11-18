@@ -49,8 +49,10 @@ import ExternalFeatures from "./_components/ExternalFeatures";
 
 import StickyControls from "./_components/StickyControls";
 import { getListing } from "@/actions/listings";
-import MapLocationPreviewClient from "@/components/shared/MapLocationPreviewClient";
+import dynamicImport from "next/dynamic";
 
+import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
+import Image from "next/image";
 const icons: { [key: string]: JSX.Element } = {
   bathroom: <ShowerHead size={30} />,
   ac: <AirVentIcon size={30} />,
@@ -282,7 +284,7 @@ export default async function SingleListingPage({
               <h3 className="text-lg font-semibold">Location</h3>
               <p className="my-2.5 text-xl font-light">{listing.address}</p>
               <div className="mb-10 h-[276px] overflow-hidden border">
-                <MapLocationPreviewClient
+                <MapLocationPreview
                   latitude={listing.latitude}
                   longitude={listing.longitude}
                 />
@@ -298,8 +300,8 @@ export default async function SingleListingPage({
               <div className="flex gap-2">
                 {publisherData.imgUrl && (
                   <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl border border-slate-400 bg-slate-100 px-8 py-4">
-                    <img
-                      src={publisherData.imgUrl || ""}
+                    <Image
+                      src={publisherData.imgUrl}
                       width={200}
                       height={130}
                       className="max-w-full"

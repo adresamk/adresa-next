@@ -36,7 +36,6 @@ export default async function RootLayout({
   modal: React.ReactNode;
   params: Params;
 }) {
-  const layoutParams = await params;
   return (
     <html lang="en">
       <body
