@@ -4,12 +4,14 @@ import { getUser } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { ListingContactData } from "@/lib/types";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export async function addNewListing(formData: FormData) {
   const user = await getUser();
   if (!user) {
+    const cookieStore = await cookies();
     // await setCookie("signin-redirect", "/listing/new");
-    // cookies().set("signin-redirect", "/listing/new");
+    // cookieStore.set("signin-redirect", "/listing/new");
     redirect("/signin?redirect=/listing/new");
 
     return {

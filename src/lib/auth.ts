@@ -53,7 +53,8 @@ export const validateRequest = cache(
   > => {
     "use server";
 
-    const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
+    const cookieStore = await cookies();
+    const sessionId = cookieStore.get(lucia.sessionCookieName)?.value ?? null;
     if (!sessionId) {
       return { user: null, session: null };
     }
@@ -63,32 +64,29 @@ export const validateRequest = cache(
       if (result.session && result.session.fresh) {
         // refreshing the session cookie
         const sessionCookie = lucia.createSessionCookie(result.session.id);
-        cookies().set(
+        cookieStore.set(
           sessionCookie.name,
           sessionCookie.value,
           sessionCookie.attributes,
         );
-        cookies().set("auth-cookie-exists", result.user.id, {
+        cookieStore.set("auth-cookie-exists", result.user.id, {
           ...sessionCookie.attributes,
           httpOnly: false,
         });
       }
       if (!result.session) {
         const sessionCookie = lucia.createBlankSessionCookie();
-        cookies().set(
+        cookieStore.set(
           sessionCookie.name,
           sessionCookie.value,
           sessionCookie.attributes,
         );
-        cookies().set("auth-cookie-exists", "", {
+        cookieStore.set("auth-cookie-exists", "", {
           ...sessionCookie.attributes,
           httpOnly: false,
         });
       }
     } catch {}
-    // here instead of returning the result, we can go with prisma and get the User object with all the fields on it
-    // because up to here we only kinda have access to the id, name etc, but not all the
-    // related fields and stuff so if we need that we do that
     return result;
   },
 );

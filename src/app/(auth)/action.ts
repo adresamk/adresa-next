@@ -7,12 +7,13 @@ import { googleOAuthClient } from "@/lib/googleOAuth";
 
 export async function logout() {
   const sessionCookie = await lucia.createBlankSessionCookie();
-  cookies().set(
+  const cookieStore = await cookies();
+  cookieStore.set(
     sessionCookie.name,
     sessionCookie.value,
     sessionCookie.attributes,
   );
-  cookies().set("auth-cookie-exists", "", {
+  cookieStore.set("auth-cookie-exists", "", {
     ...sessionCookie.attributes,
     httpOnly: false,
   });
@@ -23,12 +24,12 @@ export async function getGoogleOAuthConsentURL() {
   try {
     const state = generateState();
     const codeVerifier = generateCodeVerifier();
-
-    cookies().set("codeVerifier", codeVerifier, {
+    const cookieStore = await cookies();
+    cookieStore.set("codeVerifier", codeVerifier, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     });
-    cookies().set("state", state, {
+    cookieStore.set("state", state, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     });

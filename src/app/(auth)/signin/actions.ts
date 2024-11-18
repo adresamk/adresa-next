@@ -70,13 +70,13 @@ export async function signIn(
 
   const session = await lucia.createSession(existingUser.id, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
-  cookies().set(
+  const cookieStore = await cookies();
+  cookieStore.set(
     sessionCookie.name,
     sessionCookie.value,
     sessionCookie.attributes,
   );
-
-  cookies().set("auth-cookie-exists", existingUser.id, {
+  cookieStore.set("auth-cookie-exists", existingUser.id, {
     ...sessionCookie.attributes,
     httpOnly: false,
   });

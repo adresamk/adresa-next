@@ -17,8 +17,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
     return new Response("Invalid Request", { status: 400 });
   }
 
-  const codeVerifier = cookies().get("codeVerifier")?.value;
-  const savedState = cookies().get("state")?.value;
+  const cookieStore = await cookies();
+  const codeVerifier = cookieStore.get("codeVerifier")?.value;
+  const savedState = cookieStore.get("state")?.value;
 
   if (!codeVerifier || !savedState) {
     console.error("No code verifier or state");
@@ -29,11 +30,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
     return new Response("Invalid Request", { status: 400 });
   }
 
-  const { accessToken } =
-    await googleOAuthClient.validateAuthorizationCode(
-      code,
-      codeVerifier
-    );
+  const { accessToken } = await googleOAuthClient.validateAuthorizationCode(
+    code,
+    codeVerifier,
+  );
 
   const googleResponse = await fetch(
     "https://www.googleapis.com/oauth2/v1/userinfo",
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-    }
+    },
   );
 
   const googleData = (await googleResponse.json()) as {
@@ -81,12 +81,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   const session = await lucia.createSession(userId, {});
   const sessionCookie = await lucia.createSessionCookie(session.id);
-  cookies().set(
+  cookieStore.set(
     sessionCookie.name,
     sessionCookie.value,
-    sessionCookie.attributes
+    sessionCookie.attributes,
   );
-  cookies().set("auth-cookie-exists", userId, {
+  cookieStore.set("auth-cookie-exists", userId, {
     ...sessionCookie.attributes,
     httpOnly: false,
   });
