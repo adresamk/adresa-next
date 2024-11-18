@@ -93,9 +93,9 @@ model Listing {
   category          String // Won't be changed later
   type              String // Can be changed later, different types of the same category
   // Location Step
-  municipality      String?
-  place             String? // village or town
-  district          String? // naseleno mesto
+  municipality      String? // ID of municipality
+  place             String? // ID of village or town
+  district          String? // ID of naseleno mesto
   address           String? // the name of street and number
   fullAddress       String? // the full address (municipality + place + district + address)
   longitude         Float?

@@ -3,13 +3,8 @@
 import { PrismaClient } from "@prisma/client";
 import { Argon2id } from "oslo/password";
 
-import {
-  a,
-  agencyListings,
-  aUsers,
-  nUsers,
-  regularListings,
-} from "./data";
+import { agencyListings, regularListings } from "./generatedData";
+import { a, aUsers, nUsers } from "./staticData";
 
 const prisma = new PrismaClient();
 
@@ -65,43 +60,39 @@ async function main() {
   await Promise.all(agenciyUsersPromises);
 
   // LISTINGS FOR REGULAR USERS
-  const regularListingsPromises = regularListings.map(
-    async (listing) => {
-      await prisma.listing.upsert({
-        where: { id: listing.id },
-        update: {},
-        create: {
-          ...listing,
-          priceHistory: {
-            prices: [100, 120, 130], // Example JSON
-            dates: ["2021-01-01", "2021-02-01"],
-          },
+  const regularListingsPromises = regularListings.map(async (listing) => {
+    await prisma.listing.upsert({
+      where: { id: listing.id },
+      update: {},
+      create: {
+        ...listing,
+        priceHistory: {
+          prices: [100, 120, 130], // Example JSON
+          dates: ["2021-01-01", "2021-02-01"],
         },
-      });
-      console.log("added u listing", listing.id);
-    }
-  );
+      },
+    });
+    console.log("added u listing", listing.id);
+  });
 
   await Promise.all(regularListingsPromises);
 
   // LISTINGS FOR AGENCY USERS
 
-  const agencyListingsPromises = agencyListings.map(
-    async (listing) => {
-      await prisma.listing.upsert({
-        where: { id: listing.id },
-        update: {},
-        create: {
-          ...listing,
-          priceHistory: {
-            prices: [100, 120, 130], // Example JSON
-            dates: ["2021-01-01", "2021-02-01"],
-          },
+  const agencyListingsPromises = agencyListings.map(async (listing) => {
+    await prisma.listing.upsert({
+      where: { id: listing.id },
+      update: {},
+      create: {
+        ...listing,
+        priceHistory: {
+          prices: [100, 120, 130], // Example JSON
+          dates: ["2021-01-01", "2021-02-01"],
         },
-      });
-      console.log("added a listing", listing.id);
-    }
-  );
+      },
+    });
+    console.log("added a listing", listing.id);
+  });
 
   await Promise.all(agencyListingsPromises);
 }

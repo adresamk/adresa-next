@@ -6,7 +6,7 @@ export interface PopulatedPlace {
   inner?: PopulatedPlace[];
 }
 
-export const populatedPlaces: PopulatedPlace[] = [
+export const municipalitiesWithPlaces: PopulatedPlace[] = [
   {
     id: "00001",
     name: "Skopje",

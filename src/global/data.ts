@@ -115,7 +115,7 @@ const manucipalitiesMkd = [
   "Шуто Оризари",
 ];
 
-export const manucipalities = [
+export const municipalities = [
   "Berovo",
   "Bitola",
   "Bogdanci",
@@ -188,26 +188,24 @@ export const manucipalities = [
   "Zrnovci",
   "Češinovo-Obleševo",
 ];
-export const manucipalitiesOptions = manucipalities.map((manucipality) => ({
-  label: manucipality,
-  value: createSlug(manucipality),
-}));
+// export const manucipalitiesOptions = manucipalities.map((manucipality) => ({
+//   label: manucipality,
+//   value: createSlug(manucipality),
+// }));
 // export const manucipalities = [
 //   { label: "Kumanovo", value: "kumanovo" },
 //   { label: "Skopje", value: "skopje" },
 // ];
 
-export const populatedPlaces = ["Ajducka Cesma", "Tabanovce"];
-
-export const populatedPlacesOptions = populatedPlaces.map((place) => ({
-  label: place,
-  value: createSlug(place),
-}));
-export const districts = ["Oktomvriska", "Dragomance"];
-export const districtsOptions = districts.map((district) => ({
-  label: district,
-  value: createSlug(district),
-}));
+// export const populatedPlacesOptions = populatedPlaces.map((place) => ({
+//   label: place,
+//   value: createSlug(place),
+// }));
+// export const districts = ["Oktomvriska", "Dragomance"];
+// export const districtsOptions = districts.map((district) => ({
+//   label: district,
+//   value: createSlug(district),
+// }));
 // ------------------------------------------------------------
 // ------------------------------------------------------------
 export const locationPrecisionOptions = ["exact", "approximate", "wide"];

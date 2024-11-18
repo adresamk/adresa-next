@@ -23,25 +23,27 @@ const typedMappedCoordinates: MappedCoordinates = Object.fromEntries(
   ]),
 );
 
-import { PopulatedPlace, populatedPlaces } from "./macedoniaPopulatedPlaces";
+import {
+  PopulatedPlace,
+  municipalitiesWithPlaces,
+} from "./macedoniaPopulatedPlaces";
 
 export const skopjeCoordinates: [number, number] = [42.005, 21.422];
 export const northMacedoniaCoordinates: [number, number] = [41.56614, 21.698];
 
-export const municipalitiesOptions: PopulatedPlace[] = populatedPlaces.map(
-  (place) => {
+export const municipalitiesOptions: PopulatedPlace[] =
+  municipalitiesWithPlaces.map((place) => {
     return {
       id: place.id,
       jsonId: place.jsonId,
       name: place.name,
     };
-  },
-);
+  });
 
 export function getMunicipalityPlaces(
   municipalityId: string,
 ): PopulatedPlace[] | null {
-  const places: PopulatedPlace | undefined = populatedPlaces.find(
+  const places: PopulatedPlace | undefined = municipalitiesWithPlaces.find(
     (place) => place.id === municipalityId,
   );
   if (places) {

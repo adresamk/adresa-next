@@ -16,7 +16,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import ListingMapCard from "./ListingMapCard";
 import MapWithBounds from "./MapWithBounds";
-import { useState, memo } from "react";
+import { useState, memo, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Compass, Ghost, MapPinCheck } from "lucide-react";
 import { cn, displayPrice } from "@/lib/utils";
@@ -38,6 +38,7 @@ export default function SearchMap({ listings }: { listings: Listing[] }) {
   const [mapFilters, setMapFilters] = useState("");
   const [searchOnMove, setSearchOnMove] = useState(false);
   const [mapSearchedCounter, setMapSearchedCounter] = useState(0);
+  const mapRef: React.RefObject<typeof MapContainer> = useRef(null);
 
   const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
   const pin1: LatLngExpression = [42.009505818991286, 21.349934451934097];
@@ -110,7 +111,7 @@ export default function SearchMap({ listings }: { listings: Listing[] }) {
           />
         </div> */}
 
-        <MemoizedMap
+        <MapContainer
           key={`map-${mapSearchedCounter}`}
           center={skopjeLatLng}
           zoom={11}
@@ -217,7 +218,7 @@ export default function SearchMap({ listings }: { listings: Listing[] }) {
               }}
             ></CircleMarker> */}
           </LayerGroup>
-        </MemoizedMap>
+        </MapContainer>
       </div>
     </div>
   );
