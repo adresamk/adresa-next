@@ -1,7 +1,7 @@
 "use server";
 import { ActionResult } from "@/components/Form";
-import { UserRoles } from "@/global/data";
 import { lucia } from "@/lib/auth";
+import { UserRoles } from "@/lib/data/user/importantData";
 import prismadb from "@/lib/db";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

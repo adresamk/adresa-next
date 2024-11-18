@@ -3,19 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Listing, User } from "@prisma/client";
 import { cn, displayDate } from "@/lib/utils";
-import {
-  AlertCircle,
-  Edit,
-  EyeOff,
-  MousePointerClick,
-  Trash,
-} from "lucide-react";
+import { AlertCircle, Edit, MousePointerClick } from "lucide-react";
 import { useState } from "react";
-import { UserRoles } from "@/global/data";
 import Link from "next/link";
-import { ListingContactData } from "@/lib/types";
 import ListingDeleteButton from "../listing/ListingDeleteButton";
 import ListingVisibilityButton from "../listing/ListingVisibilityButton";
+import { UserRoles } from "@/lib/data/user/importantData";
 
 export default function MyListingsList({
   listings,

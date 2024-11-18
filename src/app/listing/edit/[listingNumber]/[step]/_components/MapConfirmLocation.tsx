@@ -5,20 +5,11 @@ import L, {
   Map,
   Marker as MarkerType,
 } from "leaflet";
-import {
-  MapContainer,
-  Marker,
-  Polygon,
-  Polyline,
-  Popup,
-  TileLayer,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { randomSkopjeCoordinates } from "@/global/data";
 import { cn } from "@/lib/utils";
 import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
 import {
@@ -30,6 +21,7 @@ import {
   roundToNearest5,
 } from "./mapHelpers";
 import { useMarkerPosition } from "./hooks";
+import { randomSkopjeCoordinates } from "@/lib/data/macedonia/exampleData";
 
 const mapUtils = {
   centerOnPolygon(map: Map, coordinates: LatLngExpression[][][]) {

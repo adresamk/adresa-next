@@ -6,7 +6,7 @@ export const metadata = {
   description: "View property listing details",
 };
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Bath, ShowerHead } from "lucide-react";
+import { ArrowLeft, Bath, Share, ShowerHead } from "lucide-react";
 
 import {
   AirVentIcon,

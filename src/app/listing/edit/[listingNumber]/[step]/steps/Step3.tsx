@@ -22,13 +22,7 @@ import {
   Utensils,
 } from "lucide-react";
 import { useState } from "react";
-import { orientationOptions } from "@/global/data";
-
-const featuresSelectionOptions = [
-  { label: "yes", value: true },
-  { label: "no", value: false },
-  { label: "idk", value: null },
-];
+import { orientationOptions } from "@/lib/data/listing/importantData";
 
 const extraFeaturesValues = ["yes", "no", "idk"];
 function featuresValues(value: boolean | null) {

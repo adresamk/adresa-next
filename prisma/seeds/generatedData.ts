@@ -1,19 +1,20 @@
 import { Listing } from "@prisma/client";
 import { faker } from "@faker-js/faker";
-import {
-  listingCategoryOptions,
-  listingTransactionTypeOptions,
-  listingTypeOptions,
-  locationPrecisionOptions,
-  orientationOptions,
-  randomPropertyImagesCollection,
-} from "@/global/data";
+
 import { ListingContactData } from "@/lib/types";
 import {
   getMunicipalityPlaces,
   municipalitiesOptions,
 } from "@/lib/data/macedonia/importantData";
 import { aUsers, nUsers } from "./staticData";
+import {
+  listingCategoryOptions,
+  listingTransactionTypeOptions,
+  listingTypeOptions,
+  locationPrecisionOptions,
+  orientationOptions,
+} from "@/lib/data/listing/importantData";
+import { randomPropertyImagesCollection } from "@/lib/data/listing/exampleData";
 function createSlug(text: string) {
   return text.replace(/\s+/g, "-").toLowerCase();
 }

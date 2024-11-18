@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import prismadb from "@/lib/db";
 import { lucia } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { UserRoles } from "@/global/data";
+import { UserRoles } from "@/lib/data/user/importantData";
 
 export async function GET(req: NextRequest) {
   console.log(req);
