@@ -1,15 +1,17 @@
+"use client";
 import { Info } from "lucide-react";
 
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { Form } from "@/components/Form";
 import Link from "next/link";
 import { signUpAsAgency } from "./actions";
+import { useActionState } from "react";
 export default function SignUp() {
+  const [state, formAction] = useActionState(signUpAsAgency, {
+    error: "",
+    success: false,
+  });
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -18,16 +20,16 @@ export default function SignUp() {
         </h2>
       </div>
 
-      <Alert className="mt-10 mb-4 sm:mx-auto sm:w-full sm:max-w-sm text-orange-400 border-orange-400">
-        <Info className="h-4 w-4 " />
+      <Alert className="mb-4 mt-10 border-orange-400 text-orange-400 sm:mx-auto sm:w-full sm:max-w-sm">
+        <Info className="h-4 w-4" />
         <AlertTitle>Important info!</AlertTitle>
         <AlertDescription className="text-slate-900">
-          You will need to fill out more information in the profile
-          page before anything else.
+          You will need to fill out more information in the profile page before
+          anything else.
         </AlertDescription>
       </Alert>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <Form action={signUpAsAgency}>
+        <Form action={formAction} state={state}>
           <div>
             <label
               htmlFor="email"
@@ -74,8 +76,7 @@ export default function SignUp() {
                 htmlFor="confirm-password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Confirm Password{" "}
-                <span className="text-red-500">*</span>
+                Confirm Password <span className="text-red-500">*</span>
               </label>
             </div>
             <div className="mt-2">

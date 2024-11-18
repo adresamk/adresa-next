@@ -1,8 +1,14 @@
+"use client";
 import { Form } from "@/components/Form";
 import Link from "next/link";
 import { signUpAsUser } from "./actions";
+import { useActionState } from "react";
 interface SignUpFormProps {}
 export default function SignUpForm({}: SignUpFormProps) {
+  const [state, formAction] = useActionState(signUpAsUser, {
+    error: "",
+    success: false,
+  });
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -12,7 +18,7 @@ export default function SignUpForm({}: SignUpFormProps) {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <Form action={signUpAsUser}>
+        <Form action={formAction} state={state}>
           <div>
             <label
               htmlFor="email"

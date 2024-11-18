@@ -13,8 +13,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { manucipalitiesOptions, populatedPlacesOptions } from "@/global/data";
 import { SerializedListing } from "@/lib/types";
+import {
+  getMunicipalityPlaces,
+  municipalitiesOptions,
+} from "@/lib/data/macedonia/importantData";
 
 export default function ListingImages({
   listing,
@@ -37,19 +40,22 @@ export default function ListingImages({
     setOpenTab("singleAtATime");
     setOpenImageIndex(idx);
   }
-  const place = populatedPlacesOptions.find(
-    (place) => place.value === listing.place,
-  )?.label;
+  const municipality = municipalitiesOptions.find(
+    (municipality) => municipality.id === listing.municipality,
+  )?.name;
+  const place = getMunicipalityPlaces(municipality || "")?.find(
+    (place) => place.id === listing.place,
+  )?.name;
 
-  const manucipality = manucipalitiesOptions.find(
-    (manucipality) => manucipality.value === listing.manucipality,
-  )?.label;
+  // const municipality = manucipalitiesOptions.find(
+  //   (municipality) => municipality.value === listing.municipality,
+  // )?.label;
 
   return (
     <>
       <Modal
         title={`${capitalizeString(listing.type)}, ${listing.area}m²`}
-        description={`${capitalizeString(place || "no place set")}, ${capitalizeString(manucipality || "no manucipality set")},€${displayPrice(listing.price)}`}
+        description={`${capitalizeString(place || "no place set")}, ${capitalizeString(municipality || "no municipality set")},€${displayPrice(listing.price)}`}
         isOpen={isOpen}
         onClose={onClose}
         className="h-full max-w-[97vw]"
@@ -81,7 +87,7 @@ export default function ListingImages({
                     <figure className="h-[25vh] max-h-[300px] min-h-[100px] cursor-pointer overflow-hidden rounded-xl">
                       <img
                         src={imageUrl}
-                        alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.manucipality},${displayPrice(listing.price)}`}
+                        alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.municipality},${displayPrice(listing.price)}`}
                         width={800}
                         height={533}
                         className="h-full w-full object-cover object-center"
@@ -110,7 +116,7 @@ export default function ListingImages({
                         <figure className="max-w-fit">
                           <img
                             src={imageUrl}
-                            alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.manucipality},${displayPrice(listing.price)}`}
+                            alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.municipality},${displayPrice(listing.price)}`}
                             width={800}
                             height={533}
                             className="h-full w-full object-cover object-center"

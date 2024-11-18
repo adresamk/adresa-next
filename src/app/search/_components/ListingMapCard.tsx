@@ -63,7 +63,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           </h3>
           {/* Location */}
           <h3 className="mb-1.5 overflow-hidden text-xs leading-5">
-            {listing.manucipality || "Municipality"}
+            {listing.municipality || "Municipality"}
           </h3>
 
           {/* Features */}

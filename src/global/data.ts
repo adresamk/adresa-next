@@ -188,26 +188,6 @@ export const municipalities = [
   "Zrnovci",
   "Češinovo-Obleševo",
 ];
-// export const manucipalitiesOptions = manucipalities.map((manucipality) => ({
-//   label: manucipality,
-//   value: createSlug(manucipality),
-// }));
-// export const manucipalities = [
-//   { label: "Kumanovo", value: "kumanovo" },
-//   { label: "Skopje", value: "skopje" },
-// ];
-
-// export const populatedPlacesOptions = populatedPlaces.map((place) => ({
-//   label: place,
-//   value: createSlug(place),
-// }));
-// export const districts = ["Oktomvriska", "Dragomance"];
-// export const districtsOptions = districts.map((district) => ({
-//   label: district,
-//   value: createSlug(district),
-// }));
-// ------------------------------------------------------------
-// ------------------------------------------------------------
 export const locationPrecisionOptions = ["exact", "approximate", "wide"];
 export const orientationOptions: { label: string; value: string }[] = [
   { label: "North", value: "north" },

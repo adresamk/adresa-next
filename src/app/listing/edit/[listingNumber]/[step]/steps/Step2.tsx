@@ -5,12 +5,9 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
 import { Listing } from "@prisma/client";
-import {
-  districtsOptions,
-  // manucipalitiesOptions,
-  // manucipalitiesOptions,
-} from "@/global/data";
-import MapConfirmLocation from "../_components/MapConfirmLocation";
+
+("@/global/data");
+// import MapConfirmLocation from "../_components/MapConfirmLocation";
 import {
   getMunicipalityPlaces,
   municipalitiesOptions as municipalitiesOptionsData,
@@ -27,7 +24,7 @@ const municipalitiesOptions = municipalitiesOptionsData.map((o) => ({
 }));
 
 export default function Step2({ listing }: { listing: Listing }) {
-  const [municipality, setMunicipality] = useState(listing.manucipality);
+  const [municipality, setMunicipality] = useState(listing.municipality);
   const [populatedPlace, setPopulatedPlace] = useState(listing.place);
 
   const [usedPlaces, setUsedPlaces] = useState<{
@@ -152,7 +149,7 @@ export default function Step2({ listing }: { listing: Listing }) {
         notFoundText="District doesn't exist"
         placeholder="Select a district"
         defaultValue={district}
-        options={districtsOptions}
+        options={[{ label: "district1", value: "district1" }]}
       />
 
       <Label htmlFor="address">

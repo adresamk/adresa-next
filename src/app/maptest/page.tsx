@@ -1,10 +1,10 @@
-import MapWithControls from "@/components/MapWithControls";
+import MapWithControlsStatic from "./MapWithControlsStatic";
 
 interface MapTestProps {}
 export default async function MapTestPage({}: MapTestProps) {
   return (
     <div>
-      <MapWithControls />
+      <MapWithControlsStatic />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import "leaflet/dist/leaflet.css";
 import { LatLngExpression } from "leaflet";
 import {

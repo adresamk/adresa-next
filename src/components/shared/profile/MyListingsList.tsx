@@ -64,7 +64,7 @@ export default function MyListingsList({
 
             const hasRequiredFieldsLeft =
               !l.type ||
-              !l.manucipality ||
+              !l.municipality ||
               !l.place ||
               !l.district ||
               !l.address ||

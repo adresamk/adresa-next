@@ -1,20 +1,11 @@
 "use client";
 import { SelectDemo } from "@/components/shared/SelectDemo";
 import { Button } from "@/components/ui/button";
-import {
-  Bell,
-  BellOff,
-  BellOffIcon,
-  LinkIcon,
-  Trash,
-} from "lucide-react";
+import { Bell, BellOff, BellOffIcon, LinkIcon, Trash } from "lucide-react";
 import { useState } from "react";
 import { SavedSearch } from "@prisma/client";
 import { parseQueryString } from "@/lib/utils";
-import {
-  deleteSavedSearch,
-  updateSavedSearch,
-} from "@/actions/savedSearches";
+import { deleteSavedSearch, updateSavedSearch } from "@/actions/savedSearches";
 import Link from "next/link";
 
 const notificationIntervalOptions = [
@@ -38,14 +29,12 @@ export default function SavedSearchCard({
   savedSearch: SavedSearch;
 }) {
   const [notificationInterval, setNotificationInterval] = useState(
-    savedSearch.notificationInterval
+    savedSearch.notificationInterval,
   );
   const [isNotificationOn, setIsNotificationOn] = useState(
-    savedSearch.isNotificationOn
+    savedSearch.isNotificationOn,
   );
-  const searchParamsExtracted = parseQueryString(
-    savedSearch.searchParams
-  );
+  const searchParamsExtracted = parseQueryString(savedSearch.searchParams);
   console.log(searchParamsExtracted);
 
   const listingsCount = 10;
@@ -53,9 +42,9 @@ export default function SavedSearchCard({
   return (
     <div
       id={"ss" + savedSearch.id}
-      className="rounded-md border shadow-md w-[280px] p-3"
+      className="w-[280px] rounded-md border p-3 shadow-md"
     >
-      <div className="flex justify-between gap-3 items-start">
+      <div className="flex items-start justify-between gap-3">
         <div>
           {/* {searchParamsExtracted} */}
           <div className="text-lg font-semibold">
@@ -66,25 +55,24 @@ export default function SavedSearchCard({
                 className="text-brand-dark-blue hover:text-brand-light-blue"
               >
                 <span
-                  className="cursor-pointer flex items-center "
+                  className="flex cursor-pointer items-center"
                   onClick={async (e) => {
                     console.log("here");
                     const resp = await updateSavedSearch(
                       savedSearch.id,
                       "lastOpenedAt",
-                      null
+                      null,
                     );
                     if (resp.success) {
                       // or change this to click a hidden link element
                       window.open(
                         "/search?" + savedSearch.searchParams,
-                        "_blank"
+                        "_blank",
                       );
                     }
                   }}
                 >
-                  <LinkIcon className="mr-2 w-5 h-5" />{" "}
-                  {savedSearch.name}
+                  <LinkIcon className="mr-2 h-5 w-5" /> {savedSearch.name}
                 </span>
               </div>
             </h4>
@@ -94,20 +82,18 @@ export default function SavedSearchCard({
             <span className="capitalize">
               {savedSearch.transactionType}
             </span>
-            ing in {savedSearch.location},{savedSearch.manucipality} */}
+            ing in {savedSearch.location},{savedSearch.municipality} */}
           </div>
         </div>
         <div>
           <Button
             variant={"outline"}
-            className="rounded-full p-2 w-10 h-10"
+            className="h-10 w-10 rounded-full p-2"
             onClick={async () => {
               const resp = await deleteSavedSearch(savedSearch.id);
               if (resp.success) {
                 // console.log("Deleted");
-                const cardNode = document.getElementById(
-                  "ss" + savedSearch.id
-                );
+                const cardNode = document.getElementById("ss" + savedSearch.id);
                 if (cardNode) {
                   cardNode.remove();
                 }
@@ -115,15 +101,13 @@ export default function SavedSearchCard({
               }
             }}
           >
-            <Trash className="text-red-500 w-4 h-4" />
+            <Trash className="h-4 w-4 text-red-500" />
           </Button>
         </div>
       </div>
-      <div className="flex gap-1.5 my-4 text-sm">
+      <div className="my-4 flex gap-1.5 text-sm">
         <span>{listingsCount} listings</span>
-        <span className="text-brand-light-blue">
-          +{newListingsCount} new
-        </span>
+        <span className="text-brand-light-blue">+{newListingsCount} new</span>
       </div>
       <div>
         <img
@@ -143,7 +127,7 @@ export default function SavedSearchCard({
               const resp = await updateSavedSearch(
                 savedSearch.id,
                 "isNotificationOn",
-                !savedSearch.isNotificationOn
+                !savedSearch.isNotificationOn,
               );
               if (resp.success) {
                 setIsNotificationOn(!isNotificationOn);
@@ -165,7 +149,7 @@ export default function SavedSearchCard({
             const resp = await updateSavedSearch(
               savedSearch.id,
               "notificationInterval",
-              value
+              value,
             );
             if (resp.success) {
               setNotificationInterval(value);

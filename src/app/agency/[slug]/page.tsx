@@ -7,11 +7,12 @@ import prismadb from "@/lib/db";
 export default async function AgencyPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   const agency = await prismadb.agency.findUnique({
     where: {
-      slug: params.slug,
+      slug: slug,
     },
   });
   console.log(agency);
@@ -20,34 +21,31 @@ export default async function AgencyPage({
   }
 
   return (
-    <main className=" min-h-screen ">
+    <main className="min-h-screen">
       <div
         style={{
-          background:
-            "url('/assets/agency-logo.png') no-repeat right ",
+          background: "url('/assets/agency-logo.png') no-repeat right ",
         }}
         className="relative"
       >
-        <div className="backdrop-blur-md absolute  top-0.5 h-full min-h-[300px] w-full "></div>
+        <div className="absolute top-0.5 h-full min-h-[300px] w-full backdrop-blur-md"></div>
 
         <Container>
           {/* Hero */}
-          <div className="relative z-10 w-2/3 flex flex-col justify-center">
-            <div className="flex gap-3 mb-5">
-              <div className="py-4 px-5 bg-white border border-slate-400 rounded-xl flex items-center justify-center">
+          <div className="relative z-10 flex w-2/3 flex-col justify-center">
+            <div className="mb-5 flex gap-3">
+              <div className="flex items-center justify-center rounded-xl border border-slate-400 bg-white px-5 py-4">
                 <img src={agency.logoUrl || ""} alt="Agency Logo" />
               </div>
-              <div className="flex flex-col justify-between py-2 ">
+              <div className="flex flex-col justify-between py-2">
                 <p>{agency.shortDescription}</p>
-                <h3 className="text-4xl font-semibold">
-                  {agency.name}
-                </h3>
+                <h3 className="text-4xl font-semibold">{agency.name}</h3>
               </div>
             </div>
             <p>{agency.description}</p>
-            <div className="flex gap-3 my-7">
-              <div className="text-white text-sm p-2 bg-blue-950 rounded-md cursor-pointer">
-                <div className="flex gap-1 items-end mb-2 ">
+            <div className="my-7 flex gap-3">
+              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
+                <div className="mb-2 flex items-end gap-1">
                   <House size={36} />
                   <div>
                     <p>
@@ -63,8 +61,8 @@ export default async function AgencyPage({
                 </div>
                 <p className="text-nowrap">za prodazba {">"}</p>
               </div>
-              <div className="text-white text-sm p-2 bg-blue-950 rounded-md cursor-pointer">
-                <div className="flex gap-1 items-end mb-2 ">
+              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
+                <div className="mb-2 flex items-end gap-1">
                   <Store size={36} />
                   <div>
                     <p>
@@ -81,8 +79,8 @@ export default async function AgencyPage({
                 <p className="text-nowrap">za prodazba {">"}</p>
               </div>
 
-              <div className="text-white text-sm p-2 bg-blue-950 rounded-md cursor-pointer">
-                <div className="flex gap-1 items-end mb-2 ">
+              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
+                <div className="mb-2 flex items-end gap-1">
                   <House size={36} />
                   <div>
                     <p>
@@ -99,8 +97,8 @@ export default async function AgencyPage({
                 </div>
                 <p className="text-nowrap">za iznajmuvanje {">"}</p>
               </div>
-              <div className="text-white text-sm p-2 bg-blue-950 rounded-md cursor-pointer">
-                <div className="flex gap-1 items-end mb-2 ">
+              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
+                <div className="mb-2 flex items-end gap-1">
                   <House size={36} />
                   <div>
                     <p>
@@ -116,8 +114,8 @@ export default async function AgencyPage({
                 </div>
                 <p className="text-nowrap">za iznajmuvanje {">"}</p>
               </div>
-              <div className="text-white text-sm p-2 bg-blue-950 rounded-md cursor-pointer">
-                <div className="flex gap-1 items-end mb-2 ">
+              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
+                <div className="mb-2 flex items-end gap-1">
                   <p className="text-4xl font-semibold">
                     {/* {agency.listings.length} */}
                     {5}
@@ -132,10 +130,7 @@ export default async function AgencyPage({
               <p>{agency.workHours}</p>
             </div>
             <div>
-              <RevealButton
-                usecase="website"
-                value={agency.website ?? ""}
-              />
+              <RevealButton usecase="website" value={agency.website ?? ""} />
               <RevealButton
                 usecase="phone"
                 value={agency.contactPersonPhone ?? ""}
@@ -159,19 +154,17 @@ export default async function AgencyPage({
       <Container>
         <div className="flex items-center">
           <div className="flex flex-col gap-3">
-            <h3 className="text-xl font-semibold ">{agency.name}</h3>
+            <h3 className="text-xl font-semibold">{agency.name}</h3>
             <p className="text-slate-500">{agency.address}</p>
             <p className="text-slate-500">Working hours</p>
             <p className="font-semibold">{agency.workHours}</p>
             <p className="text-slate-500">Contact person</p>
-            <p className="font-semibold">
-              {agency.contactPersonFullName}
-            </p>
+            <p className="font-semibold">{agency.contactPersonFullName}</p>
             <div>
               <RevealButton usecase="phone" value="078-344-223" />
             </div>
           </div>
-          <div className="flex i">
+          <div className="i flex">
             <img
               className=""
               src="/assets/google-map-location.png"

@@ -54,7 +54,7 @@ export default function ListingBreadcrumbs({
   const router = useRouter();
   const currentMunicipality = capitalizeString(
     municipalitiesOptions.find(
-      (m) => m.name === capitalizeString(listing.manucipality ?? ""),
+      (m) => m.name === capitalizeString(listing.municipality ?? ""),
     )?.name ?? "",
   );
   const currentMunicipalityId =

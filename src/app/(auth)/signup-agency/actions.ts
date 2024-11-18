@@ -1,3 +1,5 @@
+"use server";
+
 import { ActionResult } from "@/components/Form";
 import { UserRoles } from "@/global/data";
 import { lucia } from "@/lib/auth";
@@ -9,11 +11,9 @@ import { Argon2id } from "oslo/password";
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 export async function signUpAsAgency(
-  _: any,
+  prevState: ActionResult,
   formData: FormData,
 ): Promise<ActionResult> {
-  "use server";
-
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const confirmPassword = formData.get("confirm-password")?.toString();

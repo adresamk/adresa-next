@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 
-export default function EditListingWithoutStep({
+export default async function EditListingWithoutStep({
   params,
 }: {
-  params: { listingNumber: string };
+  params: Promise<{ listingNumber: string }>;
 }) {
-  redirect(`/listing/edit/${params.listingNumber}/category`);
+  const { listingNumber } = await params;
+  redirect(`/listing/edit/${listingNumber}/category`);
 }

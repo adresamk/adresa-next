@@ -37,7 +37,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
         <p>
           <span className="capitalize">{listing.type}</span>, {listing.area}m²
         </p>
-        <p className="text-sm capitalize">{listing.manucipality}</p>
+        <p className="text-sm capitalize">{listing.municipality}</p>
       </CardContent>
       <CardFooter className="flex justify-around px-4 pb-3">
         <span>{displayPrice(listing.price)}</span>

@@ -22,16 +22,16 @@ import { Compass, Ghost, MapPinCheck } from "lucide-react";
 import { cn, displayPrice } from "@/lib/utils";
 import { renderToStaticMarkup } from "react-dom/server";
 
-interface MemoizedMapProps {
-  children: React.ReactNode;
-  [key: string]: any;
-}
+// interface MemoizedMapProps {
+//   children: React.ReactNode;
+//   [key: string]: any;
+// }
 
-const MemoizedMap: React.FC<MemoizedMapProps> = memo(
-  ({ children, ...props }) => (
-    <MapContainer {...props}>{children}</MapContainer>
-  ),
-);
+// const MemoizedMap: React.FC<MemoizedMapProps> = memo(
+//   ({ children, ...props }) => (
+//     <MapContainer {...props}>{children}</MapContainer>
+//   ),
+// );
 
 export default function SearchMap({ listings }: { listings: Listing[] }) {
   const [resultsFilters, setResultsFilters] = useState("");

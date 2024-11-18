@@ -71,7 +71,7 @@ export default async function ListingsSearchShowcase({
                   {listingRef.area}m²
                 </h3>
                 <h3 className="mb-2.5 overflow-hidden text-xs leading-5">
-                  {listingRef.manucipality || "Municipality"}
+                  {listingRef.municipality || "Municipality"}
                 </h3>
                 <p className="mb-2.5 line-clamp-2 overflow-hidden text-xs leading-5">
                   {listingRef.description}

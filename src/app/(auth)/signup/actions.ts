@@ -1,3 +1,4 @@
+"use server";
 import { ActionResult } from "@/components/Form";
 import { UserRoles } from "@/global/data";
 import { lucia } from "@/lib/auth";
@@ -8,16 +9,12 @@ import { Argon2id } from "oslo/password";
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 export async function signUpAsUser(
-  _: any,
-  formData: FormData
+  prevState: ActionResult,
+  formData: FormData,
 ): Promise<ActionResult> {
-  "use server";
-
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
-  const confirmPassword = formData
-    .get("confirm-password")
-    ?.toString();
+  const confirmPassword = formData.get("confirm-password")?.toString();
 
   if (!email || !emailRegex.test(email)) {
     return {
@@ -33,10 +30,7 @@ export async function signUpAsUser(
     };
   }
 
-  if (
-    typeof confirmPassword !== "string" ||
-    confirmPassword !== password
-  ) {
+  if (typeof confirmPassword !== "string" || confirmPassword !== password) {
     return {
       error: "Make sure confirm password matches password",
       success: false,
@@ -69,12 +63,13 @@ export async function signUpAsUser(
 
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(
+    const cookieStore = await cookies();
+    cookieStore.set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes
+      sessionCookie.attributes,
     );
-    cookies().set("auth-cookie-exists", user.id, {
+    cookieStore.set("auth-cookie-exists", user.id, {
       ...sessionCookie.attributes,
       httpOnly: false,
     });

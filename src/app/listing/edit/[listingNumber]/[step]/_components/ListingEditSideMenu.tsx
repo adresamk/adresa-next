@@ -22,7 +22,7 @@ const stepsValueSystem: stepsValueSystemType = {
     type: 100,
   },
   Location: {
-    manucipality: 20,
+    municipality: 20,
     place: 20,
     district: 20,
     address: 20,
@@ -77,12 +77,12 @@ function calculateStepStatus(listing: Listing): StepStatus {
       }
     }
     if (step.title === "Location") {
-      // manucipality: 20,
+      // municipality: 20,
       // place: 20,
       // district: 20,
       // address: 20,
       if (
-        !listing.manucipality &&
+        !listing.municipality &&
         !listing.place &&
         !listing.district &&
         !listing.address
@@ -91,7 +91,7 @@ function calculateStepStatus(listing: Listing): StepStatus {
       }
 
       if (
-        listing.manucipality &&
+        listing.municipality &&
         listing.place &&
         listing.district &&
         listing.address
@@ -188,7 +188,7 @@ function generateStepDescriptions(listing: Listing): StepDescription {
     }
     if (step.title === "Location") {
       let properties = [];
-      if (listing.manucipality && listing.place && listing.district) {
+      if (listing.municipality && listing.place && listing.district) {
         properties.push(listing.district);
         properties.push(listing.place);
       }

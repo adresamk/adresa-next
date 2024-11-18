@@ -6,7 +6,7 @@ import { lucia } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { UserRoles } from "@/global/data";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   console.log(req);
   const url = req.nextUrl;
   const code = url.searchParams.get("code");

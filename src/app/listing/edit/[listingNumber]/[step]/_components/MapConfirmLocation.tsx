@@ -17,8 +17,8 @@ import {
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { randomSkopjeCoordinates } from "@/global/dataa";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { randomSkopjeCoordinates } from "@/global/data";
 import { cn } from "@/lib/utils";
 import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
 import {

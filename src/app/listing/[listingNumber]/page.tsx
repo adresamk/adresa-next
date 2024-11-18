@@ -47,16 +47,10 @@ import FeaturesTable from "./_components/FeaturesTable";
 import InternalFeatures from "./_components/InternalFeatures";
 import ExternalFeatures from "./_components/ExternalFeatures";
 
-import dynamicImport from "next/dynamic";
 import StickyControls from "./_components/StickyControls";
 import { getListing } from "@/actions/listings";
-// import MapLocationPreview from "@/components/shared/MapLocationPreview";
-const MapLocationPreview = dynamicImport(
-  () => import("@/components/shared/MapLocationPreview"),
-  {
-    ssr: false, // Disable server-side rendering
-  },
-);
+import MapLocationPreviewClient from "@/components/shared/MapLocationPreviewClient";
+
 const icons: { [key: string]: JSX.Element } = {
   bathroom: <ShowerHead size={30} />,
   ac: <AirVentIcon size={30} />,
@@ -83,14 +77,15 @@ function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 export default async function SingleListingPage({
   params,
 }: {
-  params: { listingNumber: string };
+  params: Promise<{ listingNumber: string }>;
 }) {
-  console.log(params);
-  if (isNaN(Number(params.listingNumber))) {
+  const { listingNumber } = await params;
+  console.log(listingNumber);
+  if (isNaN(Number(listingNumber))) {
     redirect("/404");
   }
 
-  const rawListing = await getListing(params.listingNumber);
+  const rawListing = await getListing(listingNumber);
   const listing = serializeDates(rawListing);
   // console.log("Listing", listing);
 
@@ -287,7 +282,7 @@ export default async function SingleListingPage({
               <h3 className="text-lg font-semibold">Location</h3>
               <p className="my-2.5 text-xl font-light">{listing.address}</p>
               <div className="mb-10 h-[276px] overflow-hidden border">
-                <MapLocationPreview
+                <MapLocationPreviewClient
                   latitude={listing.latitude}
                   longitude={listing.longitude}
                 />

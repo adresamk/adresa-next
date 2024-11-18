@@ -95,7 +95,7 @@ async function editType(formData: FormData) {
   };
 }
 async function editLocation(formData: FormData) {
-  const manucipality = formData.get("manucipality");
+  const municipality = formData.get("municipality");
   const place = formData.get("place");
   const district = formData.get("district");
   const address = formData.get("address");
@@ -103,7 +103,7 @@ async function editLocation(formData: FormData) {
   const latitude = formData.get("latitude");
 
   if (
-    typeof manucipality !== "string" ||
+    typeof municipality !== "string" ||
     typeof place !== "string" ||
     typeof district !== "string" ||
     typeof address !== "string" ||
@@ -135,13 +135,13 @@ async function editLocation(formData: FormData) {
       id: listingId,
     },
     data: {
-      manucipality,
+      municipality,
       place,
       district,
       address,
       longitude: Number(longitude),
       latitude: Number(latitude),
-      fullAddress: `${manucipality}, ${place}, ${district}, ${address}`,
+      fullAddress: `${municipality}, ${place}, ${district}, ${address}`,
     },
   });
 
