@@ -1,4 +1,4 @@
-import { adjustListingVisibility } from "@/actions/listings";
+import { adjustListingVisibility } from "@/server/actions/listing.actions";
 import { Button } from "@/components/ui/button";
 import { Listing } from "@prisma/client";
 import { Eye, EyeOff } from "lucide-react";
@@ -22,21 +22,13 @@ export default function ListingVisibilityButton({
         defaultValue={listing.id}
       />
       {!listing.isVisible && (
-        <Button
-          variant={"ghost"}
-          size={"sm"}
-          className="text-xs  px-2"
-        >
+        <Button variant={"ghost"} size={"sm"} className="px-2 text-xs">
           <Eye className="mr-2" /> Show
         </Button>
       )}
 
       {listing.isVisible && (
-        <Button
-          variant={"ghost"}
-          size={"sm"}
-          className="text-xs  px-2"
-        >
+        <Button variant={"ghost"} size={"sm"} className="px-2 text-xs">
           <EyeOff className="mr-2" /> Hide
         </Button>
       )}

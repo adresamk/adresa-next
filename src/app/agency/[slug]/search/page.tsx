@@ -1,7 +1,7 @@
 import { searchParamsCache } from "@/app/searchParams";
 import SearchResults from "@/components/shared/SearchResults";
 import prismadb from "@/lib/db";
-import getAllListings from "@/requests/getAllListings";
+import getAllListings from "@/server/actions/listing.actions";
 
 interface SearchPageProps {
   searchParams: Promise<Record<string, string>>;

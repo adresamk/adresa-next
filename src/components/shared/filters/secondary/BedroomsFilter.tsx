@@ -1,4 +1,4 @@
-import { ArrowsUpFromLine, Bed } from "lucide-react";
+import { Bed } from "lucide-react";
 import { SelectDemo } from "../../SelectDemo";
 import { useFilters } from "@/hooks/useFilters";
 export const bedroomsNumberOptions = [
@@ -19,7 +19,7 @@ export default function BedroomsFilter() {
   const updateFilters = useFilters((store) => store.updateFilters);
   return (
     <div className="flex flex-col gap-2">
-      <div className="font-semibold leading-6 flex">
+      <div className="flex font-semibold leading-6">
         <Bed className="mr-2" /> Bedrooms
       </div>
       <div className="flex items-center gap-3">

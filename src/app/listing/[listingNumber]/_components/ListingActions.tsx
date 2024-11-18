@@ -2,15 +2,7 @@ import LikeListingButton from "@/app/search/_components/LikeListingButton";
 import { Button } from "@/components/ui/button";
 import { SerializedListing } from "@/lib/types";
 
-import {
-  EyeOff,
-  Heart,
-  Mail,
-  NotebookText,
-  Printer,
-  Share,
-  Share2,
-} from "lucide-react";
+import { EyeOff, Mail, NotebookText, Printer, Share2 } from "lucide-react";
 
 export default function ListingActions({
   listing,

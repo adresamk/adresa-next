@@ -1,10 +1,5 @@
 "use client";
-import L, {
-  LatLng,
-  LatLngExpression,
-  Map,
-  Marker as MarkerType,
-} from "leaflet";
+import L, { LatLngExpression, Map, Marker as MarkerType } from "leaflet";
 import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";

@@ -1,10 +1,309 @@
 "use server";
 
-import prismadb from "@/lib/db";
 import { validateRequest } from "@/lib/auth";
+import prismadb from "@/lib/db";
+import { ListingWithOwnerAndAgency } from "@/lib/types";
+import { revalidatePath } from "next/cache";
+import { notFound, redirect } from "next/navigation";
+
+import { getUser } from "@/lib/auth";
 import { ListingContactData } from "@/lib/types";
+import { cookies } from "next/headers";
 import { Listing } from "@prisma/client";
-import { error } from "console";
+
+export async function createListing() {
+  const { user, session } = await validateRequest();
+  if (!session) {
+    redirect("/signin?redirect=/listing/new");
+  } else {
+    redirect("/listing/new");
+  }
+}
+
+export async function addListingAsFavorite(listingId: string) {
+  const { user } = await validateRequest();
+
+  if (!user) {
+    return {
+      status: 401,
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+  await prismadb.favorite.create({
+    data: {
+      userId: user.id,
+      listingId: listingId,
+    },
+  });
+  return {
+    status: 200,
+    success: true,
+    error: null,
+  };
+}
+
+export async function removeListingAsFavorite(listingId: string) {
+  const { user } = await validateRequest();
+
+  if (!user) {
+    return {
+      status: 401,
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+
+  await prismadb.favorite.delete({
+    where: {
+      userId_listingId: {
+        userId: user.id,
+        listingId: listingId,
+      },
+    },
+  });
+  return {
+    status: 200,
+    success: true,
+    error: null,
+  };
+}
+
+export async function getLikedListingsByUser() {
+  const { user } = await validateRequest();
+
+  if (!user) {
+    redirect("/");
+  }
+  const likedListingsByUser = await prismadb.favorite.findMany({
+    where: {
+      userId: user.id,
+    },
+    select: {
+      listing: true,
+    },
+  });
+
+  // Extract listings from the result
+  const listings = likedListingsByUser.map((favorite) => favorite.listing);
+
+  return listings;
+}
+
+export async function deleteListing(formData: FormData) {
+  console.log(formData);
+  const listingId = formData.get("listingId")?.valueOf();
+
+  if (typeof listingId !== "string" || !listingId) {
+    return {
+      success: false,
+      error: "Listing ID necessary",
+    };
+  }
+
+  const { user, session } = await validateRequest();
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+
+  await prismadb.listing.delete({
+    where: {
+      id: listingId,
+    },
+  });
+
+  revalidatePath("/profile/listings");
+  return {
+    success: true,
+    error: false,
+  };
+}
+
+export async function adjustListingVisibility(formData: FormData) {
+  console.log(formData);
+  const listingId = formData.get("listingId")?.valueOf();
+  const isVisible = formData.get("isVisible")?.valueOf();
+
+  if (typeof listingId !== "string" || !listingId) {
+    return {
+      success: false,
+      error: "Listing ID necessary",
+    };
+  }
+
+  if (
+    typeof isVisible !== "string" ||
+    (isVisible !== "true" && isVisible !== "false")
+  ) {
+    return {
+      success: false,
+      error: "isVisible is incorrect value",
+    };
+  }
+  const { user, session } = await validateRequest();
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+
+  const wasVisible = isVisible === "true";
+  await prismadb.listing.update({
+    where: {
+      id: listingId,
+    },
+    data: {
+      isVisible: !wasVisible,
+    },
+  });
+
+  revalidatePath("/profile/listings");
+  return {
+    success: true,
+    error: false,
+  };
+}
+
+export async function getListing(listingNumber: string) {
+  try {
+    const listing = (await prismadb.listing.findUnique({
+      where: {
+        listingNumber: Number(listingNumber),
+      },
+      include: {
+        owner: {
+          select: {
+            agency: true,
+          },
+        },
+      },
+    })) as ListingWithOwnerAndAgency;
+
+    if (!listing) {
+      notFound();
+    }
+
+    // Clean up the data for serialization
+    // const serializedListing = {
+    //   ...listing,
+    //   createdAt: listing.createdAt.toISOString(),
+    //   updatedAt: listing.updatedAt.toISOString(),
+    //   owner: {
+    //     ...listing.owner,
+    //     agency: listing.owner.agency
+    //       ? {
+    //           ...listing.owner.agency,
+    //         }
+    //       : null,
+    //   },
+    // };
+
+    return listing;
+  } catch (error) {
+    console.error("Error fetching listing:", error);
+    notFound();
+  }
+}
+
+export async function getFavoriteStatus(listingId: string) {
+  const { user } = await validateRequest();
+  if (!user) return false;
+
+  const favorite = await prismadb.favorite.findFirst({
+    where: {
+      listingId,
+      userId: user.id,
+    },
+  });
+
+  return !!favorite;
+}
+
+export async function addNewListing(formData: FormData) {
+  const user = await getUser();
+  if (!user) {
+    const cookieStore = await cookies();
+    // cookieStore.set("signin-redirect", "/listing/new");
+    redirect("/signin?redirect=/listing/new");
+
+    return {
+      success: false,
+      error: "Unauthenticated",
+    };
+  }
+
+  console.log("Adding new listing", formData);
+
+  const category = formData.get("category")?.toString();
+  const type = formData.get("type")?.toString();
+  const transactionType = formData.get("transactionType")?.toString();
+
+  // validate the form data
+  if (
+    typeof category !== "string" ||
+    typeof type !== "string" ||
+    typeof transactionType !== "string"
+  ) {
+    return {
+      success: false,
+      error: "Invalid form data",
+    };
+  }
+
+  const listingNumber = await prismadb.counter.findUnique({
+    where: {
+      name: "listing-number-value",
+    },
+  })!;
+
+  if (!listingNumber) {
+    return {
+      success: false,
+      error: "Listing number not found",
+    };
+  }
+
+  // create listing
+  const listing = await prismadb.listing.create({
+    data: {
+      category: category,
+      type: type,
+      transactionType: transactionType,
+      userId: user.id,
+      listingNumber: listingNumber.value + 1,
+      contactData: JSON.stringify({
+        email: user.email,
+        emailVerified: user.emailVerified ? true : false,
+        phone: user.phone,
+        phoneVerified: user.phoneVerified ? true : false,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        contactHours: "anytime",
+      } as ListingContactData),
+    },
+  });
+
+  // increment by 1
+  await prismadb.counter.update({
+    where: {
+      name: "listing-number-value",
+    },
+    data: {
+      value: {
+        increment: 1,
+      },
+    },
+  });
+
+  console.log("Listing created", listing);
+
+  redirect("/listing/edit/" + listing.listingNumber + "/location");
+}
+
 export interface EditListingResponse {
   data?: {
     listing: Listing;
@@ -493,4 +792,61 @@ export async function editListing(
       break;
   }
   return output;
+}
+
+export default async function getAllListings(
+  search: string = "",
+): Promise<Listing[]> {
+  console.log("this is the search on the server", search);
+
+  const { user } = await validateRequest();
+
+  const listings = await prismadb.listing.findMany({
+    where: {
+      isPublished: true,
+    },
+    include: {
+      // owner: true,
+      favoritedBy: {
+        select: {
+          userId: true,
+        },
+      },
+    },
+  });
+  // Optimize with this
+  //   // Assuming you have the current userId from session or JWT
+  // const currentUserId = 'some-user-id';
+
+  // // Step 1: Fetch all published listings
+  // const listings = await prismadb.listing.findMany({
+  //   where: {
+  //     isPublished: true,
+  //   },
+  // });
+
+  // // Step 2: Fetch the IDs of listings favorited by the current user
+  // const userFavorites = await prismadb.favorite.findMany({
+  //   where: {
+  //     userId: currentUserId,
+  //   },
+  //   select: {
+  //     listingId: true,
+  //   },
+  // });
+
+  // // Create a set of favorited listing IDs for faster lookup
+  // const favoritedListingIds = new Set(userFavorites.map(fav => fav.listingId));
+
+  // // Step 3: Add a `isFavorited` property to each listing
+  // const listingsWithFavoriteInfo = listings.map(listing => ({
+  //   ...listing,
+  //   isFavorited: favoritedListingIds.has(listing.id),
+  // }));
+
+  // // Now `listingsWithFavoriteInfo` contains all listings with `isFavorited` marked for the current user
+  // return listingsWithFavoriteInfo;
+
+  console.log("returned listings ; ", listings.length);
+  return listings;
 }

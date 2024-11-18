@@ -24,3 +24,15 @@ export const allInternalFeatures: { [key: string]: JSX.Element } = {
 export const allExternalFeatures: { [key: string]: JSX.Element } = {
   garage: <House />,
 } as const;
+
+const icons: { [key: string]: JSX.Element } = {
+  bathroom: <ShowerHead width={16} height={16} />,
+  ac: <AirVentIcon width={16} height={16} />,
+  garage: <House width={16} height={16} />,
+  elevator: <DoorClosed />,
+  alart: <AlarmCheck />,
+  protectionDoor: <DoorOpen />,
+  spajz: <DoorOpen />,
+  terace: <Fence />,
+  facade: <BrickWall />,
+};

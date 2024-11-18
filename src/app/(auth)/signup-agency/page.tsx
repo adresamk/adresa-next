@@ -5,8 +5,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { Form } from "@/components/Form";
 import Link from "next/link";
-import { signUpAsAgency } from "./actions";
+
 import { useActionState } from "react";
+import { signUpAsAgency } from "@/server/actions/auth.actions";
 export default function SignUp() {
   const [state, formAction] = useActionState(signUpAsAgency, {
     error: "",

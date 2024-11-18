@@ -1,5 +1,4 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Listing } from "@prisma/client";
 import ListingEditSideMenu from "./_components/ListingEditSideMenu";
 import Step1 from "./steps/Step1";
@@ -11,11 +10,11 @@ import Step6 from "./steps/Step6";
 import Step7 from "./steps/Step7";
 import Step8 from "./steps/Step8";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { steps } from "./types";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
-import { editListing } from "./actions";
+import { editListing } from "@/server/actions/listing.actions";
 
 interface ListingEditFormProps {
   loadedListing: Listing;

@@ -5,7 +5,6 @@ import {
   displayPrice,
   displayPricePerSquare,
 } from "@/lib/utils";
-import { Listing } from "@prisma/client";
 
 export default function FeaturesTable({
   listing,

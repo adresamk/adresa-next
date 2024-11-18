@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+
 import { SelectDemo } from "../../SelectDemo";
 import { parseAsString, useQueryState } from "nuqs";
 const sortingOptions = [
@@ -10,7 +10,7 @@ const sortingOptions = [
 export default function SortingFilter() {
   let [sorting, setSorting] = useQueryState(
     "sorting",
-    parseAsString.withOptions({ shallow: false }).withDefault("new")
+    parseAsString.withOptions({ shallow: false }).withDefault("new"),
   );
   return (
     <SelectDemo

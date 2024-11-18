@@ -7,7 +7,7 @@ import { Info } from "lucide-react";
 import AgencyLogoUpload from "./_components/AgencyLogoUpload";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { updateAgencyDetails } from "./actions";
+import { updateAgencyDetails } from "@/server/actions/user.actions";
 
 type Params = Promise<Record<string, string>>;
 

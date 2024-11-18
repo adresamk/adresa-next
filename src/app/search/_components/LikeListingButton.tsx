@@ -3,7 +3,7 @@ import {
   addListingAsFavorite,
   getFavoriteStatus,
   removeListingAsFavorite,
-} from "@/actions/listings";
+} from "@/server/actions/listing.actions";
 import { Button } from "@/components/ui/button";
 import { cn, isLoggedInClient } from "@/lib/utils";
 import { Heart } from "lucide-react";

@@ -1,6 +1,6 @@
 import SearchResults from "@/components/shared/SearchResults";
-import getAllListings from "@/requests/getAllListings";
 import { searchParamsCache } from "../searchParams";
+import getAllListings from "@/server/actions/listing.actions";
 
 interface SearchPageProps {
   searchParams: Promise<Record<string, string>>;

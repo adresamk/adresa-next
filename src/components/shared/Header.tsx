@@ -4,13 +4,14 @@ import LanguagePicker from "@/components/LanguagePicker";
 import { HousePlus } from "lucide-react";
 
 import AuthUserControls from "../AuthUserControls/AuthUserControls";
-import { createListing } from "@/actions/listings";
+import { createListing } from "@/server/actions/listing.actions";
 
 export default function Header() {
   return (
-    <header className=" overflow-hidden h-[80px] bg-white flex items-center justify-between px-5 py-2 shadow-lg fixed top-0 left-0 right-0 z-[100]">
+    <header className="fixed left-0 right-0 top-0 z-[100] flex h-[80px] items-center justify-between overflow-hidden bg-white px-5 py-2 shadow-lg">
       <nav className="flex items-center gap-6 text-brand-dark-blue">
         <Link href="/">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={"/assets/adresa-logo.png"}
             width={240}

@@ -1,7 +1,8 @@
 "use client";
 import { Form } from "@/components/Form";
+import { signUpAsUser } from "@/server/actions/auth.actions";
 import Link from "next/link";
-import { signUpAsUser } from "./actions";
+
 import { useActionState } from "react";
 interface SignUpFormProps {}
 export default function SignUpForm({}: SignUpFormProps) {

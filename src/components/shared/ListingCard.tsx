@@ -2,10 +2,8 @@ import { Listing } from "@prisma/client";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Heart } from "lucide-react";
 import LikeListingButton from "@/app/search/_components/LikeListingButton";
@@ -15,6 +13,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
   return (
     <Card className="max-w-[325px]">
       <CardHeader className="relative p-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={listing?.mainImage || ""}
           className="h-[200px] w-[325px] object-cover"

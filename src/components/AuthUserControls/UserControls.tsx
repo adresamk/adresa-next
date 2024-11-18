@@ -4,8 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { User } from "@prisma/client";
 import userProfileBg from "@/assets/user-profile-bg.svg";
-import { logout } from "@/app/(auth)/action";
+
 import { useRouter } from "next/navigation";
+import { logout } from "@/server/actions/auth.actions";
 
 export default function UserControls({ user }: { user: User }) {
   const router = useRouter();

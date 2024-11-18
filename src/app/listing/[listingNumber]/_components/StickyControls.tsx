@@ -1,5 +1,4 @@
 "use client";
-import { Listing } from "@prisma/client";
 import ListingActions from "./ListingActions";
 import { cn, displayPrice } from "@/lib/utils";
 import { useEffect, useState } from "react";
@@ -33,6 +32,7 @@ export default function StickyControls({
       <div className="flex w-full px-5">
         <div className="relative flex w-full flex-1 flex-shrink flex-nowrap items-center pl-[80px]">
           <div className="absolute left-0 h-20 w-[72px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={listing.mainImage || ""}
               className="relateive h-full w-full object-cover object-center"

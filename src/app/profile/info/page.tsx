@@ -1,11 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { getUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import { useState } from "react";
-import { updateUserInfo } from "./actions";
+import { updateUserInfo } from "@/server/actions/user.actions";
 
 type Params = Promise<Record<string, string>>;
 

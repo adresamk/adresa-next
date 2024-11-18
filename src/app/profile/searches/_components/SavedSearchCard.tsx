@@ -5,7 +5,10 @@ import { Bell, BellOff, BellOffIcon, LinkIcon, Trash } from "lucide-react";
 import { useState } from "react";
 import { SavedSearch } from "@prisma/client";
 import { parseQueryString } from "@/lib/utils";
-import { deleteSavedSearch, updateSavedSearch } from "@/actions/savedSearches";
+import {
+  deleteSavedSearch,
+  updateSavedSearch,
+} from "@/server/actions/savedSearche.actions";
 import Link from "next/link";
 
 const notificationIntervalOptions = [

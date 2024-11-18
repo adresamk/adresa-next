@@ -8,17 +8,7 @@ export const metadata = {
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Bath, Share, ShowerHead } from "lucide-react";
 
-import {
-  AirVentIcon,
-  AlarmCheck,
-  BrickWall,
-  DoorClosed,
-  DoorOpen,
-  Fence,
-  Heart,
-  House,
-  Percent,
-} from "lucide-react";
+import { AirVentIcon, Heart, Percent } from "lucide-react";
 import { redirect } from "next/navigation";
 import MiniContactForm from "./_components/MiniContactForm";
 import RevealButton from "@/components/shared/RevealButton";
@@ -40,11 +30,11 @@ import InternalFeatures from "./_components/InternalFeatures";
 import ExternalFeatures from "./_components/ExternalFeatures";
 
 import StickyControls from "./_components/StickyControls";
-import { getListing } from "@/actions/listings";
 
 import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
 import Image from "next/image";
 import { extractPublisherData } from "./helpers";
+import { getListing } from "@/server/actions/listing.actions";
 
 function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
   return {

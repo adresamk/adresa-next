@@ -5,9 +5,10 @@ import { CircleAlert, CircleCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import InitialStep from "./InitialStep";
-import { addNewListing } from "./actions";
+
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { addNewListing } from "@/server/actions/listing.actions";
 
 type StepStatus = {
   [key: string]: "completed" | "incomplete" | "in-progress";
@@ -35,8 +36,8 @@ export default async function NewPage() {
   const progress = 10;
   return (
     <div className="flex gap-2 p-2">
-      <div className="w-1/3 ">
-        <div className="shadow-md rounded  m-2 bg-white">
+      <div className="w-1/3">
+        <div className="m-2 rounded bg-white shadow-md">
           <div className="p-2">
             <p>
               <span>{progress}%</span> completed{" "}
@@ -53,10 +54,10 @@ export default async function NewPage() {
               <li
                 key={initialStep.title}
                 className={cn(
-                  "flex p-4 pr-1 cursor-pointer hover:bg-gray-50 bg-gray-50 border-l-4 border-l-brand-light-blue"
+                  "flex cursor-pointer border-l-4 border-l-brand-light-blue bg-gray-50 p-4 pr-1 hover:bg-gray-50",
                 )}
               >
-                <div className="flex-1 ">
+                <div className="flex-1">
                   <p>{initialStep.title}</p>
                   <p className="text-sm text-gray-500">
                     {initialStep.description}
@@ -67,8 +68,9 @@ export default async function NewPage() {
                     <CircleCheck fill="green" />
                   )}
 
-                  {stepStatus[initialStep.title] ===
-                    "in-progress" && <CircleCheck fill="orange" />}
+                  {stepStatus[initialStep.title] === "in-progress" && (
+                    <CircleCheck fill="orange" />
+                  )}
 
                   {stepStatus[initialStep.title] === "incomplete" && (
                     <CircleAlert fill="red" />
@@ -80,7 +82,7 @@ export default async function NewPage() {
         </div>
       </div>
       <div className="w-2/3">
-        <div className="p-2 shadow-md bg-white mt-2 rounded">
+        <div className="mt-2 rounded bg-white p-2 shadow-md">
           <form action={addNewListing}>
             <InitialStep />
             <Button size={"sm"} className="my-2">

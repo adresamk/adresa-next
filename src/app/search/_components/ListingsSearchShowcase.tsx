@@ -7,19 +7,16 @@ import {
   Bed,
   Crown,
   EyeOff,
-  Heart,
   ImageIcon,
   LampFloor,
   Mail,
   MapPin,
-  UserCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { displayPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import ImagesCarousel from "./ImagesCarousel";
 import LikeListingButton from "./LikeListingButton";
-import TestButton from "./TestButton";
 import { ListingWithRelations } from "@/lib/types";
 import { getUser } from "@/lib/auth";
 

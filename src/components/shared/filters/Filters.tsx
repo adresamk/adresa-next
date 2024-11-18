@@ -7,12 +7,7 @@ import PropertyTypeFilter from "./primary/PropertyTypeFilter";
 import SurfaceFilter from "./primary/SurfaceFilter";
 import SubTypeFilter from "./primary/SubTypeFilter";
 
-import {
-  BellPlus,
-  ChevronDown,
-  Search,
-  SlidersVertical,
-} from "lucide-react";
+import { ChevronDown, Search, SlidersVertical } from "lucide-react";
 import SmartOverlay from "../SmartOverlay";
 import { useEffect, useState } from "react";
 import FloorsFilter from "./secondary/FloorsFilter";
@@ -44,13 +39,15 @@ export default function Filters() {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
   const clearSecondaryFilters = useFilters(
-    (store) => store.clearSecondaryFilters
+    (store) => store.clearSecondaryFilters,
   );
 
-  let [secondarySearchParams, setSecondarySearchParams] =
-    useQueryStates(secondaryFiltersParsers, {
+  let [secondarySearchParams, setSecondarySearchParams] = useQueryStates(
+    secondaryFiltersParsers,
+    {
       history: "push",
-    });
+    },
+  );
   let {
     floorNumberLow,
     floorNumberHigh,
@@ -84,13 +81,29 @@ export default function Filters() {
       lastUpdated,
       creationDate,
     });
-  }, [secondarySearchParams]);
+  }, [
+    bedroomsNumberHigh,
+    bedroomsNumberLow,
+    constructionYearHigh,
+    constructionYearLow,
+    creationDate,
+    externalFeatures,
+    floorNumberHigh,
+    floorNumberLow,
+    heatingType,
+    internalFeatures,
+    isFurnitureIncluded,
+    isNewDevelopment,
+    lastUpdated,
+    secondarySearchParams,
+    updateFilters,
+  ]);
 
   const results = {
     length: Math.floor(Math.random() * 100),
   };
   const moreFiltersFooter = (
-    <div className="flex justify-between items-end w-full">
+    <div className="flex w-full items-end justify-between">
       <Button
         variant="ghost"
         className="text-gray-500"
@@ -137,7 +150,7 @@ export default function Filters() {
   );
 
   return (
-    <aside className="flex gap-3 items-center px-6 min-h-[70px] top-[80px] sticky z-10 shadow-md bg-white">
+    <aside className="sticky top-[80px] z-10 flex min-h-[70px] items-center gap-3 bg-white px-6 shadow-md">
       <ModeFilter variant="search" />
       <PropertyTypeFilter variant="search" />
       <SubTypeFilter variant="search" />
@@ -150,10 +163,7 @@ export default function Filters() {
           setAreMoreFiltersOpen(true);
         }}
       >
-        <SlidersVertical
-          width={20}
-          className="mr-2 text-brand-light-blue"
-        />
+        <SlidersVertical width={20} className="mr-2 text-brand-light-blue" />
         <span className="capitalize">Filters</span>
         <ChevronDown width={20} className="ml-2" />{" "}
       </Button>
@@ -167,30 +177,30 @@ export default function Filters() {
         footerJSX={moreFiltersFooter}
       >
         <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap border-b-2 py-2.5 px-1.5">
+          <div className="flex flex-wrap border-b-2 px-1.5 py-2.5">
             <FloorsFilter />
           </div>
-          <div className="flex flex-wrap border-b-2 py-2.5 px-1.5">
+          <div className="flex flex-wrap border-b-2 px-1.5 py-2.5">
             <BedroomsFilter />
           </div>
-          <div className="flex flex-wrap border-b-2 py-2.5 px-1.5">
+          <div className="flex flex-wrap border-b-2 px-1.5 py-2.5">
             <ConstructionYearFilter />
           </div>
-          <div className="flex flex-wrap border-b-2 py-2.5 px-1.5 items-end gap-3">
+          <div className="flex flex-wrap items-end gap-3 border-b-2 px-1.5 py-2.5">
             <HeatingTypeFilter />
             <FurnitureFilter />
           </div>
 
-          <div className="flex flex-wrap border-b-2 py-2.5 px-1.5 items-end gap-3">
+          <div className="flex flex-wrap items-end gap-3 border-b-2 px-1.5 py-2.5">
             <InternalFeaturesFilter />
           </div>
-          <div className="flex flex-wrap border-b-2 py-2.5 px-1.5 items-end gap-3">
+          <div className="flex flex-wrap items-end gap-3 border-b-2 px-1.5 py-2.5">
             <ExternalFeaturesFilter />
           </div>
-          <div className="flex flex-wrap border-b-2 py-2.5 px-1.5 items-end gap-3">
+          <div className="flex flex-wrap items-end gap-3 border-b-2 px-1.5 py-2.5">
             <LastUpdatedFilter />
           </div>
-          <div className="flex flex-wrap border-b-2 py-2.5 px-1.5 items-end gap-3">
+          <div className="flex flex-wrap items-end gap-3 border-b-2 px-1.5 py-2.5">
             <CreationDateFilter />
           </div>
           {/* 

@@ -1,25 +1,16 @@
 "use client";
 import {
   Breadcrumb,
-  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -29,22 +20,10 @@ import {
 } from "@/lib/data/macedonia/importantData";
 import { SerializedListing } from "@/lib/types";
 import { capitalizeString } from "@/lib/utils";
-import { Listing } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { forwardRef } from "react";
 import { LinkProps } from "next/link";
-
-const SelectLink = forwardRef<
-  HTMLAnchorElement,
-  LinkProps & { children: React.ReactNode }
->(function SelectLink({ href, children, ...props }, ref) {
-  return (
-    <Link ref={ref} href={href} {...props}>
-      {children}
-    </Link>
-  );
-});
 
 export default function ListingBreadcrumbs({
   listing,

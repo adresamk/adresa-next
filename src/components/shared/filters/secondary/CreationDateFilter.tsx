@@ -1,11 +1,6 @@
 import { useFilters } from "@/hooks/useFilters";
 import { ToggleGroupDemo } from "../../ToggleGroupDemo";
-import {
-  AirVentIcon,
-  AlertCircle,
-  Calendar,
-  Plus,
-} from "lucide-react";
+import { Calendar } from "lucide-react";
 import { SelectDemo } from "../../SelectDemo";
 
 const timeRangeOptions = [
@@ -47,16 +42,14 @@ export default function CreationDateFilter() {
   const updateFilters = useFilters((store) => store.updateFilters);
   return (
     <div className="flex flex-col gap-2">
-      <div className="font-semibold leading-6 flex">
+      <div className="flex font-semibold leading-6">
         <Calendar /> Last Update
       </div>
-      <div className="flex items-center gap-3 ">
+      <div className="flex items-center gap-3">
         <ToggleGroupDemo
           type="single"
           options={timeRangeOptions}
-          value={
-            filters.creationDate === "" ? "any" : filters.creationDate
-          }
+          value={filters.creationDate === "" ? "any" : filters.creationDate}
           onValueChange={(value: string) => {
             updateFilters({
               creationDate: value === "any" ? "" : value,
@@ -67,9 +60,7 @@ export default function CreationDateFilter() {
         <SelectDemo
           name="lastUpdated"
           value={
-            timeRangeOptions
-              .map((o) => o.value)
-              .includes(filters.creationDate)
+            timeRangeOptions.map((o) => o.value).includes(filters.creationDate)
               ? ""
               : filters.creationDate
           }

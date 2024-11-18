@@ -1,9 +1,4 @@
-import { Bold, Italic, Underline } from "lucide-react";
-
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 
 interface ToggleGroupDemoProps {
@@ -25,8 +20,8 @@ export function ToggleGroupDemo({
     <ToggleGroup
       type={isMultiple ? "multiple" : "single"}
       className={cn(
-        "flex flex-wrap gap-0 justify-start",
-        isMultiple ? "gap-2" : ""
+        "flex flex-wrap justify-start gap-0",
+        isMultiple ? "gap-2" : "",
       )}
       value={value}
       onValueChange={(values: any) => {
@@ -37,10 +32,8 @@ export function ToggleGroupDemo({
       {options.map((option) => (
         <ToggleGroupItem
           className={cn(
-            `flex items-center border rounded-none border-r-0 last:border-r first:rounded-l last:rounded-r hover:bg-blue-100
-            data-[state=on]:bg-brand-light-blue data-[state=on]:text-white  data-[state=off]:text-gray-500
-            `,
-            isMultiple && "border rounded"
+            `flex items-center rounded-none border border-r-0 first:rounded-l last:rounded-r last:border-r hover:bg-blue-100 data-[state=on]:bg-brand-light-blue data-[state=off]:text-gray-500 data-[state=on]:text-white`,
+            isMultiple && "rounded border",
           )}
           key={option.value}
           value={option.value}

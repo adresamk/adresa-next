@@ -1,4 +1,4 @@
-import { deleteListing } from "@/actions/listings";
+import { deleteListing } from "@/server/actions/listing.actions";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 
@@ -12,7 +12,7 @@ export default function ListingDeleteButton({
       <Button
         variant={"ghost"}
         size={"sm"}
-        className="text-red-400 hover:text-red-600 text-xs px-2"
+        className="px-2 text-xs text-red-400 hover:text-red-600"
       >
         <Trash className="mr-2" /> Delete
       </Button>

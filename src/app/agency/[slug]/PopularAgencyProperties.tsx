@@ -7,7 +7,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
-import { SearchCheck, Star } from "lucide-react";
 
 export default function PopularAgencyProperties({
   title,
@@ -20,7 +19,7 @@ export default function PopularAgencyProperties({
 }) {
   return (
     <div className={cn("flex flex-col gap-3 pb-3 pt-6", bgColor)}>
-      <h3 className="flex gap-4 text-white text-xl my-3">{title}</h3>
+      <h3 className="my-3 flex gap-4 text-xl text-white">{title}</h3>
       <Carousel
         opts={{
           align: "start",

@@ -1,30 +1,8 @@
 import { Listing } from "@prisma/client";
 
-import {
-  AirVentIcon,
-  AlarmCheck,
-  BrickWall,
-  DoorClosed,
-  DoorOpen,
-  Fence,
-  House,
-  ShowerHead,
-} from "lucide-react";
 import ListingsListTitle from "./ListingsListTitle";
 import ListingsSearchShowcase from "./ListingsSearchShowcase";
 import SortingFilter from "@/components/shared/filters/primary/SortingFIlter";
-
-const icons: { [key: string]: JSX.Element } = {
-  bathroom: <ShowerHead width={16} height={16} />,
-  ac: <AirVentIcon width={16} height={16} />,
-  garage: <House width={16} height={16} />,
-  elevator: <DoorClosed />,
-  alart: <AlarmCheck />,
-  protectionDoor: <DoorOpen />,
-  spajz: <DoorOpen />,
-  terace: <Fence />,
-  facade: <BrickWall />,
-};
 
 interface ListingListProps {
   listings: Listing[];
@@ -35,11 +13,11 @@ export default function ListingsList({ listings }: ListingListProps) {
   return (
     <div>
       <ListingsListTitle />
-      <div className="flex items-center justify-between my-2.5">
+      <div className="my-2.5 flex items-center justify-between">
         <div className="text-sm">
           <span>{listings.length} results</span> {"|"}{" "}
           {loweredPriceListings > 0 && (
-            <span className="text-brand-light-blue cursor-pointer">
+            <span className="cursor-pointer text-brand-light-blue">
               {loweredPriceListings} results with lowered price
             </span>
           )}
@@ -50,10 +28,7 @@ export default function ListingsList({ listings }: ListingListProps) {
       </div>
       <ul className="">
         {listings.map((listing: Listing) => (
-          <ListingsSearchShowcase
-            key={listing.id}
-            listing={listing}
-          />
+          <ListingsSearchShowcase key={listing.id} listing={listing} />
         ))}
       </ul>
     </div>

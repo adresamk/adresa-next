@@ -34,12 +34,8 @@ export default function AgencyLogoUpload({
         }}
       />
       {logo && (
-        <img
-          src={logo || ""}
-          width={200}
-          height={130}
-          alt="Agency Logo"
-        />
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={logo || ""} width={200} height={130} alt="Agency Logo" />
       )}
     </div>
   );

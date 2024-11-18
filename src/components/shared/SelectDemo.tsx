@@ -3,9 +3,7 @@ import * as React from "react";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -36,10 +34,10 @@ export function SelectDemo({
         onClick(value);
       }}
     >
-      <SelectTrigger className={`w-[${triggerWidth}] z-[140] `}>
+      <SelectTrigger className={`w-[${triggerWidth}] z-[140]`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent className="z-[140] max-h-64 ">
+      <SelectContent className="z-[140] max-h-64">
         {options.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             {option.label}

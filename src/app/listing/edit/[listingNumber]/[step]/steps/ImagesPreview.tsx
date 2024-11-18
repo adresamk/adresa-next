@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
 
@@ -16,29 +16,27 @@ export default function ImagesPreview({
         <span>{images.length}/15</span>
       </div>
 
-      <div className="h-[400px] grid gap-4  grid-cols-2 overflow-y-auto">
+      <div className="grid h-[400px] grid-cols-2 gap-4 overflow-y-auto">
         {images.map((imageUrl, idx) => {
           return (
             <div key={imageUrl} className="relative border">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imageUrl}
-                className=" w-32 h-32 rounded"
+                alt={`Image for property ${idx}`}
+                className="h-32 w-32 rounded"
                 width={325}
                 height={198}
               />
               {idx === 0 && (
                 <div className="absolute bottom-2 w-full">
-                  <div
-                    className=" 
-            rounded text-center  mx-2 bg-slate-100/80 p-1  text-black hover:bg-slate-200
-            "
-                  >
+                  <div className="mx-2 rounded bg-slate-100/80 p-1 text-center text-black hover:bg-slate-200">
                     Main Image
                   </div>
                 </div>
               )}
-              <Button className="rounded-full bg-slate-100/90 p-2 absolute top-2 right-2 text-black hover:bg-slate-200">
-                <Trash2Icon className="w-5 h-4" />
+              <Button className="absolute right-2 top-2 rounded-full bg-slate-100/90 p-2 text-black hover:bg-slate-200">
+                <Trash2Icon className="h-4 w-5" />
               </Button>
             </div>
           );

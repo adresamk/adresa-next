@@ -5,7 +5,7 @@ import { useActionState, useEffect, useState } from "react";
 import { RadioGroupDemo } from "../RadioGroupDemo";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { createSavedSearch } from "@/actions/savedSearches";
+import { createSavedSearch } from "@/server/actions/savedSearche.actions";
 import { isLoggedInClient } from "@/lib/utils";
 import {
   AlertDialog,
@@ -16,7 +16,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Link from "next/link";
 const notificationIntervalOptions = ["daily", "weekly", "live"];
@@ -107,6 +106,7 @@ export default function CreateSavedSearch() {
               id={"name"}
             />
             <div className="my-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 width={380}
                 height={230}

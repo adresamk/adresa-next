@@ -5,8 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { Listing } from "@prisma/client";
-import { ListingWithOwnerAndAgency, SerializedListing } from "@/lib/types";
+import { SerializedListing } from "@/lib/types";
 
 export default function MiniContactForm({
   listing,
@@ -96,6 +95,7 @@ export default function MiniContactForm({
             <>
               <div className="flex gap-2">
                 <div className="grid place-items-center rounded bg-slate-200 px-3 py-1.5">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     width={100}
                     height={64}

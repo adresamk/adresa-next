@@ -1,12 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import {
-  Bookmark,
-  Heart,
-  HousePlus,
-  LayoutDashboard,
-  User,
-} from "lucide-react";
+import { HousePlus, LayoutDashboard, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -38,10 +32,9 @@ export default function ProfileSideMenu() {
             <li
               key={nav.label}
               className={cn(
-                "flex gap-3 items-center px-5 py-3",
+                "flex items-center gap-3 px-5 py-3",
 
-                pathname === nav.path &&
-                  "border-l-2 border-brand-light-blue"
+                pathname === nav.path && "border-l-2 border-brand-light-blue",
               )}
             >
               {nav.icon} {nav.label}

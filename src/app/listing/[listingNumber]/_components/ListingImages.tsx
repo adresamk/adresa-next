@@ -1,6 +1,5 @@
 "use client";
 import { ImageIcon, LayoutGrid } from "lucide-react";
-import { Listing } from "@prisma/client";
 import Image from "next/image";
 import { Modal } from "@/components/shared/Modal";
 import { useState } from "react";
@@ -85,6 +84,7 @@ export default function ListingImages({
                     className="min-[440px]:w-1/2 mb-3 h-fit w-full max-w-full flex-shrink-0 px-1.5 sm:flex-auto sm:flex-shrink sm:flex-grow md:w-1/3"
                   >
                     <figure className="h-[25vh] max-h-[300px] min-h-[100px] cursor-pointer overflow-hidden rounded-xl">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imageUrl}
                         alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.municipality},${displayPrice(listing.price)}`}
@@ -114,6 +114,7 @@ export default function ListingImages({
                         className="flex max-h-[75vh] basis-full items-center justify-center"
                       >
                         <figure className="max-w-fit">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={imageUrl}
                             alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.municipality},${displayPrice(listing.price)}`}
@@ -156,6 +157,7 @@ export default function ListingImages({
 
           <div className="relative float-left mb-1.5 box-border hidden h-[calc(-34px_+_27vh)] min-h-[150px] w-1/4 max-w-full px-0.5 md:block">
             <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="absolute inset-0 h-full w-full object-cover object-center"
                 src={listing.images[1]}
@@ -167,6 +169,7 @@ export default function ListingImages({
           </div>
           <div className="relative float-left mb-1.5 box-border hidden h-[calc(-34px_+_27vh)] min-h-[150px] w-1/4 max-w-full px-0.5 md:block">
             <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
@@ -179,6 +182,7 @@ export default function ListingImages({
           </div>
           <div className="relative float-left mb-1.5 box-border hidden h-[calc(-34px_+_27vh)] min-h-[150px] w-1/4 max-w-full px-0.5 md:block">
             <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
@@ -191,6 +195,7 @@ export default function ListingImages({
           </div>
           <div className="relative float-left mb-1.5 box-border hidden h-[calc(-34px_+_27vh)] min-h-[150px] w-1/4 max-w-full px-0.5 md:block">
             <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"

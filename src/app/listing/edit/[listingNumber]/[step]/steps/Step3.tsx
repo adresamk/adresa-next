@@ -19,7 +19,6 @@ import {
   ParkingSquare,
   ShowerHead,
   Sofa,
-  Utensils,
 } from "lucide-react";
 import { useState } from "react";
 import { orientationOptions } from "@/lib/data/listing/importantData";

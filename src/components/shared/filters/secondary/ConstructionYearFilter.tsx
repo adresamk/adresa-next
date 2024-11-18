@@ -1,4 +1,4 @@
-import { ArrowsUpFromLine, Bed, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { SelectDemo } from "../../SelectDemo";
 import { useFilters } from "@/hooks/useFilters";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ export default function ConstructionYearFilter() {
   const updateFilters = useFilters((store) => store.updateFilters);
   return (
     <div className="flex flex-col gap-2">
-      <div className="font-semibold leading-6 flex">
+      <div className="flex font-semibold leading-6">
         <Clock className="mr-2" /> Year of construction
       </div>
       <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ export default function ConstructionYearFilter() {
             "",
             filters.isNewDevelopment
               ? "bg-brand-light-blue text-white hover:bg-blue-700 hover:text-white"
-              : ""
+              : "",
           )}
         >
           New development

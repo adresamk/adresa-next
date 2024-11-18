@@ -7,8 +7,8 @@ import { useState } from "react";
 import { Listing } from "@prisma/client";
 import { UploadButton } from "@/lib/uploadthing";
 
-import { attachImagesToListing } from "../actions";
 import ImagesPreview from "./ImagesPreview";
+import { attachImagesToListing } from "@/server/actions/listing.actions";
 
 export default function Step6({ listing }: { listing: Listing }) {
   const [ytLink, setYtLink] = useState(listing.videoLink || "");
@@ -18,16 +18,10 @@ export default function Step6({ listing }: { listing: Listing }) {
   // const validYtLink = ytLinkRegex.test(ytLink);
   const [left, right] = ytLink.split("v=");
   const validYtLink =
-    left.startsWith("https://www.youtube.com/watch?") &&
-    right.length === 11;
+    left.startsWith("https://www.youtube.com/watch?") && right.length === 11;
   return (
     <div className="p-2">
-      <input
-        type="string"
-        className="hidden"
-        defaultValue="6"
-        name="step"
-      />
+      <input type="string" className="hidden" defaultValue="6" name="step" />
 
       <h2 className="text-lg">Images and Video</h2>
       <Separator className="my-2 mt-4" />
@@ -41,16 +35,12 @@ export default function Step6({ listing }: { listing: Listing }) {
             console.log("Files: ", res);
             // here on res we have a value key, that should be used for deleting the files
             // afterwards so maybe add this to the db as well?
-            const imagesAttachingToListing =
-              await attachImagesToListing(
-                [...images, ...res.map((file) => file.url)],
-                listing.listingNumber
-              );
-
-            console.log(
-              "imagesAttachingToListing: ",
-              imagesAttachingToListing
+            const imagesAttachingToListing = await attachImagesToListing(
+              [...images, ...res.map((file) => file.url)],
+              listing.listingNumber,
             );
+
+            console.log("imagesAttachingToListing: ", imagesAttachingToListing);
 
             if (imagesAttachingToListing.success) {
               setImages([...images, ...res.map((file) => file.url)]);
@@ -65,7 +55,7 @@ export default function Step6({ listing }: { listing: Listing }) {
       </div>
       <ImagesPreview images={images} setImages={setImages} />
 
-      <div className="flex flex-col gap-2 mt-4">
+      <div className="mt-4 flex flex-col gap-2">
         <Label htmlFor="videoLink"> Link to YouTube video</Label>
         <span className="text-xs text-gray-500">
           ex: https://www.youtube.com/watch?v=[videoID]{" "}
@@ -84,9 +74,7 @@ export default function Step6({ listing }: { listing: Listing }) {
           <iframe
             width="320"
             height="185"
-            src={`https://www.youtube.com/embed/${
-              ytLink.split("v=")[1]
-            }`}
+            src={`https://www.youtube.com/embed/${ytLink.split("v=")[1]}`}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

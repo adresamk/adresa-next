@@ -34,11 +34,9 @@ export const useUpdateSearchParams = () => {
           currentSearchParams.delete(key);
         }
       });
-      router.push(
-        `${router.pathname}?${currentSearchParams.toString()}`
-      );
+      router.push(`${router.pathname}?${currentSearchParams.toString()}`);
     },
-    [router]
+    [router],
   );
 
   const updateSecondarySearchParams = useCallback(() => {
@@ -65,10 +63,23 @@ export const useUpdateSearchParams = () => {
         currentSearchParams.delete(key);
       }
     });
-    router.push(
-      `${router.pathname}?${currentSearchParams.toString()}`
-    );
-  }, [router]);
+    router.push(`${router.pathname}?${currentSearchParams.toString()}`);
+  }, [
+    filters.bedroomsNumberHigh,
+    filters.bedroomsNumberLow,
+    filters.constructionYearHigh,
+    filters.constructionYearLow,
+    filters.creationDate,
+    filters.externalFeatures,
+    filters.floorNumberHigh,
+    filters.floorNumberLow,
+    filters.heatingType,
+    filters.internalFeatures,
+    filters.isFurnitureIncluded,
+    filters.isNewDevelopment,
+    filters.lastUpdated,
+    router,
+  ]);
 
   return { updateSearchParams, updateSecondarySearchParams };
 };

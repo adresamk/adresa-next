@@ -1,7 +1,7 @@
 "use client";
 import { useActionState } from "react";
-import { signIn } from "./actions";
 import { Form } from "@/components/Form";
+import { signIn } from "@/server/actions/auth.actions";
 
 export default function SignInFormWrapper({
   children,

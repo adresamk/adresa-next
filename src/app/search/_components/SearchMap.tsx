@@ -2,16 +2,14 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Listing } from "@prisma/client";
-import { Icon, LatLngExpression, divIcon } from "leaflet";
+import { LatLngExpression, divIcon } from "leaflet";
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
   CircleMarker,
-  Circle,
   LayerGroup,
-  Tooltip,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import ListingMapCard from "./ListingMapCard";
@@ -21,17 +19,6 @@ import { Button } from "@/components/ui/button";
 import { Compass, Ghost, MapPinCheck } from "lucide-react";
 import { cn, displayPrice } from "@/lib/utils";
 import { renderToStaticMarkup } from "react-dom/server";
-
-// interface MemoizedMapProps {
-//   children: React.ReactNode;
-//   [key: string]: any;
-// }
-
-// const MemoizedMap: React.FC<MemoizedMapProps> = memo(
-//   ({ children, ...props }) => (
-//     <MapContainer {...props}>{children}</MapContainer>
-//   ),
-// );
 
 export default function SearchMap({ listings }: { listings: Listing[] }) {
   const [resultsFilters, setResultsFilters] = useState("");

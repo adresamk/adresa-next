@@ -1,10 +1,8 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Heart } from "lucide-react";
 
@@ -29,6 +27,7 @@ export default function PropertyCard({
     <div>
       <Card className="max-w-[325px]">
         <CardHeader className="relative p-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={property?.images?.[0]} className="w-full" alt="" />
           <div className="absolute bottom-2 left-2 flex gap-1 text-[10px]">
             {property?.tags?.map((tag: string) => (

@@ -2,11 +2,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { Agency } from "@prisma/client";
 import { BrandingType } from "@/global/types";
-export default function AgencyBanner({
-  agency,
-}: {
-  agency?: Agency;
-}) {
+export default function AgencyBanner({ agency }: { agency?: Agency }) {
   const branding: BrandingType | null = agency?.branding
     ? JSON.parse(agency.branding)
     : null;
@@ -16,10 +12,11 @@ export default function AgencyBanner({
     : "bg-brand-dark-blue";
   return (
     <aside
-      className={`flex justify-between items-center px-5 py-1 z-40 h-[80px]  text-white  ${primaryBgColor}`}
+      className={`z-40 flex h-[80px] items-center justify-between px-5 py-1 text-white ${primaryBgColor}`}
     >
-      <div className="flex gap-2 ">
-        <div className="px-3 py-2 bg-white w-[100px] h-[60px] flex items-center justify-center rounded">
+      <div className="flex gap-2">
+        <div className="flex h-[60px] w-[100px] items-center justify-center rounded bg-white px-3 py-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={agency?.logoUrl || ""}
             alt="Agency logo"

@@ -1,5 +1,6 @@
 "use client";
-import { getGoogleOAuthConsentURL } from "./action";
+
+import { getGoogleOAuthConsentURL } from "@/server/actions/auth.actions";
 
 export default function GoogleOAuthButton() {
   return (
@@ -13,10 +14,10 @@ export default function GoogleOAuthButton() {
         console.log("url", url);
       }}
       type="button"
-      className=" text-white w-full  bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-between mr-2 mb-2"
+      className="mb-2 mr-2 inline-flex w-full items-center justify-between rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50"
     >
       <svg
-        className="mr-2 -ml-1 w-4 h-4"
+        className="-ml-1 mr-2 h-4 w-4"
         aria-hidden="true"
         focusable="false"
         data-prefix="fab"
