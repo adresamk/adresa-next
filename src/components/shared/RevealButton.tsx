@@ -9,7 +9,7 @@ interface RevealButtonProps {
   variant?: "ghost" | "outline";
 }
 export default function RevealButton({
-  value,
+  value = "Empty Value",
   usecase,
   variant = "ghost",
 }: RevealButtonProps) {

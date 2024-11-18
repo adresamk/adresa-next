@@ -6,7 +6,7 @@ export const metadata = {
   description: "View property listing details",
 };
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Bath } from "lucide-react";
+import { ArrowLeft, Bath, ShowerHead } from "lucide-react";
 
 import {
   AirVentIcon,
@@ -18,10 +18,6 @@ import {
   Heart,
   House,
   Percent,
-  PictureInPicture2,
-  Share,
-  ShareIcon,
-  ShowerHead,
 } from "lucide-react";
 import { redirect } from "next/navigation";
 import MiniContactForm from "./_components/MiniContactForm";
@@ -34,11 +30,7 @@ import {
 } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
-import {
-  ListingContactData,
-  ListingWithOwnerAndAgency,
-  SerializedListing,
-} from "@/lib/types";
+import { ListingWithOwnerAndAgency, SerializedListing } from "@/lib/types";
 import ListingBreadcrumbs from "./_components/ListingBreadcrumbs";
 import Link from "next/link";
 import ListingActions from "./_components/ListingActions";
@@ -49,10 +41,10 @@ import ExternalFeatures from "./_components/ExternalFeatures";
 
 import StickyControls from "./_components/StickyControls";
 import { getListing } from "@/actions/listings";
-import dynamicImport from "next/dynamic";
 
 import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
 import Image from "next/image";
+import { extractPublisherData } from "./helpers";
 const icons: { [key: string]: JSX.Element } = {
   bathroom: <ShowerHead size={30} />,
   ac: <AirVentIcon size={30} />,
@@ -82,7 +74,7 @@ export default async function SingleListingPage({
   params: Promise<{ listingNumber: string }>;
 }) {
   const { listingNumber } = await params;
-  console.log(listingNumber);
+  // console.log(listingNumber);
   if (isNaN(Number(listingNumber))) {
     redirect("/404");
   }
@@ -93,34 +85,8 @@ export default async function SingleListingPage({
 
   // Query the database to check if this listing is favorited by the user
 
-  const contactData: ListingContactData = JSON.parse(
-    listing?.contactData || "{}",
-  );
+  const publisherData = extractPublisherData(listing);
 
-  const publisherData = {
-    imgUrl: "",
-    name: "",
-    address: "",
-    shortDescription: "",
-    phone: "",
-    workHours: "",
-  };
-  if (listing.owner.agency) {
-    publisherData.imgUrl = listing.owner.agency.logoUrl || "";
-    publisherData.name = listing.owner.agency.name || "";
-    publisherData.address = listing.owner.agency.address || "";
-    publisherData.shortDescription =
-      listing.owner.agency.shortDescription || "";
-    publisherData.phone = listing.owner.agency.phone || "";
-    publisherData.workHours = listing.owner.agency.workHours || "";
-  } else {
-    publisherData.imgUrl = "";
-    publisherData.name = contactData.firstName + " " + contactData.lastName;
-    publisherData.address = "";
-    publisherData.shortDescription = "";
-    publisherData.phone = contactData.phone || "";
-    publisherData.workHours = contactData.contactHours || "";
-  }
   return (
     <article className="">
       {/* Above Images Breadcrumbs and Action Buttons */}
@@ -167,7 +133,7 @@ export default async function SingleListingPage({
                   <RevealButton
                     variant="outline"
                     usecase="phone"
-                    value={contactData.phone || ""}
+                    value={publisherData.phone}
                   />
                 </span>
                 <p className="mt-2.5 text-sm">
@@ -228,6 +194,7 @@ export default async function SingleListingPage({
             {/* Mortgages Options */}
             <Separator className="my-3 bg-slate-400" />
             <div className="my-4 flex flex-wrap items-center justify-between gap-4 lg:flex-nowrap">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/assets/halkbank-logo.png" alt="Halkbank" />
               <span>Check your options</span>
               <Button className="flex gap-2">
