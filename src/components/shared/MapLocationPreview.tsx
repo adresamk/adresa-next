@@ -13,22 +13,10 @@ export default function MapLocationPreview({
   longitude: number | null;
   latitude: number | null;
 }) {
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    console.log("loaded on client map");
-    setIsClient(true); // Ensures this runs only on the client
-  }, []);
   if (!longitude || !latitude) return <div>Location is not set</div>;
 
   const location: LatLngExpression = [latitude, longitude];
 
-  if (!isClient) {
-    return (
-      <div style={{ height: "400px", width: "100%", background: "#ccc" }}>
-        Loading map...
-      </div>
-    );
-  }
   return (
     <MapContainer center={location} zoom={13} className="h-full w-full">
       <TileLayer
