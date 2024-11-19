@@ -1,10 +1,7 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+// import { Link } from "@/i18n/routing";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { UserIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
@@ -21,7 +18,7 @@ export default function AuthOptionsPopup() {
         </PopoverTrigger>
         <PopoverContent className="z-[220] p-4">
           <div>
-            <ul className="flex gap1 justify-between">
+            <ul className="gap1 flex justify-between">
               <li>
                 <Link href="/signin">
                   <Button size={"sm"}> Sign in </Button>
@@ -38,7 +35,7 @@ export default function AuthOptionsPopup() {
               <Link href="/signup-agency">
                 <Button
                   variant={"ghost"}
-                  className="text-sm text-brand-light-blue hover:text-brand-dark-blue hover:bg-slate-50"
+                  className="text-sm text-brand-light-blue hover:bg-slate-50 hover:text-brand-dark-blue"
                 >
                   Register as a professional
                 </Button>

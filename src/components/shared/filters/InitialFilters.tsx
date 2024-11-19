@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import LocationFilter from "./primary/LocationFilter";
 import PropertyTypeFilter from "./primary/PropertyTypeFilter";
 import PriceFilter from "./primary/PriceFilter";

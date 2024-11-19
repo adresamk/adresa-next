@@ -5,7 +5,7 @@ import { Listing, User } from "@prisma/client";
 import { cn, displayDate } from "@/lib/utils";
 import { AlertCircle, Edit, MousePointerClick } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import ListingDeleteButton from "../listing/ListingDeleteButton";
 import ListingVisibilityButton from "../listing/ListingVisibilityButton";
 import { UserRoles } from "@/lib/data/user/importantData";

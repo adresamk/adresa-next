@@ -23,7 +23,7 @@ import CreationDateFilter from "./secondary/CreationDateFilter";
 import { useFilters } from "@/hooks/useFilters";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryStates } from "nuqs";
-import { secondaryFiltersParsers } from "@/app/searchParams";
+import { secondaryFiltersParsers } from "@/app/[locale]/searchParams";
 import CreateSavedSearch from "./CreateSavedSearch";
 
 export const dynamic = "force-dynamic";

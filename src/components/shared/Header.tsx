@@ -1,6 +1,6 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
-import LanguagePicker from "@/components/LanguagePicker";
+import LocaleSwitcher from "@/components/LocaleSwitcher";
 import { HousePlus } from "lucide-react";
 
 import AuthUserControls from "../AuthUserControls/AuthUserControls";
@@ -32,7 +32,7 @@ export default function Header() {
           </Button>
         </form>
         {/* </Link> */}
-        <LanguagePicker />
+        <LocaleSwitcher />
 
         <AuthUserControls />
       </nav>

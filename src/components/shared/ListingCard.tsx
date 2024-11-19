@@ -6,8 +6,8 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Heart } from "lucide-react";
-import LikeListingButton from "@/app/search/_components/LikeListingButton";
 import { displayPrice } from "@/lib/utils";
+import LikeListingButton from "@/app/[locale]/search/_components/LikeListingButton";
 
 export default function ListingCard({ listing }: { listing: Listing }) {
   return (
