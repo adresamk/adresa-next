@@ -48,7 +48,7 @@ export default function ListingBreadcrumbs({
         <BreadcrumbSeparator />
         <BreadcrumbItem className="text-xs">
           <Select
-            value={currentMunicipality?.name}
+            value={currentMunicipality?.id}
             onValueChange={(value) => {
               console.log(value);
               router.push(
@@ -62,7 +62,7 @@ export default function ListingBreadcrumbs({
             <SelectContent>
               {municipalitiesOptions.map((m) => {
                 return (
-                  <SelectItem key={m.id} value={m.name}>
+                  <SelectItem key={m.id} value={m.id}>
                     {m.name}
                   </SelectItem>
                 );
@@ -73,7 +73,7 @@ export default function ListingBreadcrumbs({
         <BreadcrumbSeparator />
         <BreadcrumbItem className="text-xs">
           <Select
-            value={currentPlace?.name}
+            value={currentPlace?.id}
             onValueChange={(value) => {
               console.log(value);
               router.push(
@@ -87,7 +87,7 @@ export default function ListingBreadcrumbs({
             <SelectContent>
               {populatedPlacesOptions?.map((m) => {
                 return (
-                  <SelectItem key={m.id} value={m.name}>
+                  <SelectItem key={m.id} value={m.id}>
                     {m.name}
                   </SelectItem>
                 );
