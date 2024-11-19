@@ -24,7 +24,7 @@ export default async function SearchPage({
     return <div>Agency not found</div>;
   }
   const parsedParams = searchParamsCache.parse(searchParamsResult);
-  console.log("Re-run server component", Math.random(), parsedParams);
+  // console.log("Re-run server component", Math.random(), parsedParams);
   // @ts-ignore
   const listings = await getAllListings(parsedParams);
   return (

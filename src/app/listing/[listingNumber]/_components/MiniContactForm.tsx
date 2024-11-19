@@ -90,8 +90,8 @@ export default function MiniContactForm({
           </div>
           <Button>Send message</Button>
         </form>
-        <div className="border-t-2 px-5 py-4">
-          {agency && (
+        {agency && (
+          <div className="border-t-2 px-5 py-4">
             <>
               <div className="flex gap-2">
                 <div className="grid place-items-center rounded bg-slate-200 px-3 py-1.5">
@@ -118,8 +118,8 @@ export default function MiniContactForm({
                 />
               </div>
             </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

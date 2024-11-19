@@ -8,7 +8,7 @@ interface SearchPageProps {
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const parsedSearchParams = await searchParams;
   const parsedParams = searchParamsCache.parse(parsedSearchParams);
-  console.log("Re-run server component", Math.random(), parsedParams);
+  // console.log("Re-run server component", Math.random(), parsedParams);
   // @ts-ignore
   const listings = await getAllListings(parsedParams);
   return (
