@@ -8,7 +8,18 @@ export const routing = defineRouting({
   defaultLocale: "mk",
   // Disable locale detection and it will take user device locale instead
   localeDetection: false,
-  localePrefix: "always",
+  localePrefix: {
+    // as needed allows to use the locale only if it is needed, so for default is missing
+    mode: "as-needed",
+    // always adds the locale to the pathname
+    // mode: "always",
+    prefixes: {
+      mk: "/mk",
+      en: "/en",
+      al: "/al",
+    },
+  },
+
   // pathnames: {
   //   // example of how to translate a pathname for SEO also
   //   // "/contact": { mk: "/kontakt", en: "/contact", al: "/kontakt" },
