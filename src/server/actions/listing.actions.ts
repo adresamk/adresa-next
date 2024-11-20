@@ -797,7 +797,7 @@ export async function editListing(
 export default async function getAllListings(
   search: string = "",
 ): Promise<Listing[]> {
-  console.log("this is the search on the server", search);
+  // console.log("this is the search on the server", search);
 
   const { user } = await validateRequest();
 
@@ -805,6 +805,7 @@ export default async function getAllListings(
     where: {
       isPublished: true,
     },
+    take: 20,
     include: {
       // owner: true,
       favoritedBy: {

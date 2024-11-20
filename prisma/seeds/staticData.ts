@@ -13,7 +13,7 @@ export const a: Agency[] = [
     contactPersonEmail: "johndoe@example.com",
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
-    gpsLocation: "40.7128, -74.0060",
+    gpsLocation: "41.994627, 21.426489",
     description: `BINSWANGER BINIARIS Company represents exclusively in Greece the International Group BINSWANGER AMERICA LLC (www.binswanger.com), leader in the international real estate market, with clients 2/3 of the companies of FORTUNE 500, providing complete solutions to multinational companies related to their needs in the real estate sector.
       Our Company, in addition to the activity of its residential sector, with the support of the specialized in-house departments of our engineering and legal consultants, provides additional integrated solutions in special real estate issues, such as the relocation of multinational companies, the renegotiation of rents, the appraisal of the property, the preparation of studies, the full consulting coverage of our clients, etc.`,
     shortDescription: "A brief description of Agency 1.",
@@ -31,7 +31,7 @@ export const a: Agency[] = [
     contactPersonEmail: "sasko@example.com",
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
-    gpsLocation: "40.7128, -74.0060",
+    gpsLocation: "41.994627, 21.426489",
     description: `Who we are
       At Real Estate One, we provide high quality services in the field of Property Management through many years of professional knowledge and expertise.
       
@@ -54,7 +54,7 @@ export const a: Agency[] = [
     contactPersonEmail: "petko@example.com",
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
-    gpsLocation: "40.7128, -74.0060",
+    gpsLocation: "41.994627, 21.426489",
     description: `The real estate agency Keller Williams Athens Riviera operates in Attica, especially in the area of the southern suburbs of Athens. Our experience in the real estate industry begins in 1977 as a construction company in Neo Kosmos.
       
       Our main concern is to be a quality choice in the provision of real estate services, offering vertically integrated services to the entire range of the real estate market. Our team consists of trained real estate consultants to Keller Williams standards and is complemented by an engineer, architect, decorator, mechanical engineer, REV/MRICS real estate appraiser, attorney and notary public
@@ -74,7 +74,7 @@ export const a: Agency[] = [
     contactPersonEmail: "papp@example.com",
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
-    gpsLocation: "40.7128, -74.0060",
+    gpsLocation: "41.994627, 21.426489",
     description: ``,
     shortDescription: "A brief description of Agency 4.",
     branding: "",
@@ -91,7 +91,7 @@ export const a: Agency[] = [
     contactPersonEmail: "boriz@example.com",
     contactPersonPhone: "+1234567890",
     workHours: "9:00 AM - 5:00 PM",
-    gpsLocation: "40.7128, -74.0060",
+    gpsLocation: "41.994627, 21.426489",
     description: `The real estate market is one of its most demanding and competitive industries
       economy, as it is directly linked to all productive sectors.
       

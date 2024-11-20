@@ -29,7 +29,7 @@ export default function LikeListingButton({
 }) {
   const router = useRouter();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function LikeListingButton({
         setIsLoading(false);
       }
     }
-    checkFavoriteStatus();
+    // checkFavoriteStatus();
   }, [listingId]);
   return (
     <>
@@ -78,7 +78,9 @@ export default function LikeListingButton({
       </AlertDialog>
       <Button
         disabled={isLoading}
+        type="button"
         onClick={async (e) => {
+          e.preventDefault();
           const isLoggedIn = isLoggedInClient();
           if (!isLoggedIn) {
             setIsAlertOpen(true);
@@ -87,7 +89,7 @@ export default function LikeListingButton({
           // probably show toast with error maybe?
           if (!isFavorite) {
             const resp = await addListingAsFavorite(listingId);
-            router.refresh();
+            // router.refresh();
             if (resp.success) {
               setIsFavorite(true);
             }

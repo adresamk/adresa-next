@@ -92,3 +92,8 @@ body[data-scroll-locked] {
     width: 33.3333333333% !important;
   }
 }
+.leaflet-marker-icon.leaflet-div-icon.leaflet-zoom-animated.leaflet-interactive {
+  /* display: none */
+  border: none;
+  background: transparent;
+}

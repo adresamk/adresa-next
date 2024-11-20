@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
   const hasLocale = locales.some((locale) => pathname.startsWith(`/${locale}`));
   const localePrefix = routing.localePrefix;
   // @ts-ignore
-  console.log(localePrefix, typeof localePrefix, localePrefix.mode);
+  // console.log(localePrefix, typeof localePrefix, localePrefix.mode);
   if (!hasLocale) {
     // @ts-ignore
     if (localePrefix.mode === "alaways") {

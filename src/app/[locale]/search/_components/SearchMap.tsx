@@ -1,8 +1,12 @@
 "use client";
+import { useEffect } from "react";
+import "leaflet/dist/leaflet.css";
+// import "react-leaflet-markercluster/dist/styles.min.css";
+// import MarkerClusterGroup from "react-leaflet-markercluster";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Listing } from "@prisma/client";
-import { LatLngExpression, divIcon } from "leaflet";
+import { Agency, Listing } from "@prisma/client";
+import L, { Icon, LatLngExpression, divIcon } from "leaflet";
 import {
   MapContainer,
   TileLayer,
@@ -11,16 +15,28 @@ import {
   CircleMarker,
   LayerGroup,
 } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import ListingMapCard from "./ListingMapCard";
 import MapWithBounds from "./MapWithBounds";
-import { useState, memo, useRef, useEffect } from "react";
+import { useState, memo, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Compass, Ghost, MapPinCheck } from "lucide-react";
+import { Building, Compass, Ghost, MapPinCheck } from "lucide-react";
 import { cn, displayPrice } from "@/lib/utils";
 import { renderToStaticMarkup } from "react-dom/server";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import MarkerClusterGroup from "@/components/shared/MarkerClusterGroup";
 
-export default function SearchMap({ listings }: { listings: Listing[] }) {
+export default function SearchMap({
+  listings,
+  agency,
+}: {
+  listings: Listing[];
+  agency?: Agency;
+}) {
+  const [mapReady, setMapReady] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
+
   const [resultsFilters, setResultsFilters] = useState("");
   const [mapFilters, setMapFilters] = useState("");
   const [searchOnMove, setSearchOnMove] = useState(false);
@@ -29,7 +45,79 @@ export default function SearchMap({ listings }: { listings: Listing[] }) {
 
   const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
   const pin1: LatLngExpression = [42.009505818991286, 21.349934451934097];
+  const agencyLocation: LatLngExpression = [41.99564, 21.428277];
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
+    // This fixes the missing icon issues
+    if (!mapReady) {
+      delete (L.Icon.Default.prototype as any)._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: "leaflet/images/marker-icon-2x.png",
+        iconUrl: "leaflet/images/marker-icon.png",
+        shadowUrl: "leaflet/images/marker-shadow.png",
+      });
+      setMapReady(true);
+    }
+
+    // Cleanup function
+    return () => {
+      if (mapInstanceRef.current) {
+        console.log("Removing map");
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [mapReady]);
+
+  function getListingIcon(listing: Listing) {
+    let htmlMarkup = null;
+    if (listing.locationPrecision === "exact") {
+      htmlMarkup = (
+        <div className="relative left-1/2 w-fit -translate-x-1/2 text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
+          {displayPrice(listing.price)}
+        </div>
+      );
+    }
+
+    if (listing.locationPrecision === "approximate") {
+      htmlMarkup = (
+        <div className="relative -left-2 -top-2 h-4 w-4 rounded-full border border-white bg-brand-light-blue text-transparent"></div>
+      );
+    }
+
+    if (listing.locationPrecision === "wide") {
+      htmlMarkup = (
+        <div className="relative -left-[3px] -top-[8px]">
+          <svg
+            version="1.0"
+            xmlns="http://www.w3.org/2000/svg"
+            width="18px"
+            height="18px"
+            viewBox="0 0 512.000000 512.000000"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <g
+              transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+              fill="#0069fe"
+              stroke="red"
+              strokeWidth={2}
+            >
+              <path
+                d="M2385 5114 c-670 -70 -1186 -403 -1440 -929 -115 -237 -185 -557
+-185 -844 0 -446 336 -1197 983 -2196 277 -429 785 -1135 816 -1135 10 0 333
+443 533 730 843 1212 1268 2083 1268 2598 0 286 -72 616 -184 847 -238 487
+-697 810 -1296 910 -91 15 -412 28 -495 19z"
+              />
+            </g>
+          </svg>
+        </div>
+      );
+    }
+    return divIcon({
+      html: renderToStaticMarkup(htmlMarkup!),
+    });
+  }
   function handleMapMove(
     target: "resultsFilters" | "mapFilters" | "both",
     coordinates: string,
@@ -46,6 +134,14 @@ export default function SearchMap({ listings }: { listings: Listing[] }) {
     }
   }
   const mapMovedWithoutSearching = resultsFilters !== mapFilters;
+
+  if (!mapReady) {
+    return (
+      <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
+        Loading map...
+      </div>
+    );
+  }
   return (
     <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
       <div id="search-page-map" className="relative mb-10 h-full w-full">
@@ -60,6 +156,7 @@ export default function SearchMap({ listings }: { listings: Listing[] }) {
               {resultsFilters}
               {mapFilters}
             </div> */}
+
             {mapMovedWithoutSearching ? (
               <Button
                 variant={"ghost"}
@@ -90,109 +187,109 @@ export default function SearchMap({ listings }: { listings: Listing[] }) {
             View 300 of {listings.length} properties with a pin on the map
           </div>
         </aside>
-        {/* <div className="overflow-hidden lg:h-[calc(100vh_-_150px)]">
-          <img
-            src="/assets/map-example.png"
-            alt=""
-            className="h-100 object-cover max-w-max rounded"
-          />
-        </div> */}
 
         <MapContainer
           key={`map-${mapSearchedCounter}`}
           center={skopjeLatLng}
+          // ref={(map) => {
+          //   if (map) {
+          //     mapInstanceRef.current = map;
+          //   }
+          // }}
           zoom={11}
           style={{ height: "100%", width: "100%" }}
         >
-          <MapWithBounds
+          {/* <MapWithBounds
             mapSearchedCounter={mapSearchedCounter}
             searchOnMove={searchOnMove}
             handleMapMove={handleMapMove}
-          />
+          /> */}
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
+          {/* <MarkerClusterGroup chunkedLoading /> */}
           <LayerGroup>
-            <Marker
-              position={pin1}
-              icon={divIcon({
-                html: renderToStaticMarkup(
-                  <div className="w-fit rounded border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
-                    Test
-                  </div>,
-                ),
-              })}
+            <MarkerClusterGroup
+              options={{
+                maxClusterRadius: 30,
+              }}
             >
-              <Popup>
-                <div>Mario 123</div>
-              </Popup>
-            </Marker>
-            {listings.map((listing) => (
+              {listings.map((listing) => (
+                <Marker
+                  icon={getListingIcon(listing)}
+                  key={listing.id}
+                  position={
+                    [listing.latitude, listing.longitude] as LatLngExpression
+                  }
+                  eventHandlers={{
+                    mouseover: (e) => {
+                      // console.log(e.target);
+                      // e.target._path.setAttribute("fill", "#35f3ff");
+                      // e.target._path.setAttribute("stroke", "#35f3ff");
+                      e.target.openPopup();
+                    },
+                    mouseout: (e) => {
+                      e.target.closePopup();
+                      // e.target._path.setAttribute("fill", "#0069fe");
+                      // e.target._path.setAttribute("stroke", "#0069fe");
+                    },
+                  }}
+                >
+                  <Popup className="test" autoPan={false}>
+                    <ListingMapCard listing={listing} />
+                  </Popup>
+                </Marker>
+              ))}
+            </MarkerClusterGroup>
+
+            {agency && (
               <Marker
-                icon={divIcon({
-                  html: renderToStaticMarkup(
-                    <div className="relative left-1/2 w-fit -translate-x-1/2 text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
-                      {displayPrice(listing.price)}
-                    </div>,
-                  ),
-                })}
-                key={listing.id}
-                position={
-                  [listing.latitude, listing.longitude] as LatLngExpression
+                position={agencyLocation}
+                icon={
+                  new Icon({
+                    iconUrl:
+                      "https://cdn-icons-png.flaticon.com/512/8/8214.png",
+                    iconSize: [32, 32],
+                  })
                 }
-                eventHandlers={{
-                  mouseover: (e) => {
-                    // console.log(e.target);
-                    // e.target._path.setAttribute("fill", "#35f3ff");
-                    // e.target._path.setAttribute("stroke", "#35f3ff");
-                    e.target.openPopup();
-                  },
-                  mouseout: (e) => {
-                    e.target.closePopup();
-                    // e.target._path.setAttribute("fill", "#0069fe");
-                    // e.target._path.setAttribute("stroke", "#0069fe");
-                  },
-                }}
-              >
-                <Popup className="test" autoPan={false}>
-                  <ListingMapCard listing={listing} />
-                </Popup>
-              </Marker>
-            ))}
-            {listings.map((listing) => (
-              <CircleMarker
-                key={listing.id}
-                center={
-                  [listing.latitude, listing.longitude] as LatLngExpression
-                }
-                className="relative"
-                radius={8}
-                fill={true}
-                pathOptions={{
-                  color: "#0069fe",
-                  fillColor: "#0069fe",
-                  fillOpacity: 1,
-                }}
-                eventHandlers={{
-                  mouseover: (e) => {
-                    // console.log(e.target);
-                    e.target._path.setAttribute("fill", "#35f3ff");
-                    e.target._path.setAttribute("stroke", "#35f3ff");
-                    e.target.openPopup();
-                  },
-                  mouseout: (e) => {
-                    e.target.closePopup();
-                    e.target._path.setAttribute("fill", "#0069fe");
-                    e.target._path.setAttribute("stroke", "#0069fe");
-                  },
-                }}
-              >
-                <Popup className="test" autoPan={false}>
-                  <ListingMapCard listing={listing} />
-                </Popup>
-              </CircleMarker>
-            ))}
+              ></Marker>
+            )}
+
+            {false &&
+              listings.map((listing) => (
+                <CircleMarker
+                  key={listing.id}
+                  center={
+                    [listing.latitude, listing.longitude] as LatLngExpression
+                  }
+                  className="relative"
+                  radius={8}
+                  fill={true}
+                  pathOptions={{
+                    color: "#0069fe",
+                    fillColor: "#0069fe",
+                    fillOpacity: 1,
+                  }}
+                  eventHandlers={{
+                    mouseover: (e) => {
+                      // console.log(e.target);
+                      e.target._path.setAttribute("fill", "#35f3ff");
+                      e.target._path.setAttribute("stroke", "#35f3ff");
+                      e.target.openPopup();
+                    },
+                    mouseout: (e) => {
+                      e.target.closePopup();
+                      e.target._path.setAttribute("fill", "#0069fe");
+                      e.target._path.setAttribute("stroke", "#0069fe");
+                    },
+                  }}
+                >
+                  <Popup className="test" autoPan={false}>
+                    <ListingMapCard listing={listing} />
+                  </Popup>
+                </CircleMarker>
+              ))}
             {/* <CircleMarker
               center={skopjeLatLng}
               className="relative"

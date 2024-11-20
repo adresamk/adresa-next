@@ -19,7 +19,7 @@ export default async function SearchPage({
       slug: slug,
     },
   });
-  console.log(agency);
+  // console.log(agency);
   if (!agency) {
     return <div>Agency not found</div>;
   }
