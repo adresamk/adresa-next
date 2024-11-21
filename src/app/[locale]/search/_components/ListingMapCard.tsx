@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
 export default function ListingMapCard({ listing }: { listing: Listing }) {
   return (
-    <div className="max-h-[300px] max-w-[240px] overflow-x-scroll border border-black">
+    <div className="max-h-[300px] max-w-[240px] overflow-x-scroll">
       <figure className="relative mx-auto my-0 block">
         {/* image header */}
         <div className="pointer-events-none absolute left-0 top-0 z-50 flex w-full items-center overflow-hidden px-3.5 py-2.5">

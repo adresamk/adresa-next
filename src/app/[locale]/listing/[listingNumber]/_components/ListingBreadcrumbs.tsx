@@ -21,12 +21,13 @@ import {
 import { municipalitiesWithPlaces } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
 import { SerializedListing } from "@/lib/types";
 import { capitalizeString } from "@/lib/utils";
+import { Listing } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 export default function ListingBreadcrumbs({
   listing,
 }: {
-  listing: SerializedListing;
+  listing: SerializedListing | Listing;
 }) {
   const router = useRouter();
   const currentMunicipality = municipalitiesOptions.find(

@@ -1,17 +1,13 @@
 import ListingsList from "./ListingsList";
 import { Listing } from "@prisma/client";
 import ModeChangeButton from "./ModeChangeButton";
-import Breadcrumbs from "./Breadcrumbs";
+import SearchBreadcrumbs from "./SearchBreadcrumbs";
 
-export default function Listings({
-  listings,
-}: {
-  listings: Listing[];
-}) {
+export default function Listings({ listings }: { listings: Listing[] }) {
   return (
-    <div className="lg:w-3/5 border px-6 order-1">
+    <div className="order-1 border px-6 lg:w-3/5">
       <div className="flex items-center justify-between py-3">
-        <Breadcrumbs />
+        <SearchBreadcrumbs listings={listings} />
         <ModeChangeButton />
       </div>
 

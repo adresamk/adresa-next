@@ -7,20 +7,27 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Listing } from "@prisma/client";
 import { parseAsString, useQueryState } from "nuqs";
+import ListingBreadcrumbs from "../../listing/[listingNumber]/_components/ListingBreadcrumbs";
 
-export default function Breadcrumbs() {
+export default function SearchBreadcrumbs({
+  listings,
+}: {
+  listings: Listing[];
+}) {
   let [type, setType] = useQueryState(
     "type",
-    parseAsString.withOptions({ shallow: false }).withDefault("Homes")
+    parseAsString.withOptions({ shallow: false }).withDefault("Homes"),
   );
 
   let [location, setLocation] = useQueryState(
     "location",
-    parseAsString
-      .withOptions({ shallow: false })
-      .withDefault("Skopje")
+    parseAsString.withOptions({ shallow: false }).withDefault("Skopje"),
   );
+  if (listings) {
+    return <ListingBreadcrumbs listing={listings[0]} />;
+  }
   return (
     <div className="text-sm">
       <Breadcrumb>
@@ -30,9 +37,7 @@ export default function Breadcrumbs() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/components">
-              {location}
-            </BreadcrumbLink>
+            <BreadcrumbLink href="/components">{location}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
