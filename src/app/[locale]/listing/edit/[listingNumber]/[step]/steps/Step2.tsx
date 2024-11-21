@@ -26,7 +26,6 @@ const municipalitiesOptions = municipalitiesOptionsData.map((o) => ({
 export default function Step2({ listing }: { listing: Listing }) {
   const [municipality, setMunicipality] = useState(listing.municipality);
   const [populatedPlace, setPopulatedPlace] = useState(listing.place);
-
   const [usedPlaces, setUsedPlaces] = useState<{
     populatedPlace: PopulatedPlace | null;
     municipality: PopulatedPlace | null;
@@ -34,34 +33,10 @@ export default function Step2({ listing }: { listing: Listing }) {
     populatedPlace: null,
     municipality: null,
   });
-  console.log(listing.place, listing.municipality);
 
   const [populatedPlacesOptions, setPopulatedPlacesOptions] = useState<
     { label: string; value: string }[]
-  >(() => {
-    if (municipality) {
-      const municipalityUsed = municipalitiesOptionsData.find(
-        (m) => m.name.toLowerCase() === municipality.toLowerCase(),
-      );
-      if (municipalityUsed) {
-        const places = getMunicipalityPlaces(municipalityUsed.id);
-        if (places) {
-          const populatedPlacesOptions = places.map((p) => ({
-            label: p.name,
-            value: p.name.toLowerCase(),
-          }));
-          setUsedPlaces({
-            populatedPlace: null,
-            municipality: municipalityUsed,
-          });
-          setPopulatedPlace(populatedPlacesOptions[0].value);
-          return populatedPlacesOptions;
-        }
-      }
-      return [];
-    }
-    return [];
-  });
+  >([]);
   const [district, setDistrict] = useState(listing.district);
 
   const [address, setAddress] = useState(listing.address);
@@ -74,75 +49,49 @@ export default function Step2({ listing }: { listing: Listing }) {
       lng: listing.longitude,
     };
   });
-  //update places options when municipality changes
+
+  // Single effect to handle municipality changes
   useEffect(() => {
     if (municipality) {
-      console.log(municipality);
-      console.log("here");
-      const municipalityUsed = municipalitiesOptionsData.find(
+      const municipalityData = municipalitiesOptionsData.find(
         (m) => m.id === municipality,
       );
-      console.log(municipalityUsed);
-      if (municipalityUsed) {
-        const places = getMunicipalityPlaces(municipalityUsed.id);
-        console.log(places);
+
+      if (municipalityData) {
+        const places = getMunicipalityPlaces(municipalityData.id);
         if (places) {
           const populatedPlacesOptions = places.map((p) => ({
             label: p.name,
             value: p.id,
           }));
-          setUsedPlaces({
-            populatedPlace: places[0],
-            municipality: municipalityUsed,
-          });
-          console.log(populatedPlacesOptions);
+
           setPopulatedPlacesOptions(populatedPlacesOptions);
+          setUsedPlaces({
+            municipality: municipalityData,
+            populatedPlace: places[0], // Set default to first place
+          });
+          setPopulatedPlace(populatedPlacesOptions[0].value);
         }
       }
     }
   }, [municipality]);
-  //effect description
-  useEffect(() => {
-    const municipalityUsed = municipalitiesOptionsData.find(
-      (m) => m.id === municipality,
-    );
-    if (municipalityUsed) {
-      const places = getMunicipalityPlaces(municipalityUsed.id);
-      console.log(places);
-      if (places) {
-        const populatedPlacesOptions = places.map((p) => ({
-          label: p.name,
-          value: p.id,
-        }));
-        setUsedPlaces({
-          populatedPlace: places[0],
-          municipality: municipalityUsed,
-        });
-        console.log(populatedPlacesOptions);
-        // setPopulatedPlacesOptions(populatedPlacesOptions);
-      }
-    }
-  }, [populatedPlace, populatedPlacesOptions, municipality]);
-  //effect description
-  useEffect(() => {
-    if (populatedPlacesOptions.length > 0) {
-      setPopulatedPlace(populatedPlacesOptions[0].value);
-    }
-  }, [populatedPlacesOptions]);
 
-  //updated Selected Place
+  // Effect to update selected place
   useEffect(() => {
-    if (usedPlaces.municipality?.id) {
+    if (usedPlaces.municipality?.id && populatedPlace) {
       const places = getMunicipalityPlaces(usedPlaces.municipality.id);
       if (places) {
-        setUsedPlaces((prev) => ({
-          ...prev,
-          populatedPlace:
-            places.find((p) => p.name.toLowerCase() === populatedPlace) || null,
-        }));
+        const selectedPlace = places.find((p) => p.id === populatedPlace);
+        if (selectedPlace) {
+          setUsedPlaces((prev) => ({
+            ...prev,
+            populatedPlace: selectedPlace,
+          }));
+        }
       }
     }
   }, [populatedPlace, usedPlaces.municipality]);
+
   return (
     <div className="p-2">
       <input type="string" className="hidden" defaultValue="2" name="step" />
