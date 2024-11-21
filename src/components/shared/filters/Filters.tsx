@@ -150,7 +150,7 @@ export default function Filters() {
   );
 
   return (
-    <aside className="sticky top-[80px] z-10 flex min-h-[70px] items-center gap-3 bg-white px-6 shadow-md">
+    <aside className="sticky top-[80px] z-10 flex min-h-[70px] w-full items-center gap-3 overflow-x-auto bg-white px-6 shadow-md">
       <ModeFilter variant="search" />
       <PropertyTypeFilter variant="search" />
       <SubTypeFilter variant="search" />

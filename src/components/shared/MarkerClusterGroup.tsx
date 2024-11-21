@@ -1,44 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
+import { createLayerHook } from "@react-leaflet/core";
 import L from "leaflet";
 import "leaflet.markercluster";
+import { createRoot, Root } from "react-dom/client";
+import { useLeafletContext } from "@react-leaflet/core";
 
-interface MarkerClusterGroupProps {
+interface MarkerClusterGroupProps extends L.LayerOptions {
   children: React.ReactElement | React.ReactElement[];
   options?: L.MarkerClusterGroupOptions;
 }
 
-const MarkerClusterGroup = ({ children, options }: MarkerClusterGroupProps) => {
-  const map = useMap();
+// Create a wrapper component for the popup content
+const PopupContent = ({ children }: { children: React.ReactNode }) => {
+  const [container] = useState(() => document.createElement("div"));
 
   useEffect(() => {
-    // Create a MarkerClusterGroup instance
-    const markerClusterGroup = L.markerClusterGroup(options);
-
-    // Add markers to the cluster group
-    const markers = React.Children.map(children, (child) => {
-      if (child.props.position) {
-        const marker = L.marker(child.props.position, {
-          icon: child.props.icon, // Pass custom icon if provided
-        });
-        if (child.props.popupContent) {
-          marker.bindPopup(child.props.popupContent);
-        }
-        return marker;
-      }
-      return null;
-    }).filter(Boolean);
-
-    markerClusterGroup.addLayers(markers);
-    map.addLayer(markerClusterGroup);
-
-    // Clean up on unmount
+    const root = createRoot(container);
+    root.render(children);
     return () => {
-      map.removeLayer(markerClusterGroup);
+      setTimeout(() => {
+        root.unmount();
+      }, 0);
     };
-  }, [map, children, options]);
+  }, [children, container]);
 
-  return null; // This component only manages side effects, so no UI is rendered
+  return null;
 };
+const MarkerClusterGroup = createLayerHook<
+  L.MarkerClusterGroup,
+  MarkerClusterGroupProps
+>(({ children, options }, context) => {
+  const markerClusterGroup = L.markerClusterGroup(options);
+  const { instance } = { instance: markerClusterGroup };
+  return { current: { instance, context } };
+});
 
 export default MarkerClusterGroup;

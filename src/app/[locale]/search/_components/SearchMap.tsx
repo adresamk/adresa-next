@@ -25,6 +25,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import MarkerClusterGroup from "@/components/shared/MarkerClusterGroup";
+import { createElementObject, createPathComponent } from "@react-leaflet/core";
 
 export default function SearchMap({
   listings,
@@ -208,40 +209,28 @@ export default function SearchMap({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          {/* <MarkerClusterGroup chunkedLoading /> */}
           <LayerGroup>
-            <MarkerClusterGroup
-              options={{
-                maxClusterRadius: 30,
-              }}
-            >
-              {listings.map((listing) => (
-                <Marker
-                  icon={getListingIcon(listing)}
-                  key={listing.id}
-                  position={
-                    [listing.latitude, listing.longitude] as LatLngExpression
-                  }
-                  eventHandlers={{
-                    mouseover: (e) => {
-                      // console.log(e.target);
-                      // e.target._path.setAttribute("fill", "#35f3ff");
-                      // e.target._path.setAttribute("stroke", "#35f3ff");
-                      e.target.openPopup();
-                    },
-                    mouseout: (e) => {
-                      e.target.closePopup();
-                      // e.target._path.setAttribute("fill", "#0069fe");
-                      // e.target._path.setAttribute("stroke", "#0069fe");
-                    },
-                  }}
-                >
-                  <Popup className="test" autoPan={false}>
-                    <ListingMapCard listing={listing} />
-                  </Popup>
-                </Marker>
-              ))}
-            </MarkerClusterGroup>
+            {listings.map((listing) => (
+              <Marker
+                icon={getListingIcon(listing)}
+                key={listing.id}
+                position={
+                  [listing.latitude, listing.longitude] as LatLngExpression
+                }
+                eventHandlers={{
+                  mouseover: (e) => {
+                    e.target.openPopup();
+                  },
+                  mouseout: (e) => {
+                    e.target.closePopup();
+                  },
+                }}
+              >
+                <Popup className="test" autoPan={false}>
+                  <ListingMapCard listing={listing} />
+                </Popup>
+              </Marker>
+            ))}
 
             {agency && (
               <Marker

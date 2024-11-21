@@ -97,3 +97,12 @@ body[data-scroll-locked] {
   border: none;
   background: transparent;
 }
+/* 
+.custom-popup {
+  z-index: 10000 !important;
+} */
+
+/* Ensure the popup tip is also visible */
+/* .leaflet-popup-tip-container {
+  z-index: 1000 !important;
+} */
