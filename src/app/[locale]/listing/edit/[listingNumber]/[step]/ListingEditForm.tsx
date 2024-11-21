@@ -10,7 +10,7 @@ import Step6 from "./steps/Step6";
 import Step7 from "./steps/Step7";
 import Step8 from "./steps/Step8";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { steps } from "./types";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
@@ -39,6 +39,14 @@ export default function ListingEditForm({
   const stepsFlow = steps.map((step) => step.uniquePath);
   const currentStepIdx = stepsFlow.indexOf(currentStep);
 
+  async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget); // Get form data
+    const { success, error } = await editListing({ success: false }, formData);
+    if (success) {
+      setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
+    }
+  }
   return (
     <>
       <ListingEditSideMenu
@@ -49,7 +57,7 @@ export default function ListingEditForm({
       />
       <div className="min-w-[460px] pl-10">
         <div className="mt-2 rounded bg-white p-2 shadow-md">
-          <form action={formAction}>
+          <form onSubmit={handleFormSubmit}>
             <input
               type="text"
               className="hidden"
@@ -65,11 +73,12 @@ export default function ListingEditForm({
             {currentStepIdx === 6 && <Step7 listing={listing} key={"7"} />}
             {currentStepIdx === 7 && <Step8 listing={listing} key={"8"} />}
             {/* {stepsComponents[currentStepIdx]} */}
+
             <Button size={"sm"} className="my-2" type="submit">
-              Submit
+              Save Changes
             </Button>
           </form>
-          <div>
+          {/* <div>
             <div className="flex gap-2">
               <Button
                 disabled={currentStep === "category"}
@@ -90,7 +99,7 @@ export default function ListingEditForm({
                 Next
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

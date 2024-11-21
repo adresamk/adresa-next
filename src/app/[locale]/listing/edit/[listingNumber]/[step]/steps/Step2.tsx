@@ -20,7 +20,7 @@ interface Location {
 }
 const municipalitiesOptions = municipalitiesOptionsData.map((o) => ({
   label: o.name,
-  value: o.name.toLowerCase(),
+  value: o.id,
 }));
 
 export default function Step2({ listing }: { listing: Listing }) {
@@ -34,6 +34,7 @@ export default function Step2({ listing }: { listing: Listing }) {
     populatedPlace: null,
     municipality: null,
   });
+  console.log(listing.place, listing.municipality);
 
   const [populatedPlacesOptions, setPopulatedPlacesOptions] = useState<
     { label: string; value: string }[]
@@ -77,15 +78,18 @@ export default function Step2({ listing }: { listing: Listing }) {
   useEffect(() => {
     if (municipality) {
       console.log(municipality);
+      console.log("here");
       const municipalityUsed = municipalitiesOptionsData.find(
-        (m) => m.name.toLowerCase() === municipality.toLowerCase(),
+        (m) => m.id === municipality,
       );
+      console.log(municipalityUsed);
       if (municipalityUsed) {
         const places = getMunicipalityPlaces(municipalityUsed.id);
+        console.log(places);
         if (places) {
           const populatedPlacesOptions = places.map((p) => ({
             label: p.name,
-            value: p.name.toLowerCase(),
+            value: p.id,
           }));
           setUsedPlaces({
             populatedPlace: places[0],
@@ -99,7 +103,31 @@ export default function Step2({ listing }: { listing: Listing }) {
   }, [municipality]);
   //effect description
   useEffect(() => {
-    setPopulatedPlace(populatedPlacesOptions[0].value);
+    const municipalityUsed = municipalitiesOptionsData.find(
+      (m) => m.id === municipality,
+    );
+    if (municipalityUsed) {
+      const places = getMunicipalityPlaces(municipalityUsed.id);
+      console.log(places);
+      if (places) {
+        const populatedPlacesOptions = places.map((p) => ({
+          label: p.name,
+          value: p.id,
+        }));
+        setUsedPlaces({
+          populatedPlace: places[0],
+          municipality: municipalityUsed,
+        });
+        console.log(populatedPlacesOptions);
+        // setPopulatedPlacesOptions(populatedPlacesOptions);
+      }
+    }
+  }, [populatedPlace, populatedPlacesOptions, municipality]);
+  //effect description
+  useEffect(() => {
+    if (populatedPlacesOptions.length > 0) {
+      setPopulatedPlace(populatedPlacesOptions[0].value);
+    }
   }, [populatedPlacesOptions]);
 
   //updated Selected Place
@@ -107,14 +135,14 @@ export default function Step2({ listing }: { listing: Listing }) {
     if (usedPlaces.municipality?.id) {
       const places = getMunicipalityPlaces(usedPlaces.municipality.id);
       if (places) {
-        setUsedPlaces({
-          ...usedPlaces,
+        setUsedPlaces((prev) => ({
+          ...prev,
           populatedPlace:
             places.find((p) => p.name.toLowerCase() === populatedPlace) || null,
-        });
+        }));
       }
     }
-  }, [populatedPlace]);
+  }, [populatedPlace, usedPlaces.municipality]);
   return (
     <div className="p-2">
       <input type="string" className="hidden" defaultValue="2" name="step" />
@@ -149,7 +177,7 @@ export default function Step2({ listing }: { listing: Listing }) {
         notFoundText="District doesn't exist"
         placeholder="Select a district"
         defaultValue={district}
-        options={[{ label: "district1", value: "district1" }]}
+        options={[{ label: "district1", value: "bs" }]}
       />
 
       <Label htmlFor="address">

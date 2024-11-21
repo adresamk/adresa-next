@@ -52,7 +52,7 @@ export function InputSelect({
   const [value, setValue] = useState(startingValue);
 
   return (
-    <div className="flex flex-col mb-2 ">
+    <div className="mb-2 flex flex-col">
       <div className="mb-2">
         <Label>{label}</Label>{" "}
         {required && <span className="text-red-500">*</span>}
@@ -73,18 +73,16 @@ export function InputSelect({
             role="combobox"
             className={cn(
               "max-w-[400px] justify-between",
-              !defaultValue && "text-muted-foreground"
+              !defaultValue && "text-muted-foreground",
             )}
           >
             {defaultValue
-              ? options.find(
-                  (option) => option.value === defaultValue
-                )?.label
+              ? options.find((option) => option.value === defaultValue)?.label
               : placeholder}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className=" max-w-[400px] p-0">
+        <PopoverContent align="start" className="max-w-[400px] p-0">
           <Command>
             <CommandInput placeholder={placeholder} />
             <CommandList>
@@ -92,7 +90,7 @@ export function InputSelect({
               <CommandGroup>
                 {options.map((option) => (
                   <CommandItem
-                    value={option.label}
+                    value={option.value}
                     key={option.value}
                     onSelect={() => {
                       //   console.log(option.value);
@@ -104,9 +102,7 @@ export function InputSelect({
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        option.value === value
-                          ? "opacity-100"
-                          : "opacity-0"
+                        option.value === value ? "opacity-100" : "opacity-0",
                       )}
                     />
                     {option.label}
