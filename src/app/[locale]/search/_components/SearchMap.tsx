@@ -25,6 +25,7 @@ import { cn, displayPrice } from "@/lib/utils";
 import { renderToStaticMarkup } from "react-dom/server";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import ZoomTracker from "./ZoomTracker";
 
 export default function SearchMap({
   listings,
@@ -37,12 +38,12 @@ export default function SearchMap({
   const [mapFilters, setMapFilters] = useState("");
   const [searchOnMove, setSearchOnMove] = useState(false);
   const [mapSearchedCounter, setMapSearchedCounter] = useState(0);
+  const [zoom, setZoom] = useState(11);
   const mapRef = useRef<L.Map>(null);
   const popupRef = useRef<L.Popup>(null);
   const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
   const agencyLocation: LatLngExpression = [41.99564, 21.428277];
-
-  function getListingIcon(listing: Listing) {
+  function getListingIcon(listing: Listing, zoom: number) {
     let htmlMarkup = null;
     if (listing.locationPrecision === "exact") {
       htmlMarkup = (
@@ -54,7 +55,14 @@ export default function SearchMap({
 
     if (listing.locationPrecision === "approximate") {
       htmlMarkup = (
-        <div className="relative -left-2 -top-2 h-4 w-4 rounded-full border border-white bg-brand-light-blue text-transparent"></div>
+        <div
+          className={cn(
+            "group relative -left-2 -top-2 h-4 w-4 rounded-full border border-white bg-brand-light-blue text-transparent",
+            zoom === 16 && "hover:shadow-blue-glow",
+            zoom === 17 && "hover:shadow-blue-glow-bigger",
+            zoom >= 18 && "hover:shadow-blue-glow-biggest",
+          )}
+        ></div>
       );
     }
 
@@ -136,6 +144,8 @@ export default function SearchMap({
   };
   let timeoutId: NodeJS.Timeout | null = null;
 
+  //
+
   return (
     <div className="order-2 mb-10 h-[360px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
       <div id="search-page-map" className="relative mb-10 h-full w-full">
@@ -178,7 +188,8 @@ export default function SearchMap({
         </aside>
         <aside className="absolute bottom-0 left-0 z-[1050]">
           <div className="rounded-tr-md bg-white px-3.5 py-2.5 text-sm shadow">
-            View 300 of {listings.length} properties with a pin on the map
+            View 300 {zoom} of {listings.length} properties with a pin on the
+            map
           </div>
         </aside>
 
@@ -189,6 +200,7 @@ export default function SearchMap({
           zoom={11}
           style={{ height: "100%", width: "100%" }}
         >
+          <ZoomTracker onZoomChange={setZoom} />
           <MapWithBounds
             mapSearchedCounter={mapSearchedCounter}
             searchOnMove={searchOnMove}
@@ -221,7 +233,7 @@ export default function SearchMap({
 
               return (
                 <Marker
-                  icon={getListingIcon(listing)}
+                  icon={getListingIcon(listing, zoom)}
                   key={listing.id}
                   position={
                     [listing.latitude, listing.longitude] as LatLngExpression

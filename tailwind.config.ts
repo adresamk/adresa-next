@@ -26,6 +26,11 @@ const config = withUt({
     screens,
     fontSize,
     extend: {
+      boxShadow: {
+        "blue-glow": "0 0 20px 12px rgba(0, 123, 255, 0.8)", // Customize the size
+        "blue-glow-bigger": "0 0 30px 25px rgba(0, 123, 255, 0.8)",
+        "blue-glow-biggest": "0 0 60px 45px rgba(0, 123, 255, 0.8)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
