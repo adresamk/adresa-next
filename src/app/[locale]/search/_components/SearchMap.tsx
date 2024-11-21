@@ -6,7 +6,7 @@ import "leaflet/dist/leaflet.css";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Agency, Listing } from "@prisma/client";
-import L, { Icon, LatLngExpression, divIcon } from "leaflet";
+import L, { Icon, LatLngExpression, LeafletMouseEvent, divIcon } from "leaflet";
 import {
   MapContainer,
   TileLayer,
@@ -14,6 +14,7 @@ import {
   Popup,
   CircleMarker,
   LayerGroup,
+  useMap,
 } from "react-leaflet";
 import ListingMapCard from "./ListingMapCard";
 import MapWithBounds from "./MapWithBounds";
@@ -24,8 +25,6 @@ import { cn, displayPrice } from "@/lib/utils";
 import { renderToStaticMarkup } from "react-dom/server";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-import MarkerClusterGroup from "@/components/shared/MarkerClusterGroup";
-import { createElementObject, createPathComponent } from "@react-leaflet/core";
 
 export default function SearchMap({
   listings,
@@ -34,42 +33,14 @@ export default function SearchMap({
   listings: Listing[];
   agency?: Agency;
 }) {
-  const [mapReady, setMapReady] = useState(false);
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<L.Map | null>(null);
-
   const [resultsFilters, setResultsFilters] = useState("");
   const [mapFilters, setMapFilters] = useState("");
   const [searchOnMove, setSearchOnMove] = useState(false);
   const [mapSearchedCounter, setMapSearchedCounter] = useState(0);
-  const mapRef: React.RefObject<typeof MapContainer> = useRef(null);
-
+  const mapRef = useRef<L.Map>(null);
+  const popupRef = useRef<L.Popup>(null);
   const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
-  const pin1: LatLngExpression = [42.009505818991286, 21.349934451934097];
   const agencyLocation: LatLngExpression = [41.99564, 21.428277];
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // This fixes the missing icon issues
-    if (!mapReady) {
-      delete (L.Icon.Default.prototype as any)._getIconUrl;
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl: "leaflet/images/marker-icon-2x.png",
-        iconUrl: "leaflet/images/marker-icon.png",
-        shadowUrl: "leaflet/images/marker-shadow.png",
-      });
-      setMapReady(true);
-    }
-
-    // Cleanup function
-    return () => {
-      if (mapInstanceRef.current) {
-        console.log("Removing map");
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-      }
-    };
-  }, [mapReady]);
 
   function getListingIcon(listing: Listing) {
     let htmlMarkup = null;
@@ -136,15 +107,37 @@ export default function SearchMap({
   }
   const mapMovedWithoutSearching = resultsFilters !== mapFilters;
 
-  if (!mapReady) {
-    return (
-      <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
-        Loading map...
-      </div>
-    );
-  }
+  const handlePopupPosition = (popup: L.Popup, position: LatLngExpression) => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const mapBounds = map.getBounds();
+    const popupWidth = 150; // Approximate width of the popup
+    const offset = 10; // Margin from the marker
+
+    if (mapBounds.contains(position)) {
+      const popupLatLng = L.latLng(position);
+      const markerPoint = map.project(popupLatLng);
+
+      const offsetDirection =
+        markerPoint.x + popupWidth + offset > map.getSize().x
+          ? "left"
+          : "right";
+
+      const popupOptions: L.PopupOptions = {
+        offset:
+          offsetDirection === "right"
+            ? [popupWidth / 2 + offset, 0]
+            : [-popupWidth / 2 - offset, 0],
+      };
+
+      popup.setLatLng(position).options = popupOptions;
+    }
+  };
+  let timeoutId: NodeJS.Timeout | null = null;
+
   return (
-    <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
+    <div className="order-2 mb-10 h-[360px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
       <div id="search-page-map" className="relative mb-10 h-full w-full">
         <aside className="absolute left-0 right-0 top-0 z-[1050] h-0 w-full text-center">
           <div
@@ -192,45 +185,74 @@ export default function SearchMap({
         <MapContainer
           key={`map-${mapSearchedCounter}`}
           center={skopjeLatLng}
-          // ref={(map) => {
-          //   if (map) {
-          //     mapInstanceRef.current = map;
-          //   }
-          // }}
+          ref={mapRef}
           zoom={11}
           style={{ height: "100%", width: "100%" }}
         >
-          {/* <MapWithBounds
+          <MapWithBounds
             mapSearchedCounter={mapSearchedCounter}
             searchOnMove={searchOnMove}
             handleMapMove={handleMapMove}
-          /> */}
+          />
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           <LayerGroup>
-            {listings.map((listing) => (
-              <Marker
-                icon={getListingIcon(listing)}
-                key={listing.id}
-                position={
-                  [listing.latitude, listing.longitude] as LatLngExpression
-                }
-                eventHandlers={{
-                  mouseover: (e) => {
-                    e.target.openPopup();
-                  },
-                  mouseout: (e) => {
-                    e.target.closePopup();
-                  },
-                }}
-              >
-                <Popup className="test" autoPan={false}>
-                  <ListingMapCard listing={listing} />
-                </Popup>
-              </Marker>
-            ))}
+            {listings.map((listing) => {
+              const handleMouseOver = (e: LeafletMouseEvent) => {
+                console.log(e);
+                console.log(e.target);
+                e.target.openPopup();
+                const popupContainer = e.target.getPopup()._container;
+                // setTimeout(() => {
+                //   popupContainer.style.transform = "translate3d(0px, 0px, 0px)";
+                //   popupContainer.style.top = "20px";
+                //   popupContainer.style.bottom = "unset";
+                //   popupContainer.style.left = "20px";
+                //   popupContainer.addEventListener("mouseout", () => {
+                //     setTimeout(() => {
+                //       e.target.closePopup();
+                //     }, 50);
+                //   });
+                // }, 5);
+                // console.log(popupContainer);
+              };
+
+              return (
+                <Marker
+                  icon={getListingIcon(listing)}
+                  key={listing.id}
+                  position={
+                    [listing.latitude, listing.longitude] as LatLngExpression
+                  }
+                  eventHandlers={{
+                    click: (e) => {
+                      // hopefully this catches the click before render
+                      setSearchOnMove(false);
+                    },
+                    // mouseover: handleMouseOver,
+                    // mouseout: handleMouseOut,
+                  }}
+                >
+                  <Popup
+                    ref={popupRef}
+                    autoPan={true}
+                    autoPanPadding={[10, 10]}
+                    // // keepInView={true}
+                    // eventHandlers={{
+                    //   popupopen: handlePopupOpened,
+                    //   load: handlePopupOpened,
+                    //   popupclose: handlePopupClosed,
+                    //   // mouseover: handlePopupMouseEnter,
+                    //   // mouseout: handlePopupMouseLeave,
+                    // }}
+                  >
+                    <ListingMapCard listing={listing} />
+                  </Popup>
+                </Marker>
+              );
+            })}
 
             {agency && (
               <Marker
@@ -244,52 +266,6 @@ export default function SearchMap({
                 }
               ></Marker>
             )}
-
-            {false &&
-              listings.map((listing) => (
-                <CircleMarker
-                  key={listing.id}
-                  center={
-                    [listing.latitude, listing.longitude] as LatLngExpression
-                  }
-                  className="relative"
-                  radius={8}
-                  fill={true}
-                  pathOptions={{
-                    color: "#0069fe",
-                    fillColor: "#0069fe",
-                    fillOpacity: 1,
-                  }}
-                  eventHandlers={{
-                    mouseover: (e) => {
-                      // console.log(e.target);
-                      e.target._path.setAttribute("fill", "#35f3ff");
-                      e.target._path.setAttribute("stroke", "#35f3ff");
-                      e.target.openPopup();
-                    },
-                    mouseout: (e) => {
-                      e.target.closePopup();
-                      e.target._path.setAttribute("fill", "#0069fe");
-                      e.target._path.setAttribute("stroke", "#0069fe");
-                    },
-                  }}
-                >
-                  <Popup className="test" autoPan={false}>
-                    <ListingMapCard listing={listing} />
-                  </Popup>
-                </CircleMarker>
-              ))}
-            {/* <CircleMarker
-              center={skopjeLatLng}
-              className="relative"
-              radius={8}
-              fill={true}
-              pathOptions={{
-                color: "#0069fe",
-                fillColor: "#0069fe",
-                fillOpacity: 1,
-              }}
-            ></CircleMarker> */}
           </LayerGroup>
         </MapContainer>
       </div>

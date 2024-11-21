@@ -22,6 +22,9 @@ const nextConfig = {
       {
         hostname: "img.halooglasi.com",
       },
+      {
+        hostname: "m1.spitogatos.gr",
+      },
     ],
   },
   transpilePackages: ["leaflet", "react-leaflet"],

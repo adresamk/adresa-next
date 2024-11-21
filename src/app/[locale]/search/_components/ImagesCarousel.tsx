@@ -16,13 +16,13 @@ export default function ImagesCarousel({ images }: { images: string[] }) {
     <Carousel className="relative w-full max-w-xs">
       <CarouselContent>
         {images.map((imageSrc, index) => (
-          <CarouselItem key={index} className="overflow-hidden">
+          <CarouselItem key={index} className="h-full">
             <Image
               src={imageSrc || missingImage}
               // hack for now
-              className="h-full overflow-hidden rounded-tl-lg rounded-tr-lg"
+              className="h-full rounded-tl-lg rounded-tr-lg object-cover"
               width={240}
-              height={160}
+              height={140}
               alt="Property first image"
             />
           </CarouselItem>
