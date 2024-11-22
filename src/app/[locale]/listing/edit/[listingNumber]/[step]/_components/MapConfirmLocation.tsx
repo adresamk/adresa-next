@@ -4,12 +4,11 @@ import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { act, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
 import {
   CONSTANTS,
-  getActivePolygon,
   handleMarkerPosition,
   MapConfirmLocationProps,
   MapPosition,
@@ -43,12 +42,16 @@ export default function MapConfirmLocation({
   const { position, updatePosition } = useMarkerPosition(pinCoordinates);
   const [isBigger, setIsBigger] = useState(false);
   const markerRef = useRef<MarkerType | null>(null);
+  const mapRef = useRef<Map | null>(null);
+
   const municipalityCoordinates: LatLngExpression[][][] | null =
     getPlaceCoordinates(Number(municipality?.jsonId));
   const populatedPlaceCoordinates: LatLngExpression[][][] | null =
     getPlaceCoordinates(Number(populatedPlace?.jsonId));
 
-  const mapRef = useRef<Map | null>(null);
+  // The polygon that we check against pin position
+  const activePolygon =
+    populatedPlaceCoordinates || municipalityCoordinates || null;
 
   function positionPinForPlace(
     municipalityCoordinates: LatLngExpression[][][],
@@ -73,6 +76,53 @@ export default function MapConfirmLocation({
     // fit map to polygon
     const bounds = polygon.getBounds();
     map?.fitBounds(bounds, { animate: true, padding: [50, 50] });
+  }
+
+  const eventHandlers = useMemo(
+    () => ({
+      // This function is triggered when the marker is dragged and dropped on the map.
+      // It updates the marker position within the active polygon (either populated place or municipality).
+      // It ensures the marker is snapped to the nearest 5th decimal place within the polygon boundaries.
+      dragend() {
+        const marker = markerRef.current;
+
+        if (marker && activePolygon) {
+          handleMarkerPosition(
+            marker,
+            activePolygon,
+            updatePosition,
+            setPinCoordinates,
+          );
+        }
+      },
+    }),
+    [activePolygon, setPinCoordinates, updatePosition],
+  );
+
+  // Function to handle the toggle of map size and adjust the map view accordingly
+  function handleBS() {
+    setIsBigger(!isBigger);
+
+    // Add a small delay to ensure the container has resized
+    setTimeout(() => {
+      const map = mapRef.current;
+      if (!map) return;
+
+      // Invalidate size to handle container resize
+      map.invalidateSize();
+
+      // Recenter and adjust view
+      if (activePolygon) {
+        const polygon = L.polygon(activePolygon);
+        const bounds = polygon.getBounds();
+        map.fitBounds(bounds, {
+          animate: true,
+          padding: CONSTANTS.MAP_PADDING,
+        });
+      } else if (position) {
+        map.setView(position, map.getZoom());
+      }
+    }, 100);
   }
 
   // this will take effect when it first loads and when we change the input from above in the
@@ -100,62 +150,6 @@ export default function MapConfirmLocation({
     populatedPlaceCoordinates,
   ]);
 
-  const eventHandlers = useMemo(
-    () => ({
-      dragend() {
-        const marker = markerRef.current;
-        const activePolygon = getActivePolygon(
-          populatedPlaceCoordinates,
-          municipalityCoordinates,
-        );
-
-        if (marker && activePolygon) {
-          handleMarkerPosition(
-            marker,
-            activePolygon,
-            updatePosition,
-            setPinCoordinates,
-          );
-        }
-      },
-    }),
-    [
-      municipalityCoordinates,
-      populatedPlaceCoordinates,
-      setPinCoordinates,
-      updatePosition,
-    ],
-  );
-
-  function handleBS() {
-    setIsBigger(!isBigger);
-
-    // Add a small delay to ensure the container has resized
-    setTimeout(() => {
-      const map = mapRef.current;
-      if (!map) return;
-
-      // Invalidate size to handle container resize
-      map.invalidateSize();
-
-      // Recenter and adjust view
-      const activePolygon = getActivePolygon(
-        populatedPlaceCoordinates,
-        municipalityCoordinates,
-      );
-
-      if (activePolygon) {
-        const polygon = L.polygon(activePolygon);
-        const bounds = polygon.getBounds();
-        map.fitBounds(bounds, {
-          animate: true,
-          padding: CONSTANTS.MAP_PADDING,
-        });
-      } else if (position) {
-        map.setView(position, map.getZoom());
-      }
-    }, 100);
-  }
   return (
     <div
       className={cn(
@@ -203,15 +197,7 @@ export default function MapConfirmLocation({
             eventHandlers={eventHandlers}
             position={position}
             ref={markerRef}
-          >
-            {/* <Popup minWidth={90}> */}
-            {/* <span onClick={toggleDraggable}>
-              {draggable
-                ? "Marker is draggable"
-                : "Click here to make marker draggable"}
-            </span> */}
-            {/* </Popup> */}
-          </Marker>
+          ></Marker>
         )}
       </MapContainer>
     </div>

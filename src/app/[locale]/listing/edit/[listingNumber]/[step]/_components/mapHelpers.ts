@@ -105,13 +105,6 @@ export function isPointWithinPolygon(
   return inside;
 }
 
-export function getActivePolygon(
-  populatedPlaceCoords: LatLngExpression[][][] | null,
-  municipalityCoords: LatLngExpression[][][] | null,
-): LatLngExpression[][][] | null {
-  return populatedPlaceCoords || municipalityCoords || null;
-}
-
 export function handleMarkerPosition(
   marker: MarkerType,
   polygonCoords: LatLngExpression[][][],
