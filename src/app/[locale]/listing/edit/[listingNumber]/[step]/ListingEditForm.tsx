@@ -45,6 +45,11 @@ export default function ListingEditForm({
     const { success, error } = await editListing({ success: false }, formData);
     if (success) {
       setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[currentStepIdx + 1].uniquePath}`,
+      );
     }
   }
   return (

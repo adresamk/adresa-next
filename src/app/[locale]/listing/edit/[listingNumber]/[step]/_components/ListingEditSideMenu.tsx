@@ -340,6 +340,11 @@ export default function ListingEditSideMenu({
                   key={step.title}
                   onClick={() => {
                     setCurrentStep(steps[index].uniquePath);
+                    window.history.pushState(
+                      {},
+                      "",
+                      `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[index].uniquePath}`,
+                    );
                   }}
                   className={cn(
                     "relative flex cursor-pointer hover:bg-gray-50",
