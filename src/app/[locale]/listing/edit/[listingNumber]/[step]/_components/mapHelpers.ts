@@ -6,8 +6,8 @@ export interface Location {
   lng: number;
 }
 export interface MapConfirmLocationProps {
-  pinLocation: Location | null;
-  setPinLocation: (location: Location) => void;
+  pinCoordinates: Location | null;
+  setPinCoordinates: (location: Location) => void;
   populatedPlace: PopulatedPlace | null;
   municipality: PopulatedPlace | null;
 }
@@ -19,7 +19,7 @@ export interface MapPosition {
 
 export interface MarkerHandlers {
   setPosition: (pos: LatLng) => void;
-  setPinLocation: (pos: LatLng) => void;
+  setPinCoordinates: (pos: LatLng) => void;
 }
 
 export interface PolygonBoundaries {
@@ -126,6 +126,7 @@ export function handleMarkerPosition(
       lng: roundToNearest5(markerPosition.lng),
     };
     const newPos = L.latLng(snappedPosition.lat, snappedPosition.lng);
+    console.log("newPos", newPos);
     setPosition(newPos);
     setPinLocation(newPos);
   } else {

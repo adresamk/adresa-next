@@ -13,23 +13,23 @@ interface Location {
   lng: number;
 }
 interface MapConfirmLocationProps {
-  pinLocation: Location | null;
-  setPinLocation: (location: Location) => void;
+  pinCoordinates: Location | null;
+  setPinCoordinates: (location: Location) => void;
   populatedPlace: PopulatedPlace | null;
   municipality: PopulatedPlace | null;
 }
 
 export default function ConfirmLocation({
-  pinLocation,
-  setPinLocation,
+  pinCoordinates,
+  setPinCoordinates,
   populatedPlace,
   municipality,
 }: MapConfirmLocationProps) {
   return (
     <div>
       <MapConfirmLocation
-        pinLocation={pinLocation}
-        setPinLocation={setPinLocation}
+        pinCoordinates={pinCoordinates}
+        setPinCoordinates={setPinCoordinates}
         populatedPlace={populatedPlace}
         municipality={municipality}
       />

@@ -40,7 +40,7 @@ export default function Step2({ listing }: { listing: Listing }) {
   const [district, setDistrict] = useState(listing.district);
 
   const [address, setAddress] = useState(listing.address);
-  const [pinLocation, setPinLocation] = useState<Location | null>(() => {
+  const [pinCoordinates, setPinCoordinates] = useState<Location | null>(() => {
     if (!listing.latitude || !listing.longitude) {
       return null;
     }
@@ -146,12 +146,12 @@ export default function Step2({ listing }: { listing: Listing }) {
       <h2 className="text-lg">Confirm your location</h2>
       <Label htmlFor="latitude">latitude</Label>
       <Input
-        value={pinLocation ? pinLocation.lat : ""}
+        value={pinCoordinates ? pinCoordinates.lat : ""}
         onChange={(e) => {
-          setPinLocation({
-            ...pinLocation,
+          setPinCoordinates({
+            ...pinCoordinates,
             lat: parseFloat(parseFloat(e.target.value).toFixed(5)),
-            lng: pinLocation ? pinLocation.lng : 0,
+            lng: pinCoordinates ? pinCoordinates.lng : 0,
           });
         }}
         placeholder="Your latitude"
@@ -162,14 +162,14 @@ export default function Step2({ listing }: { listing: Listing }) {
       <Label htmlFor="longitude">longitude</Label>
       <Input
         onChange={(e) => {
-          setPinLocation({
-            ...pinLocation,
+          setPinCoordinates({
+            ...pinCoordinates,
             lng: parseFloat(parseFloat(e.target.value).toFixed(5)),
-            lat: pinLocation ? pinLocation.lat : 0,
+            lat: pinCoordinates ? pinCoordinates.lat : 0,
           });
         }}
         placeholder="Your longitude"
-        value={pinLocation ? pinLocation.lng : ""}
+        value={pinCoordinates ? pinCoordinates.lng : ""}
         name="longitude"
         id={"longitude"}
       />
@@ -179,8 +179,8 @@ export default function Step2({ listing }: { listing: Listing }) {
       <ConfirmLocation
         municipality={usedPlaces.municipality}
         populatedPlace={usedPlaces.populatedPlace}
-        pinLocation={pinLocation}
-        setPinLocation={setPinLocation}
+        pinCoordinates={pinCoordinates}
+        setPinCoordinates={setPinCoordinates}
       />
     </div>
   );
