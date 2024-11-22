@@ -164,8 +164,8 @@ export default function Step2({ listing }: { listing: Listing }) {
         onChange={(e) => {
           setPinCoordinates({
             ...pinCoordinates,
-            lng: parseFloat(parseFloat(e.target.value).toFixed(5)),
             lat: pinCoordinates ? pinCoordinates.lat : 0,
+            lng: parseFloat(parseFloat(e.target.value).toFixed(5)),
           });
         }}
         placeholder="Your longitude"

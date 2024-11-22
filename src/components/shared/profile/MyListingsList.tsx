@@ -71,7 +71,7 @@ export default function MyListingsList({
             return (
               <div
                 key={l.id + l.isVisible.toString()}
-                className="flex min-h-[202px] rounded-md border shadow-md"
+                className="flex max-h-[240px] min-h-[202px] rounded-md border shadow-md"
               >
                 <div className="w-4/12 min-w-[250px]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -79,7 +79,7 @@ export default function MyListingsList({
                     src={l.mainImage || ""}
                     alt="Property image"
                     className={cn(
-                      "h-full max-h-[200px] w-full rounded-bl-md rounded-br-none rounded-tl-md rounded-tr-none bg-cover object-cover",
+                      "h-full w-full rounded-bl-md rounded-br-none rounded-tl-md rounded-tr-none bg-cover object-cover",
                       hasRequiredFieldsLeft && "opacity-50",
                     )}
                   />
@@ -113,14 +113,20 @@ export default function MyListingsList({
                   <div>
                     <Link href={`/listing/${l.listingNumber}`}>
                       <h4 className="my-4 font-semibold">
-                        <span className="capitalize">{l.type}</span>, {l.area}{" "}
+                        {l.title ? (
+                          <span className="capitalize">{l.title}</span>
+                        ) : (
+                          <span className="capitalize">
+                            {l.type}, {l.area}
+                          </span>
+                        )}
                         m2
                       </h4>
                     </Link>
-                    <p className="text-xs">
-                      <span>created at {displayDate(l.createdAt)}</span> |
-                      <span>published at {displayDate(l.publishedAt)}</span>
-                    </p>
+                    <div className="text-xs">
+                      <p>created at {displayDate(l.createdAt)}</p>
+                      <p>published at {displayDate(l.publishedAt)}</p>
+                    </div>
                   </div>
                   <div className="mt-auto flex items-center justify-between">
                     <div className="">
@@ -130,11 +136,12 @@ export default function MyListingsList({
                           <span>Fill in all the required fields!</span>
                         </div>
                       ) : (
-                        <div className="flex items-center gap-3">
+                        <div className="flex h-9 items-center gap-3">
                           <MousePointerClick fill="blue" />{" "}
-                          <span className="font-bold text-brand-light-blue">
-                            {0} views
-                          </span>
+                          <div className="text-sm font-bold text-brand-light-blue">
+                            <div>{0}</div>
+                            <div>views</div>
+                          </div>
                         </div>
                       )}
                     </div>
