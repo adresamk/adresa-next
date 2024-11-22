@@ -120,11 +120,11 @@ model Listing {
   kitchens          Int?       @default(0)
   livingRooms       Int?       @default(0)
   // Other features that are on spitogatos
-  parking           Boolean? // true = there is, false = there isn't, null = not specified
-  elevator          Boolean?
-  balcony           Boolean?
-  yard              Boolean?
-  basement          Boolean?
+  parking           Boolean    @default(false) // true = there is, false = there isn't, null = not specified
+  elevator          Boolean    @default(false)
+  balcony           Boolean    @default(false)
+  yard              Boolean    @default(false)
+  basement          Boolean    @default(false)
   // equiped           Boolean?  @default(false)
   // alarm             Boolean?  @default(false)
   // loadingRamp       Boolean?  @default(false)

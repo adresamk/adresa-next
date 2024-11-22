@@ -23,11 +23,11 @@ import {
 import { useState } from "react";
 import { orientationOptions } from "@/lib/data/listing/importantData";
 
-const extraFeaturesValues = ["yes", "no", "idk"];
+const extraFeaturesValues = ["yes", "no"];
+
 function featuresValues(value: boolean | null) {
   if (value === true) return "yes";
   if (value === false) return "no";
-  return "idk";
 }
 export default function Step3({ listing }: { listing: Listing }) {
   const [propertyPrice, setPropertyPrice] = useState(

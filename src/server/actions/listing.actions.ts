@@ -509,9 +509,6 @@ async function editCharacteristics(formData: FormData) {
     if (value === "no") {
       return false;
     }
-    if (value === "idk") {
-      return undefined;
-    }
   }
 
   const updatedListing = await prismadb.listing.update({
