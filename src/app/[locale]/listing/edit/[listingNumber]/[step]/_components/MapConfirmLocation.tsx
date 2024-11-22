@@ -1,4 +1,6 @@
 "use client";
+
+import "leaflet-geometryutil";
 import L, { LatLngExpression, Map, Marker as MarkerType } from "leaflet";
 import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -7,9 +9,11 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import { act, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
+// import isPointWithinPolygon from "point-in-polygon";
 import {
   CONSTANTS,
   handleMarkerPosition,
+  isPointWithinPolygon,
   MapConfirmLocationProps,
   MapPosition,
   roundToNearest5,
@@ -30,6 +34,21 @@ const mapUtils = {
       lat: roundToNearest5(position.lat),
       lng: roundToNearest5(position.lng),
     };
+  },
+  validatePointInPolygon(
+    map: Map,
+    position: MapPosition,
+    polygon: LatLngExpression[][][],
+    setPinCoordinates: (pos: MapPosition) => void,
+    updatePosition: (pos: MapPosition) => void,
+  ) {
+    const marker = L.marker([position.lat, position.lng]);
+    handleMarkerPosition(
+      marker,
+      polygon,
+      (pos) => updatePosition({ lat: pos.lat, lng: pos.lng }),
+      (pos) => setPinCoordinates({ lat: pos.lat, lng: pos.lng }),
+    );
   },
 };
 
@@ -53,47 +72,34 @@ export default function MapConfirmLocation({
   const activePolygon =
     populatedPlaceCoordinates || municipalityCoordinates || null;
 
-  function positionPinForPlace(
-    municipalityCoordinates: LatLngExpression[][][],
-    populatedPlaceCoordinates: LatLngExpression[][][],
-  ) {
+  function positionPinForPlace() {
     const marker = markerRef.current;
     const map = mapRef.current;
-    if (populatedPlaceCoordinates) {
-      // find center of polygon
-      const polygon = L.polygon(populatedPlaceCoordinates);
-      const centerOfPolygon = polygon.getBounds().getCenter();
-      marker?.setLatLng(centerOfPolygon);
-      // fit map to polygon
-      // const bounds = L.latLngBounds(populatedPlaceCoordinates[0][0]);
-      const bounds = polygon.getBounds();
-      map?.fitBounds(bounds, { animate: true, padding: [50, 50] });
-      return;
-    }
-    const polygon = L.polygon(municipalityCoordinates);
+    if (!marker || !map || !activePolygon) return;
+
+    const polygon = L.polygon(activePolygon);
     const centerOfPolygon = polygon.getBounds().getCenter();
-    marker?.setLatLng(centerOfPolygon);
-    // fit map to polygon
+    marker.setLatLng(centerOfPolygon);
+
     const bounds = polygon.getBounds();
-    map?.fitBounds(bounds, { animate: true, padding: [50, 50] });
+    map.fitBounds(bounds, { animate: true, padding: [50, 50] });
   }
 
   const eventHandlers = useMemo(
     () => ({
-      // This function is triggered when the marker is dragged and dropped on the map.
-      // It updates the marker position within the active polygon (either populated place or municipality).
-      // It ensures the marker is snapped to the nearest 5th decimal place within the polygon boundaries.
       dragend() {
         const marker = markerRef.current;
+        if (!marker || !activePolygon) return;
 
-        if (marker && activePolygon) {
-          handleMarkerPosition(
-            marker,
-            activePolygon,
-            updatePosition,
-            setPinCoordinates,
-          );
-        }
+        const newPosition = marker.getLatLng();
+        if (!mapRef.current) return;
+        mapUtils.validatePointInPolygon(
+          mapRef.current,
+          { lat: newPosition.lat, lng: newPosition.lng },
+          activePolygon,
+          setPinCoordinates,
+          updatePosition,
+        );
       },
     }),
     [activePolygon, setPinCoordinates, updatePosition],
@@ -125,30 +131,33 @@ export default function MapConfirmLocation({
     }, 100);
   }
 
-  // this will take effect when it first loads and when we change the input from above in the
-  // inputs
+  // Modified useEffect to handle pin coordinates validation
   useEffect(() => {
-    if (pinCoordinates) {
+    if (!activePolygon || !pinCoordinates || !mapRef.current) return;
+
+    const point = L.latLng(pinCoordinates.lat, pinCoordinates.lng);
+
+    // Only validate and update if the point is not already in the polygon
+    if (!isPointWithinPolygon(point, activePolygon)) {
+      mapUtils.validatePointInPolygon(
+        mapRef.current,
+        pinCoordinates,
+        activePolygon,
+        setPinCoordinates,
+        updatePosition,
+      );
+    } else {
+      // If point is already valid, just update position without triggering setPinCoordinates
       updatePosition(pinCoordinates);
     }
-    if (pinCoordinates && pinCoordinates.lat && pinCoordinates.lng) {
-      // console.log(pinCoordinates);
-      const marker = markerRef.current;
-      marker?.setLatLng({ lat: pinCoordinates.lat, lng: pinCoordinates.lng });
-    }
-  }, [pinCoordinates, updatePosition]);
+  }, [pinCoordinates, activePolygon, setPinCoordinates, updatePosition]);
 
-  //update marker when they change municipality or populated place
-  useEffect(() => {
-    if (municipalityCoordinates && populatedPlaceCoordinates) {
-      positionPinForPlace(municipalityCoordinates, populatedPlaceCoordinates);
-    }
-  }, [
-    municipality,
-    municipalityCoordinates,
-    populatedPlace,
-    populatedPlaceCoordinates,
-  ]);
+  // Update marker when activePolygon changes
+  // useEffect(() => {
+  //   if (activePolygon) {
+  //     positionPinForPlace();
+  //   }
+  // }, [activePolygon, positionPinForPlace]);
 
   return (
     <div
@@ -191,7 +200,7 @@ export default function MapConfirmLocation({
             positions={populatedPlaceCoordinates}
           />
         )}
-        {position && position.lat && position.lng && (
+        {position && activePolygon && (
           <Marker
             draggable
             eventHandlers={eventHandlers}
