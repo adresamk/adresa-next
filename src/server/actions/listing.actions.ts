@@ -549,11 +549,13 @@ async function editDescription(formData: FormData) {
   const description = formData.get("description");
   const mkdDescription = formData.get("mkdDescription");
   const albDescription = formData.get("albDescription");
+  const title = formData.get("title");
 
   if (
     typeof description !== "string" ||
     typeof mkdDescription !== "string" ||
-    typeof albDescription !== "string"
+    typeof albDescription !== "string" ||
+    typeof title !== "string"
   ) {
     return {
       success: false,
@@ -583,9 +585,11 @@ async function editDescription(formData: FormData) {
       description,
       mkdDescription,
       albDescription,
+      title,
     },
   });
 
+  console.log("returned ", updatedListing);
   return {
     success: true,
     data: {

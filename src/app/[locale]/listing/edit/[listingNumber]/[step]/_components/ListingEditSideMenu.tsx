@@ -5,6 +5,10 @@ import { CircleAlert, CircleCheck } from "lucide-react";
 import { Listing } from "@prisma/client";
 import { steps, Step, StepStatus } from "../types";
 import CircularProgress from "@/components/ui/circular-progress";
+import {
+  getMunicipalityPlaces,
+  municipalitiesOptions,
+} from "@/lib/data/macedonia/importantData";
 
 interface ListingEditSideMenuProps {
   currentStep: string;
@@ -189,11 +193,22 @@ function generateStepDescriptions(listing: Listing): StepDescription {
     if (step.title === "Location") {
       let properties = [];
       if (listing.municipality && listing.place && listing.district) {
-        properties.push(listing.district);
-        properties.push(listing.place);
+        // properties.push(listing.district);
+        const municipalityName = municipalitiesOptions.find(
+          (m) => m.id === listing.municipality,
+        )?.name;
+        const placesForTheMunicipality = getMunicipalityPlaces(
+          listing.municipality,
+        );
+        const placeName = placesForTheMunicipality?.find(
+          (p) => p.id === listing.place,
+        )?.name;
+
+        properties.push(placeName);
+        properties.push(municipalityName);
       }
       descriptions[step.title] = properties.length
-        ? properties.map(capitalizeString).join(", ")
+        ? properties.toString()
         : step.description;
     }
     if (step.title === "Main characteristics") {

@@ -32,7 +32,9 @@ export default function ListingEditForm({
   });
   const { data, success, error } = state;
 
-  const listing = data ? data.listing : loadedListing;
+  const initialValue = data ? data.listing : loadedListing;
+  const [listing, setListing] = useState(initialValue);
+  // TODO, this doesnt update
 
   const [currentStep, setCurrentStep] = useState(requestedStep);
   const [progress, setProgress] = useState(22);
@@ -42,16 +44,22 @@ export default function ListingEditForm({
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget); // Get form data
-    const { success, error } = await editListing({ success: false }, formData);
-    if (success) {
-      setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
-      window.history.pushState(
-        {},
-        "",
-        `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[currentStepIdx + 1].uniquePath}`,
-      );
+    const { success, error, data } = await editListing(
+      { success: false },
+      formData,
+    );
+    if (data) {
+      setListing(data.listing);
     }
+
+    setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
+    window.history.pushState(
+      {},
+      "",
+      `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[currentStepIdx + 1].uniquePath}`,
+    );
   }
+
   return (
     <>
       <ListingEditSideMenu
