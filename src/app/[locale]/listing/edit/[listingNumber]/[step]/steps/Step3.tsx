@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { orientationOptions } from "@/lib/data/listing/importantData";
+import FancyCounterInput from "../_components/FancyCounterInput";
 
 const extraFeaturesValues = ["yes", "no"];
 
@@ -142,115 +143,86 @@ export default function Step3({ listing }: { listing: Listing }) {
         <Label>Rooms</Label>
         <div className="mb-2 flex w-1/2 min-w-[300px] flex-col">
           {/* Bedrooms */}
+
           <div className="flex items-center gap-3">
             <Bed size={50} />
-            <Input
-              required
-              type="number"
-              name="bedrooms"
-              id="bedrooms"
+            <FancyCounterInput
+              startingValue={rooms.bedroom}
               min={0}
               max={10}
-              placeholder="Enter area in m2"
-              value={rooms.bedroom}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setRooms((prev) => ({
-                  ...prev,
-                  bedroom: Number(e.target.value),
-                }));
+              name="bedrooms"
+              id="bedrooms"
+              labelRules={{
+                "0": "No Bedroom",
+                "1": "$$ Bedroom",
+                "2-max": "$$ Bedrooms",
               }}
             />
-            <span>bedroom </span>
           </div>
           {/* Bathrooms */}
           <div className="flex items-center gap-3">
             <ShowerHead size={50} />
-            <Input
-              required
-              type="number"
+            <FancyCounterInput
               name="bathrooms"
               id="bathrooms"
               min={0}
               max={10}
-              placeholder="Enter area in m2"
-              value={rooms.bathroom}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setRooms((prev) => ({
-                  ...prev,
-                  bathroom: Number(e.target.value),
-                }));
+              startingValue={rooms.bathroom}
+              labelRules={{
+                "0": "No Bathroom",
+                "1": "$$ Bathroom",
+                "2-max": "$$ Bathrooms",
               }}
             />
-            <span>bathroom </span>
           </div>
           {/* WCS */}
           <div className="flex items-center gap-3">
             <Bath size={50} />
-            <Input
-              required
-              type="number"
+            <FancyCounterInput
               name="wcs"
               id="wcs"
               min={0}
               max={10}
-              placeholder="Enter area in m2"
-              value={rooms.wcs}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setRooms((prev) => ({
-                  ...prev,
-                  wcs: Number(e.target.value),
-                }));
+              startingValue={rooms.wcs}
+              labelRules={{
+                "0": "No WC",
+                "1": "$$ WC",
+                "2-max": "$$ WCs",
               }}
             />
-            <span>wcs </span>
           </div>
           {/* Kitchens */}
           <div className="flex items-center gap-3">
             <ChefHat size={50} />
-            <Input
-              required
-              type="number"
+            <FancyCounterInput
               name="kitchens"
               id="kitchens"
               min={0}
               max={10}
-              placeholder="Enter area in m2"
-              value={rooms.kitchen}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setRooms((prev) => ({
-                  ...prev,
-                  kitchen: Number(e.target.value),
-                }));
+              startingValue={rooms.kitchen}
+              labelRules={{
+                "0": "No Kitchen",
+                "1": "$$ Kitchen",
+                "2-max": "$$ Kitchens",
               }}
             />
-            <span>kitchen </span>
           </div>
 
           {/* Living Rooms */}
           <div className="flex items-center gap-3">
             <Sofa size={50} />
-            <Input
-              required
-              type="number"
+            <FancyCounterInput
               name="livingRooms"
               id="livingRooms"
               min={0}
               max={10}
-              placeholder="Enter area in m2"
-              value={rooms.living}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setRooms((prev) => ({
-                  ...prev,
-                  living: Number(e.target.value),
-                }));
+              startingValue={rooms.living}
+              labelRules={{
+                "0": "No Living Room",
+                "1": "$$ Living Room",
+                "2-max": "$$ Living Rooms",
               }}
             />
-            <span>livingroom</span>
           </div>
         </div>
       </div>
