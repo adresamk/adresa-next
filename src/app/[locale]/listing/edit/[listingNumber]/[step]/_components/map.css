@@ -1,0 +1,37 @@
+.custom-marker-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marker-pin {
+  width: 20px;
+  height: 20px;
+  border-radius: 50% 50% 50% 0;
+  background: #c41e3a;
+  position: relative;
+  transform: rotate(-45deg);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+.marker-pin.adjusting {
+  animation: pulse 1.5s ease-in-out;
+  background: #ffa500;
+}
+
+@keyframes pulse {
+  0% {
+    transform: rotate(-45deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(-45deg) scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: rotate(-45deg) scale(1);
+    opacity: 1;
+  }
+}
