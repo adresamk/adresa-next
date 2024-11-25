@@ -1,7 +1,7 @@
 "use client";
 
 import "leaflet-geometryutil";
-import L, { LatLngExpression, Map, Marker as MarkerType } from "leaflet";
+import L, { LatLng, LatLngExpression, Map, Marker as MarkerType } from "leaflet";
 import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
@@ -9,19 +9,25 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "./map.css";
 import { act, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
-// import isPointWithinPolygon from "point-in-polygon";
 import {
   CONSTANTS,
-  handleMarkerPosition,
-  isPointWithinPolygon,
   MapConfirmLocationProps,
   MapPosition,
+  handleMarkerPosition,
+  // getPlaceCoordinates,
+  isPointWithinPolygon,
   roundToNearest5,
   snapToBoundary,
 } from "./mapHelpers";
+import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
 import { useMarkerPosition } from "./hooks";
-import { randomSkopjeCoordinates } from "@/lib/data/macedonia/exampleData";
+const markerIcon = L.icon({
+  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
 
 const mapUtils = {
   centerOnPolygon(map: Map, coordinates: LatLngExpression[][][]) {
@@ -73,9 +79,9 @@ export default function MapConfirmLocation({
   const populatedPlaceCoordinates: LatLngExpression[][][] | null =
     getPlaceCoordinates(Number(populatedPlace?.jsonId));
 
-  // The polygon that we check against pin position
-  const activePolygon =
-    populatedPlaceCoordinates || municipalityCoordinates || null;
+  // The polygon that we check against pin position - prioritize populated place
+  const activePolygon = populatedPlaceCoordinates || municipalityCoordinates || null;
+  const displayPolygon = municipalityCoordinates;
 
   // Function to round coordinates to 5 decimal places
   const roundCoordinates = (lat: number, lng: number): MapPosition => ({
@@ -86,7 +92,7 @@ export default function MapConfirmLocation({
   // Function to handle coordinate validation and updates
   const validateAndUpdatePosition = useCallback(
     (newPosition: MapPosition, skipPinUpdate = false) => {
-      if (!activePolygon || !mapRef.current) return;
+      if (!activePolygon) return;
 
       const point = L.latLng(newPosition.lat, newPosition.lng);
       const isInPolygon = isPointWithinPolygon(point, activePolygon);
@@ -129,23 +135,25 @@ export default function MapConfirmLocation({
     if (!activePolygon || !mapRef.current) return;
     
     const map = mapRef.current;
-    const polygon = L.polygon(activePolygon);
-    const bounds = polygon.getBounds();
+    
+    // Fit bounds to the active polygon (populated place or municipality)
+    const activePolygonLayer = L.polygon(activePolygon);
+    const bounds = activePolygonLayer.getBounds();
     map.fitBounds(bounds, { animate: true, padding: CONSTANTS.MAP_PADDING });
 
-    // If we have pinCoordinates, validate them
+    // If we have pinCoordinates, validate them against the active polygon
     if (pinCoordinates && !isInitialized) {
       validateAndUpdatePosition(pinCoordinates, true);
       setIsInitialized(true);
     } else if (!pinCoordinates) {
-      // If no coordinates, set to center of polygon
+      // If no coordinates, set to center of active polygon
       const center = bounds.getCenter();
       const roundedCoords = roundCoordinates(center.lat, center.lng);
       setPinCoordinates(roundedCoords);
       updatePosition(roundedCoords);
       setIsInitialized(true);
     }
-  }, [activePolygon, pinCoordinates, isInitialized, validateAndUpdatePosition]);
+  }, [activePolygon, pinCoordinates, isInitialized, validateAndUpdatePosition, setPinCoordinates]);
 
   // Function to handle the toggle of map size and adjust the map view accordingly
   function handleBS() {
@@ -172,6 +180,8 @@ export default function MapConfirmLocation({
       }
     }, 100);
   }
+
+  const defaultCenter: LatLngExpression = [42.0, 21.4]; // Default coordinates for Macedonia
 
   return (
     <div
@@ -209,44 +219,45 @@ export default function MapConfirmLocation({
         </button>
       </div>
       <MapContainer
-        center={randomSkopjeCoordinates[0]}
-        zoom={CONSTANTS.DEFAULT_ZOOM}
+        center={position ?? defaultCenter}
+        zoom={7}
+        className={cn(
+          "h-full w-full transition-all duration-300",
+          isBigger ? "rounded-lg" : "rounded"
+        )}
         ref={mapRef}
-        className="h-full w-full"
       >
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-
-        {municipalityCoordinates && (
+        {displayPolygon && (
           <Polygon
-            pathOptions={{ color: "black" }}
-            positions={municipalityCoordinates}
+            positions={displayPolygon}
+            pathOptions={{
+              color: "#374151",
+              weight: 2,
+              fillOpacity: 0.1,
+            }}
           />
         )}
-
         {populatedPlaceCoordinates && (
           <Polygon
-            pathOptions={{ color: "red" }}
             positions={populatedPlaceCoordinates}
+            pathOptions={{
+              color: "#2563eb",
+              weight: 2,
+              fillOpacity: 0.1,
+            }}
           />
         )}
-        {position && activePolygon && (
+        {position && (
           <Marker
-            draggable
-            eventHandlers={eventHandlers}
             position={position}
+            draggable
             ref={markerRef}
-            icon={L.divIcon({
-              className: cn(
-                'custom-marker-icon',
-                isAdjusting && 'marker-adjusting'
-              ),
-              html: `<div class="marker-pin ${isAdjusting ? 'adjusting' : ''}"></div>`,
-              iconSize: [30, 30],
-              iconAnchor: [15, 30]
-            })}
+            eventHandlers={eventHandlers}
+            icon={markerIcon}
           />
         )}
       </MapContainer>
