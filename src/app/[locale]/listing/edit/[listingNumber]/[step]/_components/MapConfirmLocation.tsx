@@ -64,6 +64,7 @@ export default function MapConfirmLocation({
   const [isBigger, setIsBigger] = useState(false);
   const [isAdjusting, setIsAdjusting] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isPinOutside, setIsPinOutside] = useState(false);
   const markerRef = useRef<MarkerType | null>(null);
   const mapRef = useRef<Map | null>(null);
 
@@ -76,25 +77,35 @@ export default function MapConfirmLocation({
   const activePolygon =
     populatedPlaceCoordinates || municipalityCoordinates || null;
 
+  // Function to round coordinates to 5 decimal places
+  const roundCoordinates = (lat: number, lng: number): MapPosition => ({
+    lat: parseFloat(lat.toFixed(5)),
+    lng: parseFloat(lng.toFixed(5))
+  });
+
   // Function to handle coordinate validation and updates
   const validateAndUpdatePosition = useCallback(
     (newPosition: MapPosition, skipPinUpdate = false) => {
       if (!activePolygon || !mapRef.current) return;
 
       const point = L.latLng(newPosition.lat, newPosition.lng);
+      const isInPolygon = isPointWithinPolygon(point, activePolygon);
+      setIsPinOutside(!isInPolygon);
       
-      if (!isPointWithinPolygon(point, activePolygon)) {
+      if (!isInPolygon) {
         setIsAdjusting(true);
         const snappedPoint = snapToBoundary(point, activePolygon);
-        updatePosition({ lat: snappedPoint.lat, lng: snappedPoint.lng });
+        const roundedCoords = roundCoordinates(snappedPoint.lat, snappedPoint.lng);
+        updatePosition(roundedCoords);
         if (!skipPinUpdate) {
-          setPinCoordinates({ lat: snappedPoint.lat, lng: snappedPoint.lng });
+          setPinCoordinates(roundedCoords);
         }
         setTimeout(() => setIsAdjusting(false), 1500);
       } else {
-        updatePosition(newPosition);
+        const roundedCoords = roundCoordinates(point.lat, point.lng);
+        updatePosition(roundedCoords);
         if (!skipPinUpdate) {
-          setPinCoordinates(newPosition);
+          setPinCoordinates(roundedCoords);
         }
       }
     },
@@ -129,16 +140,12 @@ export default function MapConfirmLocation({
     } else if (!pinCoordinates) {
       // If no coordinates, set to center of polygon
       const center = bounds.getCenter();
-      setPinCoordinates({ lat: center.lat, lng: center.lng });
-      updatePosition({ lat: center.lat, lng: center.lng });
+      const roundedCoords = roundCoordinates(center.lat, center.lng);
+      setPinCoordinates(roundedCoords);
+      updatePosition(roundedCoords);
+      setIsInitialized(true);
     }
-  }, [activePolygon, pinCoordinates, isInitialized]);
-
-  // Effect to update position when pinCoordinates change (from input)
-  useEffect(() => {
-    if (!pinCoordinates || !isInitialized) return;
-    validateAndUpdatePosition(pinCoordinates, true);
-  }, [pinCoordinates?.lat, pinCoordinates?.lng]);
+  }, [activePolygon, pinCoordinates, isInitialized, validateAndUpdatePosition]);
 
   // Function to handle the toggle of map size and adjust the map view accordingly
   function handleBS() {
@@ -175,14 +182,32 @@ export default function MapConfirmLocation({
       role="region"
       aria-label="Interactive location map"
     >
-      <button
-        type="button"
-        onClick={handleBS}
-        className="absolute right-2 top-2 z-[3201] rounded bg-white px-2 py-1 shadow-md"
-        aria-label={isBigger ? "Reduce map size" : "Expand map size"}
-      >
-        {isBigger ? "Reduce" : "Expand"}
-      </button>
+      <div className="absolute right-2 top-2 z-[3201] flex gap-2">
+        {isPinOutside && (
+          <button
+            type="button"
+            onClick={() => {
+              if (!activePolygon || !mapRef.current) return;
+              const polygon = L.polygon(activePolygon);
+              const center = polygon.getBounds().getCenter();
+              const roundedCoords = roundCoordinates(center.lat, center.lng);
+              setPinCoordinates(roundedCoords);
+            }}
+            className="rounded bg-white px-2 py-1 text-sm shadow-md hover:bg-gray-50"
+            aria-label="Center pin in selected area"
+          >
+            Reposition Pin
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={handleBS}
+          className="rounded bg-white px-2 py-1 text-sm shadow-md hover:bg-gray-50"
+          aria-label={isBigger ? "Reduce map size" : "Expand map size"}
+        >
+          {isBigger ? "Reduce" : "Expand"}
+        </button>
+      </div>
       <MapContainer
         center={randomSkopjeCoordinates[0]}
         zoom={CONSTANTS.DEFAULT_ZOOM}

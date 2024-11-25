@@ -3,29 +3,28 @@ import { InputSelect } from "@/components/shared/InputSelect";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Listing } from "@prisma/client";
 
-("@/global/data");
+// "@/global/data";
 // import MapConfirmLocation from "../_components/MapConfirmLocation";
 import {
   getMunicipalityPlaces,
   municipalitiesOptions as municipalitiesOptionsData,
 } from "@/lib/data/macedonia/importantData";
 import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
+import { MapPosition } from "../_components/mapHelpers";
 import ConfirmLocation from "../_components/ConfirmLocation";
+
 interface Location {
   lat: number;
   lng: number;
 }
-const municipalitiesOptions = municipalitiesOptionsData.map((o) => ({
-  label: o.name,
-  value: o.id,
-}));
 
 export default function Step2({ listing }: { listing: Listing }) {
   const [municipality, setMunicipality] = useState(listing.municipality);
   const [populatedPlace, setPopulatedPlace] = useState(listing.place);
+  const [showLocationAlert, setShowLocationAlert] = useState(false);
   const [usedPlaces, setUsedPlaces] = useState<{
     populatedPlace: PopulatedPlace | null;
     municipality: PopulatedPlace | null;
@@ -40,7 +39,7 @@ export default function Step2({ listing }: { listing: Listing }) {
   const [district, setDistrict] = useState(listing.district);
 
   const [address, setAddress] = useState(listing.address);
-  const [pinCoordinates, setPinCoordinates] = useState<Location | null>(() => {
+  const [pinCoordinates, setPinCoordinates] = useState<MapPosition | null>(() => {
     if (!listing.latitude || !listing.longitude) {
       return null;
     }
@@ -50,12 +49,57 @@ export default function Step2({ listing }: { listing: Listing }) {
     };
   });
 
+  const [tempCoordinates, setTempCoordinates] = useState<{ lat: string; lng: string }>({
+    lat: pinCoordinates ? pinCoordinates.lat.toString() : "",
+    lng: pinCoordinates ? pinCoordinates.lng.toString() : "",
+  });
+
+  // Debounced function to update pinCoordinates
+  const updatePinCoordinates = useCallback((field: "lat" | "lng", value: string) => {
+    if (value === "" || value === "." || value === "-" || value === "-." || value === "-.") {
+      return; // Don't update pinCoordinates for these intermediate values
+    }
+
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue)) {
+      setPinCoordinates((prev) => {
+        const newCoords: MapPosition = {
+          lat: field === "lat" ? parseFloat(numValue.toFixed(5)) : (prev?.lat ?? 0),
+          lng: field === "lng" ? parseFloat(numValue.toFixed(5)) : (prev?.lng ?? 0),
+        };
+        return newCoords;
+      });
+    }
+  }, []);
+
+  // Handle immediate input changes
+  const handleCoordinateChange = (field: "lat" | "lng", value: string) => {
+    setTempCoordinates((prev) => ({ ...prev, [field]: value }));
+    updatePinCoordinates(field, value);
+  };
+
+  // Update temp coordinates when pinCoordinates changes externally
+  useEffect(() => {
+    if (pinCoordinates) {
+      setTempCoordinates({
+        lat: pinCoordinates.lat.toString(),
+        lng: pinCoordinates.lng.toString(),
+      });
+    }
+  }, [pinCoordinates]);
+
+  const handleAreaChange = (newArea: string, type: "municipality" | "place") => {
+    if (type === "municipality") {
+      setMunicipality(newArea);
+    } else {
+      setPopulatedPlace(newArea);
+    }
+  };
+
   // Single effect to handle municipality changes
   useEffect(() => {
     if (municipality) {
-      const municipalityData = municipalitiesOptionsData.find(
-        (m) => m.id === municipality,
-      );
+      const municipalityData = municipalitiesOptionsData.find((m) => m.id === municipality);
 
       if (municipalityData) {
         const places = getMunicipalityPlaces(municipalityData.id);
@@ -101,17 +145,20 @@ export default function Step2({ listing }: { listing: Listing }) {
         label="Municipality"
         name="municipality"
         required
-        onSelect={(value) => setMunicipality(value)}
+        onSelect={(value) => handleAreaChange(value, "municipality")}
         notFoundText="Municipality doesn't exist"
         placeholder="Select a Municipality"
         defaultValue={municipality}
-        options={municipalitiesOptions}
+        options={municipalitiesOptionsData.map((o) => ({
+          label: o.name,
+          value: o.id,
+        }))}
       />
       <InputSelect
         name="place"
         label="City/Village/Region"
         required
-        onSelect={(value) => setPopulatedPlace(value)}
+        onSelect={(value) => handleAreaChange(value, "place")}
         notFoundText="Place doesn't exist"
         placeholder="Select a place"
         defaultValue={populatedPlace}
@@ -146,32 +193,24 @@ export default function Step2({ listing }: { listing: Listing }) {
       <h2 className="text-lg">Confirm your location</h2>
       <Label htmlFor="latitude">latitude</Label>
       <Input
-        value={pinCoordinates ? pinCoordinates.lat : ""}
-        onChange={(e) => {
-          setPinCoordinates({
-            ...pinCoordinates,
-            lat: parseFloat(parseFloat(e.target.value).toFixed(5)),
-            lng: pinCoordinates ? pinCoordinates.lng : 0,
-          });
-        }}
+        value={tempCoordinates.lat}
+        onChange={(e) => handleCoordinateChange("lat", e.target.value)}
         placeholder="Your latitude"
         name="latitude"
         id={"latitude"}
+        type="text"
+        inputMode="decimal"
       />
 
       <Label htmlFor="longitude">longitude</Label>
       <Input
-        onChange={(e) => {
-          setPinCoordinates({
-            ...pinCoordinates,
-            lat: pinCoordinates ? pinCoordinates.lat : 0,
-            lng: parseFloat(parseFloat(e.target.value).toFixed(5)),
-          });
-        }}
+        onChange={(e) => handleCoordinateChange("lng", e.target.value)}
         placeholder="Your longitude"
-        value={pinCoordinates ? pinCoordinates.lng : ""}
+        value={tempCoordinates.lng}
         name="longitude"
         id={"longitude"}
+        type="text"
+        inputMode="decimal"
       />
 
       <Separator className="my-2" />
