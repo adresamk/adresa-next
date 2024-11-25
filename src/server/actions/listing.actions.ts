@@ -396,15 +396,17 @@ async function editType(formData: FormData) {
 async function editLocation(formData: FormData) {
   const municipality = formData.get("municipality");
   const place = formData.get("place");
-  const district = formData.get("district");
+  // const district = formData.get("district");
   const address = formData.get("address");
   const longitude = formData.get("longitude");
   const latitude = formData.get("latitude");
 
+  console.log({ municipality, place, address, longitude, latitude });
+
   if (
     typeof municipality !== "string" ||
     typeof place !== "string" ||
-    typeof district !== "string" ||
+    // typeof district !== "string" ||
     typeof address !== "string" ||
     typeof longitude !== "string" ||
     typeof latitude !== "string"
@@ -436,14 +438,16 @@ async function editLocation(formData: FormData) {
     data: {
       municipality,
       place,
-      district,
+      // district,
       address,
       longitude: Number(longitude),
       latitude: Number(latitude),
-      fullAddress: `${municipality}, ${place}, ${district}, ${address}`,
+      // fullAddress: `${municipality}, ${place}, ${district}, ${address}`,
+      fullAddress: `${municipality}, ${place}, ${address}`,
     },
   });
 
+  console.log("updatedListing", updatedListing);
   return {
     success: true,
     data: {

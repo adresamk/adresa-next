@@ -18,9 +18,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { set } from "react-hook-form";
+import { getPlaceInfo } from "@/lib/data/macedonia/importantData";
 
 type InputSelectOptions = {
   label: string;

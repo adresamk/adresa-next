@@ -65,6 +65,22 @@ export function getMunicipalityPlaces(
   }
 }
 
+// almost always expecting the hit when using in my UI
+export function getMunicipalityInfo(municipalityId: string) {
+  const municipality = municipalitiesWithPlaces.find(
+    (place) => place.id === municipalityId,
+  );
+  if (!municipality) {
+    console.error("Municipality not found", municipalityId);
+  }
+  return municipality;
+}
+
+export function getPlaceInfo(placeId: string) {
+  const place = municipalitiesWithPlaces.find((place) => place.id === placeId);
+  return place;
+}
+
 export function getPlaceCoordinates(placeId: number | undefined) {
   if (!placeId) {
     return null;
@@ -74,15 +90,15 @@ export function getPlaceCoordinates(placeId: number | undefined) {
   if (!placeCoordinates) {
     return null;
   }
-  const swappedCoordinates = placeCoordinates.map((first) => {
-    return first.map((second) => {
-      return second.map((coordinates) => {
-        const coord = coordinates as [number, number]; // Cast to the correct type
-        return [coord[1], coord[0]];
+  if (placeCoordinates) {
+    const swappedCoordinates = placeCoordinates.map((first) => {
+      return first.map((second) => {
+        return second.map((coordinates) => {
+          const coord = coordinates as [number, number]; // Cast to the correct type
+          return [coord[1], coord[0]];
+        });
       });
     });
-  });
-  if (placeCoordinates) {
     return swappedCoordinates as LatLngExpression[][][];
   }
   return null;

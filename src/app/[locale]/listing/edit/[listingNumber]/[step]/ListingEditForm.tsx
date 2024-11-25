@@ -48,16 +48,17 @@ export default function ListingEditForm({
       { success: false },
       formData,
     );
-    if (data) {
+    if (success && data) {
       setListing(data.listing);
+      setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[currentStepIdx + 1].uniquePath}`,
+      );
+    } else {
+      console.log("error", error);
     }
-
-    setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
-    window.history.pushState(
-      {},
-      "",
-      `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[currentStepIdx + 1].uniquePath}`,
-    );
   }
 
   return (
