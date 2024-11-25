@@ -76,8 +76,23 @@ export function getMunicipalityInfo(municipalityId: string) {
   return municipality;
 }
 
-export function getPlaceInfo(placeId: string) {
-  const place = municipalitiesWithPlaces.find((place) => place.id === placeId);
+export function getPlaceInfo(placeId: string, municipalityId?: string) {
+  let place = municipalitiesWithPlaces.find((place) => place.id === placeId);
+  if (municipalityId) {
+    const municipality = municipalitiesWithPlaces.find(
+      (place) => place.id === municipalityId,
+    );
+    if (municipality && municipality.inner) {
+      place = municipality.inner.find((place) => place.id === placeId);
+    }
+  } else {
+    place = municipalitiesWithPlaces.find((municipality) => {
+      if (municipality.inner) {
+        return municipality.inner.find((place) => place.id === placeId);
+      }
+      return false;
+    });
+  }
   return place;
 }
 

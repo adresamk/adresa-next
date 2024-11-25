@@ -41,6 +41,15 @@ export function roundToNearest5(num: number) {
   // Convert back to original scale
   return rounded / 100000;
 }
+
+export function roundToNearest6(num: number) {
+  // Multiply by 1000000 to work with the 5th decimal place
+  const scaled = num * 1000000;
+  // Round to nearest 6
+  const rounded = Math.round(scaled / 6) * 6;
+  // Convert back to original scale
+  return rounded / 1000000;
+}
 export function snapToBoundary(
   point: LatLng,
   polygonCoordinates: LatLngExpression[][][],

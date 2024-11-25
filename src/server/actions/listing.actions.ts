@@ -398,18 +398,20 @@ async function editLocation(formData: FormData) {
   const place = formData.get("place");
   // const district = formData.get("district");
   const address = formData.get("address");
-  const longitude = formData.get("longitude");
-  const latitude = formData.get("latitude");
+  // const longitude = formData.get("longitude");
+  // const latitude = formData.get("latitude");
+  const coordinates = formData.get("coordinates");
 
-  console.log({ municipality, place, address, longitude, latitude });
+  console.log({ municipality, place, address, coordinates });
 
   if (
     typeof municipality !== "string" ||
     typeof place !== "string" ||
     // typeof district !== "string" ||
     typeof address !== "string" ||
-    typeof longitude !== "string" ||
-    typeof latitude !== "string"
+    typeof coordinates !== "string"
+    // typeof longitude !== "string" ||
+    // typeof latitude !== "string"
   ) {
     return {
       success: false,
@@ -431,6 +433,7 @@ async function editLocation(formData: FormData) {
     };
   }
 
+  const [latitude, longitude] = coordinates.split(",");
   const updatedListing = await prismadb.listing.update({
     where: {
       id: listingId,

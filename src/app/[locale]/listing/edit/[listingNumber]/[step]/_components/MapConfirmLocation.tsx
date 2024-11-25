@@ -1,239 +1,168 @@
 "use client";
 
-import "leaflet-geometryutil";
-import L, { LatLng, LatLngExpression, Map, Marker as MarkerType } from "leaflet";
+import L, { LatLngExpression } from "leaflet";
 import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
+import { MapPosition, isPointWithinPolygon } from "./mapHelpers";
+import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
+import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
+import { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
+import "leaflet-geometryutil";
 import "./map.css";
-import { act, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
-import {
-  CONSTANTS,
-  MapConfirmLocationProps,
-  MapPosition,
-  handleMarkerPosition,
-  // getPlaceCoordinates,
-  isPointWithinPolygon,
-  roundToNearest5,
-  snapToBoundary,
-} from "./mapHelpers";
-import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
-import { useMarkerPosition } from "./hooks";
+
+interface MapConfirmLocationProps {
+  municipality: PopulatedPlace | null;
+  populatedPlace: PopulatedPlace | null;
+  pinCoordinates: MapPosition | null;
+  setPinCoordinates: (coordinates: MapPosition) => void;
+}
+
 const markerIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
+  iconRetinaUrl:
+    "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
 
-const mapUtils = {
-  centerOnPolygon(map: Map, coordinates: LatLngExpression[][][]) {
-    const polygon = L.polygon(coordinates);
-    const bounds = polygon.getBounds();
-    map.fitBounds(bounds, { animate: true, padding: CONSTANTS.MAP_PADDING });
-    return polygon.getBounds().getCenter();
-  },
-
-  roundCoordinates(position: MapPosition): MapPosition {
-    return {
-      lat: roundToNearest5(position.lat),
-      lng: roundToNearest5(position.lng),
-    };
-  },
-  validatePointInPolygon(
-    map: Map,
-    position: MapPosition,
-    polygon: LatLngExpression[][][],
-    setPinCoordinates: (pos: MapPosition) => void,
-    updatePosition: (pos: MapPosition) => void,
-  ) {
-    const marker = L.marker([position.lat, position.lng]);
-    handleMarkerPosition(
-      marker,
-      polygon,
-      (pos) => updatePosition({ lat: pos.lat, lng: pos.lng }),
-      (pos) => setPinCoordinates({ lat: pos.lat, lng: pos.lng }),
-    );
-  },
-};
-
 export default function MapConfirmLocation({
-  pinCoordinates,
-  populatedPlace,
   municipality,
+  populatedPlace,
+  pinCoordinates,
   setPinCoordinates,
 }: MapConfirmLocationProps) {
-  const { position, updatePosition } = useMarkerPosition(pinCoordinates);
-  const [isBigger, setIsBigger] = useState(false);
-  const [isAdjusting, setIsAdjusting] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const mapRef = useRef<L.Map | null>(null);
+  const markerRef = useRef<L.Marker | null>(null);
   const [isPinOutside, setIsPinOutside] = useState(false);
-  const markerRef = useRef<MarkerType | null>(null);
-  const mapRef = useRef<Map | null>(null);
 
-  const municipalityCoordinates: LatLngExpression[][][] | null =
-    getPlaceCoordinates(Number(municipality?.jsonId));
+  const municipalityCoordinates: LatLngExpression[][][] | null = municipality
+    ? getPlaceCoordinates(Number(municipality.jsonId))
+    : null;
+
   const populatedPlaceCoordinates: LatLngExpression[][][] | null =
-    getPlaceCoordinates(Number(populatedPlace?.jsonId));
+    populatedPlace ? getPlaceCoordinates(Number(populatedPlace.jsonId)) : null;
 
-  // The polygon that we check against pin position - prioritize populated place
-  const activePolygon = populatedPlaceCoordinates || municipalityCoordinates || null;
-  const displayPolygon = municipalityCoordinates;
+  // The active polygon that we check against (prioritize populated place)
+  const activePolygon = populatedPlaceCoordinates || municipalityCoordinates;
 
-  // Function to round coordinates to 5 decimal places
-  const roundCoordinates = (lat: number, lng: number): MapPosition => ({
-    lat: parseFloat(lat.toFixed(5)),
-    lng: parseFloat(lng.toFixed(5))
-  });
+  // Check if point is within polygon
+  const checkPinLocation = (lat: number, lng: number) => {
+    if (!activePolygon) return;
+    const point = L.latLng(lat, lng);
+    const isInside = isPointWithinPolygon(point, activePolygon);
+    setIsPinOutside(!isInside);
+  };
 
-  // Function to handle coordinate validation and updates
-  const validateAndUpdatePosition = useCallback(
-    (newPosition: MapPosition, skipPinUpdate = false) => {
-      if (!activePolygon) return;
-
-      const point = L.latLng(newPosition.lat, newPosition.lng);
-      const isInPolygon = isPointWithinPolygon(point, activePolygon);
-      setIsPinOutside(!isInPolygon);
-      
-      if (!isInPolygon) {
-        setIsAdjusting(true);
-        const snappedPoint = snapToBoundary(point, activePolygon);
-        const roundedCoords = roundCoordinates(snappedPoint.lat, snappedPoint.lng);
-        updatePosition(roundedCoords);
-        if (!skipPinUpdate) {
-          setPinCoordinates(roundedCoords);
-        }
-        setTimeout(() => setIsAdjusting(false), 1500);
-      } else {
-        const roundedCoords = roundCoordinates(point.lat, point.lng);
-        updatePosition(roundedCoords);
-        if (!skipPinUpdate) {
-          setPinCoordinates(roundedCoords);
-        }
+  // Event handlers for marker drag
+  const eventHandlers = {
+    dragend() {
+      const marker = markerRef.current;
+      if (marker) {
+        const position = marker.getLatLng();
+        const newCoords = {
+          lat: parseFloat(position.lat.toFixed(6)),
+          lng: parseFloat(position.lng.toFixed(6)),
+        };
+        setPinCoordinates(newCoords);
+        checkPinLocation(newCoords.lat, newCoords.lng);
       }
     },
-    [activePolygon, updatePosition, setPinCoordinates]
-  );
+  };
 
-  const eventHandlers = useMemo(
-    () => ({
-      dragend() {
-        const marker = markerRef.current;
-        if (!marker) return;
-        const newPosition = marker.getLatLng();
-        validateAndUpdatePosition({ lat: newPosition.lat, lng: newPosition.lng });
-      },
-    }),
-    [validateAndUpdatePosition]
-  );
-
-  // Effect to initialize the map and handle polygon changes
+  // Center map on polygon when coordinates change
   useEffect(() => {
-    if (!activePolygon || !mapRef.current) return;
-    
     const map = mapRef.current;
-    
-    // Fit bounds to the active polygon (populated place or municipality)
-    const activePolygonLayer = L.polygon(activePolygon);
-    const bounds = activePolygonLayer.getBounds();
-    map.fitBounds(bounds, { animate: true, padding: CONSTANTS.MAP_PADDING });
+    if (!map || !populatedPlaceCoordinates) return;
 
-    // If we have pinCoordinates, validate them against the active polygon
-    if (pinCoordinates && !isInitialized) {
-      validateAndUpdatePosition(pinCoordinates, true);
-      setIsInitialized(true);
-    } else if (!pinCoordinates) {
-      // If no coordinates, set to center of active polygon
-      const center = bounds.getCenter();
-      const roundedCoords = roundCoordinates(center.lat, center.lng);
-      setPinCoordinates(roundedCoords);
-      updatePosition(roundedCoords);
-      setIsInitialized(true);
+    const polygon = L.polygon(populatedPlaceCoordinates);
+    map.fitBounds(polygon.getBounds());
+  }, [populatedPlaceCoordinates]);
+
+  // Animate map to pin position when coordinates change
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !pinCoordinates) return;
+
+    // Check if pin is visible in the current view
+    const bounds = map.getBounds();
+    const pinLatLng = L.latLng(pinCoordinates.lat, pinCoordinates.lng);
+
+    if (!bounds.contains(pinLatLng)) {
+      map.setView(pinLatLng, map.getZoom(), {
+        animate: true,
+        duration: 1,
+      });
     }
-  }, [activePolygon, pinCoordinates, isInitialized, validateAndUpdatePosition, setPinCoordinates]);
 
-  // Function to handle the toggle of map size and adjust the map view accordingly
-  function handleBS() {
-    setIsBigger(!isBigger);
+    // Check if pin is within polygon boundaries
+    checkPinLocation(pinCoordinates.lat, pinCoordinates.lng);
+  }, [pinCoordinates, activePolygon]);
 
-    // Add a small delay to ensure the container has resized
-    setTimeout(() => {
-      const map = mapRef.current;
-      if (!map) return;
-
-      // Invalidate size to handle container resize
-      map.invalidateSize();
-
-      // Recenter and adjust view
-      if (activePolygon) {
-        const polygon = L.polygon(activePolygon);
-        const bounds = polygon.getBounds();
-        map.fitBounds(bounds, {
-          animate: true,
-          padding: CONSTANTS.MAP_PADDING,
-        });
-      } else if (position) {
-        map.setView(position, map.getZoom());
-      }
-    }, 100);
-  }
-
-  const defaultCenter: LatLngExpression = [42.0, 21.4]; // Default coordinates for Macedonia
+  if (!pinCoordinates) return null;
 
   return (
-    <div
-      className={cn(
-        "relative h-[250px] overflow-hidden bg-white",
-        isBigger && "fixed left-10 top-10 z-[3200] h-[70vh] w-[75vw] bg-white",
-      )}
-      role="region"
-      aria-label="Interactive location map"
-    >
-      <div className="absolute right-2 top-2 z-[3201] flex gap-2">
-        {isPinOutside && (
-          <button
-            type="button"
-            onClick={() => {
-              if (!activePolygon || !mapRef.current) return;
-              const polygon = L.polygon(activePolygon);
-              const center = polygon.getBounds().getCenter();
-              const roundedCoords = roundCoordinates(center.lat, center.lng);
-              setPinCoordinates(roundedCoords);
-            }}
-            className="rounded bg-white px-2 py-1 text-sm shadow-md hover:bg-gray-50"
-            aria-label="Center pin in selected area"
-          >
-            Reposition Pin
-          </button>
-        )}
-        <button
-          type="button"
-          onClick={handleBS}
-          className="rounded bg-white px-2 py-1 text-sm shadow-md hover:bg-gray-50"
-          aria-label={isBigger ? "Reduce map size" : "Expand map size"}
-        >
-          {isBigger ? "Reduce" : "Expand"}
-        </button>
+    <div className="space-y-2">
+      {/* <div>
+
+      {activePolygon}
       </div>
+      <div>
+
+      {municipalityCoordinates}
+      </div>
+      <div>
+
+      {populatedPlaceCoordinates}
+      </div> */}
+      {isPinOutside && (
+        <div className="rounded-md bg-yellow-50 p-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg
+                className="h-5 w-5 text-yellow-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-yellow-800">
+                Location Warning
+              </h3>
+              <div className="mt-2 text-sm text-yellow-700">
+                <p>
+                  The selected location is outside the{" "}
+                  {populatedPlace ? "city/village" : "municipality"} boundaries.
+                  Please adjust the pin location.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <MapContainer
-        center={position ?? defaultCenter}
-        zoom={7}
-        className={cn(
-          "h-full w-full transition-all duration-300",
-          isBigger ? "rounded-lg" : "rounded"
-        )}
         ref={mapRef}
+        center={[pinCoordinates.lat, pinCoordinates.lng]}
+        zoom={13}
+        className="h-[250px] w-full rounded"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {displayPolygon && (
+
+        {municipalityCoordinates && (
           <Polygon
-            positions={displayPolygon}
+            positions={municipalityCoordinates}
             pathOptions={{
               color: "#374151",
               weight: 2,
@@ -241,6 +170,7 @@ export default function MapConfirmLocation({
             }}
           />
         )}
+
         {populatedPlaceCoordinates && (
           <Polygon
             positions={populatedPlaceCoordinates}
@@ -251,15 +181,14 @@ export default function MapConfirmLocation({
             }}
           />
         )}
-        {position && (
-          <Marker
-            position={position}
-            draggable
-            ref={markerRef}
-            eventHandlers={eventHandlers}
-            icon={markerIcon}
-          />
-        )}
+
+        <Marker
+          position={[pinCoordinates.lat, pinCoordinates.lng]}
+          draggable
+          ref={markerRef}
+          eventHandlers={eventHandlers}
+          icon={markerIcon}
+        />
       </MapContainer>
     </div>
   );

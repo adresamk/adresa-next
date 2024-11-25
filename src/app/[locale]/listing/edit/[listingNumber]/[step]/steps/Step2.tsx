@@ -101,7 +101,7 @@ export default function Step2({ listing }: { listing: Listing }) {
       </Label>
       <Input
         required
-        placeholder="Your address"
+        placeholder="Ex: Mile Pop Jordanov 28, Skopje 1000"
         name="address"
         id={"address"}
         value={address || ""}
@@ -109,7 +109,11 @@ export default function Step2({ listing }: { listing: Listing }) {
           setAddress(e.target.value);
         }}
       />
-      <MapPinSetup listing={listing} />
+      <MapPinSetup
+        listing={listing}
+        municipality={municipality}
+        populatedPlace={populatedPlace}
+      />
     </div>
   );
 }
