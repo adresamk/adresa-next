@@ -104,22 +104,28 @@ export default function MapPinSetup({
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <img
-                  src="/images/coordinates-example-1.png"
+                  src="/assets/coordinates-example-1.png"
                   alt="Right click on map"
-                  className="rounded-lg border"
+                  className="max-h-[70vh] rounded-lg border"
                 />
                 <p className="text-center text-xs text-gray-500">
                   Step 1: Right click on the map
                 </p>
+                <p className="text-center text-xs text-gray-500">
+                  Step 2: Click on the coordinates to copy them
+                </p>
               </div>
               <div className="space-y-2">
                 <img
-                  src="/images/coordinates-example-2.png"
+                  src="/assets/coordinates-example-2.jpg"
                   alt="Copy coordinates"
-                  className="rounded-lg border"
+                  className="max-h-[70vh] rounded-lg border"
                 />
                 <p className="text-center text-xs text-gray-500">
-                  Step 2: Copy the coordinates
+                  Step 1: Tap on Google Maps App
+                </p>
+                <p className="text-center text-xs text-gray-500">
+                  Step 2: Click on the coordinates to copy them
                 </p>
               </div>
             </div>
@@ -137,7 +143,9 @@ export default function MapPinSetup({
           value={coordinates}
           placeholder="ex: 41.9981,21.4254"
           onChange={(e) => {
-            setCoordinates(e.target.value.replace(/\s/g, ""));
+            setCoordinates(
+              e.target.value.replace(/\s/g, "").replace(/\(|\)/g, ""),
+            );
           }}
           name="coordinates"
           id="coordinates"
