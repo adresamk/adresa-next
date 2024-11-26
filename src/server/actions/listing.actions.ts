@@ -91,7 +91,7 @@ export async function getLikedListingsByUser() {
 }
 
 export async function deleteListing(formData: FormData) {
-  console.log(formData);
+  // console.log(formData);
   const listingId = formData.get("listingId")?.valueOf();
 
   if (typeof listingId !== "string" || !listingId) {
@@ -123,7 +123,7 @@ export async function deleteListing(formData: FormData) {
 }
 
 export async function adjustListingVisibility(formData: FormData) {
-  console.log(formData);
+  // console.log(formData);
   const listingId = formData.get("listingId")?.valueOf();
   const isVisible = formData.get("isVisible")?.valueOf();
 
@@ -236,7 +236,7 @@ export async function addNewListing(formData: FormData) {
     };
   }
 
-  console.log("Adding new listing", formData);
+  // console.log("Adding new listing", formData);
 
   const category = formData.get("category")?.toString();
   const type = formData.get("type")?.toString();
@@ -299,7 +299,7 @@ export async function addNewListing(formData: FormData) {
     },
   });
 
-  console.log("Listing created", listing);
+  // console.log("Listing created", listing);
 
   redirect("/listing/edit/" + listing.listingNumber + "/location");
 }
@@ -402,7 +402,7 @@ async function editLocation(formData: FormData) {
   // const latitude = formData.get("latitude");
   const coordinates = formData.get("coordinates");
 
-  console.log({ municipality, place, address, coordinates });
+  // console.log({ municipality, place, address, coordinates });
 
   if (
     typeof municipality !== "string" ||
@@ -450,7 +450,7 @@ async function editLocation(formData: FormData) {
     },
   });
 
-  console.log("updatedListing", updatedListing);
+  // console.log("updatedListing", updatedListing);
   return {
     success: true,
     data: {
@@ -596,7 +596,7 @@ async function editDescription(formData: FormData) {
     },
   });
 
-  console.log("returned ", updatedListing);
+  // console.log("returned ", updatedListing);
   return {
     success: true,
     data: {
@@ -748,7 +748,7 @@ export async function editListing(
   prevState: EditListingResponse,
   formData: FormData,
 ) {
-  console.log("Editing listing", formData);
+  // console.log("Editing listing", formData);
 
   const step = formData.get("step");
 
@@ -856,6 +856,6 @@ export default async function getAllListings(
   // // Now `listingsWithFavoriteInfo` contains all listings with `isFavorited` marked for the current user
   // return listingsWithFavoriteInfo;
 
-  console.log("returned listings ; ", listings.length);
+  // console.log("returned listings ; ", listings.length);
   return listings;
 }
