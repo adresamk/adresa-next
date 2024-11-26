@@ -32,7 +32,7 @@ function featuresValues(value: boolean | null) {
 }
 export default function Step3({ listing }: { listing: Listing }) {
   const [propertyPrice, setPropertyPrice] = useState(
-    displayPrice(listing.price),
+    listing.price ? displayPrice(listing.price) : "",
   );
   const [propertyArea, setPropertyArea] = useState(listing.area?.toString());
   const [floor, setFloor] = useState(listing.floorNumber?.toString());
@@ -65,10 +65,15 @@ export default function Step3({ listing }: { listing: Listing }) {
             name="price"
             id="price"
             placeholder="Enter price in euros"
-            value={propertyPrice || ""}
+            value={propertyPrice.replace("$", "").replace("€", "")}
             onChange={(e) => {
+              // With Ai tell the code to make a splitter for number, comma after 3 digits
+
+              // setPropertyPrice(e.target.value);
               const newValue = e.target.value.replace(/[^0-9]/g, "");
-              const formattedValue = displayPrice(Number(newValue));
+              const formattedValue = displayPrice(Number(newValue))
+                .replace("$", "")
+                .replace("€", "");
               setPropertyPrice(formattedValue);
             }}
           />

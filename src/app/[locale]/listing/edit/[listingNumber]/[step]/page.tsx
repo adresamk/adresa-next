@@ -27,6 +27,7 @@ export default async function EditListingPage({ params }: { params: Params }) {
       listingNumber: Number(listingNumber),
     },
   });
+  console.log("listing", listing);
   if (!listing) {
     redirect("/404");
   }
