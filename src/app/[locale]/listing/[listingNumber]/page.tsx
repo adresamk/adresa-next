@@ -35,6 +35,7 @@ import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
 import Image from "next/image";
 import { extractPublisherData } from "./helpers";
 import { getListing } from "@/server/actions/listing.actions";
+import PriceDisplay from "./_components/PriceDisplay";
 
 function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
   return {
@@ -124,15 +125,8 @@ export default async function SingleListingPage({
             {/* Price and Buttons - Interactions */}
             <div className="flex">
               <div className="flex flex-1 flex-col gap-3">
-                <div className="flex items-center gap-3 text-xl">
-                  <span className="font-semibold">
-                    {displayPrice(listing.price)}
-                  </span>
-                  <span>| </span>
-                  <span className="text-slate-400">
-                    {displayPricePerSquare(listing.price, listing.area)}
-                  </span>
-                </div>
+                <PriceDisplay listing={listing} />
+
                 <div className="flex gap-3">{/* ADD Feaures */}</div>
               </div>
               <div className="ml-auto flex gap-2">

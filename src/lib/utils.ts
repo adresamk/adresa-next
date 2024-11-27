@@ -12,7 +12,7 @@ export function displayPrice(value: number | null, currency: string = "USD") {
   if (currency !== "USD" && currency !== "EUR") {
     throw new Error("Invalid currency. Only USD and EUR are allowed.");
   }
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("de-DE", {
     style: "currency",
     currency: currency,
     minimumFractionDigits: 0, // Show no decimals if not needed

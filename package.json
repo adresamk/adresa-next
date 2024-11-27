@@ -11,7 +11,8 @@
     "postinstall": "npx prisma generate",
     "migration:create": "prisma migrate dev --create-only",
     "migration": "prisma migrate deploy",
-    "seed": "tsx ./prisma/seeds/ual.ts"
+    "seed": "tsx ./prisma/seeds/ual.ts",
+    "email": "email dev"
   },
   "prisma": {
     "seed": "tsx ./prisma/seeds/ual.ts"
@@ -40,6 +41,7 @@
     "@radix-ui/react-toggle": "^1.1.0",
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
+    "@react-email/components": "^0.0.28",
     "@uploadthing/react": "^7.0.1",
     "arctic": "^1.9.2",
     "class-variance-authority": "^0.7.0",
@@ -58,9 +60,11 @@
     "oslo": "^1.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-email": "^3.0.2",
     "react-hook-form": "^7.53.0",
     "react-leaflet": "^5.0.0-rc.1",
     "react-leaflet-markercluster": "^4.1.1",
+    "resend": "^4.0.1",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
