@@ -146,11 +146,11 @@ export default function Step3({ listing }: { listing: Listing }) {
       {/* Rooms */}
       <div className="flex flex-col gap-3">
         <Label>Rooms</Label>
-        <div className="mb-2 flex w-1/2 min-w-[300px] flex-col">
+        <div className="mb-2 flex w-1/2 min-w-[300px] flex-col gap-2">
           {/* Bedrooms */}
 
           <div className="flex items-center gap-3">
-            <Bed size={50} />
+            <Bed className="h-8 w-8" />
             <FancyCounterInput
               startingValue={rooms.bedroom}
               min={0}
@@ -166,7 +166,7 @@ export default function Step3({ listing }: { listing: Listing }) {
           </div>
           {/* Bathrooms */}
           <div className="flex items-center gap-3">
-            <ShowerHead size={50} />
+            <ShowerHead className="h-8 w-8" />
             <FancyCounterInput
               name="bathrooms"
               id="bathrooms"
@@ -182,7 +182,7 @@ export default function Step3({ listing }: { listing: Listing }) {
           </div>
           {/* WCS */}
           <div className="flex items-center gap-3">
-            <Bath size={50} />
+            <Bath className="h-8 w-8" />
             <FancyCounterInput
               name="wcs"
               id="wcs"
@@ -198,7 +198,7 @@ export default function Step3({ listing }: { listing: Listing }) {
           </div>
           {/* Kitchens */}
           <div className="flex items-center gap-3">
-            <ChefHat size={50} />
+            <ChefHat className="h-8 w-8" />
             <FancyCounterInput
               name="kitchens"
               id="kitchens"
@@ -215,7 +215,7 @@ export default function Step3({ listing }: { listing: Listing }) {
 
           {/* Living Rooms */}
           <div className="flex items-center gap-3">
-            <Sofa size={50} />
+            <Sofa className="h-8 w-8" />
             <FancyCounterInput
               name="livingRooms"
               id="livingRooms"
