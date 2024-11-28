@@ -16,7 +16,7 @@ export function displayPrice(value: number | null, currency: string = "USD") {
     style: "currency",
     currency: currency,
     minimumFractionDigits: 0, // Show no decimals if not needed
-    maximumFractionDigits: 2, // Show 2 decimals if needed
+    maximumFractionDigits: 0, // Show 2 decimals if needed
   }).format(value);
 }
 

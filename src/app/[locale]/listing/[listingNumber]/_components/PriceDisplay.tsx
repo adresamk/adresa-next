@@ -16,6 +16,10 @@ export default function PriceDisplay({ listing }: PriceDisplayProps) {
       <div className="w-full bg-blue-100 px-2 py-0.5 text-brand-light-blue">
         {displayPricePerSquare(listing.price, listing.area)}/m²
       </div>
+      <div className="w-full">
+        {/*  eslint-disable-next-line @next/next/no-img-element */}
+        <img className="w-full" src="/assets/price-shadow.png" alt="Cena" />
+      </div>
     </div>
   );
 }
@@ -27,6 +31,7 @@ let a = (
         <i>63.000&nbsp;€</i>
       </span>
       <div className="price-shadow">
+        {/*  eslint-disable-next-line @next/next/no-img-element */}
         <img src="/assets/price-shadow.png" alt="Cena" />
       </div>
     </div>

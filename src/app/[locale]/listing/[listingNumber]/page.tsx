@@ -36,6 +36,7 @@ import Image from "next/image";
 import { extractPublisherData } from "./helpers";
 import { getListing } from "@/server/actions/listing.actions";
 import PriceDisplay from "./_components/PriceDisplay";
+import { MortgageCalculator } from "@/components/MortgageCalculator";
 
 function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
   return {
@@ -123,51 +124,38 @@ export default async function SingleListingPage({
             </div>
 
             {/* Price and Buttons - Interactions */}
-            <div className="flex">
-              <div className="flex flex-1 flex-col gap-3">
-                <PriceDisplay listing={listing} />
+            <div className="flex items-center justify-between">
+          
 
-                <div className="flex gap-3">{/* ADD Feaures */}</div>
-              </div>
-              <div className="ml-auto flex gap-2">
-                <div className="flex flex-col items-center gap-2">
-                  <Heart />
-                  favourite
-                </div>
-                <div className="flex flex-col items-center gap-2">
-                  <Share />
-                  share
-                </div>
-              </div>
-            </div>
-
-            {/* Features Highlight - some imporant features mentioned */}
-
-            <div className="mb-6 flex gap-9">
-              {/* { renderHighLightedFeatures({
+                <div className="mb-6 flex gap-9">
+                  {/* { renderHighLightedFeatures({
                 'bathroom: listing.bathrooms,
                 'aircon': 1,
                 'garage': listing.parking
               })} */}
-              <div className="flex flex-col items-center">
-                <Bath className="h-8 w-8" />
-                <span>
-                  {listing.bathrooms} bathroom
-                  {listing.bathrooms && listing.bathrooms > 1 && "s"}
-                </span>
-              </div>
-              <div className="flex flex-col items-center">
-                <AirVentIcon className="h-8 w-8" />
-                <span>
-                  {1} aircon
-                  {1 && 1 > 1 && "s"}
-                </span>
-              </div>
-              <div className="flex flex-col items-center">
-                <AirVentIcon className="h-8 w-8" />
-                <span>{listing.parking} garage</span>
-              </div>
+                  <div className="flex flex-col items-center text-sm">
+                    <Bath className="w-6 h-6" />
+                    <span>
+                      {listing.bathrooms} bathroom
+                      {listing.bathrooms && listing.bathrooms > 1 && "s"}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center text-sm">
+                    <AirVentIcon className="w-6 h-6" />
+                    <span>
+                      {1} aircon
+                      {1 && 1 > 1 && "s"}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center text-sm">
+                    <AirVentIcon className="w-6 h-6" />
+                    <span>{listing.parking} garage</span>
+                  </div>
+                </div>
+              <PriceDisplay listing={listing} />
             </div>
+
+            {/* Features Highlight - some imporant features mentioned */}
 
             {/* Mortgages Options */}
             <Separator className="my-3 bg-slate-400" />
@@ -236,7 +224,8 @@ export default async function SingleListingPage({
               </div>
             </div>
             <Separator className="my-3 bg-slate-400" />
-
+            {/* Mortgage Calculator */}
+             <MortgageCalculator initialPrice={listing.price || 0} />
             {/* Publisher  */}
             <div className="my-6">
               <h3 className="mb-3 text-lg font-semibold">
