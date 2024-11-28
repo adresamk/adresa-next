@@ -147,6 +147,13 @@
       "name": "Full Name"
     }
   },
+  "header": {
+    "createListing": "Create Listing",
+    "userControls": {
+      "profile": "Profile",
+      "logout": "Logout"
+    }
+  },
   "home": {
     "search": {
       "title": "Find your perfect home",

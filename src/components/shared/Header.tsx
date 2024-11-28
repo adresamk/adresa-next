@@ -5,8 +5,10 @@ import { HousePlus } from "lucide-react";
 
 import AuthUserControls from "../AuthUserControls/AuthUserControls";
 import { createListing } from "@/server/actions/listing.actions";
+import { getTranslations } from "next-intl/server";
 
-export default function Header() {
+export default async function Header() {
+  const t= await getTranslations()
   return (
     <header className="fixed left-0 right-0 top-0 z-[100] flex h-[80px] items-center justify-between overflow-hidden bg-white px-5 py-2 shadow-lg">
       <nav className="flex items-center gap-6 text-brand-dark-blue">
@@ -27,7 +29,7 @@ export default function Header() {
           <Button size={"sm"} className="px-2.5">
             <HousePlus className="mr-3" />{" "}
             <span className="font-bold uppercase tracking-wide">
-              Create Listing
+              {t("header.createListing")}
             </span>
           </Button>
         </form>

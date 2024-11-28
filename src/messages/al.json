@@ -2,6 +2,7 @@
   "HomePage": {
     "greeting": "Përshëndetje"
   },
+
   "common": {
     "buttons": {
       "search": "Kërko",
@@ -145,6 +146,13 @@
       "email": "Email",
       "message": "Mesazh",
       "name": "Emri i Plotë"
+    }
+  },
+  "header": {
+    "createListing": "Shto Shpallje",
+    "userControls": {
+      "profile": "Profili",
+      "logout": "Dilni"
     }
   },
   "home": {

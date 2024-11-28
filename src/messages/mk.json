@@ -144,6 +144,13 @@
       "name": "Име и презиме"
     }
   },
+  "header": {
+    "createListing": "Нов оглас",
+    "userControls": {
+      "profile": "Профил",
+      "logout": "Одјави се"
+    }
+  },
   "home": {
     "search": {
       "title": "Најди го твојот совршен дом",
