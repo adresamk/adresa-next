@@ -20,6 +20,8 @@ import {
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/routing";
 import { useRouter } from "next/navigation";
+import { useTranslations } from 'next-intl';
+
 export default function LikeListingButton({
   listingId,
   className,
@@ -27,6 +29,7 @@ export default function LikeListingButton({
   listingId: string;
   className?: string;
 }) {
+  const t = useTranslations();
   const router = useRouter();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,12 +53,11 @@ export default function LikeListingButton({
   return (
     <>
       <AlertDialog open={isAlertOpen}>
-        {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Login needed</AlertDialogTitle>
+            <AlertDialogTitle>{t('listing.like.loginNeeded')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action requires you to be logged in first
+              {t('listing.like.loginMessage')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -64,14 +66,14 @@ export default function LikeListingButton({
                 setIsAlertOpen(false);
               }}
             >
-              Cancel
+              {t('common.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 setIsAlertOpen(false);
               }}
             >
-              <Link href="/signin">Sign in</Link>
+              <Link href="/signin">{t('common.signIn')}</Link>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -86,10 +88,8 @@ export default function LikeListingButton({
             setIsAlertOpen(true);
             return;
           }
-          // probably show toast with error maybe?
           if (!isFavorite) {
             const resp = await addListingAsFavorite(listingId);
-            // router.refresh();
             if (resp.success) {
               setIsFavorite(true);
             }
@@ -98,17 +98,15 @@ export default function LikeListingButton({
             const resp = await removeListingAsFavorite(listingId);
             if (resp.success) {
               setIsFavorite(false);
-              // router.refresh();
             }
           }
-          // we need to call this so that it can update in all places for the liked version
-          // this is costly so becareful with this
         }}
         variant="ghost"
         className={cn(
           "h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue",
           className,
         )}
+        title={t('listing.like.toggleFavorite')}
       >
         <Heart fill={isFavorite ? "blue" : "none"} />
       </Button>

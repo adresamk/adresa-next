@@ -8,7 +8,8 @@
       "share": "Сподели",
       "save": "Зачувај",
       "contact": "Контактирај",
-      "reveal": "Прикажи"
+      "reveal": "Прикажи",
+      "signIn": "Најави се"
     },
     "filters": {
       "location": "Локација",
@@ -106,15 +107,27 @@
       }
     },
     "listing": {
+      "type": "{type}",
+      "defaultMunicipality": "Општина",
+      "updated": "Ажурирано",
+      "features": {
+        "floor": "Кат",
+        "bedrooms": "Спални соби",
+        "bedroomsAbbr": "сс",
+        "bathrooms": "Бањи",
+        "bathroomsAbbr": "б"
+      },
+      "labels": {
+        "featured": "Истакнат оглас",
+        "exactLocation": "Точна локација на мапа"
+      },
+      "actions": {
+        "hide": "Сокриј",
+        "contact": "Контактирај"
+      },
       "featuredListing": "Истакнат оглас",
       "exactLocation": "Точна локација на мапа",
       "propertyDetails": "{type}, {area}м²",
-      "defaultMunicipality": "Општина",
-      "floor": "Кат",
-      "bedrooms": "Спални соби",
-      "bathrooms": "Бањи",
-      "br": "сс",
-      "ba": "б",
       "defaultAgency": "Агенција за недвижнини"
     },
     "navigation": {
@@ -167,6 +180,11 @@
       "subtitle": "Пополни ја формата подолу",
       "success": "Пораката е успешно испратена",
       "error": "Настана грешка при испраќање на пораката"
+    },
+    "like": {
+      "loginNeeded": "Потребно е најавување",
+      "loginMessage": "За оваа акција потребно е да бидете најавени",
+      "toggleFavorite": "Додади/Отстрани од омилени"
     }
   },
   "MortgageCalculator": {
