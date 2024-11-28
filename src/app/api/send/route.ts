@@ -14,9 +14,9 @@ export async function POST(request: Request, response: Response) {
     const { userName } = await request.json();
 
     const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
+      from: "Adresa <onboarding@resend.dev>",
       to: ["macesmajli@gmail.com"],
-      subject: "Hello world",
+      subject: "Welcome to Adresa",
       html: await render(AdresaWelcomeEmail({ userName })),
     });
 
