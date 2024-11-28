@@ -1,16 +1,15 @@
 import React from "react";
-import { validateRequest } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { checkVerificationTokenInDB } from "@/server/actions/user.actions";
 import Link from "next/link";
+
 interface VerifyPageProps {
-  searchParams: {
+  searchParams: Promise<{
     token: string;
-  };
+  }>; // Updated to be a Promise
 }
 
 export default async function VerifyPage({ searchParams }: VerifyPageProps) {
-  const params = await searchParams;
+  const params = await searchParams; // Await the promise
 
   const { success, error } = await checkVerificationTokenInDB(params.token);
   if (!success && error) {

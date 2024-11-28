@@ -8,7 +8,13 @@ export default function ListingDeleteButton({
   listingId: string;
 }) {
   return (
-    <form action={deleteListing}>
+    <form
+      onSubmit={async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const result = await deleteListing(formData);
+      }}
+    >
       <Button
         variant={"ghost"}
         size={"sm"}

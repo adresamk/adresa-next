@@ -8,7 +8,13 @@ export default function ListingVisibilityButton({
   listing: Listing;
 }) {
   return (
-    <form action={adjustListingVisibility}>
+    <form
+      onSubmit={async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const result = await adjustListingVisibility(formData);
+      }}
+    >
       <input
         className="hidden"
         type="text"

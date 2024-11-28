@@ -13,7 +13,15 @@ export default async function ProfileInfoPage() {
   return (
     <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
       <h3 className="mb-3 text-2xl font-semibold">Profile Info</h3>
-      <form className="py-2" action={updateUserInfo}>
+      <form
+        className="py-2"
+        onSubmit={async (event) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          const result = await updateUserInfo(formData);
+          // Handle result.success and result.error as needed
+        }}
+      >
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="firstName">
             First name <span className="text-red-500">*</span>

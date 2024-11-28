@@ -15,12 +15,12 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
 import { useState } from "react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 export default function ListingMapCard({ listing }: { listing: Listing }) {
   const t = useTranslations();
   return (
-    <div className="max-h-[260px] max-w-[220px]  bg-white border border-slate-500 rounded-md overflow-y-auto no-scrollbar">
+    <div className="no-scrollbar max-h-[260px] max-w-[220px] overflow-y-auto rounded-md border border-slate-500 bg-white">
       <figure className="relative mx-auto my-0 block">
         {/* image header */}
         <div className="pointer-events-none absolute left-0 top-0 z-50 flex w-full items-center overflow-hidden px-3.5 py-2.5">
@@ -38,7 +38,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           <div className="absolute bottom-1 left-1 flex gap-1">
             {listing.isPaidPromo && (
               <span
-                title={t('common.listing.featuredListing')}
+                title={t("common.listing.featuredListing")}
                 className="inline-block items-center gap-1.5 rounded border bg-white p-0.5 text-xs shadow-sm"
               >
                 <Crown size={16} />
@@ -47,7 +47,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
 
             {listing.locationPrecision === "exact" && (
               <span
-                title={t('common.listing.exactLocation')}
+                title={t("common.listing.exactLocation")}
                 className="inline-block items-center gap-1.5 rounded border bg-white p-0.5 text-xs shadow-sm"
               >
                 <MapPin size={16} />
@@ -56,25 +56,31 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           </div>
         </div>
         <figcaption className="hidden">
-          {t('common.listing.propertyDetails', { type: listing.type, area: listing.area })}
+          {t("common.listing.propertyDetails", {
+            type: listing.type,
+            area: listing.area,
+          })}
         </figcaption>
       </figure>
       <Link target="_blank" href={`/listing/${listing.listingNumber}`}>
         <div className="p-1.5 text-black">
           {/* Apartment title */}
           <h3 className="mb-1 overflow-hidden text-lg font-medium leading-6">
-            <span className="capitalize">{t(`common.property.type.${listing.type}`)}</span>, {listing.area}m²
+            <span className="capitalize">
+              {t(`common.property.type.${listing.type}`)}
+            </span>
+            , {listing.area}m²
           </h3>
           {/* Location */}
           <h3 className="mb-1.5 overflow-hidden text-xs leading-5">
-            {listing.municipality || t('common.listing.defaultMunicipality')}
+            {listing.municipality || t("common.listing.defaultMunicipality")}
           </h3>
 
           {/* Features */}
           <div className="flex items-center gap-6">
             <ul className="flex gap-1.5">
               <li
-                title={t('common.listing.floor')}
+                title={t("common.listing.floor")}
                 className="flex items-center text-xs tracking-tighter"
               >
                 <LampFloor width={17} height={17} className="mr-1" />
@@ -85,7 +91,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                 </span>
               </li>
               <li
-                title={t('common.listing.bedrooms')}
+                title={t("common.listing.bedrooms")}
                 className="flex items-center text-xs tracking-tighter"
               >
                 <Bed width={17} height={17} className="mr-1" />
@@ -93,11 +99,11 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                   <span className="mr-0.5 text-sm font-medium">
                     {listing.bedrooms}
                   </span>
-                  {t('common.listing.br')}
+                  {t("common.listing.br")}
                 </span>
               </li>
               <li
-                title={t('common.listing.bathrooms')}
+                title={t("common.listing.bathrooms")}
                 className="flex items-center text-xs tracking-tighter"
               >
                 <Bath width={17} height={17} className="mr-1" />
@@ -105,7 +111,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                   <span className="mr-0.5 text-sm font-medium">
                     {listing.bathrooms}
                   </span>
-                  {t('common.listing.ba')}
+                  {t("common.listing.ba")}
                 </span>
               </li>
             </ul>
@@ -150,7 +156,8 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
             <>
               <Separator />
               <div className="my-2 flex items-center">
-                {listing.agencyName || t('common.listing.defaultAgency')}
+                Default Agency
+                {/* {listing.agencyName || t('common.listing.defaultAgency')} */}
               </div>
             </>
           )}

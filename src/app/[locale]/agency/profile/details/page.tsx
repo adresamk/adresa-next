@@ -38,7 +38,15 @@ export default async function AgencyProfileDetailsPage({
           listings you own.
         </AlertDescription>
       </Alert>
-      <form action={updateAgencyDetails} className="py-2">
+      <form
+        action={async (formData: FormData) => {
+          const result = await updateAgencyDetails(formData);
+          if (result && result.error) {
+            // Handle error (e.g., show a notification)
+          }
+        }}
+        className="py-2"
+      >
         {/* Agency Name */}
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="name">
