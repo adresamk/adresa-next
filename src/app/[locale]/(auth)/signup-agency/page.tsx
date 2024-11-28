@@ -1,5 +1,6 @@
 "use client";
 import { Info } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -13,20 +14,24 @@ export default function SignUp() {
     error: "",
     success: false,
   });
+  const t = useTranslations();
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign up to Adresa as an Agency
+          {t("auth.agencySignUp.title")}
         </h2>
+        <p className="mt-2 text-center text-sm text-gray-600">
+          {t("auth.agencySignUp.subtitle")}
+        </p>
       </div>
 
       <Alert className="mb-4 mt-10 border-orange-400 text-orange-400 sm:mx-auto sm:w-full sm:max-w-sm">
         <Info className="h-4 w-4" />
         <AlertTitle>Important info!</AlertTitle>
         <AlertDescription className="text-slate-900">
-          You will need to fill out more information in the profile page before
-          anything else.
+          {t("auth.agencySignUp.profileInfo")}
         </AlertDescription>
       </Alert>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -36,7 +41,7 @@ export default function SignUp() {
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Email address <span className="text-red-500">*</span>
+              {t("auth.agencySignUp.email")} <span className="text-red-500">*</span>
             </label>
             <div className="mt-2">
               <input
@@ -56,7 +61,7 @@ export default function SignUp() {
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Password <span className="text-red-500">*</span>
+                {t("auth.agencySignUp.password")} <span className="text-red-500">*</span>
               </label>
             </div>
             <div className="mt-2">
@@ -77,7 +82,7 @@ export default function SignUp() {
                 htmlFor="confirm-password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Confirm Password <span className="text-red-500">*</span>
+                {t("auth.agencySignUp.confirmPassword")} <span className="text-red-500">*</span>
               </label>
             </div>
             <div className="mt-2">
@@ -97,17 +102,18 @@ export default function SignUp() {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Sign up
+              {t("auth.agencySignUp.button")}
             </button>
           </div>
         </Form>
+
         <p className="mt-10 text-center text-sm text-gray-500">
-          Already a member?{" "}
+          {t("auth.signUp.hasAccount")}{" "}
           <Link
             href={"/signin"}
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Sign in
+            {t("auth.signUp.signIn")}
           </Link>
         </p>
       </div>

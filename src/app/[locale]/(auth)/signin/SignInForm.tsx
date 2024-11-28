@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 import GoogleOAuthButton from "../GoogleOAuthButton";
 import SignInFormWrapper from "./SignInFormWrapper";
@@ -10,16 +11,29 @@ interface SignInFormProps {
 }
 
 export default function SignInForm({ searchParams = null }: SignInFormProps) {
+  const t = useTranslations();
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in on our platform
+          {t("auth.signIn.title")}
         </h2>
+        <p className="mt-2 text-center text-sm text-gray-600">
+          {t("auth.signIn.subtitle")}
+        </p>
       </div>
 
       <div className="mt-6 w-full sm:mx-auto sm:max-w-sm">
         <GoogleOAuthButton />
+        <div className="relative my-4">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="bg-white px-2 text-gray-500">{t("auth.oauth.or")}</span>
+          </div>
+        </div>
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -29,7 +43,7 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Email address <span className="text-red-500">*</span>
+              {t("auth.signIn.email")} <span className="text-red-500">*</span>
             </label>
             <div className="mt-2">
               <input
@@ -49,15 +63,15 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Password <span className="text-red-500">*</span>
+                {t("auth.signIn.password")} <span className="text-red-500">*</span>
               </label>
               <div className="text-sm">
-                <a
-                  href="#"
+                <Link
+                  href="/forgot-password"
                   className="font-semibold text-indigo-600 hover:text-indigo-500"
                 >
-                  Forgot password?
-                </a>
+                  {t("auth.signIn.forgotPassword")}
+                </Link>
               </div>
             </div>
             <div className="mt-2">
@@ -77,18 +91,18 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Sign in
+              {t("auth.signIn.button")}
             </button>
           </div>
         </SignInFormWrapper>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Don&apos;t have an account?{" "}
+          {t("auth.signIn.noAccount")}{" "}
           <Link
             href={"/signup"}
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Sign up
+            {t("auth.signIn.createAccount")}
           </Link>
         </p>
       </div>

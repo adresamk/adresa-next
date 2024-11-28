@@ -2,6 +2,7 @@
 import { Form } from "@/components/Form";
 import { signUpAsUser } from "@/server/actions/auth.actions";
 import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 import { useActionState } from "react";
 interface SignUpFormProps {}
@@ -10,12 +11,17 @@ export default function SignUpForm({}: SignUpFormProps) {
     error: "",
     success: false,
   });
+  const t = useTranslations();
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign up to Adresa
+          {t("auth.signUp.title")}
         </h2>
+        <p className="mt-2 text-center text-sm text-gray-600">
+          {t("auth.signUp.subtitle")}
+        </p>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -25,7 +31,7 @@ export default function SignUpForm({}: SignUpFormProps) {
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Email address <span className="text-red-500">*</span>
+              {t("auth.signUp.email")} <span className="text-red-500">*</span>
             </label>
             <div className="mt-2">
               <input
@@ -45,7 +51,7 @@ export default function SignUpForm({}: SignUpFormProps) {
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Password <span className="text-red-500">*</span>
+                {t("auth.signUp.password")} <span className="text-red-500">*</span>
               </label>
             </div>
             <div className="mt-2">
@@ -66,7 +72,7 @@ export default function SignUpForm({}: SignUpFormProps) {
                 htmlFor="confirm-password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Confirm Password <span className="text-red-500">*</span>
+                {t("auth.signUp.confirmPassword")} <span className="text-red-500">*</span>
               </label>
             </div>
             <div className="mt-2">
@@ -86,17 +92,26 @@ export default function SignUpForm({}: SignUpFormProps) {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Sign up
+              {t("auth.signUp.button")}
             </button>
           </div>
         </Form>
         <p className="mt-10 text-center text-sm text-gray-500">
-          Already a member?{" "}
+          {t("auth.signUp.hasAccount")}{" "}
           <Link
             href={"/signin"}
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Sign in
+            {t("auth.signUp.signIn")}
+          </Link>
+        </p>
+
+        <p className="mt-4 text-center text-sm text-gray-500">
+          <Link
+            href={"/signup-agency"}
+            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          >
+            {t("auth.signUp.agencySignUp")}
           </Link>
         </p>
       </div>
