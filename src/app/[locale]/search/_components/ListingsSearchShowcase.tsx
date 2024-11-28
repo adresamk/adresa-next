@@ -54,7 +54,7 @@ export default async function ListingsSearchShowcase({
               </div>
             </div>
             <div className="h-[240px] w-[260px]">
-              <ImagesCarousel images={listingRef.images} />
+              <ImagesCarousel images={listingRef.images} height={240} width={260} />
             </div>
             <figcaption className="hidden">
               {listingRef.type}, {listingRef.area}m²

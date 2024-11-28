@@ -9,20 +9,28 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 
-export default function ImagesCarousel({ images }: { images: string[] }) {
+export default function ImagesCarousel({
+  images,
+  height,
+  width = 240
+}: {
+  images: string[];
+  height: number;
+  width?: number;
+}) {
   const missingImage = "/assets/missing-image.jpg";
 
   return (
     <Carousel className="relative w-full max-w-xs">
       <CarouselContent>
         {images.map((imageSrc, index) => (
-          <CarouselItem key={index} className="h-[240px] w-full">
+          <CarouselItem key={index} className={`h-[${height}px] w-full`}>
             <Image
               src={imageSrc || missingImage}
               // hack for now
               className="h-full rounded-tl-lg rounded-tr-lg object-cover"
-              width={240}
-              height={240}
+              width={width}
+              height={height}
               alt="Property first image"
             />
           </CarouselItem>

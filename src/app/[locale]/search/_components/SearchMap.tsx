@@ -13,8 +13,10 @@ import {
   Marker,
   Popup,
   CircleMarker,
+
   LayerGroup,
   useMap,
+  useMapEvent,
 } from "react-leaflet";
 import ListingMapCard from "./ListingMapCard";
 import MapWithBounds from "./MapWithBounds";
@@ -26,6 +28,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import ZoomTracker from "./ZoomTracker";
+import ActiveListing from "./ActiveListing";
 
 export default function SearchMap({
   listings,
@@ -38,6 +41,7 @@ export default function SearchMap({
   const [mapFilters, setMapFilters] = useState("");
   const [searchOnMove, setSearchOnMove] = useState(false);
   const [mapSearchedCounter, setMapSearchedCounter] = useState(0);
+  const [activeListing, setActiveListing] = useState<Listing | null>(null);
   const [zoom, setZoom] = useState(11);
   const mapRef = useRef<L.Map>(null);
   const popupRef = useRef<L.Popup>(null);
@@ -144,10 +148,15 @@ export default function SearchMap({
   };
   let timeoutId: NodeJS.Timeout | null = null;
 
-  //
+  const MapClickHandler = () => {
+    useMapEvent("click", (e) => {
+        setActiveListing(null);
+    });
+    return null;
+  };
 
   return (
-    <div className="order-2 mb-10 h-[360px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
+    <div className="order-2 mb-10 h-[380px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
       <div id="search-page-map" className="relative mb-10 h-full w-full">
         <aside className="absolute left-0 right-0 top-0 z-[1050] h-0 w-full text-center">
           <div
@@ -186,6 +195,9 @@ export default function SearchMap({
             )}
           </div>
         </aside>
+        <aside className="absolute bottom-[42px] left-2 z-[1050]">
+          <ActiveListing listing={activeListing} />
+        </aside>
         <aside className="absolute bottom-0 left-0 z-[1050]">
           <div className="rounded-tr-md bg-white px-3.5 py-2.5 text-sm shadow">
             View 300 {zoom} of {listings.length} properties with a pin on the
@@ -194,6 +206,7 @@ export default function SearchMap({
         </aside>
 
         <MapContainer
+         
           key={`map-${mapSearchedCounter}`}
           center={skopjeLatLng}
           ref={mapRef}
@@ -201,6 +214,7 @@ export default function SearchMap({
           style={{ height: "100%", width: "100%" }}
         >
           <ZoomTracker onZoomChange={setZoom} />
+
           <MapWithBounds
             mapSearchedCounter={mapSearchedCounter}
             searchOnMove={searchOnMove}
@@ -210,6 +224,7 @@ export default function SearchMap({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
+          <MapClickHandler/>
           <LayerGroup>
             {listings.map((listing) => {
               const handleMouseOver = (e: LeafletMouseEvent) => {
@@ -241,13 +256,14 @@ export default function SearchMap({
                   eventHandlers={{
                     click: (e) => {
                       // hopefully this catches the click before render
-                      setSearchOnMove(false);
+                      // setSearchOnMove(false);
+                      setActiveListing(listing);
                     },
                     // mouseover: handleMouseOver,
                     // mouseout: handleMouseOut,
                   }}
                 >
-                  <Popup
+                  {/* <Popup
                     ref={popupRef}
                     autoPan={true}
                     autoPanPadding={[10, 10]}
@@ -261,7 +277,7 @@ export default function SearchMap({
                     // }}
                   >
                     <ListingMapCard listing={listing} />
-                  </Popup>
+                  </Popup> */}
                 </Marker>
               );
             })}

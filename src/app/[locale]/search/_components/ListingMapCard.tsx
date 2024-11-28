@@ -14,9 +14,10 @@ import { displayPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
+import { useState } from "react";
 export default function ListingMapCard({ listing }: { listing: Listing }) {
   return (
-    <div className="max-h-[300px] max-w-[240px] overflow-x-scroll">
+    <div className="max-h-[260px] max-w-[220px]  bg-white border border-slate-500 rounded-md overflow-y-auto no-scrollbar">
       <figure className="relative mx-auto my-0 block">
         {/* image header */}
         <div className="pointer-events-none absolute left-0 top-0 z-50 flex w-full items-center overflow-hidden px-3.5 py-2.5">
@@ -29,8 +30,8 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
             {/* {listing.tags} */}
           </div>
         </div>
-        <div className="relative h-[130px] w-[240px] overflow-hidden">
-          <ImagesCarousel images={listing.images} />
+        <div className="relative h-[120px] w-[220px] overflow-hidden">
+          <ImagesCarousel images={listing.images} height={120} />
           <div className="absolute bottom-1 left-1 flex gap-1">
             {listing.isPaidPromo && (
               <span
