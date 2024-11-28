@@ -9,8 +9,9 @@ export default function ListingDeleteButton({
 }) {
   return (
     <form
-      action={async (formData: FormData) => {
-        "use server";
+      onSubmit={async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
         const result = await deleteListing(formData);
       }}
     >
