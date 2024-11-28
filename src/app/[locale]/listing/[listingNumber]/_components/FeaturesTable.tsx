@@ -5,18 +5,21 @@ import {
   displayPrice,
   displayPricePerSquare,
 } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export default function FeaturesTable({
   listing,
 }: {
   listing: SerializedListing;
 }) {
+  const t = useTranslations();
+
   return (
     <table className="w-full">
       <tbody>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Price
+            {t("common.property.price")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
             {displayPrice(listing.price)}
@@ -24,7 +27,7 @@ export default function FeaturesTable({
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Price per m2
+            {t("common.property.features.pricePerSquare")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
             {displayPricePerSquare(listing.price, listing.area)}
@@ -32,7 +35,7 @@ export default function FeaturesTable({
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Area
+            {t("common.filters.surface")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
             {displayArea(listing.area)}
@@ -40,55 +43,47 @@ export default function FeaturesTable({
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Floors
+            {t("common.property.features.floor")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.floorNumber}
+            {t("common.property.features.floorInfo", { floor: listing.floorNumber, total: 7 })}
           </td>
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Kat
+            {t("common.property.features.kitchen")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.floorNumber} (од вкупно 7)
+            {listing.kitchens} {listing.kitchens === 1 ? t("common.property.features.kitchen") : t("common.property.features.kitchens")}
           </td>
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Kitchen
+            {t("common.property.features.bathroom")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.kitchens}
+            {listing.bathrooms} {listing.bathrooms === 1 ? t("common.property.features.bathroom") : t("common.property.features.bathrooms")}
           </td>
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Bathroom
+            {t("common.property.features.parking")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.bathrooms}
+            {listing.parking ? "1" : "0"} {t("common.property.features.parking")}
           </td>
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Garage/Parking
+            {t("common.property.features.yearBuilt")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.parking} Parking
+            2023
           </td>
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Year Made
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {"Year Made 2023"}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Posted Date
+            {t("common.property.metadata.posted")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
             {displayDate(listing.publishedAt)}
@@ -96,18 +91,10 @@ export default function FeaturesTable({
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Last Modified
+            {t("common.property.metadata.lastModified")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
             {displayDate(listing.updatedAt)}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            Post Number
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.listingNumber}
           </td>
         </tr>
       </tbody>

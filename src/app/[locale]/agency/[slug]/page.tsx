@@ -3,6 +3,7 @@ import RevealButton from "@/components/shared/RevealButton";
 import { House, Store } from "lucide-react";
 import PopularAgencyProperties from "./PopularAgencyProperties";
 import prismadb from "@/lib/db";
+import { getTranslations } from "next-intl/server";
 
 export default async function AgencyPage({
   params,
@@ -10,14 +11,16 @@ export default async function AgencyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const t = await getTranslations();
+  
   const agency = await prismadb.agency.findUnique({
     where: {
       slug: slug,
     },
   });
-  console.log(agency);
+
   if (!agency) {
-    return <div>Agency not found</div>;
+    return <div>{t("agency.notFound")}</div>;
   }
 
   return (
@@ -35,7 +38,8 @@ export default async function AgencyPage({
           <div className="relative z-10 flex w-2/3 flex-col justify-center">
             <div className="mb-5 flex gap-3">
               <div className="flex items-center justify-center rounded-xl border border-slate-400 bg-white px-5 py-4">
-                <img src={agency.logoUrl || ""} alt="Agency Logo" />
+                 {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={agency.logoUrl || ""} alt={agency.name || ""} />
               </div>
               <div className="flex flex-col justify-between py-2">
                 <p>{agency.shortDescription}</p>
@@ -48,85 +52,53 @@ export default async function AgencyPage({
                 <div className="mb-2 flex items-end gap-1">
                   <House size={36} />
                   <div>
-                    <p>
-                      {
-                        // agency.selling.filter(
-                        //   (property) => property.type === "apartment"
-                        // ).length
-                        5
-                      }
-                    </p>
-                    <p>stanovi</p>
+                    <p>{5}</p>
+                    <p>{t("agency.properties.apartments")}</p>
                   </div>
                 </div>
-                <p className="text-nowrap">za prodazba {">"}</p>
+                <p className="text-nowrap">{t("agency.properties.forSale")} {">"}</p>
               </div>
               <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
                 <div className="mb-2 flex items-end gap-1">
                   <Store size={36} />
                   <div>
-                    <p>
-                      {/* {
-                        agency.selling.filter(
-                          (property) => property.type === "business"
-                        ).length
-                      } */}
-                      5
-                    </p>
-                    <p>Dukani</p>
+                    <p>{5}</p>
+                    <p>{t("agency.properties.stores")}</p>
                   </div>
                 </div>
-                <p className="text-nowrap">za prodazba {">"}</p>
+                <p className="text-nowrap">{t("agency.properties.forSale")} {">"}</p>
               </div>
 
               <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
                 <div className="mb-2 flex items-end gap-1">
                   <House size={36} />
                   <div>
-                    <p>
-                      {
-                        // agency.renting.filter(
-                        //   (property) =>
-                        //     property.type === "object-building"
-                        // ).length
-                        5
-                      }
-                    </p>
-                    <p>Objekti</p>
+                    <p>{5}</p>
+                    <p>{t("agency.properties.buildings")}</p>
                   </div>
                 </div>
-                <p className="text-nowrap">za iznajmuvanje {">"}</p>
+                <p className="text-nowrap">{t("agency.properties.forRent")} {">"}</p>
               </div>
               <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
                 <div className="mb-2 flex items-end gap-1">
                   <House size={36} />
                   <div>
-                    <p>
-                      {
-                        // agency.selling.filter(
-                        //   (property) => property.type === "object-key"
-                        // ).length
-                        6
-                      }
-                    </p>
-                    <p>Objekti</p>
+                    <p>{6}</p>
+                    <p>{t("agency.properties.buildings")}</p>
                   </div>
                 </div>
-                <p className="text-nowrap">za iznajmuvanje {">"}</p>
+                <p className="text-nowrap">{t("agency.properties.forRent")} {">"}</p>
               </div>
               <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
                 <div className="mb-2 flex items-end gap-1">
-                  <p className="text-4xl font-semibold">
-                    {/* {agency.listings.length} */}
-                    {5}
-                  </p>
+                  <p className="text-4xl font-semibold">{5}</p>
                 </div>
-                <p className="text-nowrap">All listings {">"}</p>
+                <p className="text-nowrap">{t("agency.properties.allListings")} {">"}</p>
               </div>
             </div>
             <div className="my-3 text-slate-700">
               <p>{agency.address}</p>
-              <p>Hours</p>
+              <p>{t("agency.contact.hours")}</p>
               <p>{agency.workHours}</p>
             </div>
             <div>
@@ -139,40 +111,16 @@ export default async function AgencyPage({
           </div>
         </Container>
 
-        {/* Polular Agency Properties */}
+        {/* Popular Agency Properties */}
       </div>
       <div className="bg-blue-950 px-10">
         <Container>
           <PopularAgencyProperties
-            // bgColor="bg-slate-800"
-            // properties={agency.properties}
             properties={[]}
-            title={"Najpopularni oglasi od " + agency.name}
+            title={t("agency.properties.popularListings", { agencyName: agency.name })}
           />
         </Container>
       </div>
-      <Container>
-        <div className="flex items-center">
-          <div className="flex flex-col gap-3">
-            <h3 className="text-xl font-semibold">{agency.name}</h3>
-            <p className="text-slate-500">{agency.address}</p>
-            <p className="text-slate-500">Working hours</p>
-            <p className="font-semibold">{agency.workHours}</p>
-            <p className="text-slate-500">Contact person</p>
-            <p className="font-semibold">{agency.contactPersonFullName}</p>
-            <div>
-              <RevealButton usecase="phone" value="078-344-223" />
-            </div>
-          </div>
-          <div className="i flex">
-            <img
-              className=""
-              src="/assets/google-map-location.png"
-              alt="Map location"
-            />
-          </div>
-        </div>
-      </Container>
     </main>
   );
 }

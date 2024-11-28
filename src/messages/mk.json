@@ -55,20 +55,31 @@
         "garage": "гаража",
         "garages": "гаражи",
         "parking": "паркинг",
-        "parkings": "паркинг места"
+        "parkings": "паркинг места",
+        "kitchen": "кујна",
+        "kitchens": "кујни",
+        "floor": "кат",
+        "totalFloors": "вкупно катови",
+        "floorInfo": "{floor} (од вкупно {total})",
+        "yearBuilt": "Година на градба",
+        "pricePerSquare": "Цена по м²"
       },
       "metadata": {
         "posted": "Објавено на",
         "updated": "Ажурирано на",
         "available": "Достапно од",
-        "id": "Шифра"
+        "id": "Шифра",
+        "lastModified": "Последна промена"
       },
       "description": "Опис",
-      "characteristics": {
-        "inside": "Внатрешни карактеристики",
-        "outside": "Надворешни карактеристики"
-      },
+      "characteristics": "Карактеристики",
+      "insideCharacteristics": "Внатрешни карактеристики",
+      "outsideCharacteristics": "Надворешни карактеристики",
       "location": "Локација",
+      "map": {
+        "notSet": "Локацијата не е поставена",
+        "attribution": "© OpenStreetMap контрибутори"
+      },
       "publisher": "Објавувач",
       "publisherDetails": {
         "title": "Продавач",
@@ -79,7 +90,6 @@
         "workHours": "Работно време",
         "contactPersonEmail": "Е-пошта на контакт лице",
         "contactPersonPhone": "Телефон на контакт лице",
-
         "contactHours": "Работно време"
       },
       "mortgage": {
@@ -150,5 +160,32 @@
     "loanAmount": "Износ на заем",
     "years": "години",
     "month": "месечно"
+  },
+  "agency": {
+    "notFound": "Агенцијата не е пронајдена",
+    "properties": {
+      "forSale": "за продажба",
+      "forRent": "за изнајмување",
+      "allListings": "Сите огласи",
+      "apartments": "станови",
+      "stores": "дуќани",
+      "buildings": "објекти",
+      "popularListings": "Најпопуларни огласи од {agencyName}"
+    },
+    "contact": {
+      "hours": "Работно време",
+      "website": "Веб-сајт",
+      "phone": "Телефон"
+    },
+    "profile": {
+      "welcome": "Добредојдовте",
+      "menu": {
+        "dashboard": "Контролна табла",
+        "listings": "Огласи",
+        "details": "Детали",
+        "info": "Информации",
+        "settings": "Поставки"
+      }
+    }
   }
 }

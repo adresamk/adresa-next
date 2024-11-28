@@ -1,6 +1,7 @@
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import AgencyProfileSideMenu from "./AgencyProfileSideMenu";
+import { getTranslations } from "next-intl/server";
 
 type Params = Promise<{ children: React.ReactNode }>;
 
@@ -13,6 +14,8 @@ export default async function ProfileLayout({
 }) {
   const layoutParams = await params;
   const { user } = await validateRequest();
+  const t = await getTranslations();
+
   if (!user) {
     redirect("/signin");
   }
@@ -21,7 +24,7 @@ export default async function ProfileLayout({
     <main className="mx-auto flex max-w-[1200px] px-6">
       <div className="min-h-screen min-w-[220px] bg-white shadow">
         <div className="px-3 py-6">
-          <p>Welcome</p>
+          <p>{t("agency.profile.welcome")}</p>
           <p className="text-xl">
             {user.firstName} {user.lastName}
           </p>
