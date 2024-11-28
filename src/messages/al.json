@@ -1,5 +1,305 @@
 {
   "HomePage": {
     "greeting": "Përshëndetje"
+  },
+  "common": {
+    "buttons": {
+      "search": "Kërko",
+      "submit": "Dërgo",
+      "cancel": "Anulo",
+      "back": "Kthehu",
+      "share": "Ndaj",
+      "save": "Ruaj",
+      "contact": "Kontakto",
+      "reveal": "Shfaq",
+      "signIn": "Hyr"
+    },
+    "filters": {
+      "location": "Vendndodhja",
+      "propertyType": "Lloji i Pronës",
+      "price": "Çmimi",
+      "surface": "Sipërfaqja",
+      "mode": {
+        "buy": "Bli",
+        "sale": "Shitje",
+        "rent": "Me Qira"
+      }
+    },
+    "actions": {
+      "save": "ruaj",
+      "saved": "ruajtur"
+    },
+    "search": {
+      "results": "rezultate",
+      "new": "të reja",
+      "more": "më shumë",
+      "selectNeighbourhood": "Zgjidh Lagjen",
+      "loweredPriceResults": "rezultate me çmim të ulur",
+      "titleFormat": "{type}: {location}",
+      "defaultType": "Shtëpi",
+      "defaultLocation": "Shkup"
+    },
+    "property": {
+      "type": {
+        "house": "shtëpi",
+        "apartment": "apartament",
+        "office": "zyrë",
+        "land": "tokë",
+        "warehouse": "magazinë",
+        "agricultural": "tokë bujqësore",
+        "industrial space": "hapësirë industriale",
+        "assembly facilities": "objekte montimi",
+        "garage": "garazh",
+        "store": "dyqan",
+        "construction": "në ndërtim",
+        "other": "tjetër"
+      },
+      "area": "m²",
+      "price": "çmimi",
+      "features": {
+        "bathroom": "banjë",
+        "bathrooms": "banja",
+        "aircon": "kondicioner",
+        "aircons": "kondicionerë",
+        "garage": "garazh",
+        "garages": "garazhe",
+        "parking": "parking",
+        "parkings": "vende parkimi",
+        "kitchen": "kuzhinë",
+        "kitchens": "kuzhina",
+        "floor": "kat",
+        "totalFloors": "kate gjithsej",
+        "floorInfo": "{floor} (nga {total})",
+        "yearBuilt": "Viti i ndërtimit",
+        "pricePerSquare": "Çmimi për m²"
+      },
+      "metadata": {
+        "posted": "Postuar më",
+        "updated": "Përditësuar më",
+        "available": "E disponueshme nga",
+        "id": "ID",
+        "lastModified": "Modifikuar së fundmi"
+      },
+      "description": "Përshkrimi",
+      "characteristics": "Karakteristikat",
+      "insideCharacteristics": "Karakteristikat e Brendshme",
+      "outsideCharacteristics": "Karakteristikat e Jashtme",
+      "location": "Vendndodhja",
+      "map": {
+        "notSet": "Vendndodhja nuk është vendosur",
+        "attribution": "Kontribuesit e OpenStreetMap",
+        "searchInArea": "Kërko në këtë zonë",
+        "searchAsMove": "Kërko ndërsa lëviz",
+        "loading": "Duke ngarkuar hartën..."
+      },
+      "publisher": "Publikuesi",
+      "publisherDetails": {
+        "title": "Shitësi",
+        "phone": "Telefon",
+        "email": "Email",
+        "website": "Faqja e internetit",
+        "contactPerson": "Personi i Kontaktit",
+        "workHours": "Orari i Punës",
+        "contactPersonEmail": "Email i Personit të Kontaktit",
+        "contactPersonPhone": "Telefoni i Personit të Kontaktit",
+        "contactHours": "Orët e Kontaktit"
+      },
+      "mortgage": {
+        "options": "Kontrollo opsionet e tua",
+        "calculate": "Llogarit pagesën"
+      }
+    },
+    "listing": {
+      "type": "{type}",
+      "defaultMunicipality": "Komuna",
+      "updated": "Përditësuar",
+      "features": {
+        "floor": "Kati",
+        "bedrooms": "Dhoma gjumi",
+        "bedroomsAbbr": "dh",
+        "bathrooms": "Banja",
+        "bathroomsAbbr": "b"
+      },
+      "labels": {
+        "featured": "Shpallje e Veçantë",
+        "exactLocation": "Vendndodhja e Saktë në Hartë"
+      },
+      "actions": {
+        "hide": "Fshih",
+        "contact": "Kontakto"
+      },
+      "featuredListing": "Shpallje e Veçantë",
+      "exactLocation": "Vendndodhja e Saktë në Hartë",
+      "propertyDetails": "{type}, {area}m²",
+      "defaultAgency": "Agjenci e Pasurive të Paluajtshme"
+    },
+    "navigation": {
+      "myAccount": "Llogaria Ime",
+      "dashboard": "Paneli"
+    },
+    "status": {
+      "missing": "mungon"
+    },
+    "contact": {
+      "phone": "Telefon",
+      "email": "Email",
+      "message": "Mesazh",
+      "name": "Emri i Plotë"
+    }
+  },
+  "home": {
+    "search": {
+      "title": "Gjej shtëpinë tënde të përkryer",
+      "subtitle": "Kërko në mijëra prona"
+    },
+    "sections": {
+      "lastSearches": "Kërkimet e Fundit",
+      "lastOpened": "Shikuar së Fundmi",
+      "suggested": "Prona të Sugjeruara",
+      "agencies": "Agjenci të Sugjeruara"
+    },
+    "userGreeting": {
+      "greeting": "Përshëndetje",
+      "dashboard": "Paneli Juaj"
+    }
+  },
+  "listing": {
+    "breadcrumbs": {
+      "home": "Kryefaqja",
+      "properties": "Pronat",
+      "search": "Kërko"
+    },
+    "actions": {
+      "share": "Ndaj",
+      "save": "Ruaj",
+      "saved": "Ruajtur",
+      "contact": "Kontakto",
+      "print": "Printo",
+      "notes": "Shënime",
+      "hide": "Fshih"
+    },
+    "contact": {
+      "title": "Kontakto shitësin",
+      "subtitle": "Plotëso formularin më poshtë",
+      "success": "Mesazhi u dërgua me sukses",
+      "error": "Ndodhi një gabim gjatë dërgimit të mesazhit"
+    },
+    "like": {
+      "loginNeeded": "Kërkohet Hyrja",
+      "loginMessage": "Duhet të jeni të kyçur për këtë veprim",
+      "toggleFavorite": "Shto/Hiq nga të preferuarat"
+    }
+  },
+  "MortgageCalculator": {
+    "title": "Llogaritësi i Hipotekës",
+    "homePrice": "Çmimi i Shtëpisë",
+    "downPayment": "Pagesa Fillestare",
+    "interestRate": "Norma e Interesit",
+    "loanTerm": "Afati i Kredisë",
+    "monthlyPayment": "Pagesa Mujore",
+    "amount": "Shuma",
+    "loanAmount": "Shuma e Kredisë",
+    "years": "vite",
+    "month": "në muaj"
+  },
+  "agency": {
+    "notFound": "Agjencia nuk u gjet",
+    "properties": {
+      "apartments": "Apartamente",
+      "stores": "Dyqane",
+      "buildings": "Ndërtesa",
+      "houses": "Shtëpi",
+      "forSale": "Në Shitje",
+      "forRent": "Me Qira",
+      "allListings": "Të Gjitha Shpalljet",
+      "popularListings": "Shpalljet Popullore nga {agencyName}"
+    },
+    "profile": {
+      "welcome": "Mirë se vini",
+      "menu": {
+        "dashboard": "Paneli",
+        "listings": "Shpalljet",
+        "details": "Detajet",
+        "info": "Informacioni",
+        "settings": "Cilësimet"
+      },
+      "unauthorized": "Nuk keni qasje në këtë faqe",
+      "propertyStats": {
+        "title": "Statistikat e Pronave",
+        "forSale": "Në Shitje",
+        "forRent": "Me Qira",
+        "total": "Gjithsej"
+      }
+    },
+    "contact": {
+      "hours": "Orari i Punës",
+      "phone": "Telefon",
+      "website": "Faqja e internetit",
+      "address": "Adresa"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Hyr",
+      "subtitle": "Hyr në llogarinë tënde",
+      "email": "Email",
+      "password": "Fjalëkalimi",
+      "forgotPassword": "Harruat fjalëkalimin?",
+      "button": "Hyr",
+      "noAccount": "Nuk keni llogari?",
+      "createAccount": "Regjistrohu",
+      "error": "Email ose fjalëkalim i pavlefshëm",
+      "success": "Hyrja u krye me sukses"
+    },
+    "signUp": {
+      "title": "Regjistrohu",
+      "subtitle": "Krijo një llogari të re",
+      "email": "Email",
+      "password": "Fjalëkalimi",
+      "confirmPassword": "Konfirmo Fjalëkalimin",
+      "button": "Regjistrohu",
+      "hasAccount": "Keni tashmë një llogari?",
+      "signIn": "Hyr",
+      "agencySignUp": "Regjistrohu si Agjenci",
+      "error": {
+        "emailExists": "Ky email është i regjistruar tashmë",
+        "passwordMismatch": "Fjalëkalimet nuk përputhen",
+        "invalidEmail": "Email i pavlefshëm",
+        "weakPassword": "Fjalëkalimi duhet të ketë të paktën 8 karaktere"
+      },
+      "success": "Regjistrimi u krye me sukses"
+    },
+    "agencySignUp": {
+      "title": "Regjistrohu si Agjenci",
+      "subtitle": "Krijo një llogari të re agjencie",
+      "email": "Email",
+      "password": "Fjalëkalimi",
+      "confirmPassword": "Konfirmo Fjalëkalimin",
+      "button": "Regjistrohu",
+      "profileInfo": "Pas regjistrimit, do të mund të plotësoni profilin tuaj të agjencisë me informacion shtesë",
+      "error": {
+        "emailExists": "Ky email është i regjistruar tashmë",
+        "passwordMismatch": "Fjalëkalimet nuk përputhen",
+        "invalidEmail": "Email i pavlefshëm",
+        "weakPassword": "Fjalëkalimi duhet të ketë të paktën 8 karaktere"
+      },
+      "success": "Regjistrimi si agjenci u krye me sukses"
+    },
+    "forgotPassword": {
+      "title": "Harruat Fjalëkalimin?",
+      "subtitle": "Vendosni emailin tuaj për të marrë një lidhje për rivendosjen e fjalëkalimit",
+      "email": "Email",
+      "button": "Dërgo Lidhjen e Rivendosjes",
+      "backToSignIn": "Kthehu te Hyrja"
+    },
+    "oauth": {
+      "or": "ose",
+      "google": "Vazhdo me Google",
+      "facebook": "Vazhdo me Facebook",
+      "error": {
+        "failed": "Hyrja me Google dështoi",
+        "cancelled": "Hyrja me Google u anulua"
+      }
+    }
   }
 }

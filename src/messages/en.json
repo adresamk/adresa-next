@@ -1,5 +1,305 @@
 {
   "HomePage": {
     "greeting": "Hello"
+  },
+  "common": {
+    "buttons": {
+      "search": "Search",
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "back": "Back",
+      "share": "Share",
+      "save": "Save",
+      "contact": "Contact",
+      "reveal": "Reveal",
+      "signIn": "Sign In"
+    },
+    "filters": {
+      "location": "Location",
+      "propertyType": "Property Type",
+      "price": "Price",
+      "surface": "Surface",
+      "mode": {
+        "buy": "Buy",
+        "sale": "Sale",
+        "rent": "Rent"
+      }
+    },
+    "actions": {
+      "save": "save",
+      "saved": "saved"
+    },
+    "search": {
+      "results": "results",
+      "new": "new",
+      "more": "more",
+      "selectNeighbourhood": "Select Neighbourhood",
+      "loweredPriceResults": "results with lowered price",
+      "titleFormat": "{type}: {location}",
+      "defaultType": "Homes",
+      "defaultLocation": "Skopje"
+    },
+    "property": {
+      "type": {
+        "house": "house",
+        "apartment": "apartment",
+        "office": "office",
+        "land": "land",
+        "warehouse": "warehouse",
+        "agricultural": "agricultural land",
+        "industrial space": "industrial space",
+        "assembly facilities": "assembly facilities",
+        "garage": "garage",
+        "store": "store",
+        "construction": "under construction",
+        "other": "other"
+      },
+      "area": "m²",
+      "price": "price",
+      "features": {
+        "bathroom": "bathroom",
+        "bathrooms": "bathrooms",
+        "aircon": "air conditioner",
+        "aircons": "air conditioners",
+        "garage": "garage",
+        "garages": "garages",
+        "parking": "parking",
+        "parkings": "parking spaces",
+        "kitchen": "kitchen",
+        "kitchens": "kitchens",
+        "floor": "floor",
+        "totalFloors": "total floors",
+        "floorInfo": "{floor} (of {total})",
+        "yearBuilt": "Year Built",
+        "pricePerSquare": "Price per m²"
+      },
+      "metadata": {
+        "posted": "Posted on",
+        "updated": "Updated on",
+        "available": "Available from",
+        "id": "ID",
+        "lastModified": "Last modified"
+      },
+      "description": "Description",
+      "characteristics": "Characteristics",
+      "insideCharacteristics": "Inside Characteristics",
+      "outsideCharacteristics": "Outside Characteristics",
+      "location": "Location",
+      "map": {
+        "notSet": "Location not set",
+        "attribution": " OpenStreetMap contributors",
+        "searchInArea": "Search in this area",
+        "searchAsMove": "Search as I move",
+        "loading": "Loading map..."
+      },
+      "publisher": "Publisher",
+      "publisherDetails": {
+        "title": "Seller",
+        "phone": "Phone",
+        "email": "Email",
+        "website": "Website",
+        "contactPerson": "Contact Person",
+        "workHours": "Work Hours",
+        "contactPersonEmail": "Contact Person Email",
+        "contactPersonPhone": "Contact Person Phone",
+        "contactHours": "Contact Hours"
+      },
+      "mortgage": {
+        "options": "Check your options",
+        "calculate": "Calculate payment"
+      }
+    },
+    "listing": {
+      "type": "{type}",
+      "defaultMunicipality": "Municipality",
+      "updated": "Updated",
+      "features": {
+        "floor": "Floor",
+        "bedrooms": "Bedrooms",
+        "bedroomsAbbr": "bd",
+        "bathrooms": "Bathrooms",
+        "bathroomsAbbr": "ba"
+      },
+      "labels": {
+        "featured": "Featured Listing",
+        "exactLocation": "Exact Location on Map"
+      },
+      "actions": {
+        "hide": "Hide",
+        "contact": "Contact"
+      },
+      "featuredListing": "Featured Listing",
+      "exactLocation": "Exact Location on Map",
+      "propertyDetails": "{type}, {area}m²",
+      "defaultAgency": "Real Estate Agency"
+    },
+    "navigation": {
+      "myAccount": "My Account",
+      "dashboard": "Dashboard"
+    },
+    "status": {
+      "missing": "missing"
+    },
+    "contact": {
+      "phone": "Phone",
+      "email": "Email",
+      "message": "Message",
+      "name": "Full Name"
+    }
+  },
+  "home": {
+    "search": {
+      "title": "Find your perfect home",
+      "subtitle": "Search through thousands of properties"
+    },
+    "sections": {
+      "lastSearches": "Last Searches",
+      "lastOpened": "Last Viewed",
+      "suggested": "Suggested Properties",
+      "agencies": "Suggested Agencies"
+    },
+    "userGreeting": {
+      "greeting": "Hello",
+      "dashboard": "Your Dashboard"
+    }
+  },
+  "listing": {
+    "breadcrumbs": {
+      "home": "Home",
+      "properties": "Properties",
+      "search": "Search"
+    },
+    "actions": {
+      "share": "Share",
+      "save": "Save",
+      "saved": "Saved",
+      "contact": "Contact",
+      "print": "Print",
+      "notes": "Notes",
+      "hide": "Hide"
+    },
+    "contact": {
+      "title": "Contact the seller",
+      "subtitle": "Fill out the form below",
+      "success": "Message sent successfully",
+      "error": "An error occurred while sending the message"
+    },
+    "like": {
+      "loginNeeded": "Login Required",
+      "loginMessage": "You need to be logged in for this action",
+      "toggleFavorite": "Add/Remove from favorites"
+    }
+  },
+  "MortgageCalculator": {
+    "title": "Mortgage Calculator",
+    "homePrice": "Home Price",
+    "downPayment": "Down Payment",
+    "interestRate": "Interest Rate",
+    "loanTerm": "Loan Term",
+    "monthlyPayment": "Monthly Payment",
+    "amount": "Amount",
+    "loanAmount": "Loan Amount",
+    "years": "years",
+    "month": "monthly"
+  },
+  "agency": {
+    "notFound": "Agency not found",
+    "properties": {
+      "apartments": "Apartments",
+      "stores": "Stores",
+      "buildings": "Buildings",
+      "houses": "Houses",
+      "forSale": "For Sale",
+      "forRent": "For Rent",
+      "allListings": "All Listings",
+      "popularListings": "Popular Listings from {agencyName}"
+    },
+    "profile": {
+      "welcome": "Welcome",
+      "menu": {
+        "dashboard": "Dashboard",
+        "listings": "Listings",
+        "details": "Details",
+        "info": "Information",
+        "settings": "Settings"
+      },
+      "unauthorized": "You don't have access to this page",
+      "propertyStats": {
+        "title": "Property Statistics",
+        "forSale": "For Sale",
+        "forRent": "For Rent",
+        "total": "Total"
+      }
+    },
+    "contact": {
+      "hours": "Work Hours",
+      "phone": "Phone",
+      "website": "Website",
+      "address": "Address"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Sign In",
+      "subtitle": "Sign in to your account",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "button": "Sign In",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Sign Up",
+      "error": "Invalid email or password",
+      "success": "Successfully signed in"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "subtitle": "Create a new account",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "button": "Sign Up",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign In",
+      "agencySignUp": "Sign Up as Agency",
+      "error": {
+        "emailExists": "This email is already registered",
+        "passwordMismatch": "Passwords do not match",
+        "invalidEmail": "Invalid email",
+        "weakPassword": "Password must be at least 8 characters"
+      },
+      "success": "Successfully signed up"
+    },
+    "agencySignUp": {
+      "title": "Sign Up as Agency",
+      "subtitle": "Create a new agency account",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "button": "Sign Up",
+      "profileInfo": "After registration, you'll be able to complete your agency profile with additional information",
+      "error": {
+        "emailExists": "This email is already registered",
+        "passwordMismatch": "Passwords do not match",
+        "invalidEmail": "Invalid email",
+        "weakPassword": "Password must be at least 8 characters"
+      },
+      "success": "Successfully signed up as agency"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password?",
+      "subtitle": "Enter your email to receive a password reset link",
+      "email": "Email",
+      "button": "Send Reset Link",
+      "backToSignIn": "Back to Sign In"
+    },
+    "oauth": {
+      "or": "or",
+      "google": "Continue with Google",
+      "facebook": "Continue with Facebook",
+      "error": {
+        "failed": "Failed to sign in with Google",
+        "cancelled": "Google sign in was cancelled"
+      }
+    }
   }
 }
