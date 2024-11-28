@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export default function ForgotPassword() {
   const t = useTranslations();
@@ -48,12 +49,12 @@ export default function ForgotPassword() {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          <a
+          <Link
             href="/signin"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
             {t("auth.forgotPassword.backToSignIn")}
-          </a>
+          </Link>
         </p>
       </div>
     </div>

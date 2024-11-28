@@ -1,4 +1,5 @@
 import { Listing } from "@prisma/client";
+import { useTranslations } from 'next-intl';
 
 import ListingsListTitle from "./ListingsListTitle";
 import ListingsSearchShowcase from "./ListingsSearchShowcase";
@@ -8,6 +9,7 @@ interface ListingListProps {
   listings: Listing[];
 }
 export default function ListingsList({ listings }: ListingListProps) {
+  const t = useTranslations();
   const loweredPriceListings = 2;
 
   return (
@@ -15,10 +17,10 @@ export default function ListingsList({ listings }: ListingListProps) {
       <ListingsListTitle />
       <div className="my-2.5 flex items-center justify-between">
         <div className="text-sm">
-          <span>{listings.length} results</span> {"|"}{" "}
+          <span>{listings.length} {t('common.search.results')}</span> {"|"}{" "}
           {loweredPriceListings > 0 && (
             <span className="cursor-pointer text-brand-light-blue">
-              {loweredPriceListings} results with lowered price
+              {loweredPriceListings} {t('common.search.loweredPriceResults')}
             </span>
           )}
         </div>

@@ -29,6 +29,7 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import ZoomTracker from "./ZoomTracker";
 import ActiveListing from "./ActiveListing";
+import { useTranslations } from 'next-intl';
 
 export default function SearchMap({
   listings,
@@ -37,6 +38,7 @@ export default function SearchMap({
   listings: Listing[];
   agency?: Agency;
 }) {
+  const t = useTranslations();
   const [resultsFilters, setResultsFilters] = useState("");
   const [mapFilters, setMapFilters] = useState("");
   const [searchOnMove, setSearchOnMove] = useState(false);
@@ -165,11 +167,6 @@ export default function SearchMap({
               !mapMovedWithoutSearching && "px-3.5 py-2.5",
             )}
           >
-            {/* <div>
-              {resultsFilters}
-              {mapFilters}
-            </div> */}
-
             {mapMovedWithoutSearching ? (
               <Button
                 variant={"ghost"}
@@ -177,7 +174,7 @@ export default function SearchMap({
                   setMapSearchedCounter((prev) => prev + 1);
                 }}
               >
-                <Compass className="mr-2" /> Search in this area
+                <Compass className="mr-2" /> {t('common.map.searchInArea')}
               </Button>
             ) : (
               <div className="flex items-center space-x-2">
@@ -189,7 +186,7 @@ export default function SearchMap({
                   }}
                 />
                 <Label className="font-semibold" htmlFor="search-on-pan">
-                  Search as I move
+                  {t('common.map.searchAsMove')}
                 </Label>
               </div>
             )}

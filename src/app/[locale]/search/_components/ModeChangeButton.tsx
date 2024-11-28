@@ -2,8 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Repeat } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
+import { useTranslations } from 'next-intl';
 
 export default function ModeChangeButton() {
+  const t = useTranslations();
   let [mode, setMode] = useQueryState(
     "mode",
     parseAsString.withOptions({ shallow: false }).withDefault("sale")
@@ -19,7 +21,7 @@ export default function ModeChangeButton() {
     >
       {" "}
       <Repeat className="mr-2" size={16} />{" "}
-      <span className="text-sm capitalize">{mode}</span>
+      <span className="text-sm capitalize">{t(`common.property.mode.${mode}`)}</span>
     </Button>
   );
 }

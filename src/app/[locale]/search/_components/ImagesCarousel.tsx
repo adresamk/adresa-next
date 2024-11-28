@@ -8,6 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import { useTranslations } from 'next-intl';
 
 export default function ImagesCarousel({
   images,
@@ -18,6 +19,7 @@ export default function ImagesCarousel({
   height: number;
   width?: number;
 }) {
+  const t = useTranslations();
   const missingImage = "/assets/missing-image.jpg";
 
   return (
@@ -31,7 +33,7 @@ export default function ImagesCarousel({
               className="h-full rounded-tl-lg rounded-tr-lg object-cover"
               width={width}
               height={height}
-              alt="Property first image"
+              alt={t('common.listing.propertyImage', { index: index + 1 })}
             />
           </CarouselItem>
         ))}

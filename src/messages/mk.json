@@ -28,7 +28,12 @@
     "search": {
       "results": "резултати",
       "new": "нови",
-      "more": "повеќе"
+      "more": "повеќе",
+      "selectNeighbourhood": "Изберете населба",
+      "loweredPriceResults": "резултати со намалена цена",
+      "titleFormat": "{type}: {location}",
+      "defaultType": "Домови",
+      "defaultLocation": "Скопје"
     },
     "property": {
       "type": {
@@ -78,7 +83,10 @@
       "location": "Локација",
       "map": {
         "notSet": "Локацијата не е поставена",
-        "attribution": "© OpenStreetMap контрибутори"
+        "attribution": "© OpenStreetMap контрибутори",
+        "searchInArea": "Пребарај во оваа област",
+        "searchAsMove": "Пребарувај додека се движам",
+        "loading": "Вчитување на мапа..."
       },
       "publisher": "Објавувач",
       "publisherDetails": {
@@ -96,6 +104,18 @@
         "options": "Проверете ги вашите опции",
         "calculate": "Пресметај рата"
       }
+    },
+    "listing": {
+      "featuredListing": "Истакнат оглас",
+      "exactLocation": "Точна локација на мапа",
+      "propertyDetails": "{type}, {area}м²",
+      "defaultMunicipality": "Општина",
+      "floor": "Кат",
+      "bedrooms": "Спални соби",
+      "bathrooms": "Бањи",
+      "br": "сс",
+      "ba": "б",
+      "defaultAgency": "Агенција за недвижнини"
     },
     "navigation": {
       "myAccount": "Мој профил",
@@ -164,18 +184,14 @@
   "agency": {
     "notFound": "Агенцијата не е пронајдена",
     "properties": {
-      "forSale": "за продажба",
-      "forRent": "за изнајмување",
+      "apartments": "Станови",
+      "stores": "Дуќани",
+      "buildings": "Згради",
+      "houses": "Куќи",
+      "forSale": "За продажба",
+      "forRent": "За изнајмување",
       "allListings": "Сите огласи",
-      "apartments": "станови",
-      "stores": "дуќани",
-      "buildings": "објекти",
-      "popularListings": "Најпопуларни огласи од {agencyName}"
-    },
-    "contact": {
-      "hours": "Работно време",
-      "website": "Веб-сајт",
-      "phone": "Телефон"
+      "popularListings": "Популарни огласи од {agencyName}"
     },
     "profile": {
       "welcome": "Добредојдовте",
@@ -185,7 +201,20 @@
         "details": "Детали",
         "info": "Информации",
         "settings": "Поставки"
+      },
+      "unauthorized": "Немате пристап до оваа страница",
+      "propertyStats": {
+        "title": "Статистика за имоти",
+        "forSale": "За продажба",
+        "forRent": "За изнајмување",
+        "total": "Вкупно"
       }
+    },
+    "contact": {
+      "hours": "Работно време",
+      "phone": "Телефон",
+      "website": "Веб-сајт",
+      "address": "Адреса"
     }
   },
   "auth": {

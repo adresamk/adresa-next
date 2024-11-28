@@ -8,15 +8,17 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 
+interface PopularAgencyPropertiesProps {
+  title: string;
+  properties: any[];
+  bgColor?: string;
+}
+
 export default function PopularAgencyProperties({
   title,
   properties,
   bgColor = "",
-}: {
-  title: string;
-  properties: any[];
-  bgColor?: string;
-}) {
+}: PopularAgencyPropertiesProps) {
   return (
     <div className={cn("flex flex-col gap-3 pb-3 pt-6", bgColor)}>
       <h3 className="my-3 flex gap-4 text-xl text-white">{title}</h3>

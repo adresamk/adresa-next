@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Listing } from "@prisma/client";
 import { parseAsString, useQueryState } from "nuqs";
+import { useTranslations } from 'next-intl';
 import ListingBreadcrumbs from "../../listing/[listingNumber]/_components/ListingBreadcrumbs";
 
 export default function SearchBreadcrumbs({
@@ -16,14 +17,15 @@ export default function SearchBreadcrumbs({
 }: {
   listings: Listing[];
 }) {
+  const t = useTranslations();
   let [type, setType] = useQueryState(
     "type",
-    parseAsString.withOptions({ shallow: false }).withDefault("Homes"),
+    parseAsString.withOptions({ shallow: false }).withDefault(t('common.search.defaultType')),
   );
 
   let [location, setLocation] = useQueryState(
     "location",
-    parseAsString.withOptions({ shallow: false }).withDefault("Skopje"),
+    parseAsString.withOptions({ shallow: false }).withDefault(t('common.search.defaultLocation')),
   );
   if (listings) {
     return <ListingBreadcrumbs listing={listings[0]} />;
@@ -41,7 +43,7 @@ export default function SearchBreadcrumbs({
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Select Neighbourhood</BreadcrumbPage>
+            <BreadcrumbPage>{t('common.search.selectNeighbourhood')}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
