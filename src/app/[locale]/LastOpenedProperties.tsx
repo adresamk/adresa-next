@@ -9,8 +9,10 @@ import {
 } from "@/components/ui/carousel";
 import prismadb from "@/lib/db";
 import { SearchCheck } from "lucide-react";
+import { getTranslations } from 'next-intl/server';
 
 export default async function LastOpenedProperties() {
+  const t = await getTranslations();
   const listings = await prismadb.listing.findMany({
     take: 6,
     orderBy: {
@@ -21,7 +23,7 @@ export default async function LastOpenedProperties() {
   return (
     <div className="mx-auto flex flex-col gap-3 px-12 pb-3 pt-6">
       <h3 className="flex gap-4">
-        <SearchCheck /> Last Opened Properties
+        <SearchCheck /> {t('home.sections.lastOpened')}
       </h3>
       <Carousel
         opts={{

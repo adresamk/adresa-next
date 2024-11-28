@@ -8,7 +8,10 @@ import {
 } from "@/components/ui/carousel";
 import prismadb from "@/lib/db";
 import { Building, SearchCheck, Star } from "lucide-react";
+import { getTranslations } from 'next-intl/server';
+
 export default async function SuggestedAgencies() {
+  const t = await getTranslations();
   const agencies = await prismadb.agency.findMany({
     take: 6,
     select: {
@@ -30,7 +33,7 @@ export default async function SuggestedAgencies() {
   return (
     <div className="mx-auto flex flex-col gap-3 px-12 pb-3 pt-6">
       <h3 className="flex gap-4">
-        <Building /> Suggested Agencies
+        <Building /> {t('home.sections.agencies')}
       </h3>
       <Carousel
         opts={{
@@ -49,9 +52,13 @@ export default async function SuggestedAgencies() {
                   alt={agency.name || ""}
                   className="h-[86px] w-[112px]"
                 />
-                <h4 className="mt-3">{agency.name}</h4>
-                <p className="mt-1 text-sm text-slate-600">
-                  {agency.users[0].listings.length} recommendations
+                <p className="mt-2 text-center text-sm">{agency.name}</p>
+                <p className="text-center text-sm text-gray-500">
+                  {agency.users.reduce(
+                    (acc, user) => acc + user.listings.length,
+                    0,
+                  )}{" "}
+                  {t('common.search.results')}
                 </p>
               </div>
             </CarouselItem>

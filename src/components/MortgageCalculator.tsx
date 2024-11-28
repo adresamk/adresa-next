@@ -5,12 +5,14 @@ import { Card } from './ui/card';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Slider } from './ui/slider';
+import { useTranslations } from 'next-intl';
 
 interface MortgageCalculatorProps {
   initialPrice: number;
 }
 
 export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
+  const t = useTranslations('MortgageCalculator');
   const [homePrice, setHomePrice] = useState(initialPrice);
   const [downPaymentPercent, setDownPaymentPercent] = useState(10);
   const [interestRate, setInterestRate] = useState(3.12);
@@ -34,11 +36,11 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
 
   return (
     <Card className="p-6">
-      <h2 className="mb-6 text-2xl font-semibold">Mortgage Calculator</h2>
+      <h2 className="mb-6 text-2xl font-semibold">{t('title')}</h2>
       
       <div className="space-y-6">
         <div>
-          <Label>Home Price</Label>
+          <Label>{t('homePrice')}</Label>
           <Input
             type="number"
             value={homePrice}
@@ -48,7 +50,7 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
         </div>
 
         <div>
-          <Label>Down Payment ({downPaymentPercent}%)</Label>
+          <Label>{t('downPayment')} ({downPaymentPercent}%)</Label>
           <Slider
             value={[downPaymentPercent]}
             onValueChange={([value]) => setDownPaymentPercent(value)}
@@ -58,12 +60,12 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
             className="mt-2"
           />
           <div className="mt-1 text-sm text-gray-500">
-            Amount: €{downPaymentAmount.toLocaleString()}
+            {t('amount')}: €{downPaymentAmount.toLocaleString()}
           </div>
         </div>
 
         <div>
-          <Label>Interest Rate ({interestRate}%)</Label>
+          <Label>{t('interestRate')} ({interestRate}%)</Label>
           <Slider
             value={[interestRate]}
             onValueChange={([value]) => setInterestRate(value)}
@@ -75,7 +77,7 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
         </div>
 
         <div>
-          <Label>Loan Term ({loanTerm} years)</Label>
+          <Label>{t('loanTerm')} ({loanTerm} {t('years')})</Label>
           <Slider
             value={[loanTerm]}
             onValueChange={([value]) => setLoanTerm(value)}
@@ -88,13 +90,13 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
 
         <div className="mt-6 rounded-lg bg-primary/10 p-4">
           <div className="text-center">
-            <div className="text-sm text-gray-600">Monthly Payment</div>
+            <div className="text-sm text-gray-600">{t('monthlyPayment')}</div>
             <div className="text-3xl font-bold text-primary">
-              €{Math.round(monthlyPayment).toLocaleString()}/month
+              €{Math.round(monthlyPayment).toLocaleString()}/{t('month')}
             </div>
           </div>
           <div className="mt-2 text-center text-sm text-gray-600">
-            Loan amount: €{Math.round(loanAmount).toLocaleString()}
+            {t('loanAmount')}: €{Math.round(loanAmount).toLocaleString()}
           </div>
         </div>
       </div>

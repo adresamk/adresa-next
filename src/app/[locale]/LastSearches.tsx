@@ -1,3 +1,5 @@
+'use client';
+
 import PropertyCard from "@/components/shared/PropertyCard";
 import SearchedCard from "@/components/shared/SearchedCard";
 import {
@@ -8,6 +10,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Heart, SearchCheck } from "lucide-react";
+import { useTranslations } from 'next-intl';
+
 const searches = [
   {
     id: 1,
@@ -55,11 +59,14 @@ const searches = [
     location: "Skope, Centar",
   },
 ];
+
 export default function LastSearches() {
+  const t = useTranslations();
+  
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-14 pb-3 pt-6">
       <h3 className="flex gap-4">
-        <Heart /> Last Searches
+        <Heart /> {t('home.sections.lastSearches')}
       </h3>
       <Carousel
         opts={{

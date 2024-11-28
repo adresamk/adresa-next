@@ -28,6 +28,7 @@ import ListingImages from "./_components/ListingImages";
 import FeaturesTable from "./_components/FeaturesTable";
 import InternalFeatures from "./_components/InternalFeatures";
 import ExternalFeatures from "./_components/ExternalFeatures";
+import { getTranslations } from 'next-intl/server';
 
 import StickyControls from "./_components/StickyControls";
 
@@ -55,17 +56,14 @@ export default async function SingleListingPage({
   params: Promise<{ listingNumber: string }>;
 }) {
   const { listingNumber } = await params;
-  // console.log(listingNumber);
+  const t = await getTranslations();
+
   if (isNaN(Number(listingNumber))) {
     redirect("/404");
   }
 
   const rawListing = await getListing(listingNumber);
   const listing = serializeDates(rawListing);
-  // console.log("Listing", listing);
-
-  // Query the database to check if this listing is favorited by the user
-
   const publisherData = extractPublisherData(listing);
 
   return (
@@ -73,13 +71,12 @@ export default async function SingleListingPage({
       {/* Above Images Breadcrumbs and Action Buttons */}
       <section className="px-0 py-4">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 md:flex-row">
-          {/* Figure out what back means, where the link should lead to */}
           <Link
             href="/"
             className="mr-5 inline-flex items-center text-xs font-semibold"
           >
             <Button variant={"ghost"}>
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back
+              <ArrowLeft className="mr-2 h-4 w-4" /> {t('common.buttons.back')}
             </Button>
           </Link>
           <ListingBreadcrumbs listing={listing} />
@@ -97,7 +94,6 @@ export default async function SingleListingPage({
       <section className="mx-auto w-full px-5 lg:max-w-6xl">
         <div className="flex flex-wrap">
           {/* Listing Main */}
-
           <div className="flex-1 md:pr-2.5 lg:pr-12">
             {/* Main Info - Title - Address Phone */}
             <div className="flex pb-5 pt-9 md:py-9">
@@ -118,40 +114,46 @@ export default async function SingleListingPage({
                   />
                 </span>
                 <p className="mt-2.5 text-sm">
-                  Posted on {displayDate(listing.publishedAt)}
+                  {t('common.property.metadata.posted')} {displayDate(listing.publishedAt)}
                 </p>
               </div>
             </div>
 
             {/* Price and Buttons - Interactions */}
             <div className="flex items-center justify-between">
-          
-
-                <div className="mb-6 flex gap-9">
-                  {/* { renderHighLightedFeatures({
-                'bathroom: listing.bathrooms,
-                'aircon': 1,
-                'garage': listing.parking
-              })} */}
+              <div className="mb-6 flex gap-9">
+                {listing.bathrooms && (
                   <div className="flex flex-col items-center text-sm">
                     <Bath className="w-6 h-6" />
                     <span>
-                      {listing.bathrooms} bathroom
-                      {listing.bathrooms && listing.bathrooms > 1 && "s"}
+                      {listing.bathrooms} {' '}
+                      {listing.bathrooms === 1 
+                        ? t('common.property.features.bathroom')
+                        : t('common.property.features.bathrooms')}
                     </span>
                   </div>
+                )}
+                <div className="flex flex-col items-center text-sm">
+                  <AirVentIcon className="w-6 h-6" />
+                  <span>
+                    {1} {' '}
+                    {1 === 1 
+                      ? t('common.property.features.aircon')
+                      : t('common.property.features.aircons')}
+                  </span>
+                </div>
+                {listing.parking && (
                   <div className="flex flex-col items-center text-sm">
                     <AirVentIcon className="w-6 h-6" />
                     <span>
-                      {1} aircon
-                      {1 && 1 > 1 && "s"}
+                      {listing.parking} {' '}
+                      {listing.parking === 1 
+                        ? t('common.property.features.parking')
+                        : t('common.property.features.parkings')}
                     </span>
                   </div>
-                  <div className="flex flex-col items-center text-sm">
-                    <AirVentIcon className="w-6 h-6" />
-                    <span>{listing.parking} garage</span>
-                  </div>
-                </div>
+                )}
+              </div>
               <PriceDisplay listing={listing} />
             </div>
 
@@ -162,20 +164,19 @@ export default async function SingleListingPage({
             <div className="my-4 flex flex-wrap items-center justify-between gap-4 lg:flex-nowrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/assets/halkbank-logo.png" alt="Halkbank" />
-              <span>Check your options</span>
+              <span>{t('common.property.mortgage.options')}</span>
               <Button className="flex gap-2">
                 <Percent
                   className="h-6 w-6 rounded-full bg-white p-1"
                   stroke="#0069fe"
-                />{" "}
-                Calculate payments
+                /> {t('common.property.mortgage.calculate')}
               </Button>
             </div>
             <Separator className="my-3 bg-slate-400" />
 
             {/* Description */}
             <div className="my-7">
-              <h3 className="mb-3 text-lg font-semibold">Description</h3>
+              <h3 className="mb-3 text-lg font-semibold">{t('common.property.description')}</h3>
               <p className="text-lg text-gray-700">{listing.description}</p>
             </div>
 
@@ -183,7 +184,7 @@ export default async function SingleListingPage({
 
             {/* Characteristics */}
             <div className="my-7 px-2">
-              <h3 className="mb-3 text-lg font-semibold">Characteristics</h3>
+              <h3 className="mb-3 text-lg font-semibold">{t('common.property.characteristics')}</h3>
               <div>
                 <div>
                   <FeaturesTable listing={listing} />
@@ -191,7 +192,7 @@ export default async function SingleListingPage({
 
                 <div>
                   <div className="my-3 flex items-center gap-3 overflow-x-hidden">
-                    Inside <Separator />
+                    {t('common.property.characteristics.inside')} <Separator />
                   </div>
 
                   <div className="flex items-center gap-3 px-2">
@@ -200,7 +201,7 @@ export default async function SingleListingPage({
                   </div>
 
                   <div className="my-3 flex items-center gap-3 overflow-x-hidden">
-                    Outside <Separator />
+                    {t('common.property.characteristics.outside')} <Separator />
                   </div>
 
                   <div className="flex items-center gap-3 px-2">
@@ -214,7 +215,7 @@ export default async function SingleListingPage({
 
             {/* Map Location */}
             <div>
-              <h3 className="text-lg font-semibold">Location</h3>
+              <h3 className="text-lg font-semibold">{t('common.property.location')}</h3>
               <p className="my-2.5 text-xl font-light">{listing.address}</p>
               <div className="mb-10 h-[276px] overflow-hidden border">
                 <MapLocationPreview
@@ -228,39 +229,32 @@ export default async function SingleListingPage({
              <MortgageCalculator initialPrice={listing.price || 0} />
             {/* Publisher  */}
             <div className="my-6">
-              <h3 className="mb-3 text-lg font-semibold">
-                Publisher Information
-              </h3>
+              <h3 className="mb-3 text-lg font-semibold">{t('common.property.publisher')}</h3>
               <div className="flex gap-2">
                 {publisherData.imgUrl && (
                   <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl border border-slate-400 bg-slate-100 px-8 py-4">
                     <Image
                       src={publisherData.imgUrl}
+                      alt={publisherData.name}
                       width={200}
                       height={130}
-                      className="max-w-full"
-                      alt="Agency Logo"
+                      className="h-auto w-auto object-contain"
                     />
                   </div>
                 )}
-                <div className={cn("", publisherData.imgUrl && "pl-5")}>
-                  <div className="mb-5">
-                    {publisherData.shortDescription && (
-                      <p className="mb-1.5 leading-4">
-                        {publisherData.shortDescription}
-                      </p>
-                    )}
-                    <h3 className="mb-2 text-2xl font-semibold">
-                      {publisherData.name}
-                    </h3>
+                <div className="flex-1">
+                  <div>
+                    <h4 className="text-lg font-medium">{t('common.property.publisherDetails.title')}</h4>
+                    <p className="mb-1.5 leading-4">{publisherData.name}</p>
                     <p className="mb-1.5 leading-4">{publisherData.address}</p>
                   </div>
                   <div className="mt-10">
-                    <p>Contact Hours:</p>
+                    <p>{t('common.property.publisherDetails.workHours')}</p>
                     <p>{publisherData.workHours}</p>
                     <RevealButton
                       usecase="phone"
-                      value={publisherData.phone || ""}
+                      value={publisherData.phone}
+                      variant="outline"
                     />
                   </div>
                 </div>

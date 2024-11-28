@@ -1,5 +1,154 @@
 {
-  "HomePage": {
-    "greeting": "Здраво"
+  "common": {
+    "buttons": {
+      "search": "Пребарај",
+      "submit": "Потврди",
+      "cancel": "Откажи",
+      "back": "Назад",
+      "share": "Сподели",
+      "save": "Зачувај",
+      "contact": "Контактирај",
+      "reveal": "Прикажи"
+    },
+    "filters": {
+      "location": "Локација",
+      "propertyType": "Тип на имот",
+      "price": "Цена",
+      "surface": "Површина",
+      "mode": {
+        "buy": "Купи",
+        "sale": "Продажба",
+        "rent": "Изнајмување"
+      }
+    },
+    "actions": {
+      "save": "зачувај",
+      "saved": "зачувано"
+    },
+    "search": {
+      "results": "резултати",
+      "new": "нови",
+      "more": "повеќе"
+    },
+    "property": {
+      "type": {
+        "house": "куќа",
+        "apartment": "стан",
+        "office": "канцеларија",
+        "land": "земјиште",
+        "warehouse": "склад",
+        "agricultural": "селска земја",
+        "industrial space": "индустриски објекти",
+        "assembly facilities": "монтажни објекти",
+        "garage": "гаража",
+        "store": "дуќан",
+        "construction": "во градба",
+        "other": "други"
+      },
+      "area": "м²",
+      "price": "цена",
+      "features": {
+        "bathroom": "бања",
+        "bathrooms": "бањи",
+        "aircon": "клима",
+        "aircons": "клими",
+        "garage": "гаража",
+        "garages": "гаражи",
+        "parking": "паркинг",
+        "parkings": "паркинг места"
+      },
+      "metadata": {
+        "posted": "Објавено на",
+        "updated": "Ажурирано на",
+        "available": "Достапно од",
+        "id": "Шифра"
+      },
+      "description": "Опис",
+      "characteristics": {
+        "inside": "Внатрешни карактеристики",
+        "outside": "Надворешни карактеристики"
+      },
+      "location": "Локација",
+      "publisher": "Објавувач",
+      "publisherDetails": {
+        "title": "Продавач",
+        "phone": "Телефон",
+        "email": "Е-пошта",
+        "website": "Веб-сајт",
+        "contactPerson": "Лице за контакт",
+        "workHours": "Работно време",
+        "contactPersonEmail": "Е-пошта на контакт лице",
+        "contactPersonPhone": "Телефон на контакт лице",
+
+        "contactHours": "Работно време"
+      },
+      "mortgage": {
+        "options": "Проверете ги вашите опции",
+        "calculate": "Пресметај рата"
+      }
+    },
+    "navigation": {
+      "myAccount": "Мој профил",
+      "dashboard": "Контролна табла"
+    },
+    "status": {
+      "missing": "недостасува"
+    },
+    "contact": {
+      "phone": "Телефон",
+      "email": "Е-пошта",
+      "message": "Порака",
+      "name": "Име и презиме"
+    }
+  },
+  "home": {
+    "search": {
+      "title": "Најди го твојот совршен дом",
+      "subtitle": "Пребарај низ илјадници имоти"
+    },
+    "sections": {
+      "lastSearches": "Последни пребарувања",
+      "lastOpened": "Последно прегледани",
+      "suggested": "Препорачани имоти",
+      "agencies": "Препорачани агенции"
+    },
+    "userGreeting": {
+      "greeting": "Здраво",
+      "dashboard": "Вашата контролна табла"
+    }
+  },
+  "listing": {
+    "breadcrumbs": {
+      "home": "Почетна",
+      "properties": "Имоти",
+      "search": "Пребарување"
+    },
+    "actions": {
+      "share": "Сподели",
+      "save": "Зачувај",
+      "saved": "Зачувано",
+      "contact": "Контактирај",
+      "print": "Испечати",
+      "notes": "Белешки",
+      "hide": "Сокриј"
+    },
+    "contact": {
+      "title": "Контактирај го продавачот",
+      "subtitle": "Пополни ја формата подолу",
+      "success": "Пораката е успешно испратена",
+      "error": "Настана грешка при испраќање на пораката"
+    }
+  },
+  "MortgageCalculator": {
+    "title": "Калкулатор за хипотека",
+    "homePrice": "Цена на дом",
+    "downPayment": "Учество",
+    "interestRate": "Каматна стапка",
+    "loanTerm": "Период на отплата",
+    "monthlyPayment": "Месечна рата",
+    "amount": "Износ",
+    "loanAmount": "Износ на заем",
+    "years": "години",
+    "month": "месечно"
   }
 }

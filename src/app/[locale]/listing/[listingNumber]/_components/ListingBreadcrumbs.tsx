@@ -23,6 +23,7 @@ import { SerializedListing } from "@/lib/types";
 import { capitalizeString } from "@/lib/utils";
 import { Listing } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function ListingBreadcrumbs({
   listing,
@@ -30,6 +31,8 @@ export default function ListingBreadcrumbs({
   listing: SerializedListing | Listing;
 }) {
   const router = useRouter();
+  const t = useTranslations();
+
   const currentMunicipality = municipalitiesOptions.find(
     (m) => m.id === listing.municipality,
   )!;
@@ -38,12 +41,19 @@ export default function ListingBreadcrumbs({
   const currentPlace = populatedPlacesOptions?.find(
     (p) => p.id === listing.place,
   );
+
   return (
     <Breadcrumb>
       <BreadcrumbList className="gap-0.5 md:gap-0.5">
+        {/* <BreadcrumbItem className="text-xs">
+          <BreadcrumbLink href="/">
+            {t("listing.breadcrumbs.home")}
+          </BreadcrumbLink>
+        </BreadcrumbItem> */}
+        {/* <BreadcrumbSeparator /> */}
         <BreadcrumbItem className="text-xs">
           <BreadcrumbLink href={`/search?mode=${listing.transactionType}`}>
-            {"Home for " + listing.transactionType}
+            {t("common.filters.mode." + listing.transactionType)}
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -51,51 +61,49 @@ export default function ListingBreadcrumbs({
           <Select
             value={currentMunicipality?.id}
             onValueChange={(value) => {
-              console.log(value);
               router.push(
                 `/search?mode=${listing.transactionType}&municipality=${value}`,
               );
             }}
           >
-            <SelectTrigger className="h-auto border-none px-1 py-0.5 text-xs">
-              <SelectValue placeholder="Municipality" />
+            <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
+              <SelectValue placeholder={t("common.filters.location")} />
             </SelectTrigger>
             <SelectContent>
-              {municipalitiesOptions.map((m) => {
-                return (
-                  <SelectItem key={m.id} value={m.id}>
-                    {m.name}
-                  </SelectItem>
-                );
-              })}
+              {municipalitiesOptions.map((municipality) => (
+                <SelectItem key={municipality.id} value={municipality.id}>
+                  {municipality.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem className="text-xs">
-          <Select
-            value={currentPlace?.id}
-            onValueChange={(value) => {
-              console.log(value);
-              router.push(
-                `/search?mode=${listing.transactionType}&place=${value}`,
-              );
-            }}
-          >
-            <SelectTrigger className="h-auto border-none px-1 py-0.5 text-xs">
-              <SelectValue placeholder="Municipality" />
-            </SelectTrigger>
-            <SelectContent>
-              {populatedPlacesOptions?.map((m) => {
-                return (
-                  <SelectItem key={m.id} value={m.id}>
-                    {m.name}
-                  </SelectItem>
-                );
-              })}
-            </SelectContent>
-          </Select>
-        </BreadcrumbItem>
+        {currentPlace && (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem className="text-xs">
+              <Select
+                value={currentPlace?.id}
+                onValueChange={(value) => {
+                  router.push(
+                    `/search?mode=${listing.transactionType}&municipality=${currentMunicipality.id}&place=${value}`,
+                  );
+                }}
+              >
+                <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
+                  <SelectValue placeholder={t("common.filters.location")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {populatedPlacesOptions?.map((place) => (
+                    <SelectItem key={place.id} value={place.id}>
+                      {place.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </BreadcrumbItem>
+          </>
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   );

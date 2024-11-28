@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -5,6 +7,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Bell, Heart } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
 type SearchCardType = {
   id: number;
@@ -17,6 +20,8 @@ type SearchCardType = {
 };
 
 export default function SearchedCard({ search }: { search: SearchCardType }) {
+  const t = useTranslations();
+
   return (
     <div>
       <Card className="max-w-[325px]">
@@ -49,7 +54,7 @@ export default function SearchedCard({ search }: { search: SearchCardType }) {
                 key={search.filters[3]}
                 className="rounded-lg bg-white p-0.5 px-1.5 font-semibold uppercase text-brand-light-blue"
               >
-                + {search.filters.length - 2} more
+                + {search.filters.length - 2} {t('common.search.more')}
               </span>
             )}
           </div>
@@ -59,12 +64,12 @@ export default function SearchedCard({ search }: { search: SearchCardType }) {
         </CardContent>
         <CardFooter className="flex items-center justify-between px-4 pb-3">
           <div>
-            <p>{search.results} results</p>
-            <p className="text-brand-light-blue">{search.newResults} new</p>
+            <p>{search.results} {t('common.search.results')}</p>
+            <p className="text-brand-light-blue">{search.newResults} {t('common.search.new')}</p>
           </div>
           <span className="ml-auto flex flex-col items-center">
             <Bell fill={search.isSaved ? "blue" : "none"} />
-            {search.isSaved ? "saved" : "save"}
+            {search.isSaved ? t('common.actions.saved') : t('common.actions.save')}
           </span>
         </CardFooter>
       </Card>

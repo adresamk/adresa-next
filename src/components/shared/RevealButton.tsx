@@ -2,18 +2,22 @@
 import { Globe, Phone } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { useTranslations } from 'next-intl';
 
 interface RevealButtonProps {
   value: string;
   usecase: "website" | "phone";
   variant?: "ghost" | "outline";
 }
+
 export default function RevealButton({
   value = "Empty Value",
   usecase,
   variant = "ghost",
 }: RevealButtonProps) {
   const [isRevealed, setIsRevealed] = useState(false);
+  const t = useTranslations();
+
   return (
     <Button
       variant={variant}
@@ -26,15 +30,13 @@ export default function RevealButton({
         <>
           {usecase === "website" && (
             <>
-              {" "}
-              <Globe className="mr-2" /> Website
+              <Globe className="mr-2" /> {t('common.property.publisherDetails.website')}
             </>
           )}
 
           {usecase === "phone" && (
             <>
-              {" "}
-              <Phone className="mr-2" /> Phone
+              <Phone className="mr-2" /> {t('common.property.publisherDetails.phone')}
             </>
           )}
         </>
@@ -42,21 +44,13 @@ export default function RevealButton({
         <>
           {usecase === "website" && (
             <>
-              {" "}
-              <a href={value} target="_blank">
+              <a href={value} target="_blank" rel="noopener noreferrer">
                 {value}
               </a>
             </>
           )}
 
-          {usecase === "phone" && (
-            <>
-              {" "}
-              <a href={"tel:" + value} target="_blank">
-                {value}
-              </a>
-            </>
-          )}
+          {usecase === "phone" && <>{value}</>}
         </>
       )}
     </Button>
