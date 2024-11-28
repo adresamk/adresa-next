@@ -145,7 +145,8 @@
       "email": "Email",
       "message": "Message",
       "name": "Full Name"
-    }
+    },
+    "cannotBeChanged": "(cannot be changed later!)"
   },
   "header": {
     "createListing": "Create Listing",
@@ -195,6 +196,93 @@
       "loginNeeded": "Login Required",
       "loginMessage": "You need to be logged in for this action",
       "toggleFavorite": "Add/Remove from favorites"
+    },
+    "new": {
+      "title": "Create New Listing",
+      "description": "Fill in the details below to create your listing",
+      "propertyDetails": "Property Details",
+      "location": "Location",
+      "features": "Features",
+      "images": "Images",
+      "price": "Price",
+      "contact": "Contact Information",
+      "preview": "Preview",
+      "submit": "Submit Listing",
+      "propertyType": {
+        "label": "Property Type",
+        "apartment": "Apartment",
+        "house": "House",
+        "office": "Office Space",
+        "land": "Land",
+        "store": "Commercial Space"
+      },
+      "listingType": {
+        "label": "Listing Type",
+        "sale": "For Sale",
+        "rent": "For Rent"
+      },
+      "size": {
+        "label": "Size",
+        "placeholder": "Enter size in m²",
+        "unit": "m²"
+      },
+      "rooms": {
+        "label": "Number of Rooms",
+        "placeholder": "Select number of rooms"
+      },
+      "floor": {
+        "label": "Floor",
+        "placeholder": "Select floor"
+      },
+      "construction": {
+        "label": "Year of Construction",
+        "placeholder": "Enter year"
+      },
+      "heating": {
+        "label": "Heating Type",
+        "central": "Central",
+        "electric": "Electric",
+        "gas": "Gas",
+        "none": "None"
+      },
+      "progress": {
+        "completed": "completed",
+        "newListing": "New Listing",
+        "steps": {
+          "propertyCategory": {
+            "title": "Property Category",
+            "description": "Select the category"
+          },
+          "propertyDetails": {
+            "title": "Property Details",
+            "description": "Enter property specifications"
+          },
+          "location": {
+            "title": "Location",
+            "description": "Specify property location"
+          },
+          "media": {
+            "title": "Media",
+            "description": "Add photos and videos"
+          },
+          "pricing": {
+            "title": "Pricing",
+            "description": "Set your price"
+          }
+        }
+      },
+      "actions": {
+        "submit": "Submit",
+        "next": "Next",
+        "back": "Back"
+      }
+    },
+    "categoryOptions": {
+      "apartment": "Apartment",
+      "house": "House",
+      "office": "Office Space",
+      "land": "Land",
+      "store": "Commercial Space"
     }
   },
   "MortgageCalculator": {

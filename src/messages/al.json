@@ -132,7 +132,14 @@
       "featuredListing": "Shpallje e Veçantë",
       "exactLocation": "Vendndodhja e Saktë në Hartë",
       "propertyDetails": "{type}, {area}m²",
-      "defaultAgency": "Agjenci e Pasurive të Paluajtshme"
+      "defaultAgency": "Agjenci e Pasurive të Paluajtshme",
+      "categoryOptions": {
+        "apartment": "Apartament",
+        "house": "Shtëpi",
+        "office": "Hapsirë Kantorale",
+        "land": "Tokë",
+        "store": "Hapsirë Tregtare"
+      }
     },
     "navigation": {
       "myAccount": "Llogaria Ime",
@@ -146,7 +153,8 @@
       "email": "Email",
       "message": "Mesazh",
       "name": "Emri i Plotë"
-    }
+    },
+    "cannotBeChanged": "(nuk mund të ndryshohet më vonë!)"
   },
   "header": {
     "createListing": "Shto Shpallje",
@@ -196,6 +204,86 @@
       "loginNeeded": "Kërkohet Hyrja",
       "loginMessage": "Duhet të jeni të kyçur për këtë veprim",
       "toggleFavorite": "Shto/Hiq nga të preferuarat"
+    },
+    "new": {
+      "title": "Krijo Shpallje të Re",
+      "description": "Plotësoni detajet më poshtë për të krijuar shpalljen tuaj",
+      "propertyDetails": "Detajet e Pronës",
+      "location": "Vendndodhja",
+      "features": "Karakteristikat",
+      "images": "Fotot",
+      "price": "Çmimi",
+      "contact": "Informacioni i Kontaktit",
+      "preview": "Parapamja",
+      "submit": "Publiko Shpalljen",
+      "propertyType": {
+        "label": "Lloji i Pronës",
+        "apartment": "Apartament",
+        "house": "Shtëpi",
+        "office": "Hapësirë Zyre",
+        "land": "Tokë",
+        "store": "Hapësirë Komerciale"
+      },
+      "listingType": {
+        "label": "Lloji i Shpalljes",
+        "sale": "Për Shitje",
+        "rent": "Për Qira"
+      },
+      "size": {
+        "label": "Sipërfaqja",
+        "placeholder": "Vendosni sipërfaqen në m²",
+        "unit": "m²"
+      },
+      "rooms": {
+        "label": "Numri i Dhomave",
+        "placeholder": "Zgjidhni numrin e dhomave"
+      },
+      "floor": {
+        "label": "Kati",
+        "placeholder": "Zgjidhni katin"
+      },
+      "construction": {
+        "label": "Viti i Ndërtimit",
+        "placeholder": "Vendosni vitin"
+      },
+      "heating": {
+        "label": "Lloji i Ngrohjes",
+        "central": "Qendrore",
+        "electric": "Elektrike",
+        "gas": "Me Gaz",
+        "none": "Pa Ngrohje"
+      },
+      "progress": {
+        "completed": "përfunduar",
+        "newListing": "Shpallje e Re",
+        "steps": {
+          "propertyCategory": {
+            "title": "Kategoria e Pronës",
+            "description": "Zgjidhni kategorinë"
+          },
+          "propertyDetails": {
+            "title": "Detajet e Pronës",
+            "description": "Vendosni specifikimet e pronës"
+          },
+          "location": {
+            "title": "Vendndodhja",
+            "description": "Përcaktoni vendndodhjen e pronës"
+          },
+          "media": {
+            "title": "Media",
+            "description": "Shtoni foto dhe video"
+          },
+          "pricing": {
+            "title": "Çmimi",
+            "description": "Vendosni çmimin"
+          }
+        }
+      },
+      "actions": {
+        "submit": "Publiko",
+        "next": "Tjetër",
+        "back": "Kthehu"
+      }
     }
   },
   "MortgageCalculator": {

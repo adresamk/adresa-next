@@ -106,6 +106,7 @@
         "calculate": "Пресметај рата"
       }
     },
+    "cannotBeChanged": "(не може да се промени подоцна!)",
     "listing": {
       "type": "{type}",
       "defaultMunicipality": "Општина",
@@ -128,7 +129,17 @@
       "featuredListing": "Истакнат оглас",
       "exactLocation": "Точна локација на мапа",
       "propertyDetails": "{type}, {area}м²",
-      "defaultAgency": "Агенција за недвижнини"
+      "defaultAgency": "Агенција за недвижнини",
+      "categoryOptions": {
+        "apartment": "Стан",
+        "house": "Куќа",
+        "office": "Канцелариски простор",
+        "land": "Земја",
+        "store": "Комерцијален простор",
+        "residential": "За живеење",
+        "commercial": "Комерцијален",
+        "other": "Други"
+      }
     },
     "navigation": {
       "myAccount": "Мој профил",
@@ -192,6 +203,86 @@
       "loginNeeded": "Потребно е најавување",
       "loginMessage": "За оваа акција потребно е да бидете најавени",
       "toggleFavorite": "Додади/Отстрани од омилени"
+    },
+    "new": {
+      "title": "Креирај нов оглас",
+      "description": "Пополнете ги деталите подолу за да креирате оглас",
+      "propertyDetails": "Детали за имотот",
+      "location": "Локација",
+      "features": "Карактеристики",
+      "images": "Слики",
+      "price": "Цена",
+      "contact": "Контакт информации",
+      "preview": "Преглед",
+      "submit": "Објави оглас",
+      "propertyType": {
+        "label": "Тип на имот",
+        "apartment": "Стан",
+        "house": "Куќа",
+        "office": "Канцелариски простор",
+        "land": "Земјиште",
+        "store": "Деловен простор"
+      },
+      "listingType": {
+        "label": "Тип на оглас",
+        "sale": "Продажба",
+        "rent": "Изнајмување"
+      },
+      "size": {
+        "label": "Површина",
+        "placeholder": "Внесете површина во м²",
+        "unit": "м²"
+      },
+      "rooms": {
+        "label": "Број на соби",
+        "placeholder": "Изберете број на соби"
+      },
+      "floor": {
+        "label": "Кат",
+        "placeholder": "Изберете кат"
+      },
+      "construction": {
+        "label": "Година на градба",
+        "placeholder": "Внесете година"
+      },
+      "heating": {
+        "label": "Тип на греење",
+        "central": "Централно",
+        "electric": "Електрично",
+        "gas": "На гас",
+        "none": "Нема"
+      },
+      "progress": {
+        "completed": "завршено",
+        "newListing": "Нов оглас",
+        "steps": {
+          "propertyCategory": {
+            "title": "Категорија на имот",
+            "description": "Изберете категорија"
+          },
+          "propertyDetails": {
+            "title": "Детали за имотот",
+            "description": "Внесете спецификации за имотот"
+          },
+          "location": {
+            "title": "Локација",
+            "description": "Одредете ја локацијата на имотот"
+          },
+          "media": {
+            "title": "Медиа",
+            "description": "Додадете фотографии и видеа"
+          },
+          "pricing": {
+            "title": "Цена",
+            "description": "Поставете ја цената"
+          }
+        }
+      },
+      "actions": {
+        "submit": "Објави",
+        "next": "Следно",
+        "back": "Назад"
+      }
     }
   },
   "MortgageCalculator": {
