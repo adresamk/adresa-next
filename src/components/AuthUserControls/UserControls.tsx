@@ -52,7 +52,7 @@ export default function UserControls({ user }: { user: User }) {
               <Link href="/profile/settings">Settings</Link>
             </li> */}
           <li>
-            <form onSubmit={handleLogout}>
+            <form action={handleLogout}>
               <button>{t("header.userControls.logout")}</button>
             </form>
           </li>

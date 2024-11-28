@@ -9,9 +9,8 @@ export default function ListingVisibilityButton({
 }) {
   return (
     <form
-      onSubmit={async (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
+      action={async (formData: FormData) => {
+        "use server";
         const result = await adjustListingVisibility(formData);
       }}
     >

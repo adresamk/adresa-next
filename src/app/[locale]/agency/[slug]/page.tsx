@@ -1,9 +1,9 @@
 import Container from "@/components/shared/Container";
 import RevealButton from "@/components/shared/RevealButton";
 import { House, Store } from "lucide-react";
-import PopularAgencyProperties from "./PopularAgencyProperties";
 import prismadb from "@/lib/db";
 import { getTranslations } from "next-intl/server";
+import PopularAgencyProperties from "./PopularAgencyProperties";
 
 export default async function AgencyPage({
   params,
@@ -12,7 +12,7 @@ export default async function AgencyPage({
 }) {
   const { slug } = await params;
   const t = await getTranslations();
-  
+
   const agency = await prismadb.agency.findUnique({
     where: {
       slug: slug,
@@ -38,7 +38,7 @@ export default async function AgencyPage({
           <div className="relative z-10 flex w-2/3 flex-col justify-center">
             <div className="mb-5 flex gap-3">
               <div className="flex items-center justify-center rounded-xl border border-slate-400 bg-white px-5 py-4">
-                 {/* eslint-disable-next-line @next/next/no-img-element */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={agency.logoUrl || ""} alt={agency.name || ""} />
               </div>
               <div className="flex flex-col justify-between py-2">
@@ -56,7 +56,9 @@ export default async function AgencyPage({
                     <p>{t("agency.properties.apartments")}</p>
                   </div>
                 </div>
-                <p className="text-nowrap">{t("agency.properties.forSale")} {">"}</p>
+                <p className="text-nowrap">
+                  {t("agency.properties.forSale")} {">"}
+                </p>
               </div>
               <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
                 <div className="mb-2 flex items-end gap-1">
@@ -66,7 +68,9 @@ export default async function AgencyPage({
                     <p>{t("agency.properties.stores")}</p>
                   </div>
                 </div>
-                <p className="text-nowrap">{t("agency.properties.forSale")} {">"}</p>
+                <p className="text-nowrap">
+                  {t("agency.properties.forSale")} {">"}
+                </p>
               </div>
 
               <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
@@ -77,7 +81,9 @@ export default async function AgencyPage({
                     <p>{t("agency.properties.buildings")}</p>
                   </div>
                 </div>
-                <p className="text-nowrap">{t("agency.properties.forRent")} {">"}</p>
+                <p className="text-nowrap">
+                  {t("agency.properties.forRent")} {">"}
+                </p>
               </div>
               <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
                 <div className="mb-2 flex items-end gap-1">
@@ -87,13 +93,17 @@ export default async function AgencyPage({
                     <p>{t("agency.properties.buildings")}</p>
                   </div>
                 </div>
-                <p className="text-nowrap">{t("agency.properties.forRent")} {">"}</p>
+                <p className="text-nowrap">
+                  {t("agency.properties.forRent")} {">"}
+                </p>
               </div>
               <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
                 <div className="mb-2 flex items-end gap-1">
                   <p className="text-4xl font-semibold">{5}</p>
                 </div>
-                <p className="text-nowrap">{t("agency.properties.allListings")} {">"}</p>
+                <p className="text-nowrap">
+                  {t("agency.properties.allListings")} {">"}
+                </p>
               </div>
             </div>
             <div className="my-3 text-slate-700">
@@ -117,7 +127,9 @@ export default async function AgencyPage({
         <Container>
           <PopularAgencyProperties
             properties={[]}
-            title={t("agency.properties.popularListings", { agencyName: agency.name })}
+            title={t("agency.properties.popularListings", {
+              agencyName: agency.name,
+            })}
           />
         </Container>
       </div>

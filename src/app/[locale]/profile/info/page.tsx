@@ -21,9 +21,8 @@ export default async function ProfileInfoPage({
       <h3 className="mb-3 text-2xl font-semibold">Profile Info</h3>
       <form
         className="py-2"
-        onSubmit={async (event) => {
-          event.preventDefault();
-          const formData = new FormData(event.currentTarget);
+        action={async (formData: FormData) => {
+          "use server";
           const result = await updateUserInfo(formData);
         }}
       >

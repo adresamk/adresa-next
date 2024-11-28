@@ -5,23 +5,6 @@ import prismadb from "@/lib/db";
 import { capitalizeString } from "@/lib/utils";
 
 export async function updateAgencyDetails(formData: FormData) {
-  // id                    String  @id @default(uuid())
-  // name                  String? @unique
-  // slug                  String? @unique
-  // address               String?
-  // website               String?
-  // phone                 String?
-  // logoUrl               String?
-  // contactPersonFullName String?
-  // contactPersonEmail    String?
-  // contactPersonPhone    String?
-  // workHours             String?
-
-  // gpsLocation      String? // lng,lat
-  // description      String?
-  // shortDescription String?
-  // branding         String? /
-
   const user = await getUser();
   if (!user || !user.agencyId) {
     return {

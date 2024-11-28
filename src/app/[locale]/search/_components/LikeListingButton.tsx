@@ -20,7 +20,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/routing";
 import { useRouter } from "next/navigation";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 export default function LikeListingButton({
   listingId,
@@ -55,9 +55,9 @@ export default function LikeListingButton({
       <AlertDialog open={isAlertOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('listing.like.loginNeeded')}</AlertDialogTitle>
+            <AlertDialogTitle>{t("listing.like.loginNeeded")}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t('listing.like.loginMessage')}
+              {t("listing.like.loginMessage")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -66,14 +66,14 @@ export default function LikeListingButton({
                 setIsAlertOpen(false);
               }}
             >
-              {t('common.cancel')}
+              {t("common.buttons.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 setIsAlertOpen(false);
               }}
             >
-              <Link href="/signin">{t('common.signIn')}</Link>
+              <Link href="/signin">{t("common.buttons.signIn")}</Link>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -106,7 +106,7 @@ export default function LikeListingButton({
           "h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue",
           className,
         )}
-        title={t('listing.like.toggleFavorite')}
+        title={t("listing.like.toggleFavorite")}
       >
         <Heart fill={isFavorite ? "blue" : "none"} />
       </Button>

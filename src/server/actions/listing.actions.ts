@@ -224,6 +224,7 @@ export async function getFavoriteStatus(listingId: string) {
 }
 
 export async function addNewListing(formData: FormData) {
+  // console.log("Adding new listing", formData);
   const user = await getUser();
   if (!user) {
     const cookieStore = await cookies();
@@ -254,17 +255,20 @@ export async function addNewListing(formData: FormData) {
     };
   }
 
-  const listingNumber = await prismadb.counter.findUnique({
+  let listingNumber = await prismadb.counter.findUnique({
     where: {
       name: "listing-number-value",
     },
-  })!;
+  });
 
+  // will be missing if we restart the db, and initiall we need to create the counter
   if (!listingNumber) {
-    return {
-      success: false,
-      error: "Listing number not found",
-    };
+    listingNumber = await prismadb.counter.create({
+      data: {
+        name: "listing-number-value",
+        value: 10001,
+      },
+    });
   }
 
   // create listing

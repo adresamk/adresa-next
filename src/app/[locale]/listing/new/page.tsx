@@ -83,7 +83,17 @@ export default async function NewPage() {
       </div>
       <div className="w-2/3">
         <div className="mt-2 rounded bg-white p-2 shadow-md">
-          <form action={addNewListing}>
+          <form
+            // action={addNewListing}
+            action={async (formData: FormData) => {
+              "use server";
+              const result = await addNewListing(formData);
+              console.log("Result", result);
+              if (result && result.error) {
+                // Handle error (e.g., show a notification)
+              }
+            }}
+          >
             <InitialStep />
             <Button size={"sm"} className="my-2">
               Submit
