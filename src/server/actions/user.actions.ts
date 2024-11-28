@@ -93,6 +93,94 @@ export async function updateAgencyDetails(formData: FormData) {
 function validPhoneNumber(phone: string) {
   return true;
 }
+function generateUniqueToken() {
+  return Math.random().toString(36).slice(2, 11); // Simple token generation
+}
+
+export async function checkVerificationTokenInDB(token: string) {
+  const verificationLink = await prismadb.verificationLink.findUnique({
+    where: {
+      token,
+    },
+  });
+  if (verificationLink && verificationLink.isActivated) {
+    return { success: false, error: "Account already verified" };
+  }
+  if (
+    verificationLink &&
+    verificationLink.isActivated &&
+    new Date().getTime() > verificationLink.expiresAt.getTime()
+  ) {
+    return { success: false, error: "Token expired" };
+  }
+  if (
+    verificationLink &&
+    !verificationLink.isActivated &&
+    new Date().getTime() < verificationLink.expiresAt.getTime()
+  ) {
+    await prismadb.verificationLink.update({
+      where: {
+        id: verificationLink.id,
+      },
+      data: {
+        isActivated: true,
+        activatedAt: new Date(),
+      },
+    });
+    return { success: true, error: null };
+  } else {
+    return { success: false, error: "There was some mistake" };
+  }
+}
+export async function getVerificationLink(userId: string) {
+  const token = generateUniqueToken(); // Function to generate a unique token
+  const expiresAt = new Date(Date.now() + 3600000); // 1 hour expiration
+
+  // Create the verification link in the database
+  await prismadb.verificationLink.create({
+    data: {
+      userId,
+      token,
+      expiresAt,
+    },
+  });
+
+  return `${process.env.NEXT_PUBLIC_URL}/verify?token=${token}`; // Return the verification link
+}
+
+// Function to generate a unique token
+
+export async function sendVerificationEmail(
+  email: string,
+  verificationLink: string,
+) {
+  console.log("verificationLink 2 ", verificationLink);
+
+  const emailTemp = "macesmajli@gmail.com";
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/send/verifyuser`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userName: emailTemp, verificationLink }),
+    },
+  );
+  // console.log("response", response);
+
+  if (!response.ok) {
+    throw new Error("Failed to send verification email");
+  }
+
+  const data = await response.json();
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  console.log("Verification email sent successfully");
+  return true;
+}
 
 export async function updateUserInfo(formData: FormData) {
   const { user } = await validateRequest();

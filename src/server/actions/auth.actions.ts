@@ -10,6 +10,7 @@ const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 import { generateCodeVerifier, generateState } from "arctic";
 import { googleOAuthClient } from "@/lib/googleOAuth";
+import { getVerificationLink, sendVerificationEmail } from "./user.actions";
 
 export async function signIn(
   prevState: any,
@@ -143,6 +144,11 @@ export async function signUpAsUser(
       },
     });
 
+    const verificationLink = await getVerificationLink(user.id);
+    console.log("verificationLink", verificationLink);
+    await sendVerificationEmail(email, verificationLink);
+    console.log("Verification email sent successfully 2");
+
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
     const cookieStore = await cookies();
@@ -156,6 +162,7 @@ export async function signUpAsUser(
       httpOnly: false,
     });
   } catch (error) {
+    console.error("error", error);
     return {
       error: "Something went wrong",
       success: false,
