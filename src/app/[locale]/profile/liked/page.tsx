@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import MyLikedListings from "./_components/MyLikedListings";
-import SuggestedAgencies from "@/app/[locale]/SuggestedAgencies";
+import SuggestedAgencies from "@/app/[locale]/_components/SuggestedAgencies";
 import { Button } from "@/components/ui/button";
 import { HousePlus } from "lucide-react";
 import { getLikedListingsByUser } from "@/server/actions/listing.actions";

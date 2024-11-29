@@ -18,10 +18,6 @@ export default function SearchFilter() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 rounded-3xl border border-slate-100 bg-white/50 p-6 px-5 backdrop-blur">
-      <div className="text-center mb-4">
-        <h1 className="text-4xl font-bold mb-2">{t('home.search.title')}</h1>
-        <p className="text-gray-600">{t('home.search.subtitle')}</p>
-      </div>
       <ModeFilter variant="homepage" />
       <div
         className={cn(
@@ -40,7 +36,7 @@ export default function SearchFilter() {
               size={"lg"}
               className="h-12 w-full px-4 py-0.5 text-lg font-semibold uppercase"
             >
-              {t('common.buttons.search')} <Search className="ml-3" size={18} />
+              {t("common.buttons.search")} <Search className="ml-3" size={18} />
             </Button>
           </Link>
         </div>

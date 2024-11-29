@@ -1,11 +1,11 @@
-import LastOpenedProperties from "./LastOpenedProperties";
-import SuggestedProperties from "./SuggestedProperties";
+import LastOpenedProperties from "./_components/LastOpenedProperties";
+import SuggestedProperties from "./_components/SuggestedProperties";
 import Banner from "@/components/shared/Banner";
-import SuggestedAgencies from "./SuggestedAgencies";
-import LastSearches from "./LastSearches";
-import SearchHero from "./SearchHero";
+import SuggestedAgencies from "./_components/SuggestedAgencies";
+import LastSearches from "./_components/LastSearches";
+import SearchHero from "./_components/SearchHero";
 import { getUser } from "@/lib/auth";
-import UserGreeting from "./UserGreeting";
+import UserGreeting from "./_components/UserGreeting";
 
 export default async function Home() {
   // works on the server side
