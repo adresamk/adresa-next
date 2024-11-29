@@ -17,7 +17,7 @@ export default function SearchFilter() {
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
 
   return (
-    <section className="mx-5 flex w-full max-w-7xl flex-col gap-1 overflow-x-auto rounded-3xl border border-slate-300 bg-white/30 p-6 px-5 backdrop-blur">
+    <section className="mx-5 flex w-full max-w-7xl flex-col gap-1 rounded-3xl border border-slate-300 bg-white/30 p-6 px-5 backdrop-blur">
       <ModeFilter variant="homepage" />
       <div
         className={cn(

@@ -32,7 +32,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
   return (
     <div
       className={cn(
-        "relative h-[90px] w-full max-w-full rounded-xl border border-transparent pb-[6px] pl-[20px] pr-[19px] pt-[17px]",
+        "relative h-[88px] w-full max-w-full rounded-xl border border-transparent pb-[6px] pl-[20px] pr-[19px] pt-[17px]",
         focusedFilter === "location" && "rounded-b-none",
         !focusedFilter && "bg-gray-50",
       )}
@@ -77,7 +77,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
             }}
           />
           {focusedFilter === "location" && isOpen && (
-            <ul className="absolute left-0 top-full z-[100] -ml-[21px] mt-[6px] max-h-[280px] w-[calc(100%_+_41px)] overflow-auto rounded-b-xl bg-white shadow-sm">
+            <ul className="absolute left-0 top-full z-[100] -ml-[22px] mt-[5px] max-h-[280px] w-[calc(100%_+_41px)] overflow-auto rounded-b-xl bg-white shadow-lg">
               {locationDropdownOptions.map((location) => (
                 <li
                   key={location}
@@ -143,8 +143,9 @@ export default function LocationFilter({ variant }: LocationFilterProps) {
       {/* <div>{isOpen ? "is" : "|"}</div> */}
       <div
         className={cn(
-          "filters-field relative z-[999] h-full w-full max-w-full rounded-xl border-none",
-          focusedFilter === "location" && "rounded-b-none bg-white",
+          "filters-field relative z-[999] h-full w-full max-w-full rounded-xl border border-slate-200",
+          focusedFilter === "location" &&
+            "rounded-b-none border-b-white bg-white",
         )}
       >
         <Popover
