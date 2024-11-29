@@ -5,6 +5,7 @@ import { useFilters } from "@/hooks/useFilters";
 import { cn } from "@/lib/utils";
 import { Popover } from "@radix-ui/react-popover";
 import { ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { parseAsString, useQueryState } from "nuqs";
 import { useState } from "react";
 interface ModeFilterProps {
@@ -14,6 +15,8 @@ interface ModeFilterProps {
 export default function ModeFilter({ variant }: ModeFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
   const filters = useFilters((store) => store.filters);
+
+  const t = useTranslations();
   const updateFilters = useFilters((store) => store.updateFilters);
   let [mode, setMode] = useQueryState(
     "mode",
@@ -44,7 +47,7 @@ export default function ModeFilter({ variant }: ModeFilterProps) {
               mode !== "sale" && "border border-brand-light-blue",
             )}
           >
-            Sale
+            {t("common.filters.mode.sale")}
           </Button>
           <Button
             onClick={() => {
@@ -59,7 +62,7 @@ export default function ModeFilter({ variant }: ModeFilterProps) {
               mode !== "rent" && "border border-brand-light-blue",
             )}
           >
-            Rent
+            {t("common.filters.mode.rent")}
           </Button>
         </div>
       )}

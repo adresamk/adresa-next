@@ -17,11 +17,11 @@ export default function SearchFilter() {
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 rounded-3xl border border-slate-100 bg-white/50 p-6 px-5 backdrop-blur">
+    <section className="mx-5 flex w-full max-w-7xl flex-col gap-1 overflow-x-auto rounded-3xl border border-slate-300 bg-white/30 p-6 px-5 backdrop-blur">
       <ModeFilter variant="homepage" />
       <div
         className={cn(
-          "relative mt-2.5 flex w-full flex-wrap rounded-xl bg-slate-50 xl:h-[90px]",
+          "relative mt-1.5 flex w-full flex-wrap rounded-xl bg-slate-50 xl:h-[90px]",
           focusedFilter === "location" && "rounded-bl-none",
         )}
       >
@@ -41,6 +41,6 @@ export default function SearchFilter() {
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

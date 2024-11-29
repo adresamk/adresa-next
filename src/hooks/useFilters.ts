@@ -1,8 +1,4 @@
-import {
-  FiltersObject,
-  modeOptions,
-  PartialFiltersObject,
-} from "@/lib/types";
+import { FiltersObject, modeOptions, PartialFiltersObject } from "@/lib/types";
 import { create } from "zustand";
 
 interface useFiltersStore {
@@ -15,7 +11,7 @@ interface useFiltersStore {
 
 export const defaultFilters = {
   // primary
-  mode: "" as modeOptions,
+  mode: "sale" as modeOptions,
   location: "",
   propertyType: "",
   subType: "",
@@ -55,8 +51,8 @@ export const useFilters = create<useFiltersStore>((set) => ({
   shouldUpdate: false,
   updateFilters: (newFilters: PartialFiltersObject) =>
     set((prevState) => {
-      const primaryFiltersChanged = Object.keys(newFilters).some(
-        (key) => primaryFilters.includes(key)
+      const primaryFiltersChanged = Object.keys(newFilters).some((key) =>
+        primaryFilters.includes(key),
       );
 
       const newState = {
