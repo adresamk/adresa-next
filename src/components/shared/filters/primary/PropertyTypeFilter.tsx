@@ -13,6 +13,7 @@ import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { propertyTypeValues } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { useFilters } from "@/hooks/useFilters";
+import { useTranslations } from "next-intl";
 
 interface PropertyTypeFilterProps {
   variant: "homepage" | "search";
@@ -22,6 +23,7 @@ export default function PropertyTypeFilter({
 }: PropertyTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
+  const t = useTranslations();
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
   const setFocusedFilter = useSelectedFilter(
     (store) => store.setSelectedFilter,
@@ -56,10 +58,15 @@ export default function PropertyTypeFilter({
                   className="flex h-5 w-full items-center gap-2"
                   htmlFor={"property-type"}
                 >
-                  {<House className="h-4 w-4" />} {"Property Type"}
+                  {<House className="h-4 w-4" />}
+                  {t("common.filters.propertyType.label")}
                 </label>
                 <div className="flex h-10 items-center text-sm">
-                  {propertyType || <span className="text-gray-400">Home</span>}
+                  {propertyType || (
+                    <span className="text-gray-400">
+                      {t("common.filters.propertyType.emptyPlaceholder")}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

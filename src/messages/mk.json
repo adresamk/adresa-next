@@ -12,10 +12,29 @@
       "signIn": "Најави се"
     },
     "filters": {
-      "location": "Локација",
-      "propertyType": "Тип на имот",
-      "price": "Цена",
-      "surface": "Површина",
+      "location": {
+        "label": "Локација",
+        "notActivePlaceholder": "Внесете најмалку 3 карактери",
+        "emptyPlaceholder": "На пример: Скопје, Куманово, Велес"
+      },
+      "propertyType": {
+        "label": "Тип на имот",
+        "emptyPlaceholder": "Дом"
+      },
+      "price": {
+        "label": "Цена",
+        "from": "од",
+        "to": "до",
+        "upTo": "до",
+        "any": "Небитно"
+      },
+      "surface": {
+        "label": "Површина",
+        "from": "од",
+        "to": "до",
+        "upTo": "до",
+        "any": "Небитно"
+      },
       "mode": {
         "buy": "Купи",
         "sale": "Продажба",

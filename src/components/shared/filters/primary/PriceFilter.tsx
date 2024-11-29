@@ -11,6 +11,7 @@ import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { useFilters } from "@/hooks/useFilters";
 import { Button } from "@/components/ui/button";
 import { parseAsString, useQueryState } from "nuqs";
+import { useTranslations } from "next-intl";
 
 interface PriceFilterProps {
   variant: "homepage" | "search";
@@ -18,6 +19,7 @@ interface PriceFilterProps {
 export default function PriceFilter({ variant }: PriceFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
+  const t = useTranslations();
 
   let [priceLow, setPriceLow] = useQueryState(
     "priceLow",
@@ -55,33 +57,35 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
                 <label className="flex h-5 w-full items-center gap-2">
-                  {<Tag className="h-4 w-4" />} {"Price"}
+                  {<Tag className="h-4 w-4" />}{" "}
+                  {t("common.filters.price.label")}
                 </label>
                 <div className="flex h-10 items-center text-sm">
                   {/* both are set */}
                   {priceLow && priceHigh && (
                     <span className="text-brand-dark-blue">
-                      {priceLow} - {priceHigh} $
+                      {priceLow} - {priceHigh} €
                     </span>
                   )}
 
                   {/* only from is set */}
                   {priceLow && !priceHigh && (
                     <span className="text-brand-dark-blue">
-                      From {priceLow} $
+                      {t("common.filters.price.from")} {priceLow} €
                     </span>
                   )}
 
                   {/* only to is set */}
                   {!priceLow && priceHigh && (
                     <span className="text-brand-dark-blue">
-                      Up to {priceHigh} $
+                      {t("common.filters.price.upTo")} {priceHigh} €
                     </span>
                   )}
                   {/* nothing is set */}
                   {!priceLow && !priceHigh && (
                     <span className="tracking-tighter text-gray-400">
-                      $ From - To
+                      € {t("common.filters.price.from")} -{" "}
+                      {t("common.filters.price.to")}
                     </span>
                   )}
                 </div>
@@ -93,22 +97,28 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
             <span className="capitalize">
               {priceLow && priceHigh && (
                 <span className="">
-                  {priceLow} - {priceHigh} $
+                  {priceLow} - {priceHigh} €
                 </span>
               )}
 
               {/* only from is set */}
               {priceLow && !priceHigh && (
-                <span className="">From {priceLow} $</span>
+                <span className="">
+                  {t("common.filters.price.from")} {priceLow} €
+                </span>
               )}
 
               {/* only to is set */}
               {!priceLow && priceHigh && (
-                <span className="">Up to {priceHigh} $</span>
+                <span className="">
+                  {t("common.filters.price.upTo")} {priceHigh} €
+                </span>
               )}
               {/* nothing is set */}
               {!priceLow && !priceHigh && (
-                <span className="tracking-tighter">Price</span>
+                <span className="tracking-tighter">
+                  {t("common.filters.price.label")}
+                </span>
               )}
             </span>
             <ChevronDown width={20} className="ml-2" />{" "}
@@ -132,7 +142,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
           >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
               <label htmlFor="price-from" className="text-xs">
-                $ From
+                € {t("common.filters.price.from")}
               </label>
               <input
                 className="w-full rounded border border-gray-300 p-1 px-4 text-black"
@@ -173,7 +183,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                     }
                   }}
                 >
-                  {price}
+                  {price === "Any" ? t("common.filters.price.any") : price}
                 </li>
               ))}
             </ul>
@@ -187,7 +197,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
           >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
               <label htmlFor="price-to" className="text-xs">
-                $ Up to
+                € {t("common.filters.price.upTo")}
               </label>
               <input
                 className="w-full rounded border border-gray-300 p-1 px-4 text-black"
@@ -228,7 +238,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                     }
                   }}
                 >
-                  {price}
+                  {price === "Any" ? t("common.filters.price.any") : price}
                 </li>
               ))}
             </ul>

@@ -12,9 +12,11 @@ import {
 } from "@/components/ui/popover";
 import { useFilters } from "@/hooks/useFilters";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
+import { useTranslations } from "next-intl";
 
 function BigVariant({ isOpen }: { isOpen: boolean }) {
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
+  const t = useTranslations();
 
   const setFocusedFilter = useSelectedFilter(
     (store) => store.setSelectedFilter,
@@ -51,7 +53,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
           className="flex h-5 w-full items-center gap-2"
           htmlFor={"location"}
         >
-          {<MapPin className="h-4 w-4" />} {"Location"}
+          {<MapPin className="h-4 w-4" />} {t("common.filters.location.label")}
         </label>
         <div className="relative flex h-10 items-center text-sm">
           {/* line-height: 1; border: 0; height: 40px; padding: 0;
@@ -68,8 +70,8 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
             id="location"
             placeholder={
               focusedFilter === "location"
-                ? "Type at least 3 characters"
-                : "e.g. Skopje, Kumanovo, Veles"
+                ? t("common.filters.location.notActivePlaceholder")
+                : t("common.filters.location.emptyPlaceholder")
             }
             value={filters.location}
             onChange={(e) => {

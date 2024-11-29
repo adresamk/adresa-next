@@ -12,6 +12,7 @@ import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { Button } from "@/components/ui/button";
 import { parseAsString, useQueryState } from "nuqs";
 import { set } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 interface PropertyTypeFilterProps {
   variant: "homepage" | "search";
@@ -19,7 +20,7 @@ interface PropertyTypeFilterProps {
 export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
-
+  const t = useTranslations();
   let [areaLow, setAreaLow] = useQueryState(
     "areaLow",
     parseAsString.withOptions({ shallow: false }).withDefault(""),
@@ -58,7 +59,8 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
                 <label className="flex h-5 w-full items-center gap-2">
-                  {<Tag className="h-4 w-4" />} {"Surface"}
+                  {<Tag className="h-4 w-4" />}{" "}
+                  {t("common.filters.surface.label")}
                 </label>
                 <div className="flex h-10 items-center text-sm">
                   {/* both are set */}
@@ -71,20 +73,21 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
                   {/* only from is set */}
                   {areaLow && !areaHigh && (
                     <span className="text-brand-dark-blue">
-                      From {areaLow} m²
+                      {t("common.filters.surface.from")} {areaLow} m²
                     </span>
                   )}
 
                   {/* only to is set */}
                   {!areaLow && areaHigh && (
                     <span className="text-brand-dark-blue">
-                      Up to {areaHigh} m²
+                      {t("common.filters.surface.upTo")} {areaHigh} m²
                     </span>
                   )}
                   {/* nothing is set */}
                   {!areaLow && !areaHigh && (
                     <span className="tracking-tighter text-gray-400">
-                      m² From - To
+                      m² {t("common.filters.surface.from")} -{" "}
+                      {t("common.filters.surface.to")}
                     </span>
                   )}
                 </div>
@@ -103,16 +106,22 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
 
               {/* only from is set */}
               {areaLow && !areaHigh && (
-                <span className="">From {areaLow} m²</span>
+                <span className="">
+                  {t("common.filters.surface.from")} {areaLow} m²
+                </span>
               )}
 
               {/* only to is set */}
               {!areaLow && areaHigh && (
-                <span className="">Up to {areaHigh} m²</span>
+                <span className="">
+                  {t("common.filters.surface.upTo")} {areaHigh} m²
+                </span>
               )}
               {/* nothing is set */}
               {!areaLow && !areaHigh && (
-                <span className="tracking-tighter">Surface</span>
+                <span className="tracking-tighter">
+                  {t("common.filters.surface.label")}
+                </span>
               )}
             </div>
             <ChevronDown width={20} className="ml-2" />{" "}
@@ -136,7 +145,7 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
           >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
               <label htmlFor="area-from" className="text-xs">
-                m² From
+                {t("common.filters.surface.from")}
               </label>
               <input
                 className="w-full rounded border border-gray-300 p-1 px-4 text-black"
@@ -177,7 +186,7 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
                     }
                   }}
                 >
-                  {area}
+                  {area === "Any" ? t("common.filters.surface.any") : area}
                 </li>
               ))}
             </ul>
@@ -191,7 +200,7 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
           >
             <div className="mb-1.5 focus-within:text-brand-dark-blue">
               <label htmlFor="area-to" className="text-xs">
-                m² Up to
+                m² {t("common.filters.surface.upTo")}
               </label>
               <input
                 className="w-full rounded border border-gray-300 p-1 px-4 text-black"
@@ -232,7 +241,7 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
                     }
                   }}
                 >
-                  {area}
+                  {area === "Any" ? t("common.filters.surface.any") : area}
                 </li>
               ))}
             </ul>
