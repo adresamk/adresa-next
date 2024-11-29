@@ -44,14 +44,10 @@ export interface ListingContactData {
   contactHours?: string;
 }
 export type propertyTypeValues =
-  | "Apartment"
-  | "House"
-  | "Home"
-  | "Land"
-  | "Commercial"
-  | "Industrial"
-  | "Garage"
-  | "Other";
+  | "residential"
+  | "land"
+  | "commercial"
+  | "other";
 
 export type modeOptions = "sale" | "rent";
 

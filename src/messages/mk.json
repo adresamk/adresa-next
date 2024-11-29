@@ -19,7 +19,11 @@
       },
       "propertyType": {
         "label": "Тип на имот",
-        "emptyPlaceholder": "Дом"
+        "emptyPlaceholder": "Дом",
+        "residential": "Дом",
+        "commercial": "Комерцијален",
+        "land": "Земја",
+        "other": "Друго"
       },
       "price": {
         "label": "Цена",

@@ -62,7 +62,8 @@ export default function PropertyTypeFilter({
                   {t("common.filters.propertyType.label")}
                 </label>
                 <div className="flex h-10 items-center text-sm">
-                  {propertyType || (
+                  {(propertyType &&
+                    t(`common.filters.propertyType.${propertyType}`)) || (
                     <span className="text-gray-400">
                       {t("common.filters.propertyType.emptyPlaceholder")}
                     </span>
@@ -92,14 +93,14 @@ export default function PropertyTypeFilter({
               onClick={() => {
                 if (variant === "homepage") {
                   updateFilters({
-                    propertyType: type.toLowerCase(),
+                    propertyType: type,
                   });
                 } else {
-                  setPropertyType(type.toLowerCase());
+                  setPropertyType(type);
                 }
               }}
             >
-              {type}
+              {t(`common.filters.propertyType.${type}`)}
             </li>
           ))}
         </ul>

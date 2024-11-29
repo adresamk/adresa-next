@@ -360,14 +360,10 @@ export const areaFilterOptions = [
   "200,000",
 ] as const;
 export const propertyTypes: propertyTypeValues[] = [
-  "Apartment",
-  "House",
-  "Home",
-  "Land",
-  "Commercial",
-  "Industrial",
-  "Garage",
-  "Other",
+  "residential",
+  "land",
+  "commercial",
+  "other",
 ] as const;
 
 export const floorsLowOptions = [];
