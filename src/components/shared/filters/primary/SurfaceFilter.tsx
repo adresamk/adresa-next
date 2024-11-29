@@ -47,7 +47,7 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
         {variant === "homepage" ? (
           <div
             className={cn(
-              "h-[90px] w-[230px] overflow-visible border-b border-slate-200 p-4 xl:border-t",
+              "h-[90px] w-[180px] overflow-visible border-b border-slate-200 p-4 xl:border-t",
               focusedFilter === "area-size" &&
                 "z-10 rounded-t bg-white shadow-lg",
               !focusedFilter && "bg-gray-50",

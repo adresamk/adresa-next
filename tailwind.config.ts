@@ -23,7 +23,10 @@ const config = withUt({
         "2xl": "1400px",
       },
     },
-    screens,
+    screens: {
+      ...screens,
+      smaller: "460px",
+    },
     fontSize,
     extend: {
       boxShadow: {
