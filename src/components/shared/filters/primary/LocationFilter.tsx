@@ -143,9 +143,9 @@ export default function LocationFilter({ variant }: LocationFilterProps) {
       {/* <div>{isOpen ? "is" : "|"}</div> */}
       <div
         className={cn(
-          "filters-field relative z-[999] h-full w-full max-w-full rounded-xl border border-slate-200",
+          "filters-field relative h-full w-full max-w-full rounded-xl border border-slate-200",
           focusedFilter === "location" &&
-            "rounded-b-none border-b-white bg-white",
+            "z-[20] rounded-b-none border-b-white bg-white",
         )}
       >
         <Popover

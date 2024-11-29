@@ -41,9 +41,9 @@ export default function PropertyTypeFilter({
           // BIG VARIANT
           <div
             className={cn(
-              "h-[90px] w-[185px] overflow-visible border-r border-r-black p-4",
+              "h-[90px] w-[185px] overflow-visible border-b border-r border-t border-slate-200 p-4",
               focusedFilter === "property-type" &&
-                "z-10 rounded-t bg-white shadow-lg",
+                "relative z-20 rounded-t border-b-white bg-white shadow-lg",
               !focusedFilter && "bg-gray-50",
             )}
             onClick={() => {
@@ -73,7 +73,7 @@ export default function PropertyTypeFilter({
           </Button>
         )}
       </PopoverTrigger>
-      <PopoverContent asChild align="start">
+      <PopoverContent asChild align="start" className="testt">
         <ul className="relative w-[184px] rounded bg-white p-2 text-sm shadow-lg">
           {propertyTypes.map((type: propertyTypeValues) => (
             <li

@@ -44,7 +44,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
         {variant === "homepage" ? (
           <div
             className={cn(
-              "h-[90px] w-[230px] overflow-visible border-r border-r-black p-4",
+              "h-[90px] w-[230px] overflow-visible border-b border-r border-t border-slate-200 p-4",
               focusedFilter === "price" && "z-10 rounded-t bg-white shadow-lg",
               !focusedFilter && "bg-gray-50",
             )}

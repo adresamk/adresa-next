@@ -34,9 +34,10 @@ export default function SearchFilter() {
           <Link href={"/search"}>
             <Button
               size={"lg"}
-              className="h-12 w-full px-4 py-0.5 text-lg font-semibold uppercase"
+              className="h-12 w-full min-w-[180px] px-2.5 py-0.5 text-sm font-bold uppercase tracking-tight"
             >
-              {t("common.buttons.search")} <Search className="ml-3" size={18} />
+              {t("common.buttons.search")}
+              <Search className="ml-3" size={18} />
             </Button>
           </Link>
         </div>
