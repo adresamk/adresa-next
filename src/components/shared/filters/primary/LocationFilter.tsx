@@ -139,13 +139,13 @@ export default function LocationFilter({ variant }: LocationFilterProps) {
         setisOpen(true);
       }}
       className={cn(
-        "location relative w-full flex-grow rounded-xl xl:w-auto xl:flex-1",
+        "location relative w-full flex-grow rounded-b-none border-b border-slate-200 pr-[220px] xl:w-auto xl:flex-1 xl:rounded-xl xl:border-b-0 xl:pr-0",
       )}
     >
       {/* <div>{isOpen ? "is" : "|"}</div> */}
       <div
         className={cn(
-          "filters-field relative h-full w-full max-w-full rounded-xl border border-slate-200",
+          "filters-field relative h-full w-full max-w-full rounded-r-none rounded-bl-none rounded-tl-xl border border-b-0 border-r-0 border-slate-200 xl:rounded-xl xl:border-b xl:border-r",
           focusedFilter === "location" &&
             "z-[20] rounded-b-none border-b-white bg-white",
         )}

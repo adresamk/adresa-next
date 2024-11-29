@@ -43,7 +43,7 @@ export default function PropertyTypeFilter({
           // BIG VARIANT
           <div
             className={cn(
-              "h-[90px] w-[185px] overflow-visible border-b border-r border-t border-slate-200 p-4",
+              "h-[90px] w-[185px] overflow-visible rounded-bl-xl border-b border-r border-slate-200 p-4 xl:rounded-bl-none xl:border-t",
               focusedFilter === "property-type" &&
                 "relative z-20 rounded-t border-b-white bg-white shadow-lg",
               !focusedFilter && "bg-gray-50",

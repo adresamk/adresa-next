@@ -30,7 +30,7 @@ export default function SearchFilter() {
         <PriceFilter variant="homepage" />
         <SurfaceFilter variant="homepage" />
 
-        <div className="flex w-full max-w-[205px] items-center justify-center">
+        <div className="xl:right absolute right-0 top-0 flex w-full max-w-[205px] items-center justify-center p-5 pl-1.5 xl:static xl:top-0">
           <Link href={"/search"}>
             <Button
               size={"lg"}
