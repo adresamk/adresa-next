@@ -13,21 +13,24 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <SearchHero />
-      {user && (
-        <>
-          <UserGreeting />
-        </>
-      )}
-      <LastSearches />
-      {/* Comes from LS or COOKIES, keep last search there */},
-      {/* en_latestSearchedGeographies */}
-      {/* en_recentSearches */}
-      {/* en_recentlyViewedProperties */}
-      {/* Latest Searches ? */}
-      <LastOpenedProperties />
-      <SuggestedProperties />
-      <Banner />
-      <SuggestedAgencies />
+      {/* Personalized content */}
+      <section className="mb-3 mt-6 w-full max-w-7xl rounded-lg border border-slate-300 bg-slate-100">
+        {user && (
+          <>
+            <UserGreeting />
+          </>
+        )}
+        <LastSearches />
+        {/* Comes from LS or COOKIES, keep last search there */},
+        {/* en_latestSearchedGeographies */}
+        {/* en_recentSearches */}
+        {/* en_recentlyViewedProperties */}
+        {/* Latest Searches ? */}
+        <LastOpenedProperties />
+        <SuggestedProperties />
+        <Banner />
+        <SuggestedAgencies />
+      </section>
     </main>
   );
 }

@@ -22,7 +22,7 @@
         "emptyPlaceholder": "Дом",
         "residential": "Дом",
         "commercial": "Комерцијален",
-        "land": "Земја",
+        "land": "Земјиште",
         "other": "Друго"
       },
       "price": {
@@ -72,7 +72,10 @@
         "garage": "гаража",
         "store": "дуќан",
         "construction": "во градба",
-        "other": "други"
+        "other": "други",
+        "commercial": "Комерцијален",
+        "vacation house": "Летен дом",
+        "business": "Бизнис"
       },
       "area": "м²",
       "price": "цена",
