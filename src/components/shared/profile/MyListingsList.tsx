@@ -76,7 +76,7 @@ export default function MyListingsList({
                 <div className="w-4/12 min-w-[250px]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={l.mainImage || ""}
+                    src={l.mainImage || "/assets/missing-image2.jpg"}
                     alt="Property image"
                     className={cn(
                       "h-full w-full rounded-bl-md rounded-br-none rounded-tl-md rounded-tr-none bg-cover object-cover",

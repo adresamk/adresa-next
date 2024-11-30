@@ -1,12 +1,11 @@
-import LastOpenedProperties from "./_components/LastOpenedProperties";
 import SuggestedProperties from "./_components/SuggestedProperties";
 import Banner from "@/components/shared/Banner";
 import SuggestedAgencies from "./_components/SuggestedAgencies";
-// import LastSearches from "./_components/LastSearches";
 import SearchHero from "./_components/SearchHero";
 import { getUser } from "@/lib/auth";
 import UserGreeting from "./_components/UserGreeting";
-import LastSearches2 from "./_components/LastSearches2";
+import LastSearches from "./_components/LastSearches";
+import RecentlyViewedListings from "./_components/RecentlyViewedListings";
 
 export default async function Home() {
   // works on the server side
@@ -21,14 +20,14 @@ export default async function Home() {
             <UserGreeting />
           </>
         )}
-        {/* <LastSearches /> */}
-        <LastSearches2 />
-        {/* Comes from LS or COOKIES, keep last search there */},
-        {/* en_latestSearchedGeographies */}
+        {/* Comes from LS, but needs to go to API for the newest listings count */}
         {/* en_recentSearches */}
+        {/* en_latestSearchedGeographies */}
+        <LastSearches />
+        {/* Comes from LS or COOKIES, keep last search there */},
         {/* en_recentlyViewedProperties */}
         {/* Latest Searches ? */}
-        <LastOpenedProperties />
+        <RecentlyViewedListings />
         <SuggestedProperties />
         <Banner />
         <SuggestedAgencies />

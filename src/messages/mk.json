@@ -206,7 +206,9 @@
     },
     "sections": {
       "lastSearches": "Последни пребарувања",
-      "lastOpened": "Последно прегледани",
+      "lastOpenedListings": {
+        "lastOpened": "Последно прегледани огласи"
+      },
       "suggested": "Препорачани имоти",
       "agencies": "Препорачани агенции"
     },

@@ -14,7 +14,8 @@ interface ContentCarouselProps {
   items: Array<any>; // Define a more specific type based on your item structure
   renderItem: (item: any) => React.ReactNode; // Function to render each item
   contentClasses?: string; // Tailwind classes for content styling
-  cardClasses?: string; // Tailwind classes for card styling
+  carouselItemClasses?: string; // Tailwind classes for card styling
+  carouselItemContainerClasses?: string; // Tailwind classes for card styling
 }
 
 const ContentCarousel: React.FC<ContentCarouselProps> = ({
@@ -23,21 +24,22 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({
   items,
   renderItem,
   contentClasses = "",
-  cardClasses = "",
+  carouselItemClasses = "",
+  carouselItemContainerClasses = "",
 }) => {
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-14 pb-3 pt-6">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-1.5 px-14 pb-3 pt-6">
       <div className="flex items-center gap-4 text-xl font-bold">
         {icon} <h3>{title}</h3>
       </div>
-      <Carousel opts={{ align: "start" }}>
-        <CarouselContent
-          className={cn("-ml-0 grid grid-cols-3 gap-8", contentClasses)}
-        >
+      <Carousel opts={{ align: "start" }} className="shadcn-carousel">
+        <CarouselContent className={cn("", contentClasses)}>
           {items.map((item, index) => (
-            <CarouselItem key={index} className={cn("w-fit pl-0", cardClasses)}>
-              {renderItem(item)}
-            </CarouselItem>
+            <div key={index} className={cn("", carouselItemContainerClasses)}>
+              <CarouselItem className={cn("", carouselItemClasses)}>
+                {renderItem(item)}
+              </CarouselItem>
+            </div>
           ))}
         </CarouselContent>
         <CarouselPrevious />

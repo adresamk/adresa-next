@@ -16,9 +16,9 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 
-export default function ReacentSearchCard({
+export default function LastSearchCard({
   search,
 }: {
   search: RealEstateSearch;
@@ -30,9 +30,10 @@ export default function ReacentSearchCard({
   const newPropertiesCount = 10;
   const isSaved = false;
   return (
-    <Card className="duration-400 relative flex h-full max-h-[362px] min-w-[318px] max-w-[325px] flex-col hover:border hover:border-slate-300 hover:shadow-md">
+    <Card className="relative flex h-full max-h-[362px] min-w-[310px] max-w-[318px] flex-col hover:shadow-lg">
       <Link
         target="_blank"
+        // TODO: Add link to search page
         href={"https://www.google.com"}
         className="absolute inset-0 z-20"
       >

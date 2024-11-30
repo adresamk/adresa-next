@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Listing } from "@prisma/client";
 import {
@@ -10,27 +10,30 @@ import {
 import { Heart } from "lucide-react";
 import { displayPrice } from "@/lib/utils";
 import LikeListingButton from "@/app/[locale]/search/_components/LikeListingButton";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 import { getMunicipalityInfo } from "@/lib/data/macedonia/importantData";
-import { useLocale } from 'next-intl';
+import { useLocale } from "next-intl";
 
 export default function ListingCard({ listing }: { listing: Listing }) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const municipalityInfo = listing.municipality ? getMunicipalityInfo(listing.municipality) : null;
-  const municipalityName = municipalityInfo 
-    ? (locale === 'mk' 
-        ? (municipalityInfo.name_mk || `${municipalityInfo.name} (${t('common.status.missing')})`)
-        : municipalityInfo.name) 
-    : '';
+  const municipalityInfo = listing.municipality
+    ? getMunicipalityInfo(listing.municipality)
+    : null;
+  const municipalityName = municipalityInfo
+    ? locale === "mk"
+      ? municipalityInfo.name_mk ||
+        `${municipalityInfo.name} (${t("common.status.missing")})`
+      : municipalityInfo.name
+    : "";
 
   return (
     <Card className="max-w-[325px]">
       <CardHeader className="relative p-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={listing?.mainImage || ""}
+          src={listing?.mainImage || "/assets/missing-image2.jpg"}
           className="h-[200px] w-[325px] object-cover"
           alt=""
           width={325}
@@ -49,9 +52,19 @@ export default function ListingCard({ listing }: { listing: Listing }) {
       </CardHeader>
       <CardContent className="px-4 pt-2">
         <p>
-          <span className="capitalize">{t(`common.property.type.${listing.type}`)}</span>, {listing.area}{t('common.property.area')}
+          <span className="capitalize">
+            {t(`common.property.type.${listing.type}`)}
+          </span>
+          , {listing.area}
+          {t("common.property.area")}
         </p>
-        {municipalityName && <p className="text-sm capitalize">{municipalityName}</p>}
+        <p>
+          {listing.listingNumber}{" "}
+          <span className="text-xs">(to be removed b4 launch)</span>{" "}
+        </p>
+        {municipalityName && (
+          <p className="text-sm capitalize">{municipalityName}</p>
+        )}
       </CardContent>
       <CardFooter className="flex justify-around px-4 pb-3">
         <span>{displayPrice(listing.price)}</span>

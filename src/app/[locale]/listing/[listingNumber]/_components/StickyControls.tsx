@@ -34,7 +34,7 @@ export default function StickyControls({
           <div className="absolute left-0 h-20 w-[72px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={listing.mainImage || ""}
+              src={listing.mainImage || "/assets/missing-image2.jpg"}
               className="relateive h-full w-full object-cover object-center"
               loading="lazy"
               alt="Main image small"

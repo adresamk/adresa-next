@@ -106,3 +106,8 @@ body[data-scroll-locked] {
 /* .leaflet-popup-tip-container {
   z-index: 1000 !important;
 } */
+
+/* Shadcn Carousel */
+.shadcn-carousel > div {
+  @apply pb-5 pt-2;
+}
