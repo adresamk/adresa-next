@@ -211,7 +211,8 @@
       },
       "suggested": "Препорачани имоти",
       "agencies": "Препорачани агенции",
-      "featuredListings": "Истакнати огласи"
+      "featuredListings": "Истакнати огласи",
+      "featuredAgencies": "Промовирани агенции"
     },
     "userGreeting": {
       "greeting": "Здраво",

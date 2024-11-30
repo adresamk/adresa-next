@@ -47,6 +47,7 @@ export default async function SuggestedAgencies() {
               className="basis-1/4 pl-0 shadow-md transition hover:translate-y-[-2px]"
             >
               <div className="flex flex-col items-center justify-center rounded bg-white p-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={agency.logoUrl || ""}
                   alt={agency.name || ""}

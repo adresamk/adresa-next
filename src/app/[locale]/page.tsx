@@ -7,6 +7,7 @@ import UserGreeting from "./_components/UserGreeting";
 import LastSearches from "./_components/LastSearches";
 import RecentlyViewedListings from "./_components/RecentlyViewedListings";
 import FeaturedListings from "./_components/FeaturedListings";
+import FeaturedAgencies from "./_components/FeaturedAgencies";
 
 export default async function Home() {
   // works on the server side
@@ -32,7 +33,8 @@ export default async function Home() {
         {/* <SuggestedProperties /> */}
         <FeaturedListings />
         <Banner />
-        <SuggestedAgencies />
+        {/* <SuggestedAgencies /> */}
+        <FeaturedAgencies />
       </section>
     </main>
   );
