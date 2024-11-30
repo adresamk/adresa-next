@@ -104,7 +104,8 @@ export default function LastSearches() {
       items={searches}
       renderItem={(search) => <LastSearchCard search={search} />}
       contentClasses="" // Example height
-      carouselItemClasses="" // Example width
+      carouselItemContainerClasses="h-[342px]"
+      carouselItemClasses="h-full" // Example width
     />
   );
 }

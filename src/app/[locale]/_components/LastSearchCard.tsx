@@ -92,7 +92,7 @@ export default function LastSearchCard({
           {/* After you click on this, they don't update (5 new ) doesnt go to (0 new) */}
           <span className="cursor-pointer font-semibold text-brand-light-blue">
             {"("}
-            <div className="relative mx-0.5 inline-block h-1.5 w-1.5">
+            <div className="relative mx-0.5 inline-block h-2 w-1.5">
               <span className="absolute bottom-0 left-0 top-0 m-auto h-1 w-1 rounded-full bg-brand-light-blue"></span>
             </div>
             {newPropertiesCount} {t("common.search.new")}

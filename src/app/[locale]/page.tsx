@@ -6,6 +6,7 @@ import { getUser } from "@/lib/auth";
 import UserGreeting from "./_components/UserGreeting";
 import LastSearches from "./_components/LastSearches";
 import RecentlyViewedListings from "./_components/RecentlyViewedListings";
+import FeaturedListings from "./_components/FeaturedListings";
 
 export default async function Home() {
   // works on the server side
@@ -28,7 +29,8 @@ export default async function Home() {
         {/* en_recentlyViewedProperties */}
         {/* Latest Searches ? */}
         <RecentlyViewedListings />
-        <SuggestedProperties />
+        {/* <SuggestedProperties /> */}
+        <FeaturedListings />
         <Banner />
         <SuggestedAgencies />
       </section>

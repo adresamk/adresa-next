@@ -1,7 +1,6 @@
 // "use client";
 
-import { ScanEye, ScanSearch, SearchCheck } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { ScanEye } from "lucide-react";
 import ContentCarousel from "./ContentCarousel";
 import RecentlyViewedListingCard from "./RecentlyViewedListingCard";
 import { getTranslations } from "next-intl/server";
@@ -16,7 +15,8 @@ export default async function RecentlyViewedListings() {
     orderBy: {
       id: "desc",
     },
-    skip: Math.floor(Math.random() * 10), // Assuming there are at least 1000 listings
+    where: {},
+    skip: Math.floor(Math.random() * 13), // Assuming there are at least 1000 listings
   });
   return (
     <ContentCarousel

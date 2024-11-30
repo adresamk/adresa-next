@@ -210,7 +210,8 @@
         "lastOpened": "Последно прегледани огласи"
       },
       "suggested": "Препорачани имоти",
-      "agencies": "Препорачани агенции"
+      "agencies": "Препорачани агенции",
+      "featuredListings": "Истакнати огласи"
     },
     "userGreeting": {
       "greeting": "Здраво",
