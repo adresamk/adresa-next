@@ -26,7 +26,7 @@ function CustomFigure({
 }: CustomFigureProps) {
   const t = useTranslations();
   return (
-    <figure className="relative order-1 max-h-[194px] max-w-[318px] bg-slate-100">
+    <figure className="relative order-1 max-h-[194px] max-w-[318px] overflow-hidden rounded-t-xl bg-slate-100">
       <picture>
         <source
           srcSet={`/assets/${baseImageName}.webp`}

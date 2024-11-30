@@ -32,7 +32,7 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({
       </div>
       <Carousel opts={{ align: "start" }}>
         <CarouselContent
-          className={cn("-ml-0 grid grid-cols-3 gap-6", contentClasses)}
+          className={cn("-ml-0 grid grid-cols-3 gap-8", contentClasses)}
         >
           {items.map((item, index) => (
             <CarouselItem key={index} className={cn("w-fit pl-0", cardClasses)}>

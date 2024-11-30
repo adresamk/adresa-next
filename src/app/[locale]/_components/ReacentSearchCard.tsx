@@ -30,7 +30,7 @@ export default function ReacentSearchCard({
   const newPropertiesCount = 10;
   const isSaved = false;
   return (
-    <Card className="relative flex h-full max-h-[362px] min-w-[318px] max-w-[325px] flex-col">
+    <Card className="duration-400 relative flex h-full max-h-[362px] min-w-[318px] max-w-[325px] flex-col hover:border hover:border-slate-300 hover:shadow-md">
       <Link
         target="_blank"
         href={"https://www.google.com"}
