@@ -9,7 +9,8 @@ import prismadb from "@/lib/db";
 
 export default async function RecentlyViewedListings() {
   const t = await getTranslations();
-  const searches: string[] = [];
+  // This should be replaced by a component before this that takes ID's (listingNumber) from LS
+  // and then fetches the listings from the DB
   const listings = await prismadb.listing.findMany({
     take: 8,
     orderBy: {

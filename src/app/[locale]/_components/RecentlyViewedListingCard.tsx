@@ -11,6 +11,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { getMunicipalityInfo } from "@/lib/data/macedonia/importantData";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
+import { ArrowDown } from "lucide-react";
 
 export default async function ReacentlyViewedListingCard({
   listing,
@@ -32,6 +33,10 @@ export default async function ReacentlyViewedListingCard({
 
   const tags = ["bla", "tag", "other tag"] ||
     listing?.tags || ["bla", "tag", "other tag"];
+
+  //remove code when launching
+  const luckyToShowPrevPricing = Math.random() < 1 / 20;
+
   return (
     <Card className="relative max-w-[325px] hover:shadow-lg">
       <Link
@@ -84,6 +89,12 @@ export default async function ReacentlyViewedListingCard({
         <span className="text-xl font-semibold">
           {displayPrice(listing.price)}
         </span>
+        {(luckyToShowPrevPricing || listing.previousPrice) && (
+          <span className="ml-2.5 inline-flex items-center text-sm text-slate-400 line-through">
+            <ArrowDown className="h-6 w-4" stroke="green" />{" "}
+            {listing.price ? displayPrice(listing.price + 30000) : "N/A"}
+          </span>
+        )}
         <span className="relative z-30 ml-auto">
           <LikeListingButton listingId={listing.id} />
         </span>
