@@ -2,10 +2,11 @@ import LastOpenedProperties from "./_components/LastOpenedProperties";
 import SuggestedProperties from "./_components/SuggestedProperties";
 import Banner from "@/components/shared/Banner";
 import SuggestedAgencies from "./_components/SuggestedAgencies";
-import LastSearches from "./_components/LastSearches";
+// import LastSearches from "./_components/LastSearches";
 import SearchHero from "./_components/SearchHero";
 import { getUser } from "@/lib/auth";
 import UserGreeting from "./_components/UserGreeting";
+import LastSearches2 from "./_components/LastSearches2";
 
 export default async function Home() {
   // works on the server side
@@ -20,7 +21,8 @@ export default async function Home() {
             <UserGreeting />
           </>
         )}
-        <LastSearches />
+        {/* <LastSearches /> */}
+        <LastSearches2 />
         {/* Comes from LS or COOKIES, keep last search there */},
         {/* en_latestSearchedGeographies */}
         {/* en_recentSearches */}

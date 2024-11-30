@@ -1,4 +1,10 @@
 {
+  "savedSearches": {
+    "moreLocations": "други локации",
+    "location": "локација",
+    "moreCriteria": "други критериуми",
+    "criteria": "критериум"
+  },
   "common": {
     "buttons": {
       "search": "Пребарај",
@@ -47,11 +53,17 @@
     },
     "actions": {
       "save": "зачувај",
-      "saved": "зачувано"
+      "saved": "зачувано",
+      "saveSearch": "Зачувај пребарување"
+    },
+    "words": {
+      "listings": "огласи",
+      "listing": "оглас"
     },
     "search": {
       "results": "резултати",
       "new": "нови",
+      "singleNew": "нов",
       "more": "повеќе",
       "selectNeighbourhood": "Изберете населба",
       "loweredPriceResults": "резултати со намалена цена",
