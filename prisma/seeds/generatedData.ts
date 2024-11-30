@@ -169,7 +169,7 @@ for (let index = 1; index < 100; index++) {
     publishEndDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
     //
     tags: [],
-    isPaidPromo: false,
+    isPaidPromo: faker.datatype.boolean({ probability: 0.12 }),
     ///
     contactData: JSON.stringify(contactData as ListingContactData),
   });
@@ -282,7 +282,7 @@ for (let index = 1; index < 100; index++) {
     publishEndDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
     //
     tags: [],
-    isPaidPromo: false,
+    isPaidPromo: faker.datatype.boolean({ probability: 0.1 }),
     ///
     contactData: JSON.stringify(contactData as ListingContactData),
   });
