@@ -6,7 +6,7 @@ export interface PopulatedPlace {
   customId?: string;
   places?: PopulatedPlace[];
 }
-const outputData: PopulatedPlace[] = [
+export const municipalities: PopulatedPlace[] = [
   {
     id: 5192019,
     name: "Општина Кривогаштани",
@@ -12954,4 +12954,4 @@ const outputData: PopulatedPlace[] = [
   },
 ];
 
-module.exports = outputData;
+// module.exports = outputData;
