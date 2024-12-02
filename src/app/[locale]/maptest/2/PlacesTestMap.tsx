@@ -37,9 +37,6 @@ export default function PlacesTestMap() {
     allPlacesFromSelectedMunicipality: false,
   });
 
-  let currentMunicipalityPolygon: LatLngExpression[][][] = selectedMunicipality
-    ? (getCoordinates2(selectedMunicipality.id) as LatLngExpression[][][])
-    : [];
   let currentPlacePolygon: LatLngExpression[][][] = selectedPlace
     ? (getCoordinates2(selectedPlace.id) as LatLngExpression[][][])
     : [];
@@ -53,6 +50,19 @@ export default function PlacesTestMap() {
       ? (getCoordinates2(places.map((p) => p.id)) as MappedCoordinates)
       : {};
 
+  let currentMunicipalityPolygon: LatLngExpression[][][] =
+    selectedMunicipality && places.length > 0
+      ? Object.values(allPlacesFromSelectedMunicipalityPolygons).reduce(
+          (acc, placePolygons) => {
+            // Only add non-empty polygons
+            if (placePolygons && placePolygons.length > 0) {
+              acc.push(...placePolygons);
+            }
+            return acc;
+          },
+          [] as LatLngExpression[][][],
+        )
+      : [];
   //   let currentMunicipalityPolygon: LatLngExpression[][][] = [];
   // let currentPlacePolygon = []
   //   let allMunicipalitiesPolygons: MappedCoordinates = {};
