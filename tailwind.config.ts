@@ -30,7 +30,7 @@ const config = withUt({
     fontSize,
     extend: {
       boxShadow: {
-        "blue-glow": "0 0 20px 12px rgba(0, 123, 255, 0.8)", // Customize the size
+        "blue-glow": "0 0 20px 12px rgba(0, 123, 255, 0.8)",
         "blue-glow-bigger": "0 0 30px 25px rgba(0, 123, 255, 0.8)",
         "blue-glow-biggest": "0 0 60px 45px rgba(0, 123, 255, 0.8)",
       },
@@ -82,12 +82,20 @@ const config = withUt({
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          from: {
+            height: "0",
+          },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
         },
         "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
+          to: {
+            height: "0",
+          },
         },
       },
       animation: {
