@@ -30,7 +30,7 @@ export default function LastSearchCard({
   const newPropertiesCount = 10;
   const isSaved = false;
   return (
-    <Card className="relative flex h-full max-h-[362px] min-w-[310px] max-w-[318px] flex-col hover:shadow-lg">
+    <Card className="relative flex h-full max-h-[362px] w-[240px] max-w-[318px] flex-col hover:shadow-lg md:min-w-[310px]">
       <Link
         target="_blank"
         // TODO: Add link to search page

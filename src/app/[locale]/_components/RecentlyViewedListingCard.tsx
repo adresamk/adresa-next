@@ -38,7 +38,7 @@ export default async function ReacentlyViewedListingCard({
   const luckyToShowPrevPricing = Math.random() < 1 / 20;
 
   return (
-    <Card className="relative max-w-[325px] hover:shadow-lg">
+    <Card className="relative w-[240px] hover:shadow-lg md:w-[325px]">
       <Link
         target="_blank"
         href={`/listing/${listing.listingNumber}`}
@@ -90,7 +90,7 @@ export default async function ReacentlyViewedListingCard({
           {displayPrice(listing.price)}
         </span>
         {(luckyToShowPrevPricing || listing.previousPrice) && (
-          <span className="ml-2.5 inline-flex items-center text-sm text-slate-400 line-through">
+          <span className="ml-2.5 inline-flex items-center text-xs text-slate-400 line-through md:text-sm">
             <ArrowDown className="h-6 w-4" stroke="green" />{" "}
             {listing.price ? displayPrice(listing.price + 30000) : "N/A"}
           </span>

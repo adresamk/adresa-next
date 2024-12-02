@@ -25,7 +25,7 @@ export default async function RecentlyViewedListings() {
       items={listings}
       renderItem={(listing) => <RecentlyViewedListingCard listing={listing} />}
       contentClasses=""
-      carouselItemContainerClasses="min-w-[336px]"
+      carouselItemContainerClasses="w-[256px] md:min-w-[336px] h-[342px]"
       carouselItemClasses="h-full"
     />
   );
