@@ -31,6 +31,23 @@
         "land": "Земјиште",
         "other": "Друго"
       },
+      "subType": {
+        "label": "Подтип на имот",
+        "emptyPlaceholder": "Подтип",
+        "construction": "Градба",
+        "agricultural": "Селска земја",
+        "other": "Друго",
+        "apartment": "Стан",
+        "house": "Куќа",
+        "vacation house": "Летен дом",
+        "office": "Канцеларија",
+        "store": "Дуќан",
+        "warehouse": "Склад",
+        "industrial space": "Индустриски објекти",
+        "garage": "Гаража",
+        "business": "Бизнис",
+        "assembly facilities": "Монтажни објекти"
+      },
       "price": {
         "label": "Цена",
         "from": "од",
@@ -48,7 +65,8 @@
       "mode": {
         "buy": "Купи",
         "sale": "Продажба",
-        "rent": "Изнајмување"
+        "rent": "Изнајмување",
+        "availableFor": "Достапно за"
       }
     },
     "actions": {

@@ -71,7 +71,11 @@ export default function ModeFilter({ variant }: ModeFilterProps) {
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger className="min-w-24" asChild>
             <Button variant="outline">
-              <span className="capitalize">{mode || "Available For"}</span>
+              <span className="capitalize">
+                {mode
+                  ? t(`common.filters.mode.${mode}`)
+                  : t("common.filters.mode.availableFor")}
+              </span>
               <ChevronDown width={20} className="ml-2" />{" "}
             </Button>
           </PopoverTrigger>
@@ -87,7 +91,7 @@ export default function ModeFilter({ variant }: ModeFilterProps) {
                   mode === "sale" && "bg-green-50 text-brand-dark-blue",
                 )}
               >
-                Sale
+                {t("common.filters.mode.sale")}
               </li>
               <li
                 className={cn(
@@ -99,7 +103,7 @@ export default function ModeFilter({ variant }: ModeFilterProps) {
                   setIsOpen(false);
                 }}
               >
-                Rent
+                {t("common.filters.mode.rent")}
               </li>
             </ul>
           </PopoverContent>

@@ -10,27 +10,30 @@ import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { Button } from "@/components/ui/button";
 import { useQueryState } from "nuqs";
 import { useFilters } from "@/hooks/useFilters";
+import { useTranslations } from "next-intl";
+import { listingTypeOptions } from "@/lib/data/listing/importantData";
 
 interface SubTypeFilterProps {
   variant: "homepage" | "search";
 }
-export default function SubTypeFilter({
-  variant,
-}: SubTypeFilterProps) {
+export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
+  const t = useTranslations("");
   const updateFilters = useFilters((store) => store.updateFilters);
-  const focusedFilter = useSelectedFilter(
-    (store) => store.selectedFilter
-  );
+  const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
   const setFocusedFilter = useSelectedFilter(
-    (store) => store.setSelectedFilter
+    (store) => store.setSelectedFilter,
   );
+  let [propertyType, setPropertyType] = useQueryState("propertyType", {
+    shallow: false,
+  });
   let [subType, setSubType] = useQueryState("subType", {
     shallow: false,
   });
   if (variant === "homepage") {
     subType = filters.subType;
   }
+  const subtypeOptions = propertyType ? listingTypeOptions[propertyType] : [];
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -38,10 +41,10 @@ export default function SubTypeFilter({
           // BIG VARIANT
           <div
             className={cn(
-              "p-4  border-r border-r-black overflow-visible h-[90px] w-[185px] ",
+              "h-[90px] w-[185px] overflow-visible border-r border-r-black p-4",
               focusedFilter === "property-type" &&
-                "shadow-lg bg-white rounded-t z-10",
-              !focusedFilter && "bg-gray-50 "
+                "z-10 rounded-t bg-white shadow-lg",
+              !focusedFilter && "bg-gray-50",
             )}
             onClick={() => {
               setFocusedFilter("property-type");
@@ -50,60 +53,56 @@ export default function SubTypeFilter({
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
                 <label
-                  className="h-5 flex w-full gap-2 items-center"
+                  className="flex h-5 w-full items-center gap-2"
                   htmlFor={"property-type"}
                 >
                   {<House size={22} />} {"Property Type"}
                 </label>
-                <div className="text-sm h-10 flex items-center">
-                  {subType || (
-                    <span className="text-gray-400">Home</span>
-                  )}
+                <div className="flex h-10 items-center text-sm">
+                  {propertyType && subType
+                    ? t(`common.filters.subType.${subType}`)
+                    : t("common.filters.subType.emptyPlaceholder")}
                 </div>
               </div>
             </div>
           </div>
         ) : (
           <Button variant="outline">
-            <span className="capitalize">{subType || "Subtype"}</span>
+            <span className="capitalize">
+              {subType
+                ? t(`common.filters.subType.${subType}`)
+                : t("common.filters.subType.emptyPlaceholder")}
+            </span>
             <ChevronDown width={20} className="ml-2" />{" "}
           </Button>
         )}
       </PopoverTrigger>
-      <PopoverContent asChild align="start">
-        <ul className="w-[184px] p-2  relative text-sm  bg-white rounded shadow-lg">
-          {[
-            "office",
-            "store",
-            "warehouse",
-            "industrial space",
-            "craft space",
-            "hotel",
-            "business building",
-            "showroom",
-            "other categories",
-          ].map((type: string) => (
-            <li
-              key={type}
-              className={cn(
-                "px-2 py-1 hover:bg-green-50 cursor-pointer rounded capitalize",
-                subType === type && "bg-green-50 text-brand-dark-blue"
-              )}
-              onClick={() => {
-                if (variant === "homepage") {
-                  updateFilters({
-                    subType: type,
-                  });
-                } else {
-                  setSubType(type);
-                }
-              }}
-            >
-              {type}
-            </li>
-          ))}
-        </ul>
-      </PopoverContent>{" "}
+      {subtypeOptions.length > 0 && (
+        <PopoverContent asChild align="start">
+          <ul className="relative w-[184px] rounded bg-white p-2 text-sm shadow-lg">
+            {subtypeOptions.map((st: string) => (
+              <li
+                key={st}
+                className={cn(
+                  "cursor-pointer rounded px-2 py-1 capitalize hover:bg-green-50",
+                  subType === st && "bg-green-50 text-brand-dark-blue",
+                )}
+                onClick={() => {
+                  if (variant === "homepage") {
+                    updateFilters({
+                      subType: st,
+                    });
+                  } else {
+                    setSubType(st);
+                  }
+                }}
+              >
+                {t(`common.filters.subType.${st}`)}
+              </li>
+            ))}
+          </ul>
+        </PopoverContent>
+      )}
     </Popover>
   );
 }

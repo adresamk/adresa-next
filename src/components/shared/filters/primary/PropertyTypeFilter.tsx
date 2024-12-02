@@ -43,7 +43,7 @@ export default function PropertyTypeFilter({
           // BIG VARIANT
           <div
             className={cn(
-              "smaller:border-r h-[90px] w-[185px] overflow-visible rounded-bl-xl border-b-0 border-slate-200 p-4 sm:border-b xl:rounded-bl-none xl:border-t",
+              "h-[90px] w-[185px] overflow-visible rounded-bl-xl border-b-0 border-slate-200 p-4 sm:border-b xl:rounded-bl-none xl:border-t smaller:border-r",
               focusedFilter === "property-type" &&
                 "relative z-20 rounded-t border-b-white bg-white shadow-lg",
               !focusedFilter && "bg-gray-50",
@@ -73,9 +73,16 @@ export default function PropertyTypeFilter({
             </div>
           </div>
         ) : (
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            onClick={() => {
+              console.log(propertyType);
+            }}
+          >
             <span className="capitalize">
-              {propertyType || "Property Type"}
+              {propertyType
+                ? t(`common.filters.propertyType.${propertyType}`)
+                : t("common.filters.propertyType.label")}
             </span>
             <ChevronDown width={20} className="ml-2" />{" "}
           </Button>
