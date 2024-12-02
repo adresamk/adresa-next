@@ -31,7 +31,7 @@ export default async function ReacentlyViewedListingCard({
       : municipalityInfo.name
     : "";
 
-  const tags = ["bla", "tag", "other tag"];
+  const tags = ["bla", "tag", "other tag", "fourth tag"];
   // const tags = listing?.tags || ["bla", "tag", "other tag"];
 
   //remove code when launching
