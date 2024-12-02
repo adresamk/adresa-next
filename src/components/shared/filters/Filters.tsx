@@ -25,6 +25,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useQueryStates } from "nuqs";
 import { secondaryFiltersParsers } from "@/app/[locale]/searchParams";
 import CreateSavedSearch from "./CreateSavedSearch";
+import { useTranslations } from "next-intl";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +34,7 @@ export default function Filters() {
   const router = useRouter();
   const pathname = usePathname();
   const shouldUpdate = useFilters((store) => store.shouldUpdate);
-
+  const t = useTranslations("");
   const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(false);
 
   const filters = useFilters((store) => store.filters);
@@ -164,15 +165,15 @@ export default function Filters() {
         }}
       >
         <SlidersVertical width={20} className="mr-2 text-brand-light-blue" />
-        <span className="capitalize">Filters</span>
+        <span className="capitalize">{t("common.filters.title")}</span>
         <ChevronDown width={20} className="ml-2" />{" "}
       </Button>
       <CreateSavedSearch />
       <SmartOverlay
         isOpen={areMoreFiltersOpen}
         onClose={() => setAreMoreFiltersOpen(false)}
-        title="More Filters"
-        description="Select more filters to refine your search"
+        title={t("common.filters.title")}
+        description={t("common.filters.description")}
         innerScroll
         footerJSX={moreFiltersFooter}
       >

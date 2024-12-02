@@ -18,6 +18,8 @@
       "signIn": "Најави се"
     },
     "filters": {
+      "title": "Филтри",
+      "description": "Филтрирајте ги резултатите",
       "location": {
         "label": "Локација",
         "notActivePlaceholder": "Внесете најмалку 3 карактери",
@@ -67,6 +69,15 @@
         "sale": "Продажба",
         "rent": "Изнајмување",
         "availableFor": "Достапно за"
+      },
+      "secondaryFilters": {
+        "any": "Небитно",
+        "basement": "Подземна",
+        "mezanine": "Мезанин",
+        "ground_floor": "Подземна",
+        "attic": "Аттика",
+        "from": "Од",
+        "to": "До"
       }
     },
     "actions": {
