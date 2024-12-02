@@ -60,6 +60,8 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
             max={50}
             step={1}
             className="mt-2"
+            sliderClassName="bg-brand-light-blue"
+
             // style={{ "--accent-color": "var(--brand-light-blue)" }}
           />
           <div className="mt-1 text-sm text-gray-500">
@@ -78,6 +80,7 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
             max={10}
             step={0.01}
             className="mt-2"
+            sliderClassName="bg-brand-light-blue"
           />
         </div>
 
@@ -92,6 +95,7 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
             max={30}
             step={5}
             className="mt-2"
+            sliderClassName="bg-brand-light-blue"
           />
         </div>
 
