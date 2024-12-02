@@ -16,7 +16,7 @@ export default function SearchResults({
       {agency && <AgencyBanner agency={agency} />}
       <Filters />
       <section className="relative z-0 flex w-full flex-col-reverse lg:flex-row">
-        {/* <Listings listings={listings} /> */}
+        <Listings listings={listings} />
         <SearchMapClient listings={listings} agency={agency} />
       </section>
     </div>

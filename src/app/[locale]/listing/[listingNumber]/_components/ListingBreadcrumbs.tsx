@@ -67,7 +67,7 @@ export default function ListingBreadcrumbs({
             }}
           >
             <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
-              <SelectValue placeholder={t("common.filters.location")} />
+              <SelectValue placeholder={t("common.filters.location.label")} />
             </SelectTrigger>
             <SelectContent>
               {municipalitiesOptions.map((municipality) => (
@@ -91,7 +91,9 @@ export default function ListingBreadcrumbs({
                 }}
               >
                 <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
-                  <SelectValue placeholder={t("common.filters.location")} />
+                  <SelectValue
+                    placeholder={t("common.filters.location.label")}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {populatedPlacesOptions?.map((place) => (

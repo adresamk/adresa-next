@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { SelectDemo } from "../../SelectDemo";
 import { parseAsString, useQueryState } from "nuqs";
 const sortingOptions = [
@@ -12,12 +13,17 @@ export default function SortingFilter() {
     "sorting",
     parseAsString.withOptions({ shallow: false }).withDefault("new"),
   );
+  const t = useTranslations();
+  const sortingOptionsTranslated = sortingOptions.map((option) => ({
+    ...option,
+    label: t(`common.listing.sorting.${option.value}`),
+  }));
   return (
     <SelectDemo
-      placeholder="Sort"
+      placeholder={t("common.listing.labels.sort")}
       triggerWidth="100px"
       value={sorting}
-      options={sortingOptions}
+      options={sortingOptionsTranslated}
       onClick={(newValue) => {
         setSorting(newValue);
       }}

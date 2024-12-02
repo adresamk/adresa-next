@@ -21,12 +21,12 @@ import { ListingWithRelations } from "@/lib/types";
 import { getUser } from "@/lib/auth";
 import { getTranslations } from "next-intl/server";
 
-export default async function ListingsSearchShowcase({
+export default async function beListingsSearchShowcase({
   listing,
 }: {
   listing: Listing;
 }) {
-  const t = await getTranslations();
+  const t = await getTranslations("common");
   const listingRef = listing as ListingWithRelations;
   const user = await getUser();
 
@@ -49,25 +49,31 @@ export default async function ListingsSearchShowcase({
                 <ImageIcon size={14} />
                 <span className="font-bold">{listingRef.images.length}</span>
               </div>
-              <div>
-              </div>
+              <div></div>
             </div>
             <div className="h-[240px] w-[260px]">
-              <ImagesCarousel images={listingRef.images} height={240} width={260} />
+              <ImagesCarousel
+                images={listingRef.images}
+                height={240}
+                width={260}
+              />
             </div>
             <figcaption className="hidden">
-              {t('listing.type', { type: listingRef.type })}, {listingRef.area}m²
+              {t("listing.type", { type: listingRef.type })}, {listingRef.area}
+              m²
             </figcaption>
           </figure>
           <div className="relative flex-1 px-5 pb-2.5 pt-3.5">
             <div className="flex h-full flex-col justify-between">
               <div className="relative mb-2 max-w-full">
                 <h3 className="mb-1.5 overflow-hidden text-lg font-medium leading-6">
-                  <span className="capitalize">{t('listing.type', { type: listingRef.type })}</span>,{" "}
-                  {listingRef.area}m²
+                  <span className="capitalize">
+                    {t("listing.type", { type: listingRef.type })}
+                  </span>
+                  , {listingRef.area}m²
                 </h3>
                 <h3 className="mb-2.5 overflow-hidden text-xs leading-5">
-                  {listingRef.municipality || t('listing.defaultMunicipality')}
+                  {listingRef.municipality || t("listing.defaultMunicipality")}
                 </h3>
                 <p className="mb-2.5 line-clamp-2 overflow-hidden text-xs leading-5">
                   {listingRef.description}
@@ -76,7 +82,7 @@ export default async function ListingsSearchShowcase({
                 <div className="flex items-center gap-6">
                   <ul className="flex gap-1.5">
                     <li
-                      title={t('listing.features.floor')}
+                      title={t("listing.features.floor")}
                       className="flex items-center text-xs tracking-tighter"
                     >
                       <LampFloor width={17} height={17} className="mr-1" />
@@ -87,7 +93,7 @@ export default async function ListingsSearchShowcase({
                       </span>
                     </li>
                     <li
-                      title={t('listing.features.bedrooms')}
+                      title={t("listing.features.bedrooms")}
                       className="flex items-center text-xs tracking-tighter"
                     >
                       <Bed width={17} height={17} className="mr-1" />
@@ -95,11 +101,11 @@ export default async function ListingsSearchShowcase({
                         <span className="mr-0.5 text-sm font-medium">
                           {listingRef.bedrooms}
                         </span>
-                        {t('listing.features.bedroomsAbbr')}
+                        {t("listing.features.bedroomsAbbr")}
                       </span>
                     </li>
                     <li
-                      title={t('listing.features.bathrooms')}
+                      title={t("listing.features.bathrooms")}
                       className="flex items-center text-xs tracking-tighter"
                     >
                       <Bath width={17} height={17} className="mr-1" />
@@ -107,12 +113,14 @@ export default async function ListingsSearchShowcase({
                         <span className="mr-0.5 text-sm font-medium">
                           {listingRef.bathrooms}
                         </span>
-                        {t('listing.features.bathroomsAbbr')}
+                        {t("listing.features.bathroomsAbbr")}
                       </span>
                     </li>
                   </ul>
                   <p className="text-xs">
-                    <span className="text-gray-500">{t('listing.updated')}: </span>
+                    <span className="text-gray-500">
+                      {t("listing.updated")}:{" "}
+                    </span>
                     <time dateTime={displayDate(listingRef.updatedAt) || ""}>
                       {displayDate(listingRef.updatedAt) || ""}
                     </time>
@@ -137,7 +145,7 @@ export default async function ListingsSearchShowcase({
                   <div className="flex gap-1">
                     {listingRef.isPaidPromo && (
                       <span
-                        title={t('listing.labels.featured')}
+                        title={t("listing.labels.featured")}
                         className="inline-block items-center gap-1.5 rounded border p-0.5 text-xs shadow-sm"
                       >
                         <Crown size={16} />
@@ -146,7 +154,7 @@ export default async function ListingsSearchShowcase({
 
                     {listingRef.locationPrecision === "exact" && (
                       <span
-                        title={t('listing.labels.exactLocation')}
+                        title={t("listing.labels.exactLocation")}
                         className="inline-block items-center gap-1.5 rounded border p-0.5 text-xs shadow-sm"
                       >
                         <MapPin size={16} />
@@ -159,7 +167,7 @@ export default async function ListingsSearchShowcase({
                         <Button
                           variant="ghost"
                           className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
-                          title={t('listing.actions.hide')}
+                          title={t("listing.actions.hide")}
                         >
                           <EyeOff className="h-5 w-5" />
                         </Button>
@@ -172,7 +180,7 @@ export default async function ListingsSearchShowcase({
                         <Button
                           variant="ghost"
                           className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
-                          title={t('listing.actions.contact')}
+                          title={t("listing.actions.contact")}
                         >
                           <Mail />
                         </Button>

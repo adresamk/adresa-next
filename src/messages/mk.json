@@ -187,7 +187,8 @@
         "other": "други",
         "commercial": "Комерцијален",
         "vacation house": "Летен дом",
-        "business": "Бизнис"
+        "business": "Бизнис",
+        "residential": "За живеење"
       },
       "area": "м²",
       "price": "цена",
@@ -250,9 +251,15 @@
         "bathrooms": "Бањи",
         "bathroomsAbbr": "б"
       },
+      "sorting": {
+        "new": "Нов",
+        "lowPrice": "Најниска цена",
+        "highPrice": "Највисока цена"
+      },
       "labels": {
         "featured": "Истакнат оглас",
-        "exactLocation": "Точна локација на мапа"
+        "exactLocation": "Точна локација на мапа",
+        "sort": "Сортирај"
       },
       "actions": {
         "hide": "Сокриј",
@@ -494,7 +501,8 @@
       "error": "Неточна е-пошта или лозинка",
       "success": "Успешно се најавивте",
       "loginNeeded": "Потребно е најавување",
-      "loginNeededDescription": "Оваа акција бара најавување"
+      "loginNeededDescription": "Оваа акција бара најавување",
+      "loginMessage": "За оваа акција потребно е да бидете најавени"
     },
     "signUp": {
       "title": "Регистрирајте се",
