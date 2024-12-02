@@ -53,7 +53,7 @@ const footerColumns: FooterColumnProps[] = [
 export default async function Footer() {
   const t = await getTranslations("footer");
   return (
-    <footer className="flex w-full flex-col items-center justify-center overflow-x-auto bg-white pb-3.5 pt-10">
+    <footer className="flex w-full flex-col items-center justify-center overflow-x-auto bg-white pb-7 pt-10 md:pb-3.5">
       {/* Footer top part */}
       <div className="w-7xl flex w-full flex-col">
         <div className="">
@@ -171,7 +171,7 @@ export default async function Footer() {
 
         <div className="text-xs">
           <div className="w-7xl mx-auto w-full px-5">
-            <div className="flex w-full flex-col-reverse items-center justify-between gap-2 lg:flex-row">
+            <div className="flex w-full flex-col-reverse items-center justify-between gap-4 md:gap-2.5 lg:flex-row">
               {/* Copyright */}
               <div>Adresa.mk Copyright 2024-2024 All rights reserved</div>
               {/* TOS PP CP */}
