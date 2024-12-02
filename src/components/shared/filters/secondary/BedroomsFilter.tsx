@@ -1,6 +1,7 @@
 import { Bed } from "lucide-react";
 import { SelectDemo } from "../../SelectDemo";
 import { useFilters } from "@/hooks/useFilters";
+import { useTranslations } from "next-intl";
 export const bedroomsNumberOptions = [
   { label: "Any", value: "any" },
   { label: "1", value: "1" },
@@ -15,36 +16,48 @@ export const bedroomsNumberOptions = [
   { label: "10+", value: "10+" },
 ];
 export default function BedroomsFilter() {
+  const t = useTranslations("");
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
+  const numberBedroomsOptionsTranslated = bedroomsNumberOptions.map(
+    (option) => {
+      if (!isNaN(parseInt(option.value[0]))) {
+        return option;
+      }
+      return {
+        ...option,
+        label: t(`common.filters.secondaryFilters.${option.value}`),
+      };
+    },
+  );
   return (
     <div className="flex flex-col gap-2">
       <div className="flex font-semibold leading-6">
-        <Bed className="mr-2" /> Bedrooms
+        <Bed className="mr-2" /> {t("common.filters.secondaryFilters.bedrooms")}
       </div>
       <div className="flex items-center gap-3">
         <SelectDemo
           name="floorNumberLow"
           value={filters.bedroomsNumberLow}
-          placeholder="From"
+          placeholder={t("common.filters.secondaryFilters.from")}
           onClick={(value) => {
             updateFilters({
               bedroomsNumberLow: value === "any" ? "" : value,
             });
           }}
-          options={bedroomsNumberOptions}
+          options={numberBedroomsOptionsTranslated}
         />
         <span className="">-</span>
         <SelectDemo
           name="floorNumberHigh"
           value={filters.bedroomsNumberHigh}
-          placeholder="From"
+          placeholder={t("common.filters.secondaryFilters.to")}
           onClick={(value) => {
             updateFilters({
               bedroomsNumberHigh: value === "any" ? "" : value,
             });
           }}
-          options={bedroomsNumberOptions}
+          options={numberBedroomsOptionsTranslated}
         />
       </div>
     </div>

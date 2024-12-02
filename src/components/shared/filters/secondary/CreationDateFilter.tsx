@@ -2,6 +2,7 @@ import { useFilters } from "@/hooks/useFilters";
 import { ToggleGroupDemo } from "../../ToggleGroupDemo";
 import { Calendar } from "lucide-react";
 import { SelectDemo } from "../../SelectDemo";
+import { useTranslations } from "next-intl";
 
 const timeRangeOptions = [
   {
@@ -38,17 +39,34 @@ const extraTimeRangeOptions = [
 ];
 
 export default function CreationDateFilter() {
+  const t = useTranslations("");
   const filters = useFilters((store) => store.filters);
+  const timeRangeOptionsTranslated = timeRangeOptions.map((option) => {
+    return {
+      ...option,
+      label: t(`common.filters.secondaryFilters.timeRange.${option.value}`),
+    };
+  });
+  const extraTimeRangeOptionsTranslated = extraTimeRangeOptions.map(
+    (option) => {
+      return {
+        ...option,
+        label: t(
+          `common.filters.secondaryFilters.extraTimeRange.${option.value}`,
+        ),
+      };
+    },
+  );
   const updateFilters = useFilters((store) => store.updateFilters);
   return (
     <div className="flex flex-col gap-2">
       <div className="flex font-semibold leading-6">
-        <Calendar /> Last Update
+        <Calendar /> {t("common.filters.secondaryFilters.creationDate")}
       </div>
       <div className="flex items-center gap-3">
         <ToggleGroupDemo
           type="single"
-          options={timeRangeOptions}
+          options={timeRangeOptionsTranslated}
           value={filters.creationDate === "" ? "any" : filters.creationDate}
           onValueChange={(value: string) => {
             updateFilters({
@@ -70,7 +88,7 @@ export default function CreationDateFilter() {
               creationDate: value,
             });
           }}
-          options={extraTimeRangeOptions}
+          options={extraTimeRangeOptionsTranslated}
         />
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useFilters } from "@/hooks/useFilters";
 import { ToggleGroupDemo } from "../../ToggleGroupDemo";
-import { AirVentIcon, AlertCircle, Plus } from "lucide-react";
+import { AirVentIcon, AlertCircle, House, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const internalFeaturesOptions = [
   {
@@ -64,15 +65,25 @@ const internalFeaturesOptions = [
 export default function InternalFeaturesFilter() {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
+  const t = useTranslations("");
+  const internalFeaturesOptionsTranslated = internalFeaturesOptions.map(
+    (option) => {
+      return {
+        ...option,
+        label: t(`common.filters.features.${option.value}`),
+      };
+    },
+  );
   return (
     <div className="flex flex-col gap-2">
-      <div className="font-semibold leading-6 flex">
-        Internal Features
+      <div className="flex font-semibold leading-6">
+        <House className="mr-2 h-4 w-4" />
+        {t("common.filters.secondaryFilters.internalFeatures")}
       </div>
-      <div className="flex items-center gap-3  ">
+      <div className="flex items-center gap-3">
         <ToggleGroupDemo
           type="multiple"
-          options={internalFeaturesOptions}
+          options={internalFeaturesOptionsTranslated}
           value={filters.internalFeatures}
           onValueChange={(value: string[]) => {
             updateFilters({

@@ -40,7 +40,8 @@ export default function FloorsFilter() {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex font-semibold leading-6">
-        <ArrowsUpFromLine className="mr-2" /> Floor
+        <ArrowsUpFromLine className="mr-2" />{" "}
+        {t("common.filters.secondaryFilters.floor")}
       </div>
       <div className="flex items-center gap-3">
         <SelectDemo

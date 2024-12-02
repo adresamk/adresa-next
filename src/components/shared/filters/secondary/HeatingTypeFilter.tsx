@@ -1,6 +1,7 @@
 import { Thermometer } from "lucide-react";
 import { SelectDemo } from "../../SelectDemo";
 import { useFilters } from "@/hooks/useFilters";
+import { useTranslations } from "next-intl";
 
 const heatingTypeOptions = [
   { label: "Any", value: "any" },
@@ -16,23 +17,31 @@ const heatingTypeOptions = [
 ];
 export default function HeatingTypeFilter() {
   const filters = useFilters((store) => store.filters);
+  const t = useTranslations("");
   const updateFilters = useFilters((store) => store.updateFilters);
+  const heatingTypeOptionsTranslated = heatingTypeOptions.map((option) => {
+    return {
+      ...option,
+      label: t(`common.filters.secondaryFilters.${option.value}`),
+    };
+  });
   return (
     <div className="flex flex-col gap-2">
-      <div className="font-semibold leading-6 flex">
-        <Thermometer className="mr-2" /> Heating
+      <div className="flex font-semibold leading-6">
+        <Thermometer className="mr-2" />{" "}
+        {t("common.filters.secondaryFilters.heating")}
       </div>
       <div className="flex items-center gap-3">
         <SelectDemo
           name="heatingType"
           value={filters.heatingType}
-          placeholder="Heating Type"
+          placeholder={t("common.filters.secondaryFilters.heatingType")}
           onClick={(value) => {
             updateFilters({
               heatingType: value === "any" ? "" : value,
             });
           }}
-          options={heatingTypeOptions}
+          options={heatingTypeOptionsTranslated}
         />
       </div>
     </div>

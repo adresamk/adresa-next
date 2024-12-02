@@ -43,7 +43,7 @@ export const Modal: React.FC<ModalProps> = ({
     <Dialog open={isOpen} modal onOpenChange={onChange}>
       <DialogContent
         className={cn(
-          "max-h-[95dvh] w-full overflow-y-auto transition-all duration-700",
+          "overflow-y-auto-removetheextralater max-h-[95dvh] w-full transition-all duration-700",
           className,
         )}
       >
@@ -54,7 +54,7 @@ export const Modal: React.FC<ModalProps> = ({
         <div
           className={cn(
             "overflow-y-hidden border-b border-t py-2",
-            innerScroll && "max-h-[calc(95dvh-150px)]",
+            innerScroll && "max-h-[calc(95dvh-150px)] overflow-y-auto",
           )}
         >
           {children}

@@ -117,7 +117,7 @@ export default function Filters() {
           // clearSecondaryFilters();
         }}
       >
-        Clear all
+        {t("common.filters.clearAll")}
       </Button>
       <Button
         onClick={() => {
@@ -145,7 +145,7 @@ export default function Filters() {
         className="bg-brand-light-blue"
       >
         <Search width={20} className="mr-2" />
-        View {results.length} Results
+        {t("common.filters.viewResults", { count: results.length })}
       </Button>
     </div>
   );

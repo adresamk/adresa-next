@@ -3,6 +3,7 @@ import { SelectDemo } from "../../SelectDemo";
 import { useFilters } from "@/hooks/useFilters";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 const startYear = 1900;
 const currentYear = new Date().getFullYear();
@@ -17,12 +18,33 @@ const constructionYearOptions = [
 ];
 
 export default function ConstructionYearFilter() {
+  const t = useTranslations("");
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
+
+  const constructionYearOptionsTranslatedFrom = constructionYearOptions.map(
+    (option) => {
+      if (!isNaN(parseInt(option.value[0]))) {
+        return option;
+      }
+      return {
+        ...option,
+        label: t(`common.filters.secondaryFilters.${option.value}`),
+      };
+    },
+  );
+  const constructionYearOptionsTranslatedTo = [
+    {
+      label: t("common.filters.secondaryFilters.underConstruction"),
+      value: "under_construction",
+    },
+    ...constructionYearOptionsTranslatedFrom,
+  ];
   return (
     <div className="flex flex-col gap-2">
       <div className="flex font-semibold leading-6">
-        <Clock className="mr-2" /> Year of construction
+        <Clock className="mr-2" />{" "}
+        {t("common.filters.secondaryFilters.yearOfConstruction")}
       </div>
       <div className="flex items-center gap-3">
         <SelectDemo
@@ -34,7 +56,7 @@ export default function ConstructionYearFilter() {
               constructionYearLow: value === "any" ? "" : value,
             });
           }}
-          options={constructionYearOptions}
+          options={constructionYearOptionsTranslatedFrom}
         />
         <span className="">-</span>
         <SelectDemo
@@ -46,14 +68,10 @@ export default function ConstructionYearFilter() {
               constructionYearHigh: value === "any" ? "" : value,
             });
           }}
-          options={[
-            {
-              label: "Under construction",
-              value: "under_construction",
-            },
-            ...constructionYearOptions,
-          ]}
+          options={constructionYearOptionsTranslatedTo}
         />
+      </div>
+      <div>
         <Button
           size={"sm"}
           variant={"outline"}
@@ -69,7 +87,7 @@ export default function ConstructionYearFilter() {
               : "",
           )}
         >
-          New development
+          {t("common.filters.secondaryFilters.newDevelopment")}
         </Button>
       </div>
     </div>

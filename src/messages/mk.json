@@ -15,11 +15,15 @@
       "save": "Зачувај",
       "contact": "Контактирај",
       "reveal": "Прикажи",
-      "signIn": "Најави се"
+      "signIn": "Најави се",
+      "yes": "Да",
+      "no": "Не"
     },
     "filters": {
+      "clearAll": "Избриши ги сите",
       "title": "Филтри",
       "description": "Филтрирајте ги резултатите",
+      "viewResults": "Прикажи {count} резултати",
       "location": {
         "label": "Локација",
         "notActivePlaceholder": "Внесете најмалку 3 карактери",
@@ -77,7 +81,52 @@
         "ground_floor": "Подземна",
         "attic": "Аттика",
         "from": "Од",
-        "to": "До"
+        "to": "До",
+        "floor": "Кат",
+        "bedrooms": "Спални соби",
+        "yearOfConstruction": "Година на градба",
+        "underConstruction": "Се гради",
+        "newDevelopment": "Новоградба",
+        "central": "Централна",
+        "electric": "Електрична енергија",
+        "gas": "Гасна енергија",
+        "geothermal": "Геотермална енергија",
+        "heat_pump": "Хладилна машина",
+        "wood": "Дрво",
+        "solar": "Сончева енергија",
+        "underfloor": "Под подлога",
+        "other": "Друго",
+        "heating": "Греење",
+        "heatingType": "Тип на греење",
+        "furnitureIncluded": "Вклучен мебел",
+        "internalFeatures": "Внатрешни карактеристики",
+        "externalFeatures": "Надворешни карактеристики",
+        "lastUpdated": "Последно ажурирано",
+        "creationDate": "Датум на креирање",
+        "timeRange": {
+          "any": "Небитно",
+          "24h": "24 часа",
+          "1d": "1 ден",
+          "3d": "3 дена",
+          "7d": "1 недела",
+          "30d": "1 месец"
+        },
+        "extraTimeRange": {
+          "6m": "6 месеци",
+          "1y": "1 година"
+        }
+      },
+      "features": {
+        "ac": "Клима",
+        "storage": "Складиште",
+        "garage": "Гаража",
+        "alarm": "Сигнализација",
+        "fancy_art": "Фанзи арт",
+        "tito_furniture": "Тито мебел",
+        "cat": "Мачка",
+        "pool": "Базен",
+        "parking": "Паркинг",
+        "yard": "Двор"
       }
     },
     "actions": {
