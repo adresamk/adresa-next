@@ -13,7 +13,6 @@ import {
   Marker,
   Popup,
   CircleMarker,
-
   LayerGroup,
   useMap,
   useMapEvent,
@@ -29,7 +28,7 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import ZoomTracker from "./ZoomTracker";
 import ActiveListing from "./ActiveListing";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 export default function SearchMap({
   listings,
@@ -152,7 +151,7 @@ export default function SearchMap({
 
   const MapClickHandler = () => {
     useMapEvent("click", (e) => {
-        setActiveListing(null);
+      setActiveListing(null);
     });
     return null;
   };
@@ -174,7 +173,7 @@ export default function SearchMap({
                   setMapSearchedCounter((prev) => prev + 1);
                 }}
               >
-                <Compass className="mr-2" /> {t('common.map.searchInArea')}
+                <Compass className="mr-2" /> {t("map.searchInArea")}
               </Button>
             ) : (
               <div className="flex items-center space-x-2">
@@ -186,7 +185,7 @@ export default function SearchMap({
                   }}
                 />
                 <Label className="font-semibold" htmlFor="search-on-pan">
-                  {t('common.map.searchAsMove')}
+                  {t("map.searchAsMove")}
                 </Label>
               </div>
             )}
@@ -197,13 +196,14 @@ export default function SearchMap({
         </aside>
         <aside className="absolute bottom-0 left-0 z-[1050]">
           <div className="rounded-tr-md bg-white px-3.5 py-2.5 text-sm shadow">
-            View 300 {zoom} of {listings.length} properties with a pin on the
-            map
+            {t("map.viewProperties", {
+              zoom: 300 + " " + zoom,
+              listingsLength: listings.length,
+            })}
           </div>
         </aside>
 
         <MapContainer
-         
           key={`map-${mapSearchedCounter}`}
           center={skopjeLatLng}
           ref={mapRef}
@@ -221,7 +221,7 @@ export default function SearchMap({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          <MapClickHandler/>
+          <MapClickHandler />
           <LayerGroup>
             {listings.map((listing) => {
               const handleMouseOver = (e: LeafletMouseEvent) => {

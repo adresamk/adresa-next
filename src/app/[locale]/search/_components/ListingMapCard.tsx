@@ -80,7 +80,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           <div className="flex items-center gap-6">
             <ul className="flex gap-1.5">
               <li
-                title={t("common.listing.floor")}
+                title={t("common.listing.features.floor")}
                 className="flex items-center text-xs tracking-tighter"
               >
                 <LampFloor width={17} height={17} className="mr-1" />
@@ -91,7 +91,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                 </span>
               </li>
               <li
-                title={t("common.listing.bedrooms")}
+                title={t("common.listing.features.bedrooms")}
                 className="flex items-center text-xs tracking-tighter"
               >
                 <Bed width={17} height={17} className="mr-1" />
@@ -99,11 +99,11 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                   <span className="mr-0.5 text-sm font-medium">
                     {listing.bedrooms}
                   </span>
-                  {t("common.listing.br")}
+                  {t("common.listing.features.bedroomsAbbr")}
                 </span>
               </li>
               <li
-                title={t("common.listing.bathrooms")}
+                title={t("common.listing.features.bathrooms")}
                 className="flex items-center text-xs tracking-tighter"
               >
                 <Bath width={17} height={17} className="mr-1" />
@@ -111,7 +111,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                   <span className="mr-0.5 text-sm font-medium">
                     {listing.bathrooms}
                   </span>
-                  {t("common.listing.ba")}
+                  {t("common.listing.features.bathroomsAbbr")}
                 </span>
               </li>
             </ul>

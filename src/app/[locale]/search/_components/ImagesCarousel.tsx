@@ -8,12 +8,12 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 export default function ImagesCarousel({
   images,
   height,
-  width = 240
+  width = 240,
 }: {
   images: string[];
   height: number;
@@ -27,13 +27,14 @@ export default function ImagesCarousel({
       <CarouselContent>
         {images.map((imageSrc, index) => (
           <CarouselItem key={index} className={`h-[${height}px] w-full`}>
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={imageSrc || missingImage}
               // hack for now
               className="h-full rounded-tl-lg rounded-tr-lg object-cover"
               width={width}
               height={height}
-              alt={t('common.listing.propertyImage', { index: index + 1 })}
+              alt={t("common.listing.propertyImage", { index: index + 1 })}
             />
           </CarouselItem>
         ))}

@@ -18,6 +18,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 const notificationIntervalOptions = ["daily", "weekly", "live"];
 
 export default function CreateSavedSearch() {
@@ -29,6 +30,10 @@ export default function CreateSavedSearch() {
     success: false,
     error: null,
   });
+  const t = useTranslations("");
+  const notificationIntervalOptionsTranslated = notificationIntervalOptions.map(
+    (option) => t(`savedSearches.notificationInterval.${option}`),
+  );
   //effect description
   useEffect(() => {
     setSearchParams(window.location.href.split("/search?")[1]);
@@ -47,9 +52,9 @@ export default function CreateSavedSearch() {
         {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Login needed</AlertDialogTitle>
+            <AlertDialogTitle>{t("auth.signIn.loginNeeded")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action requires you to be logged in first
+              {t("auth.signIn.loginNeededDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -58,10 +63,12 @@ export default function CreateSavedSearch() {
                 setIsAlertOpen(false);
               }}
             >
-              Cancel
+              {t("common.actions.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction>
-              <Link href="/signin?redirect=/search">Sign in</Link>
+              <Link href="/signin?redirect=/search">
+                {t("auth.signIn.title")}
+              </Link>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -77,13 +84,13 @@ export default function CreateSavedSearch() {
           setIsSavedSearchModalOpen(true);
         }}
       >
-        <BellPlus className="mr-2" /> Save Search
+        <BellPlus className="mr-2" /> {t("common.actions.saveSearch")}
       </Button>
       <SmartOverlay
         isOpen={isSavedSearchModalOpen}
         onClose={() => setIsSavedSearchModalOpen(false)}
-        title="Save search"
-        description="You can recieve notifications when new listings match your search criteria"
+        title={t("common.actions.saveSearch")}
+        description={t("savedSearches.saveSearchDescription")}
         innerScroll
         footerJSX={null}
       >
@@ -95,9 +102,9 @@ export default function CreateSavedSearch() {
               name="searchParams"
               defaultValue={searchParams}
             />
-            <Label htmlFor="name">Search Name</Label>
+            <Label htmlFor="name">{t("common.inputs.savedSearchName")}</Label>
             <Input
-              placeholder="Your longitude"
+              placeholder={t("common.inputs.savedSearchNamePlaceholder")}
               required
               minLength={3}
               maxLength={50}
@@ -116,7 +123,7 @@ export default function CreateSavedSearch() {
             </div>
             <div className="flex items-center gap-3">
               <Label htmlFor="isNotificationOn" className="text-xl">
-                Notifications
+                {t("savedSearches.notifications")}
               </Label>
               <div className="flex items-center gap-2">
                 <input
@@ -135,15 +142,17 @@ export default function CreateSavedSearch() {
                   id={"isNotificationOn"}
                 />
                 <span className="text-base">
-                  {areNotificationsOn ? "on" : "off"}
+                  {areNotificationsOn
+                    ? t("common.actions.on")
+                    : t("common.actions.off")}
                 </span>
               </div>
             </div>
             <RadioGroupDemo
               name="notificationInterval"
-              defaultValue={notificationIntervalOptions[1]}
+              defaultValue={notificationIntervalOptionsTranslated[1]}
               title=""
-              values={notificationIntervalOptions}
+              values={notificationIntervalOptionsTranslated}
             />
             <div className="flex w-full items-center justify-end">
               <Button
@@ -151,7 +160,7 @@ export default function CreateSavedSearch() {
                   // saveSearch
                 }}
               >
-                Save
+                {t("common.actions.save")}
               </Button>
             </div>
           </form>

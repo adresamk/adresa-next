@@ -3,9 +3,28 @@
     "moreLocations": "други локации",
     "location": "локација",
     "moreCriteria": "други критериуми",
-    "criteria": "критериум"
+    "criteria": "критериум",
+    "saveSearchDescription": "Можете да добивате известувања кога ќе бидат нови огласи кои ќе се појават на вашиот критериум",
+    "notifications": "Известувања",
+    "notificationInterval": {
+      "daily": "Секој ден",
+      "weekly": "Неделно",
+      "live": "Во живо"
+    }
+  },
+  "map": {
+    "notSet": "Локацијата не е поставена",
+    "attribution": "© OpenStreetMap контрибутори",
+    "searchInArea": "Пребарај во оваа област",
+    "searchAsMove": "Пребарувај додека се движам",
+    "loading": "Вчитување на мапа...",
+    "viewProperties": "Прикажи {zoom} од {listingsLength} опции со пин на мапата"
   },
   "common": {
+    "inputs": {
+      "savedSearchName": "Име на пребарување",
+      "savedSearchNamePlaceholder": "пр: Омилени во Скопје"
+    },
     "buttons": {
       "search": "Пребарај",
       "submit": "Потврди",
@@ -132,7 +151,10 @@
     "actions": {
       "save": "зачувај",
       "saved": "зачувано",
-      "saveSearch": "Зачувај пребарување"
+      "saveSearch": "Зачувај пребарување",
+      "on": "Да",
+      "off": "Не",
+      "cancel": "Откажи"
     },
     "words": {
       "listings": "огласи",
@@ -198,13 +220,7 @@
       "insideCharacteristics": "Внатрешни карактеристики",
       "outsideCharacteristics": "Надворешни карактеристики",
       "location": "Локација",
-      "map": {
-        "notSet": "Локацијата не е поставена",
-        "attribution": "© OpenStreetMap контрибутори",
-        "searchInArea": "Пребарај во оваа област",
-        "searchAsMove": "Пребарувај додека се движам",
-        "loading": "Вчитување на мапа..."
-      },
+
       "publisher": "Објавувач",
       "publisherDetails": {
         "title": "Продавач",
@@ -245,6 +261,7 @@
       "featuredListing": "Истакнат оглас",
       "exactLocation": "Точна локација на мапа",
       "propertyDetails": "{type}, {area}м²",
+      "propertyImage": "Слика {index}",
       "defaultAgency": "Агенција за недвижнини",
       "categoryOptions": {
         "apartment": "Стан",
@@ -475,7 +492,9 @@
       "noAccount": "Немате сметка?",
       "createAccount": "Регистрирајте се",
       "error": "Неточна е-пошта или лозинка",
-      "success": "Успешно се најавивте"
+      "success": "Успешно се најавивте",
+      "loginNeeded": "Потребно е најавување",
+      "loginNeededDescription": "Оваа акција бара најавување"
     },
     "signUp": {
       "title": "Регистрирајте се",
