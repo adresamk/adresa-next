@@ -34,9 +34,9 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
   return (
     <div
       className={cn(
-        "relative h-[88px] w-full max-w-full rounded-xl border border-transparent pb-[6px] pl-[20px] pr-[19px] pt-[17px]",
+        "relative h-[88px] w-full max-w-full rounded-xl border border-transparent bg-gray-100 pb-[6px] pl-[20px] pr-[19px] pt-[17px]",
         focusedFilter === "location" && "rounded-b-none",
-        !focusedFilter && "bg-gray-50",
+        !focusedFilter && "",
       )}
       onClick={() => {
         setFocusedFilter("location");
@@ -145,7 +145,7 @@ export default function LocationFilter({ variant }: LocationFilterProps) {
       {/* <div>{isOpen ? "is" : "|"}</div> */}
       <div
         className={cn(
-          "filters-field relative h-full w-full max-w-full rounded-r-none rounded-bl-none rounded-tl-xl border border-b-0 border-r-0 border-slate-200 xl:rounded-xl xl:border-b xl:border-r",
+          "filters-field relative h-full w-full max-w-full rounded-r-xl rounded-bl-none rounded-tl-xl border-r border-gray-200 xl:rounded-xl xl:border-b",
           focusedFilter === "location" &&
             "z-[20] rounded-b-none border-b-white bg-white",
         )}
