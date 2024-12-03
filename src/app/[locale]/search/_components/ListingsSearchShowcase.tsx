@@ -163,7 +163,7 @@ export default async function beListingsSearchShowcase({
                   </div>
                   <div className="invisible relative z-10 ml-auto group-hover:visible">
                     <ul className="flex gap-1">
-                      <li>
+                      {/* <li>
                         <Button
                           variant="ghost"
                           className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
@@ -171,12 +171,12 @@ export default async function beListingsSearchShowcase({
                         >
                           <EyeOff className="h-5 w-5" />
                         </Button>
-                      </li>
+                      </li> */}
 
                       <li>
                         <LikeListingButton listingId={listingRef.id} />
                       </li>
-                      <li>
+                      {/* <li>
                         <Button
                           variant="ghost"
                           className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
@@ -184,7 +184,7 @@ export default async function beListingsSearchShowcase({
                         >
                           <Mail />
                         </Button>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>

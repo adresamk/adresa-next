@@ -30,12 +30,32 @@ export async function addListingAsFavorite(listingId: string) {
       error: "Unauthorized",
     };
   }
+
+  // Check if favorite already exists
+  const existingFavorite = await prismadb.favorite.findFirst({
+    where: {
+      userId: user.id,
+      listingId: listingId,
+    },
+  });
+
+  if (existingFavorite) {
+    console.log("Favorite already exists");
+    return {
+      status: 200,
+      success: true,
+      error: "Favorite already exists",
+    };
+  }
+
+  // Create new favorite if it doesn't exist
   await prismadb.favorite.create({
     data: {
       userId: user.id,
       listingId: listingId,
     },
   });
+
   return {
     status: 200,
     success: true,

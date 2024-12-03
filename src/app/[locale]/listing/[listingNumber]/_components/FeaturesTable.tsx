@@ -35,7 +35,7 @@ export default function FeaturesTable({
         </tr>
         <tr>
           <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.filters.surface")}
+            {t("common.filters.surface.label")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
             {displayArea(listing.area)}
@@ -46,7 +46,10 @@ export default function FeaturesTable({
             {t("common.property.features.floor")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {t("common.property.features.floorInfo", { floor: listing.floorNumber, total: 7 })}
+            {t("common.property.features.floorInfo", {
+              floor: listing.floorNumber,
+              total: 7,
+            })}
           </td>
         </tr>
         <tr>
@@ -54,7 +57,10 @@ export default function FeaturesTable({
             {t("common.property.features.kitchen")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.kitchens} {listing.kitchens === 1 ? t("common.property.features.kitchen") : t("common.property.features.kitchens")}
+            {listing.kitchens}{" "}
+            {listing.kitchens === 1
+              ? t("common.property.features.kitchen")
+              : t("common.property.features.kitchens")}
           </td>
         </tr>
         <tr>
@@ -62,7 +68,10 @@ export default function FeaturesTable({
             {t("common.property.features.bathroom")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.bathrooms} {listing.bathrooms === 1 ? t("common.property.features.bathroom") : t("common.property.features.bathrooms")}
+            {listing.bathrooms}{" "}
+            {listing.bathrooms === 1
+              ? t("common.property.features.bathroom")
+              : t("common.property.features.bathrooms")}
           </td>
         </tr>
         <tr>
@@ -70,7 +79,8 @@ export default function FeaturesTable({
             {t("common.property.features.parking")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.parking ? "1" : "0"} {t("common.property.features.parking")}
+            {listing.parking ? "1" : "0"}{" "}
+            {t("common.property.features.parking")}
           </td>
         </tr>
         <tr>

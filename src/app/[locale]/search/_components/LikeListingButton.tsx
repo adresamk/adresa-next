@@ -48,16 +48,16 @@ export default function LikeListingButton({
         setIsLoading(false);
       }
     }
-    // checkFavoriteStatus();
+    checkFavoriteStatus();
   }, [listingId]);
   return (
     <>
       <AlertDialog open={isAlertOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t("listing.like.loginNeeded")}</AlertDialogTitle>
+            <AlertDialogTitle>{t("auth.signIn.loginNeeded")}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t("listing.like.loginMessage")}
+              {t("auth.signIn.loginMessage")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

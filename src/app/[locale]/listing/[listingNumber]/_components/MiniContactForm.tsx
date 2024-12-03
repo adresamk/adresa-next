@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { SerializedListing } from "@/lib/types";
+import { useTranslations } from "next-intl";
 
 export default function MiniContactForm({
   listing,
@@ -18,15 +19,17 @@ export default function MiniContactForm({
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("macesmajli@gmail.com");
   const agency = listing.owner.agency;
+  const t = useTranslations("");
 
   return (
     <div className="rounded border border-blue-300 p-0 transition-all duration-300 ease-in">
       <div className="overflow-auto">
-        <h3 className="my-3 mb-3 px-6 text-xl">Contact</h3>
+        <h3 className="my-3 mb-3 px-6 text-xl">{t("common.contact.label")}</h3>
         <form className="px-6 py-2" action="">
           <div className="mb-2 flex flex-col gap-3">
             <Label htmlFor="name">
-              First name <span className="text-red-500">*</span>
+              {t("common.contact.firstName")}{" "}
+              <span className="text-red-500">*</span>
             </Label>
             <Input
               required
@@ -34,12 +37,13 @@ export default function MiniContactForm({
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Your first name"
+              placeholder={t("common.contact.firstNamePlaceholder")}
             />
           </div>
           <div className="mb-2 flex flex-col gap-3">
             <Label htmlFor="last-name">
-              Last name <span className="text-red-500">*</span>
+              {t("common.contact.lastName")}{" "}
+              <span className="text-red-500">*</span>
             </Label>
             <Input
               required
@@ -47,12 +51,13 @@ export default function MiniContactForm({
               name="last-name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              placeholder="Your last name"
+              placeholder={t("common.contact.lastNamePlaceholder")}
             />
           </div>
           <div className="mb-2 flex flex-col gap-3">
             <Label htmlFor="tel">
-              Telephone <span className="text-red-500">*</span>
+              {t("common.contact.phone")}{" "}
+              <span className="text-red-500">*</span>
             </Label>
             <Input
               required
@@ -65,7 +70,8 @@ export default function MiniContactForm({
           </div>
           <div className="mb-2 flex flex-col gap-3">
             <Label htmlFor="email">
-              Email <span className="text-red-500">*</span>
+              {t("common.contact.email")}{" "}
+              <span className="text-red-500">*</span>
             </Label>
             <Input
               required
@@ -78,7 +84,8 @@ export default function MiniContactForm({
           </div>
           <div className="mb-2 flex flex-col gap-3">
             <Label htmlFor="message">
-              Message <span className="text-red-500">*</span>
+              {t("common.contact.message")}{" "}
+              <span className="text-red-500">*</span>
             </Label>
             <Textarea
               required
@@ -88,7 +95,7 @@ export default function MiniContactForm({
               onChange={(e) => setMessage(e.target.value)}
             />
           </div>
-          <Button>Send message</Button>
+          <Button>{t("common.contact.sendMessage")}</Button>
         </form>
         {agency && (
           <div className="border-t-2 px-5 py-4">

@@ -16,7 +16,8 @@ export default function MapLocationPreview({
 }) {
   const t = useTranslations();
 
-  if (!longitude || !latitude) return <div>{t("common.property.map.notSet")}</div>;
+  if (!longitude || !latitude)
+    return <div>{t("common.property.map.notSet")}</div>;
 
   const location: LatLngExpression = [latitude, longitude];
 
@@ -24,7 +25,7 @@ export default function MapLocationPreview({
     <MapContainer center={location} zoom={13} className="h-full w-full">
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution={t("common.property.map.attribution")}
+        attribution={t("map.attribution")}
       />
       <CircleMarker
         center={location}

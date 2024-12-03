@@ -289,10 +289,16 @@
       "missing": "недостасува"
     },
     "contact": {
+      "label": "Контактирај",
       "phone": "Телефон",
       "email": "Е-пошта",
       "message": "Порака",
-      "name": "Име и презиме"
+      "sendMessage": "Испрати порака",
+      "name": "Име и презиме",
+      "firstName": "Име",
+      "firstNamePlaceholder": "Вашето име",
+      "lastName": "Презиме",
+      "lastNamePlaceholder": "Вашето презиме"
     }
   },
   "header": {
@@ -312,7 +318,8 @@
     "Terms": "Услови",
     "Sale": "Продажба",
     "Rental": "Изнајмување",
-    "Station Categories": "Категории на стан"
+    "Station Categories": "Категории на стан",
+    "allRightsReserved": "Сите права се задржани"
   },
   "home": {
     "search": {
@@ -438,6 +445,14 @@
         "next": "Следно",
         "back": "Назад"
       }
+    },
+    "listingImages": {
+      "modalTitle": "{type}, {area}m²",
+      "modalDescription": "{place}, {municipality}, €{price}",
+      "noPlaceSet": "нема поставена локација",
+      "noMunicipalitySet": "нема поставена општина",
+      "photo": "Слика {index}",
+      "moreImages": "Уште {count} слики"
     }
   },
   "MortgageCalculator": {
@@ -536,7 +551,7 @@
         "invalidEmail": "Невалидна е-пошта",
         "weakPassword": "Лозинката мора да содржи најмалку 8 карактери"
       },
-      "success": "Успешно се регистриравте како агенција"
+      "success": "Успешно се регистриравте као агенција"
     },
     "forgotPassword": {
       "title": "Заборавена лозинка?",

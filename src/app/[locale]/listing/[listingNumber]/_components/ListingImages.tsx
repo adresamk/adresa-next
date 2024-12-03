@@ -15,8 +15,12 @@ import {
 import { SerializedListing } from "@/lib/types";
 import {
   getMunicipalityPlaces,
+  getPlaceInfo,
   municipalitiesOptions,
 } from "@/lib/data/macedonia/importantData";
+import { useLocale, useTranslations } from "next-intl";
+import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
+import { municipalities } from "@/lib/data/macedonia/macedoniaPopulatedPlaces2";
 
 export default function ListingImages({
   listing,
@@ -26,6 +30,8 @@ export default function ListingImages({
   const [isOpen, setIsOpen] = useState(false);
   const [openTab, setOpenTab] = useState("overview");
   const [openImageIndex, setOpenImageIndex] = useState<null | number>(null);
+  const t = useTranslations();
+  const locale = useLocale();
   function onClose() {
     setOpenTab("overview");
     setOpenImageIndex(null);
@@ -39,22 +45,36 @@ export default function ListingImages({
     setOpenTab("singleAtATime");
     setOpenImageIndex(idx);
   }
-  const municipality = municipalitiesOptions.find(
-    (municipality) => municipality.id === listing.municipality,
-  )?.name;
-  const place = getMunicipalityPlaces(municipality || "")?.find(
-    (place) => place.id === listing.place,
-  )?.name;
+  const nameKey = locale === "en" ? "name_en" : "name";
+  const municipality = municipalities.find(
+    (municipality) => municipality.customId === listing.municipality,
+  )?.[nameKey];
+
+  const placeLoad = listing.place
+    ? (getPlaceInfo(listing.place) as PopulatedPlace | null)
+    : null;
+  const place = placeLoad ? (placeLoad as any)[nameKey] : null;
 
   // const municipality = manucipalitiesOptions.find(
   //   (municipality) => municipality.value === listing.municipality,
-  // )?.label;
+  // )?.label
 
   return (
     <>
       <Modal
-        title={`${capitalizeString(listing.type)}, ${listing.area}m²`}
-        description={`${capitalizeString(place || "no place set")}, ${capitalizeString(municipality || "no municipality set")},€${displayPrice(listing.price)}`}
+        title={t("listing.listingImages.modalTitle", {
+          type: capitalizeString(t(`common.property.type.${listing.type}`)),
+          area: listing.area,
+        })}
+        description={t("listing.listingImages.modalDescription", {
+          place: capitalizeString(
+            place || t("listing.listingImages.noPlaceSet"),
+          ),
+          municipality: capitalizeString(
+            municipality || t("listingImages.noMunicipalitySet"),
+          ),
+          price: displayPrice(listing.price),
+        })}
         isOpen={isOpen}
         onClose={onClose}
         className="h-full max-w-[97vw]"
@@ -87,7 +107,9 @@ export default function ListingImages({
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imageUrl}
-                        alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.municipality},${displayPrice(listing.price)}`}
+                        alt={t("listing.listingImages.photo", {
+                          index: idx + 1,
+                        })}
                         width={800}
                         height={533}
                         className="h-full w-full object-cover object-center"
@@ -117,7 +139,9 @@ export default function ListingImages({
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={imageUrl}
-                            alt={`Photo ${idx + 1},${listing.type}, ${displayArea(listing.area)},${listing.place}, ${listing.municipality},${displayPrice(listing.price)}`}
+                            alt={t("listing.listingImages.photo", {
+                              index: idx + 1,
+                            })}
                             width={800}
                             height={533}
                             className="h-full w-full object-cover object-center"
@@ -148,7 +172,7 @@ export default function ListingImages({
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
                 src={listing.images[0]}
-                alt="Main Image"
+                alt="1"
                 height={300}
                 width={300}
               />
@@ -161,7 +185,7 @@ export default function ListingImages({
               <img
                 className="absolute inset-0 h-full w-full object-cover object-center"
                 src={listing.images[1]}
-                alt="Second Image"
+                alt="2"
                 height={150}
                 width={150}
               />
@@ -174,7 +198,7 @@ export default function ListingImages({
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
                 src={listing.images[2]}
-                alt="Main Image"
+                alt="3"
                 height={150}
                 width={150}
               />
@@ -187,7 +211,7 @@ export default function ListingImages({
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
                 src={listing.images[3]}
-                alt="Main Image"
+                alt="4"
                 height={150}
                 width={150}
               />
@@ -200,7 +224,7 @@ export default function ListingImages({
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
                 src={listing.images[4]}
-                alt="Main Image"
+                alt="5"
                 height={150}
                 width={150}
               />
@@ -209,7 +233,11 @@ export default function ListingImages({
         </div>
         <div className="px- absolute bottom-1.5 right-2 inline-flex cursor-pointer items-center rounded border border-gray-400 bg-white/20 p-1 py-0.5 text-white backdrop-blur-sm">
           <ImageIcon className="mr-1 h-4 w-4" /> {/* 5 are already shown */}
-          <span className="text-sm font-semibold">{listing.images.length}</span>
+          <span className="text-sm font-semibold">
+            {t("listing.listingImages.moreImages", {
+              count: listing.images.length,
+            })}
+          </span>
         </div>
       </div>
     </>
