@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Account {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
 }
 
 enum UserRole {
@@ -24,8 +24,8 @@ enum UserRole {
 
 // ... existing code ...
 model VerificationLink {
-  id          String    @id @default(uuid())
-  userId      String
+  id          Int       @id @default(autoincrement())
+  userId      Int
   token       String    @unique
   createdAt   DateTime  @default(now())
   expiresAt   DateTime
@@ -37,13 +37,34 @@ model VerificationLink {
 }
 
 // ... existing code ...
+model Agency {
+  id                    Int     @id @default(autoincrement())
+  uuid                  String  @default(uuid())
+  name                  String? @unique
+  slug                  String? @unique
+  address               String?
+  website               String?
+  phone                 String?
+  logoUrl               String?
+  contactPersonFullName String?
+  contactPersonEmail    String?
+  contactPersonPhone    String?
+  workHours             String?
+
+  gpsLocation      String? // lng,lat
+  description      String?
+  shortDescription String?
+  branding         String? // or maybe use it as stringified json
+  users            User[]
+}
 
 model User {
-  id             String        @id @default(uuid())
+  id             Int           @id @default(autoincrement())
+  uuid           String        @unique @default(uuid())
   email          String        @unique
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
-  role           String // UserRole type
+  role           UserRole      @default(USER) // UserRole type
   emailVerified  DateTime?
   phone          String?
   phoneVerified  DateTime?
@@ -54,7 +75,7 @@ model User {
   sessions       Session[]
   listings       Listing[]
   agency         Agency?       @relation(fields: [agencyId], references: [id])
-  agencyId       String?       @unique
+  agencyId       Int?          @unique
   // 
   favorites      Favorite[]
   savedSearches  SavedSearch[]
@@ -63,14 +84,14 @@ model User {
 }
 
 model Session {
-  id        String   @id
-  userId    String
+  id        Int      @id
+  userId    Int
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
 model SavedSearch {
-  id                   String   @id @default(uuid())
+  id                   Int      @id @default(autoincrement())
   // transactionType      String // e.g., rent, sale
   // type                 String // e.g., apartment, house
   // location             String? // general location name
@@ -85,7 +106,7 @@ model SavedSearch {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   user                 User     @relation(fields: [userId], references: [id])
-  userId               String // Foreign key to User
+  userId               Int // Foreign key to User
   lastOpenedAt         DateTime @default(now())
 }
 
@@ -95,54 +116,171 @@ model Counter {
   value Int    @default(1)
 }
 
+enum FeatureCategory {
+  INTERNAL
+  EXTERNAL
+
+  UTILITIES
+  ROOMS
+
+  OTHER
+}
+
+model Feature {
+  id              Int                @id @default(autoincrement())
+  name            String // Display name
+  key             String             @unique // Unique identifier for the feature
+  category        FeatureCategory
+  applicableTypes PropertyCategory[] // Changed from ListingType[] to PropertyCategory[]
+  listings        ListingFeature[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  isActive        Boolean            @default(true)
+}
+
+model ListingFeature {
+  id        Int      @id @default(autoincrement())
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId Int
+  feature   Feature  @relation(fields: [featureId], references: [id], onDelete: Cascade)
+  featureId Int
+  value     String? // Optional value for features that need it (e.g. "2" for number of balconies)
+  createdAt DateTime @default(now())
+
+  @@unique([listingId, featureId])
+}
+
+enum PropertyCategory {
+  residential
+  commercial
+  land
+  other
+}
+
+enum PropertyType {
+  // Residential types
+  apartment
+  house
+  vacation_house
+
+  // Commercial types
+  office
+  store
+  warehouse
+  industrial_space
+
+  // Land types
+  construction
+  agricultural
+
+  // Other types
+  garage
+  business
+  assembly_facilities
+  other
+}
+
+enum PropertyTransactionType {
+  sale
+  rent
+}
+
+enum LocationPrecision {
+  exact
+  approximate
+  wide
+}
+
 model Listing {
-  // Generated automatically
-  id                String     @id @default(uuid())
-  externalRef       String?    @unique // External ID for importing data from other sources
-  listingNumber     Int        @unique @default(autoincrement()) // 6 digit number  
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime   @updatedAt
-  isAvailable       Boolean?   @default(true)
-  availabilityDate  DateTime? // if it is in the past it is available
+  id              Int                     @id @default(autoincrement())
+  uuid            String                  @unique @default(uuid()) // not used but here for the future if we need to scale and merge
+  externalRef     String?                 @unique // External ID for importing data from other sources
+  listingNumber   Int                     @unique @default(autoincrement()) // 6 digit number controled by counter listing-number-counter
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  dateAvailable   DateTime                @default(now()) // if it is in the past now() it is available
+  isAvailable     Boolean                 @default(true) // used for fast retieval
   // Required for creation in form
-  owner             User       @relation(fields: [userId], references: [id])
-  userId            String
-  transactionType   String // rent, sale
-  category          String // Won't be changed later
-  type              String // Can be changed later, different types of the same category
+  owner           User                    @relation(fields: [userId], references: [id])
+  userId          Int
+  // Main categorization (Initial step when creating a new listing)
+  transactionType PropertyTransactionType // rent, sale
+  category        PropertyCategory // Won't be changed later
+  type            PropertyType // Can be changed later, different types of the same category
+
+  // connection to additional data
+  residential  Residential?
+  commercial   Commercial?
+  land         Land?
+  other        Other?
   // Location Step
-  municipality      String? // ID of municipality
-  place             String? // ID of village or town
-  district          String? // ID of naseleno mesto
-  address           String? // the name of street and number
-  fullAddress       String? // the full address (municipality + place + district + address)
+  municipality String? // ID of municipality
+  place        String? // ID of village or town
+  address      String? // the name of street and number
+  fullAddress  String?      @default("") // the full address (municipality + place + district + address)
+
+  // probably would be disabled
+  district String? // ID of naseleno mesto
+
+  // Useful for map location
   longitude         Float?
   latitude          Float?
-  locationPrecision String? // 'exact', 'approximate', 'wide' | How precise the location is shown on the map
+  locationPrecision LocationPrecision? @default(exact)
+
   // Main Characteristics
-  title             String?    @default("") // Title that will show up in listing that they wanted
-  price             Int?
-  previousPrice     Int?
-  priceHistory      Json?
-  area              Int?
-  orientation       String? // 'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
-  floorNumber       Int? // 0 for ground floor, and coded values for others
+  title          String?  @default("") // Title that will show up in listing that they wanted
+  mkdTitle       String?  @default("") // 
+  albTitle       String?  @default("") // 
+  description    String?  @db.VarChar(5000)
+  mkdDescription String?  @db.VarChar(5000)
+  albDescription String?  @db.VarChar(5000)
+  // --
+  price          Int?
+  previousPrice  Int?
+  priceHistory   Json?
+  area           Int?
+  // Images and Video
+  mainImage      String? // img will be hosted elsewhere, used to showcase the listing, usually first image in array
+  images         String[]
+  videoLink      String? // youtube or vimeo for the property
+
+  // Publishing info
+  isArchived     Boolean   @default(false)
+  isPublished    Boolean   @default(false) // meaning someone paid for this and its shown unless its hidden
+  isVisible      Boolean   @default(true) // user can turn it off/on which is different from isPublished
+  publishedAt    DateTime?
+  publishEndDate DateTime? // usually one month after publishedAt
+
+  // tags are something that will be calculated based on other fields
+  //tags        String[]         @default([])
+  isPaidPromo Boolean          @default(false)
+  favoritedBy Favorite[]
+  contactData String?          @default("") // JSON with contact data
+  features    ListingFeature[]
+
+  // Should go to cateogry Residental
+  // orientation String? // 'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
+  // floorNumber Int? // 0 for ground floor, and coded values for others
   // additional to floor
   // isPenthouse       Boolean?  @default(false)
   // isAtCorner        Boolean?  @default(false)
   // levels            Int?
   // rooms
-  bedrooms          Int?       @default(0)
-  bathrooms         Int?       @default(0)
-  wcs               Int?       @default(0)
-  kitchens          Int?       @default(0)
-  livingRooms       Int?       @default(0)
+
+  // I will have these as Features
+  // bedrooms       Int?             @default(0)
+  // bathrooms      Int?             @default(0)
+  // wcs            Int?             @default(0)
+  // kitchens       Int?             @default(0)
+  // livingRooms    Int?             @default(0)
   // Other features that are on spitogatos
-  parking           Boolean    @default(false) // true = there is, false = there isn't, null = not specified
-  elevator          Boolean    @default(false)
-  balcony           Boolean    @default(false)
-  yard              Boolean    @default(false)
-  basement          Boolean    @default(false)
+
+  // These also become featuers
+  // parking        Boolean          @default(false) // true = there is, false = there isn't, null = not specified
+  // elevator       Boolean          @default(false)
+  // balcony        Boolean          @default(false)
+  // yard           Boolean          @default(false)
+  // basement       Boolean          @default(false)
   // equiped           Boolean?  @default(false)
   // alarm             Boolean?  @default(false)
   // loadingRamp       Boolean?  @default(false)
@@ -166,45 +304,140 @@ model Listing {
   // airCondition           Boolean?  @default(false)
   // underFloorHeating      Boolean?  @default(false)
   // Description
-  description       String?    @db.VarChar(5000)
-  mkdDescription    String?    @db.VarChar(5000)
-  albDescription    String?    @db.VarChar(5000)
+
   // short description
   // shortDescription  String?
-  // Images and Video
-  mainImage         String? // img will be hosted elsewhere, used to showcase the listing, usually first image in array
-  images            String[]
-  videoLink         String? // youtube or vimeo for the property
-  // Publishing info
-  isArchived        Boolean    @default(false)
-  isPublished       Boolean    @default(false) // meaning someone paid for this and its shown unless its hidden
-  isVisible         Boolean    @default(true) // user can turn it off/on which is different from isPublished
-  publishedAt       DateTime?
-  publishEndDate    DateTime? // usually one month after publishedAt
+
   // Unresolved
-  tags              String[]   @default([])
-  isPaidPromo       Boolean    @default(false)
   // favourites
-  favoritedBy       Favorite[]
+
   // Unexplained
   // published   Boolean   @default(false)
-  // title       String?
   // isLiked      Boolean
   // internalFeatures String[]
   // externalFeatures String[]
   // Not every listing is owned by an Agency, these info will go through user
   // agency           Agency?  @relation(fields: [agencyId], references: [id])
   // agencyId         String?
-  contactData       String?    @default("") // JSON with contact data
   // enquirerData      EnquirerData @relation(fields: [enquirerDataId], references: [id])
   // enquirerDataId    String       @unique
   // EnquirerData      EnquirerData[]
 }
 
+enum ResidentalPropertyType {
+  apartment
+  house
+  vacation_house
+  other
+}
+
+model Residential {
+  id        Int     @id @default(autoincrement())
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId Int     @unique
+
+  propertyType ResidentalPropertyType
+  floor        String
+  totalFloors  Int? // should this be free style
+  orientation  String? //  'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
+  zone         String? // residential, commercial, agricultural, industrial, recreational, unincorporated
+
+  constructionYear  Int?
+  totalPropertyArea Int? // in square meters, besides the area, extra size including the yard and other 
+
+  isFurnished      Boolean @default(false)
+  isForStudents    Boolean @default(false)
+  isForHolidayHome Boolean @default(false)
+  commonExpenses   Int?
+  heatingType      String? // 'autonomous', 'central', 'air-condition', 'none'
+  heatingMedium    String? // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
+
+  // features
+  // isPetFriendly 
+  // rooms as Features
+  // bedrooms      Int?
+  // bathrooms     Int?
+  // totalFloors   Int?
+}
+
+enum CommercialPropertyType {
+  office
+  store
+  warehouse
+  industrial_space
+  other
+}
+
+model Commercial {
+  id        Int     @id @default(autoincrement())
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId Int     @unique
+
+  propertyType CommercialPropertyType // office, retail, warehouse, etc.
+
+  constructionYear  Int?
+  totalPropertyArea Int? // in square meters
+  floor             Int?
+
+  isCornerProperty Boolean @default(false)
+  isOnTopFloor     Boolean @default(false)
+
+  zone       String? // commercial zoning type
+  accessFrom String? // paved/asphalt/pedestrian/dirt road/ sea/ other / no road access
+
+  // Additional
+  loadingDocks   Int? // for warehouses
+  commonExpenses Int?
+  heatingType    String? // 'autonomous', 'central', 'air-condition', 'none'
+  heatingMedium  String? // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
+
+  // parkingSpaces Int?
+  // yearBuilt     Int?
+
+  // as features
+  // bedrooms      Int?
+  // bathrooms     Int?
+  // wc Int?
+}
+
+enum LandPropertyType {
+  construction
+  agricultural
+  other
+}
+
+model Land {
+  id        Int     @id @default(autoincrement())
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId Int     @unique
+
+  propertyType LandPropertyType
+
+  zoning     String? // residential, commercial, agricultural, etc.
+  utilities  String? // JSON array of available utilities
+  topography String? // flat, sloped, etc.
+  roadAccess Boolean @default(false)
+}
+
+enum OtherPropertyType {
+  garage
+  storage
+  other
+}
+
+model Other {
+  id        Int     @id @default(autoincrement())
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId Int     @unique
+
+  accessFrom        String? // paved/asphalt/pedestrian/dirt road/ sea/ other / no road access
+  totalPropertyArea Int? // in square meters
+}
+
 model Favorite {
-  id        String   @id @default(uuid())
-  userId    String
-  listingId String
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  listingId Int
   createdAt DateTime @default(now())
 
   // Relationships
@@ -215,32 +448,12 @@ model Favorite {
 }
 
 // model EnquirerData {
-//   id           String  @id @default(uuid())
+//   id           Int  @id @default(autoincrement())
 //   firstName    String?
 //   lastName     String?
 //   email        String?
 //   phone        String?
 //   contactHours String? // "morning", "afternoon", "evening" or hours
-// listingId    String
+// listingId    Int
 // listing      Listing @relation(fields: [listingId], references: [id])
 // }
-
-model Agency {
-  id                    String  @id @default(uuid())
-  name                  String? @unique
-  slug                  String? @unique
-  address               String?
-  website               String?
-  phone                 String?
-  logoUrl               String?
-  contactPersonFullName String?
-  contactPersonEmail    String?
-  contactPersonPhone    String?
-  workHours             String?
-
-  gpsLocation      String? // lng,lat
-  description      String?
-  shortDescription String?
-  branding         String? // or maybe use it as stringified json
-  users            User[]
-}

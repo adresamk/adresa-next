@@ -6,6 +6,7 @@ export interface PopulatedPlace {
   customId?: string;
   places?: PopulatedPlace[];
 }
+
 export const municipalities: PopulatedPlace[] = [
   {
     id: 5192019,

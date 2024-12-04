@@ -277,7 +277,7 @@ export async function addNewListing(formData: FormData) {
 
   let listingNumber = await prismadb.counter.findUnique({
     where: {
-      name: "listing-number-value",
+      name: "listing-number-counter",
     },
   });
 
@@ -285,7 +285,7 @@ export async function addNewListing(formData: FormData) {
   if (!listingNumber) {
     listingNumber = await prismadb.counter.create({
       data: {
-        name: "listing-number-value",
+        name: "listing-number-counter",
         value: 10001,
       },
     });

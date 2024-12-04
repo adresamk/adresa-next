@@ -1,32 +1,45 @@
-export const listingTransactionTypeOptions = ["sale", "rent"];
-export const listingCategoryOptions = [
-  "residential",
-  "commercial",
-  "land",
-  "other",
-];
-type ListingCategory = (typeof listingCategoryOptions)[number];
+import {
+  PropertyCategory,
+  PropertyTransactionType,
+  PropertyType,
+} from "@prisma/client";
 
-export const listingTypeOptions: Record<ListingCategory, string[]> = {
-  residential: ["apartment", "house", "vacation house", "other"],
-  commercial: ["office", "store", "warehouse", "industrial space", "other"],
-  land: ["construction", "agricultural", "other"],
+export const listingTransactionTypeOptions = Object.values(
+  PropertyTransactionType,
+);
+
+export const listingCategoryOptions = Object.values(PropertyCategory);
+
+export const listingTypeOptions: Record<PropertyCategory, PropertyType[]> = {
+  residential: [
+    PropertyType.apartment,
+    PropertyType.house,
+    PropertyType.vacation_house,
+  ],
+  commercial: [
+    PropertyType.office,
+    PropertyType.store,
+    PropertyType.warehouse,
+    PropertyType.industrial_space,
+  ],
+  land: [PropertyType.construction, PropertyType.agricultural],
   other: [
-    "garage",
-    "business",
-    "assembly facilities", // montazni objekti
-    "other",
+    PropertyType.garage,
+    PropertyType.business,
+    PropertyType.assembly_facilities,
+    PropertyType.other,
   ],
 };
 
-export const orientationOptions: { label: string; value: string }[] = [
-  { label: "North", value: "north" },
-  { label: "South", value: "south" },
-  { label: "East", value: "east" },
-  { label: "West", value: "west" },
-  { label: "North East", value: "north-east" },
-  { label: "North West", value: "north-west" },
-  { label: "South East", value: "south-east" },
-  { label: "South West", value: "south-west" },
+export const orientationOptions = [
+  "north",
+  "south",
+  "east",
+  "west",
+  "north-east",
+  "north-west",
+  "south-east",
+  "south-west",
 ];
+
 export const locationPrecisionOptions = ["exact", "approximate", "wide"];
