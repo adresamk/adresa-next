@@ -7,113 +7,120 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// ... existing code ...
+model VerificationLink {
+  id        Int      @id @default(autoincrement())
+  accountId Int
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime // programmatically generated to be at later date
+
+  token       String    @unique @db.VarChar(50)
+  isActivated Boolean   @default(false)
+  activatedAt DateTime?
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
-model Account {
-  id Int @id @default(autoincrement())
-}
-
-enum UserRole {
+enum AccountType {
   ADMIN
   USER
 }
 
-// ... existing code ...
-model VerificationLink {
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  token       String    @unique
-  createdAt   DateTime  @default(now())
-  expiresAt   DateTime
-  isActivated Boolean   @default(false)
-  activatedAt DateTime?
-
-  // Relationships
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Session {
+  id        Int      @id @default(autoincrement())
+  accountId Int
+  expiresAt DateTime
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
 }
 
-// ... existing code ...
-model Agency {
-  id                    Int     @id @default(autoincrement())
-  uuid                  String  @default(uuid())
-  name                  String? @unique
-  slug                  String? @unique
-  address               String?
-  website               String?
-  phone                 String?
-  logoUrl               String?
-  contactPersonFullName String?
-  contactPersonEmail    String?
-  contactPersonPhone    String?
-  workHours             String?
+model Account {
+  id             Int      @id @default(autoincrement())
+  uuid           String   @unique @default(uuid()) @db.Char(36)
+  email          String   @unique @db.VarChar(60)
+  hashedPassword String?  @db.VarChar(100) // we need 97 for the hash, but extra for just in case
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  gpsLocation      String? // lng,lat
-  description      String?
-  shortDescription String?
-  branding         String? // or maybe use it as stringified json
-  users            User[]
+  // Other fields
+  role             AccountType        @default(USER)
+  emailVerified    DateTime?
+  sessions         Session[]
+  verificationLink VerificationLink[]
+  agency           Agency?
+  user             User?
+}
+
+model Agency {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @db.Char(36) // will be inhereited from Account
+  accountId Int      @unique
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Unique fields
+  name                  String?        @unique @db.VarChar(80)
+  slug                  String?        @unique @db.VarChar(80)
+  address               String?        @db.VarChar(150)
+  website               String?        @db.VarChar(50)
+  phone                 String?        @db.VarChar(20)
+  phoneVerified         DateTime?
+  logoUrl               String?        @db.VarChar(200)
+  contactPersonFullName String?        @db.VarChar(50)
+  contactPersonEmail    String?        @db.VarChar(60)
+  contactPersonPhone    String?        @db.VarChar(20)
+  workHours             String?        @db.VarChar(20)
+  gpsLocation           String?        @db.VarChar(30) // lng,lat (6 decimal rounded) 
+  description           String?        @db.VarChar(2000)
+  shortDescription      String?        @db.VarChar(500)
+  branding              String?        @db.VarChar(200) // JSON sting that represents colors picked
+  listings              Listing[]
+  notifications         Notification[]
 }
 
 model User {
-  id             Int           @id @default(autoincrement())
-  uuid           String        @unique @default(uuid())
-  email          String        @unique
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  role           UserRole      @default(USER) // UserRole type
-  emailVerified  DateTime?
-  phone          String?
-  phoneVerified  DateTime?
-  firstName      String?
-  lastName       String?
-  hashedPassword String?
-  picture        String?
-  sessions       Session[]
-  listings       Listing[]
-  agency         Agency?       @relation(fields: [agencyId], references: [id])
-  agencyId       Int?          @unique
-  // 
-  favorites      Favorite[]
-  savedSearches  SavedSearch[]
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @db.Char(36) // will be inhereited from Account
+  accountId Int      @unique
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  VerificationLink VerificationLink[]
-}
-
-model Session {
-  id        Int      @id
-  userId    Int
-  expiresAt DateTime
-  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+  // Unique fields
+  phone         String?        @db.VarChar(20)
+  phoneVerified DateTime?
+  firstName     String?        @db.VarChar(50)
+  lastName      String?        @db.VarChar(50)
+  pictureUrl    String?        @db.VarChar(200)
+  favorites     Favorite[]
+  savedSearches SavedSearch[]
+  listings      Listing[]
+  notifications Notification[]
 }
 
 model SavedSearch {
   id                   Int      @id @default(autoincrement())
-  // transactionType      String // e.g., rent, sale
-  // type                 String // e.g., apartment, house
-  // location             String? // general location name
-  // municipality         String? // specific area or municipality
-  name                 String // user defined name for the search
-  // listingsCount        Int      @default(0) // total number of listings
-  // newListingsCount     Int      @default(0) // number of new listings since last check
+  userId               Int
+  user                 User     @relation(fields: [userId], references: [id])
+  name                 String   @db.VarChar(65)
   img                  String? // optional image
   isNotificationOn     Boolean  @default(false) // whether notifications are active
-  notificationInterval String // e.g., daily, weekly, etc.
-  searchParams         String // URL or string for query params like 'rooms=2&kitchen=3'
+  notificationInterval String   @db.VarChar(10) // e.g., daily, weekly, etc.
+  searchParams         String   @db.VarChar(400) // URL or string for query params like 'rooms=2&kitchen=3'
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
-  user                 User     @relation(fields: [userId], references: [id])
-  userId               Int // Foreign key to User
   lastOpenedAt         DateTime @default(now())
 }
 
 model Counter {
   id    Int    @id @default(autoincrement())
-  name  String @unique
-  value Int    @default(1)
+  name  String @unique @db.VarChar(50)
+  value Int // should have 6 digits
 }
 
 enum FeatureCategory {
@@ -126,16 +133,11 @@ enum FeatureCategory {
   OTHER
 }
 
-model Feature {
-  id              Int                @id @default(autoincrement())
-  name            String // Display name
-  key             String             @unique // Unique identifier for the feature
-  category        FeatureCategory
-  applicableTypes PropertyCategory[] // Changed from ListingType[] to PropertyCategory[]
-  listings        ListingFeature[]
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
-  isActive        Boolean            @default(true)
+enum PropertyCategory {
+  residential
+  commercial
+  land
+  other
 }
 
 model ListingFeature {
@@ -144,17 +146,22 @@ model ListingFeature {
   listingId Int
   feature   Feature  @relation(fields: [featureId], references: [id], onDelete: Cascade)
   featureId Int
-  value     String? // Optional value for features that need it (e.g. "2" for number of balconies)
+  value     String?  @db.VarChar(50) // Optional value for features that need it (e.g. "2" for number of balconies)
   createdAt DateTime @default(now())
 
   @@unique([listingId, featureId])
 }
 
-enum PropertyCategory {
-  residential
-  commercial
-  land
-  other
+model Feature {
+  id              Int                @id @default(autoincrement())
+  name            String             @db.VarChar(30) // Display name
+  key             String             @unique @db.VarChar(30) // Unique identifier for the feature
+  category        FeatureCategory
+  applicableTypes PropertyCategory[] // Changed from ListingType[] to PropertyCategory[]
+  listings        ListingFeature[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  isActive        Boolean            @default(true)
 }
 
 enum PropertyType {
@@ -191,18 +198,29 @@ enum LocationPrecision {
   wide
 }
 
+enum ListingStatus {
+  DRAFT
+  PENDING_REVIEW
+  ACTIVE
+  INACTIVE
+  SOLD
+  RENTED
+}
+
 model Listing {
   id              Int                     @id @default(autoincrement())
-  uuid            String                  @unique @default(uuid()) // not used but here for the future if we need to scale and merge
-  externalRef     String?                 @unique // External ID for importing data from other sources
+  uuid            String                  @unique @default(uuid()) @db.Char(36) // not used but here for the future if we need to scale and merge
+  externalRef     String?                 @unique @db.VarChar(350) // External ID for importing data from other sources
   listingNumber   Int                     @unique @default(autoincrement()) // 6 digit number controled by counter listing-number-counter
   createdAt       DateTime                @default(now())
   updatedAt       DateTime                @updatedAt
   dateAvailable   DateTime                @default(now()) // if it is in the past now() it is available
   isAvailable     Boolean                 @default(true) // used for fast retieval
-  // Required for creation in form
-  owner           User                    @relation(fields: [userId], references: [id])
-  userId          Int
+  // Ownership details
+  userId          Int?
+  user            User?                   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  agencyId        Int?
+  agency          Agency?                 @relation(fields: [agencyId], references: [id], onDelete: SetNull)
   // Main categorization (Initial step when creating a new listing)
   transactionType PropertyTransactionType // rent, sale
   category        PropertyCategory // Won't be changed later
@@ -214,13 +232,13 @@ model Listing {
   land         Land?
   other        Other?
   // Location Step
-  municipality String? // ID of municipality
-  place        String? // ID of village or town
-  address      String? // the name of street and number
-  fullAddress  String?      @default("") // the full address (municipality + place + district + address)
+  municipality String?      @db.Char(5) // ID of municipality 20411
+  place        String?      @db.Char(5) // ID of village or town
+  address      String?      @db.VarChar(150) // the name of street and number
+  fullAddress  String?      @default("") @db.VarChar(170) // the full address (municipality + place + district + address)
 
   // probably would be disabled
-  district String? // ID of naseleno mesto
+  district String? @db.Char(5) // ID of naseleno mesto
 
   // Useful for map location
   longitude         Float?
@@ -228,9 +246,9 @@ model Listing {
   locationPrecision LocationPrecision? @default(exact)
 
   // Main Characteristics
-  title          String?  @default("") // Title that will show up in listing that they wanted
-  mkdTitle       String?  @default("") // 
-  albTitle       String?  @default("") // 
+  title          String?  @default("") @db.VarChar(120) // Title that will show up in listing that they wanted
+  mkdTitle       String?  @default("") @db.VarChar(120) // 
+  albTitle       String?  @default("") @db.VarChar(120) // 
   description    String?  @db.VarChar(5000)
   mkdDescription String?  @db.VarChar(5000)
   albDescription String?  @db.VarChar(5000)
@@ -240,14 +258,15 @@ model Listing {
   priceHistory   Json?
   area           Int?
   // Images and Video
-  mainImage      String? // img will be hosted elsewhere, used to showcase the listing, usually first image in array
+  mainImage      String?  @db.VarChar(300) // img will be hosted elsewhere, used to showcase the listing, usually first image in array
   images         String[]
-  videoLink      String? // youtube or vimeo for the property
+  videoLink      String?  @db.VarChar(120) // youtube or vimeo for the property
 
   // Publishing info
-  isArchived     Boolean   @default(false)
-  isPublished    Boolean   @default(false) // meaning someone paid for this and its shown unless its hidden
-  isVisible      Boolean   @default(true) // user can turn it off/on which is different from isPublished
+  status         ListingStatus @default(DRAFT)
+  isArchived     Boolean       @default(false)
+  isPublished    Boolean       @default(false) // meaning someone paid for this and its shown unless its hidden
+  isVisible      Boolean       @default(true) // user can turn it off/on which is different from isPublished
   publishedAt    DateTime?
   publishEndDate DateTime? // usually one month after publishedAt
 
@@ -255,6 +274,7 @@ model Listing {
   //tags        String[]         @default([])
   isPaidPromo Boolean          @default(false)
   favoritedBy Favorite[]
+  // extract this into user as separate values
   contactData String?          @default("") // JSON with contact data
   features    ListingFeature[]
 
@@ -322,6 +342,29 @@ model Listing {
   // enquirerData      EnquirerData @relation(fields: [enquirerDataId], references: [id])
   // enquirerDataId    String       @unique
   // EnquirerData      EnquirerData[]
+
+  // @@index([transactionType, category]) // Most basic filter combination
+  // @@index([transactionType, price]) // Price ranges within rent/sale
+  // @@index([municipality, transactionType]) // Location-based searches
+  // // Secondary combinations for specific search patterns
+  // @@index([category, type]) // Type-specific searches
+  // @@index([municipality, price]) // Location + price ranges
+  // // Optional: Compound index for complex queries
+  // @@index([transactionType, municipality, category]) // Complex but common filter combination
+  // For price range queries
+  // @@index([transactionType, price, municipality])
+
+  // // For property type searches
+  // @@index([transactionType, category, propertyType])
+
+  // Most important search pattern indexes    
+  // @@index([transactionType, municipality])
+  // @@index([transactionType, price])
+  // @@index([transactionType, category])
+
+  // // Complex search support
+  // @@index([transactionType, municipality, category])
+  // @@index([municipality, price])
 }
 
 enum ResidentalPropertyType {
@@ -337,10 +380,10 @@ model Residential {
   listingId Int     @unique
 
   propertyType ResidentalPropertyType
-  floor        String
+  floor        String                 @db.VarChar(20)
   totalFloors  Int? // should this be free style
-  orientation  String? //  'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
-  zone         String? // residential, commercial, agricultural, industrial, recreational, unincorporated
+  orientation  String?                @db.VarChar(10) //  'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
+  zone         String?                @db.VarChar(16) // residential, commercial, agricultural, industrial, recreational, unincorporated
 
   constructionYear  Int?
   totalPropertyArea Int? // in square meters, besides the area, extra size including the yard and other 
@@ -349,8 +392,8 @@ model Residential {
   isForStudents    Boolean @default(false)
   isForHolidayHome Boolean @default(false)
   commonExpenses   Int?
-  heatingType      String? // 'autonomous', 'central', 'air-condition', 'none'
-  heatingMedium    String? // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
+  heatingType      String? @db.VarChar(16) // 'autonomous', 'central', 'air-condition', 'none'
+  heatingMedium    String? @db.VarChar(16) // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
 
   // features
   // isPetFriendly 
@@ -382,14 +425,12 @@ model Commercial {
   isCornerProperty Boolean @default(false)
   isOnTopFloor     Boolean @default(false)
 
-  zone       String? // commercial zoning type
-  accessFrom String? // paved/asphalt/pedestrian/dirt road/ sea/ other / no road access
+  accessFrom String? @db.VarChar(16) // paved/asphalt/pedestrian/dirt road/ sea/ other / no road access
 
   // Additional
-  loadingDocks   Int? // for warehouses
   commonExpenses Int?
-  heatingType    String? // 'autonomous', 'central', 'air-condition', 'none'
-  heatingMedium  String? // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
+  heatingType    String? @db.VarChar(16) // 'autonomous', 'central', 'air-condition', 'none'
+  heatingMedium  String? @db.VarChar(16) // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
 
   // parkingSpaces Int?
   // yearBuilt     Int?
@@ -413,10 +454,11 @@ model Land {
 
   propertyType LandPropertyType
 
-  zoning     String? // residential, commercial, agricultural, etc.
-  utilities  String? // JSON array of available utilities
-  topography String? // flat, sloped, etc.
-  roadAccess Boolean @default(false)
+  isCornerProperty Boolean @default(false)
+  orientation      String?
+  zone             String? @db.VarChar(16) // residential, commercial, agricultural, etc.
+  accessFrom       String? @db.VarChar(16) //  paved/asphalt/pedestrian/dirt road/ sea/ other / no road access
+  slope            String? @db.VarChar(10) // flat/ inclined / steep
 }
 
 enum OtherPropertyType {
@@ -430,7 +472,7 @@ model Other {
   listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listingId Int     @unique
 
-  accessFrom        String? // paved/asphalt/pedestrian/dirt road/ sea/ other / no road access
+  accessFrom        String? @db.VarChar(16) // paved/asphalt/pedestrian/dirt road/ sea/ other / no road access
   totalPropertyArea Int? // in square meters
 }
 
@@ -447,13 +489,39 @@ model Favorite {
   @@unique([userId, listingId]) // Ensure a user can't favorite the same listing twice
 }
 
-// model EnquirerData {
-//   id           Int  @id @default(autoincrement())
-//   firstName    String?
-//   lastName     String?
-//   email        String?
-//   phone        String?
-//   contactHours String? // "morning", "afternoon", "evening" or hours
-// listingId    Int
-// listing      Listing @relation(fields: [listingId], references: [id])
-// }
+enum NotificationType {
+  // Listing Related
+  LISTING_PUBLISHED // When a listing goes live
+  LISTING_EXPIRED // When a listing's publication period ends
+  LISTING_NEEDS_REVIEW // When a listing needs admin review
+  PRICE_CHANGED // When price changes on a favorited listing
+
+  // Saved Search Related
+  NEW_LISTING_MATCH // When new listing matches saved search criteria
+  PRICE_DROP_MATCH // When price drops on a listing matching saved search
+
+  // User Account Related
+  ACCOUNT_VERIFIED // When email/phone verification is complete
+  PASSWORD_CHANGED // When password is changed
+  LOGIN_ATTEMPT // Suspicious login attempt
+
+  // Agency Related
+  AGENCY_VERIFIED // When agency verification is complete
+  SUBSCRIPTION_EXPIRING // When agency subscription is about to expire
+
+  // System Related
+  MAINTENANCE_ALERT // System maintenance notifications
+  FEATURE_UPDATE // New feature announcements
+}
+
+model Notification {
+  id        Int              @id @default(autoincrement())
+  userId    Int
+  user      User             @relation(fields: [userId], references: [id])
+  agencyId  Int?
+  agency    Agency?          @relation(fields: [agencyId], references: [id])
+  type      NotificationType
+  message   String           @db.VarChar(200)
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+}
