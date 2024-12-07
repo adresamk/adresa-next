@@ -2,10 +2,11 @@ import { validateRequest } from "@/lib/auth";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
-
-interface UserGreetingProps {}
-export default async function UserGreeting({}: UserGreetingProps) {
-  const { user } = await validateRequest();
+import { User } from "@prisma/client";
+interface UserGreetingProps {
+  user: User;
+}
+export default async function UserGreeting({ user }: UserGreetingProps) {
   const t = await getTranslations();
 
   return (

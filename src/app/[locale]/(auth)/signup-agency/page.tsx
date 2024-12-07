@@ -7,15 +7,21 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Form } from "@/components/Form";
 import { Link } from "@/i18n/routing";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { signUpAsAgency } from "@/server/actions/auth.actions";
+import { useRouter } from "next/navigation";
 export default function SignUp() {
   const [state, formAction] = useActionState(signUpAsAgency, {
     error: "",
     success: false,
   });
   const t = useTranslations();
-
+  const router = useRouter();
+  useEffect(() => {
+    if (state.success) {
+      router.push("/agency/profile/details");
+    }
+  }, [state.success, router]);
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -29,7 +35,7 @@ export default function SignUp() {
 
       <Alert className="mb-4 mt-10 border-orange-400 text-orange-400 sm:mx-auto sm:w-full sm:max-w-sm">
         <Info className="h-4 w-4" />
-        <AlertTitle>Important info!</AlertTitle>
+        <AlertTitle>{t("auth.agencySignUp.importantInfo")}</AlertTitle>
         <AlertDescription className="text-slate-900">
           {t("auth.agencySignUp.profileInfo")}
         </AlertDescription>
@@ -41,7 +47,8 @@ export default function SignUp() {
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              {t("auth.agencySignUp.email")} <span className="text-red-500">*</span>
+              {t("auth.agencySignUp.email")}{" "}
+              <span className="text-red-500">*</span>
             </label>
             <div className="mt-2">
               <input
@@ -61,7 +68,8 @@ export default function SignUp() {
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                {t("auth.agencySignUp.password")} <span className="text-red-500">*</span>
+                {t("auth.agencySignUp.password")}{" "}
+                <span className="text-red-500">*</span>
               </label>
             </div>
             <div className="mt-2">
@@ -82,7 +90,8 @@ export default function SignUp() {
                 htmlFor="confirm-password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                {t("auth.agencySignUp.confirmPassword")} <span className="text-red-500">*</span>
+                {t("auth.agencySignUp.confirmPassword")}{" "}
+                <span className="text-red-500">*</span>
               </label>
             </div>
             <div className="mt-2">

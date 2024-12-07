@@ -115,14 +115,14 @@ export async function checkVerificationTokenInDB(token: string) {
     return { success: false, error: "There was some mistake" };
   }
 }
-export async function getVerificationLink(userId: string) {
+export async function getVerificationLink(accountId: number) {
   const token = generateUniqueToken(); // Function to generate a unique token
   const expiresAt = new Date(Date.now() + 3600000); // 1 hour expiration
 
   // Create the verification link in the database
   await prismadb.verificationLink.create({
     data: {
-      userId,
+      accountId,
       token,
       expiresAt,
     },

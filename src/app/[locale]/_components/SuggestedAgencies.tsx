@@ -49,7 +49,7 @@ export default async function SuggestedAgencies() {
               <div className="flex flex-col items-center justify-center rounded bg-white p-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={agency.logoUrl || ""}
+                  src={agency.logoUrl || "/assets/missing-image2.jpg"}
                   alt={agency.name || ""}
                   className="h-[86px] w-[112px]"
                 />

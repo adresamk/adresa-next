@@ -1,21 +1,41 @@
 "use server";
-import { lucia } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { ActionResult } from "@/components/Form";
 import prismadb from "@/lib/db";
 import { Argon2id } from "oslo/password";
-import { UserRoles } from "@/lib/data/user/importantData";
 import { redirect } from "next/navigation";
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 import { generateCodeVerifier, generateState } from "arctic";
 import { googleOAuthClient } from "@/lib/googleOAuth";
 import { getVerificationLink, sendVerificationEmail } from "./user.actions";
+import { AccountType } from "@prisma/client";
+import {
+  createSession,
+  generateSessionToken,
+  getCurrentSession,
+  deleteSessionTokenCookie,
+  setSessionTokenCookie,
+  invalidateSession,
+} from "@/lib/sessions";
+import { NextResponse } from "next/server";
 
 export async function signIn(
   prevState: any,
   formData: FormData,
 ): Promise<ActionResult> {
+  // this should be done in middleware and the cookies to be attached there
+  const { session: existingSession } = await getCurrentSession();
+  if (existingSession) {
+    console.log("session, already logged in", existingSession);
+    // redirect("/");
+    return {
+      error: "You are already logged in",
+      success: false,
+    };
+  }
+
+  // validations
   const email = formData.get("email")?.toString();
 
   if (!email || !emailRegex.test(email)) {
@@ -25,7 +45,7 @@ export async function signIn(
     };
   }
   const password = formData.get("password");
-  console.log("Existing user", email, password);
+  console.log("Sent email and password", email, password);
 
   if (typeof password !== "string") {
     return {
@@ -33,26 +53,27 @@ export async function signIn(
       success: false,
     };
   }
-  console.log("Existing user", email, password);
 
-  const existingUser = await prismadb.user.findFirst({
+  const existingAccount = await prismadb.account.findFirst({
     where: {
       email,
     },
   });
 
-  console.log("Existing user", existingUser);
-  if (!existingUser) {
+  console.log("Existing account", existingAccount);
+  if (!existingAccount) {
     return {
-      error: "User with that email doesn't exist",
+      error: "Account with that email doesn't exist",
       success: false,
     };
   }
 
-  console.log("Existing user", existingUser);
+  const token = await generateSessionToken();
+  const session = await createSession(token, existingAccount.id);
+  await setSessionTokenCookie(token, session.expiresAt, existingAccount.uuid);
 
   const validPassword = await new Argon2id().verify(
-    existingUser.hashedPassword!,
+    existingAccount.hashedPassword!,
     password,
   );
 
@@ -72,19 +93,6 @@ export async function signIn(
     };
   }
 
-  const session = await lucia.createSession(existingUser.id, {});
-  const sessionCookie = lucia.createSessionCookie(session.id);
-  const cookieStore = await cookies();
-  cookieStore.set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes,
-  );
-  cookieStore.set("auth-cookie-exists", existingUser.id, {
-    ...sessionCookie.attributes,
-    httpOnly: false,
-  });
-
   return {
     success: true,
     error: null,
@@ -98,36 +106,38 @@ export async function signUpAsUser(
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const confirmPassword = formData.get("confirm-password")?.toString();
+  // validations, in if statement to make it easier to read so i can fold
+  if (true) {
+    if (!email || !emailRegex.test(email)) {
+      return {
+        error: "Invalid email",
+        success: false,
+      };
+    }
 
-  if (!email || !emailRegex.test(email)) {
-    return {
-      error: "Invalid email",
-      success: false,
-    };
-  }
+    if (typeof password !== "string" || password.length < 5) {
+      return {
+        error: "Invalid password, it must be more than 5 characters long",
+        success: false,
+      };
+    }
 
-  if (typeof password !== "string" || password.length !== 8) {
-    return {
-      error: "Invalid password, it must be 8 characters long",
-      success: false,
-    };
-  }
-
-  if (typeof confirmPassword !== "string" || confirmPassword !== password) {
-    return {
-      error: "Make sure confirm password matches password",
-      success: false,
-    };
+    if (typeof confirmPassword !== "string" || confirmPassword !== password) {
+      return {
+        error: "Make sure confirm password matches password",
+        success: false,
+      };
+    }
   }
 
   try {
-    const existingUser = await prismadb.user.findUnique({
+    const existingAccount = await prismadb.account.findUnique({
       where: {
         email,
       },
     });
 
-    if (existingUser) {
+    if (existingAccount) {
       return {
         error: "An account with that email already exists",
         success: false,
@@ -136,36 +146,41 @@ export async function signUpAsUser(
 
     const hashedPassword = await new Argon2id().hash(password);
 
-    const user = await prismadb.user.create({
+    const account = await prismadb.account.create({
       data: {
-        role: UserRoles.USER,
+        role: AccountType.USER,
         email,
         hashedPassword,
       },
     });
 
-    const verificationLink = await getVerificationLink(user.id);
-    console.log("verificationLink", verificationLink);
-    await sendVerificationEmail(email, verificationLink);
-    console.log("Verification email sent successfully 2");
-
-    const session = await lucia.createSession(user.id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    const cookieStore = await cookies();
-    cookieStore.set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes,
-    );
-    cookieStore.set("auth-cookie-exists", user.id, {
-      ...sessionCookie.attributes,
-      httpOnly: false,
+    const user = await prismadb.user.create({
+      data: {
+        uuid: account.uuid,
+        accountId: account.id,
+      },
     });
+
+    const verificationLink = await getVerificationLink(user.id);
+    // console.log("verificationLink", verificationLink);
+    await sendVerificationEmail(email, verificationLink);
+    // console.log("Verification email sent successfully 2");
+
+    const token = await generateSessionToken();
+    const session = await createSession(token, account.id);
+
+    await setSessionTokenCookie(token, session.expiresAt, account.uuid);
+    //
+    console.log("Verification email sent successfully 3");
+    return {
+      success: true,
+      error: null,
+    };
   } catch (error) {
     console.error("error", error);
     return {
-      error: "Something went wrong",
       success: false,
+      error: "Something went wrong",
     };
   }
 
@@ -202,13 +217,13 @@ export async function signUpAsAgency(
   }
 
   try {
-    const existingUser = await prismadb.user.findUnique({
+    const existingAccount = await prismadb.account.findUnique({
       where: {
         email,
       },
     });
 
-    if (existingUser) {
+    if (existingAccount) {
       return {
         error: "An account with that email already exists",
         success: false,
@@ -217,54 +232,50 @@ export async function signUpAsAgency(
 
     const hashedPassword = await new Argon2id().hash(password);
     // create new agency for user
-    const newAgency = await prismadb.agency.create({
-      data: {},
-    });
 
-    const user = await prismadb.user.create({
+    const account = await prismadb.account.create({
       data: {
-        role: UserRoles.AGENCY,
+        role: AccountType.AGENCY,
         email,
         hashedPassword,
-        agencyId: newAgency.id,
+      },
+    });
+    const agency = await prismadb.agency.create({
+      data: {
+        uuid: account.uuid,
+        accountId: account.id,
       },
     });
 
-    const session = await lucia.createSession(user.id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    const cookieStore = await cookies();
-    cookieStore.set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes,
-    );
-    cookieStore.set("auth-cookie-exists", user.id, {
-      ...sessionCookie.attributes,
-      httpOnly: false,
-    });
+    const token = await generateSessionToken();
+    const session = await createSession(token, account.id);
+
+    await setSessionTokenCookie(token, session.expiresAt, account.uuid);
+
+    // return redirect("/agency/profile/details");
+    return {
+      success: true,
+      error: null,
+    };
   } catch (error) {
     console.error(error);
     return {
-      error: "Something went wrong",
       success: false,
+      error: "Something went wrong",
     };
   }
-
-  return redirect("/agency/profile/details");
 }
 
 export async function logout() {
-  const sessionCookie = await lucia.createBlankSessionCookie();
-  const cookieStore = await cookies();
-  cookieStore.set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes,
-  );
-  cookieStore.set("auth-cookie-exists", "", {
-    ...sessionCookie.attributes,
-    httpOnly: false,
-  });
+  const { session } = await getCurrentSession();
+
+  if (!session) {
+    return redirect("/");
+  }
+
+  await invalidateSession(session.id);
+  await deleteSessionTokenCookie();
+
   return { success: true };
 }
 

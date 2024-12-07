@@ -29,10 +29,12 @@ datasource db {
 enum AccountType {
   ADMIN
   USER
+  AGENCY
 }
 
 model Session {
-  id        Int      @id @default(autoincrement())
+  // id        Int      @id @default(autoincrement())
+  id        String   @id
   accountId Int
   expiresAt DateTime
   account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
@@ -64,23 +66,27 @@ model Agency {
   updatedAt DateTime @updatedAt
 
   // Unique fields
-  name                  String?        @unique @db.VarChar(80)
-  slug                  String?        @unique @db.VarChar(80)
-  address               String?        @db.VarChar(150)
-  website               String?        @db.VarChar(50)
-  phone                 String?        @db.VarChar(20)
+  name                  String?   @unique @db.VarChar(80)
+  slug                  String?   @unique @db.VarChar(80)
+  address               String?   @db.VarChar(150)
+  website               String?   @db.VarChar(50)
+  phone                 String?   @db.VarChar(20)
   phoneVerified         DateTime?
-  logoUrl               String?        @db.VarChar(200)
-  contactPersonFullName String?        @db.VarChar(50)
-  contactPersonEmail    String?        @db.VarChar(60)
-  contactPersonPhone    String?        @db.VarChar(20)
-  workHours             String?        @db.VarChar(20)
-  gpsLocation           String?        @db.VarChar(30) // lng,lat (6 decimal rounded) 
-  description           String?        @db.VarChar(2000)
-  shortDescription      String?        @db.VarChar(500)
-  branding              String?        @db.VarChar(200) // JSON sting that represents colors picked
-  listings              Listing[]
-  notifications         Notification[]
+  logoUrl               String?   @db.VarChar(200)
+  contactPersonFullName String?   @db.VarChar(50)
+  contactPersonEmail    String?   @db.VarChar(60)
+  contactPersonPhone    String?   @db.VarChar(20)
+  workHours             String?   @db.VarChar(20)
+  gpsLocation           String?   @db.VarChar(30) // lng,lat (6 decimal rounded) 
+  description           String?   @db.VarChar(2000)
+  shortDescription      String?   @db.VarChar(500)
+  branding              String?   @db.VarChar(200) // JSON sting that represents colors picked
+
+  // Optional fields
+  // isProfileComplete     Boolean        @default(false)
+
+  listings      Listing[]
+  notifications Notification[]
 }
 
 model User {

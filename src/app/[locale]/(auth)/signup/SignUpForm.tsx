@@ -1,16 +1,9 @@
 "use client";
-import { Form } from "@/components/Form";
-import { signUpAsUser } from "@/server/actions/auth.actions";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-
-import { useActionState } from "react";
+import SignUpFormWrapper from "./SignUpFormWrapper";
 interface SignUpFormProps {}
 export default function SignUpForm({}: SignUpFormProps) {
-  const [state, formAction] = useActionState(signUpAsUser, {
-    error: "",
-    success: false,
-  });
   const t = useTranslations();
 
   return (
@@ -25,7 +18,7 @@ export default function SignUpForm({}: SignUpFormProps) {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <Form action={formAction} state={state}>
+        <SignUpFormWrapper>
           <div>
             <label
               htmlFor="email"
@@ -39,7 +32,7 @@ export default function SignUpForm({}: SignUpFormProps) {
                 name="email"
                 type="email"
                 required
-                autoComplete="email"
+                autoComplete="off"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -51,7 +44,8 @@ export default function SignUpForm({}: SignUpFormProps) {
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                {t("auth.signUp.password")} <span className="text-red-500">*</span>
+                {t("auth.signUp.password")}{" "}
+                <span className="text-red-500">*</span>
               </label>
             </div>
             <div className="mt-2">
@@ -60,7 +54,7 @@ export default function SignUpForm({}: SignUpFormProps) {
                 name="password"
                 type="password"
                 required
-                autoComplete="current-password"
+                autoComplete="off"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -72,7 +66,8 @@ export default function SignUpForm({}: SignUpFormProps) {
                 htmlFor="confirm-password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                {t("auth.signUp.confirmPassword")} <span className="text-red-500">*</span>
+                {t("auth.signUp.confirmPassword")}{" "}
+                <span className="text-red-500">*</span>
               </label>
             </div>
             <div className="mt-2">
@@ -95,7 +90,7 @@ export default function SignUpForm({}: SignUpFormProps) {
               {t("auth.signUp.button")}
             </button>
           </div>
-        </Form>
+        </SignUpFormWrapper>
         <p className="mt-10 text-center text-sm text-gray-500">
           {t("auth.signUp.hasAccount")}{" "}
           <Link
