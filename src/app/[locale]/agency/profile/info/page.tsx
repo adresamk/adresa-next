@@ -1,15 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { redirect } from "@/i18n/routing";
 import { getUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/sessions";
 import { updateUserInfo } from "@/server/actions/user.actions";
 
 export default async function ProfileInfoPage() {
   // we always expect user because of the layout auth
-  const user = await getUser();
-  // if (!user) {
-  //   redirect("/signin?redirect=/profile/info");
-  // }
+
+  const { isAuthorized, agency } = await getCurrentUser();
+
+  if (isAuthorized && !agency) {
+    redirect({ href: "/agency/profile/details", locale: "mk" });
+  }
+
   return (
     <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
       <h3 className="mb-3 text-2xl font-semibold">Profile Info</h3>

@@ -8,6 +8,8 @@ import AgencyLogoUpload from "./_components/AgencyLogoUpload";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { updateAgencyDetails } from "@/server/actions/user.actions";
+import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
+import { redirect } from "@/i18n/routing";
 
 type Params = Promise<Record<string, string>>;
 
@@ -17,15 +19,23 @@ export default async function AgencyProfileDetailsPage({
   searchParams: Params;
 }) {
   const params = await searchParams;
-  const user = await getUser();
-  if (!user || !user.agencyId) {
-    return <div>Unauthorized</div>;
+  console.log(params);
+
+  const { session, account } = await getCurrentSession();
+
+  console.log("Session", session, "Account", account);
+
+  if (!session || !account) {
+    redirect({
+      href: "/",
+      locale: "mk",
+    });
   }
-  const agency = await prismadb.agency.findFirst({
-    where: {
-      id: user.agencyId,
-    },
-  });
+
+  const { isAuthorized, agency } = await getCurrentUser();
+
+  console.log("Current User", isAuthorized, agency);
+  // First Time Here, they need to setup profile
 
   return (
     <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
@@ -40,6 +50,7 @@ export default async function AgencyProfileDetailsPage({
       </Alert>
       <form
         action={async (formData: FormData) => {
+          "use server";
           const result = await updateAgencyDetails(formData);
           if (result && result.error) {
             // Handle error (e.g., show a notification)

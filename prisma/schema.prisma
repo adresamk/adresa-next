@@ -76,7 +76,7 @@ model Agency {
   contactPersonFullName String?   @db.VarChar(50)
   contactPersonEmail    String?   @db.VarChar(60)
   contactPersonPhone    String?   @db.VarChar(20)
-  workHours             String?   @db.VarChar(20)
+  workHours             String?   @db.VarChar(250) // Text area so we allow more characters
   gpsLocation           String?   @db.VarChar(30) // lng,lat (6 decimal rounded) 
   description           String?   @db.VarChar(2000)
   shortDescription      String?   @db.VarChar(500)

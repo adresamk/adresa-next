@@ -1,17 +1,24 @@
 "use server";
 
+import { redirect } from "@/i18n/routing";
 import { getUser, validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
+import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 import { capitalizeString } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 export async function updateAgencyDetails(formData: FormData) {
-  const user = await getUser();
-  if (!user || !user.agencyId) {
+  const { isAuthorized, agency } = await getCurrentUser();
+  const { session, account } = await getCurrentSession();
+
+  // This should never be called technically
+  if (!account || !session) {
     return {
       success: false,
-      error: "Unauthenticated",
+      error: "Unauthorized",
     };
   }
+
   console.log("userFormData", formData);
   const name = formData.get("name");
   const address = formData.get("address");
@@ -50,27 +57,55 @@ export async function updateAgencyDetails(formData: FormData) {
     };
   }
 
-  await prismadb.agency.update({
-    where: {
-      id: user.agencyId,
-    },
-    data: {
-      name,
-      slug: name.toLowerCase().replace(" ", "-"),
-      address,
-      logoUrl,
-      website,
-      phone,
-      contactPersonFullName,
-      contactPersonEmail,
-      contactPersonPhone,
-      workHours,
-      gpsLocation,
-      description,
-      shortDescription,
-      branding,
-    },
-  });
+  // on first time here, we need to check if the user has an agency
+  // if not, they're just setting up their profile and we need to create an agency for them
+  if (!agency) {
+    // create an agency
+    await prismadb.agency.create({
+      data: {
+        accountId: account.id,
+        uuid: account.uuid,
+        name,
+        slug: name.toLowerCase().replace(" ", "-"),
+        address,
+        website,
+        phone,
+        logoUrl,
+        contactPersonFullName,
+        contactPersonEmail,
+        contactPersonPhone,
+        workHours,
+        gpsLocation,
+        description,
+        shortDescription,
+        branding,
+      },
+    });
+  }
+  if (agency) {
+    await prismadb.agency.update({
+      where: {
+        id: agency.id,
+      },
+      data: {
+        name,
+        slug: name.toLowerCase().replace(" ", "-"),
+        address,
+        logoUrl,
+        website,
+        phone,
+        contactPersonFullName,
+        contactPersonEmail,
+        contactPersonPhone,
+        workHours,
+        gpsLocation,
+        description,
+        shortDescription,
+        branding,
+      },
+    });
+  }
+  redirect({ href: "/agency/profile/details", locale: "mk" });
 }
 
 function validPhoneNumber(phone: string) {
@@ -166,11 +201,11 @@ export async function sendVerificationEmail(
 }
 
 export async function updateUserInfo(formData: FormData) {
-  const { user } = await validateRequest();
-  if (!user) {
+  const { agency } = await getCurrentUser();
+  if (!agency) {
     return {
       success: false,
-      error: "Unauthenticated",
+      error: "Unauthorized",
     };
   }
 
@@ -195,7 +230,7 @@ export async function updateUserInfo(formData: FormData) {
   // update user info
   await prismadb.user.update({
     where: {
-      id: user.id,
+      id: agency.id,
     },
     data: {
       firstName: capitalizeString(firstName),

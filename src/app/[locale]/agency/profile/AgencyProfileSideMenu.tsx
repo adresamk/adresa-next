@@ -4,8 +4,9 @@ import { HousePlus, LayoutDashboard, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import { Agency } from "@prisma/client";
 
-export default function ProfileSideMenu() {
+export default function ProfileSideMenu({ agency }: { agency: Agency | null }) {
   const pathname = usePathname();
   const t = useTranslations();
 
@@ -26,6 +27,25 @@ export default function ProfileSideMenu() {
       path: "/agency/profile/listings",
     },
   ];
+  if (!agency) {
+    return (
+      <nav>
+        <ul>
+          <Link href={profileNavigation[1].path} prefetch>
+            <li
+              className={cn(
+                "flex items-center gap-3 px-5 py-3",
+                pathname === profileNavigation[1].path &&
+                  "border-l-2 border-brand-light-blue",
+              )}
+            >
+              {profileNavigation[1].icon} {profileNavigation[1].label}
+            </li>
+          </Link>
+        </ul>
+      </nav>
+    );
+  }
 
   return (
     <nav>

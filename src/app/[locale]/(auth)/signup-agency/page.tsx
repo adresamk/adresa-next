@@ -35,7 +35,7 @@ export default function SignUp() {
 
       <Alert className="mb-4 mt-10 border-orange-400 text-orange-400 sm:mx-auto sm:w-full sm:max-w-sm">
         <Info className="h-4 w-4" />
-        <AlertTitle>{t("auth.agencySignUp.importantInfo")}</AlertTitle>
+        <AlertTitle>{t("auth.agencySignUp.important")}</AlertTitle>
         <AlertDescription className="text-slate-900">
           {t("auth.agencySignUp.profileInfo")}
         </AlertDescription>

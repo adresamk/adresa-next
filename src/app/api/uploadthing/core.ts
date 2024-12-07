@@ -1,4 +1,5 @@
 import { getUser } from "@/lib/auth";
+import { getCurrentSession } from "@/lib/sessions";
 import { cookies } from "next/headers";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
@@ -16,25 +17,23 @@ export const ourFileRouter = {
     .middleware(async ({ req, files }) => {
       // This code runs on your server before upload
       //   const user = await auth(req);
-      const user = await getUser();
+      const { session, account } = await getCurrentSession();
 
       // If you throw, the user will not be able to upload
-      if (!user) throw new UploadThingError("Unauthorized");
-      const agencyId = user.agencyId;
+      if (!account) throw new UploadThingError("Unauthorized");
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: user.id, agencyId: agencyId };
+      return { accountUuid: account.uuid, agencyId: account.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userId);
+      console.log("Upload complete for accountUuid:", metadata.accountUuid);
 
       console.log("file url", file.url);
       console.log("!!! Agency Id !!!", metadata.agencyId);
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return {
-        userId: metadata.userId,
         agencyId: metadata.agencyId,
       };
     }),

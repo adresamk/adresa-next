@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { ActionResult } from "@/components/Form";
 import prismadb from "@/lib/db";
 import { Argon2id } from "oslo/password";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 import { generateCodeVerifier, generateState } from "arctic";
@@ -184,7 +184,10 @@ export async function signUpAsUser(
     };
   }
 
-  return redirect("/");
+  return redirect({
+    href: "/",
+    locale: "mk",
+  });
 }
 
 export async function signUpAsAgency(
@@ -240,12 +243,13 @@ export async function signUpAsAgency(
         hashedPassword,
       },
     });
-    const agency = await prismadb.agency.create({
-      data: {
-        uuid: account.uuid,
-        accountId: account.id,
-      },
-    });
+
+    // const agency = await prismadb.agency.create({
+    //   data: {
+    //     uuid: account.uuid,
+    //     accountId: account.id,
+    //   },
+    // });
 
     const token = await generateSessionToken();
     const session = await createSession(token, account.id);
@@ -270,13 +274,20 @@ export async function logout() {
   const { session } = await getCurrentSession();
 
   if (!session) {
-    return redirect("/");
+    return redirect({
+      href: "/",
+      locale: "mk",
+    });
   }
 
   await invalidateSession(session.id);
   await deleteSessionTokenCookie();
 
-  return { success: true };
+  redirect({
+    href: "/",
+    locale: "mk",
+  });
+  // return { success: true };
 }
 
 export async function getGoogleOAuthConsentURL() {
