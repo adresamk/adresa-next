@@ -21,12 +21,9 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
 import { municipalities } from "@/lib/data/macedonia/macedoniaPopulatedPlaces2";
+import { Listing } from "@prisma/client";
 
-export default function ListingImages({
-  listing,
-}: {
-  listing: SerializedListing;
-}) {
+export default function ListingImages({ listing }: { listing: Listing }) {
   const [isOpen, setIsOpen] = useState(false);
   const [openTab, setOpenTab] = useState("overview");
   const [openImageIndex, setOpenImageIndex] = useState<null | number>(null);

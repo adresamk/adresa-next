@@ -1,4 +1,5 @@
 import {
+  FeatureCategory,
   PropertyCategory,
   PropertyTransactionType,
   PropertyType,
@@ -43,3 +44,12 @@ export const orientationOptions = [
 ];
 
 export const locationPrecisionOptions = ["exact", "approximate", "wide"];
+
+export const featuresCategories = Object.values(FeatureCategory);
+export const features: Record<FeatureCategory, string[]> = {
+  INTERNAL: ["wifi", "ac", "elevator", "alart", "protectionDoor", "spajz"],
+  EXTERNAL: ["garage"],
+  UTILITIES: [],
+  ROOMS: ["bedroom", "living", "wcs", "kitchen", "bathroom"],
+  OTHER: [],
+};

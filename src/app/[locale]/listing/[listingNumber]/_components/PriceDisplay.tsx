@@ -1,11 +1,10 @@
-import { SerializedListing } from "@/lib/types";
 import { displayPrice } from "@/lib/utils";
 
 import { displayPricePerSquare } from "@/lib/utils";
 import { Listing } from "@prisma/client";
 
 interface PriceDisplayProps {
-  listing: SerializedListing;
+  listing: Listing;
 }
 export default function PriceDisplay({ listing }: PriceDisplayProps) {
   return (
@@ -23,22 +22,3 @@ export default function PriceDisplay({ listing }: PriceDisplayProps) {
     </div>
   );
 }
-
-let a = (
-  <div className="central-feature-wrapper">
-    <div className="central-feature">
-      <span data-value="63.000">
-        <i>63.000&nbsp;€</i>
-      </span>
-      <div className="price-shadow">
-        {/*  eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/assets/price-shadow.png" alt="Cena" />
-      </div>
-    </div>
-    <div className="price-by-surface">
-      <span>
-        1.750 €/m<sup>2</sup>
-      </span>
-    </div>
-  </div>
-);

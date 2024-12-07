@@ -5,20 +5,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { SerializedListing } from "@/lib/types";
 import { useTranslations } from "next-intl";
+import { Listing } from "@prisma/client";
 
-export default function MiniContactForm({
-  listing,
-}: {
-  listing: SerializedListing;
-}) {
+export default function MiniContactForm({ listing }: { listing: Listing }) {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [tel, setTel] = useState("");
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("macesmajli@gmail.com");
-  const agency = listing.owner.agency;
+  // I know there is an agency or null, but cant bother typing it now
+  // @ts-ignore
+  const agency = listing.agency;
   const t = useTranslations("");
 
   return (

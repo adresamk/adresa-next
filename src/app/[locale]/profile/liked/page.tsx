@@ -12,7 +12,12 @@ export default async function ProfileLikedPage() {
       <div className="ml-4 mt-4 w-full rounded-lg bg-white p-8 shadow">
         <h3 className="mb-3 text-2xl font-semibold">Favorite Listings</h3>
         <Separator className="my-3" />
-        <MyLikedListings listings={myLikedListings} />
+        {myLikedListings && <MyLikedListings listings={myLikedListings} />}
+        {!myLikedListings && (
+          <div className="flex h-full items-center justify-center">
+            <p>You havent liked any listings yet</p>
+          </div>
+        )}
       </div>
       <div className="ml-4 mt-4 flex h-[220px] items-center justify-between overflow-x-auto rounded-lg bg-white p-8 shadow">
         <div>

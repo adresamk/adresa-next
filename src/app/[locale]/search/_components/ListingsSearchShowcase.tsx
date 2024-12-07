@@ -88,7 +88,7 @@ export default async function beListingsSearchShowcase({
                       <LampFloor width={17} height={17} className="mr-1" />
                       <span>
                         <span className="mr-0.5 text-sm font-medium">
-                          {listingRef.livingRooms}
+                          {/* {listingRef.livingRooms} */}
                         </span>
                       </span>
                     </li>
@@ -99,7 +99,7 @@ export default async function beListingsSearchShowcase({
                       <Bed width={17} height={17} className="mr-1" />
                       <span>
                         <span className="mr-0.5 text-sm font-medium">
-                          {listingRef.bedrooms}
+                          {/* {listingRef.bedrooms} */}
                         </span>
                         {t("listing.features.bedroomsAbbr")}
                       </span>
@@ -111,7 +111,7 @@ export default async function beListingsSearchShowcase({
                       <Bath width={17} height={17} className="mr-1" />
                       <span>
                         <span className="mr-0.5 text-sm font-medium">
-                          {listingRef.bathrooms}
+                          {/* {listingRef.bathrooms} */}
                         </span>
                         {t("listing.features.bathroomsAbbr")}
                       </span>

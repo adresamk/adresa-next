@@ -281,11 +281,11 @@ model Listing {
 
   // tags are something that will be calculated based on other fields
   //tags        String[]         @default([])
-  isPaidPromo Boolean          @default(false)
-  favoritedBy Favorite[]
+  isPaidPromo     Boolean          @default(false)
+  favoritedBy     Favorite[]
   // extract this into user as separate values
-  contactData String?          @default("") // JSON with contact data
-  features    ListingFeature[]
+  contactData     String?          @default("") // JSON with contact data
+  listingFeatures ListingFeature[]
 
   // Should go to cateogry Residental
   // orientation String? // 'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'

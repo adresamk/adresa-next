@@ -86,7 +86,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                 <LampFloor width={17} height={17} className="mr-1" />
                 <span>
                   <span className="mr-0.5 text-sm font-medium">
-                    {listing.floorNumber}
+                    {/* {listing.floorNumber} */}
                   </span>
                 </span>
               </li>
@@ -97,7 +97,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                 <Bed width={17} height={17} className="mr-1" />
                 <span>
                   <span className="mr-0.5 text-sm font-medium">
-                    {listing.bedrooms}
+                    {/* {listing.bedrooms} */}
                   </span>
                   {t("common.listing.features.bedroomsAbbr")}
                 </span>
@@ -109,7 +109,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                 <Bath width={17} height={17} className="mr-1" />
                 <span>
                   <span className="mr-0.5 text-sm font-medium">
-                    {listing.bathrooms}
+                    {/* {listing.bathrooms} */}
                   </span>
                   {t("common.listing.features.bathroomsAbbr")}
                 </span>

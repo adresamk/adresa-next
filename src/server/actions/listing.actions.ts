@@ -9,11 +9,16 @@ import { notFound, redirect } from "next/navigation";
 import { getUser } from "@/lib/auth";
 import { ListingContactData } from "@/lib/types";
 import { cookies } from "next/headers";
-import { Listing } from "@prisma/client";
-import { getCurrentUser } from "@/lib/sessions";
+import {
+  Listing,
+  PropertyCategory,
+  PropertyTransactionType,
+  PropertyType,
+} from "@prisma/client";
+import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 
 export async function createListing() {
-  const { user, session } = await validateRequest();
+  const { session } = await getCurrentSession();
   if (!session) {
     redirect("/signin?redirect=/listing/new");
   } else {
@@ -21,8 +26,9 @@ export async function createListing() {
   }
 }
 
-export async function addListingAsFavorite(listingId: string) {
-  const { user } = await validateRequest();
+export async function addListingAsFavorite(listingId: number) {
+  // const { user } = await validateRequest();
+  const { user } = await getCurrentUser();
 
   if (!user) {
     return {
@@ -64,8 +70,8 @@ export async function addListingAsFavorite(listingId: string) {
   };
 }
 
-export async function removeListingAsFavorite(listingId: string) {
-  const { user } = await validateRequest();
+export async function removeListingAsFavorite(listingId: number) {
+  const { user } = await getCurrentUser();
 
   if (!user) {
     return {
@@ -91,10 +97,10 @@ export async function removeListingAsFavorite(listingId: string) {
 }
 
 export async function getLikedListingsByUser() {
-  const { user } = await validateRequest();
+  const { user } = await getCurrentUser();
 
   if (!user) {
-    redirect("/");
+    return null;
   }
   const likedListingsByUser = await prismadb.favorite.findMany({
     where: {
@@ -122,7 +128,8 @@ export async function deleteListing(formData: FormData) {
     };
   }
 
-  const { user, session } = await validateRequest();
+  const { session } = await getCurrentSession();
+
   if (!session) {
     return {
       success: false,
@@ -132,7 +139,7 @@ export async function deleteListing(formData: FormData) {
 
   await prismadb.listing.delete({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
   });
 
@@ -164,7 +171,7 @@ export async function adjustListingVisibility(formData: FormData) {
       error: "isVisible is incorrect value",
     };
   }
-  const { user, session } = await validateRequest();
+  const { session } = await getCurrentSession();
   if (!session) {
     return {
       success: false,
@@ -175,7 +182,7 @@ export async function adjustListingVisibility(formData: FormData) {
   const wasVisible = isVisible === "true";
   await prismadb.listing.update({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
     data: {
       isVisible: !wasVisible,
@@ -189,20 +196,17 @@ export async function adjustListingVisibility(formData: FormData) {
   };
 }
 
-export async function getListing(listingNumber: string) {
+export async function getListing(listingNumber: number) {
   try {
-    const listing = (await prismadb.listing.findUnique({
+    const listing = await prismadb.listing.findUnique({
       where: {
-        listingNumber: Number(listingNumber),
+        listingNumber: listingNumber,
       },
       include: {
-        owner: {
-          select: {
-            agency: true,
-          },
-        },
+        agency: true,
+        user: true,
       },
-    })) as ListingWithOwnerAndAgency;
+    });
 
     if (!listing) {
       notFound();
@@ -246,7 +250,7 @@ export async function getFavoriteStatus(listingId: number) {
 
 export async function addNewListing(formData: FormData) {
   // console.log("Adding new listing", formData);
-  const user = await getUser();
+  const { user, agency } = await getCurrentUser();
   if (!user) {
     const cookieStore = await cookies();
     // cookieStore.set("signin-redirect", "/listing/new");
@@ -292,21 +296,26 @@ export async function addNewListing(formData: FormData) {
     });
   }
 
+  // TODO: create a way to separate contact data
   // create listing
   const listing = await prismadb.listing.create({
     data: {
-      category: category,
-      type: type,
-      transactionType: transactionType,
+      category: category as PropertyCategory,
+      type: type as PropertyType,
+      transactionType: transactionType as PropertyTransactionType,
       userId: user.id,
       listingNumber: listingNumber.value + 1,
       contactData: JSON.stringify({
-        email: user.email,
-        emailVerified: user.emailVerified ? true : false,
-        phone: user.phone,
-        phoneVerified: user.phoneVerified ? true : false,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        email: user ? "user.email" : agency?.contactPersonEmail,
+        emailVerified: user ? true : false,
+        phone: user ? user.phone : agency?.contactPersonPhone,
+        phoneVerified: user ? user.phoneVerified : false,
+        firstName: user
+          ? user.firstName
+          : agency?.contactPersonFullName?.split(" ")[0],
+        lastName: user
+          ? user.lastName
+          : agency?.contactPersonFullName?.split(" ")[1],
         contactHours: "anytime",
       } as ListingContactData),
     },
@@ -341,7 +350,7 @@ export async function attachImagesToListing(
   images: string[],
   listingNumber: number,
 ) {
-  const { user } = await validateRequest();
+  const { user } = await getCurrentUser();
   if (!user) {
     return {
       success: false,
@@ -389,7 +398,7 @@ async function editType(formData: FormData) {
   const listingId = formData.get("listingId")! as string;
   const listing = await prismadb.listing.findUnique({
     where: {
-      id: listingId!,
+      id: Number(listingId),
     },
   });
 
@@ -403,10 +412,10 @@ async function editType(formData: FormData) {
   if (listing.type !== type) {
     updatedListing = await prismadb.listing.update({
       where: {
-        id: listingId,
+        id: Number(listingId),
       },
       data: {
-        type,
+        type: type as PropertyType,
       },
     });
   }
@@ -447,7 +456,7 @@ async function editLocation(formData: FormData) {
   const listingId = formData.get("listingId")! as string;
   const listing = await prismadb.listing.findUnique({
     where: {
-      id: listingId!,
+      id: Number(listingId),
     },
   });
 
@@ -461,7 +470,7 @@ async function editLocation(formData: FormData) {
   const [latitude, longitude] = coordinates.split(",");
   const updatedListing = await prismadb.listing.update({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
     data: {
       municipality,
@@ -523,7 +532,7 @@ async function editCharacteristics(formData: FormData) {
   const listingId = formData.get("listingId")! as string;
   const listing = await prismadb.listing.findUnique({
     where: {
-      id: listingId!,
+      id: Number(listingId),
     },
   });
 
@@ -543,32 +552,33 @@ async function editCharacteristics(formData: FormData) {
     }
   }
 
-  const updatedListing = await prismadb.listing.update({
-    where: {
-      id: listingId,
-    },
-    data: {
-      area: Number(area),
-      price: Number(price.replace(/\,/g, "")),
-      floorNumber: Number(floorNumber),
-      orientation,
-      bedrooms: Number(bedrooms),
-      bathrooms: Number(bathrooms),
-      wcs: Number(wcs),
-      kitchens: Number(kitchens),
-      livingRooms: Number(livingRooms),
-      parking: featuresValue(parking),
-      elevator: featuresValue(elevator),
-      balcony: featuresValue(balcony),
-      yard: featuresValue(yard),
-      basement: featuresValue(basement),
-    },
-  });
+  const updatedListing = false;
+  // const updatedListing = await prismadb.listing.update({
+  //   where: {
+  //     id: Number(listingId),
+  //   },
+  //   data: {
+  //     area: Number(area),
+  //     price: Number(price.replace(/\,/g, "")),
+  //     floorNumber: floorNumber,
+  //     orientation,
+  //     bedrooms: Number(bedrooms),
+  //     bathrooms: Number(bathrooms),
+  //     wcs: Number(wcs),
+  //     kitchens: Number(kitchens),
+  //     livingRooms: Number(livingRooms),
+  //     parking: featuresValue(parking),
+  //     elevator: featuresValue(elevator),
+  //     balcony: featuresValue(balcony),
+  //     yard: featuresValue(yard),
+  //     basement: featuresValue(basement),
+  //   },
+  // });
 
   return {
     success: true,
     data: {
-      listing: updatedListing,
+      listing: updatedListing ? updatedListing : listing,
     },
   };
 }
@@ -582,12 +592,16 @@ async function editDescription(formData: FormData) {
   const mkdDescription = formData.get("mkdDescription");
   const albDescription = formData.get("albDescription");
   const title = formData.get("title");
+  const mkdTitle = formData.get("mkdTitle");
+  const albTitle = formData.get("albTitle");
 
   if (
     typeof description !== "string" ||
     typeof mkdDescription !== "string" ||
     typeof albDescription !== "string" ||
-    typeof title !== "string"
+    typeof title !== "string" ||
+    typeof mkdTitle !== "string" ||
+    typeof albTitle !== "string"
   ) {
     return {
       success: false,
@@ -598,7 +612,7 @@ async function editDescription(formData: FormData) {
   const listingId = formData.get("listingId")! as string;
   const listing = await prismadb.listing.findUnique({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
   });
 
@@ -611,13 +625,15 @@ async function editDescription(formData: FormData) {
 
   const updatedListing = await prismadb.listing.update({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
     data: {
       description,
       mkdDescription,
       albDescription,
       title,
+      mkdTitle,
+      albTitle,
     },
   });
 
@@ -642,7 +658,7 @@ async function editMedia(formData: FormData) {
   const listingId = formData.get("listingId")! as string;
   const listing = await prismadb.listing.findUnique({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
   });
 
@@ -655,7 +671,7 @@ async function editMedia(formData: FormData) {
 
   const updatedListing = await prismadb.listing.update({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
     data: {
       videoLink,
@@ -691,7 +707,7 @@ async function editContactDetails(formData: FormData) {
   const listingId = formData.get("listingId")! as string;
   const listing = await prismadb.listing.findUnique({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
   });
 
@@ -703,7 +719,7 @@ async function editContactDetails(formData: FormData) {
   }
   const updatedListing = await prismadb.listing.update({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
     data: {
       contactData: JSON.stringify({
@@ -739,7 +755,7 @@ async function editPublishing(formData: FormData) {
   const listingId = formData.get("listingId")! as string;
   const listing = await prismadb.listing.findUnique({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
   });
 
@@ -754,7 +770,7 @@ async function editPublishing(formData: FormData) {
 
   const updatedListing = await prismadb.listing.update({
     where: {
-      id: listingId,
+      id: Number(listingId),
     },
     data: {
       isPublished: makePublished,

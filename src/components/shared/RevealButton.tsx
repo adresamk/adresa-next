@@ -2,22 +2,23 @@
 import { Globe, Phone } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 interface RevealButtonProps {
-  value: string;
+  value: string | null | undefined;
   usecase: "website" | "phone";
   variant?: "ghost" | "outline";
 }
 
 export default function RevealButton({
-  value = "Empty Value",
+  value,
   usecase,
   variant = "ghost",
 }: RevealButtonProps) {
   const [isRevealed, setIsRevealed] = useState(false);
   const t = useTranslations();
 
+  if (!value) return null;
   return (
     <Button
       variant={variant}
@@ -30,13 +31,15 @@ export default function RevealButton({
         <>
           {usecase === "website" && (
             <>
-              <Globe className="mr-2" /> {t('common.property.publisherDetails.website')}
+              <Globe className="mr-2" />{" "}
+              {t("common.property.publisherDetails.website")}
             </>
           )}
 
           {usecase === "phone" && (
             <>
-              <Phone className="mr-2" /> {t('common.property.publisherDetails.phone')}
+              <Phone className="mr-2" />{" "}
+              {t("common.property.publisherDetails.phone")}
             </>
           )}
         </>

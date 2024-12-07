@@ -1,4 +1,4 @@
-import { SerializedListing } from "@/lib/types";
+import { Listing } from ".prisma/client";
 import {
   displayArea,
   displayDate,
@@ -7,11 +7,7 @@ import {
 } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-export default function FeaturesTable({
-  listing,
-}: {
-  listing: SerializedListing;
-}) {
+export default function FeaturesTable({ listing }: { listing: Listing }) {
   const t = useTranslations();
 
   return (
@@ -46,10 +42,10 @@ export default function FeaturesTable({
             {t("common.property.features.floor")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {t("common.property.features.floorInfo", {
+            {/* {t("common.property.features.floorInfo", {
               floor: listing.floorNumber,
               total: 7,
-            })}
+            })} */}
           </td>
         </tr>
         <tr>
@@ -57,10 +53,10 @@ export default function FeaturesTable({
             {t("common.property.features.kitchen")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.kitchens}{" "}
+            {/* {listing.kitchens}{" "}
             {listing.kitchens === 1
               ? t("common.property.features.kitchen")
-              : t("common.property.features.kitchens")}
+              : t("common.property.features.kitchens")} */}
           </td>
         </tr>
         <tr>
@@ -68,10 +64,10 @@ export default function FeaturesTable({
             {t("common.property.features.bathroom")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.bathrooms}{" "}
+            {/* {listing.bathrooms}{" "}
             {listing.bathrooms === 1
               ? t("common.property.features.bathroom")
-              : t("common.property.features.bathrooms")}
+              : t("common.property.features.bathrooms")} */}
           </td>
         </tr>
         <tr>
@@ -79,7 +75,7 @@ export default function FeaturesTable({
             {t("common.property.features.parking")}
           </td>
           <td className="border border-slate-600 px-2 font-semibold text-black">
-            {listing.parking ? "1" : "0"}{" "}
+            {/* {listing.parking ? "1" : "0"}{" "} */}
             {t("common.property.features.parking")}
           </td>
         </tr>

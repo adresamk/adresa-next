@@ -3,15 +3,12 @@
 import LikeListingButton from "@/app/[locale]/search/_components/LikeListingButton";
 import { Button } from "@/components/ui/button";
 import { SerializedListing } from "@/lib/types";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 import { EyeOff, Mail, NotebookText, Printer, Share2 } from "lucide-react";
+import { Listing } from "@prisma/client";
 
-export default function ListingActions({
-  listing,
-}: {
-  listing: SerializedListing;
-}) {
+export default function ListingActions({ listing }: { listing: Listing }) {
   const t = useTranslations();
 
   return (
@@ -19,7 +16,7 @@ export default function ListingActions({
       <li>
         <Button
           size={"icon"}
-          title={t('listing.actions.print')}
+          title={t("listing.actions.print")}
           variant={"outline"}
           className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >
@@ -29,7 +26,7 @@ export default function ListingActions({
       <li>
         <Button
           size={"icon"}
-          title={t('listing.actions.share')}
+          title={t("listing.actions.share")}
           variant={"outline"}
           className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >
@@ -39,7 +36,7 @@ export default function ListingActions({
       <li>
         <Button
           size={"icon"}
-          title={t('listing.actions.notes')}
+          title={t("listing.actions.notes")}
           variant={"outline"}
           className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >
@@ -49,7 +46,7 @@ export default function ListingActions({
       <li>
         <Button
           size={"icon"}
-          title={t('listing.actions.hide')}
+          title={t("listing.actions.hide")}
           variant={"outline"}
           className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >
@@ -59,7 +56,7 @@ export default function ListingActions({
       <li>
         <Button
           size={"icon"}
-          title={t('listing.actions.contact')}
+          title={t("listing.actions.contact")}
           variant={"outline"}
           className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >

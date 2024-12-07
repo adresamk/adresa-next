@@ -1,6 +1,90 @@
 export const dynamic = "force-static";
 export const revalidate = 86400;
 
+// Example listing
+// {
+//   id: 2,
+//   uuid: 'l-customuuid                        ',
+//   externalRef: null,
+//   listingNumber: 10002,
+//   createdAt: 2024-12-06T03:09:20.000Z,
+//   updatedAt: 2024-12-06T03:09:21.000Z,
+//   dateAvailable: 2024-12-06T03:09:23.000Z,
+//   isAvailable: true,
+//   userId: null,
+//   agencyId: 9,
+//   transactionType: 'sale',
+//   category: 'residential',
+//   type: 'apartment',
+//   municipality: '10001',
+//   place: '20101',
+//   address: 'Okt revol',
+//   fullAddress: 'asfsdfasfsdfasf',
+//   district: null,
+//   longitude: 42.321312,
+//   latitude: 21.523123,
+//   locationPrecision: 'exact',
+//   title: 'Title1',
+//   mkdTitle: 'mkdtitle',
+//   albTitle: 'albtitle',
+//   description: 'Description 1',
+//   mkdDescription: 'mkddescription',
+//   albDescription: 'albDescriptin',
+//   price: 60000,
+//   previousPrice: 50000,
+//   priceHistory: null,
+//   area: 64,
+//   mainImage: 'https://media.istockphoto.com/id/1393537665/photo/modern-townhouse-design.jpg?s=612x612&w=0&k=20&c=vgQesOXDRzz0UfOZxmUtE-rFe75YgA9GvkKS8eeeumE=',
+//   images: [
+//     'https://media.istockphoto.com/id/1393537665/photo/modern-townhouse-design.jpg?s=612x612&w=0&k=20&c=vgQesOXDRzz0UfOZxmUtE-rFe75YgA9GvkKS8eeeumE='
+//   ],
+//   videoLink: null,
+//   status: 'DRAFT',
+//   isArchived: false,
+//   isPublished: true,
+//   isVisible: true,
+//   publishedAt: 2024-12-07T21:09:02.000Z,
+//   publishEndDate: null,
+//   isPaidPromo: false,
+//   contactData: 'What is contact data ?',
+//   agency: {
+//     id: 9,
+//     uuid: 'e3120854-39ae-4523-bfb1-db7b5ff9b5fd',
+//     accountId: 16,
+//     createdAt: 2024-12-07T05:04:11.049Z,
+//     updatedAt: 2024-12-07T05:55:53.846Z,
+//     ownerFirstName: 'Mace',
+//     ownerLastName: 'Krste',
+//     ownerEmail: 'agencyowner@agency.com',
+//     name: 'Test 3 Agency',
+//     slug: 'test-3 agency',
+//     address: 'Ttest skopja',
+//     website: 'www.google.com',
+//     phone: '077766669',
+//     phoneVerified: null,
+//     logoUrl: 'https://utfs.io/f/1P2jwfCNCFgAUG8TJNBCkRnVs0L6KAjdPQDyb4rhHYTOqX5a',
+//     contactPersonFullName: 'Mario Krstevski',
+//     contactPersonEmail: 'mariokrstevski@hotmail.com',
+//     contactPersonPhone: '+38977766669',
+//     workHours: 'Понеделник-Петок \r\n' +
+//       ' 08:00-17:00 \r\n' +
+//       ' Субота \r\n' +
+//       ' 08:00-13:00 \r\n' +
+//       ' Недела \r\n' +
+//       ' Затворено',
+//     gpsLocation: '41.994502, 21.430926',
+//     description: 'Long',
+//     shortDescription: 'Short',
+//     branding: 'blablabal'
+//   },
+//   user: null,
+//   commercial: null,
+//   listingFeatures: [],
+//   residential: null,
+//   land: null,
+//   other: null
+// }
+
 export const metadata = {
   title: "Listing Details",
   description: "View property listing details",
@@ -38,17 +122,18 @@ import { extractPublisherData } from "./helpers";
 import { getListing } from "@/server/actions/listing.actions";
 import PriceDisplay from "./_components/PriceDisplay";
 import { MortgageCalculator } from "@/components/MortgageCalculator";
+import PublisherInfo from "./_components/PublisherInfo";
 
-function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
-  return {
-    ...listing,
-    createdAt: displayDate(listing.createdAt) || "",
-    updatedAt: displayDate(listing.updatedAt) || "",
-    availabilityDate: displayDate(listing.availabilityDate) || "",
-    publishedAt: displayDate(listing.publishedAt),
-    publishEndDate: displayDate(listing.publishEndDate),
-  };
-}
+// function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
+//   return {
+//     ...listing,
+//     createdAt: displayDate(listing.createdAt) || "",
+//     updatedAt: displayDate(listing.updatedAt) || "",
+//     dateAvailable: displayDate(listing.dateAvailable) || "",
+//     publishedAt: displayDate(listing.publishedAt),
+//     publishEndDate: displayDate(listing.publishEndDate),
+//   };
+// }
 
 export default async function SingleListingPage({
   params,
@@ -59,12 +144,36 @@ export default async function SingleListingPage({
   const t = await getTranslations();
 
   if (isNaN(Number(listingNumber))) {
-    redirect("/404");
+    return <div>Not a listing number</div>;
+    // redirect("/404");
   }
 
-  const rawListing = await getListing(listingNumber);
-  const listing = serializeDates(rawListing);
-  const publisherData = extractPublisherData(listing);
+  const listing = await prismadb.listing.findUnique({
+    where: { listingNumber: Number(listingNumber) },
+    include: {
+      agency: true,
+      user: true,
+      commercial: true,
+      listingFeatures: {
+        include: {
+          feature: true,
+        },
+      },
+      residential: true,
+      land: true,
+      other: true,
+    },
+  });
+
+  if (!listing) {
+    return <div>Not found </div>;
+  }
+
+  console.log("Listing", listing);
+
+  // const rawListing = await getListing(listingNumber);
+  // const listing = serializeDates(rawListing);
+  // const publisherData = extractPublisherData(listing);
 
   return (
     <article className="">
@@ -110,7 +219,11 @@ export default async function SingleListingPage({
                   <RevealButton
                     variant="outline"
                     usecase="phone"
-                    value={publisherData.phone}
+                    value={
+                      listing.user?.phone ||
+                      listing.agency?.contactPersonPhone ||
+                      ""
+                    }
                   />
                 </span>
                 <p className="mt-2.5 text-sm">
@@ -123,7 +236,7 @@ export default async function SingleListingPage({
             {/* Price and Buttons - Interactions */}
             <div className="flex items-center justify-between">
               <div className="mb-6 flex gap-9">
-                {listing.bathrooms && (
+                {/* {listing.bathrooms && (
                   <div className="flex flex-col items-center text-sm">
                     <Bath className="h-6 w-6" />
                     <span>
@@ -133,7 +246,7 @@ export default async function SingleListingPage({
                         : t("common.property.features.bathrooms")}
                     </span>
                   </div>
-                )}
+                )} */}
                 <div className="flex flex-col items-center text-sm">
                   <AirVentIcon className="h-6 w-6" />
                   <span>
@@ -143,7 +256,7 @@ export default async function SingleListingPage({
                       : t("common.property.features.aircons")}
                   </span>
                 </div>
-                {listing.parking && (
+                {/* {listing.parking && (
                   <div className="flex flex-col items-center text-sm">
                     <AirVentIcon className="h-6 w-6" />
                     <span>
@@ -153,7 +266,7 @@ export default async function SingleListingPage({
                         : t("common.property.features.parkings")}
                     </span>
                   </div>
-                )}
+                )} */}
               </div>
               <PriceDisplay listing={listing} />
             </div>
@@ -240,37 +353,7 @@ export default async function SingleListingPage({
               <h3 className="mb-3 text-lg font-semibold">
                 {t("common.property.publisher")}
               </h3>
-              <div className="flex gap-2">
-                {publisherData.imgUrl && (
-                  <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl border border-slate-400 bg-slate-100 px-8 py-4">
-                    <Image
-                      src={publisherData.imgUrl}
-                      alt={publisherData.name}
-                      width={200}
-                      height={130}
-                      className="h-auto w-auto object-contain"
-                    />
-                  </div>
-                )}
-                <div className="flex-1">
-                  <div>
-                    <h4 className="text-lg font-medium">
-                      {t("common.property.publisherDetails.title")}
-                    </h4>
-                    <p className="mb-1.5 leading-4">{publisherData.name}</p>
-                    <p className="mb-1.5 leading-4">{publisherData.address}</p>
-                  </div>
-                  <div className="mt-10">
-                    <p>{t("common.property.publisherDetails.workHours")}</p>
-                    <p>{publisherData.workHours}</p>
-                    <RevealButton
-                      usecase="phone"
-                      value={publisherData.phone}
-                      variant="outline"
-                    />
-                  </div>
-                </div>
-              </div>
+              <PublisherInfo agency={listing.agency} user={listing.user} />
             </div>
           </div>
           {/* Listing Sidebar */}

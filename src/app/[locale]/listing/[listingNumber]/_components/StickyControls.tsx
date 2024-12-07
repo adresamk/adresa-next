@@ -3,11 +3,8 @@ import ListingActions from "./ListingActions";
 import { cn, displayPrice } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { SerializedListing } from "@/lib/types";
-export default function StickyControls({
-  listing,
-}: {
-  listing: SerializedListing;
-}) {
+import { Listing } from "@prisma/client";
+export default function StickyControls({ listing }: { listing: Listing }) {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleScroll = () => {
