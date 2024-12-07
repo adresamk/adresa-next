@@ -44,26 +44,34 @@ export const ourFileRouter = {
     .middleware(async ({ req, files }) => {
       // This code runs on your server before upload
       //   const user = await auth(req);
-      const user = await getUser();
+
+      const { session, account } = await getCurrentSession();
+
+      // If you throw, the user will not be able to upload
+      if (!account) throw new UploadThingError("Unauthorized");
       const cookieStore = await cookies();
       const listingId = cookieStore.get("listingId")?.value;
 
       // If you throw, the user will not be able to upload
-      if (!user) throw new UploadThingError("Unauthorized");
+      if (!account) throw new UploadThingError("Unauthorized");
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: user.id, listingId: listingId };
+      return {
+        accountUuid: account.uuid,
+        accountId: account.id,
+        listingId: listingId,
+      };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userId);
+      console.log("Upload complete for accountUuid:", metadata.accountUuid);
 
       console.log("file url", file.url);
       console.log("!!! Listing Id !!!", metadata.listingId);
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return {
-        userId: metadata.userId,
+        accountId: metadata.accountId,
         listingId: metadata.listingId,
       };
     }),
