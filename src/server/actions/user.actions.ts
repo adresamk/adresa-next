@@ -199,6 +199,53 @@ export async function sendVerificationEmail(
   console.log("Verification email sent successfully");
   return true;
 }
+export async function updateAgencyInfo(formData: FormData) {
+  const { agency } = await getCurrentUser();
+  if (!agency) {
+    return {
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+
+  console.log("userFormData", formData);
+  const ownerFirstName = formData.get("ownerFirstName");
+  const ownerLastName = formData.get("ownerLastName");
+  const phone = formData.get("phone");
+  const ownerEmail = formData.get("ownerEmail");
+  // validate the form data
+  if (
+    typeof ownerFirstName !== "string" ||
+    typeof ownerLastName !== "string" ||
+    typeof phone !== "string" ||
+    typeof ownerEmail !== "string" ||
+    !validPhoneNumber(phone)
+  ) {
+    return {
+      success: false,
+      error: "Invalid form data",
+    };
+  }
+
+  // update user info
+  await prismadb.agency.update({
+    where: {
+      id: agency.id,
+    },
+    data: {
+      ownerFirstName: capitalizeString(ownerFirstName),
+      ownerLastName: capitalizeString(ownerLastName),
+      phone: phone,
+      ownerEmail: ownerEmail,
+    },
+  });
+  redirect({ href: "/agency/profile/info", locale: "mk" });
+
+  return {
+    success: true,
+    error: null,
+  };
+}
 
 export async function updateUserInfo(formData: FormData) {
   const { agency } = await getCurrentUser();

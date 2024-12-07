@@ -26,7 +26,9 @@ export default async function ProfileLayout({
             </p>
           )}
           {isAuthorized && agency && (
-            <p className="text-xl">{agency?.contactPersonFullName}</p>
+            <p className="text-xl">
+              {agency?.ownerFirstName} {agency?.ownerLastName}
+            </p>
           )}
         </div>
         <AgencyProfileSideMenu agency={agency} />

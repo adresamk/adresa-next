@@ -482,6 +482,47 @@
       "popularListings": "Популарни огласи од {agencyName}"
     },
     "profile": {
+      "info": {
+        "title": "Информации за агенцијата",
+        "ownerFirstName": "Име на власникот",
+        "ownerLastName": "Презиме на власникот",
+        "ownerEmail": "Е-пошта на власникот",
+        "phone": "Телефон на власникот",
+        "contactInfo": "Контакт информации"
+      },
+      "details": {
+        "agencyName": "Назив на агенција",
+        "agencyNamePlaceholder": "Acme Inc",
+        "agencyAdress": "Адреса на агенција",
+        "agencyAdressPlaceholder": "ex: ул. Петровац 12, 1000 Скопје",
+        "agencyLogo": "Лого на агенција",
+        "agencyWebsite": "Веб-сајт на агенција",
+        "agencyWebsitePlaceholder": "ex: https://www.acme.com",
+        "agencyPhone": "Телефон на агенција",
+        "agencyPhonePlaceholder": "ex: 070 123 456",
+        "agencyDescription": "Опис на агенција",
+        "agencyDescriptionPlaceholder": "Подолг опис кој ќе се прикажува на вашата агенциска страница",
+        "agencyShortDescription": "Корок опис на агенција",
+        "agencyShortDescriptionPlaceholder": "Една реченица која го опишува вашето дело",
+        "agencyMapCoordinates": "Координати на агенција на мапата",
+        "agencyMapCoordinatesPlaceholder": "Пример: 41.9981, 21.4254",
+        "agencyBrandingDetails": "Брендирање",
+        "agencyBrandingDetailsPlaceholder": "Ова ќе добие посебен дизајнскоро за управување со брендирањето на агенцијата",
+        "contactPerson": "Контакт личност",
+        "contactPersonFullName": "Име и презиме на контакт личност",
+        "contactPersonFullNamePlaceholder": "Вашето име и презиме",
+        "contactPersonEmail": "Е-пошта на контакт личност",
+        "contactPersonEmailPlaceholder": "Вашата е-пошта",
+        "contactPersonPhone": "Телефон на контакт личност",
+        "contactPersonPhonePlaceholder": "+389 XX XXX XXX",
+        "workHours": "Работно време",
+        "workHoursPlaceholder": "Понеделник-Петок \n 08:00-17:00 \n Сабота \n 08:00-13:00 \n Недела \n Затворено",
+        "title": "Детали за агенцијата",
+        "info": "Овие информации ќе се прикажат на вашата агенциска страница и на огласите кои ги имате на располагање."
+      },
+      "listingsPage": {
+        "title": "Мои огласи"
+      },
       "finishSetup": "Ве молам, пополнете ги деталите за агенцијата",
       "welcome": "Добредојдовте",
       "menu": {

@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Listing, User } from "@prisma/client";
+import { Agency, Listing, User } from "@prisma/client";
 import { cn, displayDate } from "@/lib/utils";
 import { AlertCircle, Edit, MousePointerClick } from "lucide-react";
 import { useState } from "react";
@@ -12,15 +12,15 @@ import { UserRoles } from "@/lib/data/user/importantData";
 
 export default function MyListingsList({
   listings,
-  user,
+  agency,
 }: {
   listings: Listing[];
-  user: User;
+  agency: Agency;
 }) {
   const [searchFilter, setSearchFilter] = useState("");
   return (
     <>
-      {user.role === UserRoles.AGENCY && (
+      {agency && (
         <div className="my-2 flex items-center justify-between">
           <Input
             className="max-w-[300px]"

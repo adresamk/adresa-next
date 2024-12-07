@@ -5,7 +5,7 @@ import { Trash } from "lucide-react";
 export default function ListingDeleteButton({
   listingId,
 }: {
-  listingId: string;
+  listingId: number;
 }) {
   return (
     <form
