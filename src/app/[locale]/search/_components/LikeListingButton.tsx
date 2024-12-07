@@ -26,7 +26,7 @@ export default function LikeListingButton({
   listingId,
   className,
 }: {
-  listingId: string;
+  listingId: number;
   className?: string;
 }) {
   const t = useTranslations();

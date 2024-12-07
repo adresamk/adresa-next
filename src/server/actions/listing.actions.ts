@@ -10,6 +10,7 @@ import { getUser } from "@/lib/auth";
 import { ListingContactData } from "@/lib/types";
 import { cookies } from "next/headers";
 import { Listing } from "@prisma/client";
+import { getCurrentUser } from "@/lib/sessions";
 
 export async function createListing() {
   const { user, session } = await validateRequest();
@@ -229,8 +230,8 @@ export async function getListing(listingNumber: string) {
   }
 }
 
-export async function getFavoriteStatus(listingId: string) {
-  const { user } = await validateRequest();
+export async function getFavoriteStatus(listingId: number) {
+  const { user } = await getCurrentUser();
   if (!user) return false;
 
   const favorite = await prismadb.favorite.findFirst({
@@ -831,7 +832,7 @@ export default async function getAllListings(
 ): Promise<Listing[]> {
   // console.log("this is the search on the server", search);
 
-  const { user } = await validateRequest();
+  // const { user } = await getCurrentUser();
 
   const listings = await prismadb.listing.findMany({
     where: {
