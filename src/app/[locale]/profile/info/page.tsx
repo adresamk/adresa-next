@@ -53,8 +53,6 @@ export default async function ProfileInfoPage({
           />
         </div>
 
-        <h3 className="mb-3 mt-5 text-2xl font-semibold">Contact Info</h3>
-
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="phone">
             Telephone <span className="text-red-500">*</span>

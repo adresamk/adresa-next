@@ -31,12 +31,12 @@ export function SelectSelfContained({
   const [selectValue, setSelectValue] = useState(value);
   return (
     <>
-      <Input
+      {/* <Input
         type="hidden"
         name={name}
         value={selectValue}
         onChange={(e) => setSelectValue(e.target.value)}
-      />
+      /> */}
       <Select
         name={name}
         value={selectValue}

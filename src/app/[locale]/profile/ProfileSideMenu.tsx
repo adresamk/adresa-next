@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Bookmark, Heart, HousePlus, UserIcon } from "lucide-react";
+import { Bookmark, Contact, Heart, HousePlus, UserIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { User } from "@prisma/client";
@@ -10,6 +10,11 @@ const profileNavigation = [
     label: "Profile",
     icon: <UserIcon />,
     path: "/profile/info",
+  },
+  {
+    label: "Contact Info",
+    icon: <Contact />,
+    path: "/profile/contact",
   },
   {
     label: "My Listings",

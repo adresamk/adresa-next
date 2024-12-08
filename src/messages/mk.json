@@ -555,7 +555,22 @@
   },
   "user": {
     "profile": {
-      "finishSetup": "Ве молам, пополнете ги деталите за вашиот профил"
+      "finishSetup": "Ве молам, пополнете ги деталите за вашиот профил",
+      "contactInfo": {
+        "info": "Овие информации ќе се прикажат на вашата агенциска страница и на огласите кои ги имате на располагање. Може да се различни од вашите лични податоци наведени во Инфо",
+        "contactName": "Име и презиме на контакт личност",
+        "contactNamePlaceholder": "Името кое ќе се прикажува на огласите",
+        "contactPhone": "Телефон на контакт личност",
+        "contactPhonePlaceholder": "Телефон кој ќе се прикажува на огласите",
+        "contactPhoneVerified": "Контакт телефон е верифициран",
+        "contactEmail": "Е-пошта на контакт личност",
+        "contactEmailPlaceholder": "Е-пошта која ќе се прикажува на огласите",
+        "contactEmailVerified": "Контакт е-пошта е верифициран",
+        "contactHours": "Достапни за контакт",
+        "contactHoursPlaceholder": "08:00-17:00",
+        "preferredContactMethod": "Префериран начин на контакт",
+        "preferredContactMethodPlaceholder": "Изберете начин на контакт"
+      }
     }
   },
   "auth": {

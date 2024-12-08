@@ -10,8 +10,8 @@ import { getVerificationLink } from "./verification.actions";
 import { sendVerificationEmail } from "./email.actions";
 
 export async function updateUserInfo(formData: FormData) {
-  const { user } = await getCurrentUser();
-  const { account } = await getCurrentSession();
+  const { user, account } = await getCurrentUser();
+
   if (!account) {
     return {
       success: false,
@@ -19,7 +19,7 @@ export async function updateUserInfo(formData: FormData) {
     };
   }
 
-  console.log("userFormData", formData);
+  // console.log("userFormData", formData);
   const firstName = formData.get("firstName");
   const lastName = formData.get("lastName");
   const phone = formData.get("phone");
@@ -58,4 +58,55 @@ export async function updateUserInfo(formData: FormData) {
     // update user info
   }
   redirect({ href: "/profile/info", locale: "mk" });
+}
+
+export async function updateUserContactInfo(formData: FormData) {
+  // console.log("updateUserContactInfo", formData);
+
+  const { user, account } = await getCurrentUser();
+  if (!account) {
+    return {
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+
+  console.log("userFormData", formData);
+  const contactName = formData.get("contactName");
+  const contactPhone = formData.get("contactPhone");
+  const contactEmail = formData.get("contactEmail");
+  const contactHours = formData.get("contactHours");
+  const preferredContactMethod = formData.get("preferredContactMethod");
+
+  // validate the form data
+  if (
+    typeof contactName !== "string" ||
+    typeof contactPhone !== "string" ||
+    typeof contactEmail !== "string" ||
+    typeof contactHours !== "string" ||
+    typeof preferredContactMethod !== "string"
+  ) {
+    return {
+      success: false,
+      error: "Invalid form data",
+    };
+  }
+
+  if (user) {
+    await prismadb.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        contactName: contactName,
+        contactPhone: contactPhone,
+        contactEmail: contactEmail,
+        contactHours: contactHours,
+        preferredContactMethod: preferredContactMethod,
+      },
+    });
+  }
+  // update user info
+
+  redirect({ href: "/profile/contact", locale: "mk" });
 }
