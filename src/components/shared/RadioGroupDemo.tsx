@@ -7,7 +7,7 @@ interface RadioGroupDemoProps {
   name: string;
   defaultValue?: string;
   direction?: "horisontal" | "vertical";
-  values: string[];
+  options: { label: string; value: string }[];
   onChange?: (value: string) => void;
   description?: string;
 }
@@ -15,12 +15,12 @@ export function RadioGroupDemo({
   title = "Default title",
   name,
   defaultValue,
-  values = [],
+  options = [],
   direction = "vertical",
   onChange,
   description,
 }: RadioGroupDemoProps) {
-  if (values.length === 0) {
+  if (options.length === 0) {
     return null;
   }
   return (
@@ -44,20 +44,20 @@ export function RadioGroupDemo({
         className={cx("", direction === "horisontal" && "flex gap-2")}
         defaultValue={defaultValue}
       >
-        {values.map((value) => (
-          <div key={value} className="flex items-center space-x-2">
+        {options.map((option) => (
+          <div key={option.value} className="flex items-center space-x-2">
             <RadioGroupItem
-              value={value}
-              id={value}
+              value={option.value}
+              id={option.value}
               className="text-brand-light-blue accent-current"
               onClick={(e) => {
                 if (onChange) {
-                  onChange(value);
+                  onChange(option.value);
                 }
               }}
             />
-            <Label htmlFor={value} className="cursor-pointer capitalize">
-              {value}
+            <Label htmlFor={option.value} className="cursor-pointer capitalize">
+              {option.label}
             </Label>
           </div>
         ))}

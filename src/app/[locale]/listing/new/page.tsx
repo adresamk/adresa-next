@@ -6,32 +6,45 @@ import { CircleAlert, CircleCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import InitialStep from "./InitialStep";
 
-import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { addNewListing } from "@/server/actions/listing.actions";
+import { getCurrentUser } from "@/lib/sessions";
+import { getTranslations } from "next-intl/server";
 
 type StepStatus = {
   [key: string]: "completed" | "incomplete" | "in-progress";
 };
 type Step = {
   title: string;
+  key: string;
   description: string;
   fieldsMentioned: string[];
 };
 const stepStatus: StepStatus = {
-  "Property Category": "completed",
+  "property.category": "completed",
 };
-const initialStep: Step = {
-  title: "Property Category",
-  description: "Select the category",
-  fieldsMentioned: ["category"],
-};
+// const initialStepTranslated: Step = {
+//   title: "Property Category",
+//   description: "Select the category",
+//   fieldsMentioned: ["category"],
+// };
 
-export default async function NewPage() {
-  const { user } = await validateRequest();
+export default async function NewListingPage() {
+  const { user } = await getCurrentUser();
+  const t = await getTranslations();
   if (!user) {
     redirect("/signin?redirect=/listing/new");
   }
+
+  const initialStepTranslated = {
+    key: "property.category",
+    title: t("listing.new.propertyCategory"),
+    description: t("listing.new.selectCategory"),
+    fieldsMentioned: ["category"],
+  };
+  const stepStatusTranslated: StepStatus = {
+    [initialStepTranslated.title]: "completed",
+  };
 
   const progress = 10;
   return (
@@ -40,9 +53,9 @@ export default async function NewPage() {
         <div className="m-2 rounded bg-white shadow-md">
           <div className="p-2">
             <p>
-              <span>{progress}%</span> completed{" "}
+              <span>{progress}%</span> {t("listing.new.inProgress")}{" "}
             </p>
-            <p>New Listing</p>
+            <p>{t("listing.new.newListing")}</p>
 
             <div className="mt-4">
               <Progress value={progress} />
@@ -52,27 +65,27 @@ export default async function NewPage() {
           <div>
             <ul>
               <li
-                key={initialStep.title}
+                key={initialStepTranslated.title}
                 className={cn(
                   "flex cursor-pointer border-l-4 border-l-brand-light-blue bg-gray-50 p-4 pr-1 hover:bg-gray-50",
                 )}
               >
                 <div className="flex-1">
-                  <p>{initialStep.title}</p>
+                  <p>{initialStepTranslated.title}</p>
                   <p className="text-sm text-gray-500">
-                    {initialStep.description}
+                    {initialStepTranslated.description}
                   </p>
                 </div>
                 <div className="flex items-center px-2">
-                  {stepStatus[initialStep.title] === "completed" && (
+                  {stepStatus[initialStepTranslated.key] === "completed" && (
                     <CircleCheck fill="green" />
                   )}
 
-                  {stepStatus[initialStep.title] === "in-progress" && (
+                  {stepStatus[initialStepTranslated.key] === "in-progress" && (
                     <CircleCheck fill="orange" />
                   )}
 
-                  {stepStatus[initialStep.title] === "incomplete" && (
+                  {stepStatus[initialStepTranslated.key] === "incomplete" && (
                     <CircleAlert fill="red" />
                   )}
                 </div>

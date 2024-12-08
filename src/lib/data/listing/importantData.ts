@@ -16,14 +16,20 @@ export const listingTypeOptions: Record<PropertyCategory, PropertyType[]> = {
     PropertyType.apartment,
     PropertyType.house,
     PropertyType.vacation_house,
+    PropertyType.other,
   ],
   commercial: [
     PropertyType.office,
     PropertyType.store,
     PropertyType.warehouse,
     PropertyType.industrial_space,
+    PropertyType.other,
   ],
-  land: [PropertyType.construction, PropertyType.agricultural],
+  land: [
+    PropertyType.construction,
+    PropertyType.agricultural,
+    PropertyType.other,
+  ],
   other: [
     PropertyType.garage,
     PropertyType.business,

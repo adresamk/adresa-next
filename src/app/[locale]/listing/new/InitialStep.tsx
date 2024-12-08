@@ -7,6 +7,7 @@ import {
   listingTransactionTypeOptions,
   listingTypeOptions,
 } from "@/lib/data/listing/importantData";
+import { PropertyCategory } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -17,6 +18,30 @@ export default function InitialStep() {
   // const listingCategoryOptions = notTranslatedListingCategoryOptions.map(
   //   (option) => t(`common.listing.categoryOptions.${option}`),
   // );
+  const listingCategoryOptionsTranslated = listingCategoryOptions.map(
+    (option) => {
+      return {
+        label: t(`common.listing.categoryOptions.${option}`),
+        value: option,
+      };
+    },
+  );
+
+  const listingTransactionTypeOptionsTranslated =
+    listingTransactionTypeOptions.map((option) => {
+      return {
+        label: t(`listing.transactionType.${option}`),
+        value: option,
+      };
+    });
+  const listingTypeOptionsTranslated = listingCategory
+    ? listingTypeOptions[listingCategory as PropertyCategory].map((option) => {
+        return {
+          label: t(`listing.type.${option}`),
+          value: option,
+        };
+      })
+    : [];
 
   return (
     <div className="p-2">
@@ -30,7 +55,7 @@ export default function InitialStep() {
         name="category"
         title={t("listing.new.propertyType.label")}
         description={t("common.cannotBeChanged")}
-        values={listingCategoryOptions}
+        options={listingCategoryOptionsTranslated}
         onChange={function (value: string) {
           setListingCategory(value);
         }}
@@ -39,14 +64,14 @@ export default function InitialStep() {
       <RadioGroupDemo
         name="type"
         title={t("listing.new.propertyType.label")}
-        values={listingTypeOptions[listingCategory]}
+        options={listingTypeOptionsTranslated}
       />
 
       <RadioGroupDemo
         name="transactionType"
         title={t("listing.new.listingType.label")}
         description={t("common.cannotBeChanged")}
-        values={listingTransactionTypeOptions}
+        options={listingTransactionTypeOptionsTranslated}
       />
     </div>
   );

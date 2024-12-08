@@ -33,7 +33,9 @@ export default async function ProfileInfoPage({
   ];
   return (
     <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
-      <h3 className="mb-3 text-2xl font-semibold">Contact Info</h3>
+      <h3 className="mb-3 text-2xl font-semibold">
+        {t("user.profile.contactInfo.title")}
+      </h3>
       <Alert
         className="mb-4 mt-10 border border-orange-300 bg-orange-50"
         variant="default"
