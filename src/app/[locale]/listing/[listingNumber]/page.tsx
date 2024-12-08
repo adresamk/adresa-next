@@ -104,7 +104,10 @@ import {
 } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
-import { ListingWithOwnerAndAgency, SerializedListing } from "@/lib/types";
+import {
+  ListingWithRelations,
+  listingWithRelationsInclude,
+} from "@/types/listing.types";
 import ListingBreadcrumbs from "./_components/ListingBreadcrumbs";
 import { Link } from "@/i18n/routing";
 import ListingActions from "./_components/ListingActions";
@@ -148,25 +151,13 @@ export default async function SingleListingPage({
     // redirect("/404");
   }
 
-  const listing = await prismadb.listing.findUnique({
+  const listing = (await prismadb.listing.findUnique({
     where: { listingNumber: Number(listingNumber) },
-    include: {
-      agency: true,
-      user: true,
-      commercial: true,
-      listingFeatures: {
-        include: {
-          feature: true,
-        },
-      },
-      residential: true,
-      land: true,
-      other: true,
-    },
-  });
+    include: listingWithRelationsInclude,
+  })) as ListingWithRelations | null;
 
   if (!listing) {
-    return <div>Not found </div>;
+    return <div>Listing not found</div>;
   }
 
   console.log("Listing", listing);

@@ -5,20 +5,10 @@ import {
   removeListingAsFavorite,
 } from "@/server/actions/listing.actions";
 import { Button } from "@/components/ui/button";
-import { cn, isLoggedInClient } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { useEffect, useState } from "react";
-import { Link } from "@/i18n/routing";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
@@ -31,7 +21,7 @@ export default function LikeListingButton({
 }) {
   const t = useTranslations();
   const router = useRouter();
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const { withAuthCheck, AuthDialog } = useAuthGuard();
   const [isLoading, setIsLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -50,65 +40,39 @@ export default function LikeListingButton({
     }
     checkFavoriteStatus();
   }, [listingId]);
+
   return (
     <>
-      <AlertDialog open={isAlertOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{t("auth.signIn.loginNeeded")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("auth.signIn.loginMessage")}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel
-              onClick={() => {
-                setIsAlertOpen(false);
-              }}
-            >
-              {t("common.buttons.cancel")}
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                setIsAlertOpen(false);
-              }}
-            >
-              <Link href="/signin">{t("common.buttons.signIn")}</Link>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AuthDialog />
       <Button
         disabled={isLoading}
         type="button"
         onClick={async (e) => {
           e.preventDefault();
-          const isLoggedIn = isLoggedInClient();
-          if (!isLoggedIn) {
-            setIsAlertOpen(true);
-            return;
-          }
-          if (!isFavorite) {
-            const resp = await addListingAsFavorite(listingId);
-            if (resp.success) {
-              setIsFavorite(true);
+          await withAuthCheck(async () => {
+            if (!isFavorite) {
+              const resp = await addListingAsFavorite(listingId);
+              if (resp.success) {
+                setIsFavorite(true);
+              }
+            } else {
+              const resp = await removeListingAsFavorite(listingId);
+              if (resp.success) {
+                setIsFavorite(false);
+              }
             }
-          }
-          if (isFavorite) {
-            const resp = await removeListingAsFavorite(listingId);
-            if (resp.success) {
-              setIsFavorite(false);
-            }
-          }
+          });
         }}
         variant="ghost"
-        className={cn(
-          "h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue",
-          className,
-        )}
+        size="icon"
+        className={cn("h-9 w-9", className)}
         title={t("listing.like.toggleFavorite")}
       >
-        <Heart fill={isFavorite ? "blue" : "none"} />
+        <Heart
+          className={cn("h-5 w-5", {
+            "fill-blue": isFavorite,
+          })}
+        />
       </Button>
     </>
   );

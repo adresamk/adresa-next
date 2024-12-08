@@ -17,15 +17,6 @@ import {
 } from "@prisma/client";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 
-export async function createListing() {
-  const { session } = await getCurrentSession();
-  if (!session) {
-    redirect("/signin?redirect=/listing/new");
-  } else {
-    redirect("/listing/new");
-  }
-}
-
 export async function addListingAsFavorite(listingId: number) {
   // const { user } = await validateRequest();
   const { user } = await getCurrentUser();

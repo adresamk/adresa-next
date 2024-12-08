@@ -283,11 +283,11 @@ export async function logout() {
   await invalidateSession(session.id);
   await deleteSessionTokenCookie();
 
-  redirect({
-    href: "/",
-    locale: "mk",
-  });
-  // return { success: true };
+  // redirect({
+  //   href: "/",
+  //   locale: "mk",
+  // });
+  return { success: true };
 }
 
 export async function getGoogleOAuthConsentURL() {
