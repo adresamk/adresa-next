@@ -117,7 +117,7 @@ export function getMunicipalityInfo(municipalityId: string) {
     (place) => place.id === municipalityId,
   );
   if (!municipality) {
-    console.error("Municipality not found", municipalityId);
+    // console.error("Municipality not found", municipalityId);
   }
   return municipality;
 }

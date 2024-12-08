@@ -1,13 +1,14 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Bookmark, Heart, HousePlus, User } from "lucide-react";
+import { Bookmark, Heart, HousePlus, UserIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "@/i18n/routing";
+import { User } from "@prisma/client";
 
 const profileNavigation = [
   {
     label: "Profile",
-    icon: <User />,
+    icon: <UserIcon />,
     path: "/profile/info",
   },
   {
@@ -26,9 +27,28 @@ const profileNavigation = [
     path: "/profile/liked",
   },
 ];
-export default function ProfileSideMenu() {
+export default function ProfileSideMenu({ user }: { user: User | null }) {
   const pathname = usePathname();
 
+  if (!user) {
+    return (
+      <nav>
+        <ul>
+          <Link href={profileNavigation[0].path} prefetch>
+            <li
+              className={cn(
+                "flex items-center gap-3 px-5 py-3",
+                pathname === profileNavigation[0].path &&
+                  "border-l-2 border-brand-light-blue",
+              )}
+            >
+              {profileNavigation[0].icon} {profileNavigation[0].label}
+            </li>
+          </Link>
+        </ul>
+      </nav>
+    );
+  }
   return (
     <nav>
       <ul>

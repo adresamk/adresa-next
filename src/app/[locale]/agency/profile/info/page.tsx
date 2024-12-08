@@ -3,19 +3,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { redirect } from "@/i18n/routing";
 import { getCurrentUser } from "@/lib/sessions";
-import {
-  updateAgencyInfo,
-  updateUserInfo,
-} from "@/server/actions/user.actions";
+import { updateAgencyInfo } from "@/server/actions/agency.actions";
+import {} from "@/server/actions/user.actions";
 import { getTranslations } from "next-intl/server";
 
 export default async function ProfileInfoPage() {
   // we always expect user because of the layout auth
 
-  const { isAuthorized, agency } = await getCurrentUser();
+  const { isAuthenticated, agency } = await getCurrentUser();
   const t = await getTranslations();
 
-  if (isAuthorized && !agency) {
+  if (isAuthenticated && !agency) {
     redirect({ href: "/agency/profile/details", locale: "mk" });
   }
 
@@ -65,15 +63,15 @@ export default async function ProfileInfoPage() {
         </h3>
 
         <div className="mb-2 flex flex-col gap-3">
-          <Label htmlFor="phone">
-            {t("agency.profile.info.phone")}{" "}
+          <Label htmlFor="ownerPhone">
+            {t("agency.profile.info.ownerPhone")}{" "}
             <span className="text-red-500">*</span>
           </Label>
           <Input
             required
-            id="phone"
-            name="phone"
-            defaultValue={agency?.phone || ""}
+            id="ownerPhone"
+            name="ownerPhone"
+            defaultValue={agency?.ownerPhone || ""}
             placeholder="(389)77 777 777 "
           />
         </div>

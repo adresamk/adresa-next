@@ -4,7 +4,13 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+export function generateUniqueToken() {
+  return Math.random().toString(36).slice(2, 11); // Simple token generation
+}
 
+export function validPhoneNumber(phone: string) {
+  return true;
+}
 export function displayPrice(value: number | null, currency: string = "USD") {
   if (value === null) {
     return "Number was null, check data";

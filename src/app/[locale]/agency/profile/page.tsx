@@ -6,9 +6,9 @@ import { getTranslations } from "next-intl/server";
 
 export default async function ProfilePage() {
   const t = await getTranslations();
-  const { isAuthorized, agency } = await getCurrentUser();
+  const { isAuthenticated, agency } = await getCurrentUser();
 
-  if (isAuthorized && agency) {
+  if (isAuthenticated && agency) {
     redirect({
       href: "/agency/profile/info",
       locale: "mk",

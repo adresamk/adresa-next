@@ -1,27 +1,29 @@
 import MyListingsList from "@/components/shared/profile/MyListingsList";
 import { Separator } from "@/components/ui/separator";
+import { redirect } from "@/i18n/routing";
 
 import { getUser } from "@/lib/auth";
 import prismadb from "@/lib/db";
+import { getCurrentUser } from "@/lib/sessions";
 
 export default async function ProfileListingsPage() {
-  const user = await getUser();
+  const { isAuthenticated, user } = await getCurrentUser();
 
-  if (!user) {
-    return <div>User Missing </div>;
+  if (isAuthenticated && !user) {
+    redirect({ href: "/profile/info", locale: "mk" });
   }
 
   const myListings = await prismadb.listing.findMany({
     where: {
-      userId: user.id,
+      userId: user!.id,
     },
   });
   return (
-    <div className="p-8 mt-4 ml-4 bg-white   rounded-lg shadow">
-      <h3 className="text-2xl font-semibold mb-3 ">My Listings</h3>
+    <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+      <h3 className="mb-3 text-2xl font-semibold">My Listings</h3>
       <Separator className="my-3" />
 
-      <MyListingsList listings={myListings} user={user} />
+      <MyListingsList listings={myListings} />
     </div>
   );
 }

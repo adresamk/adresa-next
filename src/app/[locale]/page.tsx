@@ -9,11 +9,18 @@ import RecentlyViewedListings from "./_components/RecentlyViewedListings";
 import FeaturedListings from "./_components/FeaturedListings";
 import FeaturedAgencies from "./_components/FeaturedAgencies";
 import { getCurrentUser } from "@/lib/sessions";
+import { redirect } from "@/i18n/routing";
 
 export default async function Home() {
   // works on the server side
   // const user = await getUser();
-  const { user } = await getCurrentUser();
+  const { user, isAuthenticated } = await getCurrentUser();
+  if (!user && isAuthenticated) {
+    redirect({
+      href: "/profile/info",
+      locale: "mk",
+    });
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">

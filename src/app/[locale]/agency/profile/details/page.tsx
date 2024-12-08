@@ -7,10 +7,12 @@ import { Info } from "lucide-react";
 import AgencyLogoUpload from "./_components/AgencyLogoUpload";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { updateAgencyDetails } from "@/server/actions/user.actions";
+import { updateAgencyDetails } from "@/server/actions/agency.actions";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
+import { SelectDemo } from "@/components/shared/SelectDemo";
+import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
 
 type Params = Promise<Record<string, string>>;
 
@@ -33,10 +35,16 @@ export default async function AgencyProfileDetailsPage({
     });
   }
 
-  const { isAuthorized, agency } = await getCurrentUser();
+  const { isAuthenticated, agency } = await getCurrentUser();
 
-  console.log("Current User", isAuthorized, agency);
+  console.log("Current User", isAuthenticated, agency);
   // First Time Here, they need to setup profile
+
+  const prefferedContactMethodOptionsTranslated = [
+    { label: t("agency.profile.details.email"), value: "email" },
+    { label: t("agency.profile.details.phone"), value: "phone" },
+    { label: t("agency.profile.details.both"), value: "both" },
+  ];
 
   return (
     <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
@@ -240,6 +248,32 @@ export default async function AgencyProfileDetailsPage({
             placeholder={t(
               "agency.profile.details.contactPersonPhonePlaceholder",
             )}
+          />
+        </div>
+
+        <div className="mb-2 flex flex-col gap-3">
+          <Label htmlFor="preferredContactMethod">
+            {t("agency.profile.details.contactPersonFullName")}
+          </Label>
+          <SelectSelfContained
+            name="preferredContactMethod"
+            placeholder="Select preferred contact method"
+            value={agency?.preferredContactMethod || "both"}
+            options={prefferedContactMethodOptionsTranslated}
+          />
+        </div>
+        <div className="mb-2 flex flex-col gap-3">
+          <Label htmlFor="contactHours">
+            {t("agency.profile.details.contactHours")}
+          </Label>
+          <Textarea
+            rows={6}
+            id="contactHours"
+            defaultValue={
+              agency?.workHours ||
+              t("agency.profile.details.contactHoursPlaceholder")
+            }
+            name="contactHours"
           />
         </div>
 

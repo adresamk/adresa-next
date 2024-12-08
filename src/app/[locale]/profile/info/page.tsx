@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/sessions";
 import { updateUserInfo } from "@/server/actions/user.actions";
 
 type Params = Promise<Record<string, string>>;
@@ -12,7 +13,7 @@ export default async function ProfileInfoPage({
   searchParams: Params;
 }) {
   const params = await searchParams;
-  const user = await getUser();
+  const { isAuthenticated, user, account } = await getCurrentUser();
   // if (!user) {
   //   redirect("/signin?redirect=/profile/info");
   // }
@@ -73,7 +74,7 @@ export default async function ProfileInfoPage({
             required
             id="email"
             name="email"
-            defaultValue={user?.email || ""}
+            defaultValue={account?.email || ""}
             disabled
           />
         </div>

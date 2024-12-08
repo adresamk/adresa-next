@@ -18,17 +18,15 @@ export default async function SuggestedAgencies() {
       id: true,
       name: true,
       logoUrl: true,
-      users: {
-        include: {
-          listings: {
-            select: {
-              id: true,
-            },
-          },
+      _count: {
+        select: {
+          listings: true,
         },
       },
     },
   });
+
+  console.log("agencies", agencies);
 
   return (
     <div className="mx-auto flex flex-col gap-3 px-12 pb-3 pt-6">
@@ -41,29 +39,28 @@ export default async function SuggestedAgencies() {
         }}
       >
         <CarouselContent className="flex max-w-[900px] gap-2 p-2 px-3">
-          {agencies.map((agency) => (
-            <CarouselItem
-              key={agency.id}
-              className="basis-1/4 pl-0 shadow-md transition hover:translate-y-[-2px]"
-            >
-              <div className="flex flex-col items-center justify-center rounded bg-white p-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={agency.logoUrl || "/assets/missing-image2.jpg"}
-                  alt={agency.name || ""}
-                  className="h-[86px] w-[112px]"
-                />
-                <p className="mt-2 text-center text-sm">{agency.name}</p>
-                <p className="text-center text-sm text-gray-500">
-                  {agency.users.reduce(
-                    (acc, user) => acc + user.listings.length,
-                    0,
-                  )}{" "}
-                  {t("common.search.results")}
-                </p>
-              </div>
-            </CarouselItem>
-          ))}
+          {agencies.map((agency) => {
+            // console.log(agency.listings[0]);
+            return (
+              <CarouselItem
+                key={agency.id}
+                className="basis-1/4 pl-0 shadow-md transition hover:translate-y-[-2px]"
+              >
+                <div className="flex flex-col items-center justify-center rounded bg-white p-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={agency.logoUrl || "/assets/missing-image2.jpg"}
+                    alt={agency.name || ""}
+                    className="h-[86px] w-[112px]"
+                  />
+                  <p className="mt-2 text-center text-sm">{agency.name}</p>
+                  <p className="text-center text-sm text-gray-500">
+                    {agency._count.listings} {t("common.search.results")}
+                  </p>
+                </div>
+              </CarouselItem>
+            );
+          })}
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />

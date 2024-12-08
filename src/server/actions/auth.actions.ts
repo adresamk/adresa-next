@@ -8,7 +8,6 @@ const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 import { generateCodeVerifier, generateState } from "arctic";
 import { googleOAuthClient } from "@/lib/googleOAuth";
-import { getVerificationLink, sendVerificationEmail } from "./user.actions";
 import { AccountType } from "@prisma/client";
 import {
   createSession,
@@ -19,6 +18,8 @@ import {
   invalidateSession,
 } from "@/lib/sessions";
 import { NextResponse } from "next/server";
+import { getVerificationLink } from "./verification.actions";
+import { sendVerificationEmail } from "./email.actions";
 
 export async function signIn(
   prevState: any,
@@ -154,16 +155,9 @@ export async function signUpAsUser(
       },
     });
 
-    const user = await prismadb.user.create({
-      data: {
-        uuid: account.uuid,
-        accountId: account.id,
-      },
-    });
-
-    const verificationLink = await getVerificationLink(user.id);
+    const verificationLink = await getVerificationLink(account.id);
     // console.log("verificationLink", verificationLink);
-    await sendVerificationEmail(email, verificationLink);
+    await sendVerificationEmail(account.email, verificationLink);
     // console.log("Verification email sent successfully 2");
 
     const token = await generateSessionToken();
@@ -172,6 +166,11 @@ export async function signUpAsUser(
     await setSessionTokenCookie(token, session.expiresAt, account.uuid);
     //
     console.log("Verification email sent successfully 3");
+
+    // redirect({
+    //   href: "/profile/info",
+    //   locale: "mk",
+    // });
     return {
       success: true,
       error: null,
@@ -183,11 +182,6 @@ export async function signUpAsUser(
       error: "Something went wrong",
     };
   }
-
-  return redirect({
-    href: "/",
-    locale: "mk",
-  });
 }
 
 export async function signUpAsAgency(

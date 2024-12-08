@@ -1,6 +1,8 @@
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import ProfileSideMenu from "./ProfileSideMenu";
+import { getCurrentUser } from "@/lib/sessions";
+import { getTranslations } from "next-intl/server";
 
 type Params = Promise<{ children: React.ReactNode }>;
 
@@ -12,13 +14,15 @@ export default async function ProfileLayout({
   params: Params;
 }) {
   const layoutParams = await params;
-  const { user } = await validateRequest();
-  if (!user) {
-    redirect("/signin");
+  const { isAuthenticated, user, agency, account } = await getCurrentUser();
+  const t = await getTranslations();
+
+  if (!isAuthenticated) {
+    redirect("/");
   }
 
-  if (user.role !== "USER") {
-    if (user.role === "AGENCY") {
+  if (!user) {
+    if (agency) {
       redirect("/agency/profile/info");
     }
   }
@@ -28,11 +32,18 @@ export default async function ProfileLayout({
       <div className="min-h-screen min-w-[220px] bg-white shadow">
         <div className="px-3 py-6">
           <p>Welcome</p>
-          <p className="text-xl">
-            {user.firstName} {user.lastName}
-          </p>
+          {isAuthenticated && !user && (
+            <p className="mt-2 text-xl text-red-400">
+              {t("user.profile.finishSetup")}
+            </p>
+          )}
+          {isAuthenticated && user && (
+            <p className="text-xl">
+              {user.firstName} {user.lastName}
+            </p>
+          )}
         </div>
-        <ProfileSideMenu />
+        <ProfileSideMenu user={user} />
       </div>
       <div className="w-full">{children}</div>
     </main>

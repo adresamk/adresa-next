@@ -20,6 +20,9 @@ export default function SignUpFormWrapper({
   useEffect(() => {
     if (state.success) {
       router.back();
+      setTimeout(() => {
+        router.push("/profile/info");
+      }, 400);
     }
   }, [state.success, router, pathname]);
 

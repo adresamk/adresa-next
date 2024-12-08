@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 
 import {
@@ -11,7 +12,7 @@ import {
 interface SelectDemoProps {
   value: string;
   placeholder?: string;
-  onClick: (value: string) => void;
+  onClick?: (value: string) => void;
   options: { label: string; value: string }[];
   triggerWidth?: string;
   name?: string;
@@ -31,7 +32,7 @@ export function SelectDemo({
       value={value}
       onValueChange={(value) => {
         console.log(value);
-        onClick(value);
+        onClick?.(value);
       }}
     >
       <SelectTrigger className={`w-[${triggerWidth}] z-[140]`}>

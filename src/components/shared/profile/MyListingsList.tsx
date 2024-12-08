@@ -15,7 +15,7 @@ export default function MyListingsList({
   agency,
 }: {
   listings: Listing[];
-  agency: Agency;
+  agency?: Agency;
 }) {
   const [searchFilter, setSearchFilter] = useState("");
   return (

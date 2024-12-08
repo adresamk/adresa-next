@@ -4,8 +4,15 @@ import SuggestedAgencies from "@/app/[locale]/_components/SuggestedAgencies";
 import { Button } from "@/components/ui/button";
 import { HousePlus } from "lucide-react";
 import { getLikedListingsByUser } from "@/server/actions/listing.actions";
+import { getCurrentUser } from "@/lib/sessions";
+import { redirect } from "@/i18n/routing";
 
 export default async function ProfileLikedPage() {
+  const { isAuthenticated, user } = await getCurrentUser();
+
+  if (isAuthenticated && !user) {
+    redirect({ href: "/profile/info", locale: "mk" });
+  }
   const myLikedListings = await getLikedListingsByUser();
   return (
     <div>

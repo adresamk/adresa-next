@@ -96,7 +96,8 @@ export const getCurrentSession: () => Promise<SessionValidationResult> = cache(
 );
 type Admin = {};
 type GetCurrentUserResult = {
-  isAuthorized: boolean;
+  account: Account | null;
+  isAuthenticated: boolean;
   user: User | null;
   agency: Agency | null;
   admin: Admin | null;
@@ -107,7 +108,8 @@ export async function getCurrentUser(): Promise<GetCurrentUserResult> {
   // console.log("Account", account, "Session", session);
   if (session === null) {
     return {
-      isAuthorized: false,
+      isAuthenticated: account ? true : false,
+      account,
       user: null,
       agency: null,
       admin: null,
@@ -120,7 +122,8 @@ export async function getCurrentUser(): Promise<GetCurrentUserResult> {
       },
     });
     return {
-      isAuthorized: true,
+      isAuthenticated: account ? true : false,
+      account,
       user,
       agency: null,
       admin: null,
@@ -134,7 +137,8 @@ export async function getCurrentUser(): Promise<GetCurrentUserResult> {
     });
 
     return {
-      isAuthorized: true,
+      isAuthenticated: account ? true : false,
+      account,
       user: null,
       agency,
       admin: null,
@@ -144,7 +148,8 @@ export async function getCurrentUser(): Promise<GetCurrentUserResult> {
     const admin = {};
 
     return {
-      isAuthorized: true,
+      isAuthenticated: account ? true : false,
+      account,
       user: null,
       agency: null,
       admin: null,

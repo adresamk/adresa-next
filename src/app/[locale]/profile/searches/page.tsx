@@ -4,8 +4,15 @@ import { HousePlus, Search } from "lucide-react";
 import MySavedSearchesList from "./_components/MySavedSearchesList";
 import { get } from "http";
 import { getMySavedSearches } from "@/server/actions/savedSearche.actions";
+import { getCurrentUser } from "@/lib/sessions";
+import { redirect } from "@/i18n/routing";
 
 export default async function MySavedSearchesPage() {
+  const { isAuthenticated, user } = await getCurrentUser();
+
+  if (isAuthenticated && !user) {
+    redirect({ href: "/profile/info", locale: "mk" });
+  }
   const mySavedSearches = await getMySavedSearches();
   return (
     <div className="w-full">
