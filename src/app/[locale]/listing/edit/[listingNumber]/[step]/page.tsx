@@ -1,25 +1,22 @@
-import { validateRequest } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import prismadb from "@/lib/db";
 import ListingEditForm from "./ListingEditForm";
 import { Step, steps } from "./types";
 import { cookies } from "next/headers";
-import { routing } from "@/i18n/routing";
+import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 
 type Params = Promise<{ listingNumber: string; step: string }>;
 
 export default async function EditListingPage({ params }: { params: Params }) {
   const { listingNumber, step: requestedStep } = await params;
-  const cookieStore = await cookies();
-  const locale = cookieStore.get("NEXT_LOCALE")?.value;
+
   const stepExists = steps.find(
     (step: Step) => step.uniquePath === requestedStep,
   );
-  const { user } = await validateRequest();
-  if (!user) {
-    redirect(
-      `/signin?redirect=/listing/edit/${listingNumber}/${steps[0].uniquePath}`,
-    );
+  const { user, agency, account } = await getCurrentUser();
+
+  if (!account || isNaN(Number(listingNumber))) {
+    redirect({ href: "/", locale: "mk" });
   }
 
   const listing = await prismadb.listing.findUnique({
@@ -27,22 +24,33 @@ export default async function EditListingPage({ params }: { params: Params }) {
       listingNumber: Number(listingNumber),
     },
   });
-  console.log("listing", listing);
+
   if (!listing) {
-    redirect("/404");
+    redirect({ href: "/404", locale: "mk" });
+    return <div>Listing not found</div>;
   }
 
-  // check if user owns the listing
-  if (listing.userId !== user.id) {
-    return <div>You don&apost own this one |change on launch| </div>;
+  // Total mismatch
+  if (listing?.agencyId && user) {
+    return <div>You don&apost own this one |change on launch| a</div>;
+  }
+  if (listing?.userId && agency) {
+    return <div>You don&apost own this one |change on launch| b</div>;
+  }
+  // Correct User Type but not his listing
+  if (listing?.agencyId && agency?.id !== listing.agencyId) {
+    return <div>You don&apost own this one |change on launch| c</div>;
+  }
+  // Correct User Type but not his listing
+  if (listing?.userId && user?.id !== listing.userId) {
+    return <div>You don&apost own this one |change on launch| d</div>;
   }
 
   if (!stepExists) {
-    const cookieStore = await cookies();
-    const locale = cookieStore.get("NEXT_LOCALE")?.value;
-    redirect(
-      `/${locale || routing.defaultLocale}/listing/edit/${listingNumber}/${steps[0].uniquePath}`,
-    );
+    redirect({
+      href: `/listing/edit/${listingNumber}/${steps[0].uniquePath}`,
+      locale: "mk",
+    });
   }
 
   return (

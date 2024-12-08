@@ -9,6 +9,8 @@ import {
   getMunicipalityPlaces,
   municipalitiesOptions,
 } from "@/lib/data/macedonia/importantData";
+import { getContactData } from "@/lib/data/listing/helpers";
+import { ListingWithUserAndAgency } from "@/lib/types";
 
 interface ListingEditSideMenuProps {
   currentStep: string;
@@ -141,21 +143,13 @@ function calculateStepStatus(listing: Listing): StepStatus {
       }
     }
     if (step.title === "Contact Details") {
-      const contactData = JSON.parse(listing.contactData as string);
-      if (
-        !contactData.firstName &&
-        !contactData.lastName &&
-        !contactData.phone &&
-        !contactData.email
-      ) {
+      // TODO: fix this
+      // @ts-ignore
+      const contactData = getContactData(listing as ListingWithUserAndAgency);
+      if (!contactData.name && !contactData.phone && !contactData.email) {
         statuses[step.title] = "incomplete";
       }
-      if (
-        contactData.firstName &&
-        contactData.lastName &&
-        contactData.phone &&
-        contactData.email
-      ) {
+      if (contactData.name && contactData.phone && contactData.email) {
         statuses[step.title] = "completed";
       } else {
         statuses[step.title] = "in-progress";
@@ -250,7 +244,7 @@ function generateStepDescriptions(listing: Listing): StepDescription {
         : step.description;
     }
     if (step.title === "Contact Details") {
-      const contactData = JSON.parse(listing.contactData as string);
+      const contactData = getContactData(listing as ListingWithUserAndAgency);
       if (contactData.email) {
         descriptions[step.title] = contactData.email;
       } else {
@@ -287,14 +281,14 @@ export default function ListingEditSideMenu({
       .reduce((acc, curr) => acc! + curr!, 0);
 
     if (step.title === "Contact Details") {
-      const contactData = JSON.parse(listing.contactData as string);
+      const contactData = getContactData(listing as ListingWithUserAndAgency);
       stepProgress = Object.entries(stepsValueSystem[step.title] || {})
         .map(([key, value]) => {
           if (contactData.hasOwnProperty(key)) {
             if (
-              contactData[key as string] === null ||
-              contactData[key as string] === undefined ||
-              contactData[key as string] === ""
+              contactData[key as keyof typeof contactData] === null ||
+              contactData[key as keyof typeof contactData] === undefined ||
+              contactData[key as keyof typeof contactData] === ""
             ) {
               return 0;
             } else {

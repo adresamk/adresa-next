@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import InitialStep from "./InitialStep";
 
 import { redirect } from "next/navigation";
-import { addNewListing } from "@/server/actions/listing.actions";
+import { createNewListing } from "@/server/actions/listing.actions";
 import { getCurrentUser } from "@/lib/sessions";
 import { getTranslations } from "next-intl/server";
 
@@ -36,7 +36,7 @@ export default async function NewListingPage() {
     redirect("/signin?redirect=/listing/new");
   }
 
-  const initialStepTranslated = {
+  const initialStepTranslated: Step = {
     key: "property.category",
     title: t("listing.new.propertyCategory"),
     description: t("listing.new.selectCategory"),
@@ -100,7 +100,7 @@ export default async function NewListingPage() {
             // action={addNewListing}
             action={async (formData: FormData) => {
               "use server";
-              const result = await addNewListing(formData);
+              const result = await createNewListing(formData);
               if (result && result.error) {
                 // Handle error (e.g., show a notification)
               }
@@ -108,7 +108,7 @@ export default async function NewListingPage() {
           >
             <InitialStep />
             <Button size={"sm"} className="my-2">
-              Submit
+              {t("listing.new.actions.next")}
             </Button>
           </form>
         </div>

@@ -10,10 +10,13 @@ import { getUser } from "@/lib/auth";
 import { ListingContactData } from "@/lib/types";
 import { cookies } from "next/headers";
 import {
+  CommercialPropertyType,
+  LandPropertyType,
   Listing,
   PropertyCategory,
   PropertyTransactionType,
   PropertyType,
+  ResidentalPropertyType,
 } from "@prisma/client";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 
@@ -239,11 +242,12 @@ export async function getFavoriteStatus(listingId: number) {
   return !!favorite;
 }
 
-export async function addNewListing(formData: FormData) {
+export async function createNewListing(formData: FormData) {
   // console.log("Adding new listing", formData);
-  const { user, agency } = await getCurrentUser();
-  if (!user) {
-    const cookieStore = await cookies();
+  const { isAuthenticated, user, agency } = await getCurrentUser();
+
+  if (!isAuthenticated) {
+    // const cookieStore = await cookies();
     // cookieStore.set("signin-redirect", "/listing/new");
     redirect("/signin?redirect=/listing/new");
 
@@ -282,7 +286,7 @@ export async function addNewListing(formData: FormData) {
     listingNumber = await prismadb.counter.create({
       data: {
         name: "listing-number-counter",
-        value: 10001,
+        value: 10000,
       },
     });
   }
@@ -291,31 +295,73 @@ export async function addNewListing(formData: FormData) {
   // create listing
   const listing = await prismadb.listing.create({
     data: {
+      uuid: crypto.randomUUID(),
+      transactionType: transactionType as PropertyTransactionType,
       category: category as PropertyCategory,
       type: type as PropertyType,
-      transactionType: transactionType as PropertyTransactionType,
-      userId: user.id,
+      userId: user ? user.id : null,
+      agencyId: agency ? agency.id : null,
       listingNumber: listingNumber.value + 1,
-      contactData: JSON.stringify({
-        email: user ? "user.email" : agency?.contactPersonEmail,
-        emailVerified: user ? true : false,
-        phone: user ? user.phone : agency?.contactPersonPhone,
-        phoneVerified: user ? user.phoneVerified : false,
-        firstName: user
-          ? user.firstName
-          : agency?.contactPersonFullName?.split(" ")[0],
-        lastName: user
-          ? user.lastName
-          : agency?.contactPersonFullName?.split(" ")[1],
-        contactHours: "anytime",
-      } as ListingContactData),
+
+      // Only create the relevant subcategory based on category
+      ...(category === "residential"
+        ? {
+            residential: {
+              create: {
+                propertyType: type as ResidentalPropertyType,
+                // You might want to make this a parameter
+              },
+            },
+            commercial: undefined,
+            land: undefined,
+            other: undefined,
+          }
+        : category === "commercial"
+          ? {
+              residential: undefined,
+              commercial: {
+                create: {
+                  propertyType: type as CommercialPropertyType,
+                },
+              },
+              land: undefined,
+              other: undefined,
+            }
+          : category === "land"
+            ? {
+                residential: undefined,
+                commercial: undefined,
+                land: {
+                  create: {
+                    propertyType: type as LandPropertyType,
+                  },
+                },
+                other: undefined,
+              }
+            : {
+                residential: undefined,
+                commercial: undefined,
+                land: undefined,
+                other: {
+                  create: {
+                    // Other type doesn't require many fields
+                  },
+                },
+              }),
+    },
+    // Include the created subcategory in the response
+    include: {
+      residential: category === "residential",
+      commercial: category === "commercial",
+      land: category === "land",
+      other: category === "other",
     },
   });
 
   // increment by 1
   await prismadb.counter.update({
     where: {
-      name: "listing-number-value",
+      name: "listing-number-counter",
     },
     data: {
       value: {
@@ -712,17 +758,7 @@ async function editContactDetails(formData: FormData) {
     where: {
       id: Number(listingId),
     },
-    data: {
-      contactData: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        emailVerified: false,
-        phone,
-        phoneVerified: false,
-        contactHours,
-      } as ListingContactData),
-    },
+    data: {},
   });
 
   return {

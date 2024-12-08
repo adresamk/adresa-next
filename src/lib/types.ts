@@ -1,9 +1,14 @@
-import { Listing, Agency } from "@prisma/client";
+import { Listing, Agency, User } from "@prisma/client";
 
-export type ListingWithOwnerAndAgency = Listing & {
-  owner: {
-    agency: Agency;
-  };
+// export type ListingWithOwnerAndAgency = Listing & {
+//   owner: {
+//     agency: Agency;
+//   };
+// };
+
+export type ListingWithUserAndAgency = Listing & {
+  user: User;
+  agency: Agency;
 };
 // Helper type that converts Date to string in an object
 type DateFieldsToString<T> = {
@@ -17,7 +22,7 @@ type DateFieldsToString<T> = {
 };
 
 // Your serialized listing type that only changes Date fields to strings
-export type SerializedListing = DateFieldsToString<ListingWithOwnerAndAgency>;
+export type SerializedListing = DateFieldsToString<ListingWithUserAndAgency>;
 export type ListingWithRelations = Listing & {
   owner: {
     id: string;

@@ -290,17 +290,16 @@ model Listing {
   // Publishing info
   status         ListingStatus @default(DRAFT)
   isArchived     Boolean       @default(false)
-  isPublished    Boolean       @default(false) // meaning someone paid for this and its shown unless its hidden
   isVisible      Boolean       @default(true) // user can turn it off/on which is different from isPublished
+  isPaidPromo    Boolean       @default(false)
+  isPublished    Boolean       @default(false) // meaning someone paid for this and its shown unless its hidden
   publishedAt    DateTime?
   publishEndDate DateTime? // usually one month after publishedAt
 
   // tags are something that will be calculated based on other fields
   //tags        String[]         @default([])
-  isPaidPromo     Boolean          @default(false)
   favoritedBy     Favorite[]
   // extract this into user as separate values
-  contactData     String?          @default("") // JSON with contact data
   listingFeatures ListingFeature[]
 
   // Should go to cateogry Residental
@@ -405,7 +404,7 @@ model Residential {
   listingId Int     @unique
 
   propertyType ResidentalPropertyType
-  floor        String                 @db.VarChar(20)
+  floor        String?                @db.VarChar(20)
   totalFloors  Int? // should this be free style
   orientation  String?                @db.VarChar(10) //  'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
   zone         String?                @db.VarChar(16) // residential, commercial, agricultural, industrial, recreational, unincorporated
