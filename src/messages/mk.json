@@ -450,13 +450,38 @@
         "completed": "завршено",
         "newListing": "Нов оглас",
         "steps": {
+          "fillOut": "Пополнете ги деталите",
           "propertyCategory": {
             "title": "Категорија на имот",
             "description": "Изберете категорија"
           },
+          "mainCharacteristics": {
+            "title": "Основни карактеристики",
+            "description": "Внесете основни карактеристики на имотот"
+          },
+          "contact": {
+            "title": "Контакт информации",
+            "description": "Внесете контакт информации"
+          },
+          "description": {
+            "title": "Опис",
+            "description": "Внесете опис на имотот"
+          },
+          "publish": {
+            "title": "Објавете оглас",
+            "description": "Објавете оглас"
+          },
+          "additionalFeatures": {
+            "title": "Дополнителни карактеристики",
+            "description": "Додадете дополнителни карактеристики на имотот"
+          },
           "propertyDetails": {
             "title": "Детали за имотот",
             "description": "Внесете спецификации за имотот"
+          },
+          "propertyType": {
+            "title": "Тип на имот",
+            "description": "Изберете тип на имот"
           },
           "location": {
             "title": "Локација",

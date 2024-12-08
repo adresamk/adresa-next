@@ -11,6 +11,7 @@ import {
 } from "@/lib/data/macedonia/importantData";
 import { getContactData } from "@/lib/data/listing/helpers";
 import { ListingWithUserAndAgency } from "@/lib/types";
+import { useTranslations } from "next-intl";
 
 interface ListingEditSideMenuProps {
   currentStep: string;
@@ -24,10 +25,10 @@ interface stepsValueSystemType {
   };
 }
 const stepsValueSystem: stepsValueSystemType = {
-  "Property Type": {
+  propertyType: {
     type: 100,
   },
-  Location: {
+  location: {
     municipality: 20,
     place: 20,
     district: 20,
@@ -35,9 +36,12 @@ const stepsValueSystem: stepsValueSystemType = {
     latitude: 10,
     longitude: 10,
   },
-  "Main characteristics": {
+  mainCharacteristics: {
     price: 20,
     area: 20,
+    // TODO:
+    // These are not in the database on listing these are features
+    // they need to be retrieved separately
     floorNumber: 5,
     orientation: 5,
     bedrooms: 5,
@@ -51,38 +55,37 @@ const stepsValueSystem: stepsValueSystemType = {
     yard: 5,
     basement: 5,
   },
-  "Additional features & heating": {},
-  Description: {
+  additionalFeatures: {},
+  description: {
     description: 32,
     mkdDescription: 33,
     albDescription: 33,
   },
-  "Photos and Video": {
+  media: {
     images: 50,
     videoLink: 50,
   },
-  "Contact Details": {
-    firstName: 20,
-    lastName: 20,
+  contact: {
+    name: 20,
     phone: 20,
-    contactHours: 20,
     email: 20,
+    contactHours: 20,
   },
-  "Publish listing": {
+  publish: {
     isPublished: 100,
   },
 };
 function calculateStepStatus(listing: Listing): StepStatus {
   let statuses: StepStatus = {};
   for (const step of steps) {
-    if (step.title === "Property Type") {
+    if (step.key === "propertyType") {
       if (listing.type) {
-        statuses[step.title] = "completed";
+        statuses[step.key] = "completed";
       } else {
-        statuses[step.title] = "incomplete";
+        statuses[step.key] = "incomplete";
       }
     }
-    if (step.title === "Location") {
+    if (step.key === "location") {
       // municipality: 20,
       // place: 20,
       // district: 20,
@@ -93,7 +96,7 @@ function calculateStepStatus(listing: Listing): StepStatus {
         !listing.district &&
         !listing.address
       ) {
-        statuses[step.title] = "incomplete";
+        statuses[step.key] = "incomplete";
       }
 
       if (
@@ -102,26 +105,26 @@ function calculateStepStatus(listing: Listing): StepStatus {
         listing.district &&
         listing.address
       ) {
-        statuses[step.title] = "completed";
+        statuses[step.key] = "completed";
       } else {
-        statuses[step.title] = "in-progress";
+        statuses[step.key] = "in-progress";
       }
     }
-    if (step.title === "Main characteristics") {
+    if (step.key === "mainCharacteristics") {
       if (!listing.price && !listing.area) {
-        statuses[step.title] = "incomplete";
+        statuses[step.key] = "incomplete";
       }
 
       if (listing.price && listing.area) {
-        statuses[step.title] = "completed";
+        statuses[step.key] = "completed";
       } else {
-        statuses[step.title] = "in-progress";
+        statuses[step.key] = "in-progress";
       }
     }
-    if (step.title === "Additional features & heating") {
-      statuses[step.title] = "none";
+    if (step.key === "additionalFeatures") {
+      statuses[step.key] = "none";
     }
-    if (step.title === "Description") {
+    if (step.key === "Description") {
       // description: 32,
       // mkdDescription: 33,
       // albDescription: 33,
@@ -130,37 +133,37 @@ function calculateStepStatus(listing: Listing): StepStatus {
         listing.mkdDescription &&
         listing.albDescription
       ) {
-        statuses[step.title] = "completed";
+        statuses[step.key] = "completed";
       } else {
-        statuses[step.title] = "none";
+        statuses[step.key] = "none";
       }
     }
-    if (step.title === "Photos and Video") {
+    if (step.key === "media") {
       if (listing.images && listing.images.length > 0 && listing.videoLink) {
-        statuses[step.title] = "completed";
+        statuses[step.key] = "completed";
       } else {
-        statuses[step.title] = "none";
+        statuses[step.key] = "none";
       }
     }
-    if (step.title === "Contact Details") {
+    if (step.key === "contact") {
       // TODO: fix this
       // @ts-ignore
       const contactData = getContactData(listing as ListingWithUserAndAgency);
       if (!contactData.name && !contactData.phone && !contactData.email) {
-        statuses[step.title] = "incomplete";
+        statuses[step.key] = "incomplete";
       }
       if (contactData.name && contactData.phone && contactData.email) {
-        statuses[step.title] = "completed";
+        statuses[step.key] = "completed";
       } else {
-        statuses[step.title] = "in-progress";
+        statuses[step.key] = "in-progress";
       }
     }
-    if (step.title === "Publish listing") {
+    if (step.key === "publish") {
       if (
         Object.values(statuses).includes("incomplete") ||
         Object.values(statuses).includes("in-progress")
       ) {
-        statuses[step.title] = "in-progress";
+        statuses[step.key] = "in-progress";
       }
     }
   }
@@ -169,22 +172,22 @@ function calculateStepStatus(listing: Listing): StepStatus {
 type StepDescription = {
   [key: string]: string;
 };
-function generateStepDescriptions(listing: Listing): StepDescription {
+function generateStepDescriptions(listing: Listing, t: any): StepDescription {
   const descriptions: StepDescription = {};
   for (const step of steps) {
-    if (step.title === "Property Type") {
+    if (step.key === "propertyType") {
       let properties = [];
       if (listing.category) {
-        properties.push(listing.category);
+        properties.push(t(`listing.category.${listing.category}`));
       }
       if (listing.type) {
-        properties.push(listing.type);
+        properties.push(t(`listing.type.${listing.type}`));
       }
-      descriptions[step.title] = properties.length
+      descriptions[step.key] = properties.length
         ? properties.map(capitalizeString).join(", ")
-        : step.description;
+        : t(`listing.new.progress.steps.${step.key}.description`);
     }
-    if (step.title === "Location") {
+    if (step.key === "location") {
       let properties = [];
       if (listing.municipality && listing.place && listing.district) {
         // properties.push(listing.district);
@@ -201,35 +204,36 @@ function generateStepDescriptions(listing: Listing): StepDescription {
         properties.push(placeName);
         properties.push(municipalityName);
       }
-      descriptions[step.title] = properties.length
+      descriptions[step.key] = properties.length
         ? properties.toString()
-        : step.description;
+        : t(`listing.new.progress.steps.${step.key}.description`);
     }
-    if (step.title === "Main characteristics") {
+    if (step.key === "mainCharacteristics") {
       let properties = [];
 
       if (listing.price && listing.area) {
         properties.push(displayPrice(listing.price));
         properties.push(displayArea(listing.area));
       }
-      descriptions[step.title] = properties.length
+      descriptions[step.key] = properties.length
         ? properties.map(capitalizeString).join(", ")
-        : step.description;
+        : t(`listing.new.progress.steps.${step.key}.description`);
     }
-    if (step.title === "Additional features & heating") {
-      descriptions[step.title] =
-        "Fill in heating details and other information";
+    if (step.key === "additionalFeatures") {
+      descriptions[step.key] = t(
+        `listing.new.progress.steps.${step.key}.description`,
+      );
     }
-    if (step.title === "Description") {
+    if (step.key === "description") {
       let properties = [];
       if (listing.description) {
         properties.push(listing.description);
       }
-      descriptions[step.title] = properties.length
+      descriptions[step.key] = properties.length
         ? properties.map(capitalizeString).join(", ")
-        : step.description;
+        : t(`listing.new.progress.steps.${step.key}.description`);
     }
-    if (step.title === "Photos and Video") {
+    if (step.key === "media") {
       let properties = [];
 
       if (listing.images && listing.images.length > 0) {
@@ -239,20 +243,24 @@ function generateStepDescriptions(listing: Listing): StepDescription {
         properties.push("YouTube video");
       }
 
-      descriptions[step.title] = properties.length
+      descriptions[step.key] = properties.length
         ? properties.map(capitalizeString).join(", ")
-        : step.description;
+        : t(`listing.new.progress.steps.${step.key}.description`);
     }
-    if (step.title === "Contact Details") {
+    if (step.key === "contact") {
       const contactData = getContactData(listing as ListingWithUserAndAgency);
       if (contactData.email) {
-        descriptions[step.title] = contactData.email;
+        descriptions[step.key] = contactData.email;
       } else {
-        descriptions[step.title] = step.description;
+        descriptions[step.key] = t(
+          `listing.new.progress.steps.${step.key}.description`,
+        );
       }
     }
-    if (step.title === "Publish listing") {
-      descriptions[step.title] = step.description;
+    if (step.key === "publish") {
+      descriptions[step.key] = t(
+        `listing.new.progress.steps.${step.key}.description`,
+      );
     }
   }
   return descriptions;
@@ -264,9 +272,10 @@ export default function ListingEditSideMenu({
   setCurrentStep,
 }: ListingEditSideMenuProps) {
   const stepsProgress = steps.map((step) => {
-    let stepProgress = Object.entries(stepsValueSystem[step.title] || {})
+    let stepProgress = Object.entries(stepsValueSystem[step.key] || {})
       .map(([key, value]) => {
         if (listing.hasOwnProperty(key)) {
+          console.log("L", key, value, listing[key as keyof Listing]);
           if (
             !listing[key as keyof Listing] ||
             (Array.isArray(listing[key as keyof Listing]) &&
@@ -277,27 +286,29 @@ export default function ListingEditSideMenu({
             return value;
           }
         }
+        // In case the field is not in the listing
+        return 0;
       })
       .reduce((acc, curr) => acc! + curr!, 0);
 
-    if (step.title === "Contact Details") {
-      const contactData = getContactData(listing as ListingWithUserAndAgency);
-      stepProgress = Object.entries(stepsValueSystem[step.title] || {})
-        .map(([key, value]) => {
-          if (contactData.hasOwnProperty(key)) {
-            if (
-              contactData[key as keyof typeof contactData] === null ||
-              contactData[key as keyof typeof contactData] === undefined ||
-              contactData[key as keyof typeof contactData] === ""
-            ) {
-              return 0;
-            } else {
-              return value;
-            }
-          }
-        })
-        .reduce((acc, curr) => acc! + curr!, 0);
-    }
+    // if (step.key === "contact) {
+    //   const contactData = getContactData(listing as ListingWithUserAndAgency);
+    //   stepProgress = Object.entries(stepsValueSystem[step.key] || {})
+    //     .map(([key, value]) => {
+    //       if (contactData.hasOwnProperty(key)) {
+    //         if (
+    //           contactData[key as keyof typeof contactData] === null ||
+    //           contactData[key as keyof typeof contactData] === undefined ||
+    //           contactData[key as keyof typeof contactData] === ""
+    //         ) {
+    //           return 0;
+    //         } else {
+    //           return value;
+    //         }
+    //       }
+    //     })
+    //     .reduce((acc, curr) => acc! + curr!, 0);
+    // }
     return stepProgress;
   });
 
@@ -306,9 +317,15 @@ export default function ListingEditSideMenu({
     0,
   )!;
   const formProgress = Math.round((stepsProgressSum / 800) * 100);
-
+  const t = useTranslations("");
   const stepStatus: StepStatus = calculateStepStatus(listing);
-  const stepDescriptions: StepDescription = generateStepDescriptions(listing);
+  const stepDescriptions: StepDescription = generateStepDescriptions(
+    listing,
+    t,
+  );
+  console.log("stePstatus", stepStatus);
+  console.log("stepProgress", stepsProgress);
+  console.log("stepDescriptions", stepDescriptions);
   return (
     <div className="w-[335px]">
       <div className="m-2 rounded bg-white shadow-md">
@@ -320,8 +337,7 @@ export default function ListingEditSideMenu({
           <p>
             {stepStatus["Publish listing"] === "in-progress" && (
               <span className="text-sm text-red-500">
-                {" "}
-                Fill out all required fields!
+                {t("listing.new.steps.fillOut")}
               </span>
             )}
           </p>
@@ -339,14 +355,9 @@ export default function ListingEditSideMenu({
             {steps.map((step: Step, index) => {
               const stepProgress = stepsProgress[index];
 
-              // console.log(
-              //   "stepstatus",
-              //   step.title,
-              //   stepStatus[step.title]
-              // );
               return (
                 <li
-                  key={step.title}
+                  key={step.key}
                   onClick={() => {
                     setCurrentStep(steps[index].uniquePath);
                     window.history.pushState(
@@ -363,21 +374,23 @@ export default function ListingEditSideMenu({
                 >
                   <div className="w-full px-4 py-3">
                     <div className="absolute right-0 top-1.5 flex items-center px-2">
-                      {stepStatus[step.title] === "completed" && (
+                      {stepStatus[step.key] === "completed" && (
                         <CircleCheck stroke="green" strokeWidth={1.2} />
                       )}
 
-                      {stepStatus[step.title] === "in-progress" && (
+                      {stepStatus[step.key] === "in-progress" && (
                         <CircleCheck stroke="orange" strokeWidth={1.2} />
                       )}
 
-                      {stepStatus[step.title] === "incomplete" && (
+                      {stepStatus[step.key] === "incomplete" && (
                         <CircleAlert stroke="red" strokeWidth={1.2} />
                       )}
                     </div>
-                    <p className="">{step.title}</p>
+                    <p className="">
+                      {t(`listing.new.progress.steps.${step.key}.title`)}
+                    </p>
                     <p className="line-clamp-2 w-full overflow-x-hidden text-ellipsis whitespace-nowrap text-sm text-gray-500">
-                      {stepDescriptions[step.title]}
+                      {stepDescriptions[step.key]}
                     </p>
                     <div className="mt-3 rounded-2xl bg-slate-100">
                       <div

@@ -9,7 +9,8 @@ const nextConfig = {
     return config;
   },
   experimental: {
-    serverActions: true,
+    // serverActions: true,
+    // reactCompiler: true,
   },
   images: {
     remotePatterns: [
