@@ -314,7 +314,7 @@
   "footer": {
     "About Us": "За нас",
     "Contact": "Контакт",
-    "Categories": "Категории",
+    "Categories": "К��тегории",
     "Cookies": "Политика за колачиња",
     "Terms of Use": "Услови за користење",
     "Policies": "Политика за приватност",
@@ -448,7 +448,7 @@
         "none": "Нема"
       },
       "progress": {
-        "completed": "завршено",
+        "completed": "заврш��но",
         "newListing": "Нов оглас",
         "steps": {
           "fillOut": "Пополнете ги деталите",
@@ -474,7 +474,7 @@
             "addressPlaceholder": "Внесете адреса",
             "map": {
               "confirmLocation": "Потврди ја локацијата",
-              "howToFindCoordinates": "Како да најдете координати",
+              "howToFindCoordinates": "Како д�� најдете координати",
               "seeExample": "Погледај пример",
               "instructions": {
                 "description": "You can find the coordinates of your location by:",
@@ -526,7 +526,21 @@
           },
           "description": {
             "title": "Опис",
-            "description": "Внесете опис на имотот"
+            "description": "Внесете опис на имотот",
+            "englishTitle": "Наслов на англиски",
+            "englishTitlePlaceholder": "Внесете наслов на англиски",
+            "englishDescription": "Детален опис на англиски",
+            "englishDescriptionPlaceholder": "Внесете детален опис на англиски",
+            "macedonianTitle": "Наслов на македонски",
+            "macedonianTitlePlaceholder": "Внесете наслов на македонски",
+            "macedonianDescription": "Детален опис на македонски",
+            "macedonianDescriptionPlaceholder": "Внесете детален опис на македонски",
+            "albanianTitle": "Наслов на албански",
+            "albanianTitlePlaceholder": "Внесете наслов на албански",
+            "albanianDescription": "Детален опис на албански",
+            "albanianDescriptionPlaceholder": "Внесете детален опис на албански",
+            "characters": "карактери",
+            "translateTo": "Преведи на"
           },
           "publish": {
             "title": "Објавете оглас",
@@ -700,7 +714,7 @@
     },
     "signUp": {
       "title": "Регистрирајте се",
-      "subtitle": "Креирајте нова сметка",
+      "subtitle": "Креирајте но��а сметка",
       "email": "Е-пошта",
       "password": "Лозинка",
       "confirmPassword": "Потврди лозинка",
