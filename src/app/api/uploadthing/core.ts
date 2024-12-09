@@ -68,7 +68,6 @@ export const ourFileRouter = {
 
       console.log("file url", file.url);
       console.log("!!! Listing Id !!!", metadata.listingId);
-
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return {
         accountId: metadata.accountId,

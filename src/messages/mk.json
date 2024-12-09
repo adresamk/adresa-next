@@ -314,7 +314,7 @@
   "footer": {
     "About Us": "За нас",
     "Contact": "Контакт",
-    "Categories": "К��тегории",
+    "Categories": "Категории",
     "Cookies": "Политика за колачиња",
     "Terms of Use": "Услови за користење",
     "Policies": "Политика за приватност",
@@ -448,7 +448,7 @@
         "none": "Нема"
       },
       "progress": {
-        "completed": "заврш��но",
+        "completed": "завршено",
         "newListing": "Нов оглас",
         "steps": {
           "fillOut": "Пополнете ги деталите",
@@ -474,7 +474,7 @@
             "addressPlaceholder": "Внесете адреса",
             "map": {
               "confirmLocation": "Потврди ја локацијата",
-              "howToFindCoordinates": "Како д�� најдете координати",
+              "howToFindCoordinates": "Како да најдете координати",
               "seeExample": "Погледај пример",
               "instructions": {
                 "description": "You can find the coordinates of your location by:",
@@ -556,7 +556,18 @@
           },
           "media": {
             "title": "Медиа",
-            "description": "Додадете фотографии и видеа"
+            "description": "Додадете фотографии и видеа",
+            "uploadImages": "Прикачи слики",
+            "youtubeLink": "Линк до YouTube видео",
+            "youtubeLinkExample": "пр: https://www.youtube.com/watch?v=[videoID]",
+            "youtubeLinkPlaceholder": "https://www.youtube.com/watch?v=[videoID]",
+            "imagesPreview": {
+              "title": "Слики за вашиот имот",
+              "mainImage": "Главна слика",
+              "imageCount": "{count}/15",
+              "propertyImageAlt": "Слика за имот {index}",
+              "noImages": "Немате ниту една слика прикачена"
+            }
           },
           "pricing": {
             "title": "Цена",
@@ -714,7 +725,7 @@
     },
     "signUp": {
       "title": "Регистрирајте се",
-      "subtitle": "Креирајте но��а сметка",
+      "subtitle": "Креирајте нова сметка",
       "email": "Е-пошта",
       "password": "Лозинка",
       "confirmPassword": "Потврди лозинка",

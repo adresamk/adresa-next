@@ -276,7 +276,7 @@ export default function ListingEditSideMenu({
     let stepProgress = Object.entries(stepsValueSystem[step.key] || {})
       .map(([key, value]) => {
         if (listing.hasOwnProperty(key)) {
-          console.log("L", key, value, listing[key as keyof Listing]);
+          // console.log("L", key, value, listing[key as keyof Listing]);
           if (
             !listing[key as keyof Listing] ||
             (Array.isArray(listing[key as keyof Listing]) &&
@@ -324,9 +324,9 @@ export default function ListingEditSideMenu({
     listing,
     t,
   );
-  console.log("stePstatus", stepStatus);
-  console.log("stepProgress", stepsProgress);
-  console.log("stepDescriptions", stepDescriptions);
+  // console.log("stePstatus", stepStatus);
+  // console.log("stepProgress", stepsProgress);
+  // console.log("stepDescriptions", stepDescriptions);
   return (
     <div className="w-[335px]">
       <div className="m-2 rounded bg-white shadow-md">
