@@ -12,12 +12,13 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 
 interface SelectSelfContainedProps {
-  value: string;
+  value?: string | null;
   placeholder?: string;
   onClick?: (value: string) => void;
   options: { label: string; value: string }[];
   triggerWidth?: string;
   name?: string;
+  id?: string;
 }
 
 export function SelectSelfContained({
@@ -38,8 +39,9 @@ export function SelectSelfContained({
         onChange={(e) => setSelectValue(e.target.value)}
       /> */}
       <Select
+        
         name={name}
-        value={selectValue}
+        value={selectValue ?? undefined}
         onValueChange={(value) => {
           console.log(value);
           setSelectValue(value);

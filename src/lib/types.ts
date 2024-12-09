@@ -23,22 +23,7 @@ type DateFieldsToString<T> = {
 
 // Your serialized listing type that only changes Date fields to strings
 export type SerializedListing = DateFieldsToString<ListingWithUserAndAgency>;
-export type ListingWithRelations = Listing & {
-  owner: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
-  };
-  favoritedBy: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
-  }[];
-};
+
 export interface ListingContactData {
   firstName?: string;
   lastName?: string;

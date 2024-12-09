@@ -1,10 +1,24 @@
-import { Prisma } from "@prisma/client";
+import {
+  Feature,
+  ListingFeature,
+  Listing,
+  Other,
+  Land,
+  Agency,
+  User,
+  Prisma,
+  Commercial,
+  Residential,
+} from "@prisma/client";
 
 // Define the exact include type we're using
 export const listingWithRelationsInclude = {
   agency: true,
   user: true,
   commercial: true,
+  residential: true,
+  land: true,
+  other: true,
   listingFeatures: {
     include: {
       feature: true,
@@ -16,6 +30,15 @@ export const listingWithRelationsInclude = {
 export type ListingWithRelations = Prisma.ListingGetPayload<{
   include: typeof listingWithRelationsInclude;
 }>;
+// export type ListingWithRelations = Listing & {
+//   agency: Agency | null;
+//   user: User | null;
+//   commercial: Commercial | null;
+//   residential: Residential | null;
+//   land: Land | null;
+//   other: Other | null;
+//   listingFeatures: (ListingFeature & { feature: Feature })[];
+// };
 
 // If you need specific subsets of the relations, you can create more specific types
 export type ListingWithFeatures = Prisma.ListingGetPayload<{

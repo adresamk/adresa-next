@@ -1,5 +1,5 @@
 "use client";
-import { Listing } from "@prisma/client";
+import { Feature, Listing } from "@prisma/client";
 import ListingEditSideMenu from "./_components/ListingEditSideMenu";
 import Step1 from "./steps/Step1";
 import Step3 from "./steps/Step3";
@@ -16,13 +16,16 @@ import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { editListing } from "@/server/actions/listing.actions";
 import { useTranslations } from "next-intl";
+import { ListingWithRelations } from "@/types/listing.types";
 
 interface ListingEditFormProps {
-  loadedListing: Listing;
+  loadedListing: ListingWithRelations;
   requestedStep: string;
+  allFeatures: Feature[];
 }
 
 export default function ListingEditForm({
+  allFeatures,
   loadedListing,
   requestedStep,
 }: ListingEditFormProps) {
@@ -34,7 +37,7 @@ export default function ListingEditForm({
   const { data, success, error } = state;
   const t = useTranslations();
   const initialValue = data ? data.listing : loadedListing;
-  const [listing, setListing] = useState(initialValue);
+  const [listing, setListing] = useState<Listing>(initialValue);
   // TODO, this doesnt update
 
   const [currentStep, setCurrentStep] = useState(requestedStep);
@@ -81,7 +84,9 @@ export default function ListingEditForm({
             />
             {currentStepIdx === 0 && <Step1 listing={listing} key={"1"} />}
             {currentStepIdx === 1 && <Step2 listing={listing} key={"2"} />}
-            {currentStepIdx === 2 && <Step3 listing={listing} key={"3"} />}
+            {currentStepIdx === 2 && (
+              <Step3 listing={listing} allFeatures={allFeatures} key={"3"} />
+            )}
             {currentStepIdx === 3 && <Step4 listing={listing} key={"4"} />}
             {currentStepIdx === 4 && <Step5 listing={listing} key={"5"} />}
             {currentStepIdx === 5 && <Step6 listing={listing} key={"6"} />}

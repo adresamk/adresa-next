@@ -12,6 +12,7 @@ import {
 import { getContactData } from "@/lib/data/listing/helpers";
 import { ListingWithUserAndAgency } from "@/lib/types";
 import { useTranslations } from "next-intl";
+import { ListingWithRelations } from "@/types/listing.types";
 
 interface ListingEditSideMenuProps {
   currentStep: string;

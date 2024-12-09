@@ -4,6 +4,7 @@ import ListingEditForm from "./ListingEditForm";
 import { Step, steps } from "./types";
 import { cookies } from "next/headers";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
+import { ListingWithRelations } from "@/types/listing.types";
 
 type Params = Promise<{ listingNumber: string; step: string }>;
 
@@ -19,11 +20,25 @@ export default async function EditListingPage({ params }: { params: Params }) {
     redirect({ href: "/", locale: "mk" });
   }
 
-  const listing = await prismadb.listing.findUnique({
-    where: {
-      listingNumber: Number(listingNumber),
-    },
-  });
+  const listing: ListingWithRelations | null =
+    await prismadb.listing.findUnique({
+      where: {
+        listingNumber: Number(listingNumber),
+      },
+      include: {
+        agency: true,
+        user: true,
+        commercial: true,
+        residential: true,
+        land: true,
+        other: true,
+        listingFeatures: {
+          include: {
+            feature: true,
+          },
+        },
+      },
+    });
 
   if (!listing) {
     redirect({ href: "/404", locale: "mk" });
@@ -53,9 +68,14 @@ export default async function EditListingPage({ params }: { params: Params }) {
     });
   }
 
+  const allFeatures = await prismadb.feature.findMany();
   return (
     <div className="flex gap-2 p-2">
-      <ListingEditForm loadedListing={listing} requestedStep={requestedStep} />
+      <ListingEditForm
+        loadedListing={listing}
+        requestedStep={requestedStep}
+        allFeatures={allFeatures}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { Listing } from "@prisma/client";
+import { Listing, LocationPrecision } from "@prisma/client";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -21,6 +21,8 @@ import {
   getPlaceInfo,
 } from "@/lib/data/macedoniaOld/importantData";
 import { useTranslations } from "next-intl";
+import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
+import { locationPrecisionOptions } from "@/lib/data/listing/importantData";
 
 export default function MapPinSetup({
   listing,
@@ -32,6 +34,8 @@ export default function MapPinSetup({
   populatedPlace: string | null;
 }) {
   const [showLocationAlert, setShowLocationAlert] = useState(false);
+  const [locationPrecision, setLocationPrecision] =
+    useState<LocationPrecision | null>(listing.locationPrecision);
   const [usedPlaces, setUsedPlaces] = useState<{
     populatedPlace: PopulatedPlace | null;
     municipality: PopulatedPlace | null;
@@ -70,6 +74,14 @@ export default function MapPinSetup({
     }
   }, [municipality, populatedPlace]);
 
+  const locationPrecisionOptionsTranslated = locationPrecisionOptions.map(
+    (option) => ({
+      label: t(
+        `listing.new.progress.steps.location.map.locationPrecisionOptions.${option}`,
+      ),
+      value: option,
+    }),
+  );
   return (
     <div className="mt-3">
       <h2 className="text-lg">
@@ -211,6 +223,22 @@ export default function MapPinSetup({
         >
           {t("listing.new.progress.steps.location.map.applyCoordinates")}
         </Button>
+      </div>
+      <div className="mt-2 space-y-2">
+        <Label htmlFor="locationPrecision">
+          {t("listing.new.progress.steps.location.map.locationPrecision")}
+        </Label>
+        <SelectSelfContained
+          placeholder={t(
+            "listing.new.progress.steps.location.map.locationPrecisionPlaceholder",
+          )}
+          options={locationPrecisionOptionsTranslated}
+          name="locationPrecision"
+          value={listing.locationPrecision}
+          // onClick={(value) => {
+          //   setLocationPrecision(value as LocationPrecision);
+          // }}
+        />
       </div>
       {/* <div className="invisible h-0 overflow-hidden">
         <div className="mt-2 space-y-2">

@@ -488,12 +488,37 @@
               },
               "coordinates": "Координати",
               "coordinatesPlaceholder": "ex: 41.9981,21.4254",
-              "applyCoordinates": "Примени координати"
+              "applyCoordinates": "Примени координати",
+              "locationPrecision": "Точност на локација",
+              "locationPrecisionPlaceholder": "Изберете точност на локација",
+              "locationPrecisionOptions": {
+                "exact": "Прецизно",
+                "approximate": "Приближно",
+                "wide": "Широк"
+              }
             }
           },
           "mainCharacteristics": {
             "title": "Основни карактеристики",
-            "description": "Внесете основни карактеристики на имотот"
+            "description": "Внесете основни карактеристики на имотот",
+            "price": "Цена",
+            "pricePlaceholder": "Внесете цена во евра",
+            "area": "Површина",
+            "areaPlaceholder": "Внесете површина во м²",
+            "floor": "Кат",
+            "floorPlaceholder": "Внесете на кој кат се наоѓа",
+            "orientation": "Ориентација",
+            "orientationOptions": {
+              "north": "Север",
+              "south": "Југ",
+              "east": "Исток",
+              "west": "Запад",
+              "north-east": "Североисток",
+              "north-west": "Северозапад",
+              "south-east": "Југоисток",
+              "south-west": "Југозапад"
+            },
+            "orientationPlaceholder": "Изберете ориентација"
           },
           "contact": {
             "title": "Контакт информации",

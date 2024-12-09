@@ -8,12 +8,17 @@ import {
   CommercialPropertyType,
   LandPropertyType,
   Listing,
+  LocationPrecision,
   PropertyCategory,
   PropertyTransactionType,
   PropertyType,
   ResidentalPropertyType,
 } from "@prisma/client";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
+import {
+  ListingWithRelations,
+  listingWithRelationsInclude,
+} from "@/types/listing.types";
 
 export async function addListingAsFavorite(listingId: number) {
   const { user } = await getCurrentUser();
@@ -449,6 +454,24 @@ async function editType(formData: FormData) {
         type: type as PropertyType,
       },
     });
+    updatedListing = (await prismadb.listing.findUnique({
+      where: {
+        id: updatedListing.id,
+      },
+      include: {
+        agency: true,
+        user: true,
+        commercial: true,
+        residential: true,
+        land: true,
+        other: true,
+        listingFeatures: {
+          include: {
+            feature: true,
+          },
+        },
+      },
+    })) as ListingWithRelations;
   }
   return {
     success: true,
@@ -466,6 +489,7 @@ async function editLocation(formData: FormData) {
   // const longitude = formData.get("longitude");
   // const latitude = formData.get("latitude");
   const coordinates = formData.get("coordinates");
+  const locationPrecision = formData.get("locationPrecision");
 
   // console.log({ municipality, place, address, coordinates });
 
@@ -474,7 +498,8 @@ async function editLocation(formData: FormData) {
     typeof place !== "string" ||
     // typeof district !== "string" ||
     typeof address !== "string" ||
-    typeof coordinates !== "string"
+    typeof coordinates !== "string" ||
+    typeof locationPrecision !== "string"
     // typeof longitude !== "string" ||
     // typeof latitude !== "string"
   ) {
@@ -499,7 +524,7 @@ async function editLocation(formData: FormData) {
   }
 
   const [latitude, longitude] = coordinates.split(",");
-  const updatedListing = await prismadb.listing.update({
+  await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
@@ -510,10 +535,30 @@ async function editLocation(formData: FormData) {
       address,
       longitude: Number(longitude),
       latitude: Number(latitude),
+      locationPrecision: locationPrecision as LocationPrecision,
       // fullAddress: `${municipality}, ${place}, ${district}, ${address}`,
       fullAddress: `${municipality}, ${place}, ${address}`,
     },
   });
+
+  const updatedListing = (await prismadb.listing.findUnique({
+    where: {
+      id: Number(listingId),
+    },
+    include: {
+      agency: true,
+      user: true,
+      commercial: true,
+      residential: true,
+      land: true,
+      other: true,
+      listingFeatures: {
+        include: {
+          feature: true,
+        },
+      },
+    },
+  })) as ListingWithRelations;
 
   // console.log("updatedListing", updatedListing);
   return {
@@ -528,11 +573,13 @@ async function editCharacteristics(formData: FormData) {
   const area = formData.get("area");
   const floorNumber = formData.get("floorNumber");
   const orientation = formData.get("orientation");
-  const bedrooms = formData.get("bedrooms");
-  const bathrooms = formData.get("bathrooms");
-  const wcs = formData.get("wcs");
-  const kitchens = formData.get("kitchens");
-  const livingRooms = formData.get("livingRooms");
+
+  const bedroom = formData.get("bedroom");
+  const bathroom = formData.get("bathroom");
+  const wc = formData.get("wc");
+  const kitchen = formData.get("kitchen");
+  const living = formData.get("living");
+
   const parking = formData.get("parking");
   const elevator = formData.get("elevator");
   const balcony = formData.get("balcony");
@@ -544,11 +591,11 @@ async function editCharacteristics(formData: FormData) {
     typeof area !== "string" ||
     typeof floorNumber !== "string" ||
     typeof orientation !== "string" ||
-    typeof bedrooms !== "string" ||
-    typeof bathrooms !== "string" ||
-    typeof wcs !== "string" ||
-    typeof kitchens !== "string" ||
-    typeof livingRooms !== "string" ||
+    typeof bedroom !== "string" ||
+    typeof bathroom !== "string" ||
+    typeof wc !== "string" ||
+    typeof kitchen !== "string" ||
+    typeof living !== "string" ||
     typeof parking !== "string" ||
     typeof elevator !== "string" ||
     typeof balcony !== "string" ||
@@ -583,7 +630,7 @@ async function editCharacteristics(formData: FormData) {
     }
   }
 
-  const updatedListing = false;
+  // const updatedListing = false;
   // const updatedListing = await prismadb.listing.update({
   //   where: {
   //     id: Number(listingId),
@@ -605,6 +652,25 @@ async function editCharacteristics(formData: FormData) {
   //     basement: featuresValue(basement),
   //   },
   // });
+
+  const updatedListing = (await prismadb.listing.findUnique({
+    where: {
+      id: Number(listingId),
+    },
+    include: {
+      agency: true,
+      user: true,
+      commercial: true,
+      residential: true,
+      land: true,
+      other: true,
+      listingFeatures: {
+        include: {
+          feature: true,
+        },
+      },
+    },
+  })) as ListingWithRelations;
 
   return {
     success: true,
@@ -653,8 +719,7 @@ async function editDescription(formData: FormData) {
       error: "Listing not found",
     };
   }
-
-  const updatedListing = await prismadb.listing.update({
+  await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
@@ -668,6 +733,24 @@ async function editDescription(formData: FormData) {
     },
   });
 
+  const updatedListing = (await prismadb.listing.findUnique({
+    where: {
+      id: Number(listingId),
+    },
+    include: {
+      agency: true,
+      user: true,
+      commercial: true,
+      residential: true,
+      land: true,
+      other: true,
+      listingFeatures: {
+        include: {
+          feature: true,
+        },
+      },
+    },
+  })) as ListingWithRelations;
   // console.log("returned ", updatedListing);
   return {
     success: true,
@@ -700,7 +783,7 @@ async function editMedia(formData: FormData) {
     };
   }
 
-  const updatedListing = await prismadb.listing.update({
+  await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
@@ -708,6 +791,25 @@ async function editMedia(formData: FormData) {
       videoLink,
     },
   });
+
+  const updatedListing = (await prismadb.listing.findUnique({
+    where: {
+      id: Number(listingId),
+    },
+    include: {
+      agency: true,
+      user: true,
+      commercial: true,
+      residential: true,
+      land: true,
+      other: true,
+      listingFeatures: {
+        include: {
+          feature: true,
+        },
+      },
+    },
+  })) as ListingWithRelations;
   return {
     success: true,
     data: {
@@ -748,13 +850,30 @@ async function editContactDetails(formData: FormData) {
       error: "Listing not found",
     };
   }
-  const updatedListing = await prismadb.listing.update({
+  await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
     data: {},
   });
-
+  const updatedListing = (await prismadb.listing.findUnique({
+    where: {
+      id: Number(listingId),
+    },
+    include: {
+      agency: true,
+      user: true,
+      commercial: true,
+      residential: true,
+      land: true,
+      other: true,
+      listingFeatures: {
+        include: {
+          feature: true,
+        },
+      },
+    },
+  })) as ListingWithRelations;
   return {
     success: true,
     data: {
@@ -789,7 +908,7 @@ async function editPublishing(formData: FormData) {
   const oneMonthFromNow = new Date();
   oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
 
-  const updatedListing = await prismadb.listing.update({
+  await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
@@ -799,6 +918,24 @@ async function editPublishing(formData: FormData) {
       publishEndDate: makePublished ? oneMonthFromNow : null,
     },
   });
+  const updatedListing = (await prismadb.listing.findUnique({
+    where: {
+      id: Number(listingId),
+    },
+    include: {
+      agency: true,
+      user: true,
+      commercial: true,
+      residential: true,
+      land: true,
+      other: true,
+      listingFeatures: {
+        include: {
+          feature: true,
+        },
+      },
+    },
+  })) as ListingWithRelations;
   return {
     success: true,
     data: {

@@ -154,7 +154,7 @@ enum FeatureCategory {
 
   UTILITIES
   ROOMS
-
+  RESIDENTAL_OTHER
   OTHER
 }
 
@@ -171,7 +171,7 @@ model ListingFeature {
   listingId Int
   feature   Feature  @relation(fields: [featureId], references: [id], onDelete: Cascade)
   featureId Int
-  value     String?  @db.VarChar(50) // Optional value for features that need it (e.g. "2" for number of balconies)
+  value     String?  @default("") @db.VarChar(50) // Optional value for features that need it (e.g. "2" for number of balconies)
   createdAt DateTime @default(now())
 
   @@unique([listingId, featureId])
