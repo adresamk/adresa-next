@@ -237,11 +237,22 @@ function generateStepDescriptions(listing: Listing, t: any): StepDescription {
     if (step.key === "media") {
       let properties = [];
 
-      if (listing.images && listing.images.length > 0) {
-        properties.push(listing.images.length + " images");
+      const imagesCount = listing.images
+        ? JSON.parse(listing.images).length
+        : 0;
+      if (imagesCount > 0) {
+        properties.push(
+          imagesCount +
+            " " +
+            (imagesCount > 1
+              ? t("listing.new.progress.steps.media.images")
+              : t("listing.new.progress.steps.media.image")),
+        );
       }
       if (listing.videoLink) {
-        properties.push("YouTube video");
+        properties.push(
+          "YouTube " + t("listing.new.progress.steps.media.video"),
+        );
       }
 
       descriptions[step.key] = properties.length

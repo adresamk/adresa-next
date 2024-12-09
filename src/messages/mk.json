@@ -555,7 +555,10 @@
             "description": "Внесете спецификации за имотот"
           },
           "media": {
+            "images": "Слики",
+            "image": "Слика",
             "title": "Медиа",
+            "video": "Видео",
             "description": "Додадете фотографии и видеа",
             "uploadImages": "Прикачи слики",
             "youtubeLink": "Линк до YouTube видео",
