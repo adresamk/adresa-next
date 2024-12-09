@@ -8,7 +8,7 @@ import CircularProgress from "@/components/ui/circular-progress";
 import {
   getMunicipalityPlaces,
   municipalitiesOptions,
-} from "@/lib/data/macedonia/importantData";
+} from "@/lib/data/macedoniaOld/importantData";
 import { getContactData } from "@/lib/data/listing/helpers";
 import { ListingWithUserAndAgency } from "@/lib/types";
 import { useTranslations } from "next-intl";

@@ -1,0 +1,87 @@
+1. Mark original source (macedoni-admin-lvl-8.geojson)
+2. Create files from it 
+- strippedOut.js - stripped out, with only the name, name_en, id, municip_id, municip_na
+    {
+        id: 412312512,
+        municip_id: 22212512,
+        municip_na "SKOPJE"
+        name: "CAIR",
+        name_en: "CAIR-EN"        
+    }
+- mappedCoordinates.js 
+{
+    "412312512": [coordsArray],
+    ...
+}
+- structured.js - create connections, based on municipId, create a tree, of what belowngs where
+    municipalities based on municip_id
+    {
+        id: 222312512,
+        name: "SKOPJE",
+        places: [
+            {
+            id: 412312512,
+            name: "CAIR",
+            name_en: "CAIR-EN"  
+           // municip_id: 222312512,
+           // municip_na "SKOPJE"
+            }
+        ]
+    }
+- structuredShort.js get rid of municip_id and municip_na
+ {
+        id: 222312512,
+        name: "SKOPJE",
+        places: [
+            {
+            id: 412312512,
+            name: "CAIR",
+            name_en: "CAIR-EN"  
+            }
+        ]
+    }
+- structuredCustomIDs - go trough the structured.js and add custom IDs as IDs, and the ids become originalId
+ 
+    {
+        originalId: 222312512,
+        id: "10001"
+        name: "SKOPJE",
+        places: [
+            {
+            originalId: 412312512,
+            id: "20101"
+            name: "CAIR",
+            name_en: "CAIR-EN"  
+            }
+        ]
+    }
+
+- id -> originalId map
+{
+    "10001": "222312512",
+    ...
+}
+- id-> names 
+mk.places.json
+{
+    "10001": "name"
+}
+en.places.json
+{
+    "10001": "name_en"
+}
+al.places.json
+{
+    "10001": "name_al" // cursor will help with this
+}
+- mappedStructure - just id -> [ids]
+
+    {
+         "10001": ["20101"]
+    }
+
+// Then on render we just use mappedStructure 
+
+and with translation we use .places.json to show it.
+
+create helper functions around it

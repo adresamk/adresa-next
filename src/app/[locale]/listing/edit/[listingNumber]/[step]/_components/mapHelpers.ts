@@ -1,4 +1,4 @@
-import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
+import { PopulatedPlace } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
 import L, { LatLng, LatLngExpression, Marker as MarkerType } from "leaflet";
 
 export interface Location {

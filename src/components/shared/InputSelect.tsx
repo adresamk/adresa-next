@@ -21,7 +21,7 @@ import {
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { set } from "react-hook-form";
-import { getPlaceInfo } from "@/lib/data/macedonia/importantData";
+import { getPlaceInfo } from "@/lib/data/macedoniaOld/importantData";
 
 type InputSelectOptions = {
   label: string;

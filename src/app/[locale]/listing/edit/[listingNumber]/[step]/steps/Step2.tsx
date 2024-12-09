@@ -7,113 +7,102 @@ import { useCallback, useEffect, useState } from "react";
 import { Listing } from "@prisma/client";
 
 import {
-  getMunicipalityPlaces,
-  municipalitiesOptions as municipalitiesOptionsData,
+  getTranslatedMunicipalityOptions,
+  getTranslatedMunicipalityPlaces,
+  TranslatedOption,
 } from "@/lib/data/macedonia/importantData";
-import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
-import { MapPosition } from "../_components/mapHelpers";
-import ConfirmLocation from "../_components/ConfirmLocation";
+
 import MapPinSetup from "./MapPinSetup";
+import { getLocaleFromCookies } from "@/utils/cookies";
+import { useTranslations } from "next-intl";
 
 export default function Step2({ listing }: { listing: Listing }) {
+  const locale = getLocaleFromCookies();
   const [municipality, setMunicipality] = useState(listing.municipality);
+  const [place, setPlace] = useState(listing.place);
 
-  const [populatedPlace, setPopulatedPlace] = useState(listing.place);
-
-  const [populatedPlacesOptions, setPopulatedPlacesOptions] = useState<
-    { label: string; value: string }[]
-  >(() => {
+  const [placeOptions, setPlaceOptions] = useState<TranslatedOption[]>(() => {
     if (listing.municipality) {
-      const populatedPlaces = getMunicipalityPlaces(listing.municipality);
-      if (populatedPlaces) {
-        return populatedPlaces.map((o) => ({ label: o.name, value: o.id }));
-      }
+      return getTranslatedMunicipalityPlaces(listing.municipality, locale);
     }
     return [];
   });
-  // const [district, setDistrict] = useState(listing.district);
 
   const [address, setAddress] = useState(listing.address);
+
+  const t = useTranslations();
+  const municipalityOptions = getTranslatedMunicipalityOptions(locale);
 
   return (
     <div className="p-2">
       <input type="string" className="hidden" defaultValue="2" name="step" />
-      <h2 className="text-lg">Location</h2>
+      <h2 className="text-lg">
+        {t("listing.new.progress.steps.location.title")}
+      </h2>
       <Separator className="my-2 mt-4" />
       <InputSelect
-        label="Municipality"
+        notFoundText={t("listing.new.progress.steps.location.notFoundText")}
+        placeholder={t(
+          "listing.new.progress.steps.location.municipalityPlaceholder",
+        )}
+        label={t("listing.new.progress.steps.location.municipality")}
         name="municipality"
         required
         onSelect={(municipalityId) => {
-          console.log("municipality", municipalityId);
           setMunicipality(municipalityId);
-
-          const populatedPlaces = getMunicipalityPlaces(municipalityId);
-          if (populatedPlaces) {
-            const ppOptions = populatedPlaces.map((o) => ({
-              label: o.name,
-              value: o.id,
-            }));
-
-            setPopulatedPlacesOptions(ppOptions);
-            setPopulatedPlace(ppOptions[0].value);
-          } else {
-            setPopulatedPlacesOptions([]);
-            setPopulatedPlace(null);
-          }
+          const populatedPlacesOptions = getTranslatedMunicipalityPlaces(
+            municipalityId,
+            locale,
+          );
+          setPlaceOptions(populatedPlacesOptions);
+          setPlace("");
         }}
-        notFoundText="Municipality doesn't exist"
-        placeholder="Select a Municipality"
+        options={municipalityOptions}
         defaultValue={municipality}
-        options={municipalitiesOptionsData.map((o) => ({
-          label: o.name,
-          value: o.id,
-        }))}
       />
-      <InputSelect
-        name="place"
-        label="City/Village/Region"
-        required
-        onSelect={(placeId) => {
-          console.log("place", placeId);
-          setPopulatedPlace(placeId);
-        }}
-        notFoundText="Place doesn't exist"
-        placeholder="Select a place"
-        defaultValue={populatedPlace}
-        options={populatedPlacesOptions}
-      />
-
-      {/* We won't have districts in the beginning */}
-      {/* <InputSelect
-        name="district"
-        label="District"
-        required
-        onSelect={(value) => setDistrict(value)}
-        notFoundText="District doesn't exist"
-        placeholder="Select a district"
-        defaultValue={district}
-        options={[{ label: "district1", value: "bs" }]}
-      /> */}
-
-      <Label htmlFor="address">
-        Address <span className="text-base text-red-500">*</span>{" "}
-      </Label>
-      <Input
-        required
-        placeholder="Ex: Mile Pop Jordanov 28, Skopje 1000"
-        name="address"
-        id={"address"}
-        value={address || ""}
-        onChange={(e) => {
-          setAddress(e.target.value);
-        }}
-      />
-      <MapPinSetup
-        listing={listing}
-        municipality={municipality}
-        populatedPlace={populatedPlace}
-      />
+      {(listing.municipality || municipality) && (
+        <InputSelect
+          notFoundText={t(
+            "listing.new.progress.steps.location.notFoundPlaceText",
+          )}
+          placeholder={t(
+            "listing.new.progress.steps.location.placePlaceholder",
+          )}
+          label={t("listing.new.progress.steps.location.place")}
+          name="place"
+          required
+          onSelect={setPlace}
+          options={placeOptions}
+          defaultValue={place}
+        />
+      )}
+      {(listing.place || place) && (
+        <>
+          <Label htmlFor="address">
+            {t("listing.new.progress.steps.location.address")}{" "}
+            <span className="text-base text-red-500">*</span>{" "}
+          </Label>
+          <Input
+            required
+            placeholder={t(
+              "listing.new.progress.steps.location.addressPlaceholder",
+            )}
+            name="address"
+            id={"address"}
+            value={address || ""}
+            onChange={(e) => {
+              setAddress(e.target.value);
+            }}
+          />
+        </>
+      )}
+      {(listing.address || address) && (
+        <MapPinSetup
+          listing={listing}
+          municipality={municipality}
+          populatedPlace={place}
+        />
+      )}
     </div>
   );
 }

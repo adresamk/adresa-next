@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { skopjeCoordinates } from "@/lib/data/macedonia/importantData";
+import { skopjeCoordinates } from "@/lib/data/macedoniaOld/importantData";
 
 const CustomPane = () => {
   const map = useMap();

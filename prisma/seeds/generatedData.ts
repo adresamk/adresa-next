@@ -5,7 +5,7 @@ import { ListingContactData } from "@/lib/types";
 import {
   getMunicipalityPlaces,
   municipalitiesOptions,
-} from "@/lib/data/macedonia/importantData";
+} from "@/lib/data/macedoniaOld/importantData";
 import { aUsers, nUsers } from "./staticData";
 import {
   listingCategoryOptions,

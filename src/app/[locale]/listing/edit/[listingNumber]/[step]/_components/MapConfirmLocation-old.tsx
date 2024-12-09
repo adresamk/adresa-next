@@ -24,7 +24,7 @@ import {
   roundToNearest5,
   snapToBoundary,
 } from "./mapHelpers";
-import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
+import { getPlaceCoordinates } from "@/lib/data/macedoniaOld/importantData";
 import { useMarkerPosition } from "./hooks";
 const markerIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",

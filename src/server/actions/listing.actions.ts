@@ -1,14 +1,9 @@
 "use server";
 
-import { validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
-import { ListingWithOwnerAndAgency } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 
-import { getUser } from "@/lib/auth";
-import { ListingContactData } from "@/lib/types";
-import { cookies } from "next/headers";
 import {
   CommercialPropertyType,
   LandPropertyType,
@@ -21,7 +16,6 @@ import {
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 
 export async function addListingAsFavorite(listingId: number) {
-  // const { user } = await validateRequest();
   const { user } = await getCurrentUser();
 
   if (!user) {

@@ -17,10 +17,10 @@ import {
   getMunicipalityPlaces,
   getPlaceInfo,
   municipalitiesOptions,
-} from "@/lib/data/macedonia/importantData";
+} from "@/lib/data/macedoniaOld/importantData";
 import { useLocale, useTranslations } from "next-intl";
-import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
-import { municipalities } from "@/lib/data/macedonia/macedoniaPopulatedPlaces2";
+import { PopulatedPlace } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
+import { municipalities } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces2";
 import { Listing } from "@prisma/client";
 
 export default function ListingImages({ listing }: { listing: Listing }) {

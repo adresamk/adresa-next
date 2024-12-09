@@ -17,8 +17,8 @@ import {
 import {
   getMunicipalityPlaces,
   municipalitiesOptions,
-} from "@/lib/data/macedonia/importantData";
-import { municipalitiesWithPlaces } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
+} from "@/lib/data/macedoniaOld/importantData";
+import { municipalitiesWithPlaces } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
 import { SerializedListing } from "@/lib/types";
 import { capitalizeString } from "@/lib/utils";
 import { Listing } from "@prisma/client";

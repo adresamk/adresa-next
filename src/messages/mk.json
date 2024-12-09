@@ -150,6 +150,7 @@
     },
     "actions": {
       "save": "зачувај",
+      "saveChanges": "Зачувај промени",
       "saved": "зачувано",
       "saveSearch": "Зачувај пребарување",
       "on": "Да",
@@ -455,6 +456,41 @@
             "title": "Категорија на имот",
             "description": "Изберете категорија"
           },
+          "propertyType": {
+            "title": "Тип на имот",
+            "description": "Изберете тип на имот",
+            "basicInformation": "Основи информации"
+          },
+          "location": {
+            "title": "Локација",
+            "description": "Одредете ја локацијата на имотот",
+            "municipality": "Општина",
+            "municipalityPlaceholder": "Изберете општина",
+            "notFoundText": "Нема општини",
+            "place": "Место",
+            "placePlaceholder": "Изберете место",
+            "notFoundPlaceText": "Нема места",
+            "address": "Адреса",
+            "addressPlaceholder": "Внесете адреса",
+            "map": {
+              "confirmLocation": "Потврди ја локацијата",
+              "howToFindCoordinates": "Како да најдете координати",
+              "seeExample": "Погледај пример",
+              "instructions": {
+                "description": "You can find the coordinates of your location by:",
+                "step1": "Going to Google Maps",
+                "step2": "Right-clicking on your location",
+                "step3": "The coordinates will appear at the top of the menu",
+                "step4": " Step 1: Right click on the map",
+                "step5": "Step 2: Click on the coordinates to copy them",
+                "step6": "Step 1: Tap on Google Maps App",
+                "step7": "Step 2: Click on the coordinates to copy them"
+              },
+              "coordinates": "Координати",
+              "coordinatesPlaceholder": "ex: 41.9981,21.4254",
+              "applyCoordinates": "Примени координати"
+            }
+          },
           "mainCharacteristics": {
             "title": "Основни карактеристики",
             "description": "Внесете основни карактеристики на имотот"
@@ -478,14 +514,6 @@
           "propertyDetails": {
             "title": "Детали за имотот",
             "description": "Внесете спецификации за имотот"
-          },
-          "propertyType": {
-            "title": "Тип на имот",
-            "description": "Изберете тип на имот"
-          },
-          "location": {
-            "title": "Локација",
-            "description": "Одредете ја локацијата на имотот"
           },
           "media": {
             "title": "Медиа",

@@ -8,7 +8,7 @@ import { Listing } from "@prisma/client";
 import LikeListingButton from "../search/_components/LikeListingButton";
 import { displayPrice } from "@/lib/utils";
 import { useTranslations, useLocale } from "next-intl";
-import { getMunicipalityInfo } from "@/lib/data/macedonia/importantData";
+import { getMunicipalityInfo } from "@/lib/data/macedoniaOld/importantData";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { ArrowDown } from "lucide-react";

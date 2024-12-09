@@ -9,9 +9,9 @@ import {
   getMunicipalityPlaces,
   getPlaceCoordinates,
   municipalitiesOptions,
-} from "@/lib/data/macedonia/importantData";
-import { northMacedoniaCoordinates } from "@/lib/data/macedonia/importantData";
-import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
+} from "@/lib/data/macedoniaOld/importantData";
+import { northMacedoniaCoordinates } from "@/lib/data/macedoniaOld/importantData";
+import { PopulatedPlace } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
 
 export default function MapWithControls() {
   const [cities, setCities] = useState<PopulatedPlace[]>([]);

@@ -7,11 +7,11 @@ import {
   MappedCoordinates,
   northMacedoniaCoordinates,
   skopjeCoordinates,
-} from "@/lib/data/macedonia/importantData";
+} from "@/lib/data/macedoniaOld/importantData";
 import { MapContainer, Polygon, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
-import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces2";
+import { PopulatedPlace } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces2";
 import { LatLngExpression } from "leaflet";
 
 export default function PlacesTestMap() {

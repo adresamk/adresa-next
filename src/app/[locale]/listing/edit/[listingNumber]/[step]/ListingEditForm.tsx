@@ -15,6 +15,7 @@ import { steps } from "./types";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { editListing } from "@/server/actions/listing.actions";
+import { useTranslations } from "next-intl";
 
 interface ListingEditFormProps {
   loadedListing: Listing;
@@ -31,7 +32,7 @@ export default function ListingEditForm({
     success: false,
   });
   const { data, success, error } = state;
-
+  const t = useTranslations();
   const initialValue = data ? data.listing : loadedListing;
   const [listing, setListing] = useState(initialValue);
   // TODO, this doesnt update
@@ -89,7 +90,7 @@ export default function ListingEditForm({
             {/* {stepsComponents[currentStepIdx]} */}
 
             <Button size={"sm"} className="my-2" type="submit">
-              Save Changes
+              {t("common.actions.saveChanges")}
             </Button>
           </form>
           {/* <div>

@@ -3,8 +3,8 @@
 import L, { LatLngExpression } from "leaflet";
 import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
 import { MapPosition, isPointWithinPolygon } from "./mapHelpers";
-import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
-import { getPlaceCoordinates } from "@/lib/data/macedonia/importantData";
+import { PopulatedPlace } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
+import { getPlaceCoordinates } from "@/lib/data/macedoniaOld/importantData";
 import { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";

@@ -1,6 +1,6 @@
 "use client";
 
-import { PopulatedPlace } from "@/lib/data/macedonia/macedoniaPopulatedPlaces";
+import { PopulatedPlace } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
 import dynamic from "next/dynamic";
 
 // Dynamically import the map component with no SSR
