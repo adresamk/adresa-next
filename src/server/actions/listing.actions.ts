@@ -415,8 +415,8 @@ export async function attachImagesToListing(
       id: listing.id,
     },
     data: {
-      images: JSON.stringify(images),
-      mainImage: JSON.stringify(images[0]),
+      images: images,
+      mainImage: images && images.length > 0 ? images[0] : {},
     },
   });
 
@@ -787,14 +787,15 @@ async function editMedia(formData: FormData) {
     };
   }
 
+  const parsedImages = images ? JSON.parse(images) : [];
   await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
     data: {
       videoLink,
-      images,
-      mainImage: JSON.stringify(JSON.parse(images)[0]),
+      images: parsedImages,
+      mainImage: parsedImages[0] ?? {},
     },
   });
 

@@ -17,7 +17,7 @@ export default function Step6({ listing }: { listing: Listing }) {
   const t = useTranslations("listing.new.progress.steps.media");
   const [ytLink, setYtLink] = useState(listing.videoLink || "");
   const [images, setImages] = useState<UploadedImageData[]>(
-    listing.images ? JSON.parse(listing.images) : [],
+    listing.images ? (listing.images as UploadedImageData[]) : [],
   );
   // console.log("2images: ", images);
   // console.log("2images: ", JSON.stringify(images));

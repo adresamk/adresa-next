@@ -12,7 +12,7 @@ import {
 import { getContactData } from "@/lib/data/listing/helpers";
 import { ListingWithUserAndAgency } from "@/lib/types";
 import { useTranslations } from "next-intl";
-import { ListingWithRelations } from "@/types/listing.types";
+import { ListingWithRelations, UploadedImageData } from "@/types/listing.types";
 
 interface ListingEditSideMenuProps {
   currentStep: string;
@@ -140,7 +140,11 @@ function calculateStepStatus(listing: Listing): StepStatus {
       }
     }
     if (step.key === "media") {
-      if (listing.images && listing.images.length > 0 && listing.videoLink) {
+      if (
+        listing.images &&
+        (listing.images as UploadedImageData[]).length > 0 &&
+        listing.videoLink
+      ) {
         statuses[step.key] = "completed";
       } else {
         statuses[step.key] = "none";
@@ -238,7 +242,7 @@ function generateStepDescriptions(listing: Listing, t: any): StepDescription {
       let properties = [];
 
       const imagesCount = listing.images
-        ? JSON.parse(listing.images).length
+        ? (listing.images as UploadedImageData[]).length
         : 0;
       if (imagesCount > 0) {
         properties.push(
