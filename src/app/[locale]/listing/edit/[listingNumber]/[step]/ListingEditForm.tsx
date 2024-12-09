@@ -47,6 +47,11 @@ export default function ListingEditForm({
 
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // if we are at contact, we dont care to update, that is just presentational screen
+    if (currentStepIdx === 6 || steps[currentStepIdx]?.uniquePath === "contact") {
+      setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
+      return;
+    }
     const formData = new FormData(e.currentTarget); // Get form data
     const { success, error, data } = await editListing(
       { success: false },

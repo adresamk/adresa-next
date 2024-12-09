@@ -30,9 +30,9 @@ const stepStatus: StepStatus = {
 // };
 
 export default async function NewListingPage() {
-  const { user } = await getCurrentUser();
+  const { account } = await getCurrentUser();
   const t = await getTranslations();
-  if (!user) {
+  if (!account) {
     redirect("/signin?redirect=/listing/new");
   }
 
