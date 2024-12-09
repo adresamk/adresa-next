@@ -114,3 +114,15 @@ export function pickListingIncludes<K extends keyof typeof listingBaseIncludes>(
     keys.map((key) => [key, listingBaseIncludes[key]]),
   ) as Pick<typeof listingBaseIncludes, K>;
 }
+
+export type UploadedImageData = {
+  url: string;
+  name: string;
+  size: number;
+  key: string;
+  lastModified: number | undefined;
+  appUrl: string;
+  customId: string | null;
+  type: string;
+  fileHash: string;
+};

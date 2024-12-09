@@ -283,8 +283,8 @@ model Listing {
   priceHistory   Json?
   area           Int?
   // Images and Video
-  mainImage      Json? // img will be hosted elsewhere, used to showcase the listing, usually first image in array
-  images         Json[]
+  mainImage      String? @default("") //UploadedImageData img will be hosted elsewhere, used to showcase the listing, usually first image in array
+  images         String? @default("") //array of UploadedImageData JSON stringified
   videoLink      String? @db.VarChar(120) // youtube or vimeo for the property
 
   // Publishing info

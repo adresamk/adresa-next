@@ -3,18 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { UploadedImageData } from "@/types/listing.types";
 
 export default function ImagesPreview({
   images,
   setImages,
 }: {
-  images: string[];
-  setImages: (images: string[]) => void;
+  images: UploadedImageData[];
+  setImages: (images: UploadedImageData[]) => void;
 }) {
+  console.log("images: ", images);
   const t = useTranslations("listing.new.progress.steps.media.imagesPreview");
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-  const [previewImages, setPreviewImages] = useState<string[]>(images);
+  const [previewImages, setPreviewImages] =
+    useState<UploadedImageData[]>(images);
 
   useEffect(() => {
     setPreviewImages(images);
@@ -82,13 +85,13 @@ export default function ImagesPreview({
         <div className="text-center text-sm text-gray-500">{t("noImages")}</div>
       )}
       <div className="grid max-h-[400px] w-full grid-cols-2 gap-4 overflow-y-auto">
-        {previewImages.map((imageUrl, idx) => {
+        {previewImages.map((image, idx) => {
           const isDragging = draggedIndex === idx;
           const isHovered = hoverIndex === idx;
 
           return (
             <div
-              key={imageUrl + idx}
+              key={image.url + idx}
               className={cn(
                 "relative cursor-move rounded border-2 transition-all duration-300 ease-in-out",
                 isDragging && "opacity-50",
@@ -104,9 +107,9 @@ export default function ImagesPreview({
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={imageUrl}
+                src={image.url}
                 alt={t("propertyImageAlt", { index: idx + 1 })}
-                className="h-32 min-w-full rounded object-cover"
+                className="h-36 min-w-full rounded object-cover"
                 width={325}
                 height={198}
               />

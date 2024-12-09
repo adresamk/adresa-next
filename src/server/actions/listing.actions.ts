@@ -18,6 +18,7 @@ import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 import {
   ListingWithRelations,
   listingWithRelationsInclude,
+  UploadedImageData,
 } from "@/types/listing.types";
 
 export async function addListingAsFavorite(listingId: number) {
@@ -383,7 +384,7 @@ export interface EditListingResponse {
 }
 
 export async function attachImagesToListing(
-  images: string[],
+  images: UploadedImageData[],
   listingNumber: number,
 ) {
   const { user } = await getCurrentUser();
@@ -407,13 +408,15 @@ export async function attachImagesToListing(
     };
   }
 
+  console.log("images: ", images);
+
   await prismadb.listing.update({
     where: {
       id: listing.id,
     },
     data: {
-      images,
-      mainImage: images[0],
+      images: JSON.stringify(images),
+      mainImage: JSON.stringify(images[0]),
     },
   });
 
@@ -761,8 +764,9 @@ async function editDescription(formData: FormData) {
 }
 async function editMedia(formData: FormData) {
   const videoLink = formData.get("videoLink");
+  const images = formData.get("images"); // stringified array of UploadedImageData
 
-  if (typeof videoLink !== "string") {
+  if (typeof videoLink !== "string" || typeof images !== "string") {
     return {
       success: false,
       error: "Invalid Inputs",
@@ -789,6 +793,8 @@ async function editMedia(formData: FormData) {
     },
     data: {
       videoLink,
+      images,
+      mainImage: JSON.stringify(JSON.parse(images)[0]),
     },
   });
 

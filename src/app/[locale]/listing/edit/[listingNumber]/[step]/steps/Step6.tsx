@@ -11,11 +11,18 @@ import { useTranslations } from "next-intl";
 import ImagesPreview from "./ImagesPreview";
 import { attachImagesToListing } from "@/server/actions/listing.actions";
 import { UploadedFileData } from "uploadthing/types";
+import { UploadedImageData } from "@/types/listing.types";
 
 export default function Step6({ listing }: { listing: Listing }) {
   const t = useTranslations("listing.new.progress.steps.media");
   const [ytLink, setYtLink] = useState(listing.videoLink || "");
-  const [images, setImages] = useState<any[]>(listing.images || []);
+  const [images, setImages] = useState<UploadedImageData[]>(
+    listing.images ? JSON.parse(listing.images) : [],
+  );
+  // console.log("2images: ", images);
+  // console.log("2images: ", JSON.stringify(images));
+  // console.log("2listing: ", listing.images);
+  // console.log("2listing: ", JSON.stringify(listing.images));
   const ytLinkRegex =
     /^(?:https?:\/\/)?(?:(?:www|m)\.)?((?:youtube\.com|youtu.be)\/(?:watch\?v=)?)([\w\-_]+)(?:\?[^#]*)?$/;
 
@@ -26,6 +33,12 @@ export default function Step6({ listing }: { listing: Listing }) {
   return (
     <div className="w-full min-w-[526px] p-2">
       <input type="string" className="hidden" defaultValue="6" name="step" />
+      <input
+        type="hidden"
+        className="hidden"
+        value={JSON.stringify(images)}
+        name="images"
+      />
 
       <h2 className="text-lg">{t("title")}</h2>
       <Separator className="my-2 mt-4" />
@@ -36,14 +49,48 @@ export default function Step6({ listing }: { listing: Listing }) {
           onClientUploadComplete={async (res) => {
             console.log("Files: ", res);
             const imagesAttachingToListing = await attachImagesToListing(
-              [...images, ...res.map((file) => file.url)],
+              [
+                ...images,
+                ...res.map((file) => {
+                  const imageData: UploadedImageData = {
+                    url: file.url,
+                    name: file.name,
+                    size: file.size,
+                    key: file.key,
+                    lastModified: file.lastModified,
+                    appUrl: file.appUrl,
+                    customId: file.customId,
+                    type: file.type,
+                    fileHash: file.fileHash,
+                  };
+
+                  return imageData;
+                }),
+              ],
               listing.listingNumber,
             );
 
             console.log("imagesAttachingToListing: ", imagesAttachingToListing);
 
             if (imagesAttachingToListing.success) {
-              setImages([...images, ...res.map((file) => file.url)]);
+              setImages([
+                ...images,
+                ...res.map((file) => {
+                  const imageData: UploadedImageData = {
+                    url: file.url,
+                    name: file.name,
+                    size: file.size,
+                    key: file.key,
+                    lastModified: file.lastModified,
+                    appUrl: file.appUrl,
+                    customId: file.customId,
+                    type: file.type,
+                    fileHash: file.fileHash,
+                  };
+
+                  return imageData;
+                }),
+              ]);
             }
           }}
           onUploadError={(error: Error) => {
