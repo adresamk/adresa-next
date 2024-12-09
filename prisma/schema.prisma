@@ -271,21 +271,21 @@ model Listing {
   locationPrecision LocationPrecision? @default(exact)
 
   // Main Characteristics
-  title          String?  @default("") @db.VarChar(120) // Title that will show up in listing that they wanted
-  mkdTitle       String?  @default("") @db.VarChar(120) // 
-  albTitle       String?  @default("") @db.VarChar(120) // 
-  description    String?  @db.VarChar(5000)
-  mkdDescription String?  @db.VarChar(5000)
-  albDescription String?  @db.VarChar(5000)
+  title          String? @default("") @db.VarChar(120) // Title that will show up in listing that they wanted
+  mkdTitle       String? @default("") @db.VarChar(120) // 
+  albTitle       String? @default("") @db.VarChar(120) // 
+  description    String? @db.VarChar(5000)
+  mkdDescription String? @db.VarChar(5000)
+  albDescription String? @db.VarChar(5000)
   // --
   price          Int?
   previousPrice  Int?
   priceHistory   Json?
   area           Int?
   // Images and Video
-  mainImage      String?  @db.VarChar(300) // img will be hosted elsewhere, used to showcase the listing, usually first image in array
-  images         String[]
-  videoLink      String?  @db.VarChar(120) // youtube or vimeo for the property
+  mainImage      Json? // img will be hosted elsewhere, used to showcase the listing, usually first image in array
+  images         Json[]
+  videoLink      String? @db.VarChar(120) // youtube or vimeo for the property
 
   // Publishing info
   status         ListingStatus @default(DRAFT)

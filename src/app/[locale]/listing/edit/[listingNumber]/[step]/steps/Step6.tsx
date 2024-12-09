@@ -24,7 +24,7 @@ export default function Step6({ listing }: { listing: Listing }) {
     left.startsWith("https://www.youtube.com/watch?") && right.length === 11;
 
   return (
-    <div className="p-2">
+    <div className="w-full min-w-[526px] p-2">
       <input type="string" className="hidden" defaultValue="6" name="step" />
 
       <h2 className="text-lg">{t("title")}</h2>
