@@ -42,6 +42,12 @@ export default function Step6({ listing }: { listing: Listing }) {
 
       <h2 className="text-lg">{t("title")}</h2>
       <Separator className="my-2 mt-4" />
+      <div className="flex flex-col justify-between">
+        <span>{t("uploadHighResolution")}</span>
+        <span>
+          {images.length}/15 {t("uploaded")} | <span>{t("controls")} </span>
+        </span>
+      </div>
 
       <div className="w-max">
         <UploadButton
@@ -98,6 +104,7 @@ export default function Step6({ listing }: { listing: Listing }) {
           }}
         />
       </div>
+
       <ImagesPreview images={images} setImages={setImages} listing={listing} />
 
       <div className="mt-4 flex flex-col gap-2">

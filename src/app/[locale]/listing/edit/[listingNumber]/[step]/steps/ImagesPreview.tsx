@@ -97,15 +97,10 @@ export default function ImagesPreview({
 
   return (
     <div className="flex w-full flex-col gap-2">
-      <div className="flex justify-between">
-        <span>{t("title")}</span>
-        <span>{images.length}/15 </span>
-      </div>
-
       {images.length === 0 && (
         <div className="text-center text-sm text-gray-500">{t("noImages")}</div>
       )}
-      <div className="grid max-h-[400px] w-full grid-cols-2 gap-4 overflow-y-auto">
+      <div className="mt-3 flex w-full flex-row flex-wrap gap-4 overflow-hidden">
         {previewImages.map((image, idx) => {
           const isDragging = draggedIndex === idx;
           const isHovered = hoverIndex === idx;
@@ -114,8 +109,8 @@ export default function ImagesPreview({
             <div
               key={image.url + idx}
               className={cn(
-                "relative cursor-move rounded border-2 transition-all duration-300 ease-in-out",
-                isDragging && "opacity-50",
+                "inline-flex max-w-[48%] basis-[48%] cursor-move gap-1 py-0 transition-all duration-300 ease-in-out",
+                isDragging && "object-fill opacity-50",
                 isHovered && "border-primary",
               )}
               draggable
@@ -126,28 +121,30 @@ export default function ImagesPreview({
               onDragEnd={handleDragEnd}
               onDrop={(e) => handleDrop(e, idx)}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={image.url}
-                alt={t("propertyImageAlt", { index: idx + 1 })}
-                className="h-36 min-w-full rounded object-cover"
-                width={325}
-                height={198}
-              />
-              {idx === 0 && (
-                <div className="absolute bottom-2 w-full">
-                  <div className="mx-2 rounded bg-slate-100/80 p-1 text-center text-black hover:bg-slate-200">
-                    {t("mainImage")}
+              <div className="relative block aspect-video w-full rounded border-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={image.url}
+                  alt={t("propertyImageAlt", { index: idx + 1 })}
+                  className="object-fit relative inset-0 h-full min-w-full rounded"
+                  width={325}
+                  height={198}
+                />
+                {idx === 0 && (
+                  <div className="absolute bottom-2 w-full">
+                    <div className="mx-2 rounded bg-slate-100/80 p-1 text-center text-black hover:bg-slate-200">
+                      {t("mainImage")}
+                    </div>
                   </div>
-                </div>
-              )}
-              <Button
-                type="button"
-                onClick={() => handleDelete(image, idx)}
-                className="absolute right-2 top-2 rounded-full bg-slate-100/90 p-2 text-black hover:bg-slate-200"
-              >
-                <Trash2Icon className="h-4 w-5" />
-              </Button>
+                )}
+                <Button
+                  type="button"
+                  onClick={() => handleDelete(image, idx)}
+                  className="absolute right-2 top-2 rounded-full bg-slate-100/90 p-2 text-black hover:bg-slate-200"
+                >
+                  <Trash2Icon className="h-4 w-5" />
+                </Button>
+              </div>
             </div>
           );
         })}

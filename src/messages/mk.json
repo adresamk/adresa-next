@@ -12,6 +12,20 @@
       "live": "Во живо"
     }
   },
+  "creditCard": {
+    "title": "Изберете начин на плаќање",
+    "subtitle": "Ова е еднократно плаќање за објавување на вашиот оглас и има времетраење од шест месеци!",
+    "debitCreditCard": "Дебитна/Кредитна картичка",
+    "otherPayment": "Друг начин на плаќање",
+    "otherPaymentDescription": "Достапни се алтернативни начини на плаќање",
+    "firstName": "Име",
+    "lastName": "Презиме",
+    "cardNumber": "Број на картичка",
+    "expiryDate": "Датум на истекување",
+    "expiryDatePlaceholder": "ММ/ГГ",
+    "cvv": "CVV",
+    "securityMessage": "Со кликање на \"Комплетирај купување\" ќе бидете пренасочени на безбеден банкарски систем."
+  },
   "map": {
     "notSet": "Локацијата не е поставена",
     "attribution": "© OpenStreetMap контрибутори",
@@ -366,7 +380,7 @@
       "other": "Други"
     },
     "transactionType": {
-      "sale": "Продажба",
+      "sale": "П��одажба",
       "rent": "Изнајмување"
     },
     "breadcrumbs": {
@@ -430,7 +444,7 @@
       },
       "rooms": {
         "label": "Број на соби",
-        "placeholder": "Изберете број на соби"
+        "placeholder": "Изберете број на с��би"
       },
       "floor": {
         "label": "Кат",
@@ -486,7 +500,7 @@
                 "step6": "Step 1: Tap on Google Maps App",
                 "step7": "Step 2: Click on the coordinates to copy them"
               },
-              "coordinates": "Координати",
+              "coordinates": "Координа��и",
               "coordinatesPlaceholder": "ex: 41.9981,21.4254",
               "applyCoordinates": "Примени координати",
               "locationPrecision": "Точност на локација",
@@ -551,10 +565,6 @@
             "characters": "карактери",
             "translateTo": "Преведи на"
           },
-          "publish": {
-            "title": "Објавете оглас",
-            "description": "Објавете оглас"
-          },
           "additionalFeatures": {
             "title": "Дополнителни карактеристики",
             "description": "Додадете дополнителни карактеристики на имотот"
@@ -567,6 +577,9 @@
             "images": "Слики",
             "image": "Слика",
             "title": "Медиа",
+            "uploadHighResolution": "Прикачи високо резолуција слики",
+            "uploaded": "прикачени",
+            "controls": "Влечи за да ��и преуредите",
             "video": "Видео",
             "description": "Додадете фотографии и видеа",
             "uploadImages": "Прикачи слики",
@@ -581,9 +594,22 @@
               "noImages": "Немате ниту една слика прикачена"
             }
           },
+          "publish": {
+            "title": "Објавете оглас",
+            "description": "Објавете оглас",
+            "details": "Детали",
+            "preview": "Преглед",
+            "listingId": "ID на оглас",
+            "publishDuration": "Период на објавување",
+            "publish": "Објави",
+            "unpublish": "Тргни оглас",
+            "publishMessage": "Оглас објавен",
+            "unpublishMessage": "Оглас не објавен",
+            "subtitle": "Објавете оглас, или не објавете"
+          },
           "pricing": {
             "title": "Цена",
-            "description": "Поставете ја цената"
+            "description": "Поставете ја цена��а"
           }
         }
       },
@@ -657,7 +683,7 @@
         "contactInfoTitle": "Контакт информации за агенцијата",
         "contactPerson": "Контакт личност",
         "contactPersonFullName": "Име и презиме на контакт личност",
-        "contactPersonFullNamePlaceholder": "Вашето име и презиме",
+        "contactPersonFullNamePlaceholder": "Ваш��то име и презиме",
         "contactPersonEmail": "Е-пошта на контакт личност",
         "contactPersonEmailPlaceholder": "Вашата е-пошта",
         "contactPersonPhone": "Телефон на контакт личност",
@@ -705,7 +731,7 @@
       "contactInfo": {
         "title": "Контакт информации",
         "info": "Овие информации ќе се прикажат на вашата агенциска страница и на огласите кои ги имате на располагање. Може да се различни од вашите лични податоци наведени во Инфо",
-        "contactName": "Име и презиме на контакт личност",
+        "contactName": "Име и презиме на конта��т личност",
         "contactNamePlaceholder": "Името кое ќе се прикажува на огласите",
         "contactPhone": "Телефон на контакт личност",
         "contactPhonePlaceholder": "Телефон кој ќе се прикажува на огласите",
@@ -725,7 +751,7 @@
   "auth": {
     "signIn": {
       "title": "Најавете се",
-      "subtitle": "Најавете се на вашата сметка",
+      "subtitle": "Наја��ете се на вашата сметка",
       "email": "Е-пошта",
       "password": "Лозинка",
       "forgotPassword": "Заборавена лозинка?",
@@ -750,7 +776,7 @@
 
       "agencySignUp": "Регистрирајте се како агенција",
       "error": {
-        "emailExists": "Оваа е-пошта веќе е регистрирана",
+        "emailExists": "Оваа е-пошта в��ќе е регистрирана",
         "passwordMismatch": "Лозинките не се совпаѓаат",
         "invalidEmail": "Невалидна е-пошта",
         "weakPassword": "Лозинката мора да содржи најмалку 8 карактери"
