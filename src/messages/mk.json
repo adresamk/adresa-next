@@ -532,6 +532,17 @@
               "south-east": "Југоисток",
               "south-west": "Југозапад"
             },
+            "zone": {
+              "label": "Зона",
+              "zoneOptions": {
+                "residential": "Резиденција",
+                "commercial": "Торгова",
+                "agricultural": "Аграрна",
+                "industrial": "Индустрија",
+                "recreational": "Рекреација",
+                "unincorporated": "Неинкорпорирана"
+              }
+            },
             "orientationPlaceholder": "Изберете ориентација"
           },
           "contact": {

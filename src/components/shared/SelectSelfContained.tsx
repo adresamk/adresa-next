@@ -39,9 +39,8 @@ export function SelectSelfContained({
         onChange={(e) => setSelectValue(e.target.value)}
       /> */}
       <Select
-        
         name={name}
-        value={selectValue ?? undefined}
+        value={selectValue || undefined}
         onValueChange={(value) => {
           console.log(value);
           setSelectValue(value);
