@@ -99,6 +99,12 @@ export default function ResidentialSpecificFields({
   return (
     <>
       {/* Floor Number */}
+      <input
+        type="string"
+        className="hidden"
+        defaultValue={listing.residential.id}
+        name="residentialId"
+      />
       <div className="flex flex-col gap-3">
         <Label htmlFor="floorNumber">
           {t("listing.new.progress.steps.mainCharacteristics.floor")}

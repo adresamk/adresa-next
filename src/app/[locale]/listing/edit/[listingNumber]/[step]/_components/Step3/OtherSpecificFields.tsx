@@ -22,14 +22,20 @@ export default function OtherSpecificFields({
     { label: "Paved", value: "paved" },
     { label: "Asphalt", value: "asphalt" },
     { label: "Pedestrian", value: "pedestrian" },
-    { label: "Dirt Road", value: "dirt-road" },
+    { label: "Dirt Road", value: "dirt_road" },
     { label: "Sea", value: "sea" },
     { label: "Other", value: "other" },
-    { label: "No Road Access", value: "no-road-access" },
+    { label: "No Road Access", value: "no_road_access" },
   ];
 
   return (
     <>
+      <input
+        type="string"
+        className="hidden"
+        defaultValue={listing.other.id}
+        name="otherId"
+      />
       {/* Access From */}
       <div className="flex flex-col gap-3">
         <Label>Access From</Label>

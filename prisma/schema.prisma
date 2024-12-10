@@ -233,19 +233,21 @@ enum ListingStatus {
 }
 
 model Listing {
-  id              Int                     @id @default(autoincrement())
-  uuid            String                  @unique @default(uuid()) @db.Char(36) // not used but here for the future if we need to scale and merge
-  externalRef     String?                 @unique @db.VarChar(350) // External ID for importing data from other sources
-  listingNumber   Int                     @unique @default(autoincrement()) // 6 digit number controled by counter listing-number-counter
-  createdAt       DateTime                @default(now())
-  updatedAt       DateTime                @updatedAt
-  dateAvailable   DateTime                @default(now()) // if it is in the past now() it is available
-  isAvailable     Boolean                 @default(true) // used for fast retieval
+  id            Int      @id @default(autoincrement())
+  uuid          String   @unique @default(uuid()) @db.Char(36) // not used but here for the future if we need to scale and merge
+  externalRef   String?  @unique @db.VarChar(350) // External ID for importing data from other sources
+  listingNumber Int      @unique @default(autoincrement()) // 6 digit number controled by counter listing-number-counter
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  dateAvailable DateTime @default(now()) // if it is in the past now() it is available
+  isAvailable   Boolean  @default(true) // used for fast retieval
   // Ownership details
-  userId          Int?
-  user            User?                   @relation(fields: [userId], references: [id], onDelete: SetNull)
-  agencyId        Int?
-  agency          Agency?                 @relation(fields: [agencyId], references: [id], onDelete: SetNull)
+  userId        Int?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  agencyId      Int?
+  agency        Agency?  @relation(fields: [agencyId], references: [id], onDelete: SetNull)
+
+  queryHash       String
   // Main categorization (Initial step when creating a new listing)
   transactionType PropertyTransactionType // rent, sale
   category        PropertyCategory // Won't be changed later

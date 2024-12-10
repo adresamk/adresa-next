@@ -573,44 +573,15 @@ async function editLocation(formData: FormData) {
   };
 }
 async function editCharacteristics(formData: FormData) {
-  const price = formData.get("price");
-  const area = formData.get("area");
-  const floorNumber = formData.get("floorNumber");
-  const orientation = formData.get("orientation");
+  const listingCategory = formData.get("listingCategory");
 
-  const bedroom = formData.get("bedroom");
-  const bathroom = formData.get("bathroom");
-  const wc = formData.get("wc");
-  const kitchen = formData.get("kitchen");
-  const living = formData.get("living");
-
-  const parking = formData.get("parking");
-  const elevator = formData.get("elevator");
-  const balcony = formData.get("balcony");
-  const yard = formData.get("yard");
-  const basement = formData.get("basement");
-
-  if (
-    typeof price !== "string" ||
-    typeof area !== "string" ||
-    typeof floorNumber !== "string" ||
-    typeof orientation !== "string" ||
-    typeof bedroom !== "string" ||
-    typeof bathroom !== "string" ||
-    typeof wc !== "string" ||
-    typeof kitchen !== "string" ||
-    typeof living !== "string" ||
-    typeof parking !== "string" ||
-    typeof elevator !== "string" ||
-    typeof balcony !== "string" ||
-    typeof yard !== "string" ||
-    typeof basement !== "string"
-  ) {
+  if (typeof listingCategory !== "string") {
     return {
       success: false,
       error: "Invalid Inputs",
     };
   }
+
   const listingId = formData.get("listingId")! as string;
   const listing = await prismadb.listing.findUnique({
     where: {
@@ -625,6 +596,292 @@ async function editCharacteristics(formData: FormData) {
     };
   }
 
+  const category = listingCategory as PropertyCategory;
+
+  const price = formData.get("price");
+  const area = formData.get("area");
+
+  if (typeof price !== "string" || typeof area !== "string") {
+    return {
+      success: false,
+      error: "Invalid Inputs",
+    };
+  }
+  await prismadb.listing.update({
+    where: {
+      id: Number(listingId),
+    },
+    data: {
+      price: Number(price),
+      area: Number(area),
+    },
+  });
+
+  if (category === "residential") {
+    const residentialId = formData.get("residentialId");
+
+    const floor = formData.get("floor");
+    const totalFloors = formData.get("totalFloors");
+    const orientation = formData.get("orientation");
+    const zone = formData.get("zone");
+
+    const constructionYear = formData.get("constructionYear");
+    const totalPropertyArea = formData.get("totalPropertyArea");
+
+    const isFurnished = formData.get("isFurnished");
+    const isForStudents = formData.get("isForStudents");
+    const isForHolidayHome = formData.get("isForHolidayHome");
+    const commonExpenses = formData.get("commonExpenses");
+    const heatingType = formData.get("heatingType");
+    const heatingMedium = formData.get("heatingMedium");
+
+    console.log({
+      residentialId,
+      floor,
+      totalFloors,
+      orientation,
+      zone,
+      constructionYear,
+      totalPropertyArea,
+      isFurnished,
+      isForStudents,
+      isForHolidayHome,
+      commonExpenses,
+      heatingType,
+      heatingMedium,
+    });
+
+    if (
+      typeof residentialId !== "string" ||
+      typeof floor !== "string" ||
+      typeof totalFloors !== "string" ||
+      typeof orientation !== "string" ||
+      typeof zone !== "string" ||
+      typeof constructionYear !== "string" ||
+      typeof totalPropertyArea !== "string" ||
+      !(typeof isFurnished === "string" || isFurnished === null) ||
+      !(typeof isForStudents === "string" || isForStudents === null) ||
+      !(typeof isForHolidayHome === "string" || isForHolidayHome === null) ||
+      typeof commonExpenses !== "string" ||
+      typeof heatingType !== "string" ||
+      typeof heatingMedium !== "string"
+    ) {
+      return {
+        success: false,
+        error: "Invalid Inputs",
+      };
+    }
+
+    // update here.
+    const residential = await prismadb.residential.findUnique({
+      where: {
+        id: Number(residentialId),
+      },
+    });
+    if (!residential) {
+      return {
+        success: false,
+        error: "Residential not found",
+      };
+    }
+
+    await prismadb.residential.update({
+      where: {
+        id: Number(residentialId),
+      },
+      data: {
+        floor: floor,
+        totalFloors: Number(totalFloors),
+        orientation: orientation,
+        zone: zone,
+        constructionYear: Number(constructionYear),
+        totalPropertyArea: Number(totalPropertyArea),
+        isFurnished: isFurnished === "1",
+        isForStudents: isForStudents === "1",
+        isForHolidayHome: isForHolidayHome === "1",
+        commonExpenses: Number(commonExpenses),
+        heatingType,
+        heatingMedium,
+      },
+    });
+  }
+  if (category === "commercial") {
+    const commercialId = formData.get("commercialId");
+    const constructionYear = formData.get("constructionYear");
+    const totalPropertyArea = formData.get("totalPropertyArea");
+    const floor = formData.get("floor");
+
+    const isCornerProperty = formData.get("isCornerProperty");
+    const isOnTopFloor = formData.get("isOnTopFloor");
+
+    const accessFrom = formData.get("accessFrom");
+    const commonExpenses = formData.get("commonExpenses");
+    const heatingType = formData.get("heatingType");
+    const heatingMedium = formData.get("heatingMedium");
+    console.log({
+      commercialId,
+      constructionYear,
+      totalPropertyArea,
+      floor,
+      isCornerProperty,
+      isOnTopFloor,
+      accessFrom,
+      commonExpenses,
+      heatingType,
+      heatingMedium,
+    });
+
+    if (
+      typeof commercialId !== "string" ||
+      typeof constructionYear !== "string" ||
+      typeof totalPropertyArea !== "string" ||
+      typeof floor !== "string" ||
+      !(typeof isCornerProperty === "string" || isCornerProperty === null) ||
+      !(typeof isOnTopFloor === "string" || isOnTopFloor === null) ||
+      typeof accessFrom !== "string" ||
+      typeof commonExpenses !== "string" ||
+      typeof heatingType !== "string" ||
+      typeof heatingMedium !== "string"
+    ) {
+      return {
+        success: false,
+        error: "Invalid Inputs",
+      };
+    }
+
+    // update here.
+
+    const commercial = await prismadb.commercial.findUnique({
+      where: {
+        id: Number(commercialId),
+      },
+    });
+    if (!commercial) {
+      return {
+        success: false,
+        error: "Commercial not found",
+      };
+    }
+
+    await prismadb.commercial.update({
+      where: {
+        id: Number(commercialId),
+      },
+      data: {
+        constructionYear: Number(constructionYear),
+        totalPropertyArea: Number(totalPropertyArea),
+        floor: Number(floor),
+        isCornerProperty: isCornerProperty === "1",
+        isOnTopFloor: isOnTopFloor === "1",
+        accessFrom: accessFrom,
+        commonExpenses: Number(commonExpenses),
+        heatingType: heatingType,
+        heatingMedium: heatingMedium,
+      },
+    });
+  }
+  if (category === "land") {
+    const landId = formData.get("landId");
+    const isCornerProperty = formData.get("isCornerProperty");
+    const orientation = formData.get("orientation");
+    const zone = formData.get("zone");
+    const accessFrom = formData.get("accessFrom");
+    const slope = formData.get("slope");
+
+    console.log({
+      landId,
+      isCornerProperty,
+      orientation,
+      zone,
+      accessFrom,
+      slope,
+    });
+    if (
+      typeof landId !== "string" ||
+      !(typeof isCornerProperty === "string" || isCornerProperty === null) ||
+      typeof orientation !== "string" ||
+      typeof zone !== "string" ||
+      typeof accessFrom !== "string" ||
+      typeof slope !== "string"
+    ) {
+      return {
+        success: false,
+        error: "Invalid Inputs",
+      };
+    }
+
+    // update here.
+    const land = await prismadb.land.findUnique({
+      where: {
+        id: Number(landId),
+      },
+    });
+    if (!land) {
+      return {
+        success: false,
+        error: "Land not found",
+      };
+    }
+
+    await prismadb.land.update({
+      where: {
+        id: Number(landId),
+      },
+      data: {
+        isCornerProperty: isCornerProperty === "1",
+        orientation: orientation,
+        zone: zone,
+        accessFrom: accessFrom,
+        slope: slope,
+      },
+    });
+  }
+  if (category === "other") {
+    const otherId = formData.get("otherId");
+    const accessFrom = formData.get("accessFrom");
+    const totalPropertyArea = formData.get("totalPropertyArea");
+
+    console.log({
+      otherId,
+      accessFrom,
+      totalPropertyArea,
+    });
+
+    if (
+      typeof otherId !== "string" ||
+      typeof accessFrom !== "string" ||
+      typeof totalPropertyArea !== "string"
+    ) {
+      return {
+        success: false,
+        error: "Invalid Inputs",
+      };
+    }
+
+    // update here.
+    const other = await prismadb.other.findUnique({
+      where: {
+        id: Number(otherId),
+      },
+    });
+    if (!other) {
+      return {
+        success: false,
+        error: "Other not found",
+      };
+    }
+
+    await prismadb.other.update({
+      where: {
+        id: Number(otherId),
+      },
+      data: {
+        accessFrom: accessFrom,
+        totalPropertyArea: Number(totalPropertyArea),
+      },
+    });
+  }
+
   function featuresValue(value: string) {
     if (value === "yes") {
       return true;
@@ -633,29 +890,6 @@ async function editCharacteristics(formData: FormData) {
       return false;
     }
   }
-
-  // const updatedListing = false;
-  // const updatedListing = await prismadb.listing.update({
-  //   where: {
-  //     id: Number(listingId),
-  //   },
-  //   data: {
-  //     area: Number(area),
-  //     price: Number(price.replace(/\,/g, "")),
-  //     floorNumber: floorNumber,
-  //     orientation,
-  //     bedrooms: Number(bedrooms),
-  //     bathrooms: Number(bathrooms),
-  //     wcs: Number(wcs),
-  //     kitchens: Number(kitchens),
-  //     livingRooms: Number(livingRooms),
-  //     parking: featuresValue(parking),
-  //     elevator: featuresValue(elevator),
-  //     balcony: featuresValue(balcony),
-  //     yard: featuresValue(yard),
-  //     basement: featuresValue(basement),
-  //   },
-  // });
 
   const updatedListing = (await prismadb.listing.findUnique({
     where: {

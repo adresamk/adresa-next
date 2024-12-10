@@ -59,6 +59,13 @@ export default function Step3({
   return (
     <div className="p-2">
       <input type="string" className="hidden" defaultValue="3" name="step" />
+      <input
+        type="string"
+        className="hidden"
+        defaultValue={listing.category}
+        name="listingCategory"
+      />
+
       <h2 className="text-lg">
         {t("listing.new.progress.steps.mainCharacteristics.title")}
       </h2>

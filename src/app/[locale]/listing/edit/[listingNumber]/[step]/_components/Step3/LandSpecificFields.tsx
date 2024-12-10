@@ -47,10 +47,10 @@ export default function LandSpecificFields({
     { label: "Paved", value: "paved" },
     { label: "Asphalt", value: "asphalt" },
     { label: "Pedestrian", value: "pedestrian" },
-    { label: "Dirt Road", value: "dirt-road" },
+    { label: "Dirt Road", value: "dirt_road" },
     { label: "Sea", value: "sea" },
     { label: "Other", value: "other" },
-    { label: "No Road Access", value: "no-road-access" },
+    { label: "No Road Access", value: "no_road_access" },
   ];
 
   const slopeOptionsTranslated = [
@@ -61,6 +61,12 @@ export default function LandSpecificFields({
 
   return (
     <>
+      <input
+        type="string"
+        className="hidden"
+        defaultValue={listing.land.id}
+        name="landId"
+      />
       {/* Is Corner Property */}
       <div className="flex flex-col gap-3">
         <Label>Is Corner Property</Label>
