@@ -98,7 +98,7 @@ export default function Step6({ listing }: { listing: Listing }) {
           }}
         />
       </div>
-      <ImagesPreview images={images} setImages={setImages} />
+      <ImagesPreview images={images} setImages={setImages} listing={listing} />
 
       <div className="mt-4 flex flex-col gap-2">
         <Label htmlFor="videoLink">{t("youtubeLink")}</Label>

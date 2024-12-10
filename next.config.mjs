@@ -4,6 +4,7 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
   webpack: (config) => {
     config.externals.push("@node-rs/argon2", "@node-rs/bcrypt");
     return config;

@@ -4,13 +4,18 @@ import { Trash2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { UploadedImageData } from "@/types/listing.types";
+import axios from "axios";
+import { attachImagesToListing } from "@/server/actions/listing.actions";
+import { Listing } from "@prisma/client";
 
 export default function ImagesPreview({
   images,
   setImages,
+  listing,
 }: {
   images: UploadedImageData[];
   setImages: (images: UploadedImageData[]) => void;
+  listing: Listing;
 }) {
   console.log("images: ", images);
   const t = useTranslations("listing.new.progress.steps.media.imagesPreview");
@@ -69,9 +74,25 @@ export default function ImagesPreview({
     setHoverIndex(null);
   };
 
-  const handleDelete = (index: number) => {
-    const newImages = images.filter((_, idx) => idx !== index);
-    setImages(newImages);
+  const handleDelete = async (image: UploadedImageData, index: number) => {
+    try {
+      await axios.delete("/api/uploadthing", {
+        data: {
+          url: image.url,
+          key: image.key,
+        },
+      });
+      const newImages = images.filter((_, idx) => idx !== index);
+      const { success } = await attachImagesToListing(
+        newImages,
+        listing.listingNumber,
+      );
+      if (success) {
+        setImages(newImages);
+      }
+    } catch (error) {
+      console.error("Error deleting image", error);
+    }
   };
 
   return (
@@ -122,7 +143,7 @@ export default function ImagesPreview({
               )}
               <Button
                 type="button"
-                onClick={() => handleDelete(idx)}
+                onClick={() => handleDelete(image, idx)}
                 className="absolute right-2 top-2 rounded-full bg-slate-100/90 p-2 text-black hover:bg-slate-200"
               >
                 <Trash2Icon className="h-4 w-5" />

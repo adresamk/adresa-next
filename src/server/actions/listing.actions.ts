@@ -387,8 +387,9 @@ export async function attachImagesToListing(
   images: UploadedImageData[],
   listingNumber: number,
 ) {
-  const { user } = await getCurrentUser();
-  if (!user) {
+  const { user, agency, account } = await getCurrentUser();
+  console.log("user", user, agency, account);
+  if (!user && !agency) {
     return {
       success: false,
       error: "Unauthenticated to upload images",
