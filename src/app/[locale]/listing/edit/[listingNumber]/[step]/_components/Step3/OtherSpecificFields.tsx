@@ -6,11 +6,11 @@ import { Feature, Listing } from "@prisma/client";
 
 interface OtherSpecificFieldsProps {
   listing: Listing;
-  allFeatures: Feature[];
+  allCategoryFeatures: Feature[];
 }
 export default function OtherSpecificFields({
   listing: basicTypedListing,
-  allFeatures,
+  allCategoryFeatures,
 }: OtherSpecificFieldsProps) {
   const lwr = basicTypedListing as ListingWithRelations;
   const listing = {

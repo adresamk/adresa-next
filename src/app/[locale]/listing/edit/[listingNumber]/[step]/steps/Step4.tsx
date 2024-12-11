@@ -9,10 +9,10 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Step4({
   listing: basicTypedListing,
-  allFeatures,
+  allCategoryFeatures,
 }: {
   listing: Listing;
-  allFeatures: Feature[];
+  allCategoryFeatures: Feature[];
 }) {
   const t = useTranslations();
   const lwr = basicTypedListing as ListingWithRelations;
@@ -36,7 +36,7 @@ export default function Step4({
         <>
           <ResidentialAdditionalFeatures
             listing={basicTypedListing}
-            allFeatures={allFeatures}
+            allCategoryFeatures={allCategoryFeatures}
           />
         </>
       )}
@@ -44,7 +44,7 @@ export default function Step4({
         <>
           <CommercialAdditionalFeatures
             listing={basicTypedListing}
-            allFeatures={allFeatures}
+            allCategoryFeatures={allCategoryFeatures}
           />
         </>
       )}
@@ -52,7 +52,7 @@ export default function Step4({
         <>
           <LandAdditionalFeatures
             listing={basicTypedListing}
-            allFeatures={allFeatures}
+            allCategoryFeatures={allCategoryFeatures}
           />
         </>
       )}
@@ -60,7 +60,7 @@ export default function Step4({
         <>
           <OtherAdditionalFeatures
             listing={basicTypedListing}
-            allFeatures={allFeatures}
+            allCategoryFeatures={allCategoryFeatures}
           />
         </>
       )}

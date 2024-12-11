@@ -8,11 +8,11 @@ import { useTranslations } from "next-intl";
 
 interface LandSpecificFieldsProps {
   listing: Listing;
-  allFeatures: Feature[];
+  allCategoryFeatures: Feature[];
 }
 export default function LandSpecificFields({
   listing: basicTypedListing,
-  allFeatures,
+  allCategoryFeatures,
 }: LandSpecificFieldsProps) {
   const lwr = basicTypedListing as ListingWithRelations;
   const listing = {

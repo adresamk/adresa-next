@@ -9,10 +9,11 @@ import {
 } from "@prisma/client";
 import { Building, DoorClosed, Fence, ParkingSquare } from "lucide-react";
 import { useTranslations } from "next-intl";
+import FeatureCheckboxSelection from "../FeatureCheckboxSelection";
 
 interface ResidentialAdditionalFeaturesProps {
   listing: Listing;
-  allFeatures: Feature[];
+  allCategoryFeatures: Feature[];
 }
 
 function featuresValues(value: boolean | null) {
@@ -22,7 +23,7 @@ function featuresValues(value: boolean | null) {
 
 export default function ResidentialAdditionalFeatures({
   listing: basicTypedListing,
-  allFeatures,
+  allCategoryFeatures,
 }: ResidentialAdditionalFeaturesProps) {
   const lwr = basicTypedListing as ListingWithRelations;
   const listing = {
@@ -30,90 +31,113 @@ export default function ResidentialAdditionalFeatures({
     residential: lwr.residential!,
   };
   const t = useTranslations();
-  const residentialOtherFeatures = allFeatures.filter(
-    (feature) =>
-      feature.category === FeatureCategory.RESIDENTAL_OTHER &&
-      feature.applicableTypes.includes(PropertyCategory.residential),
-  );
-  const initialResidentialOtherFeaturesState: Record<string, boolean> = {};
 
-  residentialOtherFeatures.forEach((rof) => {
-    const matchingFeature = listing.listingFeatures.find(
-      (lf) => lf.featureId === rof.id,
+  const ignore: FeatureCategory[] = [FeatureCategory.ROOMS];
+  const residentialFeatures = allCategoryFeatures.filter(
+    (feature) => !ignore.includes(feature.category),
+  );
+
+  const residentialFeaturesCategories: Record<FeatureCategory, Feature[]> =
+    residentialFeatures.reduce(
+      (acc: Record<FeatureCategory, Feature[]>, feature) => {
+        if (!acc[feature.category]) {
+          acc[feature.category] = [];
+        }
+        acc[feature.category].push(feature);
+        return acc;
+      },
+      {} as Record<FeatureCategory, Feature[]>,
     );
 
-    initialResidentialOtherFeaturesState[rof.key] = matchingFeature
-      ? matchingFeature.value === "1"
-      : false;
-  });
-  const otherFeatures = initialResidentialOtherFeaturesState;
-  const extraFeaturesValues = ["yes", "no"].map((option) => ({
-    label: t(`common.buttons.${option}`),
-    value: option,
-  }));
+  console.log(residentialFeaturesCategories);
+
   return (
     <>
-      {/* FEATURE THINGY */}
-      <div className="flex flex-col gap-3">
-        <Label>Other characteristics</Label>
-        <div className="mb-2 flex w-1/2 min-w-[300px] flex-col">
-          {/* Parking */}
-          <div className="flex items-center">
-            <ParkingSquare />
-            <RadioGroupDemo
-              name="parking"
-              direction="horisontal"
-              defaultValue={featuresValues(otherFeatures.parking)}
-              title="Parking"
-              options={extraFeaturesValues}
-            />
+      {/* Selected Listing Features */}
+
+      {/* Feature block */}
+      {Object.entries(residentialFeaturesCategories).map(
+        ([category, features]) => (
+          <div key={category}>
+            <h3>{category}</h3>
+            <div>
+              {features.map((feature) => (
+                <FeatureCheckboxSelection
+                  key={feature.key}
+                  feature={feature}
+                  listingFeatures={listing.listingFeatures}
+                />
+              ))}
+            </div>
           </div>
-          {/* Elevator */}
-          <div className="flex items-center">
-            <DoorClosed />
-            <RadioGroupDemo
-              name="elevator"
-              direction="horisontal"
-              title="Elevator"
-              options={extraFeaturesValues}
-              defaultValue={featuresValues(otherFeatures.elevator)}
-            />
-          </div>
-          {/* Balcony */}
-          <div className="flex items-center">
-            <Fence />
-            <RadioGroupDemo
-              name="balcony"
-              direction="horisontal"
-              title="Balcony"
-              options={extraFeaturesValues}
-              defaultValue={featuresValues(otherFeatures.balcony)}
-            />
-          </div>
-          {/* Yard */}
-          <div className="flex items-center">
-            <Fence />
-            <RadioGroupDemo
-              direction="horisontal"
-              name="yard"
-              title="Yard"
-              options={extraFeaturesValues}
-              defaultValue={featuresValues(otherFeatures.yard)}
-            />
-          </div>
-          {/* Basement */}
-          <div className="flex items-center">
-            <Building />
-            <RadioGroupDemo
-              direction="horisontal"
-              name="basement"
-              title="Basement"
-              options={extraFeaturesValues}
-              defaultValue={featuresValues(otherFeatures.basement)}
-            />
-          </div>
-        </div>
-      </div>
+        ),
+      )}
     </>
   );
 }
+
+// const stuff = (
+//   <>
+//     {/* FEATURE THINGY */}
+//     <div className="flex flex-col gap-3">
+//       <Label>Other characteristics</Label>
+//       <div className="mb-2 flex w-1/2 min-w-[300px] flex-col">
+//         {/* Parking */}
+//         <div className="flex items-center">
+//           <ParkingSquare />
+//           <RadioGroupDemo
+//             name="parking"
+//             direction="horisontal"
+//             defaultValue={featuresValues(otherFeatures.parking)}
+//             title="Parking"
+//             options={extraFeaturesValues}
+//           />
+//         </div>
+//         {/* Elevator */}
+//         <div className="flex items-center">
+//           <DoorClosed />
+//           <RadioGroupDemo
+//             name="elevator"
+//             direction="horisontal"
+//             title="Elevator"
+//             options={extraFeaturesValues}
+//             defaultValue={featuresValues(otherFeatures.elevator)}
+//           />
+//         </div>
+//         {/* Balcony */}
+//         <div className="flex items-center">
+//           <Fence />
+//           <RadioGroupDemo
+//             name="balcony"
+//             direction="horisontal"
+//             title="Balcony"
+//             options={extraFeaturesValues}
+//             defaultValue={featuresValues(otherFeatures.balcony)}
+//           />
+//         </div>
+//         {/* Yard */}
+//         <div className="flex items-center">
+//           <Fence />
+//           <RadioGroupDemo
+//             direction="horisontal"
+//             name="yard"
+//             title="Yard"
+//             options={extraFeaturesValues}
+//             defaultValue={featuresValues(otherFeatures.yard)}
+//           />
+//         </div>
+//         {/* Basement */}
+//         <div className="flex items-center">
+//           <Building />
+//           <RadioGroupDemo
+//             direction="horisontal"
+//             name="basement"
+//             title="Basement"
+//             options={extraFeaturesValues}
+//             defaultValue={featuresValues(otherFeatures.basement)}
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   </>
+// );

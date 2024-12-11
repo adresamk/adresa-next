@@ -302,6 +302,7 @@ export async function createNewListing(formData: FormData) {
       userId: user ? user.id : null,
       agencyId: agency ? agency.id : null,
       listingNumber: listingNumber.value + 1,
+      queryHash: "", // Will be updated later
 
       // Only create the relevant subcategory based on category
       ...(category === "residential"
@@ -597,6 +598,7 @@ async function editCharacteristics(formData: FormData) {
   }
 
   const category = listingCategory as PropertyCategory;
+  console.log("category", category);
 
   const price = formData.get("price");
   const area = formData.get("area");
@@ -607,12 +609,15 @@ async function editCharacteristics(formData: FormData) {
       error: "Invalid Inputs",
     };
   }
+  console.log("price", price);
+  const priceCleaned = price.replace(".", "").replace(" ", "").replace(",", "");
+  console.log("priceCleaned", priceCleaned);
   await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
     data: {
-      price: Number(price),
+      price: Number(priceCleaned),
       area: Number(area),
     },
   });
@@ -635,6 +640,12 @@ async function editCharacteristics(formData: FormData) {
     const heatingType = formData.get("heatingType");
     const heatingMedium = formData.get("heatingMedium");
 
+    const bathroomCount = formData.get("bathroomCount");
+    const wcCount = formData.get("wcCount");
+    const kitchenCount = formData.get("kitchenCount");
+    const livingRoomCount = formData.get("livingRoomCount");
+    const bedroomCount = formData.get("bedroomCount");
+
     console.log({
       residentialId,
       floor,
@@ -649,6 +660,11 @@ async function editCharacteristics(formData: FormData) {
       commonExpenses,
       heatingType,
       heatingMedium,
+      bathroomCount,
+      wcCount,
+      kitchenCount,
+      livingRoomCount,
+      bedroomCount,
     });
 
     if (
@@ -664,7 +680,12 @@ async function editCharacteristics(formData: FormData) {
       !(typeof isForHolidayHome === "string" || isForHolidayHome === null) ||
       typeof commonExpenses !== "string" ||
       typeof heatingType !== "string" ||
-      typeof heatingMedium !== "string"
+      typeof heatingMedium !== "string" ||
+      typeof bathroomCount !== "string" ||
+      typeof wcCount !== "string" ||
+      typeof kitchenCount !== "string" ||
+      typeof livingRoomCount !== "string" ||
+      typeof bedroomCount !== "string"
     ) {
       return {
         success: false,
@@ -702,6 +723,11 @@ async function editCharacteristics(formData: FormData) {
         commonExpenses: Number(commonExpenses),
         heatingType,
         heatingMedium,
+        bathroomCount: Number(bathroomCount),
+        wcCount: Number(wcCount),
+        kitchenCount: Number(kitchenCount),
+        livingRoomCount: Number(livingRoomCount),
+        bedroomCount: Number(bedroomCount),
       },
     });
   }
@@ -718,6 +744,8 @@ async function editCharacteristics(formData: FormData) {
     const commonExpenses = formData.get("commonExpenses");
     const heatingType = formData.get("heatingType");
     const heatingMedium = formData.get("heatingMedium");
+
+    const wcCount = formData.get("wcCount");
     console.log({
       commercialId,
       constructionYear,
@@ -729,6 +757,7 @@ async function editCharacteristics(formData: FormData) {
       commonExpenses,
       heatingType,
       heatingMedium,
+      wcCount,
     });
 
     if (
@@ -741,7 +770,8 @@ async function editCharacteristics(formData: FormData) {
       typeof accessFrom !== "string" ||
       typeof commonExpenses !== "string" ||
       typeof heatingType !== "string" ||
-      typeof heatingMedium !== "string"
+      typeof heatingMedium !== "string" ||
+      typeof wcCount !== "string"
     ) {
       return {
         success: false,
@@ -777,6 +807,7 @@ async function editCharacteristics(formData: FormData) {
         commonExpenses: Number(commonExpenses),
         heatingType: heatingType,
         heatingMedium: heatingMedium,
+        wcCount: Number(wcCount),
       },
     });
   }
@@ -918,9 +949,118 @@ async function editCharacteristics(formData: FormData) {
   };
 }
 async function editFeatures(formData: FormData) {
-  return {
-    success: true,
-  };
+  const listingId = formData.get("listingId");
+
+  // Get all form data keys except the system ones
+  const formDataKeys = Array.from(formData.keys()).filter(
+    (key) => !["listingId", "step"].includes(key),
+  );
+
+  try {
+    // Get the listing and its features in a single query
+    const listing = await prismadb.listing.findUnique({
+      where: {
+        id: Number(listingId),
+      },
+      include: {
+        listingFeatures: {
+          include: {
+            feature: true,
+          },
+        },
+      },
+    });
+
+    // Create sets for efficient lookup
+    const existingFeatureKeys = new Set(
+      listing!.listingFeatures.map((lf) => lf.feature.key),
+    );
+    const newFeatureKeys = new Set(formDataKeys);
+
+    // First, validate that all new feature keys actually exist in the database
+    const validFeatures = await prismadb.feature.findMany({
+      where: {
+        key: {
+          in: [...newFeatureKeys],
+        },
+      },
+      select: {
+        id: true,
+        key: true,
+      },
+    });
+
+    // Create a set of valid feature keys
+    const validFeatureKeys = new Set(validFeatures.map((f) => f.key));
+
+    // Filter out any invalid keys from our newFeatureKeys
+    const invalidKeys = [...newFeatureKeys].filter(
+      (key) => !validFeatureKeys.has(key),
+    );
+    if (invalidKeys.length > 0) {
+      console.warn(
+        `Attempted to add non-existent features: ${invalidKeys.join(", ")}`,
+      );
+    }
+
+    // Calculate features to add and remove using only valid keys
+    const featuresToAdd = [...newFeatureKeys].filter(
+      (key) => !existingFeatureKeys.has(key) && validFeatureKeys.has(key),
+    );
+    const featuresToRemove = [...existingFeatureKeys].filter(
+      (key) => !newFeatureKeys.has(key),
+    );
+
+    // Perform database operations in a transaction
+    await prismadb.$transaction(async (tx) => {
+      // Remove unchecked features
+      if (featuresToRemove.length > 0) {
+        await tx.listingFeature.deleteMany({
+          where: {
+            listingId: Number(listingId),
+            feature: {
+              key: {
+                in: featuresToRemove,
+              },
+            },
+          },
+        });
+      }
+
+      // Add new features (we know these are valid because we filtered them)
+      if (featuresToAdd.length > 0) {
+        await tx.listingFeature.createMany({
+          data: validFeatures
+            .filter((f) => featuresToAdd.includes(f.key))
+            .map((feature) => ({
+              listingId: Number(listingId),
+              featureId: feature.id,
+            })),
+        });
+      }
+    });
+
+    // Fetch updated listing with all relations
+    const updatedListing = await prismadb.listing.findUnique({
+      where: {
+        id: Number(listingId),
+      },
+      include: listingWithRelationsInclude,
+    });
+
+    return {
+      success: true,
+      data: {
+        listing: updatedListing as ListingWithRelations,
+      },
+    };
+  } catch (error) {
+    console.error("Error updating features:", error);
+    return {
+      success: false,
+      error: "Failed to update features",
+    };
+  }
 }
 async function editDescription(formData: FormData) {
   const description = formData.get("description");
@@ -1189,6 +1329,14 @@ export async function editListing(
   prevState: EditListingResponse,
   formData: FormData,
 ) {
+  const { account, user, agency } = await getCurrentUser();
+  if (!account) {
+    return {
+      error: "Unauthorized",
+      success: false,
+    };
+  }
+
   // console.log("Editing listing", formData);
 
   const step = formData.get("step");
@@ -1204,6 +1352,31 @@ export async function editListing(
   if (typeof listingId !== "string") {
     return {
       error: "Missing listing ID",
+      success: false,
+    };
+  }
+  const listing = await prismadb.listing.findFirst({
+    where: {
+      id: Number(listingId),
+    },
+  });
+
+  if (!listing) {
+    return {
+      error: "Listing not found",
+      success: false,
+    };
+  }
+
+  if (user && listing.userId !== user?.id) {
+    return {
+      error: "Unauthorized",
+      success: false,
+    };
+  }
+  if (agency && listing.agencyId !== agency?.id) {
+    return {
+      error: "Unauthorized",
       success: false,
     };
   }

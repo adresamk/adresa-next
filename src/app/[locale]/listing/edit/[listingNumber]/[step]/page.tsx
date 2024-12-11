@@ -68,13 +68,19 @@ export default async function EditListingPage({ params }: { params: Params }) {
     });
   }
 
-  const allFeatures = await prismadb.feature.findMany();
+  const allCategoryFeatures = await prismadb.feature.findMany({
+    where: {
+      applicableTypes: {
+        has: listing.category,
+      },
+    },
+  });
   return (
     <div className="flex gap-2 p-2">
       <ListingEditForm
         loadedListing={listing}
         requestedStep={requestedStep}
-        allFeatures={allFeatures}
+        allCategoryFeatures={allCategoryFeatures}
       />
     </div>
   );

@@ -247,7 +247,7 @@ model Listing {
   agencyId      Int?
   agency        Agency?  @relation(fields: [agencyId], references: [id], onDelete: SetNull)
 
-  queryHash       String
+  queryHash       String                  @default("")
   // Main categorization (Initial step when creating a new listing)
   transactionType PropertyTransactionType // rent, sale
   category        PropertyCategory // Won't be changed later
@@ -421,12 +421,12 @@ model Residential {
   heatingType      String? @db.VarChar(16) // 'autonomous', 'central', 'air-condition', 'none'
   heatingMedium    String? @db.VarChar(16) // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
 
-  // features
-  // isPetFriendly 
-  // rooms as Features
-  // bedrooms      Int?
-  // bathrooms     Int?
-  // totalFloors   Int?
+  // rooms
+  bedroomCount    Int @default(0)
+  bathroomCount   Int @default(0)
+  wcCount         Int @default(0)
+  kitchenCount    Int @default(0)
+  livingRoomCount Int @default(0)
 }
 
 enum CommercialPropertyType {
@@ -458,13 +458,7 @@ model Commercial {
   heatingType    String? @db.VarChar(16) // 'autonomous', 'central', 'air-condition', 'none'
   heatingMedium  String? @db.VarChar(16) // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
 
-  // parkingSpaces Int?
-  // yearBuilt     Int?
-
-  // as features
-  // bedrooms      Int?
-  // bathrooms     Int?
-  // wc Int?
+  wcCount Int @default(0)
 }
 
 enum LandPropertyType {

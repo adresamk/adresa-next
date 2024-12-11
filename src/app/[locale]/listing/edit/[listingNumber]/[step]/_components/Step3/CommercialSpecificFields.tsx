@@ -3,14 +3,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ListingWithRelations } from "@/types/listing.types";
 import { Feature, Listing } from "@prisma/client";
+import FancyCounterInput from "../FancyCounterInput";
+import { Bath } from "lucide-react";
 
 interface CommercialSpecificFieldsProps {
   listing: Listing;
-  allFeatures: Feature[];
+  allCategoryFeatures: Feature[];
 }
 export default function CommercialSpecificFields({
   listing: basicTypedListing,
-  allFeatures,
+  allCategoryFeatures,
 }: CommercialSpecificFieldsProps) {
   const lwr = basicTypedListing as ListingWithRelations;
   const listing = {
@@ -45,6 +47,14 @@ export default function CommercialSpecificFields({
     { label: "Other", value: "other" },
     { label: "No Road Access", value: "no_road_access" },
   ];
+
+  const roomsLabelRules = {
+    wcCount: {
+      "0": "No WC",
+      "1": "$$ WC",
+      "2-max": "$$ WCs",
+    },
+  };
   return (
     <>
       <input
@@ -105,6 +115,19 @@ export default function CommercialSpecificFields({
           id="isCornerProperty"
           value={"1"}
           defaultChecked={listing.commercial.isCornerProperty}
+        />
+      </div>
+
+      {/* WCS */}
+      <div className="flex items-center gap-3">
+        <Bath className="h-8 w-8" />
+        <FancyCounterInput
+          name="wcCount"
+          id="wcCount"
+          min={0}
+          max={10}
+          startingValue={listing.commercial.wcCount}
+          labelRules={roomsLabelRules.wcCount}
         />
       </div>
 

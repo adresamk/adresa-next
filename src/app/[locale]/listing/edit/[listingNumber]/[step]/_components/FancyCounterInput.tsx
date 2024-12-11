@@ -86,15 +86,7 @@ export default function FancyCounterInput({
       >
         -
       </Button>
-      <Input
-        type="hidden"
-        name={name}
-        id={id}
-        value={counter}
-        onChange={(e) => {
-          // setCounter((pv) => pv + 1);
-        }}
-      />
+      <Input type="hidden" name={name} id={id} value={counter} />
       <div
         className={cn("w-full text-center", counter === min && "text-gray-400")}
       >

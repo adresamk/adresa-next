@@ -21,11 +21,11 @@ import { ListingWithRelations } from "@/types/listing.types";
 interface ListingEditFormProps {
   loadedListing: ListingWithRelations;
   requestedStep: string;
-  allFeatures: Feature[];
+  allCategoryFeatures: Feature[];
 }
 
 export default function ListingEditForm({
-  allFeatures,
+  allCategoryFeatures,
   loadedListing,
   requestedStep,
 }: ListingEditFormProps) {
@@ -97,10 +97,18 @@ export default function ListingEditForm({
             {currentStepIdx === 0 && <Step1 listing={listing} key={"1"} />}
             {currentStepIdx === 1 && <Step2 listing={listing} key={"2"} />}
             {currentStepIdx === 2 && (
-              <Step3 listing={listing} allFeatures={allFeatures} key={"3"} />
+              <Step3
+                listing={listing}
+                allCategoryFeatures={allCategoryFeatures}
+                key={"3"}
+              />
             )}
             {currentStepIdx === 3 && (
-              <Step4 listing={listing} allFeatures={allFeatures} key={"4"} />
+              <Step4
+                listing={listing}
+                allCategoryFeatures={allCategoryFeatures}
+                key={"4"}
+              />
             )}
             {currentStepIdx === 4 && <Step5 listing={listing} key={"5"} />}
             {currentStepIdx === 5 && <Step6 listing={listing} key={"6"} />}

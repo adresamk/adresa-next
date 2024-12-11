@@ -17,11 +17,11 @@ import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
 
 interface ResidentialSpecificFieldsProps {
   listing: Listing;
-  allFeatures: Feature[];
+  allCategoryFeatures: Feature[];
 }
 export default function ResidentialSpecificFields({
   listing: basicTypedListing,
-  allFeatures,
+  allCategoryFeatures,
 }: ResidentialSpecificFieldsProps) {
   const lwr = basicTypedListing as ListingWithRelations;
   const listing = {
@@ -70,23 +70,7 @@ export default function ResidentialSpecificFields({
     { label: "Heat Pump", value: "heat_pump" },
   ];
 
-  const initialRoomsState: Record<string, number> = {};
-
-  const residentialRoomFeatures = allFeatures.filter(
-    (feature) =>
-      feature.category === FeatureCategory.ROOMS &&
-      feature.applicableTypes.includes(PropertyCategory.residential),
-  );
-
-  residentialRoomFeatures.forEach((rrf) => {
-    const matchingFeature = listing.listingFeatures.find(
-      (lf) => lf.featureId === rrf.id,
-    );
-
-    initialRoomsState[rrf.key] = matchingFeature
-      ? Number(matchingFeature.value)
-      : 0; // Default to 1 if no match
-  });
+  console.log(listing.listingFeatures);
   // const initialRoomsState = residentialRoomFeatures.reduce((acc, feature) => {
   //   const matchingFeature = listing.listingFeature.find(
   //     (lf) => lf.featureId === feature.id,
@@ -95,7 +79,34 @@ export default function ResidentialSpecificFields({
   //   acc[feature.name] = matchingFeature ? matchingFeature.value : 1; // Default to 1 if no match
   //   return acc;
   // }, {});
-  const rooms = initialRoomsState;
+
+  const roomsLabelRules = {
+    bathroomCount: {
+      "0": "No Bathroom",
+      "1": "$$ Bathroom",
+      "2-max": "$$ Bathrooms",
+    },
+    wcCount: {
+      "0": "No WC",
+      "1": "$$ WC",
+      "2-max": "$$ WCs",
+    },
+    kitchenCount: {
+      "0": "No Kitchen",
+      "1": "$$ Kitchen",
+      "2-max": "$$ Kitchens",
+    },
+    livingRoomCount: {
+      "0": "No Living Room",
+      "1": "$$ Living Room",
+      "2-max": "$$ Living Rooms",
+    },
+    bedroomCount: {
+      "0": "No Bedroom",
+      "1": "$$ Bedroom",
+      "2-max": "$$ Bedrooms",
+    },
+  };
   return (
     <>
       {/* Floor Number */}
@@ -106,15 +117,15 @@ export default function ResidentialSpecificFields({
         name="residentialId"
       />
       <div className="flex flex-col gap-3">
-        <Label htmlFor="floorNumber">
+        <Label htmlFor="floor">
           {t("listing.new.progress.steps.mainCharacteristics.floor")}
           <span className="text-red-500">*</span>
         </Label>
         <div className="mb-2 flex w-1/2 min-w-[300px] items-center">
           <Input
             type="number"
-            name="floorNumber"
-            id="floorNumber"
+            name="floor"
+            id="floor"
             required
             min={0}
             max={30}
@@ -206,64 +217,48 @@ export default function ResidentialSpecificFields({
           <div className="flex items-center gap-3">
             <Bed className="h-8 w-8" />
             <FancyCounterInput
-              startingValue={rooms.bedroom}
+              startingValue={listing.residential.bedroomCount}
               min={0}
               max={10}
-              name="bedroom"
-              id="bedroom"
-              labelRules={{
-                "0": "No Bedroom",
-                "1": "$$ Bedroom",
-                "2-max": "$$ Bedrooms",
-              }}
+              name="bedroomCount"
+              id="bedroomCount"
+              labelRules={roomsLabelRules.bedroomCount}
             />
           </div>
           {/* Bathrooms */}
           <div className="flex items-center gap-3">
             <ShowerHead className="h-8 w-8" />
             <FancyCounterInput
-              name="bathroom"
-              id="bathroom"
+              name="bathroomCount"
+              id="bathroomCount"
               min={0}
               max={10}
-              startingValue={rooms.bathroom}
-              labelRules={{
-                "0": "No Bathroom",
-                "1": "$$ Bathroom",
-                "2-max": "$$ Bathrooms",
-              }}
+              startingValue={listing.residential.bathroomCount}
+              labelRules={roomsLabelRules.bathroomCount}
             />
           </div>
           {/* WCS */}
           <div className="flex items-center gap-3">
             <Bath className="h-8 w-8" />
             <FancyCounterInput
-              name="wc"
-              id="wc"
+              name="wcCount"
+              id="wcCount"
               min={0}
               max={10}
-              startingValue={rooms.wcs}
-              labelRules={{
-                "0": "No WC",
-                "1": "$$ WC",
-                "2-max": "$$ WCs",
-              }}
+              startingValue={listing.residential.wcCount}
+              labelRules={roomsLabelRules.wcCount}
             />
           </div>
           {/* Kitchens */}
           <div className="flex items-center gap-3">
             <ChefHat className="h-8 w-8" />
             <FancyCounterInput
-              name="kitchen"
-              id="kitchen"
+              name="kitchenCount"
+              id="kitchenCount"
               min={0}
               max={10}
-              startingValue={rooms.kitchen}
-              labelRules={{
-                "0": "No Kitchen",
-                "1": "$$ Kitchen",
-                "2-max": "$$ Kitchens",
-              }}
+              startingValue={listing.residential.kitchenCount}
+              labelRules={roomsLabelRules.kitchenCount}
             />
           </div>
 
@@ -271,16 +266,12 @@ export default function ResidentialSpecificFields({
           <div className="flex items-center gap-3">
             <Sofa className="h-8 w-8" />
             <FancyCounterInput
-              name="living"
-              id="living"
+              name="livingRoomCount"
+              id="livingRoomCount"
               min={0}
               max={10}
-              startingValue={rooms.living}
-              labelRules={{
-                "0": "No Living Room",
-                "1": "$$ Living Room",
-                "2-max": "$$ Living Rooms",
-              }}
+              startingValue={listing.residential.livingRoomCount}
+              labelRules={roomsLabelRules.livingRoomCount}
             />
           </div>
         </div>

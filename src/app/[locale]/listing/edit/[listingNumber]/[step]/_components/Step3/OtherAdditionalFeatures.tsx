@@ -3,11 +3,11 @@ import { Feature, Listing } from "@prisma/client";
 
 interface OtherAdditionalFeaturesProps {
   listing: Listing;
-  allFeatures: Feature[];
+  allCategoryFeatures: Feature[];
 }
 export default function OtherAdditionalFeatures({
   listing: basicTypedListing,
-  allFeatures,
+  allCategoryFeatures,
 }: OtherAdditionalFeaturesProps) {
   const lwr = basicTypedListing as ListingWithRelations;
   const listing = {
