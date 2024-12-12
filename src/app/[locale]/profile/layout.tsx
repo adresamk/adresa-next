@@ -1,4 +1,3 @@
-import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import ProfileSideMenu from "./ProfileSideMenu";
 import { getCurrentUser } from "@/lib/sessions";

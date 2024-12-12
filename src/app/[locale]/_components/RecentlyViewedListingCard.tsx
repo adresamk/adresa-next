@@ -12,6 +12,7 @@ import { getMunicipalityInfo } from "@/lib/data/macedoniaOld/importantData";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { ArrowDown } from "lucide-react";
+import { UploadedFileData } from "uploadthing/types";
 
 export default async function ReacentlyViewedListingCard({
   listing,
@@ -37,6 +38,7 @@ export default async function ReacentlyViewedListingCard({
   //remove code when launching
   const luckyToShowPrevPricing = Math.random() < 1 / 20;
 
+  const image = listing?.mainImage as UploadedFileData;
   return (
     <Card className="relative w-[240px] hover:shadow-lg md:w-[325px]">
       <Link
@@ -47,7 +49,7 @@ export default async function ReacentlyViewedListingCard({
       <CardHeader className="relative p-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={listing?.mainImage || "/assets/missing-image2.jpg"}
+          src={image?.url || "/assets/missing-image2.jpg"}
           className="h-[194px] w-[318px] rounded-t-lg object-cover"
           alt=""
           width={318}

@@ -25,7 +25,12 @@ export default function CreateSavedSearch() {
   const { withAuthCheck, AuthDialog } = useAuthGuard();
 
   const notificationIntervalOptionsTranslated = notificationIntervalOptions.map(
-    (option) => t(`savedSearches.notificationInterval.${option}`),
+    (option) => {
+      return {
+        value: option,
+        label: t(`savedSearches.notificationInterval.${option}`),
+      };
+    },
   );
 
   useEffect(() => {
@@ -115,9 +120,9 @@ export default function CreateSavedSearch() {
             </div>
             <RadioGroupDemo
               name="notificationInterval"
-              defaultValue={notificationIntervalOptionsTranslated[1]}
-              title=""
-              values={notificationIntervalOptionsTranslated}
+              defaultValue={notificationIntervalOptionsTranslated[1].value}
+              title={t("savedSearches.notificationInterval")}
+              options={notificationIntervalOptionsTranslated}
             />
             <div className="flex w-full items-center justify-end">
               <Button type="submit">{t("common.actions.save")}</Button>

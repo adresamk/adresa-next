@@ -33,15 +33,17 @@ export default function UserControls({
         <Avatar>
           <AvatarImage src={avatarImg} />
           <AvatarFallback>
-            {agency && "AG"}
-            {user && user.firstName && user.lastName ? (
-              <span>
-                {user.firstName![0].toUpperCase()}
-                {user.lastName![0].toUpperCase()}
-              </span>
-            ) : (
+            {agency && !user && "AG"}
+            {!agency && user && user.firstName && user.lastName ? (
+              user ? (
+                <span>
+                  {user.firstName![0].toUpperCase()}
+                  {user.lastName![0].toUpperCase()}
+                </span>
+              ) : null
+            ) : user ? (
               "RND"
-            )}
+            ) : null}
           </AvatarFallback>
         </Avatar>
       </PopoverTrigger>

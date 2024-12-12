@@ -1,4 +1,3 @@
-import { validateRequest } from "@/lib/auth";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";

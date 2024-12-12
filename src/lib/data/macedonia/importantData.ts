@@ -27,10 +27,14 @@ export function getMunicipalitiesOptions(): string[] {
  * @param ids Array of place IDs
  * @returns Array of objects mapping IDs to their coordinates
  */
-export function getCoordinates(ids: string[]): Array<{ [key: string]: number[] }> {
-  return ids.map(id => ({
-    [id]: mappedCoordinatesCustom[id as keyof typeof mappedCoordinatesCustom]
-  })).filter(coord => Object.values(coord)[0] !== undefined);
+export function getCoordinates(
+  ids: string[],
+): Array<{ [key: string]: number[][] }> {
+  return ids
+    .map((id) => ({
+      [id]: mappedCoordinatesCustom[id as keyof typeof mappedCoordinatesCustom],
+    }))
+    .filter((coord) => Object.values(coord)[0] !== undefined);
 }
 
 /**
@@ -44,7 +48,8 @@ export function getMunicipalityPlaces(municipalityId: string): {
 } {
   return {
     municipality: municipalityId,
-    places: mappedStructure[municipalityId as keyof typeof mappedStructure] || []
+    places:
+      mappedStructure[municipalityId as keyof typeof mappedStructure] || [],
   };
 }
 
@@ -53,10 +58,12 @@ export function getMunicipalityPlaces(municipalityId: string): {
  * @param municipalityId Municipality ID
  * @returns Array of objects mapping place IDs to their coordinates
  */
-export function getMunicipalityCoordinates(municipalityId: string): Array<{ [key: string]: number[] }> {
-  const places = mappedStructure[municipalityId as keyof typeof mappedStructure];
+export function getMunicipalityCoordinates(
+  municipalityId: string,
+): Array<{ [key: string]: number[][] }> {
+  const places =
+    mappedStructure[municipalityId as keyof typeof mappedStructure];
   if (!places) return [];
-  
   return getCoordinates(places);
 }
 
@@ -65,15 +72,21 @@ export function getMunicipalityCoordinates(municipalityId: string): Array<{ [key
  * @param locale The current locale (e.g., 'en', 'mk', 'al')
  * @returns Array of objects with label (translated name) and value (municipality ID)
  */
-export function getTranslatedMunicipalityOptions(locale: string = "mk"): TranslatedOption[] {
+export function getTranslatedMunicipalityOptions(
+  locale: string = "mk",
+): TranslatedOption[] {
   const municipalities = getMunicipalitiesOptions();
   // Dynamic import of translations based on locale
-  const translations = require(`../../../messages/places/${locale}.places.json`);
-  
-  return municipalities.map(id => ({
-    value: id,
-    label: translations[id] || id // Fallback to ID if translation missing
-  })).sort((a, b) => a.label.localeCompare(b.label));
+  const translations = require(
+    `../../../messages/places/${locale}.places.json`,
+  );
+
+  return municipalities
+    .map((id) => ({
+      value: id,
+      label: translations[id] || id, // Fallback to ID if translation missing
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 }
 
 /**
@@ -84,15 +97,19 @@ export function getTranslatedMunicipalityOptions(locale: string = "mk"): Transla
  */
 export function getTranslatedMunicipalityPlaces(
   municipalityId: string,
-  locale: string = "mk"
+  locale: string = "mk",
 ): TranslatedOption[] {
   const { places } = getMunicipalityPlaces(municipalityId);
-  const translations = require(`../../../messages/places/${locale}.places.json`);
+  const translations = require(
+    `../../../messages/places/${locale}.places.json`,
+  );
 
-  return places.map(id => ({
-    value: id,
-    label: translations[id] || id // Fallback to ID if translation missing
-  })).sort((a, b) => a.label.localeCompare(b.label));
+  return places
+    .map((id) => ({
+      value: id,
+      label: translations[id] || id, // Fallback to ID if translation missing
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 }
 
 // Example usage:

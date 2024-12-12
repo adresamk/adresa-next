@@ -121,7 +121,6 @@ import StickyControls from "./_components/StickyControls";
 
 import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
 import Image from "next/image";
-import { extractPublisherData } from "./helpers";
 import { getListing } from "@/server/actions/listing.actions";
 import PriceDisplay from "./_components/PriceDisplay";
 import { MortgageCalculator } from "@/components/MortgageCalculator";
@@ -359,13 +358,13 @@ export default async function SingleListingPage({
   );
 }
 
-export async function generateStaticParams() {
-  // Get all possible listing numbers from your database
-  const listings = await prismadb.listing.findMany({
-    select: { listingNumber: true },
-  });
+// export async function generateStaticParams() {
+//   // Get all possible listing numbers from your database
+//   const listings = await prismadb.listing.findMany({
+//     select: { listingNumber: true },
+//   });
 
-  return listings.map((listing) => ({
-    listingNumber: listing.listingNumber.toString(),
-  }));
-}
+//   return listings.map((listing) => ({
+//     listingNumber: listing.listingNumber.toString(),
+//   }));
+// }

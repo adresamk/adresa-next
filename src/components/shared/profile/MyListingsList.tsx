@@ -9,6 +9,7 @@ import { Link } from "@/i18n/routing";
 import ListingDeleteButton from "../listing/ListingDeleteButton";
 import ListingVisibilityButton from "../listing/ListingVisibilityButton";
 import { UserRoles } from "@/lib/data/user/importantData";
+import { UploadedImageData } from "@/types/listing.types";
 
 export default function MyListingsList({
   listings,
@@ -51,9 +52,6 @@ export default function MyListingsList({
 
           .map((l: Listing) => {
             // check against all require fields
-            const contactData = l.contactData
-              ? JSON.parse(l.contactData)
-              : null;
 
             const hasRequiredFieldsLeft =
               !l.type ||
@@ -62,12 +60,14 @@ export default function MyListingsList({
               !l.district ||
               !l.address ||
               !l.price ||
-              !l.area ||
-              !contactData.email ||
-              !contactData.phone ||
-              !contactData.firstName ||
-              !contactData.lastName;
+              !l.area;
+            // ||
+            // !contactData.email ||
+            // !contactData.phone ||
+            // !contactData.firstName ||
+            // !contactData.lastName;
 
+            const image = l.mainImage as UploadedImageData;
             return (
               <div
                 key={l.id + l.isVisible.toString()}
@@ -76,7 +76,7 @@ export default function MyListingsList({
                 <div className="w-4/12 min-w-[250px]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={l.mainImage || "/assets/missing-image2.jpg"}
+                    src={image?.url || "/assets/missing-image2.jpg"}
                     alt="Property image"
                     className={cn(
                       "h-full w-full rounded-bl-md rounded-br-none rounded-tl-md rounded-tr-none bg-cover object-cover",

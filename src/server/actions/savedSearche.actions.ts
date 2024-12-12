@@ -1,12 +1,12 @@
 "use server";
 
 import { ActionResult } from "@/components/Form";
-import { validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
+import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 import { redirect } from "next/navigation";
 
 export async function getMySavedSearches() {
-  const { user } = await validateRequest();
+  const { user } = await getCurrentUser();
   if (!user) {
     redirect("/");
   }
@@ -26,7 +26,7 @@ export const createSavedSearch = async (
 ): Promise<ActionResult> => {
   console.log("ss", formData);
 
-  const { user } = await validateRequest();
+  const { user } = await getCurrentUser();
   if (!user) {
     return {
       success: false,
@@ -70,8 +70,8 @@ export const createSavedSearch = async (
   };
 };
 
-export async function deleteSavedSearch(id: string) {
-  const { user } = await validateRequest();
+export async function deleteSavedSearch(id: number) {
+  const { user } = await getCurrentUser();
   if (!user) {
     return {
       success: false,
@@ -91,13 +91,13 @@ export async function deleteSavedSearch(id: string) {
 }
 
 export async function updateSavedSearch(
-  id: string,
+  id: number,
   field: "isNotificationOn" | "notificationInterval" | "lastOpenedAt",
   value: any,
 ) {
   console.log("updateSavedSearch", id, field, value);
-  const { user } = await validateRequest();
-  if (!user) {
+  const { account } = await getCurrentSession();
+  if (!account) {
     return {
       success: false,
       error: "Unauthorized",

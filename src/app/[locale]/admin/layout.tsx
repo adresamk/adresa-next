@@ -1,17 +1,17 @@
-import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { LayoutGrid, Home, Building2, Users, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getCurrentUser } from "@/lib/sessions";
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = await validateRequest();
+  const { user, account } = await getCurrentUser();
 
-  if (!user || user.role !== "ADMIN") {
+  if (!account || account.role !== "ADMIN") {
     redirect("/");
   }
 
@@ -41,7 +41,7 @@ export default async function AdminLayout({
                       <Link
                         href={item.href}
                         className={cn(
-                          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-brand-light-blue"
+                          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-brand-light-blue",
                         )}
                       >
                         <item.icon

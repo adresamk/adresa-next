@@ -4,6 +4,7 @@ import { cn, displayPrice } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { SerializedListing } from "@/lib/types";
 import { Listing } from "@prisma/client";
+import { UploadedImageData } from "@/types/listing.types";
 export default function StickyControls({ listing }: { listing: Listing }) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -19,6 +20,7 @@ export default function StickyControls({ listing }: { listing: Listing }) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  const image = listing.mainImage as UploadedImageData;
   return (
     <section
       className={cn(
@@ -31,7 +33,7 @@ export default function StickyControls({ listing }: { listing: Listing }) {
           <div className="absolute left-0 h-20 w-[72px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={listing.mainImage || "/assets/missing-image2.jpg"}
+              src={image?.url || "/assets/missing-image2.jpg"}
               className="relateive h-full w-full object-cover object-center"
               loading="lazy"
               alt="Main image small"

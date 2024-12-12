@@ -1,13 +1,13 @@
-import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import prismadb from "@/lib/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, Users, Eye, DollarSign } from "lucide-react";
+import { getCurrentUser } from "@/lib/sessions";
 
 export default async function AdminDashboardPage() {
-  const { user } = await validateRequest();
+  const { account } = await getCurrentUser();
 
-  if (!user || user.role !== "ADMIN") {
+  if (!account || account.role !== "ADMIN") {
     redirect("/");
   }
 

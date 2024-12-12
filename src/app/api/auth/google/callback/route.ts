@@ -5,6 +5,13 @@ import prismadb from "@/lib/db";
 import { lucia } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { UserRoles } from "@/lib/data/user/importantData";
+import { AccountType } from "@prisma/client";
+import { generateUniqueToken } from "@/lib/utils";
+import {
+  createSession,
+  generateSessionToken,
+  setSessionTokenCookie,
+} from "@/lib/sessions";
 
 export async function GET(req: NextRequest) {
   console.log(req);
@@ -51,45 +58,56 @@ export async function GET(req: NextRequest) {
     picture: string;
   };
 
-  let userId: string = "";
+  let accountId: number;
+  let accountUuid: string;
 
   // if the email exists in our record we can create a cookie for them and sign the in
 
   // if the email doesn't exist we create a new user, then create a cookie to sign them in
 
-  const existingUser = await prismadb.user.findUnique({
+  const existingUser = await prismadb.account.findUnique({
     where: {
       email: googleData.email,
     },
   });
 
   if (existingUser) {
-    userId = existingUser.id;
+    accountId = existingUser.id;
+    accountUuid = existingUser.uuid;
   } else {
     const [firstName, lastName] = googleData.name.split(" ");
-    const user = await prismadb.user.create({
+    const account = await prismadb.account.create({
       data: {
-        firstName,
-        lastName,
-        role: UserRoles.AGENCY,
+        role: AccountType.USER,
         email: googleData.email,
-        picture: googleData.picture,
+        user: {
+          create: {
+            uuid: "accountId",
+            firstName,
+            lastName,
+          },
+        },
       },
     });
-    userId = user.id;
+    accountId = account.id;
+    accountUuid = account.uuid;
   }
 
-  const session = await lucia.createSession(userId, {});
-  const sessionCookie = await lucia.createSessionCookie(session.id);
-  cookieStore.set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes,
-  );
-  cookieStore.set("auth-cookie-exists", userId, {
-    ...sessionCookie.attributes,
-    httpOnly: false,
-  });
+  const token = await generateSessionToken();
+  const session = await createSession(token, accountId);
+  await setSessionTokenCookie(token, session.expiresAt, accountUuid);
+
+  // const session = await lucia.createSession(userId, {});
+  // const sessionCookie = await lucia.createSessionCookie(session.id);
+  // cookieStore.set(
+  //   sessionCookie.name,
+  //   sessionCookie.value,
+  //   sessionCookie.attributes,
+  // );
+  // cookieStore.set("auth-cookie-exists", userId, {
+  //   ...sessionCookie.attributes,
+  //   httpOnly: false,
+  // });
 
   redirect("/");
 }

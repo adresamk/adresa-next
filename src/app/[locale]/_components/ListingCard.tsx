@@ -13,6 +13,7 @@ import LikeListingButton from "@/app/[locale]/search/_components/LikeListingButt
 import { useTranslations } from "next-intl";
 import { getMunicipalityInfo } from "@/lib/data/macedoniaOld/importantData";
 import { useLocale } from "next-intl";
+import { UploadedImageData } from "@/types/listing.types";
 
 export default function ListingCard({ listing }: { listing: Listing }) {
   const t = useTranslations();
@@ -28,19 +29,22 @@ export default function ListingCard({ listing }: { listing: Listing }) {
       : municipalityInfo.name
     : "";
 
+  const image: UploadedImageData = (listing.mainImage ||
+    {}) as UploadedImageData;
+  const tags: string[] = [];
   return (
     <Card className="max-w-[325px]">
       <CardHeader className="relative p-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={listing?.mainImage || "/assets/missing-image2.jpg"}
+          src={image?.url || "/assets/missing-image2.jpg"}
           className="h-[200px] w-[325px] object-cover"
           alt=""
           width={325}
           height={200}
         />
         <div className="absolute bottom-2 left-2 flex gap-1 text-[10px]">
-          {listing?.tags?.map((tag: string) => (
+          {tags.map((tag: string) => (
             <span
               key={tag}
               className="rounded-lg bg-white p-0.5 px-1.5 font-semibold uppercase text-brand-light-blue"

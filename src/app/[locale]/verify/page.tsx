@@ -1,5 +1,5 @@
 import React from "react";
-import { checkVerificationTokenInDB } from "@/server/actions/user.actions";
+import { checkVerificationTokenInDB } from "@/server/actions/verification.actions";
 import Link from "next/link";
 
 interface VerifyPageProps {

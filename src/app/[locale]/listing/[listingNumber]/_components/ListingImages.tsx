@@ -22,6 +22,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { PopulatedPlace } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
 import { municipalities } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces2";
 import { Listing } from "@prisma/client";
+import { UploadedImageData } from "@/types/listing.types";
 
 export default function ListingImages({ listing }: { listing: Listing }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,8 +35,10 @@ export default function ListingImages({ listing }: { listing: Listing }) {
     setOpenImageIndex(null);
     setIsOpen(false);
   }
+  const images = (listing.images || []) as UploadedImageData[];
+
   function handlePhotoSelection(idx: number) {
-    if (idx > listing.images.length - 1 || idx < 0) {
+    if (idx > images.length - 1 || idx < 0) {
       console.error("Invalid index");
       return;
     }
@@ -94,7 +97,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
             </TabsList>
             <TabsContent value="overview">
               <div className="photoGridContainer flex flex-grow flex-wrap overflow-y-hidden">
-                {listing.images.map((imageUrl, idx) => (
+                {images.map((image, idx) => (
                   <div
                     key={idx}
                     onClick={() => handlePhotoSelection(idx)}
@@ -103,7 +106,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
                     <figure className="h-[25vh] max-h-[300px] min-h-[100px] cursor-pointer overflow-hidden rounded-xl">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={imageUrl}
+                        src={image?.url || "/assets/missing-image2.jpg"}
                         alt={t("listing.listingImages.photo", {
                           index: idx + 1,
                         })}
@@ -127,7 +130,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
                   }}
                 >
                   <CarouselContent className="max-w-[900px]">
-                    {listing.images.map((imageUrl, idx) => (
+                    {images.map((image, idx) => (
                       <CarouselItem
                         key={idx}
                         className="flex max-h-[75vh] basis-full items-center justify-center"
@@ -135,7 +138,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
                         <figure className="max-w-fit">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
-                            src={imageUrl}
+                            src={image?.url || "/assets/missing-image2.jpg"}
                             alt={t("listing.listingImages.photo", {
                               index: idx + 1,
                             })}
@@ -168,7 +171,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               <Image
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
-                src={listing.images[0]}
+                src={images[0]?.url || "/assets/missing-image2.jpg"}
                 alt="1"
                 height={300}
                 width={300}
@@ -181,7 +184,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="absolute inset-0 h-full w-full object-cover object-center"
-                src={listing.images[1]}
+                src={images[1]?.url || "/assets/missing-image2.jpg"}
                 alt="2"
                 height={150}
                 width={150}
@@ -194,7 +197,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               <img
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
-                src={listing.images[2]}
+                src={images[2]?.url || "/assets/missing-image2.jpg"}
                 alt="3"
                 height={150}
                 width={150}
@@ -207,7 +210,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               <img
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
-                src={listing.images[3]}
+                src={images[3]?.url || "/assets/missing-image2.jpg"}
                 alt="4"
                 height={150}
                 width={150}
@@ -220,7 +223,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               <img
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
-                src={listing.images[4]}
+                src={images[4]?.url || "/assets/missing-image2.jpg"}
                 alt="5"
                 height={150}
                 width={150}
@@ -232,7 +235,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
           <ImageIcon className="mr-1 h-4 w-4" /> {/* 5 are already shown */}
           <span className="text-sm font-semibold">
             {t("listing.listingImages.moreImages", {
-              count: listing.images.length,
+              count: images?.length,
             })}
           </span>
         </div>

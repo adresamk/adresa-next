@@ -14,7 +14,5 @@ export default async function ProfilePage() {
       locale: "mk",
     });
   }
-  // const { user } = await validateRequest();
-  // const user = await getUser();
   return <div>{t("agency.profile.unauthorized")}</div>;
 }

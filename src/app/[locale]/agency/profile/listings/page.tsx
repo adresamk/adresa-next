@@ -8,9 +8,9 @@ import { getCurrentUser } from "@/lib/sessions";
 import { getTranslations } from "next-intl/server";
 
 export default async function ProfileListingsPage() {
-  const { isAuthorized, agency } = await getCurrentUser();
+  const { isAuthenticated, agency } = await getCurrentUser();
   const t = await getTranslations();
-  if (isAuthorized && !agency) {
+  if (isAuthenticated && !agency) {
     redirect({ href: "/agency/profile/details", locale: "mk" });
   }
 

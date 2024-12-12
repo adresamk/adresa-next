@@ -97,17 +97,19 @@ for (let index = 1; index < 100; index++) {
     contactHours: "9:00 AM - 5:00 PM",
   };
   rL.push({
-    id: "u-listing" + index,
+    id: index,
+    uuid: "u-listing" + index,
     externalRef: null,
     listingNumber: 122 + index,
     createdAt: new Date(),
     updatedAt: new Date(),
     isAvailable: true,
-    availabilityDate: new Date(),
+    dateAvailable: new Date(),
     userId: regularUserIds[userIndex],
     transactionType: tType,
     category: c,
     type: t,
+    queryHash: "",
     ///
     municipality: municipality,
     place: place,
@@ -126,22 +128,22 @@ for (let index = 1; index < 100; index++) {
     ]),
     priceHistory: null,
     area: faker.number.int({ min: 25, max: 600 }),
-    orientation: faker.helpers.arrayElement(
-      orientationOptions.map((o) => o.value),
-    ),
-    floorNumber: faker.number.int({ min: 1, max: 15 }),
+    // orientation: faker.helpers.arrayElement(
+    //   orientationOptions.map((o) => o.value),
+    // ),
+    // floorNumber: faker.number.int({ min: 1, max: 15 }),
     ///
-    bedrooms: faker.number.int({ min: 1, max: 5 }),
-    bathrooms: faker.number.int({ min: 1, max: 5 }),
-    wcs: faker.number.int({ min: 1, max: 5 }),
-    kitchens: faker.number.int({ min: 1, max: 5 }),
-    livingRooms: faker.number.int({ min: 1, max: 5 }),
+    // bedroomsCount: faker.number.int({ min: 1, max: 5 }),
+    // bathroomsCount: faker.number.int({ min: 1, max: 5 }),
+    // wcsCount: faker.number.int({ min: 1, max: 5 }),
+    // kitchensCount: faker.number.int({ min: 1, max: 5 }),
+    // livingRoomsCount: faker.number.int({ min: 1, max: 5 }),
     ///
-    parking: faker.datatype.boolean(),
-    elevator: faker.datatype.boolean(),
-    balcony: faker.datatype.boolean(),
-    yard: faker.datatype.boolean(),
-    basement: faker.datatype.boolean(),
+    // parking: faker.datatype.boolean(),
+    // elevator: faker.datatype.boolean(),
+    // balcony: faker.datatype.boolean(),
+    // yard: faker.datatype.boolean(),
+    // basement: faker.datatype.boolean(),
     ///
     description: faker.lorem.paragraph({
       min: 3,
@@ -168,10 +170,12 @@ for (let index = 1; index < 100; index++) {
     publishedAt: new Date(),
     publishEndDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
     //
-    tags: [],
     isPaidPromo: faker.datatype.boolean({ probability: 0.12 }),
     ///
-    contactData: JSON.stringify(contactData as ListingContactData),
+    agencyId: null,
+    mkdTitle: "",
+    albTitle: "",
+    status: "ACTIVE",
   });
 }
 
@@ -210,17 +214,19 @@ for (let index = 1; index < 100; index++) {
     contactHours: "9:00 AM - 5:00 PM",
   };
   aL.push({
-    id: "a-listing" + index,
+    id: index,
+    uuid: "a-listing" + index,
     externalRef: null,
     listingNumber: index,
     createdAt: new Date(),
     updatedAt: new Date(),
     isAvailable: true,
-    availabilityDate: new Date(),
+    dateAvailable: new Date(),
     userId: agencyUserIds[userIndex],
     transactionType: tType,
     category: c,
     type: t,
+    queryHash: "",
     ///
     municipality: municipality,
     place: place,
@@ -239,22 +245,22 @@ for (let index = 1; index < 100; index++) {
     ]),
     priceHistory: null,
     area: faker.number.int({ min: 25, max: 600 }),
-    orientation: faker.helpers.arrayElement(
-      orientationOptions.map((o) => o.value),
-    ),
-    floorNumber: faker.number.int({ min: 1, max: 15 }),
+    // orientation: faker.helpers.arrayElement(
+    //   orientationOptions.map((o) => o.value),
+    // ),
+    // floorNumber: faker.number.int({ min: 1, max: 15 }),
     ///
-    bedrooms: faker.number.int({ min: 1, max: 5 }),
-    bathrooms: faker.number.int({ min: 1, max: 5 }),
-    wcs: faker.number.int({ min: 1, max: 5 }),
-    kitchens: faker.number.int({ min: 1, max: 5 }),
-    livingRooms: faker.number.int({ min: 1, max: 5 }),
+    // bedrooms: faker.number.int({ min: 1, max: 5 }),
+    // bathrooms: faker.number.int({ min: 1, max: 5 }),
+    // wcs: faker.number.int({ min: 1, max: 5 }),
+    // kitchens: faker.number.int({ min: 1, max: 5 }),
+    // livingRooms: faker.number.int({ min: 1, max: 5 }),
     ///
-    parking: faker.datatype.boolean(),
-    elevator: faker.datatype.boolean(),
-    balcony: faker.datatype.boolean(),
-    yard: faker.datatype.boolean(),
-    basement: faker.datatype.boolean(),
+    // parking: faker.datatype.boolean(),
+    // elevator: faker.datatype.boolean(),
+    // balcony: faker.datatype.boolean(),
+    // yard: faker.datatype.boolean(),
+    // basement: faker.datatype.boolean(),
     ///
     description: faker.lorem.paragraph({
       min: 3,
@@ -281,10 +287,12 @@ for (let index = 1; index < 100; index++) {
     publishedAt: new Date(),
     publishEndDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
     //
-    tags: [],
     isPaidPromo: faker.datatype.boolean({ probability: 0.1 }),
     ///
-    contactData: JSON.stringify(contactData as ListingContactData),
+    agencyId: null,
+    mkdTitle: "",
+    albTitle: "",
+    status: "ACTIVE",
   });
 }
 

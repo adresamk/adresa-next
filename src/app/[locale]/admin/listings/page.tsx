@@ -1,20 +1,20 @@
-import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import prismadb from "@/lib/db";
 import AdminListingsTable from "./_components/AdminListingsTable";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { getCurrentUser } from "@/lib/sessions";
 
 export default async function AdminListingsPage() {
-  const { user } = await validateRequest();
+  const { account } = await getCurrentUser();
 
-  if (!user || user.role !== "ADMIN") {
+  if (!account || account.role !== "ADMIN") {
     redirect("/");
   }
 
   const listings = await prismadb.listing.findMany({
     include: {
-      owner: true,
+      user: true,
     },
     orderBy: {
       createdAt: "desc",

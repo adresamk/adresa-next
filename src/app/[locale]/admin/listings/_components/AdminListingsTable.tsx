@@ -1,4 +1,4 @@
-import { Listing, User } from "@prisma/client";
+import { Listing } from "@prisma/client";
 import {
   Table,
   TableBody,
@@ -14,9 +14,7 @@ import { Eye, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 interface AdminListingsTableProps {
-  listings: (Listing & {
-    owner: User;
-  })[];
+  listings: Listing[];
 }
 
 export default function AdminListingsTable({
@@ -51,7 +49,7 @@ export default function AdminListingsTable({
                   {listing.isVisible ? "Active" : "Draft"}
                 </Badge>
               </TableCell>
-              <TableCell>{listing.owner.email}</TableCell>
+              {/* <TableCell>{listing.owner.email}</TableCell> */}
               <TableCell>
                 {new Date(listing.createdAt).toLocaleDateString()}
               </TableCell>

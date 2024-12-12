@@ -16,9 +16,11 @@ import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { UploadedImageData } from "@/types/listing.types";
 
 export default function ListingMapCard({ listing }: { listing: Listing }) {
   const t = useTranslations();
+  const images = listing.images as UploadedImageData[];
   return (
     <div className="no-scrollbar max-h-[260px] max-w-[220px] overflow-y-auto rounded-md border border-slate-500 bg-white">
       <figure className="relative mx-auto my-0 block">
@@ -26,7 +28,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
         <div className="pointer-events-none absolute left-0 top-0 z-50 flex w-full items-center overflow-hidden px-3.5 py-2.5">
           <div className="flex items-center gap-1.5 text-white">
             <ImageIcon size={14} />
-            <span className="font-bold">{listing.images.length}</span>
+            <span className="font-bold">{images.length}</span>
           </div>
           <div>
             {/* Place to use tags when we have them */}
@@ -34,7 +36,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           </div>
         </div>
         <div className="relative h-[120px] w-[220px] overflow-hidden">
-          <ImagesCarousel images={listing.images} height={120} />
+          <ImagesCarousel images={images} height={120} />
           <div className="absolute bottom-1 left-1 flex gap-1">
             {listing.isPaidPromo && (
               <span

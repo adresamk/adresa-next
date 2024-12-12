@@ -14,8 +14,8 @@ import { redirect } from "@/i18n/routing";
 export default async function Home() {
   // works on the server side
   // const user = await getUser();
-  const { user, isAuthenticated } = await getCurrentUser();
-  if (!user && isAuthenticated) {
+  const { user, agency, isAuthenticated } = await getCurrentUser();
+  if (!agency && !user && isAuthenticated) {
     redirect({
       href: "/profile/info",
       locale: "mk",

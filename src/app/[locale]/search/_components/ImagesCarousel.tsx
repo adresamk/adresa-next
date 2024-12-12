@@ -9,13 +9,15 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { UploadedFileData } from "uploadthing/types";
+import { UploadedImageData } from "@/types/listing.types";
 
 export default function ImagesCarousel({
   images,
   height,
   width = 240,
 }: {
-  images: string[];
+  images: UploadedImageData[];
   height: number;
   width?: number;
 }) {
@@ -25,11 +27,11 @@ export default function ImagesCarousel({
   return (
     <Carousel className="relative w-full max-w-xs">
       <CarouselContent>
-        {images.map((imageSrc, index) => (
+        {images.map((image, index) => (
           <CarouselItem key={index} className={`h-[${height}px] w-full`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={imageSrc || missingImage}
+              src={image?.url || missingImage}
               // hack for now
               className="h-full rounded-tl-lg rounded-tr-lg object-cover"
               width={width}

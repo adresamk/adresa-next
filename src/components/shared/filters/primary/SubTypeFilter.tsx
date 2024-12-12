@@ -12,6 +12,7 @@ import { useQueryState } from "nuqs";
 import { useFilters } from "@/hooks/useFilters";
 import { useTranslations } from "next-intl";
 import { listingTypeOptions } from "@/lib/data/listing/importantData";
+import { PropertyCategory } from "@prisma/client";
 
 interface SubTypeFilterProps {
   variant: "homepage" | "search";
@@ -33,7 +34,9 @@ export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
   if (variant === "homepage") {
     subType = filters.subType;
   }
-  const subtypeOptions = propertyType ? listingTypeOptions[propertyType] : [];
+  const subtypeOptions = propertyType
+    ? listingTypeOptions[propertyType as PropertyCategory]
+    : [];
   return (
     <Popover>
       <PopoverTrigger asChild>

@@ -1,13 +1,9 @@
 "use server";
 
 import { redirect } from "@/i18n/routing";
-import { getUser, validateRequest } from "@/lib/auth";
 import prismadb from "@/lib/db";
-import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
+import { getCurrentUser } from "@/lib/sessions";
 import { capitalizeString, validPhoneNumber } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
-import { getVerificationLink } from "./verification.actions";
-import { sendVerificationEmail } from "./email.actions";
 
 export async function updateUserInfo(formData: FormData) {
   const { user, account } = await getCurrentUser();

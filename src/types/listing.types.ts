@@ -26,10 +26,19 @@ export const listingWithRelationsInclude = {
   },
 } as const;
 
+export const listingWithFavoritedByInclude = {
+  favoritedBy: true,
+} as const;
+
 // Get the type from Prisma using the include type
 export type ListingWithRelations = Prisma.ListingGetPayload<{
   include: typeof listingWithRelationsInclude;
 }>;
+
+export type ListingWithFavoritedBy = Prisma.ListingGetPayload<{
+  include: typeof listingWithFavoritedByInclude;
+}>;
+
 // export type ListingWithRelations = Listing & {
 //   agency: Agency | null;
 //   user: User | null;

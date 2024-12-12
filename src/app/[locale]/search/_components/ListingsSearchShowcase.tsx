@@ -17,9 +17,13 @@ import { displayPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import ImagesCarousel from "./ImagesCarousel";
 import LikeListingButton from "./LikeListingButton";
-import { ListingWithRelations } from "@/lib/types";
 import { getUser } from "@/lib/auth";
 import { getTranslations } from "next-intl/server";
+import {
+  ListingWithFavoritedBy,
+  ListingWithRelations,
+  UploadedImageData,
+} from "@/types/listing.types";
 
 export default async function beListingsSearchShowcase({
   listing,
@@ -27,12 +31,14 @@ export default async function beListingsSearchShowcase({
   listing: Listing;
 }) {
   const t = await getTranslations("common");
-  const listingRef = listing as ListingWithRelations;
+  const listingRef = listing as ListingWithFavoritedBy;
   const user = await getUser();
 
   const userLikedIt = listingRef.favoritedBy.some(
     (e: any) => e.userId === user?.id,
   );
+
+  const images = listingRef.images as UploadedImageData[];
 
   return (
     <li key={listingRef.id} className={cn("")}>
@@ -47,16 +53,12 @@ export default async function beListingsSearchShowcase({
             <div className="pointer-events-none absolute left-0 top-0 z-50 hidden w-full items-center overflow-hidden px-3.5 py-2.5 group-hover:flex">
               <div className="flex items-center gap-1.5 text-white">
                 <ImageIcon size={14} />
-                <span className="font-bold">{listingRef.images.length}</span>
+                <span className="font-bold">{images.length}</span>
               </div>
               <div></div>
             </div>
             <div className="h-[240px] w-[260px]">
-              <ImagesCarousel
-                images={listingRef.images}
-                height={240}
-                width={260}
-              />
+              <ImagesCarousel images={images} height={240} width={260} />
             </div>
             <figcaption className="hidden">
               {t("listing.type", { type: listingRef.type })}, {listingRef.area}
