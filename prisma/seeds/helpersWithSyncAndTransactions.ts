@@ -562,14 +562,14 @@ export async function generateUserAccounts() {
         });
 
         // Generate fewer listings per transaction
-        await generateListingsInTransaction(tx, userProfile, null, 15);
+        await generateListingsInTransaction(tx, userProfile, null, 10);
 
         return userProfile;
       },
       {
-        timeout: 150000, // 2 minutes
-        maxWait: 160000, // 2.5 minutes max wait time
-        isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted,
+        timeout: 60000, // 1 minute
+        maxWait: 65000, // 65 seconds max wait time
+        isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted, // Less strict isolation
       },
     );
   });
@@ -644,8 +644,8 @@ export async function generateAgencyAccounts() {
         return agencyProfile;
       },
       {
-        timeout: 150000, // 2 minutes
-        maxWait: 160000, // 2.5 minutes max wait time
+        timeout: 60000,
+        maxWait: 65000,
         isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted,
       },
     );

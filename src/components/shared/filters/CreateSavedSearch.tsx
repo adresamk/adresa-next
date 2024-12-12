@@ -121,7 +121,7 @@ export default function CreateSavedSearch() {
             <RadioGroupDemo
               name="notificationInterval"
               defaultValue={notificationIntervalOptionsTranslated[1].value}
-              title={t("savedSearches.notificationInterval")}
+              title={t("savedSearches.notificationInterval.title")}
               options={notificationIntervalOptionsTranslated}
             />
             <div className="flex w-full items-center justify-end">

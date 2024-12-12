@@ -1,13 +1,9 @@
 // prisma/seed.ts
 
 import { PrismaClient } from "@prisma/client";
-import { Argon2id } from "oslo/password";
 
-import { agencyListings, regularListings } from "./generatedData";
-import { generateListings } from "./helpers";
 import { generateAgencyAccounts } from "./helpers";
 import { generateUserAccounts } from "./helpers";
-// import { a, aUsers, nUsers } from "./staticData";
 
 const prisma = new PrismaClient();
 

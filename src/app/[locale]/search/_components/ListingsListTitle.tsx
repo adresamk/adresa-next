@@ -7,9 +7,7 @@ export default function ListingsListTitle() {
   const t = useTranslations();
   let [propertyType, setPropertyType] = useQueryState(
     "propertyType",
-    parseAsString
-      .withOptions({ shallow: false })
-      .withDefault(t("common.search.defaultType")),
+    parseAsString.withOptions({ shallow: false }).withDefault("house"),
   );
 
   let [location, setLocation] = useQueryState(

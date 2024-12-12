@@ -1,6 +1,10 @@
 import { Argon2id } from "oslo/password";
 import { PrismaClient, Prisma } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+
+// Use Prisma's built-in transaction type
+type PrismaTransaction = Parameters<
+  Parameters<PrismaClient["$transaction"]>[0]
+>[0];
 
 import prismadb from "@/lib/db";
 import {
@@ -19,6 +23,7 @@ import {
   CommercialPropertyType,
   LandPropertyType,
   OtherPropertyType,
+  Feature,
 } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import {
@@ -41,11 +46,6 @@ import {
 } from "@/lib/data/macedonia/importantData";
 import { randomPropertyImagesCollection } from "@/lib/data/listing/exampleData";
 import { UploadedImageData } from "@/types/listing.types";
-
-// Use Prisma's built-in transaction type
-type PrismaTransaction = Parameters<
-  Parameters<PrismaClient["$transaction"]>[0]
->[0];
 
 const password = "test123";
 async function generateAgencyAccount(idx: number) {
@@ -173,31 +173,9 @@ async function processBatch(promises: Promise<any>[], batchSize: number) {
   }
 
   for (const batch of batches) {
-    await Promise.all(batch.map((promise) => withRetry(() => promise)));
+    await Promise.all(batch);
   }
 }
-
-// Add this helper function for retrying operations
-async function withRetry<T>(
-  operation: () => Promise<T>,
-  retries = 3,
-  delay = 1000,
-): Promise<T> {
-  try {
-    return await operation();
-  } catch (error) {
-    if (
-      retries > 0 &&
-      error instanceof PrismaClientKnownRequestError &&
-      error.code === "P2028"
-    ) {
-      await new Promise((resolve) => setTimeout(resolve, delay));
-      return withRetry(operation, retries - 1, delay * 2);
-    }
-    throw error;
-  }
-}
-
 export async function generateListings(
   user: User | null,
   agency: Agency | null,
@@ -516,168 +494,139 @@ async function createOther(listing: Listing) {
   });
 }
 export async function generateUserAccounts() {
+  // Create array of promises for parallel user creation
   const userPromises = Array.from({ length: 9 }, async (_, i) => {
     const idx = i + 1;
-    return prismadb.$transaction(
-      async (tx) => {
-        const userAccount = await tx.account.upsert({
-          where: {
-            id: idx + 100,
-            email: `user${idx}@test.com`,
-          },
-          create: {
-            id: idx + 100,
-            email: `user${idx}@test.com`,
-            hashedPassword: await new Argon2id().hash(password),
-            role: AccountType.USER,
-            emailVerified: new Date(),
-          },
-          update: {},
-        });
+    // Wrap each user creation in a transaction
+    return prismadb.$transaction(async (tx) => {
+      const userAccount = await tx.account.upsert({
+        where: {
+          id: idx + 100,
+          email: `user${idx}@test.com`,
+        },
+        create: {
+          id: idx + 100,
+          email: `user${idx}@test.com`,
+          hashedPassword: await new Argon2id().hash(password),
+          role: AccountType.USER,
+          emailVerified: new Date(),
+        },
+        update: {},
+      });
 
-        const userProfile = await tx.user.upsert({
-          where: {
-            id: idx + 100,
-          },
-          create: {
-            id: idx + 100,
-            uuid: userAccount.uuid,
-            accountId: userAccount.id,
-            firstName: faker.person.firstName(),
-            lastName: faker.person.lastName(),
-            phone: faker.phone.number({ style: "national" }),
-            phoneVerified: new Date(),
-            pictureUrl: faker.image.avatar(),
-            contactName: faker.person.fullName(),
-            contactPhone: faker.phone.number({ style: "national" }),
-            contactPhoneVerified: new Date(),
-            contactEmail: faker.internet.email(),
-            contactEmailVerified: new Date(),
-            contactHours: faker.helpers.arrayElement(contactHoursOptions),
-            preferredContactMethod: faker.helpers.arrayElement(
-              preferredContactMethodOptions,
-            ),
-          },
-          update: {},
-        });
+      const userProfile = await tx.user.upsert({
+        where: {
+          id: idx + 100,
+        },
+        create: {
+          id: idx + 100,
+          uuid: userAccount.uuid,
+          accountId: userAccount.id,
+          firstName: faker.person.firstName(),
+          lastName: faker.person.lastName(),
+          phone: faker.phone.number({ style: "national" }),
+          phoneVerified: new Date(),
+          pictureUrl: faker.image.avatar(),
+          contactName: faker.person.fullName(),
+          contactPhone: faker.phone.number({ style: "national" }),
+          contactPhoneVerified: new Date(),
+          contactEmail: faker.internet.email(),
+          contactEmailVerified: new Date(),
+          contactHours: faker.helpers.arrayElement(contactHoursOptions),
+          preferredContactMethod: faker.helpers.arrayElement(
+            preferredContactMethodOptions,
+          ),
+        },
+        update: {},
+      });
 
-        // Generate fewer listings per transaction
-        await generateListingsInTransaction(tx, userProfile, null, 15);
+      // Generate listings within the same transaction
+      await generateListingsInTransaction(tx, userProfile, null, 15);
 
-        return userProfile;
-      },
-      {
-        timeout: 150000, // 2 minutes
-        maxWait: 160000, // 2.5 minutes max wait time
-        isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted,
-      },
-    );
+      return userProfile;
+    });
   });
 
-  // Process fewer users at a time
-  await processBatch(userPromises, 2);
+  await processBatch(userPromises, 3);
 }
 
 export async function generateAgencyAccounts() {
   const agencyPromises = Array.from({ length: 9 }, async (_, i) => {
     const idx = i + 1;
-    return prismadb.$transaction(
-      async (tx) => {
-        const agencyAccount = await tx.account.upsert({
-          where: {
-            id: idx + 500,
-            email: `agency${idx}@test.com`,
-          },
-          create: {
-            id: idx + 500,
-            email: `agency${idx}@test.com`,
-            hashedPassword: await new Argon2id().hash(password),
-            role: AccountType.AGENCY,
-            emailVerified: new Date(),
-          },
-          update: {},
-        });
+    // Wrap each agency creation in a transaction
+    return prismadb.$transaction(async (tx) => {
+      const agencyAccount = await tx.account.upsert({
+        where: {
+          id: idx + 500,
+          email: `agency${idx}@test.com`,
+        },
+        create: {
+          id: idx + 500,
+          email: `agency${idx}@test.com`,
+          hashedPassword: await new Argon2id().hash(password),
+          role: AccountType.AGENCY,
+          emailVerified: new Date(),
+        },
+        update: {},
+      });
 
-        const agencyProfile = await tx.agency.upsert({
-          where: {
-            id: idx + 100,
-          },
-          create: {
-            uuid: agencyAccount.uuid,
-            accountId: agencyAccount.id,
-            name: faker.company.name(),
-            slug: faker.helpers.slugify(faker.company.name()),
-            address: faker.location.streetAddress(),
-            website: faker.internet.url(),
-            phone: faker.phone.number({ style: "national" }),
-            phoneVerified: new Date(),
-            logoUrl: faker.image.avatar(),
-            workHours: faker.helpers.arrayElement([
-              "9:00 AM - 5:00 PM",
-              "10:00 AM - 6:00 PM",
-              "11:00 AM - 7:00 PM",
-            ]),
-            gpsLocation: `${faker.helpers.arrayElement(randomSkopjeCoordinates).lng},${faker.helpers.arrayElement(randomSkopjeCoordinates).lat}`,
-            description: faker.lorem.paragraph(),
-            shortDescription: faker.lorem.sentence(),
-            branding: faker.helpers.arrayElement([""]),
+      const agencyProfile = await tx.agency.upsert({
+        where: {
+          id: idx + 100,
+        },
+        create: {
+          uuid: agencyAccount.uuid,
+          accountId: agencyAccount.id,
+          name: faker.company.name(),
+          slug: faker.helpers.slugify(faker.company.name()),
+          address: faker.location.streetAddress(),
+          website: faker.internet.url(),
+          phone: faker.phone.number({ style: "national" }),
+          phoneVerified: new Date(),
+          logoUrl: faker.image.avatar(),
+          workHours: faker.helpers.arrayElement([
+            "9:00 AM - 5:00 PM",
+            "10:00 AM - 6:00 PM",
+            "11:00 AM - 7:00 PM",
+          ]),
+          gpsLocation: `${faker.helpers.arrayElement(randomSkopjeCoordinates).lng},${faker.helpers.arrayElement(randomSkopjeCoordinates).lat}`,
+          description: faker.lorem.paragraph(),
+          shortDescription: faker.lorem.sentence(),
+          branding: faker.helpers.arrayElement([""]),
 
-            ownerFirstName: faker.person.firstName(),
-            ownerLastName: faker.person.lastName(),
-            ownerEmail: faker.internet.email(),
-            ownerPhone: faker.phone.number({ style: "national" }),
+          ownerFirstName: faker.person.firstName(),
+          ownerLastName: faker.person.lastName(),
+          ownerEmail: faker.internet.email(),
+          ownerPhone: faker.phone.number({ style: "national" }),
 
-            contactPersonFullName: faker.person.fullName(),
-            contactPersonEmail: faker.internet.email(),
-            contactPersonPhone: faker.phone.number({ style: "national" }),
-            preferredContactMethod: faker.helpers.arrayElement(
-              preferredContactMethodOptions,
-            ),
-            contactHours: faker.helpers.arrayElement(contactHoursOptions),
-          },
-          update: {},
-        });
+          contactPersonFullName: faker.person.fullName(),
+          contactPersonEmail: faker.internet.email(),
+          contactPersonPhone: faker.phone.number({ style: "national" }),
+          preferredContactMethod: faker.helpers.arrayElement(
+            preferredContactMethodOptions,
+          ),
+          contactHours: faker.helpers.arrayElement(contactHoursOptions),
+        },
+        update: {},
+      });
 
-        // Generate fewer listings per transaction
-        await generateListingsInTransaction(tx, null, agencyProfile, 15);
+      // Generate listings within the same transaction
+      await generateListingsInTransaction(tx, null, agencyProfile, 15);
 
-        return agencyProfile;
-      },
-      {
-        timeout: 150000, // 2 minutes
-        maxWait: 160000, // 2.5 minutes max wait time
-        isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted,
-      },
-    );
+      return agencyProfile;
+    });
   });
 
-  // Process fewer agencies at a time
-  await processBatch(agencyPromises, 2);
+  await processBatch(agencyPromises, 3);
 }
 
 // Modified version of generateListings that uses the transaction
 async function generateListingsInTransaction(
-  tx: PrismaTransaction,
+  tx: any, // Use PrismaClient type if available
   user: User | null,
   agency: Agency | null,
   count: number,
 ) {
-  // Handle counter within transaction
-  let existingCounter = await tx.counter.findFirst({
-    where: {
-      name: "listing-number-counter",
-    },
-  });
-
-  if (!existingCounter) {
-    existingCounter = await tx.counter.create({
-      data: {
-        name: "listing-number-counter",
-        value: 10000,
-      },
-    });
-  }
-
   const listingPromises = Array.from({ length: count - 1 }, async (_, i) => {
     const transactionType = faker.helpers.arrayElement(
       Object.values(PropertyTransactionType),
@@ -822,15 +771,11 @@ async function generateListingsInTransaction(
     return listing;
   });
 
-  // Process fewer listings at a time within the transaction
-  await processBatch(listingPromises, 3);
+  await processBatch(listingPromises, 5);
 }
 
 // Similar modifications for other functions to use transaction...
-async function addFeaturesInTransaction(
-  tx: PrismaTransaction,
-  listing: Listing,
-) {
+async function addFeaturesInTransaction(tx: any, listing: Listing) {
   const featuresForCategory = await tx.feature.findMany({
     where: {
       applicableTypes: {
@@ -840,7 +785,7 @@ async function addFeaturesInTransaction(
   });
 
   await Promise.all(
-    featuresForCategory.map(async (feature) => {
+    featuresForCategory.map(async (feature: Feature) => {
       const existingFeature = await tx.listingFeature.findUnique({
         where: {
           listingId_featureId: {

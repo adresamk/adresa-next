@@ -243,9 +243,9 @@ model Listing {
   isAvailable   Boolean  @default(true) // used for fast retieval
   // Ownership details
   userId        Int?
-  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   agencyId      Int?
-  agency        Agency?  @relation(fields: [agencyId], references: [id], onDelete: SetNull)
+  agency        Agency?  @relation(fields: [agencyId], references: [id], onDelete: Cascade)
 
   queryHash       String                  @default("")
   // Main categorization (Initial step when creating a new listing)

@@ -7,6 +7,7 @@
     "saveSearchDescription": "Можете да добивате известувања кога ќе бидат нови огласи кои ќе се појават на вашиот критериум",
     "notifications": "Известувања",
     "notificationInterval": {
+      "title": "Интервал на известувања",
       "daily": "Секој ден",
       "weekly": "Неделно",
       "live": "Во живо"
@@ -196,8 +197,8 @@
         "land": "земјиште",
         "warehouse": "склад",
         "agricultural": "селска земја",
-        "industrial space": "индустриски објекти",
-        "assembly facilities": "монтажни објекти",
+        "industrial_space": "индустриски објекти",
+        "assembly_facilities": "монтажни објекти",
         "garage": "гаража",
         "store": "дуќан",
         "construction": "во градба",
