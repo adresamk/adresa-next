@@ -74,7 +74,7 @@ model Agency {
   contactPersonFullName  String? @db.VarChar(50)
   contactPersonEmail     String? @db.VarChar(60)
   contactPersonPhone     String? @db.VarChar(20)
-  preferredContactMethod String? @db.VarChar(10) // email, phone, b
+  preferredContactMethod String? @db.VarChar(10) // email, phone, both
   contactHours           String? @db.VarChar(200)
 
   // Unique fields
@@ -491,6 +491,8 @@ model Other {
   id        Int     @id @default(autoincrement())
   listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listingId Int     @unique
+
+  propertyType OtherPropertyType
 
   accessFrom        String? @db.VarChar(16) // paved/asphalt/pedestrian/dirt road/ sea/ other / no road access
   totalPropertyArea Int? // in square meters

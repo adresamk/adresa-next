@@ -62,3 +62,41 @@ export const features: Record<FeatureCategory, string[]> = {
   RESIDENTAL_OTHER: [],
   OTHER: [],
 };
+
+export const zoneOptions = [
+  "residential",
+  "commercial",
+  "agricultural",
+  "industrial",
+  "recreational",
+  "unincorporated",
+];
+export const heatingTypeOptions = [
+  "autonomous",
+  "central",
+  "air_condition",
+  "none",
+];
+
+export const heatingMediumOptions = [
+  "oil",
+  "natural_gas",
+  "diesel",
+  "electricity",
+  "wood",
+  "solar",
+  "geothermal",
+  "heat_pump",
+];
+
+export const accessFromOptions = [
+  "paved",
+  "asphalt",
+  "pedestrian",
+  "dirt_road",
+  "sea",
+  "other",
+  "no_road_access",
+];
+
+export const slopeOptions = ["flat", "inclined", "steep"];
