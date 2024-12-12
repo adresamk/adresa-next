@@ -32,10 +32,7 @@ export default function ResidentialAdditionalFeatures({
   };
   const t = useTranslations();
 
-  const ignore: FeatureCategory[] = [FeatureCategory.ROOMS];
-  const residentialFeatures = allCategoryFeatures.filter(
-    (feature) => !ignore.includes(feature.category),
-  );
+  const residentialFeatures = allCategoryFeatures;
 
   const residentialFeaturesCategories: Record<FeatureCategory, Feature[]> =
     residentialFeatures.reduce(

@@ -132,7 +132,7 @@ export default function ResidentialSpecificFields({
             placeholder={t(
               "listing.new.progress.steps.mainCharacteristics.floorPlaceholder",
             )}
-            value={listing.residential.floor || undefined}
+            defaultValue={listing.residential.floor || undefined}
           />
         </div>
       </div>
@@ -147,7 +147,7 @@ export default function ResidentialSpecificFields({
           name="totalFloors"
           id="totalFloors"
           placeholder="Total floors"
-          value={listing.residential.totalFloors || undefined}
+          defaultValue={listing.residential.totalFloors || undefined}
         />
       </div>
 
@@ -179,7 +179,7 @@ export default function ResidentialSpecificFields({
           name="constructionYear"
           id="constructionYear"
           placeholder="Year when it was built"
-          value={listing.residential.constructionYear || undefined}
+          defaultValue={listing.residential.constructionYear || undefined}
         />
       </div>
 
@@ -193,7 +193,7 @@ export default function ResidentialSpecificFields({
           name="totalPropertyArea"
           id="totalPropertyArea"
           placeholder="Total property area in square meters"
-          value={listing.residential.totalPropertyArea || undefined}
+          defaultValue={listing.residential.totalPropertyArea || undefined}
         />
       </div>
 
@@ -290,7 +290,7 @@ export default function ResidentialSpecificFields({
           type="number"
           name="commonExpenses"
           id="commonExpenses"
-          value={listing.residential.commonExpenses || undefined}
+          defaultValue={listing.residential.commonExpenses || undefined}
         />
       </div>
 
@@ -327,7 +327,7 @@ export default function ResidentialSpecificFields({
           type="checkbox"
           name="isFurnished"
           id="isFurnished"
-          value={"1"}
+          defaultValue={"1"}
           defaultChecked={listing.residential.isFurnished}
         />
       </div>
@@ -339,7 +339,7 @@ export default function ResidentialSpecificFields({
           type="checkbox"
           name="isForStudents"
           id="isForStudents"
-          value={"1"}
+          defaultValue={"1"}
           defaultChecked={listing.residential.isForStudents}
         />
       </div>
@@ -351,7 +351,7 @@ export default function ResidentialSpecificFields({
           type="checkbox"
           name="isForHolidayHome"
           id="isForHolidayHome"
-          value={"1"}
+          defaultValue={"1"}
           defaultChecked={listing.residential.isForHolidayHome}
         />
       </div>

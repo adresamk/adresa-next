@@ -8,6 +8,7 @@ import {
   CommercialPropertyType,
   LandPropertyType,
   Listing,
+  ListingStatus,
   LocationPrecision,
   PropertyCategory,
   PropertyTransactionType,
@@ -1069,7 +1070,22 @@ async function editDescription(formData: FormData) {
   const title = formData.get("title");
   const mkdTitle = formData.get("mkdTitle");
   const albTitle = formData.get("albTitle");
-
+  console.log("editing description", {
+    description,
+    mkdDescription,
+    albDescription,
+    title,
+    mkdTitle,
+    albTitle,
+  });
+  console.log("editing description", {
+    description: typeof description !== "string",
+    mkdDescription: typeof mkdDescription !== "string",
+    albDescription: typeof albDescription !== "string",
+    title: typeof title !== "string",
+    mkdTitle: typeof mkdTitle !== "string",
+    albTitle: typeof albTitle !== "string",
+  });
   if (
     typeof description !== "string" ||
     typeof mkdDescription !== "string" ||
@@ -1085,18 +1101,15 @@ async function editDescription(formData: FormData) {
   }
 
   const listingId = formData.get("listingId")! as string;
-  const listing = await prismadb.listing.findUnique({
-    where: {
-      id: Number(listingId),
-    },
-  });
 
-  if (!listing) {
-    return {
-      success: false,
-      error: "Listing not found",
-    };
-  }
+  console.log("editing description", {
+    description,
+    mkdDescription,
+    albDescription,
+    title,
+    mkdTitle,
+    albTitle,
+  });
   await prismadb.listing.update({
     where: {
       id: Number(listingId),
@@ -1110,7 +1123,7 @@ async function editDescription(formData: FormData) {
       albTitle,
     },
   });
-
+  console.log("updated listing");
   const updatedListing = (await prismadb.listing.findUnique({
     where: {
       id: Number(listingId),
@@ -1200,44 +1213,42 @@ async function editMedia(formData: FormData) {
   };
 }
 async function editContactDetails(formData: FormData) {
-  const firstName = formData.get("firstName");
-  const lastName = formData.get("lastName");
-  const email = formData.get("email");
-  const phone = formData.get("phone");
-  const contactHours = formData.get("contactHours");
-
-  if (
-    typeof firstName !== "string" ||
-    typeof lastName !== "string" ||
-    typeof email !== "string" ||
-    typeof phone !== "string" ||
-    typeof contactHours !== "string"
-  ) {
-    return {
-      success: false,
-      error: "Invalid Inputs",
-    };
-  }
-
+  // this is skipped
+  // const firstName = formData.get("firstName");
+  // const lastName = formData.get("lastName");
+  // const email = formData.get("email");
+  // const phone = formData.get("phone");
+  // const contactHours = formData.get("contactHours");
+  // if (
+  //   typeof firstName !== "string" ||
+  //   typeof lastName !== "string" ||
+  //   typeof email !== "string" ||
+  //   typeof phone !== "string" ||
+  //   typeof contactHours !== "string"
+  // ) {
+  //   return {
+  //     success: false,
+  //     error: "Invalid Inputs",
+  //   };
+  // }
   const listingId = formData.get("listingId")! as string;
-  const listing = await prismadb.listing.findUnique({
-    where: {
-      id: Number(listingId),
-    },
-  });
-
-  if (!listing) {
-    return {
-      success: false,
-      error: "Listing not found",
-    };
-  }
-  await prismadb.listing.update({
-    where: {
-      id: Number(listingId),
-    },
-    data: {},
-  });
+  // const listing = await prismadb.listing.findUnique({
+  //   where: {
+  //     id: Number(listingId),
+  //   },
+  // });
+  // if (!listing) {
+  //   return {
+  //     success: false,
+  //     error: "Listing not found",
+  //   };
+  // }
+  // await prismadb.listing.update({
+  //   where: {
+  //     id: Number(listingId),
+  //   },
+  //   data: {},
+  // });
   const updatedListing = (await prismadb.listing.findUnique({
     where: {
       id: Number(listingId),
@@ -1298,6 +1309,8 @@ async function editPublishing(formData: FormData) {
       isPublished: makePublished,
       publishedAt: makePublished ? new Date() : null,
       publishEndDate: makePublished ? oneMonthFromNow : null,
+      status: makePublished ? ListingStatus.ACTIVE : ListingStatus.DRAFT,
+      queryHash: "NEW_QUERY_HASH_CALCULATED_HERE",
     },
   });
   const updatedListing = (await prismadb.listing.findUnique({

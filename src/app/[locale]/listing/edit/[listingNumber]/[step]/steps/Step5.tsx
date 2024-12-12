@@ -12,9 +12,7 @@ import { useTranslations } from "next-intl";
 export default function Step5({ listing }: { listing: Listing }) {
   const t = useTranslations("listing.new.progress.steps.description");
 
-  const [engDescription, setEngDescription] = useState(
-    listing.description || "",
-  );
+  const [description, setDescription] = useState(listing.description || "");
   const [mkdDescription, setMkdDescription] = useState(
     listing.mkdDescription || "",
   );
@@ -30,11 +28,11 @@ export default function Step5({ listing }: { listing: Listing }) {
       <Separator className="my-2 mt-4" />
 
       <div className="flex flex-col gap-2">
-        <Label htmlFor="engTitle">{t("englishTitle")}</Label>
+        <Label htmlFor="title">{t("englishTitle")}</Label>
         <Input
-          name="engTitle"
+          name="title"
           className="pb-2"
-          id="engTitle"
+          id="title"
           defaultValue={listing.title || ""}
           maxLength={112}
           placeholder={t("englishTitlePlaceholder")}
@@ -42,17 +40,17 @@ export default function Step5({ listing }: { listing: Listing }) {
 
         <Label htmlFor="engDescription">{t("englishDescription")}</Label>
         <Textarea
-          name="engDescription"
+          name="description"
           className="pb-2"
           rows={10}
-          id="engDescription"
-          value={engDescription}
+          id="description"
+          value={description}
           maxLength={5000}
           placeholder={t("englishDescriptionPlaceholder")}
-          onChange={(e) => setEngDescription(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)}
         />
         <div className="mt-1 text-sm text-slate-400">
-          {engDescription.length}/5000 {t("characters")}
+          {description.length}/5000 {t("characters")}
         </div>
         <Separator className="my-2 mt-4" />
         <Label htmlFor="mkdTitle">{t("macedonianTitle")}</Label>
