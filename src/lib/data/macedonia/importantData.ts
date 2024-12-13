@@ -29,7 +29,7 @@ export function getMunicipalitiesOptions(): string[] {
  */
 export function getCoordinates(
   ids: string[],
-): Array<{ [key: string]: number[][] }> {
+): Array<{ [key: string]: number[][][][] }> {
   return ids
     .map((id) => ({
       [id]: mappedCoordinatesCustom[id as keyof typeof mappedCoordinatesCustom],
@@ -60,7 +60,7 @@ export function getMunicipalityPlaces(municipalityId: string): {
  */
 export function getMunicipalityCoordinates(
   municipalityId: string,
-): Array<{ [key: string]: number[][] }> {
+): Array<{ [key: string]: number[][][][] }> {
   const places =
     mappedStructure[municipalityId as keyof typeof mappedStructure];
   if (!places) return [];

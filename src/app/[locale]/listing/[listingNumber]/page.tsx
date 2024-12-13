@@ -159,7 +159,7 @@ export default async function SingleListingPage({
     return <div>Listing not found</div>;
   }
 
-  console.log("Listing", listing);
+  // console.log("Listing", listing);
 
   // const rawListing = await getListing(listingNumber);
   // const listing = serializeDates(rawListing);

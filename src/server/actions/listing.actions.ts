@@ -10,6 +10,7 @@ import {
   Listing,
   ListingStatus,
   LocationPrecision,
+  OtherPropertyType,
   PropertyCategory,
   PropertyTransactionType,
   PropertyType,
@@ -346,6 +347,7 @@ export async function createNewListing(formData: FormData) {
                 land: undefined,
                 other: {
                   create: {
+                    propertyType: type as OtherPropertyType,
                     // Other type doesn't require many fields
                   },
                 },
