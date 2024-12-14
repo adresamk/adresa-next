@@ -18,29 +18,27 @@ import {
   getMunicipalityPlaces,
   municipalitiesOptions,
 } from "@/lib/data/macedoniaOld/importantData";
-import { municipalitiesWithPlaces } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
-import { SerializedListing } from "@/lib/types";
-import { capitalizeString } from "@/lib/utils";
+
+import {
+  getMunicipalitiesOptions,
+  getMunicipalityOptionsTranslated,
+  getMunicipalityPlacesTranslated,
+} from "@/lib/data/macedonia/importantData";
 import { Listing } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
-export default function ListingBreadcrumbs({
-  listing,
-}: {
-  listing: SerializedListing | Listing;
-}) {
+export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
   const router = useRouter();
   const t = useTranslations();
+  const locale = useLocale();
+  const municipalitiesOptions = getMunicipalityOptionsTranslated(locale);
 
-  const currentMunicipality = municipalitiesOptions.find(
-    (m) => m.id === listing.municipality,
-  )!;
+  const placesOptions = listing.municipality
+    ? getMunicipalityPlacesTranslated(listing.municipality, locale).places
+    : [];
 
-  const populatedPlacesOptions = getMunicipalityPlaces(currentMunicipality?.id);
-  const currentPlace = populatedPlacesOptions?.find(
-    (p) => p.id === listing.place,
-  );
+  const currentPlace = placesOptions?.find((p) => p.value === listing.place);
 
   return (
     <Breadcrumb>
@@ -59,7 +57,7 @@ export default function ListingBreadcrumbs({
         <BreadcrumbSeparator />
         <BreadcrumbItem className="text-xs">
           <Select
-            value={currentMunicipality?.id}
+            value={listing.municipality || ""}
             onValueChange={(value) => {
               router.push(
                 `/search?mode=${listing.transactionType}&municipality=${value}`,
@@ -71,8 +69,8 @@ export default function ListingBreadcrumbs({
             </SelectTrigger>
             <SelectContent>
               {municipalitiesOptions.map((municipality) => (
-                <SelectItem key={municipality.id} value={municipality.id}>
-                  {municipality.name}
+                <SelectItem key={municipality.value} value={municipality.value}>
+                  {municipality.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -83,10 +81,10 @@ export default function ListingBreadcrumbs({
             <BreadcrumbSeparator />
             <BreadcrumbItem className="text-xs">
               <Select
-                value={currentPlace?.id}
+                value={listing.place || ""}
                 onValueChange={(value) => {
                   router.push(
-                    `/search?mode=${listing.transactionType}&municipality=${currentMunicipality.id}&place=${value}`,
+                    `/search?mode=${listing.transactionType}&municipality=${listing.municipality}&place=${value}`,
                   );
                 }}
               >
@@ -96,9 +94,9 @@ export default function ListingBreadcrumbs({
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  {populatedPlacesOptions?.map((place) => (
-                    <SelectItem key={place.id} value={place.id}>
-                      {place.name}
+                  {placesOptions.map((place) => (
+                    <SelectItem key={place.value} value={place.value}>
+                      {place.label}
                     </SelectItem>
                   ))}
                 </SelectContent>

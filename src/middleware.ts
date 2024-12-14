@@ -48,11 +48,25 @@ async function handleI18nMiddleware(
   request: NextRequest,
 ): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
+  // console.log("B4 nexturlpathname", request.nextUrl.pathname);
+  // console.log("B4 Request URL:", request.url);
+  // console.log("B4 Locale FROM MIDD:", request.nextUrl.locale);
 
+  const response = intlMiddleware(request);
   // Skip processing for already localized paths
   const locales = routing.locales || ["en", "mk", "al"]; // Supported locales
   const hasLocale = locales.some((locale) => pathname.startsWith(`/${locale}`));
   const localePrefix = routing.localePrefix;
+  // console.log("nexturlpathname", request.nextUrl.pathname);
+  // console.log("Request URL:", request.url);
+  // console.log("Locale FROM MIDD:", request.nextUrl.locale);
+  const currentLocale =
+    locales.find((locale) => pathname.startsWith(`/${locale}/`)) ||
+    routing.defaultLocale;
+  // response.cookies.set("NEXT_LOCALE", currentLocale, {
+  //   path: "/",
+  //   sameSite: "lax",
+  // });
   // @ts-ignore
   // console.log(localePrefix, typeof localePrefix, localePrefix.mode);
   if (!hasLocale) {
@@ -67,7 +81,7 @@ async function handleI18nMiddleware(
   }
 
   // Fallback to next-intl middleware for normal processing
-  return intlMiddleware(request);
+  return response;
 }
 
 export const config = {

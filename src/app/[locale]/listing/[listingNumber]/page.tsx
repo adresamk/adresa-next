@@ -1,107 +1,18 @@
-export const dynamic = "force-static";
-export const revalidate = 86400;
-
-// Example listing
-// {
-//   id: 2,
-//   uuid: 'l-customuuid                        ',
-//   externalRef: null,
-//   listingNumber: 10002,
-//   createdAt: 2024-12-06T03:09:20.000Z,
-//   updatedAt: 2024-12-06T03:09:21.000Z,
-//   dateAvailable: 2024-12-06T03:09:23.000Z,
-//   isAvailable: true,
-//   userId: null,
-//   agencyId: 9,
-//   transactionType: 'sale',
-//   category: 'residential',
-//   type: 'apartment',
-//   municipality: '10001',
-//   place: '20101',
-//   address: 'Okt revol',
-//   fullAddress: 'asfsdfasfsdfasf',
-//   district: null,
-//   longitude: 42.321312,
-//   latitude: 21.523123,
-//   locationPrecision: 'exact',
-//   title: 'Title1',
-//   mkdTitle: 'mkdtitle',
-//   albTitle: 'albtitle',
-//   description: 'Description 1',
-//   mkdDescription: 'mkddescription',
-//   albDescription: 'albDescriptin',
-//   price: 60000,
-//   previousPrice: 50000,
-//   priceHistory: null,
-//   area: 64,
-//   mainImage: 'https://media.istockphoto.com/id/1393537665/photo/modern-townhouse-design.jpg?s=612x612&w=0&k=20&c=vgQesOXDRzz0UfOZxmUtE-rFe75YgA9GvkKS8eeeumE=',
-//   images: [
-//     'https://media.istockphoto.com/id/1393537665/photo/modern-townhouse-design.jpg?s=612x612&w=0&k=20&c=vgQesOXDRzz0UfOZxmUtE-rFe75YgA9GvkKS8eeeumE='
-//   ],
-//   videoLink: null,
-//   status: 'DRAFT',
-//   isArchived: false,
-//   isPublished: true,
-//   isVisible: true,
-//   publishedAt: 2024-12-07T21:09:02.000Z,
-//   publishEndDate: null,
-//   isPaidPromo: false,
-//   contactData: 'What is contact data ?',
-//   agency: {
-//     id: 9,
-//     uuid: 'e3120854-39ae-4523-bfb1-db7b5ff9b5fd',
-//     accountId: 16,
-//     createdAt: 2024-12-07T05:04:11.049Z,
-//     updatedAt: 2024-12-07T05:55:53.846Z,
-//     ownerFirstName: 'Mace',
-//     ownerLastName: 'Krste',
-//     ownerEmail: 'agencyowner@agency.com',
-//     name: 'Test 3 Agency',
-//     slug: 'test-3 agency',
-//     address: 'Ttest skopja',
-//     website: 'www.google.com',
-//     phone: '077766669',
-//     phoneVerified: null,
-//     logoUrl: 'https://utfs.io/f/1P2jwfCNCFgAUG8TJNBCkRnVs0L6KAjdPQDyb4rhHYTOqX5a',
-//     contactPersonFullName: 'Mario Krstevski',
-//     contactPersonEmail: 'mariokrstevski@hotmail.com',
-//     contactPersonPhone: '+38977766669',
-//     workHours: 'Понеделник-Петок \r\n' +
-//       ' 08:00-17:00 \r\n' +
-//       ' Субота \r\n' +
-//       ' 08:00-13:00 \r\n' +
-//       ' Недела \r\n' +
-//       ' Затворено',
-//     gpsLocation: '41.994502, 21.430926',
-//     description: 'Long',
-//     shortDescription: 'Short',
-//     branding: 'blablabal'
-//   },
-//   user: null,
-//   commercial: null,
-//   listingFeatures: [],
-//   residential: null,
-//   land: null,
-//   other: null
-// }
+// export const dynamic = "force-static";
+// export const revalidate = 86400;
 
 export const metadata = {
   title: "Listing Details",
   description: "View property listing details",
 };
+
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Bath, Share, ShowerHead } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { AirVentIcon, Heart, Percent } from "lucide-react";
-import { redirect } from "next/navigation";
 import MiniContactForm from "./_components/MiniContactForm";
 import RevealButton from "@/components/shared/RevealButton";
-import {
-  cn,
-  displayDate,
-  displayPrice,
-  displayPricePerSquare,
-} from "@/lib/utils";
+import { displayDate } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
 import {
@@ -109,22 +20,27 @@ import {
   listingWithRelationsInclude,
 } from "@/types/listing.types";
 import ListingBreadcrumbs from "./_components/ListingBreadcrumbs";
-import { Link } from "@/i18n/routing";
+import { Link, redirect, routing } from "@/i18n/routing";
 import ListingActions from "./_components/ListingActions";
 import ListingImages from "./_components/ListingImages";
 import FeaturesTable from "./_components/FeaturesTable";
 import InternalFeatures from "./_components/InternalFeatures";
 import ExternalFeatures from "./_components/ExternalFeatures";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import StickyControls from "./_components/StickyControls";
 
 import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
-import Image from "next/image";
-import { getListing } from "@/server/actions/listing.actions";
 import PriceDisplay from "./_components/PriceDisplay";
 import { MortgageCalculator } from "@/components/MortgageCalculator";
 import PublisherInfo from "./_components/PublisherInfo";
+import { Listing } from "@prisma/client";
+import {
+  getMunicipalityOptionsTranslated,
+  getMunicipalityPlacesTranslated,
+} from "@/lib/data/macedonia/importantData";
+import { cookies } from "next/headers";
+import { getCurrentUser } from "@/lib/sessions";
 
 // function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 //   return {
@@ -140,26 +56,40 @@ import PublisherInfo from "./_components/PublisherInfo";
 export default async function SingleListingPage({
   params,
 }: {
-  params: Promise<{ listingNumber: string }>;
+  params: Promise<{ listingNumber: string; locale: string }>;
 }) {
   const { listingNumber } = await params;
-  const t = await getTranslations();
 
+  console.log("listingNumber", listingNumber);
   if (isNaN(Number(listingNumber))) {
     return <div>Not a listing number</div>;
     // redirect("/404");
   }
+  const locale = await getLocale();
 
   const listing = (await prismadb.listing.findUnique({
     where: { listingNumber: Number(listingNumber) },
     include: listingWithRelationsInclude,
-  })) as ListingWithRelations | null;
+  })) as Listing | null;
 
   if (!listing) {
-    return <div>Listing not found</div>;
+    redirect({ href: "/404", locale: "mk" });
+    return null;
   }
+  const t = await getTranslations();
+  const lwr = listing as ListingWithRelations;
 
   // console.log("Listing", listing);
+  const municipalityOptions = getMunicipalityOptionsTranslated(locale);
+  const { municipality, places } = getMunicipalityPlacesTranslated(
+    listing.municipality,
+    locale,
+  );
+
+  const currentMunicipalityLabel = municipality?.label;
+  const currentPlaceLabel = places?.find(
+    (place) => place.value === listing.place,
+  )?.label;
 
   // const rawListing = await getListing(listingNumber);
   // const listing = serializeDates(rawListing);
@@ -201,6 +131,7 @@ export default async function SingleListingPage({
                   {listing.title}
                 </h1>
                 <p className="pt-2 text-sm tracking-tight md:text-base">
+                  {currentMunicipalityLabel}, {currentPlaceLabel},{" "}
                   {listing.address}
                 </p>
               </div>
@@ -210,9 +141,7 @@ export default async function SingleListingPage({
                     variant="outline"
                     usecase="phone"
                     value={
-                      listing.user?.phone ||
-                      listing.agency?.contactPersonPhone ||
-                      ""
+                      lwr.user?.phone || lwr.agency?.contactPersonPhone || ""
                     }
                   />
                 </span>
@@ -343,7 +272,7 @@ export default async function SingleListingPage({
               <h3 className="mb-3 text-lg font-semibold">
                 {t("common.property.publisher")}
               </h3>
-              <PublisherInfo agency={listing.agency} user={listing.user} />
+              <PublisherInfo agency={lwr.agency} user={lwr.user} />
             </div>
           </div>
           {/* Listing Sidebar */}

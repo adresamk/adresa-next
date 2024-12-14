@@ -27,6 +27,9 @@ const nextConfig = {
       {
         hostname: "m1.spitogatos.gr",
       },
+      {
+        hostname: "avatars.githubusercontent.com",
+      },
     ],
   },
   transpilePackages: ["leaflet", "react-leaflet"],

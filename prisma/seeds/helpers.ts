@@ -761,7 +761,7 @@ async function generateListingsInTransaction(
       uuid: faker.string.uuid(),
       externalRef: null,
       userId: user ? user.id : null,
-      agencyId: user ? null : null,
+      agencyId: agency ? agency.id : null,
       queryHash: "",
       transactionType: transactionType,
       category: category,

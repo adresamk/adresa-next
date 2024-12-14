@@ -7,7 +7,7 @@ export const routing = defineRouting({
   // Used when no locale matches
   defaultLocale: "mk",
   // Disable locale detection and it will take user device locale instead
-  localeDetection: false,
+  localeDetection: true,
   localePrefix: {
     // as needed allows to use the locale only if it is needed, so for default is missing
     mode: "as-needed",
