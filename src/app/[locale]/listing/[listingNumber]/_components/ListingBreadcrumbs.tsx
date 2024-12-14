@@ -23,6 +23,7 @@ import {
   getMunicipalitiesOptions,
   getMunicipalityOptionsTranslated,
   getMunicipalityPlacesTranslated,
+  TranslatedOption,
 } from "@/lib/data/macedonia/importantData";
 import { Listing } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -32,13 +33,12 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
   const router = useRouter();
   const t = useTranslations();
   const locale = useLocale();
+  const { municipality, places } = getMunicipalityPlacesTranslated(
+    listing.municipality,
+    locale,
+  );
+  const currentPlace = places?.find((p) => p.value === listing.place);
   const municipalitiesOptions = getMunicipalityOptionsTranslated(locale);
-
-  const placesOptions = listing.municipality
-    ? getMunicipalityPlacesTranslated(listing.municipality, locale).places
-    : [];
-
-  const currentPlace = placesOptions?.find((p) => p.value === listing.place);
 
   return (
     <Breadcrumb>
@@ -94,7 +94,7 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  {placesOptions.map((place) => (
+                  {places.map((place) => (
                     <SelectItem key={place.value} value={place.value}>
                       {place.label}
                     </SelectItem>
@@ -104,6 +104,12 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
             </BreadcrumbItem>
           </>
         )}
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <span className="text-xs">
+            {t("listing.breadcrumbs.listing")} {listing.listingNumber}
+          </span>
+        </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
   );

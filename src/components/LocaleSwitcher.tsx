@@ -34,7 +34,6 @@ const LanguagePicker = () => {
 
   return (
     <div className="flex items-center gap-2 text-muted-foreground">
-      <Globe className="h-4 w-4" />
       <Select
         key={locale}
         defaultValue={locale || routing.defaultLocale}
@@ -51,17 +50,20 @@ const LanguagePicker = () => {
           );
         }}
       >
-        <SelectTrigger className="w-fit border-none p-1 text-brand-dark-blue smaller:w-[118px]">
-          <SelectValue placeholder="Language" />
+        <SelectTrigger className="flex w-fit justify-between border-none p-1 text-brand-dark-blue smaller:w-[136px]">
+          <div className="flex items-center gap-1">
+            <Globe className="mr-1 h-4 w-4 text-muted-foreground" />
+            <SelectValue placeholder="Language" />
+          </div>
         </SelectTrigger>
         <SelectContent className="z-[110]">
-          {routing.locales.map((locale) => (
-            <SelectItem key={locale} value={locale}>
+          {routing.locales.map((localeOption) => (
+            <SelectItem key={localeOption} value={localeOption}>
               <span className="hidden smaller:inline">
-                {localeToNameMap[locale]}
+                {localeToNameMap[localeOption]}
               </span>
               <span className="smaller:hidden">
-                {shortLocaleToNameMap[locale]}
+                {shortLocaleToNameMap[localeOption]}
               </span>
             </SelectItem>
           ))}

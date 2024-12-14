@@ -20,7 +20,7 @@ import {
   listingWithRelationsInclude,
 } from "@/types/listing.types";
 import ListingBreadcrumbs from "./_components/ListingBreadcrumbs";
-import { Link, redirect, routing } from "@/i18n/routing";
+import { Link, redirect } from "@/i18n/routing";
 import ListingActions from "./_components/ListingActions";
 import ListingImages from "./_components/ListingImages";
 import FeaturesTable from "./_components/FeaturesTable";
@@ -35,12 +35,7 @@ import PriceDisplay from "./_components/PriceDisplay";
 import { MortgageCalculator } from "@/components/MortgageCalculator";
 import PublisherInfo from "./_components/PublisherInfo";
 import { Listing } from "@prisma/client";
-import {
-  getMunicipalityOptionsTranslated,
-  getMunicipalityPlacesTranslated,
-} from "@/lib/data/macedonia/importantData";
-import { cookies } from "next/headers";
-import { getCurrentUser } from "@/lib/sessions";
+import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantData";
 
 // function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 //   return {
@@ -80,7 +75,6 @@ export default async function SingleListingPage({
   const lwr = listing as ListingWithRelations;
 
   // console.log("Listing", listing);
-  const municipalityOptions = getMunicipalityOptionsTranslated(locale);
   const { municipality, places } = getMunicipalityPlacesTranslated(
     listing.municipality,
     locale,
@@ -256,7 +250,11 @@ export default async function SingleListingPage({
               <h3 className="text-lg font-semibold">
                 {t("common.property.location")}
               </h3>
-              <p className="my-2.5 text-xl font-light">{listing.address}</p>
+              <p className="my-2.5 text-xl font-light">
+                {" "}
+                {currentMunicipalityLabel}, {currentPlaceLabel},{" "}
+                {listing.address}
+              </p>
               <div className="mb-10 h-[276px] overflow-hidden border">
                 <MapLocationPreview
                   latitude={listing.latitude}
