@@ -29,7 +29,7 @@ export default async function FeaturedAgencies() {
       title={t("home.sections.featuredAgencies")}
       items={agencies}
       renderItem={(agency: AgencyWithListings) => (
-        <div className="relative flex h-[190px] flex-col items-center justify-center rounded bg-white p-4">
+        <div className="relative flex h-[190px] flex-col items-center justify-center rounded bg-white p-4 hover:shadow-lg">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={agency.logoUrl || "/assets/missing-image2.jpg"}

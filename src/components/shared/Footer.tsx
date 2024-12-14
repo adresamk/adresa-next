@@ -89,7 +89,7 @@ export default async function Footer() {
                     </Link>
                     <Link
                       target="_blank"
-                      href={"https://www.instagram.com/adresa_mk"}
+                      href={"https://www.instagram.com/adresa.mk"}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
