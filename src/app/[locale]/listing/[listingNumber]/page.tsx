@@ -35,6 +35,7 @@ import PublisherInfo from "./_components/PublisherInfo";
 import { Listing } from "@prisma/client";
 import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantData";
 import ListingFeatures from "./_components/ListingFeatures";
+import { ExpandableDescription } from "./_components/ExpandableDescription";
 
 // function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 //   return {
@@ -89,6 +90,19 @@ export default async function SingleListingPage({
     (place) => place.value === listing.place,
   )?.label;
 
+  let description = "";
+  if (locale === "mk" && listing.mkdDescription)
+    description = listing.mkdDescription;
+  if (locale === "al" && listing.albDescription)
+    description = listing.albDescription;
+  if (locale === "en" && listing.description) description = listing.description;
+
+  let title = "";
+  if (locale === "mk" && listing.mkdTitle) title = listing.mkdTitle;
+  if (locale === "al" && listing.albTitle) title = listing.albTitle;
+  if (locale === "en" && listing.title) title = listing.title;
+
+  const fullAddress = `${currentMunicipalityLabel}, ${currentPlaceLabel}, ${listing.address}`;
   // const rawListing = await getListing(listingNumber);
   // const listing = serializeDates(rawListing);
   // const publisherData = extractPublisherData(listing);
@@ -125,12 +139,9 @@ export default async function SingleListingPage({
             {/* Main Info - Title - Address Phone */}
             <div className="flex pb-5 pt-9 md:py-9">
               <div className="flex-1 pr-7">
-                <h1 className="text-xl font-medium md:text-3xl">
-                  {listing.title}
-                </h1>
+                <h1 className="text-xl font-medium md:text-3xl">{title}</h1>
                 <p className="pt-2 text-sm tracking-tight md:text-base">
-                  {currentMunicipalityLabel}, {currentPlaceLabel},{" "}
-                  {listing.address}
+                  {fullAddress}
                 </p>
               </div>
               <div className="max-w-[230px] flex-shrink-0 flex-grow-0">
@@ -211,7 +222,11 @@ export default async function SingleListingPage({
               <h3 className="mb-3 text-lg font-semibold">
                 {t("common.property.description")}
               </h3>
-              <p className="text-lg text-gray-700">{listing.description}</p>
+              <ExpandableDescription
+                text={description.repeat(10)}
+                maxHeight={125}
+                className="text-lg text-gray-700 duration-1000"
+              />
             </div>
 
             <Separator className="my-3 bg-slate-400" />
@@ -235,11 +250,7 @@ export default async function SingleListingPage({
               <h3 className="text-lg font-semibold">
                 {t("common.property.location")}
               </h3>
-              <p className="my-2.5 text-xl font-light">
-                {" "}
-                {currentMunicipalityLabel}, {currentPlaceLabel},{" "}
-                {listing.address}
-              </p>
+              <p className="my-2.5 text-xl font-light">{fullAddress}</p>
               <div className="mb-10 h-[276px] overflow-hidden border">
                 <MapLocationPreview
                   latitude={listing.latitude}
