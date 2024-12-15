@@ -106,9 +106,8 @@ export default async function SingleListingPage({
   const locale = await getLocale();
   // const ip = getClientIp(req as unknown as Request); // Get the user's IP address
   const headersList = await headers();
-  console.log("headersList", headersList);
-  console.log("x-forwarded-for", headersList.get("x-forwarded-for"));
-  console.log("remote-addr", headersList.get("remote-addr"));
+  // console.log("x-forwarded-for", headersList.get("x-forwarded-for"));
+  // console.log("remote-addr", headersList.get("remote-addr"));
   let ip =
     headersList.get("x-forwarded-for") ||
     headersList.get("remote-addr") ||
