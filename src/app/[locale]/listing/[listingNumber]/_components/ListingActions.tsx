@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 
 import { EyeOff, Mail, NotebookText, Printer, Share2 } from "lucide-react";
 import { Listing } from "@prisma/client";
+import ShareListingButton from "./ShareListingButton";
 
 export default function ListingActions({ listing }: { listing: Listing }) {
   const t = useTranslations();
@@ -15,6 +16,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
     <ul className="mt-2 flex h-10 items-center gap-2.5 p-0 md:ml-auto md:mt-0">
       <li>
         <Button
+          disabled
           size={"icon"}
           title={t("listing.actions.print")}
           variant={"outline"}
@@ -24,17 +26,11 @@ export default function ListingActions({ listing }: { listing: Listing }) {
         </Button>
       </li>
       <li>
-        <Button
-          size={"icon"}
-          title={t("listing.actions.share")}
-          variant={"outline"}
-          className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
-        >
-          <Share2 />
-        </Button>
+        <ShareListingButton listing={listing} />
       </li>
       <li>
         <Button
+          disabled
           size={"icon"}
           title={t("listing.actions.notes")}
           variant={"outline"}
@@ -45,6 +41,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
       </li>
       <li>
         <Button
+          disabled
           size={"icon"}
           title={t("listing.actions.hide")}
           variant={"outline"}
@@ -55,6 +52,20 @@ export default function ListingActions({ listing }: { listing: Listing }) {
       </li>
       <li>
         <Button
+          onClick={() => {
+            const miniContactForm =
+              document.getElementById("mini-contact-form");
+            const headerOffset = 100;
+            const elementPosition =
+              miniContactForm?.getBoundingClientRect().top!;
+            const offsetPosition =
+              elementPosition + window.scrollY - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth",
+            });
+          }}
           size={"icon"}
           title={t("listing.actions.contact")}
           variant={"outline"}

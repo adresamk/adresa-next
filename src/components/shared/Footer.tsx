@@ -55,7 +55,7 @@ export default async function Footer() {
   return (
     <footer className="flex w-full flex-col items-center justify-center overflow-x-auto bg-white pb-7 pt-10 md:pb-3.5">
       {/* Footer top part */}
-      <div className="w-7xl flex w-full flex-col">
+      <div className="flex w-full flex-col lg:max-w-7xl">
         <div className="">
           <div className="flex w-full flex-col">
             <div className="flex flex-col-reverse items-center gap-5 px-6 md:flex-row md:justify-between">

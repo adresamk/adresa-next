@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Listing } from "@prisma/client";
+import { Link } from "@/i18n/routing";
 
 export default function MiniContactForm({ listing }: { listing: Listing }) {
   const [name, setName] = useState("");
@@ -20,9 +21,14 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
   const t = useTranslations("");
 
   return (
-    <div className="rounded border border-blue-300 p-0 transition-all duration-300 ease-in">
+    <div
+      id="mini-contact-form"
+      className="rounded border border-gray-100 bg-slate-50 p-0 shadow-xl transition-all duration-300 ease-in"
+    >
       <div className="overflow-auto">
-        <h3 className="my-3 mb-3 px-6 text-xl">{t("common.contact.label")}</h3>
+        <h3 className="my-3 mb-3 px-6 text-xl">
+          {t("common.contact.imInterested")}
+        </h3>
         <form className="px-6 py-2" action="">
           <div className="mb-2 flex flex-col gap-3">
             <Label htmlFor="name">
@@ -93,17 +99,20 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
               onChange={(e) => setMessage(e.target.value)}
             />
           </div>
-          <Button>{t("common.contact.sendMessage")}</Button>
+          <Button className="h-12 w-full text-lg uppercase">
+            {t("common.contact.sendMessage")}
+          </Button>
         </form>
         {agency && (
           <div className="border-t-2 px-5 py-4">
             <>
               <div className="flex gap-2">
-                <div className="grid place-items-center rounded bg-slate-200 px-3 py-1.5">
+                <div className="h-[60px] w-[60px] rounded px-3 py-1.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
+                    className="h-full w-full object-fill"
                     width={100}
-                    height={64}
+                    height={60}
                     src={agency.logoUrl || ""}
                     alt={agency.name + " Logo"}
                   />
@@ -112,14 +121,23 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
                   <p className="mb-1 text-sm leading-4">
                     {agency.shortDescription}
                   </p>
-                  <p className="text-xl font-semibold">{agency.name}</p>
+                  <Link href={`/agency/${agency.slug}`}>
+                    <p className="text-xl font-semibold hover:underline">
+                      {agency.contactPersonFullName}
+                    </p>
+                  </Link>
                 </div>
               </div>
               <div className="my-2 flex flex-wrap items-center">
-                <RevealButton usecase="website" value={agency.website || ""} />
+                <RevealButton
+                  usecase="website"
+                  value={agency.website || ""}
+                  variant="outline"
+                />
                 <RevealButton
                   usecase="phone"
                   value={agency.contactPersonPhone || ""}
+                  variant="outline"
                 />
               </div>
             </>

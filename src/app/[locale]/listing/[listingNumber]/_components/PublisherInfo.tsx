@@ -56,7 +56,6 @@ export default async function PublisherInfo({
                 value={agency.contactPersonPhone}
                 variant="outline"
               />{" "}
-              <br />
               <RevealButton
                 usecase="website"
                 value={agency.website}

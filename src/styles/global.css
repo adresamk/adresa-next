@@ -111,3 +111,27 @@ body[data-scroll-locked] {
 .shadcn-carousel > div {
   @apply pb-5 pt-2;
 }
+
+/* Reveal Button */
+
+button.reveal-button {
+  display: grid;
+  grid-template-areas: "stack";
+
+  .revealed-text {
+    visibility: hidden;
+    grid-area: stack;
+  }
+  .text {
+    grid-area: stack;
+  }
+
+  &.loading {
+    .text {
+      visibility: hidden;
+    }
+    .revealed-text {
+      visibility: visible;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { Globe, Phone } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
 interface RevealButtonProps {
   value: string | null | undefined;
@@ -19,43 +20,39 @@ export default function RevealButton({
   const t = useTranslations();
 
   if (!value) return null;
+
   return (
     <Button
       variant={variant}
-      className="min-w-[160px] whitespace-nowrap"
+      className={cn("reveal-button m-0.5 whitespace-nowrap", {
+        loading: isRevealed,
+      })}
       onClick={() => {
         setIsRevealed(true);
       }}
     >
-      {!isRevealed ? (
-        <>
-          {usecase === "website" && (
-            <>
-              <Globe className="mr-2" />{" "}
-              {t("common.property.publisherDetails.website")}
-            </>
-          )}
-
-          {usecase === "phone" && (
-            <>
-              <Phone className="mr-2" />{" "}
-              {t("common.property.publisherDetails.phone")}
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          {usecase === "website" && (
-            <>
-              <a href={value} target="_blank" rel="noopener noreferrer">
-                {value}
-              </a>
-            </>
-          )}
-
-          {usecase === "phone" && <>{value}</>}
-        </>
-      )}
+      <div className={`text flex items-center justify-center`}>
+        {usecase === "website" && (
+          <>
+            <Globe className="mr-2" />
+            {t("common.property.publisherDetails.website")}
+          </>
+        )}
+        {usecase === "phone" && (
+          <>
+            <Phone className="mr-2" />
+            {t("common.property.publisherDetails.phone")}
+          </>
+        )}
+      </div>
+      <div className={`revealed-text flex items-center justify-center`}>
+        {usecase === "website" && (
+          <a href={value} target="_blank" rel="noopener noreferrer">
+            {value}
+          </a>
+        )}
+        {usecase === "phone" && <>{value}</>}
+      </div>
     </Button>
   );
 }

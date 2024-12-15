@@ -180,65 +180,75 @@ export default function ListingImages({ listing }: { listing: Listing }) {
           </div>
 
           <div className="relative float-left mb-1.5 box-border hidden h-[calc(-34px_+_27vh)] min-h-[150px] w-1/4 max-w-full px-0.5 md:block">
-            <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="absolute inset-0 h-full w-full object-cover object-center"
-                src={images[1]?.url || "/assets/missing-image2.jpg"}
-                alt="2"
-                height={150}
-                width={150}
-              />
-            </div>
+            {images[1] && (
+              <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  src={images[1]?.url || "/assets/missing-image2.jpg"}
+                  alt="2"
+                  height={150}
+                  width={150}
+                />
+              </div>
+            )}
           </div>
           <div className="relative float-left mb-1.5 box-border hidden h-[calc(-34px_+_27vh)] min-h-[150px] w-1/4 max-w-full px-0.5 md:block">
-            <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                fetchPriority="high"
-                className="absolute inset-0 h-full w-full object-cover object-center"
-                src={images[2]?.url || "/assets/missing-image2.jpg"}
-                alt="3"
-                height={150}
-                width={150}
-              />
-            </div>
+            {images[2] && (
+              <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  fetchPriority="high"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  src={images[2]?.url || "/assets/missing-image2.jpg"}
+                  alt="3"
+                  height={150}
+                  width={150}
+                />
+              </div>
+            )}
           </div>
           <div className="relative float-left mb-1.5 box-border hidden h-[calc(-34px_+_27vh)] min-h-[150px] w-1/4 max-w-full px-0.5 md:block">
-            <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                fetchPriority="high"
-                className="absolute inset-0 h-full w-full object-cover object-center"
-                src={images[3]?.url || "/assets/missing-image2.jpg"}
-                alt="4"
-                height={150}
-                width={150}
-              />
-            </div>
+            {images[3] && (
+              <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  fetchPriority="high"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  src={images[3]?.url || "/assets/missing-image2.jpg"}
+                  alt="4"
+                  height={150}
+                  width={150}
+                />
+              </div>
+            )}
           </div>
           <div className="relative float-left mb-1.5 box-border hidden h-[calc(-34px_+_27vh)] min-h-[150px] w-1/4 max-w-full px-0.5 md:block">
-            <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                fetchPriority="high"
-                className="absolute inset-0 h-full w-full object-cover object-center"
-                src={images[4]?.url || "/assets/missing-image2.jpg"}
-                alt="5"
-                height={150}
-                width={150}
-              />
-            </div>
+            {images[4] && (
+              <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  fetchPriority="high"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  src={images[4]?.url || "/assets/missing-image2.jpg"}
+                  alt="5"
+                  height={150}
+                  width={150}
+                />
+              </div>
+            )}
           </div>
         </div>
-        <div className="px- absolute bottom-1.5 right-2 inline-flex cursor-pointer items-center rounded border border-gray-400 bg-white/20 p-1 py-0.5 text-white backdrop-blur-sm">
-          <ImageIcon className="mr-1 h-4 w-4" /> {/* 5 are already shown */}
-          <span className="text-sm font-semibold">
-            {t("listing.listingImages.moreImages", {
-              count: images?.length,
-            })}
-          </span>
-        </div>
+        {images.length - 5 > 0 && (
+          <div className="px- absolute bottom-1.5 right-2 inline-flex cursor-pointer items-center rounded border bg-slate-100 p-1 py-0.5 text-slate-800">
+            <ImageIcon className="mr-1 h-4 w-4" /> {/* 5 are already shown */}
+            <span className="text-sm font-semibold">
+              {t("listing.listingImages.moreImages", {
+                count: images?.length - 5,
+              })}
+            </span>
+          </div>
+        )}
       </div>
     </>
   );

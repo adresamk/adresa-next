@@ -1,10 +1,14 @@
 // export const dynamic = "force-static";
 export const revalidate = 60;
 
-export const metadata = {
-  title: "Listing Details",
-  description: "View property listing details",
-};
+// export const metadata = {
+//   title: "Listing Details",
+//   description: "View property listing details",
+//   openGraph: {
+//     title: "Listing Details",
+//     description: "View property listing details",
+//   },
+// };
 
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -18,6 +22,7 @@ import prismadb from "@/lib/db";
 import {
   ListingWithRelations,
   listingWithRelationsInclude,
+  UploadedImageData,
 } from "@/types/listing.types";
 import ListingBreadcrumbs from "./_components/ListingBreadcrumbs";
 import { Link, redirect } from "@/i18n/routing";
@@ -36,6 +41,8 @@ import { Listing } from "@prisma/client";
 import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantData";
 import ListingFeatures from "./_components/ListingFeatures";
 import { ExpandableDescription } from "./_components/ExpandableDescription";
+import { Metadata } from "next";
+import { getListing } from "@/server/actions/listing.actions";
 
 // function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 //   return {
@@ -47,6 +54,35 @@ import { ExpandableDescription } from "./_components/ExpandableDescription";
 //     publishEndDate: displayDate(listing.publishEndDate),
 //   };
 // }
+// In your page.tsx or layout.tsx
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { listingNumber: string };
+}): Promise<Metadata> {
+  const listing = await getListing(Number(params.listingNumber)); // Your listing fetch function
+
+  const images = listing.images as UploadedImageData[];
+  return {
+    title: `${listing.title} - ${listing.price}€`,
+    description: `${listing.area}m² ${listing.transactionType} in ${listing.municipality}, ${listing.place}`,
+    openGraph: {
+      title: `${listing.title} - ${listing.price}€`,
+      description: `${listing.area}m² ${listing.transactionType} in ${listing.municipality}, ${listing.place}`,
+      url: `${process.env.NEXT_PUBLIC_APP_URL}/listing/${listing.listingNumber}`,
+      images: [
+        {
+          url: images[0].url || "", // First image or default
+          width: 1200,
+          height: 630,
+          alt: listing.title || "",
+        },
+      ],
+      type: "website",
+    },
+  };
+}
 
 export default async function SingleListingPage({
   params,
@@ -223,7 +259,7 @@ export default async function SingleListingPage({
                 {t("common.property.description")}
               </h3>
               <ExpandableDescription
-                text={description.repeat(10)}
+                text={description}
                 maxHeight={125}
                 className="text-lg text-gray-700 duration-1000"
               />
