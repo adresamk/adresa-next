@@ -24,8 +24,6 @@ import { Link, redirect } from "@/i18n/routing";
 import ListingActions from "./_components/ListingActions";
 import ListingImages from "./_components/ListingImages";
 import FeaturesTable from "./_components/FeaturesTable";
-import InternalFeatures from "./_components/InternalFeatures";
-import ExternalFeatures from "./_components/ExternalFeatures";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import StickyControls from "./_components/StickyControls";
@@ -36,6 +34,7 @@ import { MortgageCalculator } from "@/components/MortgageCalculator";
 import PublisherInfo from "./_components/PublisherInfo";
 import { Listing } from "@prisma/client";
 import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantData";
+import ListingFeatures from "./_components/ListingFeatures";
 
 // function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 //   return {
@@ -75,6 +74,11 @@ export default async function SingleListingPage({
   const lwr = listing as ListingWithRelations;
 
   // console.log("Listing", listing);
+  console.log("Listing", {
+    cateogry: listing.category,
+    tType: listing.transactionType,
+    lF: lwr.listingFeatures,
+  });
   const { municipality, places } = getMunicipalityPlacesTranslated(
     listing.municipality,
     locale,
@@ -221,26 +225,7 @@ export default async function SingleListingPage({
                 <div>
                   <FeaturesTable listing={listing} />
                 </div>
-
-                <div>
-                  <div className="my-3 flex items-center gap-3 overflow-x-hidden">
-                    {t("common.property.insideCharacteristics")} <Separator />
-                  </div>
-
-                  <div className="flex items-center gap-3 px-2">
-                    {/* Add Inside features */}
-                    <InternalFeatures listing={listing} />
-                  </div>
-
-                  <div className="my-3 flex items-center gap-3 overflow-x-hidden">
-                    {t("common.property.outsideCharacteristics")} <Separator />
-                  </div>
-
-                  <div className="flex items-center gap-3 px-2">
-                    {/* Add outside features */}
-                    <ExternalFeatures listing={listing} />
-                  </div>
-                </div>
+                <ListingFeatures listing={listing} />
               </div>
             </div>
             <Separator className="my-3 bg-slate-400" />

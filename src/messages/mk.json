@@ -236,8 +236,9 @@
       },
       "description": "Опис",
       "characteristics": "Карактеристики",
-      "insideCharacteristics": "Внатрешни карактеристики",
-      "outsideCharacteristics": "Надворешни карактеристики",
+      "generalFeatures": "Општи карактеристики",
+      "insideFeatures": "Внатрешни карактеристики",
+      "outsideFeatures": "Надворешни карактеристики",
       "location": "Локација",
 
       "publisher": "Објавувач",
@@ -359,6 +360,24 @@
     }
   },
   "listing": {
+    "feature": {
+      "category": {
+        "OTHER": "Други",
+        "INTERNAL": "Внатрешни",
+        "EXTERNAL": "Надворешни"
+      },
+      "keys": {
+        "parking": "Паркинг",
+        "elevator": "Лифт",
+        "balcony": "Балкон",
+        "yard": "Двор",
+        "basement": "Подрум",
+        "internet": "Интернет",
+        "cabel_tv": "Кабелска",
+        "close_to_center": "Близу до центар",
+        "quiet_neighbourhood": "Тивка населба"
+      }
+    },
     "category": {
       "land": "Земја",
       "residential": "За живеење",

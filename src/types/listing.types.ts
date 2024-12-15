@@ -60,6 +60,10 @@ export type ListingWithFeatures = Prisma.ListingGetPayload<{
   };
 }>;
 
+export type ListingFeatureWithFeature = ListingFeature & {
+  feature: Feature;
+};
+
 // Base includes that are commonly used together
 export const listingBaseIncludes = {
   user: true,
