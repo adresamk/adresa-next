@@ -1,108 +1,84 @@
 import { Listing } from ".prisma/client";
 import {
+  capitalizeString,
   displayArea,
   displayDate,
   displayPrice,
   displayPricePerSquare,
 } from "@/lib/utils";
+import { ListingWithRelations } from "@/types/listing.types";
 import { useTranslations } from "next-intl";
 
 export default function FeaturesTable({ listing }: { listing: Listing }) {
   const t = useTranslations();
+  const lwr = listing as ListingWithRelations;
+
+  const features = {
+    price: displayPrice(listing.price),
+    pricePerSquare: displayPricePerSquare(listing.price, listing.area),
+    area: displayArea(listing.area),
+    ...(lwr.residential && {
+      floor: lwr.residential.floor,
+      totalFloors: lwr.residential.totalFloors,
+      orientation: lwr.residential.orientation,
+      zone: lwr.residential.zone,
+      kitchenCount: lwr.residential.kitchenCount,
+      bathroomCount: lwr.residential.bathroomCount,
+      bedroomCount: lwr.residential.bedroomCount,
+      wcCount: lwr.residential.wcCount,
+      constructionYear: lwr.residential.constructionYear,
+      totalPropertyArea: lwr.residential.totalPropertyArea,
+      isFurnished: lwr.residential.isFurnished,
+      isForStudents: lwr.residential.isForStudents,
+      isForHolidayHome: lwr.residential.isForHolidayHome,
+      commonExpenses: lwr.residential.commonExpenses,
+      heatingType: lwr.residential.heatingType,
+      heatingMedium: lwr.residential.heatingMedium,
+    }),
+    ...(lwr.commercial && {
+      floor: lwr.commercial.floor,
+      constructionYear: lwr.commercial.constructionYear,
+      totalPropertyArea: lwr.commercial.totalPropertyArea,
+      isCornerProperty: lwr.commercial.isCornerProperty,
+      isOnTopFloor: lwr.commercial.isOnTopFloor,
+      accessFrom: lwr.commercial.accessFrom,
+      commonExpenses: lwr.commercial.commonExpenses,
+      heatingType: lwr.commercial.heatingType,
+      heatingMedium: lwr.commercial.heatingMedium,
+      wcCount: lwr.commercial.wcCount,
+    }),
+    ...(lwr.land && {
+      isCornerProperty: lwr.land.isCornerProperty,
+      orientation: lwr.land.orientation,
+      zone: lwr.land.zone,
+      accessFrom: lwr.land.accessFrom,
+      slope: lwr.land.slope,
+    }),
+    ...(lwr.other && {
+      accessFrom: lwr.other.accessFrom,
+      totalPropertyArea: lwr.other.totalPropertyArea,
+    }),
+    updatedAt: displayDate(listing.updatedAt),
+    publishedAt: displayDate(listing.publishedAt),
+  };
 
   return (
-    <table className="w-full">
-      <tbody>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.property.price")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {displayPrice(listing.price)}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.property.features.pricePerSquare")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {displayPricePerSquare(listing.price, listing.area)}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.filters.surface.label")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {displayArea(listing.area)}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.property.features.floor")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {/* {t("common.property.features.floorInfo", {
-              floor: listing.floorNumber,
-              total: 7,
-            })} */}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.property.features.kitchen")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {/* {listing.kitchens}{" "}
-            {listing.kitchens === 1
-              ? t("common.property.features.kitchen")
-              : t("common.property.features.kitchens")} */}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.property.features.bathroom")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {/* {listing.bathrooms}{" "}
-            {listing.bathrooms === 1
-              ? t("common.property.features.bathroom")
-              : t("common.property.features.bathrooms")} */}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.property.features.parking")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {/* {listing.parking ? "1" : "0"}{" "} */}
-            {t("common.property.features.parking")}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.property.features.yearBuilt")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            2023
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.property.metadata.posted")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {displayDate(listing.publishedAt)}
-          </td>
-        </tr>
-        <tr>
-          <td className="w-[150px] border border-slate-600 bg-gray-200 px-2 py-2 text-center text-slate-600">
-            {t("common.property.metadata.lastModified")}
-          </td>
-          <td className="border border-slate-600 px-2 font-semibold text-black">
-            {displayDate(listing.updatedAt)}
-          </td>
-        </tr>
+    <table className="w-full border-collapse border-spacing-0 rounded-md border">
+      <tbody className="rounded-md">
+        {Object.entries(features).map(([key, value]) => {
+          if (!value) return null;
+
+          return (
+            <tr key={key} className="first:rounded-t-md last:rounded-b-md">
+              <td className="px- w-[150px] border border-slate-300 bg-slate-100 py-2 pl-4 text-left text-slate-900">
+                {capitalizeString(t(`listing.fieldsKeys.${key}`))}
+              </td>
+              <td className="border border-slate-300 bg-slate-50 px-4 font-semibold text-black">
+                {value}
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

@@ -52,7 +52,7 @@ export function ExpandableDescription({
         <button
           type="button"
           onClick={toggleExpand}
-          className="mt-2 text-sm font-semibold text-blue-500 hover:text-blue-700"
+          className="mt-2 h-5 text-sm font-semibold text-blue-500 hover:text-blue-700"
         >
           {isExpanded
             ? t("common.actions.showLess")

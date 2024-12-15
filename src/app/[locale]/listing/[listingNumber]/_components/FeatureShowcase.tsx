@@ -1,11 +1,11 @@
 import { ListingFeatureWithFeature } from "@/types/listing.types";
 import { Feature } from "@prisma/client";
-import { CarIcon } from "lucide-react";
+import { AlarmCheck, CarIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 const featureIcons = {
-  parking: <CarIcon className="mr-3 h-4 w-4 text-primary" />,
-  //   elevator: <ElevatorIcon />,
+  parking: <CarIcon className="h-4 w-4 text-primary" />,
+  elevator: <AlarmCheck className="h-4 w-4 text-primary" />,
   //   balcony: <BalconyIcon />,
   //   yard: <YardIcon />,
   //   basement: <BasementIcon />,

@@ -1,5 +1,5 @@
 // export const dynamic = "force-static";
-// export const revalidate = 86400;
+export const revalidate = 60;
 
 export const metadata = {
   title: "Listing Details",
@@ -128,11 +128,11 @@ export default async function SingleListingPage({
       {/* Sticky Header */}
       <StickyControls listing={listing} />
       {/* Images */}
-      <section className="mx-auto w-full max-w-7xl px-5">
+      <section className="mx-auto w-full px-5 lg:max-w-7xl">
         <ListingImages listing={listing} />
       </section>
       {/* Main section with Info */}
-      <section className="mx-auto w-full px-5 lg:max-w-6xl">
+      <section className="mx-auto w-full px-5 lg:max-w-7xl">
         <div className="flex flex-wrap">
           {/* Listing Main */}
           <div className="flex-1 md:pr-2.5 lg:pr-12">
@@ -237,9 +237,7 @@ export default async function SingleListingPage({
                 {t("common.property.characteristics")}
               </h3>
               <div>
-                <div>
-                  <FeaturesTable listing={listing} />
-                </div>
+                <FeaturesTable listing={listing} />
                 <ListingFeatures listing={listing} />
               </div>
             </div>

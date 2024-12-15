@@ -245,12 +245,15 @@
 
       "publisher": "Објавувач",
       "publisherDetails": {
+        "preferredContactMethod": "Префериран начин на контакт",
         "title": "Продавач",
+        "agency": "Агенција",
         "phone": "Телефон",
         "email": "Е-пошта",
         "website": "Веб-сајт",
         "contactPerson": "Лице за контакт",
         "workHours": "Работно време",
+        "contactHoursUser": "Идеално време за контактирање",
         "contactPersonEmail": "Е-пошта на контакт лице",
         "contactPersonPhone": "Телефон на контакт лице",
         "contactHours": "Работно време"
@@ -362,6 +365,33 @@
     }
   },
   "listing": {
+    "fieldsKeys": {
+      "price": "цена",
+      "pricePerSquare": "цена по м²",
+      "area": "површина",
+      "floor": "кат",
+      "kitchenCount": "кујни",
+      "bathroomCount": "бањи",
+      "wcCount": "wc",
+      "constructionYear": "Година на градба",
+      "updatedAt": "Ажурирано",
+      "publishedAt": "Објавено",
+      "parking": "паркинг",
+      "totalFloors": "вкупно катови",
+      "orientation": "ориентација",
+      "zone": "зона",
+      "accessFrom": "пристап",
+      "slope": "наклон",
+      "totalPropertyArea": "површина",
+      "isFurnished": "уреди",
+      "isForStudents": "за студенти",
+      "isForHolidayHome": "за летен дом",
+      "commonExpenses": "заеднички трошоци",
+      "heatingType": "тип греење",
+      "heatingMedium": "средство греење",
+      "isCornerProperty": "на крајот",
+      "isOnTopFloor": "на најгорниот кат"
+    },
     "feature": {
       "category": {
         "OTHER": "Други",
