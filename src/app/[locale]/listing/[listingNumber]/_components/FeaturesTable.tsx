@@ -73,7 +73,7 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
               <td className="px- w-[150px] border border-slate-300 bg-slate-100 py-2 pl-4 text-left text-slate-900">
                 {capitalizeString(t(`listing.fieldsKeys.${key}`))}
               </td>
-              <td className="border border-slate-300 bg-slate-50 px-4 font-semibold text-black">
+              <td className="border border-slate-300 bg-white px-4 font-semibold text-black">
                 {value}
               </td>
             </tr>

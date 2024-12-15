@@ -268,7 +268,7 @@ export default async function SingleListingPage({
             <Separator className="my-3 bg-slate-400" />
 
             {/* Characteristics */}
-            <div className="my-7 px-2">
+            <div className="my-7">
               <h3 className="mb-3 text-lg font-semibold">
                 {t("common.property.characteristics")}
               </h3>

@@ -5,7 +5,7 @@ import { Share2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Listing } from "@prisma/client";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ShareListingButtonProps {
   listing: Listing;
@@ -46,6 +46,17 @@ export default function ShareListingButton({
     },
   ];
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   return (
     <>
       <Button
@@ -60,7 +71,7 @@ export default function ShareListingButton({
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50"
           onClick={() => setIsOpen(false)}
         >
           <div
