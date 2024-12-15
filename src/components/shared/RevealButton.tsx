@@ -52,7 +52,11 @@ export default function RevealButton({
             {value}
           </a>
         )}
-        {usecase === "phone" && <>{value}</>}
+        {usecase === "phone" && (
+          <a href={`tel:${value}`} className="t">
+            {value}
+          </a>
+        )}
       </div>
     </Button>
   );
