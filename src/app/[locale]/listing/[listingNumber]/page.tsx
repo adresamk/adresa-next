@@ -108,11 +108,6 @@ export default async function SingleListingPage({
   const headersList = await headers();
   // console.log("x-forwarded-for", headersList.get("x-forwarded-for"));
   // console.log("remote-addr", headersList.get("remote-addr"));
-  let ip =
-    headersList.get("x-forwarded-for") ||
-    headersList.get("remote-addr") ||
-    headersList.get("x-real-ip") ||
-    "unknown";
 
   const listing = (await prismadb.listing.findUnique({
     where: { listingNumber: Number(listingNumber) },
@@ -125,13 +120,12 @@ export default async function SingleListingPage({
   }
 
   await registerListingView(listing.id, {
-    ip,
+    headersList,
     locale,
   });
   // Increment view count
 
   // Log or process the IP address and locale
-  console.log(`User IP: ${ip}, Locale: ${locale}`);
 
   const t = await getTranslations();
   const lwr = listing as ListingWithRelations;

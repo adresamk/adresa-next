@@ -1499,7 +1499,7 @@ export async function getListingViews(listingId: number) {
 }
 
 export type RegisterListingViewData = {
-  ip: string;
+  headersList: Headers;
   locale: string;
 };
 
@@ -1509,8 +1509,13 @@ export async function registerListingView(
 ) {
   const { account } = await getCurrentUser();
 
+  let ip =
+    data.headersList.get("x-forwarded-for") ||
+    data.headersList.get("remote-addr") ||
+    data.headersList.get("x-real-ip") ||
+    "unknown";
   // Normalize IP address
-  let ipAddress = data.ip;
+  let ipAddress = ip;
 
   // Handle multiple IPs (x-forwarded-for can return comma-separated IPs)
   ipAddress = ipAddress.split(",")[0].trim();
@@ -1555,6 +1560,13 @@ export async function registerListingView(
   }
   const ipInfoResponse = await fetch(`http://ip-api.com/json/${ipAddress}`);
   const ipInfo = await ipInfoResponse.json();
+
+  const userAgent = data.headersList.get("user-agent") || "";
+  console.log("userAgent", userAgent);
+
+  const otherInfo = {
+    userAgent,
+  };
   // Create new view record
   await prismadb.listingView.create({
     data: {
@@ -1563,6 +1575,7 @@ export async function registerListingView(
       locale: data.locale,
       ipAddress,
       ipInfo: ipInfo.status === "success" ? ipInfo : null,
+      userAgent,
     },
   });
 
