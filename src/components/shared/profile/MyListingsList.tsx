@@ -9,7 +9,7 @@ import { Link } from "@/i18n/routing";
 import ListingDeleteButton from "../listing/ListingDeleteButton";
 import ListingVisibilityButton from "../listing/ListingVisibilityButton";
 import { UserRoles } from "@/lib/data/user/importantData";
-import { UploadedImageData } from "@/types/listing.types";
+import { ListingWithViewCount, UploadedImageData } from "@/types/listing.types";
 
 export default function MyListingsList({
   listings,
@@ -52,6 +52,9 @@ export default function MyListingsList({
 
           .map((l: Listing) => {
             // check against all require fields
+
+            const listingViewCount = (l as ListingWithViewCount)
+              .listingViewCount[0].count;
 
             const hasRequiredFieldsLeft =
               !l.type ||
@@ -139,7 +142,7 @@ export default function MyListingsList({
                         <div className="flex h-9 items-center gap-3">
                           <MousePointerClick fill="blue" />{" "}
                           <div className="text-sm font-bold text-brand-light-blue">
-                            <div>{0}</div>
+                            <div>{listingViewCount}</div>
                             <div>views</div>
                           </div>
                         </div>

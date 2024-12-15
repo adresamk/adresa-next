@@ -55,6 +55,7 @@ model Account {
   verificationLink VerificationLink[]
   agency           Agency?
   user             User?
+  listingViews     ListingView[]
 }
 
 model Agency {
@@ -300,9 +301,11 @@ model Listing {
 
   // tags are something that will be calculated based on other fields
   //tags        String[]         @default([])
-  favoritedBy     Favorite[]
+  favoritedBy      Favorite[]
+  listingViews     ListingView[]
+  listingViewCount ListingViewCount[]
   // extract this into user as separate values
-  listingFeatures ListingFeature[]
+  listingFeatures  ListingFeature[]
 
   // Should go to cateogry Residental
   // orientation String? // 'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
@@ -496,6 +499,32 @@ model Other {
 
   accessFrom        String? @db.VarChar(16) // paved/asphalt/pedestrian/dirt road/ sea/ other / no road access
   totalPropertyArea Int? // in square meters
+}
+
+model ListingView {
+  id        Int     @id @default(autoincrement())
+  listingId Int
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  // Who
+  accountId Int?
+  account   Account? @relation(fields: [accountId], references: [id])
+
+  locale    String?
+  ipAddress String?
+  // How many times
+  // When
+  viewedAt  DateTime @default(now())
+}
+
+model ListingViewCount {
+  id        Int     @id @default(autoincrement())
+  listingId Int     @unique
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  count     Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Favorite {

@@ -42,7 +42,13 @@ import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantD
 import ListingFeatures from "./_components/ListingFeatures";
 import { ExpandableDescription } from "./_components/ExpandableDescription";
 import { Metadata } from "next";
-import { getListing } from "@/server/actions/listing.actions";
+import {
+  getListing,
+  registerListingView,
+} from "@/server/actions/listing.actions";
+import { getClientIp } from "request-ip"; // You might need to install this package
+import { NextRequest } from "next/server";
+import { headers } from "next/headers";
 
 // function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 //   return {
@@ -55,13 +61,16 @@ import { getListing } from "@/server/actions/listing.actions";
 //   };
 // }
 // In your page.tsx or layout.tsx
-
+interface SingleListingPageProps {
+  params: Promise<{
+    listingNumber: string;
+  }>;
+}
 export async function generateMetadata({
   params,
-}: {
-  params: { listingNumber: string };
-}): Promise<Metadata> {
-  const listing = await getListing(Number(params.listingNumber)); // Your listing fetch function
+}: SingleListingPageProps): Promise<Metadata> {
+  const { listingNumber } = await params;
+  const listing = await getListing(Number(listingNumber)); // Your listing fetch function
 
   const images = listing.images as UploadedImageData[];
   return {
@@ -86,9 +95,7 @@ export async function generateMetadata({
 
 export default async function SingleListingPage({
   params,
-}: {
-  params: Promise<{ listingNumber: string; locale: string }>;
-}) {
+}: SingleListingPageProps) {
   const { listingNumber } = await params;
 
   console.log("listingNumber", listingNumber);
@@ -97,6 +104,16 @@ export default async function SingleListingPage({
     // redirect("/404");
   }
   const locale = await getLocale();
+  // const ip = getClientIp(req as unknown as Request); // Get the user's IP address
+  const headersList = await headers();
+  console.log("headersList", headersList);
+  console.log("x-forwarded-for", headersList.get("x-forwarded-for"));
+  console.log("remote-addr", headersList.get("remote-addr"));
+  let ip =
+    headersList.get("x-forwarded-for") ||
+    headersList.get("remote-addr") ||
+    headersList.get("x-real-ip") ||
+    "unknown";
 
   const listing = (await prismadb.listing.findUnique({
     where: { listingNumber: Number(listingNumber) },
@@ -107,6 +124,16 @@ export default async function SingleListingPage({
     redirect({ href: "/404", locale: "mk" });
     return null;
   }
+
+  await registerListingView(listing.id, {
+    ip,
+    locale,
+  });
+  // Increment view count
+
+  // Log or process the IP address and locale
+  console.log(`User IP: ${ip}, Locale: ${locale}`);
+
   const t = await getTranslations();
   const lwr = listing as ListingWithRelations;
 

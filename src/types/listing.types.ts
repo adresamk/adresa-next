@@ -9,6 +9,7 @@ import {
   Prisma,
   Commercial,
   Residential,
+  ListingViewCount,
 } from "@prisma/client";
 
 // Define the exact include type we're using
@@ -59,6 +60,10 @@ export type ListingWithFeatures = Prisma.ListingGetPayload<{
     };
   };
 }>;
+
+export type ListingWithViewCount = Listing & {
+  listingViewCount: ListingViewCount[];
+};
 
 export type ListingFeatureWithFeature = ListingFeature & {
   feature: Feature;

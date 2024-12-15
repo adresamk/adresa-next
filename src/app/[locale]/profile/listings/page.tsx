@@ -17,6 +17,9 @@ export default async function ProfileListingsPage() {
     where: {
       userId: user!.id,
     },
+    include: {
+      listingViewCount: true,
+    },
   });
   return (
     <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">

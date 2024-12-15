@@ -1488,3 +1488,94 @@ export default async function getAllListings(
   // console.log("returned listings ; ", listings.length);
   return listings;
 }
+
+export async function getListingViews(listingId: number) {
+  const views = await prismadb.listingView.findMany({
+    where: {
+      listingId,
+    },
+  });
+  return views;
+}
+
+export type RegisterListingViewData = {
+  ip: string;
+  locale: string;
+};
+
+export async function registerListingView(
+  listingId: number,
+  data: RegisterListingViewData,
+) {
+  const { account } = await getCurrentUser();
+
+  // Normalize IP address
+  let ipAddress = data.ip;
+
+  // Handle multiple IPs (x-forwarded-for can return comma-separated IPs)
+  ipAddress = ipAddress.split(",")[0].trim();
+
+  // Handle invalid/empty IPs
+  if (ipAddress === "::1" || ipAddress === "") {
+    ipAddress = "127.0.0.1";
+  }
+
+  if (ipAddress === "unknown") {
+    ipAddress = "";
+  }
+  // If no way to identify viewer (no IP and no account), skip
+  if (!ipAddress && !account) {
+    return;
+  }
+  const timeDifferenceInMinutes = 1;
+  const dateInPast = new Date(Date.now() - 60 * 1000 * timeDifferenceInMinutes);
+
+  // Check for recent view from same account/IP
+
+  const recentView = await prismadb.listingView.findFirst({
+    where: {
+      listingId,
+      OR: [
+        ...(account ? [{ accountId: account.id }] : []),
+        ...(ipAddress ? [{ ipAddress }] : []),
+      ],
+      viewedAt: {
+        gte: dateInPast,
+      },
+    },
+    orderBy: {
+      viewedAt: "desc",
+    },
+  });
+
+  // If recent view exists, don't create new view or update count
+  if (recentView) {
+    return;
+  }
+
+  // Create new view record
+  await prismadb.listingView.create({
+    data: {
+      listingId,
+      accountId: account ? account.id : null,
+      locale: data.locale,
+      ipAddress,
+    },
+  });
+
+  // Update view count only after successful view creation
+  await prismadb.listingViewCount.upsert({
+    where: {
+      listingId,
+    },
+    update: {
+      count: {
+        increment: 1,
+      },
+    },
+    create: {
+      listingId,
+      count: 1,
+    },
+  });
+}

@@ -7,8 +7,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Listing } from "@prisma/client";
 
 import {
-  getTranslatedMunicipalityOptions,
-  getTranslatedMunicipalityPlaces,
+  getMunicipalityOptionsTranslated,
+  getMunicipalityPlacesTranslated,
   TranslatedOption,
 } from "@/lib/data/macedonia/importantData";
 
@@ -23,7 +23,8 @@ export default function Step2({ listing }: { listing: Listing }) {
 
   const [placeOptions, setPlaceOptions] = useState<TranslatedOption[]>(() => {
     if (listing.municipality) {
-      return getTranslatedMunicipalityPlaces(listing.municipality, locale);
+      return getMunicipalityPlacesTranslated(listing.municipality, locale)
+        .places;
     }
     return [];
   });
@@ -31,7 +32,7 @@ export default function Step2({ listing }: { listing: Listing }) {
   const [address, setAddress] = useState(listing.address);
 
   const t = useTranslations();
-  const municipalityOptions = getTranslatedMunicipalityOptions(locale);
+  const municipalityOptions = getMunicipalityOptionsTranslated(locale);
 
   return (
     <div className="p-2">
@@ -50,10 +51,10 @@ export default function Step2({ listing }: { listing: Listing }) {
         required
         onSelect={(municipalityId) => {
           setMunicipality(municipalityId);
-          const populatedPlacesOptions = getTranslatedMunicipalityPlaces(
+          const populatedPlacesOptions = getMunicipalityPlacesTranslated(
             municipalityId,
             locale,
-          );
+          ).places;
           setPlaceOptions(populatedPlacesOptions);
           setPlace("");
         }}
