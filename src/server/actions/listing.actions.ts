@@ -1527,6 +1527,7 @@ export async function registerListingView(
   if (!ipAddress && !account) {
     return;
   }
+
   const timeDifferenceInMinutes = 1;
   const dateInPast = new Date(Date.now() - 60 * 1000 * timeDifferenceInMinutes);
 
@@ -1552,7 +1553,8 @@ export async function registerListingView(
   if (recentView) {
     return;
   }
-
+  const ipInfoResponse = await fetch(`http://ip-api.com/json/${ipAddress}`);
+  const ipInfo = await ipInfoResponse.json();
   // Create new view record
   await prismadb.listingView.create({
     data: {
@@ -1560,6 +1562,7 @@ export async function registerListingView(
       accountId: account ? account.id : null,
       locale: data.locale,
       ipAddress,
+      ipInfo: ipInfo.status === "success" ? ipInfo : null,
     },
   });
 

@@ -23,6 +23,7 @@ export default function RevealButton({
 
   return (
     <Button
+      type="button"
       variant={variant}
       className={cn("reveal-button m-0.5 whitespace-nowrap", {
         loading: isRevealed,

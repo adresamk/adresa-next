@@ -512,6 +512,7 @@ model ListingView {
 
   locale    String?
   ipAddress String?
+  ipInfo    Json?
   // How many times
   // When
   viewedAt  DateTime @default(now())
