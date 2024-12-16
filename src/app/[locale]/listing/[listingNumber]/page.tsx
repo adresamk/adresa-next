@@ -49,6 +49,8 @@ import {
 import { getClientIp } from "request-ip"; // You might need to install this package
 import { NextRequest } from "next/server";
 import { headers } from "next/headers";
+import CalculateMortgageButton from "./_components/CalculateMortgageButton";
+import ImportantFeatures from "./_components/ImportantFeatures";
 
 // function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 //   return {
@@ -194,7 +196,7 @@ export default async function SingleListingPage({
           <div className="flex-1 md:pr-2.5 lg:pr-12">
             {/* Main Info - Title - Address Phone */}
             <div className="flex pb-5 pt-9 md:py-9">
-              <div className="flex-1 pr-7">
+              <div className="flex-1 pr-2 md:pr-7">
                 <h1 className="text-xl font-medium md:text-3xl">{title}</h1>
                 <p className="pt-2 text-sm tracking-tight md:text-base">
                   {fullAddress}
@@ -219,57 +221,18 @@ export default async function SingleListingPage({
 
             {/* Price and Buttons - Interactions */}
             <div className="flex items-center justify-between">
-              <div className="mb-6 flex gap-9">
-                {/* {listing.bathrooms && (
-                  <div className="flex flex-col items-center text-sm">
-                    <Bath className="h-6 w-6" />
-                    <span>
-                      {listing.bathrooms}{" "}
-                      {listing.bathrooms === 1
-                        ? t("common.property.features.bathroom")
-                        : t("common.property.features.bathrooms")}
-                    </span>
-                  </div>
-                )} */}
-                <div className="flex flex-col items-center text-sm">
-                  <AirVentIcon className="h-6 w-6" />
-                  <span>
-                    {1}{" "}
-                    {1 === 1
-                      ? t("common.property.features.aircon")
-                      : t("common.property.features.aircons")}
-                  </span>
-                </div>
-                {/* {listing.parking && (
-                  <div className="flex flex-col items-center text-sm">
-                    <AirVentIcon className="h-6 w-6" />
-                    <span>
-                      {listing.parking === true && "1"}
-                      {listing.parking
-                        ? t("common.property.features.parking")
-                        : t("common.property.features.parkings")}
-                    </span>
-                  </div>
-                )} */}
-              </div>
+              {/* Features Highlight - some imporant features mentioned */}
+              <ImportantFeatures listing={listing} />
               <PriceDisplay listing={listing} />
             </div>
 
-            {/* Features Highlight - some imporant features mentioned */}
-
             {/* Mortgages Options */}
             <Separator className="my-3 bg-slate-400" />
-            <div className="my-4 flex flex-wrap items-center justify-between gap-4 lg:flex-nowrap">
+            <div className="my-4 flex flex-wrap items-center justify-center gap-4 lg:flex-nowrap lg:justify-start">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/assets/halkbank-logo.png" alt="Halkbank" />
               <span>{t("common.property.mortgage.options")}</span>
-              <Button className="flex gap-2">
-                <Percent
-                  className="h-6 w-6 rounded-full bg-white p-1"
-                  stroke="#0069fe"
-                />{" "}
-                {t("common.property.mortgage.calculate")}
-              </Button>
+              <CalculateMortgageButton />
             </div>
             <Separator className="my-3 bg-slate-400" />
 
@@ -280,7 +243,7 @@ export default async function SingleListingPage({
               </h3>
               <ExpandableDescription
                 text={description}
-                maxHeight={125}
+                maxHeight={130}
                 className="text-lg text-gray-700 duration-1000"
               />
             </div>

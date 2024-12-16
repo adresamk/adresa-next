@@ -65,7 +65,7 @@ export default function LikeListingButton({
         }}
         variant="ghost"
         size="icon"
-        className={cn("h-9 w-9", className)}
+        className={cn("h-10 w-10", className)}
         title={t("listing.like.toggleFavorite")}
       >
         <Heart

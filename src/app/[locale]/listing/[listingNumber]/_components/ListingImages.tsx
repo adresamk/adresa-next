@@ -165,8 +165,8 @@ export default function ListingImages({ listing }: { listing: Listing }) {
           setIsOpen(true);
         }}
       >
-        <div className="z-0 block h-[calc(-64px_+_54vh)] min-h-[300px] overflow-y-hidden">
-          <div className="relative float-left box-border h-full min-h-[300px] w-full max-w-full px-0.5 md:w-1/2">
+        <div className="z-0 block overflow-y-hidden md:h-[calc(-64px_+_54vh)]">
+          <div className="relative float-left box-border aspect-video h-full min-h-[150px] w-full max-w-full px-0.5 md:aspect-auto md:min-h-[300px] md:w-1/2">
             <div className="relative z-0 h-full w-full cursor-pointer text-center hover:opacity-85">
               <Image
                 fetchPriority="high"
@@ -240,11 +240,22 @@ export default function ListingImages({ listing }: { listing: Listing }) {
           </div>
         </div>
         {images.length - 5 > 0 && (
-          <div className="px- absolute bottom-1.5 right-2 inline-flex cursor-pointer items-center rounded border bg-slate-100 p-1 py-0.5 text-slate-800">
+          <div className="px- absolute bottom-1.5 right-2 hidden cursor-pointer items-center rounded border bg-slate-100 p-1 py-0.5 text-slate-800 md:inline-flex">
             <ImageIcon className="mr-1 h-4 w-4" /> {/* 5 are already shown */}
             <span className="text-sm font-semibold">
               {t("listing.listingImages.moreImages", {
                 count: images?.length - 5,
+              })}
+            </span>
+          </div>
+        )}
+
+        {images.length - 1 > 0 && (
+          <div className="px- absolute bottom-1.5 right-2 inline-flex cursor-pointer items-center rounded border bg-slate-100 p-1 py-0.5 text-slate-800 md:hidden">
+            <ImageIcon className="mr-1 h-4 w-4" /> {/* 5 are already shown */}
+            <span className="text-sm font-semibold">
+              {t("listing.listingImages.moreImages", {
+                count: images?.length - 1,
               })}
             </span>
           </div>

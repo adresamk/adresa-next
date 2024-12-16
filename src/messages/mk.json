@@ -367,6 +367,13 @@
   },
   "listing": {
     "fieldsKeys": {
+      "importantFeatures": {
+        "floor": "кат",
+        "bedroomCount": "спални",
+        "bathroomCount": "бањи",
+        "parkingCount": "паркинг"
+      },
+      "bedroomCount": "спални соби",
       "price": "цена",
       "pricePerSquare": "цена по м²",
       "area": "површина",

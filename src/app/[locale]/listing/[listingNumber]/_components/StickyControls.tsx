@@ -28,7 +28,7 @@ export default function StickyControls({ listing }: { listing: Listing }) {
         isVisible ? "fixed opacity-100" : "hidden opacity-0",
       )}
     >
-      <div className="flex w-full px-5">
+      <div className="flex w-full px-2 sm:px-5">
         <div className="relative flex w-full flex-1 flex-shrink flex-nowrap items-center pl-[80px]">
           <div className="absolute left-0 h-20 w-[72px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}

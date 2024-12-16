@@ -42,7 +42,7 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList className="gap-0.5 md:gap-0.5">
+      <BreadcrumbList className="justify-center gap-0.5 md:gap-0.5">
         {/* <BreadcrumbItem className="text-xs">
           <BreadcrumbLink href="/">
             {t("listing.breadcrumbs.home")}

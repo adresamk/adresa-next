@@ -35,7 +35,7 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
   }, [homePrice, downPaymentPercent, interestRate, loanTerm, loanAmount]);
 
   return (
-    <Card className="bg-slate-50 p-6">
+    <Card className="bg-slate-50 p-6" id="mortgage-calculator">
       <h2 className="mb-6 text-2xl font-semibold">{t("title")}</h2>
 
       <div className="space-y-6">

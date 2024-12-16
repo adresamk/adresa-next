@@ -23,7 +23,7 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
   return (
     <div
       id="mini-contact-form"
-      className="rounded border border-gray-100 bg-slate-50 p-0 shadow-xl transition-all duration-300 ease-in"
+      className="rounded border border-gray-100 bg-white p-0 shadow-xl transition-all duration-300 ease-in"
     >
       <div className="overflow-auto">
         <h3 className="my-3 mb-3 px-6 text-xl">

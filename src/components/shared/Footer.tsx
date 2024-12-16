@@ -178,7 +178,7 @@ export default async function Footer() {
               <div>
                 <nav>
                   <ul className="flex gap-2">
-                    <li>
+                    <li className="text-center">
                       <Link
                         target="_blank"
                         className="text-brand-light-blue"
@@ -187,7 +187,7 @@ export default async function Footer() {
                         {t("Terms of Use")}
                       </Link>
                     </li>
-                    <li>
+                    <li className="text-center">
                       <Link
                         target="_blank"
                         className="text-brand-light-blue"
@@ -196,7 +196,7 @@ export default async function Footer() {
                         {t("Policies")}
                       </Link>
                     </li>
-                    <li>
+                    <li className="text-center">
                       {/* onclick should open dialog for setting up cookies and letting them know how they are used */}
                       <button>{t("Cookies")}</button>
                     </li>
