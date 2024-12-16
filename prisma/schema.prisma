@@ -510,13 +510,13 @@ model ListingView {
   accountId Int?
   account   Account? @relation(fields: [accountId], references: [id])
 
-  locale    String?
-  ipAddress String?
-  ipInfo    Json?
-  userAgent String?
+  locale     String?
+  ipAddress  String?
+  ipInfo     Json?
+  deviceInfo Json?
   // How many times
   // When
-  viewedAt  DateTime @default(now())
+  viewedAt   DateTime @default(now())
 }
 
 model ListingViewCount {

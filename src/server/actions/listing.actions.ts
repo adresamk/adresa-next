@@ -3,6 +3,7 @@
 import prismadb from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
+import { IResult, UAParser } from "ua-parser-js";
 
 import {
   CommercialPropertyType,
@@ -1395,7 +1396,6 @@ export async function editListing(
       success: false,
     };
   }
-
   let output: EditListingResponse = {
     success: false,
   };
@@ -1562,7 +1562,11 @@ export async function registerListingView(
   const ipInfo = await ipInfoResponse.json();
 
   const userAgent = data.headersList.get("user-agent") || "";
-  console.log("userAgent", userAgent);
+  const parser = new UAParser(userAgent);
+  const deviceInfo: IResult = parser.getResult();
+  // console.log("userAgent", userAgent);
+  console.log("deviceInfo", deviceInfo);
+  console.log("deviceInfo", typeof deviceInfo);
 
   const otherInfo = {
     userAgent,
@@ -1575,7 +1579,7 @@ export async function registerListingView(
       locale: data.locale,
       ipAddress,
       ipInfo: ipInfo.status === "success" ? ipInfo : null,
-      userAgent,
+      deviceInfo: JSON.parse(JSON.stringify(deviceInfo)),
     },
   });
 
