@@ -13,6 +13,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { ArrowDown } from "lucide-react";
 import { UploadedFileData } from "uploadthing/types";
+import { ListingDescriptions, ListingTitles } from "@/types/listing.types";
 
 export default async function ReacentlyViewedListingCard({
   listing,
@@ -39,6 +40,8 @@ export default async function ReacentlyViewedListingCard({
   const luckyToShowPrevPricing = Math.random() < 1 / 20;
 
   const image = listing?.mainImage as UploadedFileData;
+  const title = listing[`${locale}Title` as keyof ListingTitles] || "";
+
   return (
     <Card className="relative w-[240px] hover:shadow-lg md:w-[325px]">
       <Link
@@ -68,8 +71,8 @@ export default async function ReacentlyViewedListingCard({
       </CardHeader>
       <CardContent className="px-4 pt-2">
         <h3>
-          {!listing.title ? (
-            listing.title
+          {!title ? (
+            title
           ) : (
             <>
               <span className="capitalize">

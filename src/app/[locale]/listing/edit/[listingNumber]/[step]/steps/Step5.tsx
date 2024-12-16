@@ -12,12 +12,14 @@ import { useTranslations } from "next-intl";
 export default function Step5({ listing }: { listing: Listing }) {
   const t = useTranslations("listing.new.progress.steps.description");
 
-  const [description, setDescription] = useState(listing.description || "");
-  const [mkdDescription, setMkdDescription] = useState(
-    listing.mkdDescription || "",
+  const [enDescription, setEnDescription] = useState(
+    listing.enDescription || "",
   );
-  const [albDescription, setAlbDescription] = useState(
-    listing.albDescription || "",
+  const [mkDescription, setMkdDescription] = useState(
+    listing.mkDescription || "",
+  );
+  const [alDescription, setAlDescription] = useState(
+    listing.alDescription || "",
   );
 
   return (
@@ -30,77 +32,77 @@ export default function Step5({ listing }: { listing: Listing }) {
       <div className="flex flex-col gap-2">
         <Label htmlFor="title">{t("englishTitle")}</Label>
         <Input
-          name="title"
+          name="enTitle"
           className="pb-2"
-          id="title"
-          defaultValue={listing.title || ""}
+          id="enTitle"
+          defaultValue={listing.enTitle || ""}
           maxLength={112}
           placeholder={t("englishTitlePlaceholder")}
         />
 
-        <Label htmlFor="engDescription">{t("englishDescription")}</Label>
+        <Label htmlFor="enDescription">{t("englishDescription")}</Label>
         <Textarea
-          name="description"
+          name="enDescription"
           className="pb-2"
           rows={10}
-          id="description"
-          value={description}
+          id="enDescription"
+          value={enDescription}
           maxLength={5000}
           placeholder={t("englishDescriptionPlaceholder")}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => setEnDescription(e.target.value)}
         />
         <div className="mt-1 text-sm text-slate-400">
-          {description.length}/5000 {t("characters")}
+          {enDescription.length}/5000 {t("characters")}
         </div>
         <Separator className="my-2 mt-4" />
-        <Label htmlFor="mkdTitle">{t("macedonianTitle")}</Label>
+        <Label htmlFor="mkTitle">{t("macedonianTitle")}</Label>
         <Input
-          name="mkdTitle"
+          name="mkTitle"
           className="pb-2"
-          id="mkdTitle"
-          defaultValue={listing.mkdTitle || ""}
+          id="mkTitle"
+          defaultValue={listing.mkTitle || ""}
           maxLength={112}
           placeholder={t("macedonianTitlePlaceholder")}
         />
 
-        <Label htmlFor="mkdDescription">{t("macedonianDescription")}</Label>
+        <Label htmlFor="mkDescription">{t("macedonianDescription")}</Label>
         <Textarea
-          name="mkdDescription"
+          name="mkDescription"
           className="pb-2"
           rows={10}
-          id="mkdDescription"
-          value={mkdDescription}
+          id="mkDescription"
+          value={mkDescription}
           maxLength={5000}
           placeholder={t("macedonianDescriptionPlaceholder")}
           onChange={(e) => setMkdDescription(e.target.value)}
         />
         <div className="mt-1 text-sm text-slate-400">
-          {mkdDescription.length}/5000 {t("characters")}
+          {mkDescription.length}/5000 {t("characters")}
         </div>
         <Separator className="my-2 mt-4" />
-        <Label htmlFor="albTitle">{t("albanianTitle")}</Label>
+        <Label htmlFor="alTitle">{t("albanianTitle")}</Label>
         <Input
-          name="albTitle"
+          name="alTitle"
           className="pb-2"
-          id="albTitle"
-          defaultValue={listing.albTitle || ""}
+          id="alTitle"
+          defaultValue={listing.alTitle || ""}
           maxLength={112}
           placeholder={t("albanianTitlePlaceholder")}
         />
 
-        <Label htmlFor="albDescription">{t("albanianDescription")}</Label>
+        <Label htmlFor="alDescription">{t("albanianDescription")}</Label>
         <Textarea
-          name="albDescription"
+          name="alDescription"
           className="pb-2"
           rows={10}
-          id="albDescription"
-          value={albDescription}
+          id="alDescription"
+          value={alDescription}
           maxLength={5000}
           placeholder={t("albanianDescriptionPlaceholder")}
-          onChange={(e) => setAlbDescription(e.target.value)}
+          onChange={(e) => setAlDescription(e.target.value)}
         />
         <div className="mt-1 text-sm text-slate-400">
-          {albDescription.length}/5000 {t("characters")}
+          {alDescription.length}/5000 {t("characters")}
         </div>
       </div>
     </div>

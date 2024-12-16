@@ -1067,35 +1067,35 @@ async function editFeatures(formData: FormData) {
   }
 }
 async function editDescription(formData: FormData) {
-  const description = formData.get("description");
-  const mkdDescription = formData.get("mkdDescription");
-  const albDescription = formData.get("albDescription");
-  const title = formData.get("title");
-  const mkdTitle = formData.get("mkdTitle");
-  const albTitle = formData.get("albTitle");
+  const enDescription = formData.get("enDescription");
+  const mkDescription = formData.get("mkDescription");
+  const alDescription = formData.get("alDescription");
+  const enTitle = formData.get("enTitle");
+  const mkTitle = formData.get("mkTitle");
+  const alTitle = formData.get("alTitle");
   console.log("editing description", {
-    description,
-    mkdDescription,
-    albDescription,
-    title,
-    mkdTitle,
-    albTitle,
+    enDescription,
+    mkDescription,
+    alDescription,
+    enTitle,
+    mkTitle,
+    alTitle,
   });
   console.log("editing description", {
-    description: typeof description !== "string",
-    mkdDescription: typeof mkdDescription !== "string",
-    albDescription: typeof albDescription !== "string",
-    title: typeof title !== "string",
-    mkdTitle: typeof mkdTitle !== "string",
-    albTitle: typeof albTitle !== "string",
+    enDescription: typeof enDescription !== "string",
+    mkDescription: typeof mkDescription !== "string",
+    alDescription: typeof alDescription !== "string",
+    enTitle: typeof enTitle !== "string",
+    mkTitle: typeof mkTitle !== "string",
+    alTitle: typeof alTitle !== "string",
   });
   if (
-    typeof description !== "string" ||
-    typeof mkdDescription !== "string" ||
-    typeof albDescription !== "string" ||
-    typeof title !== "string" ||
-    typeof mkdTitle !== "string" ||
-    typeof albTitle !== "string"
+    typeof enDescription !== "string" ||
+    typeof mkDescription !== "string" ||
+    typeof alDescription !== "string" ||
+    typeof enTitle !== "string" ||
+    typeof mkTitle !== "string" ||
+    typeof alTitle !== "string"
   ) {
     return {
       success: false,
@@ -1106,24 +1106,24 @@ async function editDescription(formData: FormData) {
   const listingId = formData.get("listingId")! as string;
 
   console.log("editing description", {
-    description,
-    mkdDescription,
-    albDescription,
-    title,
-    mkdTitle,
-    albTitle,
+    enDescription,
+    mkDescription,
+    alDescription,
+    enTitle,
+    mkTitle,
+    alTitle,
   });
   await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
     data: {
-      description,
-      mkdDescription,
-      albDescription,
-      title,
-      mkdTitle,
-      albTitle,
+      enDescription,
+      mkDescription,
+      alDescription,
+      enTitle,
+      mkTitle,
+      alTitle,
     },
   });
   console.log("updated listing");
@@ -1565,8 +1565,8 @@ export async function registerListingView(
   const parser = new UAParser(userAgent);
   const deviceInfo: IResult = parser.getResult();
   // console.log("userAgent", userAgent);
-  console.log("deviceInfo", deviceInfo);
-  console.log("deviceInfo", typeof deviceInfo);
+  // console.log("deviceInfo", deviceInfo);
+  // console.log("deviceInfo", typeof deviceInfo);
 
   const otherInfo = {
     userAgent,

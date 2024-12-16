@@ -20,7 +20,7 @@ export async function updateAgencyDetails(formData: FormData) {
   console.log("userFormData", formData);
   const name = formData.get("name");
   const address = formData.get("address");
-  const logoUrl = formData.get("logoUrl");
+  const logo = formData.get("logo");
 
   const website = formData.get("website");
   const phone = formData.get("phone");
@@ -39,7 +39,7 @@ export async function updateAgencyDetails(formData: FormData) {
   if (
     typeof name !== "string" ||
     typeof address !== "string" ||
-    typeof logoUrl !== "string" ||
+    typeof logo !== "string" ||
     typeof website !== "string" ||
     typeof phone !== "string" ||
     typeof workHours !== "string" ||
@@ -72,7 +72,7 @@ export async function updateAgencyDetails(formData: FormData) {
         address,
         website,
         phone,
-        logoUrl,
+        logo,
         contactPersonFullName,
         contactPersonEmail,
         contactPersonPhone,
@@ -93,7 +93,7 @@ export async function updateAgencyDetails(formData: FormData) {
         name,
         slug: name.toLowerCase().replace(" ", "-"),
         address,
-        logoUrl,
+        logo,
         website,
         phone,
         contactPersonFullName,

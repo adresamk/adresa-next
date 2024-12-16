@@ -11,7 +11,11 @@ export function generateUniqueToken() {
 export function validPhoneNumber(phone: string) {
   return true;
 }
-export function displayPrice(value: number | null, currency: string = "USD") {
+type AllowedCurrencies = "USD" | "EUR";
+export function displayPrice(
+  value: number | null,
+  currency: AllowedCurrencies = "USD",
+) {
   if (value === null) {
     return "Number was null, check data";
   }
@@ -25,6 +29,15 @@ export function displayPrice(value: number | null, currency: string = "USD") {
     maximumFractionDigits: 0, // Show 2 decimals if needed
   }).format(value);
 }
+export function displayPriceMonthly(
+  value: number | null,
+  currency: AllowedCurrencies = "USD",
+  periodLabel = "",
+) {
+  let output = displayPrice(value, currency);
+
+  return output + "/" + periodLabel;
+}
 
 export function displayArea(value: number | null) {
   if (value === null) {
@@ -36,11 +49,12 @@ export function displayArea(value: number | null) {
 export function displayPricePerSquare(
   price: number | null,
   area: number | null,
+  currency: AllowedCurrencies = "USD",
 ) {
   if (!price || !area || area <= 0) return null; // Handle invalid inputs gracefully
 
   const pricePerSquare = price / area;
-  return displayPrice(pricePerSquare); // Use the displayPrice function
+  return displayPrice(pricePerSquare, currency); // Use the displayPrice function
 }
 
 function parseDateString(dateString: string, delimiter: string): Date | null {

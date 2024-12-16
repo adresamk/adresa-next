@@ -20,10 +20,12 @@ import LikeListingButton from "./LikeListingButton";
 import { getUser } from "@/lib/auth";
 import { getTranslations } from "next-intl/server";
 import {
+  ListingDescriptions,
   ListingWithFavoritedBy,
   ListingWithRelations,
   UploadedImageData,
 } from "@/types/listing.types";
+import { useLocale } from "next-intl";
 
 export default async function beListingsSearchShowcase({
   listing,
@@ -38,7 +40,10 @@ export default async function beListingsSearchShowcase({
     (e: any) => e.userId === user?.id,
   );
 
+  const locale = useLocale();
   const images = listingRef.images as UploadedImageData[];
+  const description =
+    listingRef[`${locale}Description` as keyof ListingDescriptions] || "";
 
   return (
     <li key={listingRef.id} className={cn("")}>
@@ -78,7 +83,7 @@ export default async function beListingsSearchShowcase({
                   {listingRef.municipality || t("listing.defaultMunicipality")}
                 </h3>
                 <p className="mb-2.5 line-clamp-2 overflow-hidden text-xs leading-5">
-                  {listingRef.description}
+                  {description}
                 </p>
 
                 <div className="flex items-center gap-6">

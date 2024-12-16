@@ -120,7 +120,7 @@ for (let index = 1; index < 100; index++) {
     latitude: randomSkopjeCoordinates[index - 1].lat,
     locationPrecision: faker.helpers.arrayElement(locationPrecisionOptions),
     ///
-    title: faker.lorem.words(4),
+    enTitle: faker.lorem.words(4),
     price: faker.number.int({ min: 50000, max: 300000 }),
     previousPrice: faker.helpers.arrayElement([
       null,
@@ -145,16 +145,16 @@ for (let index = 1; index < 100; index++) {
     // yard: faker.datatype.boolean(),
     // basement: faker.datatype.boolean(),
     ///
-    description: faker.lorem.paragraph({
+    enDescription: faker.lorem.paragraph({
       min: 3,
       max: 6,
     }),
-    mkdDescription:
+    mkDescription:
       faker.lorem.paragraph({
         min: 3,
         max: 6,
       }) + " in Macedonian",
-    albDescription:
+    alDescription:
       faker.lorem.paragraph({
         min: 3,
         max: 6,
@@ -173,8 +173,9 @@ for (let index = 1; index < 100; index++) {
     isPaidPromo: faker.datatype.boolean({ probability: 0.12 }),
     ///
     agencyId: null,
-    mkdTitle: "",
-    albTitle: "",
+
+    mkTitle: "",
+    alTitle: "",
     status: "ACTIVE",
   });
 }
@@ -237,7 +238,7 @@ for (let index = 1; index < 100; index++) {
     latitude: randomSkopjeCoordinates[index + 101 - 1].lat,
     locationPrecision: faker.helpers.arrayElement(locationPrecisionOptions),
     ///
-    title: faker.lorem.words(4),
+    enTitle: faker.lorem.words(4),
     price: faker.number.int({ min: 50000, max: 300000 }),
     previousPrice: faker.helpers.arrayElement([
       null,
@@ -262,16 +263,16 @@ for (let index = 1; index < 100; index++) {
     // yard: faker.datatype.boolean(),
     // basement: faker.datatype.boolean(),
     ///
-    description: faker.lorem.paragraph({
+    enDescription: faker.lorem.paragraph({
       min: 3,
       max: 6,
     }),
-    mkdDescription:
+    mkDescription:
       faker.lorem.paragraph({
         min: 3,
         max: 6,
       }) + " in Macedonian",
-    albDescription:
+    alDescription:
       faker.lorem.paragraph({
         min: 3,
         max: 6,
@@ -290,8 +291,8 @@ for (let index = 1; index < 100; index++) {
     isPaidPromo: faker.datatype.boolean({ probability: 0.1 }),
     ///
     agencyId: null,
-    mkdTitle: "",
-    albTitle: "",
+    mkTitle: "",
+    alTitle: "",
     status: "ACTIVE",
   });
 }

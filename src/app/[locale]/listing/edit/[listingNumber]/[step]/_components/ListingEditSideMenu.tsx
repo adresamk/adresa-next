@@ -11,8 +11,12 @@ import {
 } from "@/lib/data/macedoniaOld/importantData";
 import { getContactData } from "@/lib/data/listing/helpers";
 import { ListingWithUserAndAgency } from "@/lib/types";
-import { useTranslations } from "next-intl";
-import { ListingWithRelations, UploadedImageData } from "@/types/listing.types";
+import { useLocale, useTranslations } from "next-intl";
+import {
+  ListingDescriptions,
+  ListingWithRelations,
+  UploadedImageData,
+} from "@/types/listing.types";
 
 interface ListingEditSideMenuProps {
   currentStep: string;
@@ -58,9 +62,9 @@ const stepsValueSystem: stepsValueSystemType = {
   },
   additionalFeatures: {},
   description: {
-    description: 32,
-    mkdDescription: 33,
-    albDescription: 33,
+    enDescription: 32,
+    mkDescription: 33,
+    alDescription: 33,
   },
   media: {
     images: 50,
@@ -126,13 +130,13 @@ function calculateStepStatus(listing: Listing): StepStatus {
       statuses[step.key] = "none";
     }
     if (step.key === "Description") {
-      // description: 32,
-      // mkdDescription: 33,
-      // albDescription: 33,
+      // enDescription: 32,
+      // mkDescription: 33,
+      // alDescription: 33,
       if (
-        listing.description &&
-        listing.mkdDescription &&
-        listing.albDescription
+        listing.enDescription &&
+        listing.mkDescription &&
+        listing.alDescription
       ) {
         statuses[step.key] = "completed";
       } else {
@@ -177,7 +181,11 @@ function calculateStepStatus(listing: Listing): StepStatus {
 type StepDescription = {
   [key: string]: string;
 };
-function generateStepDescriptions(listing: Listing, t: any): StepDescription {
+function generateStepDescriptions(
+  listing: Listing,
+  t: any,
+  locale: string,
+): StepDescription {
   const descriptions: StepDescription = {};
   for (const step of steps) {
     if (step.key === "propertyType") {
@@ -231,8 +239,10 @@ function generateStepDescriptions(listing: Listing, t: any): StepDescription {
     }
     if (step.key === "description") {
       let properties = [];
-      if (listing.description) {
-        properties.push(listing.description);
+      const description =
+        listing[`${locale}Description` as keyof ListingDescriptions];
+      if (description) {
+        properties.push(description);
       }
       descriptions[step.key] = properties.length
         ? properties.map(capitalizeString).join(", ")
@@ -334,10 +344,12 @@ export default function ListingEditSideMenu({
   )!;
   const formProgress = Math.round((stepsProgressSum / 800) * 100);
   const t = useTranslations("");
+  const locale = useLocale();
   const stepStatus: StepStatus = calculateStepStatus(listing);
   const stepDescriptions: StepDescription = generateStepDescriptions(
     listing,
     t,
+    locale,
   );
   // console.log("stePstatus", stepStatus);
   // console.log("stepProgress", stepsProgress);

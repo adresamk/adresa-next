@@ -47,7 +47,7 @@ export default function StickyControls({ listing }: { listing: Listing }) {
           </div>
           <div className="flex-1 flex-shrink pl-[8%]">
             <div className="font-semibold">
-              <span>{displayPrice(listing.price)}</span>
+              <span>{displayPrice(listing.price, "EUR")}</span>
             </div>
           </div>
         </div>

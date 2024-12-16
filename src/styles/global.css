@@ -135,3 +135,36 @@ button.reveal-button {
     }
   }
 }
+
+.leaflet-left.leaflet-left {
+  left: unset;
+  right: 2px;
+}
+.leaflet-top.leaflet-top {
+  top: unset;
+  bottom: 18px;
+}
+.leaflet-touch .leaflet-bar.leaflet-bar a {
+  width: 20px;
+  height: 20px;
+  line-height: 12px;
+
+  & span {
+    font-size: 14px;
+  }
+}
+/* .leaflet-control-zoom.leaflet-bar.leaflet-control . {
+  & a {
+    border: none;
+    & span {
+      font-size: 14px;
+    }
+  }
+} */
+/* 
+.leaflet-control-zoom.leaflet-control-zoom {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  z-index: 10000;
+} */

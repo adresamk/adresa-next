@@ -1,5 +1,6 @@
 "use client";
 import { LatLngExpression } from "leaflet";
+import { LocationPrecision } from "@prisma/client";
 import { CircleMarker, MapContainer, TileLayer } from "react-leaflet";
 import { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
@@ -8,11 +9,13 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import { useTranslations } from "next-intl";
 
 export default function MapLocationPreview({
+  locationPrecision,
   longitude,
   latitude,
 }: {
   longitude: number | null;
   latitude: number | null;
+  locationPrecision: LocationPrecision;
 }) {
   const t = useTranslations();
 

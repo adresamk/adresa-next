@@ -9,7 +9,12 @@ import { Link } from "@/i18n/routing";
 import ListingDeleteButton from "../listing/ListingDeleteButton";
 import ListingVisibilityButton from "../listing/ListingVisibilityButton";
 import { UserRoles } from "@/lib/data/user/importantData";
-import { ListingWithViewCount, UploadedImageData } from "@/types/listing.types";
+import {
+  ListingTitles,
+  ListingWithViewCount,
+  UploadedImageData,
+} from "@/types/listing.types";
+import { useLocale } from "next-intl";
 
 export default function MyListingsList({
   listings,
@@ -19,6 +24,7 @@ export default function MyListingsList({
   agency?: Agency;
 }) {
   const [searchFilter, setSearchFilter] = useState("");
+  const locale = useLocale();
   return (
     <>
       {agency && (
@@ -55,7 +61,7 @@ export default function MyListingsList({
 
             const listingViewCount = (l as ListingWithViewCount)
               .listingViewCount[0].count;
-
+            const title = l[`${locale}Title` as keyof ListingTitles] || "";
             const hasRequiredFieldsLeft =
               !l.type ||
               !l.municipality ||
@@ -116,8 +122,8 @@ export default function MyListingsList({
                   <div>
                     <Link href={`/listing/${l.listingNumber}`}>
                       <h4 className="my-4 font-semibold">
-                        {l.title ? (
-                          <span className="capitalize">{l.title}</span>
+                        {title ? (
+                          <span className="capitalize">{title}</span>
                         ) : (
                           <span className="capitalize">
                             {l.type}, {l.area}

@@ -101,7 +101,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
                   <div
                     key={idx}
                     onClick={() => handlePhotoSelection(idx)}
-                    className="min-[440px]:w-1/2 mb-3 h-fit w-full max-w-full flex-shrink-0 px-1.5 sm:flex-auto sm:flex-shrink sm:flex-grow md:w-1/3"
+                    className="mb-3 h-fit w-full max-w-full flex-shrink-0 px-1.5 sm:w-1/2 sm:flex-auto sm:flex-shrink sm:flex-grow md:w-1/3"
                   >
                     <figure className="h-[25vh] max-h-[300px] min-h-[100px] cursor-pointer overflow-hidden rounded-xl">
                       {/* eslint-disable-next-line @next/next/no-img-element */}

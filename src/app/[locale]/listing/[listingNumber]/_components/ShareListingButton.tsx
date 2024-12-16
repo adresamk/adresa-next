@@ -4,8 +4,9 @@
 import { Share2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Listing } from "@prisma/client";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
+import { ListingTitles } from "@/types/listing.types";
 
 interface ShareListingButtonProps {
   listing: Listing;
@@ -20,7 +21,9 @@ export default function ShareListingButton({
   const shareUrl = `https://adresa-next.vercel.app/listing/${listing.listingNumber}`;
 
   // Create sharing text with listing details
-  const shareTitle = `${listing.title} - ${listing.price}€`;
+  const locale = useLocale();
+  const title = listing[`${locale}Title` as keyof ListingTitles] || "";
+  const shareTitle = `${title} - ${listing.price}€`;
   const shareDescription = `${listing.area}m² ${listing.transactionType} in ${listing.municipality}, ${listing.place}`;
 
   const shareOptions = [

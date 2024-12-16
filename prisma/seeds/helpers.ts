@@ -48,123 +48,123 @@ type PrismaTransaction = Parameters<
 >[0];
 
 const password = "test123";
-async function generateAgencyAccount(idx: number) {
-  const newAccountData = {
-    id: idx + 500,
-    email: `agency${idx}@test.com`,
-    hashedPassword: await new Argon2id().hash(password),
-    role: AccountType.AGENCY,
-    emailVerified: new Date(),
-  };
-  const newAgencyAccount = await prismadb.account.upsert({
-    where: {
-      // we need to make sure that the account is unique, Users start from 100, Agencies start from 500
-      id: newAccountData.id,
-      email: newAccountData.email,
-    },
-    create: newAccountData,
-    update: {},
-  });
+// async function generateAgencyAccount(idx: number) {
+//   const newAccountData = {
+//     id: idx + 500,
+//     email: `agency${idx}@test.com`,
+//     hashedPassword: await new Argon2id().hash(password),
+//     role: AccountType.AGENCY,
+//     emailVerified: new Date(),
+//   };
+//   const newAgencyAccount = await prismadb.account.upsert({
+//     where: {
+//       // we need to make sure that the account is unique, Users start from 100, Agencies start from 500
+//       id: newAccountData.id,
+//       email: newAccountData.email,
+//     },
+//     create: newAccountData,
+//     update: {},
+//   });
 
-  return newAgencyAccount;
-}
-async function generateUserAccount(idx: number) {
-  const newAccountData = {
-    id: idx + 100,
-    email: `user${idx}@test.com`,
-    hashedPassword: await new Argon2id().hash(password),
-    role: AccountType.USER,
-    emailVerified: new Date(),
-  };
-  const newUserAccount = await prismadb.account.upsert({
-    where: {
-      id: newAccountData.id,
-      email: newAccountData.email,
-    },
-    create: newAccountData,
-    update: {},
-  });
+//   return newAgencyAccount;
+// }
+// async function generateUserAccount(idx: number) {
+//   const newAccountData = {
+//     id: idx + 100,
+//     email: `user${idx}@test.com`,
+//     hashedPassword: await new Argon2id().hash(password),
+//     role: AccountType.USER,
+//     emailVerified: new Date(),
+//   };
+//   const newUserAccount = await prismadb.account.upsert({
+//     where: {
+//       id: newAccountData.id,
+//       email: newAccountData.email,
+//     },
+//     create: newAccountData,
+//     update: {},
+//   });
 
-  return newUserAccount;
-}
-async function generateUserProfile(account: Account, idx: number) {
-  const newUserData = {
-    id: idx + 100,
-    uuid: account.uuid,
-    accountId: account.id,
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    phone: faker.phone.number({ style: "national" }),
-    phoneVerified: new Date(),
-    pictureUrl: faker.image.avatar(),
-    contactName: faker.person.fullName(),
-    contactPhone: faker.phone.number({ style: "national" }),
-    contactPhoneVerified: new Date(),
-    contactEmail: faker.internet.email(),
-    contactEmailVerified: new Date(),
-    contactHours: faker.helpers.arrayElement(contactHoursOptions),
-    preferredContactMethod: faker.helpers.arrayElement(
-      preferredContactMethodOptions,
-    ),
-  };
-  console.log("Adding new user profile", newUserData);
-  const user = await prismadb.user.upsert({
-    where: {
-      id: newUserData.id,
-    },
-    create: newUserData,
-    update: {},
-  });
+//   return newUserAccount;
+// }
+// async function generateUserProfile(account: Account, idx: number) {
+//   const newUserData = {
+//     id: idx + 100,
+//     uuid: account.uuid,
+//     accountId: account.id,
+//     firstName: faker.person.firstName(),
+//     lastName: faker.person.lastName(),
+//     phone: faker.phone.number({ style: "national" }),
+//     phoneVerified: new Date(),
+//     pictureUrl: faker.image.avatar(),
+//     contactName: faker.person.fullName(),
+//     contactPhone: faker.phone.number({ style: "national" }),
+//     contactPhoneVerified: new Date(),
+//     contactEmail: faker.internet.email(),
+//     contactEmailVerified: new Date(),
+//     contactHours: faker.helpers.arrayElement(contactHoursOptions),
+//     preferredContactMethod: faker.helpers.arrayElement(
+//       preferredContactMethodOptions,
+//     ),
+//   };
+//   console.log("Adding new user profile", newUserData);
+//   const user = await prismadb.user.upsert({
+//     where: {
+//       id: newUserData.id,
+//     },
+//     create: newUserData,
+//     update: {},
+//   });
 
-  return user;
-}
-async function generateAgencyProfile(account: Account, idx: number) {
-  const gpsLocation = faker.helpers.arrayElement(randomSkopjeCoordinates);
-  const newAgencyData = {
-    uuid: account.uuid,
-    accountId: account.id,
-    name: faker.company.name(),
-    slug: faker.helpers.slugify(faker.company.name()),
-    address: faker.location.streetAddress(),
-    website: faker.internet.url(),
-    phone: faker.phone.number({ style: "national" }),
-    phoneVerified: new Date(),
-    logoUrl: faker.image.avatar(),
-    workHours: faker.helpers.arrayElement([
-      "9:00 AM - 5:00 PM",
-      "10:00 AM - 6:00 PM",
-      "11:00 AM - 7:00 PM",
-    ]),
-    gpsLocation: `${gpsLocation.lng},${gpsLocation.lat}`,
-    description: faker.lorem.paragraph(),
-    shortDescription: faker.lorem.sentence(),
-    branding: faker.helpers.arrayElement([""]),
+//   return user;
+// }
+// async function generateAgencyProfile(account: Account, idx: number) {
+//   const gpsLocation = faker.helpers.arrayElement(randomSkopjeCoordinates);
+//   const newAgencyData = {
+//     uuid: account.uuid,
+//     accountId: account.id,
+//     name: faker.company.name(),
+//     slug: faker.helpers.slugify(faker.company.name()),
+//     address: faker.location.streetAddress(),
+//     website: faker.internet.url(),
+//     phone: faker.phone.number({ style: "national" }),
+//     phoneVerified: new Date(),
+//     logo: faker.image.avatar(),
+//     workHours: faker.helpers.arrayElement([
+//       "9:00 AM - 5:00 PM",
+//       "10:00 AM - 6:00 PM",
+//       "11:00 AM - 7:00 PM",
+//     ]),
+//     gpsLocation: `${gpsLocation.lng},${gpsLocation.lat}`,
+//     description: faker.lorem.paragraph(),
+//     shortDescription: faker.lorem.sentence(),
+//     branding: faker.helpers.arrayElement([""]),
 
-    ownerFirstName: faker.person.firstName(),
-    ownerLastName: faker.person.lastName(),
-    ownerEmail: faker.internet.email(),
-    ownerPhone: faker.phone.number({ style: "national" }),
+//     ownerFirstName: faker.person.firstName(),
+//     ownerLastName: faker.person.lastName(),
+//     ownerEmail: faker.internet.email(),
+//     ownerPhone: faker.phone.number({ style: "national" }),
 
-    contactPersonFullName: faker.person.fullName(),
-    contactPersonEmail: faker.internet.email(),
-    contactPersonPhone: faker.phone.number({ style: "national" }),
-    preferredContactMethod: faker.helpers.arrayElement(
-      preferredContactMethodOptions,
-    ),
-    contactHours: faker.helpers.arrayElement(contactHoursOptions),
-  };
-  console.log("Adding new agency profile", newAgencyData);
+//     contactPersonFullName: faker.person.fullName(),
+//     contactPersonEmail: faker.internet.email(),
+//     contactPersonPhone: faker.phone.number({ style: "national" }),
+//     preferredContactMethod: faker.helpers.arrayElement(
+//       preferredContactMethodOptions,
+//     ),
+//     contactHours: faker.helpers.arrayElement(contactHoursOptions),
+//   };
+//   console.log("Adding new agency profile", newAgencyData);
 
-  const agency = await prismadb.agency.upsert({
-    where: {
-      id: idx + 100,
-    },
-    create: newAgencyData,
-    update: {},
-  });
+//   const agency = await prismadb.agency.upsert({
+//     where: {
+//       id: idx + 100,
+//     },
+//     create: newAgencyData,
+//     update: {},
+//   });
 
-  return agency;
-}
+//   return agency;
+// }
 // Helper function to process listings in batches
 async function processBatch(promises: Promise<any>[], batchSize: number) {
   const batches = [];
@@ -243,12 +243,12 @@ export async function generateListings(
       Object.values(LocationPrecision),
     );
 
-    const title = faker.lorem.sentence();
-    const mkdTitle = "MKD: " + title;
-    const albTitle = "ALB: " + title;
-    const description = faker.lorem.paragraph();
-    const mkdDescription = "MKD: " + description;
-    const albDescription = "ALB: " + description;
+    const enTitle = faker.lorem.sentence();
+    const mkTitle = "MKD: " + enTitle;
+    const alTitle = "ALB: " + enTitle;
+    const enDescription = faker.lorem.paragraph({ min: 2, max: 4 });
+    const mkDescription = "MKD: " + enDescription;
+    const alDescription = "ALB: " + enDescription;
 
     const price = faker.number.int({ min: 5000, max: 300000 });
     const previousPrice = faker.helpers.arrayElement([
@@ -314,12 +314,12 @@ export async function generateListings(
       latitude: latitude,
       longitude: longitude,
       locationPrecision: locationPrecision,
-      title: title,
-      mkdTitle: mkdTitle,
-      albTitle: albTitle,
-      description: description,
-      mkdDescription: mkdDescription,
-      albDescription: albDescription,
+      enTitle: enTitle,
+      mkTitle: mkTitle,
+      alTitle: alTitle,
+      enDescription: enDescription,
+      mkDescription: mkDescription,
+      alDescription: alDescription,
       price: price,
       previousPrice: previousPrice,
       priceHistory: { set: null },
@@ -611,7 +611,17 @@ export async function generateAgencyAccounts() {
             website: faker.internet.url(),
             phone: faker.phone.number({ style: "national" }),
             phoneVerified: new Date(),
-            logoUrl: faker.image.avatar(),
+            logo: {
+              url: faker.image.avatar(),
+              name: "",
+              size: 0,
+              key: "",
+              lastModified: new Date().getTime(),
+              type: "",
+              fileHash: "",
+              appUrl: "",
+              customId: "",
+            } as UploadedImageData,
             workHours: faker.helpers.arrayElement([
               "9:00 AM - 5:00 PM",
               "10:00 AM - 6:00 PM",
@@ -703,12 +713,12 @@ async function generateListingsInTransaction(
       Object.values(LocationPrecision),
     );
 
-    const title = faker.lorem.sentence();
-    const mkdTitle = "MKD: " + title;
-    const albTitle = "ALB: " + title;
-    const description = faker.lorem.paragraph();
-    const mkdDescription = "MKD: " + description;
-    const albDescription = "ALB: " + description;
+    const enTitle = faker.lorem.sentence();
+    const mkTitle = "MKD: " + enTitle;
+    const alTitle = "ALB: " + enTitle;
+    const enDescription = faker.lorem.paragraph({ min: 2, max: 4 });
+    const mkDescription = "MKD: " + enDescription;
+    const alDescription = "ALB: " + enDescription;
 
     const price = faker.number.int({ min: 5000, max: 300000 });
     const previousPrice = faker.helpers.arrayElement([
@@ -774,12 +784,12 @@ async function generateListingsInTransaction(
       latitude: latitude,
       longitude: longitude,
       locationPrecision: locationPrecision,
-      title: title,
-      mkdTitle: mkdTitle,
-      albTitle: albTitle,
-      description: description,
-      mkdDescription: mkdDescription,
-      albDescription: albDescription,
+      enTitle: enTitle,
+      mkTitle: mkTitle,
+      alTitle: alTitle,
+      enDescription: enDescription,
+      mkDescription: mkDescription,
+      alDescription: alDescription,
       price: price,
       previousPrice: previousPrice,
       priceHistory: { set: null },

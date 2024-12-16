@@ -110,7 +110,7 @@ CREATE TABLE "Agency" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
-    "logoUrl" TEXT NOT NULL,
+    "logo" TEXT NOT NULL,
     "address" TEXT NOT NULL,
     "gpsLocation" TEXT NOT NULL,
     "contactPerson" TEXT NOT NULL,

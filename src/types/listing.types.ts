@@ -144,3 +144,14 @@ export type UploadedImageData = {
   type: string;
   fileHash: string;
 };
+
+export interface ListingDescriptions {
+  enDescription: string;
+  mkDescription: string;
+  alDescription: string;
+}
+export interface ListingTitles {
+  enTitle: string;
+  mkTitle: string;
+  alTitle: string;
+}

@@ -20,6 +20,8 @@ import { displayDate } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
 import {
+  ListingDescriptions,
+  ListingTitles,
   ListingWithRelations,
   listingWithRelationsInclude,
   UploadedImageData,
@@ -68,18 +70,21 @@ interface SingleListingPageProps {
     listingNumber: string;
   }>;
 }
+
 export async function generateMetadata({
   params,
 }: SingleListingPageProps): Promise<Metadata> {
   const { listingNumber } = await params;
   const listing = await getListing(Number(listingNumber)); // Your listing fetch function
-
+  const locale = await getLocale();
   const images = listing.images as UploadedImageData[];
+  const title = listing[`${locale}Title` as keyof ListingTitles] || "";
+
   return {
-    title: `${listing.title} - ${listing.price}€`,
+    title: `${title} - ${listing.price}€`,
     description: `${listing.area}m² ${listing.transactionType} in ${listing.municipality}, ${listing.place}`,
     openGraph: {
-      title: `${listing.title} - ${listing.price}€`,
+      title: `${title} - ${listing.price}€`,
       description: `${listing.area}m² ${listing.transactionType} in ${listing.municipality}, ${listing.place}`,
       url: `${process.env.NEXT_PUBLIC_APP_URL}/listing/${listing.listingNumber}`,
       images: [
@@ -87,7 +92,7 @@ export async function generateMetadata({
           url: images[0].url || "", // First image or default
           width: 1200,
           height: 630,
-          alt: listing.title || "",
+          alt: title,
         },
       ],
       type: "website",
@@ -148,17 +153,9 @@ export default async function SingleListingPage({
     (place) => place.value === listing.place,
   )?.label;
 
-  let description = "";
-  if (locale === "mk" && listing.mkdDescription)
-    description = listing.mkdDescription;
-  if (locale === "al" && listing.albDescription)
-    description = listing.albDescription;
-  if (locale === "en" && listing.description) description = listing.description;
-
-  let title = "";
-  if (locale === "mk" && listing.mkdTitle) title = listing.mkdTitle;
-  if (locale === "al" && listing.albTitle) title = listing.albTitle;
-  if (locale === "en" && listing.title) title = listing.title;
+  let description =
+    listing[`${locale}Description` as keyof ListingDescriptions] || "";
+  let title = listing[`${locale}Title` as keyof ListingTitles] || "";
 
   const fullAddress = `${currentMunicipalityLabel}, ${currentPlaceLabel}, ${listing.address}`;
   // const rawListing = await getListing(listingNumber);
@@ -270,6 +267,7 @@ export default async function SingleListingPage({
               <p className="my-2.5 text-xl font-light">{fullAddress}</p>
               <div className="mb-10 h-[276px] overflow-hidden border">
                 <MapLocationPreview
+                  locationPrecision={listing.locationPrecision}
                   latitude={listing.latitude}
                   longitude={listing.longitude}
                 />

@@ -7,6 +7,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import prismadb from "@/lib/db";
+import { UploadedImageData } from "@/types/listing.types";
 import { Building, SearchCheck, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -17,7 +18,7 @@ export default async function SuggestedAgencies() {
     select: {
       id: true,
       name: true,
-      logoUrl: true,
+      logo: true,
       _count: {
         select: {
           listings: true,
@@ -41,6 +42,9 @@ export default async function SuggestedAgencies() {
         <CarouselContent className="flex max-w-[900px] gap-2 p-2 px-3">
           {agencies.map((agency) => {
             // console.log(agency.listings[0]);
+            const logoUrl =
+              (agency.logo as UploadedImageData)?.url ||
+              "/assets/missing-image2.jpg";
             return (
               <CarouselItem
                 key={agency.id}
@@ -49,7 +53,7 @@ export default async function SuggestedAgencies() {
                 <div className="flex flex-col items-center justify-center rounded bg-white p-4">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={agency.logoUrl || "/assets/missing-image2.jpg"}
+                    src={logoUrl}
                     alt={agency.name || ""}
                     className="h-[86px] w-[112px]"
                   />

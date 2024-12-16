@@ -38,6 +38,7 @@ import {
   getMunicipalityPlaces,
 } from "@/lib/data/macedonia/importantData";
 import { randomPropertyImagesCollection } from "@/lib/data/listing/exampleData";
+import { UploadedImageData } from "@/types/listing.types";
 
 const password = "test123";
 async function generateAgencyAccount(idx: number) {
@@ -121,7 +122,17 @@ async function generateAgencyProfile(account: Account, idx: number) {
     website: faker.internet.url(),
     phone: faker.phone.number({ style: "national" }),
     phoneVerified: new Date(),
-    logoUrl: faker.image.avatar(),
+    logo: {
+      url: faker.image.avatar(),
+      name: "",
+      size: 0,
+      key: "",
+      lastModified: new Date().getTime(),
+      type: "",
+      fileHash: "",
+      appUrl: "",
+      customId: "",
+    } as UploadedImageData,
     workHours: faker.helpers.arrayElement([
       "9:00 AM - 5:00 PM",
       "10:00 AM - 6:00 PM",
@@ -202,12 +213,12 @@ export async function generateListings(
       Object.values(LocationPrecision),
     );
 
-    const title = faker.lorem.sentence();
-    const mkdTitle = "MKD: " + title;
-    const albTitle = "ALB: " + title;
-    const description = faker.lorem.paragraph();
-    const mkdDescription = "MKD: " + description;
-    const albDescription = "ALB: " + description;
+    const enTitle = faker.lorem.sentence();
+    const mkTitle = "MKD: " + enTitle;
+    const alTitle = "ALB: " + enTitle;
+    const enDescription = faker.lorem.paragraph();
+    const mkDescription = "MKD: " + enDescription;
+    const alDescription = "ALB: " + enDescription;
 
     const price = faker.number.int({ min: 5000, max: 300000 });
     const previousPrice = faker.helpers.arrayElement([
@@ -258,12 +269,12 @@ export async function generateListings(
       latitude: latitude,
       longitude: longitude,
       locationPrecision: locationPrecision,
-      title: title,
-      mkdTitle: mkdTitle,
-      albTitle: albTitle,
-      description: description,
-      mkdDescription: mkdDescription,
-      albDescription: albDescription,
+      enTitle: enTitle,
+      mkTitle: mkTitle,
+      alTitle: alTitle,
+      enDescription: enDescription,
+      mkDescription: mkDescription,
+      alDescription: alDescription,
       price: price,
       previousPrice: previousPrice,
       priceHistory: { set: null },

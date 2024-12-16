@@ -19,7 +19,6 @@ export const randomPropertyImagesCollection = [
   "https://img.halooglasi.com/slike/oglasi/Thumbs/231201/l/elitna-novogradnja-kompleks-modna-5425643937711-71806485966.jpg",
   "https://img.halooglasi.com/slike/oglasi/Thumbs/231201/l/elitna-novogradnja-kompleks-modna-5425643937711-71806485968.jpg",
   "https://img.halooglasi.com/slike/oglasi/Thumbs/231201/l/elitna-novogradnja-kompleks-modna-5425643937711-71806485970.jpg",
-  "https://img.halooglasi.com/slike/oglasi/Thumbs/240419/l/elitna-novogradnja-kod-crkve-svete-petke-5425643937711-71807961884.jpg",
   "https://img.halooglasi.com/slike/oglasi/Thumbs/231201/l/elitna-novogradnja-kompleks-modna-5425643937711-71806485954.jpg",
   "https://img.halooglasi.com/slike/oglasi/Thumbs/231201/l/elitna-novogradnja-kompleks-modna-5425643937711-71806485967.jpg",
   "https://img.halooglasi.com/slike/oglasi/Thumbs/231201/l/elitna-novogradnja-kompleks-modna-5425643937711-71806485969.jpg",

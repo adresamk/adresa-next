@@ -85,7 +85,7 @@ model Agency {
   website          String?   @db.VarChar(50)
   phone            String?   @db.VarChar(20)
   phoneVerified    DateTime?
-  logoUrl          String?   @db.VarChar(200)
+  logo             Json?
   workHours        String?   @db.VarChar(250) // Text area so we allow more characters
   gpsLocation      String?   @db.VarChar(30) // lng,lat (6 decimal rounded) 
   description      String?   @db.VarChar(2000)
@@ -274,21 +274,21 @@ model Listing {
   locationPrecision LocationPrecision? @default(exact)
 
   // Main Characteristics
-  title          String? @default("") @db.VarChar(120) // Title that will show up in listing that they wanted
-  mkdTitle       String? @default("") @db.VarChar(120) // 
-  albTitle       String? @default("") @db.VarChar(120) // 
-  description    String? @db.VarChar(5000)
-  mkdDescription String? @db.VarChar(5000)
-  albDescription String? @db.VarChar(5000)
+  enTitle       String? @default("") @db.VarChar(120) // Title that will show up in listing that they wanted
+  mkTitle       String? @default("") @db.VarChar(120) // 
+  alTitle       String? @default("") @db.VarChar(120) // 
+  enDescription String? @db.VarChar(5000)
+  mkDescription String? @db.VarChar(5000)
+  alDescription String? @db.VarChar(5000)
   // --
-  price          Int?
-  previousPrice  Int?
-  priceHistory   Json?
-  area           Int?
+  price         Int?
+  previousPrice Int?
+  priceHistory  Json?
+  area          Int?
   // Images and Video
-  mainImage      Json    @default("{}") //UploadedImageData img will be hosted elsewhere, used to showcase the listing, usually first image in array
-  images         Json    @default("[]") //array of UploadedImageData JSON 
-  videoLink      String? @db.VarChar(120) // youtube or vimeo for the property
+  mainImage     Json    @default("{}") //UploadedImageData img will be hosted elsewhere, used to showcase the listing, usually first image in array
+  images        Json    @default("[]") //array of UploadedImageData JSON 
+  videoLink     String? @db.VarChar(120) // youtube or vimeo for the property
 
   // Publishing info
   status         ListingStatus @default(DRAFT)

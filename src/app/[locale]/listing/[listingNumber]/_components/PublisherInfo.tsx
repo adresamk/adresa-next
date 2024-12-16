@@ -1,5 +1,6 @@
 import RevealButton from "@/components/shared/RevealButton";
 import { Link } from "@/i18n/routing";
+import { UploadedImageData } from "@/types/listing.types";
 import { Agency, User } from "@prisma/client";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
@@ -14,13 +15,14 @@ export default async function PublisherInfo({
 }: PublisherInfoProps) {
   const t = await getTranslations("");
   if (agency) {
+    const logoUrl = (agency.logo as UploadedImageData)?.url || "";
     return (
       <div className="flex flex-row-reverse justify-end gap-4">
-        {agency.logoUrl && (
+        {logoUrl && (
           <Link href={`/agency/${agency.slug}`}>
             <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl px-8 py-4">
               <Image
-                src={agency.logoUrl}
+                src={logoUrl}
                 alt={`${agency.name || ""} logo`}
                 width={200}
                 height={130}

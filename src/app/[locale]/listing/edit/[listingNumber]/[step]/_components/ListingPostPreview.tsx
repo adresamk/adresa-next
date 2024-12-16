@@ -1,5 +1,5 @@
 import { displayArea, displayPrice } from "@/lib/utils";
-import { UploadedImageData } from "@/types/listing.types";
+import { ListingTitles, UploadedImageData } from "@/types/listing.types";
 import { Listing } from "@prisma/client";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -44,11 +44,8 @@ export default function ListingPostPreview({
           </div>
         </div>
         <div className="mt-4 lg:mt-0">
-          <h5>
-            {locale === "en" && <span>{listing.title}</span>}
-            {locale === "mk" && <span>{listing.mkdTitle}</span>}
-            {locale === "alb" && <span>{listing.albTitle}</span>}
-          </h5>
+          {/* ts-ignore */}
+          <h5>{listing[`${locale}Title` as keyof ListingTitles] || ""}</h5>
           <div>
             <p className="mb-2">
               {t("listing.new.progress.steps.publish.listingId")}

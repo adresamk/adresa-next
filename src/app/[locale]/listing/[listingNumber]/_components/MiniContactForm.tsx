@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Listing } from "@prisma/client";
 import { Link } from "@/i18n/routing";
+import { UploadedImageData } from "@/types/listing.types";
 
 export default function MiniContactForm({ listing }: { listing: Listing }) {
   const [name, setName] = useState("");
@@ -113,7 +114,7 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
                     className="h-full w-full object-fill"
                     width={100}
                     height={60}
-                    src={agency.logoUrl || ""}
+                    src={(agency.logo as UploadedImageData)?.url || ""}
                     alt={agency.name + " Logo"}
                   />
                 </div>

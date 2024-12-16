@@ -4,6 +4,7 @@ import { House, Store } from "lucide-react";
 import prismadb from "@/lib/db";
 import { getTranslations } from "next-intl/server";
 import PopularAgencyProperties from "./PopularAgencyProperties";
+import { UploadedImageData } from "@/types/listing.types";
 
 export default async function AgencyPage({
   params,
@@ -23,6 +24,8 @@ export default async function AgencyPage({
     return <div>{t("agency.notFound")}</div>;
   }
 
+  const logoUrl =
+    (agency.logo as UploadedImageData)?.url || "/assets/missing-image2.jpg";
   return (
     <main className="min-h-screen">
       <div
@@ -39,7 +42,7 @@ export default async function AgencyPage({
             <div className="mb-5 flex gap-3">
               <div className="flex items-center justify-center rounded-xl border border-slate-400 bg-white px-5 py-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={agency.logoUrl || ""} alt={agency.name || ""} />
+                <img src={logoUrl} alt={agency.name || ""} />
               </div>
               <div className="flex flex-col justify-between py-2">
                 <p>{agency.shortDescription}</p>

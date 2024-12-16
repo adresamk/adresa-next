@@ -13,6 +13,7 @@ import { redirect } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import { SelectDemo } from "@/components/shared/SelectDemo";
 import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
+import { UploadedImageData } from "@/types/listing.types";
 
 type Params = Promise<Record<string, string>>;
 
@@ -101,17 +102,17 @@ export default async function AgencyProfileDetailsPage({
 
         {/* Agency Logo */}
         <div className="mb-2 flex flex-col gap-3">
-          <Label htmlFor="logoUrl">
+          <Label htmlFor="logo">
             {t("agency.profile.details.agencyLogo")}{" "}
             <span className="text-red-500">*</span>
           </Label>
-          <AgencyLogoUpload existingLogo={agency?.logoUrl} />
+          <AgencyLogoUpload existingLogo={agency?.logo as UploadedImageData} />
           {/* <Input
-            id="logoUrl"
+            id="logo"
             required
-            defaultValue={agency?.logoUrl || ""}
-            name="logoUrl"
-            placeholder="logoUrl"
+            defaultValue={agency?.logo || ""}
+            name="logo"
+            placeholder="logo"
           />
            */}
         </div>

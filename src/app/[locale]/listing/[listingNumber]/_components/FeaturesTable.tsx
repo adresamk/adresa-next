@@ -4,6 +4,7 @@ import {
   displayArea,
   displayDate,
   displayPrice,
+  displayPriceMonthly,
   displayPricePerSquare,
 } from "@/lib/utils";
 import { ListingWithRelations } from "@/types/listing.types";
@@ -14,8 +15,15 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
   const lwr = listing as ListingWithRelations;
 
   const features = {
-    price: displayPrice(listing.price),
-    pricePerSquare: displayPricePerSquare(listing.price, listing.area),
+    price:
+      listing.transactionType === "sale"
+        ? displayPrice(listing.price, "EUR")
+        : displayPriceMonthly(
+            listing.price,
+            "EUR",
+            t("MortgageCalculator.month"),
+          ),
+    pricePerSquare: displayPricePerSquare(listing.price, listing.area, "EUR"),
     area: displayArea(listing.area),
     ...(lwr.residential && {
       floor: lwr.residential.floor,
@@ -28,10 +36,20 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
       wcCount: lwr.residential.wcCount,
       constructionYear: lwr.residential.constructionYear,
       totalPropertyArea: lwr.residential.totalPropertyArea,
-      isFurnished: lwr.residential.isFurnished,
-      isForStudents: lwr.residential.isForStudents,
-      isForHolidayHome: lwr.residential.isForHolidayHome,
-      commonExpenses: lwr.residential.commonExpenses,
+      isFurnished: lwr.residential.isFurnished
+        ? t("common.buttons.yes")
+        : t("common.buttons.no"),
+      isForStudents: lwr.residential.isForStudents
+        ? t("common.buttons.yes")
+        : t("common.buttons.no"),
+      isForHolidayHome: lwr.residential.isForHolidayHome
+        ? t("common.buttons.yes")
+        : t("common.buttons.no"),
+      commonExpenses: displayPriceMonthly(
+        lwr.residential.commonExpenses,
+        "EUR",
+        t("MortgageCalculator.month"),
+      ),
       heatingType: lwr.residential.heatingType,
       heatingMedium: lwr.residential.heatingMedium,
     }),
