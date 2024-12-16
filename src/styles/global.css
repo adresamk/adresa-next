@@ -156,16 +156,242 @@ button.reveal-button {
 
 /* Map Markers */
 
-.icon-combo {
+/* .icon-combo {
   display: grid;
   grid-template-rows: auto auto;
   width: 100%;
 }
 .icon-combo > *:first-child {
   position: absolute;
-  z-index: 1000;
+  z-index: 800;
+  display: block;
 }
-.icon-combo > *:last-child {
+.icon-combo:hover > *:first-child {
   position: absolute;
-  z-index: 1010;
+  display: block;
+  z-index: 1000;
+  } */
+
+.icon-combo > *:first-child {
+  position: relative;
+}
+.icon-combo > *:first-child:hover {
+  z-index: 1010 !important;
+}
+.leaflet-marker-icon .icon-combo > *:first-child:hover ~ .leaflet-marker-icon,
+.leaflet-marker-icon:has(.icon-combo > *:first-child:hover) {
+  z-index: 7000 !important;
+  /* background: dodgerblue !important; */
+}
+.leaflet-marker-icon .icon-combo > *:first-child:hover ~ .leaflet-marker-icon,
+.icon-combo:has(> *:first-child:hover)::before {
+  visibility: visible;
+}
+.leaflet-marker-icon .icon-combo.zoom-deep:hover {
+  z-index: 7000 !important;
+  background: dodgerblue !important;
+}
+
+.icon-combo.area-2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 40px;
+  height: 40px;
+  background: rgb(147 197 253 / 0.32);
+  left: -13px;
+  top: -12px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+.icon-combo.area-3::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 60px;
+  height: 60px;
+  background: rgb(147 197 253 / 0.32);
+  left: -12px;
+  top: -12px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+.icon-combo.area-4::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 80px;
+  height: 80px;
+  background: rgb(147 197 253 / 0.32);
+  left: -31px;
+  top: -31px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+/* 
+.icon-combo.area-5::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 125px;
+  height: 125px;
+  background: rgb(147 197 253 / 0.32);
+  left: -33px;
+  top: -48px;
+  border-radius: 100%;
+  visibility: hidden;
+} */
+
+.icon-combo.area-5::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 125px;
+  height: 125px;
+  background: rgb(147 197 253 / 0.32);
+  left: -33px;
+  top: -48px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+.icon-combo.area-5:hover ~ .icon-combo::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 40px;
+  height: 40px;
+  background: rgb(147 197 253 / 0.32);
+  left: -13px;
+  top: -12px;
+  border-radius: 100%;
+  visibility: visible; /* Make it visible when hovered */
+}
+
+.icon-combo.area-6::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 160px;
+  height: 160px;
+  background: rgb(147 197 253 / 0.32);
+  left: -67px;
+  top: -52px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+.icon-combo.area-7::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 210px;
+  height: 210px;
+  background: rgb(147 197 253 / 0.32);
+  left: -77px;
+  top: -87px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+.icon-combo.area-9::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 270px;
+  height: 270px;
+  background: rgb(147 197 253 / 0.32);
+  left: -124px;
+  top: -100px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+.icon-combo.area-10::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 330px;
+  height: 330px;
+  background: rgb(147 197 253 / 0.32);
+  left: -139px;
+  top: -141px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+.icon-combo.area-14::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 420px;
+  height: 420px;
+  background: rgb(147 197 253 / 0.32);
+  left: -195px;
+  top: -181px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+.icon-combo.area-15::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 450px;
+  height: 450px;
+  background: rgb(147 197 253 / 0.32);
+  left: -218px;
+  top: -193px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+.icon-combo.area-21::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 50 !important;
+  pointer-events: none;
+  width: 600px;
+  height: 600px;
+  border: 1px solid dodgerblue;
+  background: rgb(147 197 253 / 0.32);
+  left: -285px;
+  top: -265px;
+  border-radius: 100%;
+  visibility: hidden;
+}
+
+/* Must use important to override the inline style z-index from leaflet */
+.area-pin-icon {
+  z-index: 50 !important;
+}
+.featured-pin {
+  z-index: 300 !important;
 }

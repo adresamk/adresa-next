@@ -29,65 +29,10 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import ZoomTracker from "./ZoomTracker";
 import ActiveListing from "./ActiveListing";
 import { useTranslations } from "next-intl";
+import { getMapPinIcon } from "@/components/shared/map/helpers";
 
 const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
 const agencyLocation: LatLngExpression = [41.99564, 21.428277];
-
-function getListingIcon(listing: Listing, zoom: number) {
-  let htmlMarkup = null;
-  if (listing.locationPrecision === "exact") {
-    htmlMarkup = (
-      <div className="relative left-1/2 w-fit -translate-x-1/2 text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
-        {displayPrice(listing.price)}
-      </div>
-    );
-  }
-
-  if (listing.locationPrecision === "approximate") {
-    htmlMarkup = (
-      <div
-        className={cn(
-          "group relative -left-2 -top-2 h-4 w-4 rounded-full border border-white bg-brand-light-blue text-transparent",
-          zoom === 16 && "hover:shadow-blue-glow",
-          zoom === 17 && "hover:shadow-blue-glow-bigger",
-          zoom >= 18 && "hover:shadow-blue-glow-biggest",
-        )}
-      ></div>
-    );
-  }
-
-  if (listing.locationPrecision === "wide") {
-    htmlMarkup = (
-      <div className="relative -left-[3px] -top-[8px]">
-        <svg
-          version="1.0"
-          xmlns="http://www.w3.org/2000/svg"
-          width="18px"
-          height="18px"
-          viewBox="0 0 512.000000 512.000000"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <g
-            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-            fill="#0069fe"
-            stroke="red"
-            strokeWidth={2}
-          >
-            <path
-              d="M2385 5114 c-670 -70 -1186 -403 -1440 -929 -115 -237 -185 -557
--185 -844 0 -446 336 -1197 983 -2196 277 -429 785 -1135 816 -1135 10 0 333
-443 533 730 843 1212 1268 2083 1268 2598 0 286 -72 616 -184 847 -238 487
--697 810 -1296 910 -91 15 -412 28 -495 19z"
-            />
-          </g>
-        </svg>
-      </div>
-    );
-  }
-  return divIcon({
-    html: renderToStaticMarkup(htmlMarkup!),
-  });
-}
 
 export default function SearchMap({
   listings,
@@ -123,33 +68,6 @@ export default function SearchMap({
   }
   const mapMovedWithoutSearching = resultsFilters !== mapFilters;
 
-  const handlePopupPosition = (popup: L.Popup, position: LatLngExpression) => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    const mapBounds = map.getBounds();
-    const popupWidth = 150; // Approximate width of the popup
-    const offset = 10; // Margin from the marker
-
-    if (mapBounds.contains(position)) {
-      const popupLatLng = L.latLng(position);
-      const markerPoint = map.project(popupLatLng);
-
-      const offsetDirection =
-        markerPoint.x + popupWidth + offset > map.getSize().x
-          ? "left"
-          : "right";
-
-      const popupOptions: L.PopupOptions = {
-        offset:
-          offsetDirection === "right"
-            ? [popupWidth / 2 + offset, 0]
-            : [-popupWidth / 2 - offset, 0],
-      };
-
-      popup.setLatLng(position).options = popupOptions;
-    }
-  };
   let timeoutId: NodeJS.Timeout | null = null;
 
   const MapClickHandler = () => {
@@ -226,61 +144,32 @@ export default function SearchMap({
           />
           <MapClickHandler />
           <LayerGroup>
-            {listings.map((listing) => {
-              const handleMouseOver = (e: LeafletMouseEvent) => {
-                console.log(e);
-                console.log(e.target);
-                e.target.openPopup();
-                const popupContainer = e.target.getPopup()._container;
-                // setTimeout(() => {
-                //   popupContainer.style.transform = "translate3d(0px, 0px, 0px)";
-                //   popupContainer.style.top = "20px";
-                //   popupContainer.style.bottom = "unset";
-                //   popupContainer.style.left = "20px";
-                //   popupContainer.addEventListener("mouseout", () => {
-                //     setTimeout(() => {
-                //       e.target.closePopup();
-                //     }, 50);
-                //   });
-                // }, 5);
-                // console.log(popupContainer);
-              };
-
-              return (
-                <Marker
-                  icon={getListingIcon(listing, zoom)}
-                  key={listing.id}
-                  position={
-                    [listing.latitude, listing.longitude] as LatLngExpression
-                  }
-                  eventHandlers={{
-                    click: (e) => {
-                      // hopefully this catches the click before render
-                      // setSearchOnMove(false);
-                      setActiveListing(listing);
-                    },
-                    // mouseover: handleMouseOver,
-                    // mouseout: handleMouseOut,
-                  }}
-                >
-                  {/* <Popup
-                    ref={popupRef}
-                    autoPan={true}
-                    autoPanPadding={[10, 10]}
-                    // // keepInView={true}
-                    // eventHandlers={{
-                    //   popupopen: handlePopupOpened,
-                    //   load: handlePopupOpened,
-                    //   popupclose: handlePopupClosed,
-                    //   // mouseover: handlePopupMouseEnter,
-                    //   // mouseout: handlePopupMouseLeave,
-                    // }}
-                  >
-                    <ListingMapCard listing={listing} />
-                  </Popup> */}
-                </Marker>
-              );
-            })}
+            {listings
+              .toSorted((a, b) => (a.isPaidPromo ? -1 : 1))
+              .map((listing, idx) => {
+                return (
+                  <Marker
+                    icon={getMapPinIcon(
+                      "S",
+                      listing.locationPrecision,
+                      zoom,
+                      listing.isPaidPromo,
+                      false,
+                      listing,
+                      idx,
+                    )}
+                    key={listing.id}
+                    position={
+                      [listing.latitude, listing.longitude] as LatLngExpression
+                    }
+                    eventHandlers={{
+                      click: (e) => {
+                        setActiveListing(listing);
+                      },
+                    }}
+                  ></Marker>
+                );
+              })}
 
             {agency && (
               <Marker
