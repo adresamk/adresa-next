@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import ImagesCarousel from "./ImagesCarousel";
 import LikeListingButton from "./LikeListingButton";
 import { getUser } from "@/lib/auth";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import {
   ListingDescriptions,
   ListingWithFavoritedBy,
@@ -40,7 +40,7 @@ export default async function beListingsSearchShowcase({
     (e: any) => e.userId === user?.id,
   );
 
-  const locale = useLocale();
+  const locale = await getLocale();
   const images = listingRef.images as UploadedImageData[];
   const description =
     listingRef[`${locale}Description` as keyof ListingDescriptions] || "";

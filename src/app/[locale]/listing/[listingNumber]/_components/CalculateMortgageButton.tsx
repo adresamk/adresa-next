@@ -10,7 +10,18 @@ export default function CalculateMortgageButton({}: CalculateMortgageButtonProps
     <Button
       className="flex gap-2"
       onClick={() => {
-        window.location.href = "#mortgage-calculator";
+        const mortgageCalculator = document.getElementById(
+          "mortgage-calculator",
+        );
+        const headerOffset = 100;
+        const elementPosition =
+          mortgageCalculator?.getBoundingClientRect().top!;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
       }}
     >
       <Percent className="h-6 w-6 rounded-full bg-white p-1" stroke="#0069fe" />{" "}

@@ -16,7 +16,7 @@ import { ArrowLeft } from "lucide-react";
 import { AirVentIcon, Heart, Percent } from "lucide-react";
 import MiniContactForm from "./_components/MiniContactForm";
 import RevealButton from "@/components/shared/RevealButton";
-import { displayDate } from "@/lib/utils";
+import { displayArea, displayDate } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
 import {
@@ -141,7 +141,7 @@ export default async function SingleListingPage({
   console.log("Listing", {
     cateogry: listing.category,
     tType: listing.transactionType,
-    lF: lwr.listingFeatures,
+    // lF: lwr.listingFeatures,
   });
   const { municipality, places } = getMunicipalityPlacesTranslated(
     listing.municipality,
@@ -158,6 +158,7 @@ export default async function SingleListingPage({
   let title = listing[`${locale}Title` as keyof ListingTitles] || "";
 
   const fullAddress = `${currentMunicipalityLabel}, ${currentPlaceLabel}, ${listing.address}`;
+  const pinPopupText = `${t(`listing.type.${listing.type}`)}, ${displayArea(listing.area)}, ${currentPlaceLabel}, ${currentMunicipalityLabel}, `;
   // const rawListing = await getListing(listingNumber);
   // const listing = serializeDates(rawListing);
   // const publisherData = extractPublisherData(listing);
@@ -265,13 +266,10 @@ export default async function SingleListingPage({
                 {t("common.property.location")}
               </h3>
               <p className="my-2.5 text-xl font-light">{fullAddress}</p>
-              <div className="mb-10 h-[276px] overflow-hidden border">
-                <MapLocationPreview
-                  locationPrecision={listing.locationPrecision}
-                  latitude={listing.latitude}
-                  longitude={listing.longitude}
-                />
-              </div>
+              <MapLocationPreview
+                listing={listing}
+                pinPopupText={pinPopupText}
+              />
             </div>
             <Separator className="my-3 bg-slate-400" />
             {/* Mortgage Calculator */}

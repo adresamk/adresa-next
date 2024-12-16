@@ -271,7 +271,7 @@ model Listing {
   // Useful for map location
   longitude         Float?
   latitude          Float?
-  locationPrecision LocationPrecision? @default(exact)
+  locationPrecision LocationPrecision @default(exact)
 
   // Main Characteristics
   enTitle       String? @default("") @db.VarChar(120) // Title that will show up in listing that they wanted
