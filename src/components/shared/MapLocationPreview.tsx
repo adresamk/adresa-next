@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { Pin } from "lucide-react";
 import { exactPinIcon } from "./map/MapIcons";
 import { getMapPinIcon } from "./map/helpers";
+import ZoomTracker from "@/app/[locale]/search/_components/ZoomTracker";
 
 export default function MapLocationPreview({
   listing,
@@ -20,7 +21,7 @@ export default function MapLocationPreview({
 }) {
   const t = useTranslations();
   const { latitude, longitude, locationPrecision } = listing;
-
+  const [zoom, setZoom] = useState(11);
   if (!longitude || !latitude)
     return <div>{t("common.property.map.notSet")}</div>;
 
@@ -30,13 +31,17 @@ export default function MapLocationPreview({
   return (
     <div>
       <div className="mb-10 h-[276px] overflow-hidden border">
-        <MapContainer center={location} zoom={13} className="h-full w-full">
+        <MapContainer center={location} zoom={zoom} className="h-full w-full">
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution={t("map.attribution")}
           />
+          <ZoomTracker onZoomChange={setZoom} />
           {/* {locationPrecision === "exact" && <Marker position={location}></Marker>} */}
-          <Marker icon={getMapPinIcon(locationPrecision)} position={location}>
+          <Marker
+            icon={getMapPinIcon("SL", locationPrecision, zoom)}
+            position={location}
+          >
             {pinPopupText && (
               <Popup>
                 <p>{pinPopupText}</p>

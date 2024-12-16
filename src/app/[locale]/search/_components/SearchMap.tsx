@@ -30,6 +30,65 @@ import ZoomTracker from "./ZoomTracker";
 import ActiveListing from "./ActiveListing";
 import { useTranslations } from "next-intl";
 
+const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
+const agencyLocation: LatLngExpression = [41.99564, 21.428277];
+
+function getListingIcon(listing: Listing, zoom: number) {
+  let htmlMarkup = null;
+  if (listing.locationPrecision === "exact") {
+    htmlMarkup = (
+      <div className="relative left-1/2 w-fit -translate-x-1/2 text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
+        {displayPrice(listing.price)}
+      </div>
+    );
+  }
+
+  if (listing.locationPrecision === "approximate") {
+    htmlMarkup = (
+      <div
+        className={cn(
+          "group relative -left-2 -top-2 h-4 w-4 rounded-full border border-white bg-brand-light-blue text-transparent",
+          zoom === 16 && "hover:shadow-blue-glow",
+          zoom === 17 && "hover:shadow-blue-glow-bigger",
+          zoom >= 18 && "hover:shadow-blue-glow-biggest",
+        )}
+      ></div>
+    );
+  }
+
+  if (listing.locationPrecision === "wide") {
+    htmlMarkup = (
+      <div className="relative -left-[3px] -top-[8px]">
+        <svg
+          version="1.0"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18px"
+          height="18px"
+          viewBox="0 0 512.000000 512.000000"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g
+            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+            fill="#0069fe"
+            stroke="red"
+            strokeWidth={2}
+          >
+            <path
+              d="M2385 5114 c-670 -70 -1186 -403 -1440 -929 -115 -237 -185 -557
+-185 -844 0 -446 336 -1197 983 -2196 277 -429 785 -1135 816 -1135 10 0 333
+443 533 730 843 1212 1268 2083 1268 2598 0 286 -72 616 -184 847 -238 487
+-697 810 -1296 910 -91 15 -412 28 -495 19z"
+            />
+          </g>
+        </svg>
+      </div>
+    );
+  }
+  return divIcon({
+    html: renderToStaticMarkup(htmlMarkup!),
+  });
+}
+
 export default function SearchMap({
   listings,
   agency,
@@ -46,63 +105,7 @@ export default function SearchMap({
   const [zoom, setZoom] = useState(11);
   const mapRef = useRef<L.Map>(null);
   const popupRef = useRef<L.Popup>(null);
-  const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
-  const agencyLocation: LatLngExpression = [41.99564, 21.428277];
-  function getListingIcon(listing: Listing, zoom: number) {
-    let htmlMarkup = null;
-    if (listing.locationPrecision === "exact") {
-      htmlMarkup = (
-        <div className="relative left-1/2 w-fit -translate-x-1/2 text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
-          {displayPrice(listing.price)}
-        </div>
-      );
-    }
 
-    if (listing.locationPrecision === "approximate") {
-      htmlMarkup = (
-        <div
-          className={cn(
-            "group relative -left-2 -top-2 h-4 w-4 rounded-full border border-white bg-brand-light-blue text-transparent",
-            zoom === 16 && "hover:shadow-blue-glow",
-            zoom === 17 && "hover:shadow-blue-glow-bigger",
-            zoom >= 18 && "hover:shadow-blue-glow-biggest",
-          )}
-        ></div>
-      );
-    }
-
-    if (listing.locationPrecision === "wide") {
-      htmlMarkup = (
-        <div className="relative -left-[3px] -top-[8px]">
-          <svg
-            version="1.0"
-            xmlns="http://www.w3.org/2000/svg"
-            width="18px"
-            height="18px"
-            viewBox="0 0 512.000000 512.000000"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <g
-              transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-              fill="#0069fe"
-              stroke="red"
-              strokeWidth={2}
-            >
-              <path
-                d="M2385 5114 c-670 -70 -1186 -403 -1440 -929 -115 -237 -185 -557
--185 -844 0 -446 336 -1197 983 -2196 277 -429 785 -1135 816 -1135 10 0 333
-443 533 730 843 1212 1268 2083 1268 2598 0 286 -72 616 -184 847 -238 487
--697 810 -1296 910 -91 15 -412 28 -495 19z"
-              />
-            </g>
-          </svg>
-        </div>
-      );
-    }
-    return divIcon({
-      html: renderToStaticMarkup(htmlMarkup!),
-    });
-  }
   function handleMapMove(
     target: "resultsFilters" | "mapFilters" | "both",
     coordinates: string,

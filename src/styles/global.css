@@ -155,3 +155,17 @@ button.reveal-button {
 }
 
 /* Map Markers */
+
+.icon-combo {
+  display: grid;
+  grid-template-rows: auto auto;
+  width: 100%;
+}
+.icon-combo > *:first-child {
+  position: absolute;
+  z-index: 1000;
+}
+.icon-combo > *:last-child {
+  position: absolute;
+  z-index: 1010;
+}

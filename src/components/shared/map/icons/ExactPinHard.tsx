@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-export default function ExactPin(props: any) {
+export default function ExactPinHard(props: any) {
   const defaultStyle = {};
   return (
     <svg
@@ -11,12 +11,6 @@ export default function ExactPin(props: any) {
       viewBox="-3 0 20 20"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
-      style={{
-        ...defaultStyle,
-        width: "36px",
-        height: "40px",
-      }}
     >
       <defs></defs>
       <g
