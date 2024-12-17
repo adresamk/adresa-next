@@ -129,8 +129,20 @@ export function getMunicipalityPlacesTranslated(
   };
 }
 
-// Example usage:
-// const municipalities = getMunicipalitiesOptions();
-// const coords = getCoordinates(['20101', '20102']);
-// const municipalityInfo = getMunicipalityPlaces('10001');
-// const municipalityCoords = getMunicipalityCoordinates('10001');
+export type TranslatedOptionWithMaybePlaces = TranslatedOption & {
+  places?: TranslatedOption[];
+};
+export function getAllMunicipalitiesWithPlacesTranslated(
+  locale: string = "mk",
+): TranslatedOptionWithMaybePlaces[] {
+  const municipalities = getMunicipalitiesOptions();
+  const translations = require(
+    `../../../messages/places/${locale}.places.json`,
+  );
+
+  return municipalities.map((id) => ({
+    value: id,
+    label: translations[id] || id,
+    places: getMunicipalityPlacesTranslated(id, locale).places,
+  }));
+}
