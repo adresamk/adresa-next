@@ -45,7 +45,7 @@ export const getMapPinIcon = (
 ) => {
   const multiplier = type === "approximate" ? 1 : 2;
   const areaClass = `area-circle area-${type === "exact" ? 0 : zoomToMultiplier(zoom, multiplier)}`;
-  const zoomClass = `zoom-${zoom && zoom >= 16 ? "deep" : ""} `;
+  const showCircleExact = zoom === 15 || zoom === 14;
   const exactClass = type;
   const vipClass = listing?.isPaidPromo ? "vip" : "";
 
@@ -64,7 +64,7 @@ export const getMapPinIcon = (
     }),
     circleP: divIcon({
       html: renderToStaticMarkup(
-        <div className={`icon-combo ${exactClass}`}>
+        <div className={`icon-combo ${showCircleExact ? exactClass : ""}`}>
           <CirclePinDiv />
         </div>,
       ),
