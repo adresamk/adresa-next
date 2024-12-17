@@ -7,8 +7,8 @@ export default function ExactPinHard(props: any) {
       <svg
         //   className="relative -left-1/2 -top-1/2 -translate-y-1/2"
         className=""
-        width="25px"
-        height="40px"
+        width="22px"
+        height="28px"
         viewBox="-3 0 20 20"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"

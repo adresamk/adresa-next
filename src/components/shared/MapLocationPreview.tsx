@@ -1,7 +1,7 @@
 "use client";
-import { icon, LatLngExpression } from "leaflet";
+import { CircleMarker, icon, LatLngExpression } from "leaflet";
 import { Listing, LocationPrecision } from "@prisma/client";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { Circle, MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
@@ -9,7 +9,13 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import { useTranslations } from "next-intl";
 import { Pin } from "lucide-react";
 import { exactPinIcon } from "./map/MapIcons";
-import { getMapPinIcon } from "./map/helpers";
+import {
+  calculateDiameter,
+  findRadiusInMeters,
+  getMapPinIcon,
+  getRadiusInPixels,
+  metersToPixels,
+} from "./map/helpers";
 import ZoomTracker from "@/app/[locale]/search/_components/ZoomTracker";
 
 export default function MapLocationPreview({
@@ -37,7 +43,6 @@ export default function MapLocationPreview({
             attribution={t("map.attribution")}
           />
           <ZoomTracker onZoomChange={setZoom} />
-          {/* {locationPrecision === "exact" && <Marker position={location}></Marker>} */}
           <Marker
             icon={getMapPinIcon("SL", locationPrecision, zoom)}
             position={location}
@@ -48,6 +53,7 @@ export default function MapLocationPreview({
               </Popup>
             )}
           </Marker>
+          {/* <Circle center={location} radius={5} pathOptions={{ color: "red" }} /> */}
         </MapContainer>
       </div>
     </div>

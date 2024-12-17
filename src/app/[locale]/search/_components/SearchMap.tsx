@@ -13,6 +13,7 @@ import {
   Marker,
   Popup,
   CircleMarker,
+  Circle,
   LayerGroup,
   useMap,
   useMapEvent,
@@ -147,7 +148,15 @@ export default function SearchMap({
             {listings
               .toSorted((a, b) => (a.isPaidPromo ? -1 : 1))
               .map((listing, idx) => {
-                return (
+                if (!listing.latitude || !listing.longitude) {
+                  return null;
+                }
+                const location: LatLngExpression = [
+                  listing.latitude,
+                  listing.longitude,
+                ];
+
+                return [
                   <Marker
                     icon={getMapPinIcon(
                       "S",
@@ -159,16 +168,20 @@ export default function SearchMap({
                       idx,
                     )}
                     key={listing.id}
-                    position={
-                      [listing.latitude, listing.longitude] as LatLngExpression
-                    }
+                    position={location}
                     eventHandlers={{
                       click: (e) => {
                         setActiveListing(listing);
                       },
                     }}
-                  ></Marker>
-                );
+                  ></Marker>,
+                  <Circle
+                    key={`circle-${listing.id}`}
+                    center={location}
+                    radius={4}
+                    pathOptions={{ color: "red" }}
+                  />,
+                ];
               })}
 
             {agency && (

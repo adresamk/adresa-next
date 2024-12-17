@@ -4,8 +4,8 @@ export default function ExactPinSoft(props: any) {
   const defaultStyle = {};
   return (
     <svg
-      width="25px"
-      height="40px"
+      width="22px"
+      height="28px"
       viewBox="-3 0 20 20"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"

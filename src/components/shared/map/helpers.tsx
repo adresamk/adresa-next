@@ -1,13 +1,9 @@
-import { CSSProperties, PropsWithChildren, ReactDOM } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { divIcon } from "leaflet";
 import { Listing, LocationPrecision } from "@prisma/client";
-import ExactPin from "./icons/ExactPinHard";
-import CirclePin from "./icons/CirclePin";
 import CirclePinDiv from "./icons/CirclePinDiv";
 import ExactPinHard from "./icons/ExactPinHard";
 import ExactPinSoft from "./icons/ExactPinSoft";
-import Area from "./icons/Area";
 import { cn, displayPrice } from "@/lib/utils";
 type AreaMultiplier = 0 | 2 | 3 | 5 | 7;
 type AreaMultiplierFull = 0 | 2 | 3 | 5 | 7 | 4 | 6 | 10 | 14 | 9 | 15 | 21;
@@ -15,6 +11,8 @@ function zoomToMultiplier(
   zoom: number | undefined,
   doubleMultiplier: 1 | 2 | 3,
 ): AreaMultiplierFull {
+  // doubleMultiplier 1 = 50m, 2 = 200m, 3 = 500m
+
   if (!zoom) return 0;
   if (zoom < 14) return 0;
   let multiplier: AreaMultiplier = 0;
@@ -29,6 +27,9 @@ function zoomToMultiplier(
   } else if (zoom === 18) {
     multiplier = 7;
   }
+  if (zoom === 14 && doubleMultiplier === 2) {
+    return 3;
+  }
   return (multiplier * doubleMultiplier) as AreaMultiplierFull;
 }
 // single listing , search ,edit listing
@@ -42,198 +43,138 @@ export const getMapPinIcon = (
   listing?: Listing,
   listingIdx: number = 1,
 ) => {
+  const multiplier = type === "approximate" ? 1 : 2;
+  const areaClass = `area-circle area-${type === "exact" ? 0 : zoomToMultiplier(zoom, multiplier)}`;
+  const zoomClass = `zoom-${zoom && zoom >= 16 ? "deep" : ""} `;
+  const exactClass = type;
+  const vipClass = listing?.isPaidPromo ? "vip" : "";
+
   const pins = {
-    featuredPin: divIcon({
+    pBoxP: divIcon({
       html: renderToStaticMarkup(
-        <div
-          className={`icon-combo zoom-${zoom && zoom >= 16 ? "deep" : ""} area-${
-            type === "exact"
-              ? 0
-              : zoomToMultiplier(zoom, type === "approximate" ? 1 : 2)
-          }`}
-        >
-          <div
-            style={{ zIndex: 5000 + listingIdx }}
-            className={`left-1/2 w-fit -translate-x-1/2 text-nowrap rounded-3xl border border-white bg-orange-400 px-1.5 py-1 font-medium text-black outline-black`}
-          >
+        <div className={`icon-combo ${exactClass} ${vipClass}`}>
+          <div className="w-fit text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-0.5 font-medium text-white hover:py-[3px]">
             {displayPrice(listing?.price ?? 0)}
           </div>
         </div>,
       ),
-      className: "featured-pin",
-      iconSize: [32, 45],
-      iconAnchor: [13, 12],
+      className: `marker-pin price-box-pin  area-base ${areaClass}`,
+      iconSize: [12, 12],
+      // iconAnchor: [13, 12],
     }),
-    priceBox: divIcon({
+    circleP: divIcon({
       html: renderToStaticMarkup(
-        <div
-          className={`icon-combo zoom-${zoom && zoom >= 16 ? "deep" : ""} area-${
-            type === "exact"
-              ? 0
-              : zoomToMultiplier(zoom, type === "approximate" ? 1 : 2)
-          }`}
-        >
-          <div className="left-1/2 w-fit -translate-x-1/2 text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
-            {displayPrice(listing?.price ?? 0)}
-          </div>
-        </div>,
-      ),
-      className: "my-exact-pin-soft-icon",
-      iconSize: [32, 45],
-      iconAnchor: [13, 12],
-    }),
-    circle: divIcon({
-      html: renderToStaticMarkup(
-        <div
-          className={`icon-combo zoom-${zoom && zoom >= 16 ? "deep" : ""} area-${
-            type === "exact"
-              ? 0
-              : zoomToMultiplier(zoom, type === "approximate" ? 1 : 2)
-          }`}
-        >
+        <div className={`icon-combo ${exactClass}`}>
           <CirclePinDiv />
         </div>,
       ),
-      className: "my-exact-pin-soft-icon",
-      iconSize: [32, 45],
-      iconAnchor: [13, 12],
+      className: `marker-pin circle-pin area-base ${areaClass}`,
+      iconSize: [12, 12],
+      // iconAnchor: [13, 12],
     }),
-    wideCircle: divIcon({
+    slPin: divIcon({
       html: renderToStaticMarkup(
-        <div
-          className={`icon-combo zoom-${zoom && zoom >= 16 ? "deep" : ""} area-${
-            type === "exact"
-              ? 0
-              : zoomToMultiplier(zoom, type === "approximate" ? 1 : 2)
-          }`}
-        >
-          <CirclePinDiv />
+        <div className={`icon-combo ${exactClass} ${vipClass}`}>
+          {type === "approximate" ? <ExactPinSoft /> : <ExactPinHard />}
         </div>,
       ),
-      className: "my-circle-icon",
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
+      className: `marker-pin sl-pin area-base ${areaClass}`,
+      iconSize: [12, 12],
+      // iconAnchor: [13, 12],
     }),
-    exactPinHard: divIcon({
-      html: renderToStaticMarkup(
-        <div
-          className={`icon-combo zoom-${zoom && zoom >= 16 ? "deep" : ""} area-${
-            type === "exact"
-              ? 0
-              : zoomToMultiplier(zoom, type === "approximate" ? 1 : 2)
-          }`}
-        >
-          <ExactPinHard />
-        </div>,
-      ),
-      className: "my-exact-pin-hard-icon",
-      iconSize: [32, 45],
-      iconAnchor: [13, 12],
-    }),
-    exactPinSoft: divIcon({
-      html: renderToStaticMarkup(
-        <div
-          className={`icon-combo zoom-${zoom && zoom >= 16 ? "deep" : ""} area-${
-            type === "exact"
-              ? 0
-              : zoomToMultiplier(zoom, type === "approximate" ? 1 : 2)
-          }`}
-        >
-          <ExactPinSoft />
-        </div>,
-      ),
-      className: "my-exact-pin-soft-icon",
-      iconSize: [32, 45],
-      iconAnchor: [13, 12],
+    elPin: divIcon({
+      html: renderToStaticMarkup(<ExactPinHard />),
+      className: `marker-pin el-pin area-base ${areaClass}`,
+      // iconSize: [32, 45],
+      // iconAnchor: [13, 12],
     }),
   };
 
   if (map === "SL") {
-    if (type === "exact") {
-      return pins.exactPinHard;
-    } else if (type === "approximate") {
-      return pins.exactPinSoft;
-    } else if (type === "wide") {
-      return pins.wideCircle;
-    }
+    return pins.slPin;
   }
   if (map === "S" && zoom) {
     if (isFeatured) {
-      return pins.featuredPin;
+      return pins.pBoxP;
     }
-    if (zoom >= 16) {
-      return pins.priceBox;
-    }
-    if (zoom <= 13) {
-      return pins.circle;
-    }
-    if (zoom >= 14 && zoom <= 15) {
-      if (type === "exact") {
-        return pins.exactPinSoft;
-      } else if (type === "approximate") {
-        return pins.circle;
-      } else if (type === "wide") {
-        return pins.wideCircle;
-      }
-    }
+    return isFeatured || zoom >= 16 ? pins.pBoxP : pins.circleP;
   }
   if (map === "EL") {
-    return pins.exactPinHard;
+    return pins.elPin;
   }
 };
+export function findRadiusInMeters(zoom: number, meters: number): number {
+  // Convert meters to kilometers
+  const km = meters / 1000;
 
-function getListingIcon(listing: Listing, zoom: number) {
-  let htmlMarkup = null;
-  if (listing.locationPrecision === "exact") {
-    htmlMarkup = (
-      <div className="relative left-1/2 w-fit -translate-x-1/2 text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-1 font-medium text-white outline-black">
-        {displayPrice(listing.price)}
-      </div>
-    );
-  }
+  // Get base coordinates for Skopje
+  const coords = { latitude: 41.9981, longitude: 21.4254 };
 
-  if (listing.locationPrecision === "approximate") {
-    htmlMarkup = (
-      <div
-        className={cn(
-          "group relative -left-2 -top-2 h-4 w-4 rounded-full border border-white bg-brand-light-blue text-transparent",
-          zoom === 16 && "hover:shadow-blue-glow",
-          zoom === 17 && "hover:shadow-blue-glow-bigger",
-          zoom >= 18 && "hover:shadow-blue-glow-biggest",
-        )}
-      ></div>
-    );
-  }
+  // Calculate radius using cosine formula adjusted for latitude
+  const radius = km / (111.32 * Math.cos((coords.latitude * Math.PI) / 180));
 
-  if (listing.locationPrecision === "wide") {
-    htmlMarkup = (
-      <div className="relative -left-[3px] -top-[8px]">
-        <svg
-          version="1.0"
-          xmlns="http://www.w3.org/2000/svg"
-          width="18px"
-          height="18px"
-          viewBox="0 0 512.000000 512.000000"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <g
-            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-            fill="#0069fe"
-            stroke="red"
-            strokeWidth={2}
-          >
-            <path
-              d="M2385 5114 c-670 -70 -1186 -403 -1440 -929 -115 -237 -185 -557
--185 -844 0 -446 336 -1197 983 -2196 277 -429 785 -1135 816 -1135 10 0 333
-443 533 730 843 1212 1268 2083 1268 2598 0 286 -72 616 -184 847 -238 487
--697 810 -1296 910 -91 15 -412 28 -495 19z"
-            />
-          </g>
-        </svg>
-      </div>
-    );
-  }
-  return divIcon({
-    html: renderToStaticMarkup(htmlMarkup!),
-  });
+  // Scale radius based on zoom level
+  const zoomScale = Math.pow(2, 20 - zoom);
+
+  return radius * zoomScale * 111320; // Convert back to meters
+}
+
+export function metersToPixels(
+  radiusInMeters: number,
+  latitude: number,
+  zoomLevel: number,
+) {
+  const EARTH_CIRCUMFERENCE = 40075016.686; // in meters
+  const TILE_SIZE = 502; // in pixels
+
+  // Convert latitude from degrees to radians
+  const latitudeInRadians = latitude * (Math.PI / 180);
+
+  // Calculate meters per pixel (MPP)
+  const metersPerPixel =
+    (EARTH_CIRCUMFERENCE * Math.cos(latitudeInRadians)) /
+    (TILE_SIZE * Math.pow(2, zoomLevel));
+
+  // Calculate radius in pixels
+  const radiusInPixels = radiusInMeters / metersPerPixel;
+
+  return radiusInPixels;
+}
+export function getRadiusInPixels(
+  latitude: number,
+  zoom: number,
+  radiusInMeters: number,
+) {
+  const earthRadius = 6378137; // Earth's radius in meters
+  const scale = 256 * Math.pow(2, zoom); // Scale at this zoom level
+
+  // Meters per pixel
+  const metersPerPixel =
+    (Math.cos((latitude * Math.PI) / 180) * 2 * Math.PI * earthRadius) / scale;
+
+  // Radius in pixels
+  const radiusInPixels = radiusInMeters / metersPerPixel;
+
+  return radiusInPixels;
+}
+
+export function findCoordInRange(center: L.LatLng, radiusInMeters: number) {
+  const lat = center.lat;
+  const lng = center.lng;
+  const radiusInDegrees = radiusInMeters / 111320;
+  const randomLat = lat + (Math.random() - 0.5) * radiusInDegrees;
+  const randomLng = lng + (Math.random() - 0.5) * radiusInDegrees;
+  return { lat: randomLat, lng: randomLng };
+}
+
+export function calculateDiameter(zoomLevel: number, radiusInMeters: number) {
+  const baseRadius = 50; // Base radius for which the values were derived
+  const a = 0.00131; // Scaling factor for 50 meters
+  const b = 1.955; // Growth rate per zoom level
+
+  // Adjust the scaling factor based on the input radius
+  const scalingFactor = radiusInMeters / baseRadius;
+
+  // Calculate the diameter
+  return scalingFactor * (a * Math.pow(b, zoomLevel));
 }
