@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import CookiesConsent from "./CookiesConsent";
 
 interface FooterColumnProps {
   title: string;
@@ -198,7 +199,7 @@ export default async function Footer() {
                     </li>
                     <li className="text-center">
                       {/* onclick should open dialog for setting up cookies and letting them know how they are used */}
-                      <button>{t("Cookies")}</button>
+                      <CookiesConsent />
                     </li>
                   </ul>
                 </nav>

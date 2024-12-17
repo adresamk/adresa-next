@@ -10,7 +10,6 @@ export default function Listings({ listings }: { listings: Listing[] }) {
         <SearchBreadcrumbs listings={listings} />
         <ModeChangeButton />
       </div>
-
       <ListingsList listings={listings} />
     </div>
   );

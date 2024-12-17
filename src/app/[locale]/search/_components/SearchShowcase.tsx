@@ -205,6 +205,7 @@ export default function SearchShowcase({
             </div>
             <Link
               tabIndex={-1}
+              target="_blank"
               key={listing.id}
               className="absolute inset-0 z-0"
               href={"/listing/" + listing.listingNumber}

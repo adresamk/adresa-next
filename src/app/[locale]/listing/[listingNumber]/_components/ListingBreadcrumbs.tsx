@@ -43,12 +43,6 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
   return (
     <Breadcrumb>
       <BreadcrumbList className="justify-center gap-0.5 md:gap-0.5">
-        {/* <BreadcrumbItem className="text-xs">
-          <BreadcrumbLink href="/">
-            {t("listing.breadcrumbs.home")}
-          </BreadcrumbLink>
-        </BreadcrumbItem> */}
-        {/* <BreadcrumbSeparator /> */}
         <BreadcrumbItem className="text-xs">
           <BreadcrumbLink href={`/search?mode=${listing.transactionType}`}>
             {t("common.filters.mode." + listing.transactionType)}

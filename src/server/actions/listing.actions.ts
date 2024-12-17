@@ -1441,6 +1441,9 @@ export default async function getAllListings(
   const listings = await prismadb.listing.findMany({
     where: {
       isPublished: true,
+      isAvailable: true,
+      status: ListingStatus.ACTIVE,
+      isVisible: true,
     },
     take: 20,
   });
