@@ -275,8 +275,10 @@ button.reveal-button {
   background-color: #0a057b;
 }
 
-.price-box-pin:hover .icon-combo.vip.exact > div:first-child::before,
 .circle-pin:hover .icon-combo.exact > div:first-child::before {
+  border-top-color: #0a057b;
+}
+.price-box-pin:hover .icon-combo.exact > div:first-child::before {
   border-top-color: #0a057b;
 }
 
