@@ -264,7 +264,8 @@ button.reveal-button {
 /* CIRCLE END */
 
 .marker-pin.price-box-pin:has(.icon-combo.vip) {
-  z-index: 1000 !important;
+  z-index: 1000;
+  /* apparently didnt need to imporant */
 }
 .marker-pin:hover {
   z-index: 2000 !important;
@@ -280,6 +281,17 @@ button.reveal-button {
 }
 .price-box-pin:hover .icon-combo.exact > div:first-child::before {
   border-top-color: #0a057b;
+}
+
+.marker-pin.search-selected {
+  z-index: 3000 !important;
+}
+.marker-pin.search-selected .icon-combo > div:first-child {
+  background-color: #0a057b !important;
+  color: white !important;
+}
+.marker-pin.search-selected .icon-combo > div:first-child::before {
+  border-top-color: #0a057b !important;
 }
 
 .area-circle:before {

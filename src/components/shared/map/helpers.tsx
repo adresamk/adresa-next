@@ -47,8 +47,9 @@ export const getMapPinIcon = (
   const areaClass = `area-circle area-${type === "exact" ? 0 : zoomToMultiplier(zoom, multiplier)}`;
   const showCircleExact = zoom === 15 || zoom === 14;
   const exactClass = type;
+  const listingIdClass = `l-${listing?.id}`;
   const vipClass = listing?.isPaidPromo ? "vip" : "";
-
+  const selectedClass = isSelectedInSearch ? "search-selected" : "";
   const pins = {
     pBoxP: divIcon({
       html: renderToStaticMarkup(
@@ -58,7 +59,7 @@ export const getMapPinIcon = (
           </div>
         </div>,
       ),
-      className: `marker-pin price-box-pin  area-base ${areaClass}`,
+      className: `marker-pin price-box-pin  area-base ${areaClass} ${selectedClass} ${listingIdClass} `,
       iconSize: [12, 12],
       // iconAnchor: [13, 12],
     }),
@@ -68,7 +69,7 @@ export const getMapPinIcon = (
           <CirclePinDiv />
         </div>,
       ),
-      className: `marker-pin circle-pin area-base ${areaClass}`,
+      className: `marker-pin circle-pin area-base ${areaClass} ${selectedClass} ${listingIdClass}`,
       iconSize: [12, 12],
       // iconAnchor: [13, 12],
     }),
@@ -78,13 +79,13 @@ export const getMapPinIcon = (
           {type === "approximate" ? <ExactPinSoft /> : <ExactPinHard />}
         </div>,
       ),
-      className: `marker-pin sl-pin area-base ${areaClass}`,
+      className: `marker-pin sl-pin area-base ${areaClass} ${listingIdClass}`,
       iconSize: [12, 12],
       // iconAnchor: [13, 12],
     }),
     elPin: divIcon({
       html: renderToStaticMarkup(<ExactPinHard />),
-      className: `marker-pin el-pin area-base ${areaClass}`,
+      className: `marker-pin el-pin area-base ${areaClass} ${listingIdClass}`,
       // iconSize: [32, 45],
       // iconAnchor: [13, 12],
     }),

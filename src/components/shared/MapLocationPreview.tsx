@@ -1,21 +1,14 @@
 "use client";
-import { CircleMarker, icon, LatLngExpression } from "leaflet";
-import { Listing, LocationPrecision } from "@prisma/client";
-import { Circle, MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { useEffect, useState } from "react";
+import { LatLngExpression } from "leaflet";
+import { Listing } from "@prisma/client";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { useState } from "react";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import { useTranslations } from "next-intl";
-import { Pin } from "lucide-react";
 import { exactPinIcon } from "./map/MapIcons";
-import {
-  calculateDiameter,
-  findRadiusInMeters,
-  getMapPinIcon,
-  getRadiusInPixels,
-  metersToPixels,
-} from "./map/helpers";
+import { getMapPinIcon } from "./map/helpers";
 import ZoomTracker from "@/app/[locale]/search/_components/ZoomTracker";
 
 export default function MapLocationPreview({
@@ -32,8 +25,6 @@ export default function MapLocationPreview({
     return <div>{t("common.property.map.notSet")}</div>;
 
   const location: LatLngExpression = [latitude, longitude];
-
-  console.log(exactPinIcon);
   return (
     <div>
       <div className="mb-10 h-[276px] overflow-hidden border">

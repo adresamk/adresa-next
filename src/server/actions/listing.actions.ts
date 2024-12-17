@@ -1443,14 +1443,6 @@ export default async function getAllListings(
       isPublished: true,
     },
     take: 20,
-    include: {
-      // owner: true,
-      favoritedBy: {
-        select: {
-          userId: true,
-        },
-      },
-    },
   });
   // Optimize with this
   //   // Assuming you have the current userId from session or JWT

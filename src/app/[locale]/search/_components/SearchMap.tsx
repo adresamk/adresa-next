@@ -11,11 +11,8 @@ import {
   MapContainer,
   TileLayer,
   Marker,
-  Popup,
-  CircleMarker,
   Circle,
   LayerGroup,
-  useMap,
   useMapEvent,
 } from "react-leaflet";
 import ListingMapCard from "./ListingMapCard";
@@ -51,6 +48,14 @@ export default function SearchMap({
   const [zoom, setZoom] = useState(11);
   const mapRef = useRef<L.Map>(null);
   const popupRef = useRef<L.Popup>(null);
+  const [selectedListingId, setSelectedListingId] = useState<number | null>(
+    null,
+  );
+
+  useEffect(() => {
+    // @ts-ignore
+    window.setSelectedListingId = setSelectedListingId;
+  }, [selectedListingId]);
 
   function handleMapMove(
     target: "resultsFilters" | "mapFilters" | "both",
@@ -122,6 +127,8 @@ export default function SearchMap({
               zoom: 300 + " " + zoom,
               listingsLength: listings.length,
             })}
+
+            {selectedListingId || "null"}
           </div>
         </aside>
 
@@ -163,7 +170,7 @@ export default function SearchMap({
                       listing.locationPrecision,
                       zoom,
                       listing.isPaidPromo,
-                      false,
+                      selectedListingId === listing.id,
                       listing,
                       idx,
                     )}

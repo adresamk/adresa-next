@@ -1,8 +1,10 @@
+// "use client";
 import Filters from "@/components/shared/filters/Filters";
 import { Listing, Agency } from "@prisma/client";
 import AgencyBanner from "./AgencyBanner";
 import Listings from "@/app/[locale]/search/_components/Listings";
 import SearchMapClient from "@/app/[locale]/search/_components/SearchMapClient";
+import { SelectedListingProvider } from "@/contexts/SelectedListingContext";
 
 export default function SearchResults({
   listings,
@@ -12,6 +14,7 @@ export default function SearchResults({
   agency?: Agency;
 }) {
   return (
+    // <SelectedListingProvider>
     <div className="w-full">
       {agency && <AgencyBanner agency={agency} />}
       <Filters />
@@ -20,5 +23,6 @@ export default function SearchResults({
         <SearchMapClient listings={listings} agency={agency} />
       </section>
     </div>
+    // </SelectedListingProvider>
   );
 }
