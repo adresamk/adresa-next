@@ -145,14 +145,18 @@ export default function SearchShowcase({
                   <p className="text-xl font-bold leading-4 tracking-tighter">
                     {displayPrice(listing.price)}
                   </p>
-                  {listing.previousPrice && (
-                    <div className="flex items-center">
-                      <ArrowDown className="ml-2.5 mr-1" stroke="green" />
-                      <span className="text-sm text-gray-400 line-through">
-                        €{displayPrice(listing.previousPrice)}
-                      </span>
-                    </div>
-                  )}
+                  {listing.previousPrice &&
+                    listing.previousPrice > (listing.price ?? 0) && (
+                      <div className="flex items-center">
+                        <ArrowDown
+                          className="lowered-price ml-2.5 mr-1"
+                          stroke="green"
+                        />
+                        <span className="text-sm text-gray-400 line-through">
+                          €{displayPrice(listing.previousPrice)}
+                        </span>
+                      </div>
+                    )}
                 </div>
                 <div className="flex items-center">
                   <div className="flex gap-1">

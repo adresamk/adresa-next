@@ -33,7 +33,7 @@
     "searchInArea": "Пребарај во оваа област",
     "searchAsMove": "Пребарувај додека се движам",
     "loading": "Вчитување на мапа...",
-    "viewProperties": "Прикажи {zoom} од {listingsLength} опции со пин на мапата"
+    "viewProperties": "Прикажани {listingsLength} опции на мапата"
   },
   "common": {
     "inputs": {

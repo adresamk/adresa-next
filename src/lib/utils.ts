@@ -14,7 +14,7 @@ export function validPhoneNumber(phone: string) {
 type AllowedCurrencies = "USD" | "EUR";
 export function displayPrice(
   value: number | null,
-  currency: AllowedCurrencies = "USD",
+  currency: AllowedCurrencies = "EUR",
 ) {
   if (value === null) {
     return "Number was null, check data";
@@ -49,7 +49,7 @@ export function displayArea(value: number | null) {
 export function displayPricePerSquare(
   price: number | null,
   area: number | null,
-  currency: AllowedCurrencies = "USD",
+  currency: AllowedCurrencies = "EUR",
 ) {
   if (!price || !area || area <= 0) return null; // Handle invalid inputs gracefully
 

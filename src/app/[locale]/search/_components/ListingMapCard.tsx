@@ -130,14 +130,15 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
               €{displayPrice(listing.price)}
             </p>
             {/* old price */}
-            {listing.previousPrice && (
-              <div className="flex items-center">
-                <ArrowDown className="ml-2.5 mr-1" stroke="green" />
-                <span className="text-sm text-gray-400 line-through">
-                  €{displayPrice(listing.previousPrice)}
-                </span>
-              </div>
-            )}
+            {listing.previousPrice &&
+              listing.previousPrice > (listing.price ?? 0) && (
+                <div className="flex items-center">
+                  <ArrowDown className="ml-2.5 mr-1" stroke="green" />
+                  <span className="text-sm text-gray-400 line-through">
+                    €{displayPrice(listing.previousPrice)}
+                  </span>
+                </div>
+              )}
 
             <div className="ml-auto">
               <ul className="flex gap-1">

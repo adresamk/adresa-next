@@ -4,7 +4,8 @@ import { Listing, LocationPrecision } from "@prisma/client";
 import CirclePinDiv from "./icons/CirclePinDiv";
 import ExactPinHard from "./icons/ExactPinHard";
 import ExactPinSoft from "./icons/ExactPinSoft";
-import { cn, displayPrice } from "@/lib/utils";
+import { cn, displayPrice, displayPricePerSquare } from "@/lib/utils";
+import { ArrowDown } from "lucide-react";
 type AreaMultiplier = 0 | 2 | 3 | 5 | 7;
 type AreaMultiplierFull = 0 | 2 | 3 | 5 | 7 | 4 | 6 | 10 | 14 | 9 | 15 | 21;
 function zoomToMultiplier(
@@ -54,8 +55,20 @@ export const getMapPinIcon = (
     pBoxP: divIcon({
       html: renderToStaticMarkup(
         <div className={`icon-combo ${exactClass} ${vipClass}`}>
-          <div className="w-fit text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-0.5 font-medium text-white hover:py-[3px]">
-            {displayPrice(listing?.price ?? 0)}
+          <div className="flex w-fit items-center text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-0.5 font-medium text-white hover:py-[3px]">
+            {listing?.transactionType === "sale" &&
+              displayPrice(listing?.price ?? 0)}
+            {listing?.transactionType === "rent" &&
+              displayPricePerSquare(listing?.price ?? 0, listing?.area ?? 0)}
+            {listing?.previousPrice &&
+              listing?.previousPrice > (listing?.price ?? 0) && (
+                <div className="flex items-center">
+                  <ArrowDown
+                    className="lowered-price ml-0.5 h-4 w-4 text-green-200"
+                    stroke="currentColor"
+                  />
+                </div>
+              )}
           </div>
         </div>,
       ),

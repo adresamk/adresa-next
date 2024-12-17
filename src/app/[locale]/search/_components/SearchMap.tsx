@@ -124,11 +124,8 @@ export default function SearchMap({
         <aside className="absolute bottom-0 left-0 z-[1050]">
           <div className="rounded-tr-md bg-white px-3.5 py-2.5 text-sm shadow">
             {t("map.viewProperties", {
-              zoom: 300 + " " + zoom,
               listingsLength: listings.length,
             })}
-
-            {selectedListingId || "null"}
           </div>
         </aside>
 
@@ -182,12 +179,12 @@ export default function SearchMap({
                       },
                     }}
                   ></Marker>,
-                  // <Circle
-                  //   key={`circle-${listing.id}`}
-                  //   center={location}
-                  //   radius={4}
-                  //   pathOptions={{ color: "red" }}
-                  // />,
+                  <Circle
+                    key={`circle-${listing.id}`}
+                    center={location}
+                    radius={4}
+                    pathOptions={{ color: "red" }}
+                  />,
                 ];
               })}
 

@@ -197,7 +197,11 @@ button.reveal-button {
   color: black;
   /* z-index: 1000 !important; */
 }
-.price-box-pin .icon-combo.exact > div:first-child::before {
+.icon-combo.vip > div:first-child .lowered-price {
+  color: #288e28 !important;
+  /* z-index: 1000 !important; */
+}
+lowered-price .price-box-pin .icon-combo.exact > div:first-child::before {
   content: "";
   position: absolute;
   top: 100%;
