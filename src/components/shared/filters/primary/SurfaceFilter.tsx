@@ -116,7 +116,10 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
             </div>
           </div>
         ) : variant === "search" ? (
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
+          >
             <div className="flex h-10 items-center text-sm">
               {/* both are set */}
               {areaLow && areaHigh && (
@@ -145,7 +148,7 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
                 </span>
               )}
             </div>
-            <ChevronDown width={20} className="ml-2" />{" "}
+            <ChevronDown width={20} className="h-4 w-4 md:ml-2 md:h-5 md:w-5" />{" "}
           </Button>
         ) : null}
       </PopoverTrigger>

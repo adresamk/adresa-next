@@ -79,14 +79,14 @@
         "other": "Друго",
         "apartment": "Стан",
         "house": "Куќа",
-        "vacation house": "Летен дом",
+        "vacation_house": "Летен дом",
         "office": "Канцеларија",
         "store": "Дуќан",
         "warehouse": "Склад",
-        "industrial space": "Индустриски објекти",
+        "industrial_space": "Индустриски објекти",
         "garage": "Гаража",
         "business": "Бизнис",
-        "assembly facilities": "Монтажни објекти"
+        "assembly_facilities": "Монтажни објекти"
       },
       "price": {
         "label": "Цена",

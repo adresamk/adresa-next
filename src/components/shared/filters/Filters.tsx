@@ -159,14 +159,17 @@ export default function Filters() {
       <SurfaceFilter variant="search" />
       <Button
         variant="outline"
-        className="px-2"
+        className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
         onClick={() => {
           setAreMoreFiltersOpen(true);
         }}
       >
-        <SlidersVertical width={20} className="mr-2 text-brand-light-blue" />
+        <SlidersVertical
+          width={20}
+          className="mr-2 h-4 w-4 text-brand-light-blue md:h-5 md:w-5"
+        />
         <span className="capitalize">{t("common.filters.title")}</span>
-        <ChevronDown width={20} className="ml-2" />{" "}
+        <ChevronDown width={20} className="ml-2 h-4 w-4 md:h-5 md:w-5" />{" "}
       </Button>
       <CreateSavedSearch />
       <SmartOverlay

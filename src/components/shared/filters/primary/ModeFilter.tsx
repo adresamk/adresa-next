@@ -69,14 +69,20 @@ export default function ModeFilter({ variant }: ModeFilterProps) {
 
       {variant === "search" && (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger className="min-w-24" asChild>
-            <Button variant="outline">
+          <PopoverTrigger className="" asChild>
+            <Button
+              variant="outline"
+              className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
+            >
               <span className="capitalize">
                 {mode
                   ? t(`common.filters.mode.${mode}`)
                   : t("common.filters.mode.availableFor")}
               </span>
-              <ChevronDown width={20} className="ml-2" />{" "}
+              <ChevronDown
+                width={20}
+                className="h-4 w-4 md:ml-2 md:h-5 md:w-5"
+              />{" "}
             </Button>
           </PopoverTrigger>
           <PopoverContent asChild align="start">

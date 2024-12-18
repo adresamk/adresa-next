@@ -114,7 +114,10 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
             </div>
           </div>
         ) : variant === "search" ? (
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
+          >
             <span className="capitalize">
               {priceLow && priceHigh && (
                 <span className="">
@@ -142,7 +145,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                 </span>
               )}
             </span>
-            <ChevronDown width={20} className="ml-2" />{" "}
+            <ChevronDown width={20} className="h-4 w-4 md:ml-2 md:h-5 md:w-5" />{" "}
           </Button>
         ) : null}
       </PopoverTrigger>

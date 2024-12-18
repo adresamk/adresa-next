@@ -79,6 +79,7 @@ export default function PropertyTypeFilter({
         ) : (
           <Button
             variant="outline"
+            className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
             onClick={() => {
               console.log(propertyType);
             }}
@@ -88,7 +89,7 @@ export default function PropertyTypeFilter({
                 ? t(`common.filters.propertyType.${propertyType}`)
                 : t("common.filters.propertyType.label")}
             </span>
-            <ChevronDown width={20} className="ml-2" />{" "}
+            <ChevronDown width={20} className="h-4 w-4 md:ml-2 md:h-5 md:w-5" />{" "}
           </Button>
         )}
       </PopoverTrigger>

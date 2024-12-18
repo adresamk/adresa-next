@@ -89,7 +89,7 @@ export default function SearchMap({
         <aside className="absolute left-0 right-0 top-0 z-[1050] h-0 w-full text-center">
           <div
             className={cn(
-              "mt-5 inline-block rounded-md bg-white shadow",
+              "mt-2 inline-block rounded-md bg-white shadow",
               !mapMovedWithoutSearching && "px-3.5 py-2.5",
             )}
           >
