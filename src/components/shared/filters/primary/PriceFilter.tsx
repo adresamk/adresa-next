@@ -12,6 +12,7 @@ import { useFilters } from "@/hooks/useFilters";
 import { Button } from "@/components/ui/button";
 import { parseAsString, useQueryState } from "nuqs";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 interface PriceFilterProps {
   variant: "homepage" | "search";
@@ -20,6 +21,26 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
   const t = useTranslations();
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectionClicked, setSelectionClicked] = useState({
+    priceLow: false,
+    priceHigh: false,
+  });
+
+  //effect description
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectionClicked({
+        priceLow: false,
+        priceHigh: false,
+      });
+    }
+  }, [isOpen]);
+  useEffect(() => {
+    if (selectionClicked.priceLow && selectionClicked.priceHigh) {
+      setIsOpen(false);
+    }
+  }, [selectionClicked]);
 
   let [priceLow, setPriceLow] = useQueryState(
     "priceLow",
@@ -41,7 +62,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
   }
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         {variant === "homepage" ? (
           <div
@@ -159,6 +180,10 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                   } else {
                     setPriceLow(e.target.value);
                   }
+                  setSelectionClicked({
+                    ...selectionClicked,
+                    priceLow: true,
+                  });
                 }}
               />
             </div>
@@ -181,6 +206,10 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                     } else {
                       setPriceLow(price === "Any" ? "" : price);
                     }
+                    setSelectionClicked({
+                      ...selectionClicked,
+                      priceLow: true,
+                    });
                   }}
                 >
                   {price === "Any" ? t("common.filters.price.any") : price}
@@ -214,6 +243,10 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                   } else {
                     setPriceHigh(e.target.value);
                   }
+                  setSelectionClicked({
+                    ...selectionClicked,
+                    priceHigh: true,
+                  });
                 }}
               />
             </div>
@@ -236,6 +269,10 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                     } else {
                       setPriceHigh(price === "Any" ? "" : price);
                     }
+                    setSelectionClicked({
+                      ...selectionClicked,
+                      priceHigh: true,
+                    });
                   }}
                 >
                   {price === "Any" ? t("common.filters.price.any") : price}

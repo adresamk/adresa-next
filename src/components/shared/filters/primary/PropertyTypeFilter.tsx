@@ -14,6 +14,7 @@ import { propertyTypeValues } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { useFilters } from "@/hooks/useFilters";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 interface PropertyTypeFilterProps {
   variant: "homepage" | "search";
@@ -25,6 +26,9 @@ export default function PropertyTypeFilter({
   const updateFilters = useFilters((store) => store.updateFilters);
   const t = useTranslations();
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
+
+  const [isOpen, setIsOpen] = useState(false);
+
   const setFocusedFilter = useSelectedFilter(
     (store) => store.setSelectedFilter,
   );
@@ -37,7 +41,7 @@ export default function PropertyTypeFilter({
   }
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         {variant === "homepage" ? (
           // BIG VARIANT
@@ -89,7 +93,7 @@ export default function PropertyTypeFilter({
         )}
       </PopoverTrigger>
       <PopoverContent asChild align="start" className="testt">
-        <ul className="relative w-[184px] rounded bg-white p-2 text-sm shadow-lg">
+        <ul className="relative rounded bg-white p-2 text-sm shadow-lg">
           {propertyTypes.map((type: propertyTypeValues) => (
             <li
               key={type}
@@ -105,6 +109,7 @@ export default function PropertyTypeFilter({
                 } else {
                   setPropertyType(type);
                 }
+                setIsOpen(false);
               }}
             >
               {t(`common.filters.propertyType.${type}`)}

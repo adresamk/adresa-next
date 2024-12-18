@@ -80,7 +80,7 @@ export default function ModeFilter({ variant }: ModeFilterProps) {
             </Button>
           </PopoverTrigger>
           <PopoverContent asChild align="start">
-            <ul className="relative w-[108px] rounded bg-white p-2 text-sm font-semibold shadow-lg">
+            <ul className="relative rounded bg-white p-2 text-sm font-semibold shadow-lg">
               <li
                 onClick={() => {
                   setMode("sale");

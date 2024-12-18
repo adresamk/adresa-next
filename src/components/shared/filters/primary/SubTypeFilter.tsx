@@ -13,6 +13,7 @@ import { useFilters } from "@/hooks/useFilters";
 import { useTranslations } from "next-intl";
 import { listingTypeOptions } from "@/lib/data/listing/importantData";
 import { PropertyCategory } from "@prisma/client";
+import { useState } from "react";
 
 interface SubTypeFilterProps {
   variant: "homepage" | "search";
@@ -20,6 +21,8 @@ interface SubTypeFilterProps {
 export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const t = useTranslations("");
+  const [isOpen, setIsOpen] = useState(false);
+
   const updateFilters = useFilters((store) => store.updateFilters);
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
   const setFocusedFilter = useSelectedFilter(
@@ -38,7 +41,7 @@ export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
     ? listingTypeOptions[propertyType as PropertyCategory]
     : [];
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         {variant === "homepage" ? (
           // BIG VARIANT
@@ -82,7 +85,7 @@ export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
       </PopoverTrigger>
       {subtypeOptions.length > 0 && (
         <PopoverContent asChild align="start">
-          <ul className="relative w-[184px] rounded bg-white p-2 text-sm shadow-lg">
+          <ul className="relative rounded bg-white p-2 text-sm shadow-lg">
             {subtypeOptions.map((st: string) => (
               <li
                 key={st}
@@ -98,6 +101,7 @@ export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
                   } else {
                     setSubType(st);
                   }
+                  setIsOpen(false);
                 }}
               >
                 {t(`common.filters.subType.${st}`)}

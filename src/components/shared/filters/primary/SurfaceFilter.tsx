@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { parseAsString, useQueryState } from "nuqs";
 import { set } from "react-hook-form";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 interface PropertyTypeFilterProps {
   variant: "homepage" | "search";
@@ -20,6 +21,11 @@ interface PropertyTypeFilterProps {
 export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectionClicked, setSelectionClicked] = useState({
+    areaLow: false,
+    areaHigh: false,
+  });
   const t = useTranslations();
   let [areaLow, setAreaLow] = useQueryState(
     "areaLow",
@@ -36,13 +42,28 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
     (store) => store.setSelectedFilter,
   );
 
+  //effect description
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectionClicked({
+        areaLow: false,
+        areaHigh: false,
+      });
+    }
+  }, [isOpen]);
+  useEffect(() => {
+    if (selectionClicked.areaLow && selectionClicked.areaHigh) {
+      setIsOpen(false);
+    }
+  }, [selectionClicked]);
+
   if (variant === "homepage") {
     areaLow = filters.areaLow;
     areaHigh = filters.areaHigh;
   }
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         {variant === "homepage" ? (
           <div
@@ -162,6 +183,10 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
                   } else {
                     setAreaLow(e.target.value);
                   }
+                  setSelectionClicked({
+                    ...selectionClicked,
+                    areaLow: true,
+                  });
                 }}
               />
             </div>
@@ -184,6 +209,10 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
                     } else {
                       setAreaLow(area === "Any" ? "" : area);
                     }
+                    setSelectionClicked({
+                      ...selectionClicked,
+                      areaLow: true,
+                    });
                   }}
                 >
                   {area === "Any" ? t("common.filters.surface.any") : area}
@@ -217,6 +246,10 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
                   } else {
                     setAreaHigh(e.target.value);
                   }
+                  setSelectionClicked({
+                    ...selectionClicked,
+                    areaHigh: true,
+                  });
                 }}
               />
             </div>
@@ -239,6 +272,10 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
                     } else {
                       setAreaHigh(area === "Any" ? "" : area);
                     }
+                    setSelectionClicked({
+                      ...selectionClicked,
+                      areaHigh: true,
+                    });
                   }}
                 >
                   {area === "Any" ? t("common.filters.surface.any") : area}
