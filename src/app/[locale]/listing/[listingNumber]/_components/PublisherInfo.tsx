@@ -17,83 +17,89 @@ export default async function PublisherInfo({
   if (agency) {
     const logoUrl = (agency.logo as UploadedImageData)?.url || "";
     return (
-      <div className="flex flex-row-reverse justify-end gap-4">
-        {logoUrl && (
-          <Link href={`/agency/${agency.slug}`}>
-            <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl px-8 py-4">
-              <Image
-                src={logoUrl}
-                alt={`${agency.name || ""} logo`}
-                width={200}
-                height={130}
-                className="h-full w-full object-contain"
-              />
-            </div>
-          </Link>
-        )}
-        <div className="">
-          <div>
-            <h4 className="text-sm font-medium">
-              {t("common.property.publisherDetails.agency")}
-            </h4>
+      <>
+        <div className="flex flex-row-reverse justify-end gap-4">
+          {logoUrl && (
             <Link href={`/agency/${agency.slug}`}>
-              <p className="my-2 mb-1.5 text-lg font-semibold leading-4 hover:underline">
-                {agency.contactPersonFullName}
-              </p>
+              <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl px-8 py-4">
+                <Image
+                  src={logoUrl}
+                  alt={`${agency.name || ""} logo`}
+                  width={200}
+                  height={130}
+                  className="h-full w-full object-contain"
+                />
+              </div>
             </Link>
-            <p className="mb-1.5 leading-4">{agency.address}</p>
-          </div>
-          <div className="mt-10">
-            <p className="text-sm">
-              {t("common.property.publisherDetails.workHours")}
-            </p>
-            <p className="mb-3">{agency.workHours}</p>
-            <p className="text-sm">
-              {t("common.property.publisherDetails.preferredContactMethod")}
-            </p>
-            <p>{agency.preferredContactMethod}</p>
+          )}
+          <div className="">
             <div>
-              <RevealButton
-                usecase="phone"
-                value={agency.contactPersonPhone}
-                variant="outline"
-              />{" "}
-              <RevealButton
-                usecase="website"
-                value={agency.website}
-                variant="outline"
-              />
+              <h4 className="text-sm font-medium">
+                {t("common.property.publisherDetails.agency")}
+              </h4>
+              <Link href={`/agency/${agency.slug}`}>
+                <p className="my-2 mb-1.5 text-lg font-semibold leading-4 hover:underline">
+                  {agency.contactPersonFullName}
+                </p>
+              </Link>
+              <p className="mb-1.5 leading-4">{agency.address}</p>
+            </div>
+            <div className="mt-10">
+              <p className="text-sm">
+                {t("common.property.publisherDetails.workHours")}
+              </p>
+              <p className="mb-3">{agency.workHours}</p>
+              <p className="text-sm">
+                {t("common.property.publisherDetails.preferredContactMethod")}
+              </p>
+              <p>{agency.preferredContactMethod}</p>
             </div>
           </div>
         </div>
-      </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <RevealButton
+            usecase="phone"
+            value={agency.contactPersonPhone}
+            variant="outline"
+          />{" "}
+          <RevealButton
+            usecase="website"
+            value={agency.website}
+            variant="outline"
+          />
+        </div>
+      </>
     );
   }
   if (user) {
     return (
-      <div className="flex gap-2">
-        <div className="flex-1">
-          <div>
-            <h4 className="text-lg font-medium">
-              {t("common.property.publisherDetails.title")}
-            </h4>
-            <p className="mb-1.5 leading-4">{user.contactName}</p>
-          </div>
-          <div className="mt-10">
-            <p>{t("common.property.publisherDetails.contactHoursUser")}</p>
-            <p>{user.contactHours}</p>
-            <p>
-              {t("common.property.publisherDetails.preferredContactMethod")}
-            </p>
-            <p>{user.preferredContactMethod}</p>
-            <RevealButton
-              usecase="phone"
-              value={user.contactPhone}
-              variant="outline"
-            />
+      <>
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <div>
+              <h4 className="text-lg font-medium">
+                {t("common.property.publisherDetails.title")}
+              </h4>
+              <p className="mb-1.5 leading-4">{user.contactName}</p>
+            </div>
+            <div className="mt-10">
+              <p>{t("common.property.publisherDetails.contactHoursUser")}</p>
+              <p>{user.contactHours}</p>
+              <p>
+                {t("common.property.publisherDetails.preferredContactMethod")}
+              </p>
+              <p>{user.preferredContactMethod}</p>
+            </div>
           </div>
         </div>
-      </div>
+        <div>
+          <RevealButton
+            usecase="phone"
+            value={user.contactPhone}
+            variant="outline"
+          />
+        </div>
+      </>
     );
   }
 
