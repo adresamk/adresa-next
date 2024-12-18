@@ -132,7 +132,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
                     startIndex: openImageIndex || 0,
                   }}
                 >
-                  <CarouselContent className="max-w-[900px]">
+                  <CarouselContent className="max-w-full">
                     {images.map((image, idx) => (
                       <CarouselItem
                         key={idx}
