@@ -195,13 +195,13 @@ button.reveal-button {
 .icon-combo.vip > div:first-child {
   background-color: orange;
   color: black;
-  /* z-index: 1000 !important; */
+  z-index: 1000 !important;
 }
 .icon-combo.vip > div:first-child .lowered-price {
   color: #288e28 !important;
   /* z-index: 1000 !important; */
 }
-lowered-price .price-box-pin .icon-combo.exact > div:first-child::before {
+.price-box-pin .icon-combo.exact > div:first-child::before {
   content: "";
   position: absolute;
   top: 100%;
@@ -216,7 +216,7 @@ lowered-price .price-box-pin .icon-combo.exact > div:first-child::before {
   z-index: 1;
 }
 .price-box-pin .icon-combo.vip.exact > div:first-child::before {
-  border-top-color: orange;
+  border-top-color: orange !important;
 }
 .price-box-pin .icon-combo.exact > div:first-child::after {
   content: "";
@@ -268,8 +268,7 @@ lowered-price .price-box-pin .icon-combo.exact > div:first-child::before {
 /* CIRCLE END */
 
 .marker-pin.price-box-pin:has(.icon-combo.vip) {
-  z-index: 1000;
-  /* apparently didnt need to imporant */
+  z-index: 1000 !important;
 }
 .marker-pin:hover {
   z-index: 2000 !important;
@@ -284,7 +283,7 @@ lowered-price .price-box-pin .icon-combo.exact > div:first-child::before {
   border-top-color: #0a057b;
 }
 .price-box-pin:hover .icon-combo.exact > div:first-child::before {
-  border-top-color: #0a057b;
+  border-top-color: #0a057b !important;
 }
 
 .marker-pin.search-selected {

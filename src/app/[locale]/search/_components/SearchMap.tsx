@@ -179,12 +179,12 @@ export default function SearchMap({
                       },
                     }}
                   ></Marker>,
-                  <Circle
-                    key={`circle-${listing.id}`}
-                    center={location}
-                    radius={4}
-                    pathOptions={{ color: "red" }}
-                  />,
+                  // <Circle
+                  //   key={`circle-${listing.id}`}
+                  //   center={location}
+                  //   radius={4}
+                  //   pathOptions={{ color: "red" }}
+                  // />,
                 ];
               })}
 
