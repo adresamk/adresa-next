@@ -25,7 +25,7 @@ export default function ImagesCarousel({
   const missingImage = "/assets/missing-image.jpg";
 
   return (
-    <Carousel className="relative w-full max-w-xs">
+    <Carousel className="relative w-full">
       <CarouselContent>
         {images.map((image, index) => (
           <CarouselItem key={index} className={`h-[${height}px] w-full`}>
@@ -33,7 +33,7 @@ export default function ImagesCarousel({
             <img
               src={image?.url || missingImage}
               // hack for now
-              className="h-full rounded-tl-lg rounded-tr-lg object-cover"
+              className="h-full min-w-full rounded-tl-lg rounded-tr-lg object-cover"
               width={width}
               height={height}
               alt={t("common.listing.propertyImage", { index: index + 1 })}

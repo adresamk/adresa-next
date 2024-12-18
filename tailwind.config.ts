@@ -113,7 +113,11 @@ const config = withUt({
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), fluid],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/container-queries"),
+    fluid,
+  ],
 }) satisfies Config;
 
 export default config;

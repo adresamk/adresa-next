@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 import { Link } from "@/i18n/routing";
-import { displayPrice } from "@/lib/utils";
+import { displayPrice, displayPricePerSquare } from "@/lib/utils";
 import ImagesCarousel from "./ImagesCarousel";
 import LikeListingButton from "./LikeListingButton";
 import { cn, displayDate } from "@/lib/utils";
@@ -53,7 +53,7 @@ export default function SearchShowcase({
         window.setSelectedListingId(null)
       }
     >
-      <article className="mb-5 w-full">
+      <article className="@container mb-5 w-full">
         <div
           className={cn(
             "group relative flex w-full overflow-hidden rounded-lg border border-solid bg-white shadow drop-shadow transition-all ease-linear hover:shadow-xl",
@@ -68,7 +68,7 @@ export default function SearchShowcase({
               </div>
               <div></div>
             </div>
-            <div className="h-[240px] w-[260px]">
+            <div className="@2xl:w-[320px] @3xl:w-[360px] h-[240px] w-[260px] transition-[width] duration-500">
               <ImagesCarousel images={images} height={240} width={260} />
             </div>
             <figcaption className="hidden">
@@ -79,20 +79,50 @@ export default function SearchShowcase({
           <div className="relative flex-1 px-5 pb-2.5 pt-3.5">
             <div className="flex h-full flex-col justify-between">
               <div className="relative mb-2 max-w-full">
-                <h3 className="mb-1.5 overflow-hidden text-lg font-medium leading-6">
-                  <span className="capitalize">
-                    {t("listing.type", { type: listing.type })}
-                  </span>
-                  , {listing.area}m²
-                </h3>
+                <div className="flex items-start gap-2">
+                  <h3 className="mb-1.5 overflow-hidden text-lg font-medium leading-6">
+                    <span className="capitalize">
+                      {t("listing.type", { type: listing.type })}
+                    </span>
+                    , {listing.area}m²
+                  </h3>
+                  <div className="flex gap-1">
+                    {listing.isPaidPromo && (
+                      <span
+                        title={t("listing.labels.featured")}
+                        className="relative z-10 inline-block items-center gap-1.5 rounded border p-0.5 text-xs shadow-sm"
+                      >
+                        <Crown size={16} />
+                      </span>
+                    )}
+
+                    {listing.locationPrecision === "exact" && (
+                      <span
+                        title={t("listing.labels.exactLocation")}
+                        className="relative z-10 inline-block items-center gap-1.5 rounded border p-0.5 text-xs shadow-sm"
+                      >
+                        <MapPin size={16} />
+                      </span>
+                    )}
+                  </div>
+                </div>
                 <h3 className="mb-2.5 overflow-hidden text-xs leading-5">
                   {listing.municipality || t("listing.defaultMunicipality")}
                 </h3>
-                <p className="mb-2.5 line-clamp-2 overflow-hidden text-xs leading-5">
+                <p className="text-xs">
+                  <span className="text-gray-500">
+                    {t("listing.published")}{" "}
+                  </span>
+                  <time dateTime={displayDate(listing.publishedAt) || ""}>
+                    {displayDate(listing.publishedAt) || ""}
+                  </time>
+                </p>
+                <p className="mb-2.5 line-clamp-3 max-h-[64px] min-h-[42px] overflow-hidden text-xs leading-5">
                   {description}
                 </p>
 
-                <div className="flex items-center gap-6">
+                {/* Featured properties? */}
+                <p className="flex items-center gap-6">
                   <ul className="flex gap-1.5">
                     <li
                       title={t("listing.features.floor")}
@@ -130,80 +160,36 @@ export default function SearchShowcase({
                       </span>
                     </li>
                   </ul>
-                  <p className="text-xs">
-                    <span className="text-gray-500">
-                      {t("listing.updated")}:{" "}
-                    </span>
-                    <time dateTime={displayDate(listing.updatedAt) || ""}>
-                      {displayDate(listing.updatedAt) || ""}
-                    </time>
-                  </p>
-                </div>
+                </p>
               </div>
               <div className="mt-auto max-w-full">
-                <div className="mb-1.5 flex items-center">
-                  <p className="text-xl font-bold leading-4 tracking-tighter">
-                    {displayPrice(listing.price)}
-                  </p>
-                  {listing.previousPrice &&
-                    listing.previousPrice > (listing.price ?? 0) && (
-                      <div className="flex items-center">
-                        <ArrowDown
-                          className="lowered-price ml-2.5 mr-1"
-                          stroke="green"
-                        />
-                        <span className="text-sm text-gray-400 line-through">
-                          €{displayPrice(listing.previousPrice)}
-                        </span>
-                      </div>
-                    )}
-                </div>
-                <div className="flex items-center">
-                  <div className="flex gap-1">
-                    {listing.isPaidPromo && (
-                      <span
-                        title={t("listing.labels.featured")}
-                        className="inline-block items-center gap-1.5 rounded border p-0.5 text-xs shadow-sm"
-                      >
-                        <Crown size={16} />
-                      </span>
-                    )}
+                <div className="flex items-end">
+                  <div className="mb-1.5 flex items-center">
+                    <p className="relative text-2xl font-bold leading-4 tracking-tighter">
+                      {displayPrice(listing.price)}
+                    </p>
+                    {listing.previousPrice &&
+                      listing.previousPrice > (listing.price ?? 0) && (
+                        <div className="flex items-center text-xl">
+                          <ArrowDown
+                            className="lowered-price ml-1 mr-0.5 h-5 w-5"
+                            stroke="green"
+                          />
+                          <span className="text-sm text-gray-400 line-through">
+                            €{displayPrice(listing.previousPrice)}
+                          </span>
+                        </div>
+                      )}
 
-                    {listing.locationPrecision === "exact" && (
-                      <span
-                        title={t("listing.labels.exactLocation")}
-                        className="inline-block items-center gap-1.5 rounded border p-0.5 text-xs shadow-sm"
-                      >
-                        <MapPin size={16} />
-                      </span>
-                    )}
+                    <p className="ml-3 text-lg font-normal text-slate-700">
+                      {displayPricePerSquare(listing.price, listing.area)}
+                    </p>
                   </div>
-                  <div className="invisible relative z-10 ml-auto group-hover:visible">
-                    <ul className="flex gap-1">
-                      {/* <li>
-                  <Button
-                    variant="ghost"
-                    className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
-                    title={t("listing.actions.hide")}
-                  >
-                    <EyeOff className="h-5 w-5" />
-                  </Button>
-                </li> */}
-
-                      <li>
-                        <LikeListingButton listingId={listing.id} />
-                      </li>
-                      {/* <li>
-                  <Button
-                    variant="ghost"
-                    className="h-10 w-10 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
-                    title={t("listing.actions.contact")}
-                  >
-                    <Mail />
-                  </Button>
-                </li> */}
-                    </ul>
-                  </div>
+                  <ul className="invisible relative z-10 ml-auto flex gap-1 group-hover:visible">
+                    <li>
+                      <LikeListingButton listingId={listing.id} />
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
