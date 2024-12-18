@@ -53,6 +53,7 @@ import { NextRequest } from "next/server";
 import { headers } from "next/headers";
 import CalculateMortgageButton from "./_components/CalculateMortgageButton";
 import ImportantFeatures from "./_components/ImportantFeatures";
+import BackButton from "./_components/BackButton";
 
 // function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 //   return {
@@ -89,7 +90,7 @@ export async function generateMetadata({
       url: `${process.env.NEXT_PUBLIC_APP_URL}/listing/${listing.listingNumber}`,
       images: [
         {
-          url: images[0].url || "", // First image or default
+          url: images[0]?.url || "", // First image or default
           width: 1200,
           height: 630,
           alt: title,
@@ -168,14 +169,7 @@ export default async function SingleListingPage({
       {/* Above Images Breadcrumbs and Action Buttons */}
       <section className="px-0 py-4">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 md:flex-row">
-          <Link
-            href="/"
-            className="mr-5 inline-flex items-center text-xs font-semibold"
-          >
-            <Button variant={"ghost"}>
-              <ArrowLeft className="mr-2 h-4 w-4" /> {t("common.buttons.back")}
-            </Button>
-          </Link>
+          <BackButton />
           <ListingBreadcrumbs listing={listing} />
           <ListingActions listing={listing} />
         </div>

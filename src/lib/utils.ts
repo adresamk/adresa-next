@@ -75,7 +75,7 @@ export function displayDate(date: Date | string | null, delimiter = "/") {
     parsedDate = parseDateString(date, delimiter) || new Date(date); // Try parsing, fallback to Date constructor
 
     if (isNaN(parsedDate?.getTime() || NaN)) {
-      console.error("Invalid date string provided");
+      // console.error("Invalid date string provided");
       return "N/A";
     }
   } else if (date instanceof Date) {
@@ -83,7 +83,7 @@ export function displayDate(date: Date | string | null, delimiter = "/") {
   }
 
   if (!parsedDate || isNaN(parsedDate.getTime())) {
-    console.error("Invalid date provided");
+    // console.error("Invalid date provided");
     return null;
   }
 

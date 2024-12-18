@@ -21,6 +21,9 @@ export default async function ProfileListingsPage() {
     where: {
       agencyId: agency.id,
     },
+    include: {
+      viewCount: true,
+    },
   });
 
   // const myListings = await prismadb.listing.findMany({

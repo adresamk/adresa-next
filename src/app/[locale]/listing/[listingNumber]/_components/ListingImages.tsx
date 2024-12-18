@@ -71,7 +71,7 @@ export default function ListingImages({ listing }: { listing: Listing }) {
             place || t("listing.listingImages.noPlaceSet"),
           ),
           municipality: capitalizeString(
-            municipality || t("listingImages.noMunicipalitySet"),
+            municipality || t("listing.listingImages.noMunicipalitySet"),
           ),
           price: displayPrice(listing.price),
         })}
@@ -97,27 +97,30 @@ export default function ListingImages({ listing }: { listing: Listing }) {
             </TabsList>
             <TabsContent value="overview">
               <div className="photoGridContainer flex flex-grow flex-wrap overflow-y-hidden">
-                {images.map((image, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => handlePhotoSelection(idx)}
-                    className="mb-3 h-fit w-full max-w-full flex-shrink-0 px-1.5 sm:w-1/2 sm:flex-auto sm:flex-shrink sm:flex-grow md:w-1/3"
-                  >
-                    <figure className="h-[25vh] max-h-[300px] min-h-[100px] cursor-pointer overflow-hidden rounded-xl">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={image?.url || "/assets/missing-image2.jpg"}
-                        alt={t("listing.listingImages.photo", {
-                          index: idx + 1,
-                        })}
-                        width={800}
-                        height={533}
-                        className="h-full w-full object-cover object-center"
-                        loading="lazy"
-                      />
-                    </figure>
-                  </div>
-                ))}
+                {images.map((image, idx) => {
+                  const imageUrl = image?.url || "/assets/missing-image2.jpg";
+                  return (
+                    <div
+                      key={idx}
+                      onClick={() => handlePhotoSelection(idx)}
+                      className="mb-3 h-fit w-full max-w-full flex-shrink-0 px-1.5 sm:w-1/2 sm:flex-auto sm:flex-shrink sm:flex-grow md:w-1/3"
+                    >
+                      <figure className="h-[25vh] max-h-[300px] min-h-[100px] cursor-pointer overflow-hidden rounded-xl">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={imageUrl}
+                          alt={t("listing.listingImages.photo", {
+                            index: idx + 1,
+                          })}
+                          width={800}
+                          height={533}
+                          className="h-full w-full object-cover object-center"
+                          loading="lazy"
+                        />
+                      </figure>
+                    </div>
+                  );
+                })}
               </div>
             </TabsContent>
             <TabsContent value="singleAtATime">
@@ -171,7 +174,9 @@ export default function ListingImages({ listing }: { listing: Listing }) {
               <Image
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover object-center"
-                src={images[0]?.url || "/assets/missing-image2.jpg"}
+                src={
+                  (images[0] && images[0]?.url) || "/assets/missing-image2.jpg"
+                }
                 alt="1"
                 height={300}
                 width={300}

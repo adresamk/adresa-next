@@ -59,8 +59,9 @@ export default function MyListingsList({
           .map((l: Listing) => {
             // check against all require fields
 
-            const listingViewCount = (l as ListingWithViewCount)
-              .listingViewCount[0].count;
+            const listingWithViewCount = l as ListingWithViewCount;
+            console.log("listingWithViewCount", listingWithViewCount);
+            const listingViewCount = listingWithViewCount.viewCount?.count || 0;
             const title = l[`${locale}Title` as keyof ListingTitles] || "";
             const hasRequiredFieldsLeft =
               !l.type ||

@@ -62,7 +62,7 @@ export type ListingWithFeatures = Prisma.ListingGetPayload<{
 }>;
 
 export type ListingWithViewCount = Listing & {
-  listingViewCount: ListingViewCount[];
+  viewCount: ListingViewCount | null;
 };
 
 export type ListingFeatureWithFeature = ListingFeature & {

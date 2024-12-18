@@ -301,11 +301,12 @@ model Listing {
 
   // tags are something that will be calculated based on other fields
   //tags        String[]         @default([])
-  favoritedBy      Favorite[]
-  listingViews     ListingView[]
-  listingViewCount ListingViewCount[]
+  favoritedBy     Favorite[]
+  listingViews    ListingView[]
+  viewCount       ListingViewCount?
+  viewCountId     Int?              @unique
   // extract this into user as separate values
-  listingFeatures  ListingFeature[]
+  listingFeatures ListingFeature[]
 
   // Should go to cateogry Residental
   // orientation String? // 'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
@@ -522,7 +523,7 @@ model ListingView {
 model ListingViewCount {
   id        Int     @id @default(autoincrement())
   listingId Int     @unique
-  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listing   Listing @relation(fields: [listingId], references: [id])
   count     Int     @default(0)
 
   createdAt DateTime @default(now())

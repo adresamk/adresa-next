@@ -105,7 +105,7 @@ export function getMunicipalityPlacesTranslated(
   places: TranslatedOption[];
 } {
   if (!municipalityId) {
-    console.error("Municipality ID is required");
+    // console.error("Municipality ID is required");
     return { municipality: null, places: [] };
   }
 
