@@ -2,11 +2,8 @@ import { googleOAuthClient } from "@/lib/googleOAuth";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import prismadb from "@/lib/db";
-import { lucia } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { UserRoles } from "@/lib/data/user/importantData";
 import { AccountType } from "@prisma/client";
-import { generateUniqueToken } from "@/lib/utils";
 import {
   createSession,
   generateSessionToken,
@@ -14,7 +11,6 @@ import {
 } from "@/lib/sessions";
 
 export async function GET(req: NextRequest) {
-  console.log(req);
   const url = req.nextUrl;
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
@@ -80,13 +76,19 @@ export async function GET(req: NextRequest) {
       data: {
         role: AccountType.USER,
         email: googleData.email,
-        user: {
-          create: {
-            uuid: "accountId",
-            firstName,
-            lastName,
-          },
-        },
+        emailVerified: new Date(),
+      },
+    });
+    await prismadb.user.create({
+      data: {
+        accountId: account.id,
+        pictureUrl: googleData.picture,
+        firstName,
+        lastName,
+        uuid: account.uuid,
+        contactName: `${firstName} ${lastName}`,
+        contactEmail: googleData.email,
+        contactEmailVerified: new Date(),
       },
     });
     accountId = account.id;

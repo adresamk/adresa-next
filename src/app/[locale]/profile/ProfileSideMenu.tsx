@@ -4,36 +4,38 @@ import { Bookmark, Contact, Heart, HousePlus, UserIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { User } from "@prisma/client";
+import { useTranslations } from "next-intl";
 
-const profileNavigation = [
-  {
-    label: "Profile",
-    icon: <UserIcon />,
-    path: "/profile/info",
-  },
-  {
-    label: "Contact Info",
-    icon: <Contact />,
-    path: "/profile/contact",
-  },
-  {
-    label: "My Listings",
-    icon: <HousePlus />,
-    path: "/profile/listings",
-  },
-  {
-    label: "Saved Searches",
-    icon: <Bookmark />,
-    path: "/profile/searches",
-  },
-  {
-    label: "Liked Listings",
-    icon: <Heart />,
-    path: "/profile/liked",
-  },
-];
 export default function ProfileSideMenu({ user }: { user: User | null }) {
   const pathname = usePathname();
+  const t = useTranslations();
+  const profileNavigation = [
+    {
+      label: t("user.profile.menu.profile"),
+      icon: <UserIcon />,
+      path: "/profile/info",
+    },
+    {
+      label: t("user.profile.menu.contactInfo"),
+      icon: <Contact />,
+      path: "/profile/contact",
+    },
+    {
+      label: t("user.profile.menu.myListings"),
+      icon: <HousePlus />,
+      path: "/profile/listings",
+    },
+    {
+      label: t("user.profile.menu.savedSearches"),
+      icon: <Bookmark />,
+      path: "/profile/searches",
+    },
+    {
+      label: t("user.profile.menu.likedListings"),
+      icon: <Heart />,
+      path: "/profile/liked",
+    },
+  ];
 
   if (!user) {
     return (

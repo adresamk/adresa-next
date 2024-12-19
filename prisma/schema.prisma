@@ -121,7 +121,7 @@ model User {
   contactEmail           String?   @db.VarChar(60)
   contactEmailVerified   DateTime?
   contactHours           String?   @db.VarChar(200)
-  preferredContactMethod String?   @db.VarChar(10) // email, phone, both
+  preferredContactMethod String?   @default("both") @db.VarChar(10) // email, phone, both
 
   favorites     Favorite[]
   savedSearches SavedSearch[]

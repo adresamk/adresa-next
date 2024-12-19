@@ -14,7 +14,7 @@ import {
   ListingWithViewCount,
   UploadedImageData,
 } from "@/types/listing.types";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function MyListingsList({
   listings,
@@ -25,6 +25,7 @@ export default function MyListingsList({
 }) {
   const [searchFilter, setSearchFilter] = useState("");
   const locale = useLocale();
+  const t = useTranslations();
   return (
     <>
       {agency && (
@@ -41,7 +42,7 @@ export default function MyListingsList({
             className="border-brand-light-blue text-brand-light-blue hover:text-brand-dark-blue"
           >
             {" "}
-            Upload CSV{" "}
+            {t("agency.profile.listings.uploadCsv")}
           </Button>
         </div>
       )}
@@ -185,7 +186,7 @@ export default function MyListingsList({
               size={"lg"}
               className="border border-brand-light-blue bg-white uppercase text-brand-light-blue hover:bg-slate-50 hover:text-brand-light-blue"
             >
-              Create new listing
+              {t("agency.profile.listingsPage.createNewListing")}
             </Button>
           </Link>
         </div>

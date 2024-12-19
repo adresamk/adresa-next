@@ -301,10 +301,11 @@ export async function getGoogleOAuthConsentURL() {
       state,
       codeVerifier,
       {
-        scopes: ["email", "profile"],
+        scopes: ["email", "profile", "openid"],
       },
     );
 
+    console.log("authUrl", authUrl);
     return { success: true, url: authUrl.toString() };
   } catch (error) {
     return {

@@ -15,7 +15,7 @@ export async function updateUserInfo(formData: FormData) {
     };
   }
 
-  // console.log("userFormData", formData);
+  console.log("userFormData", formData);
   const firstName = formData.get("firstName");
   const lastName = formData.get("lastName");
   const phone = formData.get("phone");
@@ -49,6 +49,9 @@ export async function updateUserInfo(formData: FormData) {
       data: {
         uuid: account.uuid,
         accountId: account.id,
+        firstName: capitalizeString(firstName),
+        lastName: capitalizeString(lastName),
+        phone: phone,
       },
     });
     // update user info

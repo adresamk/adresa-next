@@ -7,6 +7,7 @@ import {
   ImageIcon,
   LampFloor,
   MapPin,
+  UserIcon,
 } from "lucide-react";
 
 import { Link } from "@/i18n/routing";
@@ -21,6 +22,7 @@ import {
 } from "@/types/listing.types";
 import { useTranslations } from "next-intl";
 import { Listing, User } from "@prisma/client";
+import { ListingWithUserAndAgency } from "@/lib/types";
 interface SearchShowcaseProps {
   listing: Listing;
   images: UploadedImageData[];
@@ -32,6 +34,7 @@ export default function SearchShowcase({
   description,
 }: SearchShowcaseProps) {
   const t = useTranslations("common");
+  const lwu = listing as ListingWithUserAndAgency;
 
   return (
     <li
@@ -122,7 +125,7 @@ export default function SearchShowcase({
                 </p>
 
                 {/* Featured properties? */}
-                <p className="flex items-center gap-6">
+                <div className="flex items-center gap-6">
                   <ul className="flex gap-1.5">
                     <li
                       title={t("listing.features.floor")}
@@ -160,7 +163,7 @@ export default function SearchShowcase({
                       </span>
                     </li>
                   </ul>
-                </p>
+                </div>
               </div>
               <div className="mt-auto max-w-full">
                 <div className="flex items-end">
@@ -201,6 +204,45 @@ export default function SearchShowcase({
               href={"/listing/" + listing.listingNumber}
             ></Link>
           </div>
+          {/* User or Agency */}
+          {lwu.agency && (
+            <Link href={`/agency/${lwu.agency?.slug}`}>
+              <div className="group absolute right-3 top-3 z-10 h-[30px] w-[70px] overflow-hidden rounded-md bg-slate-500">
+                <img
+                  src={
+                    (lwu.agency?.logo as UploadedImageData).url ||
+                    "/assets/missing-image.png"
+                  }
+                  alt={lwu.agency?.name || ""}
+                  className="h-full w-full object-contain opacity-30 grayscale transition-all duration-200 group-hover:opacity-100 group-hover:grayscale-0"
+                />
+              </div>
+            </Link>
+          )}
+          {lwu.user && (
+            <div className="group absolute right-3 top-3 z-10 h-[40px] w-[40px] overflow-hidden rounded-md">
+              {lwu.user.pictureUrl ? (
+                <div>
+                  <img
+                    width={40}
+                    height={40}
+                    src={lwu.user?.pictureUrl || "/assets/missing-image.png"}
+                    alt={lwu.user?.contactName || ""}
+                    className="h-full w-full object-contain opacity-30 grayscale transition-all duration-200 group-hover:opacity-100 group-hover:grayscale-0"
+                  />
+                </div>
+              ) : (
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200">
+                  {lwu.user?.contactName ? (
+                    lwu.user.contactName?.split(" ")[0].charAt(0) +
+                    lwu.user.contactName?.split(" ")[1].charAt(0)
+                  ) : (
+                    <UserIcon className="h-8 w-8" />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </article>
     </li>

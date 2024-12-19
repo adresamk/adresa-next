@@ -6,6 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Link } from "@/i18n/routing";
 import prismadb from "@/lib/db";
 import { UploadedImageData } from "@/types/listing.types";
 import { Building, SearchCheck, Star } from "lucide-react";
@@ -16,6 +17,7 @@ export default async function SuggestedAgencies() {
   const agencies = await prismadb.agency.findMany({
     take: 6,
     select: {
+      slug: true,
       id: true,
       name: true,
       logo: true,
@@ -50,7 +52,7 @@ export default async function SuggestedAgencies() {
                 key={agency.id}
                 className="basis-1/4 pl-0 shadow-md transition hover:translate-y-[-2px]"
               >
-                <div className="flex flex-col items-center justify-center rounded bg-white p-4">
+                <div className="flex h-full flex-col items-center justify-center rounded bg-white p-4">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={logoUrl}
@@ -58,9 +60,15 @@ export default async function SuggestedAgencies() {
                     className="h-[86px] w-[112px]"
                   />
                   <p className="mt-2 text-center text-sm">{agency.name}</p>
-                  <p className="text-center text-sm text-gray-500">
-                    {agency._count.listings} {t("common.search.results")}
-                  </p>
+                  <Link
+                    target="_blank"
+                    href={`/agency/${agency.slug}/search`}
+                    className="relative z-30 mt-auto cursor-pointer text-center text-xs text-brand-light-blue"
+                  >
+                    <p className="text-center text-sm">
+                      {agency._count.listings} {t("common.search.results")}
+                    </p>
+                  </Link>
                 </div>
               </CarouselItem>
             );

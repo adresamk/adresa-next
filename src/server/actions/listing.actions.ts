@@ -1445,6 +1445,10 @@ export default async function getAllListings(
       status: ListingStatus.ACTIVE,
       isVisible: true,
     },
+    include: {
+      agency: true,
+      user: true,
+    },
     take: 20,
   });
   // Optimize with this

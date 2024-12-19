@@ -2,10 +2,12 @@
 import ListingCard from "@/app/[locale]/_components/ListingCard";
 import { cn } from "@/lib/utils";
 import { Listing } from "@prisma/client";
+import { useTranslations } from "next-intl";
 import { use, useState } from "react";
 
 export default function MyLikedListings({ listings }: { listings: Listing[] }) {
   const [activeFilter, setActiveFilter] = useState("sale");
+  const t = useTranslations();
   return (
     <div>
       <div className="mb-2 flex justify-between">
@@ -17,7 +19,7 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
               activeFilter === "sale" && "bg-brand-light-blue text-white",
             )}
           >
-            sale
+            {t("common.filters.mode.sale")}
           </div>
           <div
             onClick={() => setActiveFilter("rent")}
@@ -26,7 +28,7 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
               activeFilter === "rent" && "bg-brand-light-blue text-white",
             )}
           >
-            rent
+            {t("common.filters.mode.rent")}
           </div>
           <div
             onClick={() => setActiveFilter("all")}
@@ -35,10 +37,10 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
               activeFilter === "all" && "bg-brand-light-blue text-white",
             )}
           >
-            all
+            {t("common.filters.mode.all")}
           </div>
         </div>
-        <div>Sort</div>
+        <div>{t("user.profile.likedListings.sort")}</div>
       </div>
       <div className="flex flex-wrap gap-2">
         {listings

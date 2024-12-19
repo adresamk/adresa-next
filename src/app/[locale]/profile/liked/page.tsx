@@ -6,42 +6,34 @@ import { HousePlus } from "lucide-react";
 import { getLikedListingsByUser } from "@/server/actions/listing.actions";
 import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
+import { getTranslations } from "next-intl/server";
+import HireAgencyBanner from "../searches/_components/HireAgencyBanner";
 
 export default async function ProfileLikedPage() {
   const { isAuthenticated, user } = await getCurrentUser();
-
+  const t = await getTranslations();
   if (isAuthenticated && !user) {
     redirect({ href: "/profile/info", locale: "mk" });
   }
   const myLikedListings = await getLikedListingsByUser();
   return (
-    <div>
-      <div className="ml-4 mt-4 w-full rounded-lg bg-white p-8 shadow">
-        <h3 className="mb-3 text-2xl font-semibold">Favorite Listings</h3>
+    <>
+      <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+        <h3 className="mb-3 text-2xl font-semibold">
+          {t("user.profile.likedListings.title")}
+        </h3>
         <Separator className="my-3" />
         {myLikedListings && <MyLikedListings listings={myLikedListings} />}
         {!myLikedListings && (
           <div className="flex h-full items-center justify-center">
-            <p>You havent liked any listings yet</p>
+            <p>{t("user.profile.likedListings.noLikedListings")}</p>
           </div>
         )}
       </div>
-      <div className="ml-4 mt-4 flex h-[220px] items-center justify-between overflow-x-auto rounded-lg bg-white p-8 shadow">
-        <div>
-          <h3 className="text-2xl font-semibold">Hire Agencies</h3>
-          <p>Let the agencies do all the hard work</p>
-          <Button className="mt-3 uppercase">
-            <HousePlus className="mr-2" /> Create Search
-          </Button>
-        </div>
-        <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/assets/saved-listings-bg1.png" alt="Image" />
-        </div>
-      </div>
+      <HireAgencyBanner />
       <div className="ml-4 mt-4 overflow-x-auto rounded-lg bg-white p-8 shadow">
         <SuggestedAgencies />
       </div>
-    </div>
+    </>
   );
 }

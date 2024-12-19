@@ -6,38 +6,30 @@ import { get } from "http";
 import { getMySavedSearches } from "@/server/actions/savedSearche.actions";
 import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
+import { getTranslations } from "next-intl/server";
+import HireAgencyBanner from "./_components/HireAgencyBanner";
 
 export default async function MySavedSearchesPage() {
   const { isAuthenticated, user } = await getCurrentUser();
-
+  const t = await getTranslations();
   if (isAuthenticated && !user) {
     redirect({ href: "/profile/info", locale: "mk" });
   }
   const mySavedSearches = await getMySavedSearches();
   return (
-    <div className="w-full">
-      <div className="ml-4 mt-4 w-full rounded-lg bg-white p-8 shadow">
+    <>
+      <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
         <h3 className="mb-3 flex items-center justify-between text-2xl font-semibold">
-          Saved Searches
+          {t("user.profile.savedSearches.title")}
           <Button className="uppercase" size={"sm"}>
-            <Search className="mr-2" /> New Search
+            <Search className="mr-2" />{" "}
+            {t("user.profile.savedSearches.newSearch")}
           </Button>
         </h3>
         <Separator className="my-3" />
         <MySavedSearchesList savedSearches={mySavedSearches} />
       </div>
-      <div className="ml-4 mt-4 flex h-[220px] items-center justify-between overflow-x-auto rounded-lg bg-white p-8 shadow">
-        <div>
-          <h3 className="text-2xl font-semibold">Hire Agencies</h3>
-          <p>Let the agencies do all the hard work</p>
-          <Button className="mt-3 uppercase">
-            <HousePlus className="mr-2" /> Create Search
-          </Button>
-        </div>
-        <div>
-          <img src="/assets/saved-listings-bg1.png" alt="Image" />
-        </div>
-      </div>
-    </div>
+      <HireAgencyBanner />
+    </>
   );
 }
