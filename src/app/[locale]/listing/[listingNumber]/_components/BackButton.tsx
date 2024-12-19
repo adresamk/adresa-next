@@ -7,15 +7,10 @@ import { useEffect, useState } from "react";
 
 function BackButton() {
   const router = useRouter();
-  const [canGoBack, setCanGoBack] = useState(false);
   const t = useTranslations();
-  const pathname = usePathname();
-  useEffect(() => {
-    setCanGoBack(window.history.length > 1);
-  }, []);
 
   const handleBack = () => {
-    if (canGoBack) {
+    if (window.history.length > 1) {
       // Attempt to go back
       const referrer = document.referrer;
       if (referrer && referrer !== "" && referrer !== "about:blank") {

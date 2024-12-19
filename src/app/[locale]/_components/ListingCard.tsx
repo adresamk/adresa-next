@@ -14,12 +14,13 @@ import { useTranslations } from "next-intl";
 import { getMunicipalityInfo } from "@/lib/data/macedoniaOld/importantData";
 import { useLocale } from "next-intl";
 import { ListingWithRelations, UploadedImageData } from "@/types/listing.types";
-
+import { Link } from "@/i18n/routing";
 export default function ListingCard({ listing }: { listing: Listing }) {
   const t = useTranslations();
   const locale = useLocale();
 
   const lwr = listing as ListingWithRelations;
+  const isLiked = lwr.favoritedBy?.length > 0;
   const municipalityInfo = listing.municipality
     ? getMunicipalityInfo(listing.municipality)
     : null;
@@ -33,8 +34,9 @@ export default function ListingCard({ listing }: { listing: Listing }) {
   const image: UploadedImageData = (listing.mainImage ||
     {}) as UploadedImageData;
   const tags: string[] = [];
+  console.log("listing", lwr);
   return (
-    <Card className="flex h-full w-full min-w-[200px] max-w-[325px] flex-col">
+    <Card className="relative flex h-full w-full min-w-[200px] max-w-[325px] flex-col">
       <CardHeader className="relative p-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -56,6 +58,10 @@ export default function ListingCard({ listing }: { listing: Listing }) {
         </div>
       </CardHeader>
       <CardContent className="px-4 pb-0 pt-2">
+        <Link
+          href={`/listing/${listing.listingNumber}`}
+          className="absolute inset-0 z-0"
+        ></Link>
         <p>
           <span className="capitalize">
             {t(`common.property.type.${listing.type}`)}
@@ -85,11 +91,8 @@ export default function ListingCard({ listing }: { listing: Listing }) {
               </div>
             )}
         </div>
-        <span className="ml-auto">
-          <LikeListingButton
-            listingId={listing.id}
-            isLiked={lwr.favoritedBy.length > 0}
-          />
+        <span className="relative z-10 ml-auto">
+          <LikeListingButton listingId={listing.id} isLiked={isLiked} />
         </span>
       </CardFooter>
     </Card>

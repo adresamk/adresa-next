@@ -28,21 +28,9 @@ export default function LikeListingButton({
   const [isFavorite, setIsFavorite] = useState(isLiked);
 
   useEffect(() => {
-    async function checkFavoriteStatus() {
-      setIsLoading(true);
-      try {
-        const isFavorited = await getFavoriteStatus(listingId);
-        setIsFavorite(isFavorited);
-      } catch (error) {
-        console.error("Failed to check favorite status:", error);
-        setIsFavorite(false);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    checkFavoriteStatus();
-  }, [listingId]);
-
+    setIsFavorite(isLiked);
+  }, [isLiked]);
+  console.log("isFavorite", isFavorite, isLiked, listingId);
   return (
     <>
       <AuthDialog />
@@ -52,13 +40,16 @@ export default function LikeListingButton({
         onClick={async (e) => {
           e.preventDefault();
           await withAuthCheck(async () => {
+            console.log("isFavorite", isFavorite);
             if (!isFavorite) {
               const resp = await addListingAsFavorite(listingId);
+              console.log("resp", resp);
               if (resp.success) {
                 setIsFavorite(true);
               }
             } else {
               const resp = await removeListingAsFavorite(listingId);
+              console.log("resp", resp);
               if (resp.success) {
                 setIsFavorite(false);
               }
@@ -71,9 +62,8 @@ export default function LikeListingButton({
         title={t("listing.like.toggleFavorite")}
       >
         <Heart
-          className={cn("h-5 w-5", {
-            "fill-blue": isFavorite,
-          })}
+          className={cn("h-5 w-5 text-blue-500")}
+          fill={isFavorite ? "currentColor" : "none"}
         />
       </Button>
     </>

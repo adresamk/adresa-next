@@ -93,23 +93,22 @@ export async function removeListingAsFavorite(listingId: number) {
   };
 }
 
-export async function getLikedListingsByUser() {
-  const { user } = await getCurrentUser();
-
-  if (!user) {
-    return null;
-  }
+export async function getLikedListingsByUser(userId: number) {
   const likedListingsByUser = await prismadb.favorite.findMany({
     where: {
-      userId: user.id,
+      userId: userId,
     },
     select: {
       listing: true,
     },
   });
+  console.log(userId, likedListingsByUser);
 
   // Extract listings from the result
-  const listings = likedListingsByUser.map((favorite) => favorite.listing);
+  const listings = likedListingsByUser.map((favorite) => ({
+    ...favorite.listing,
+    favoritedBy: [userId],
+  }));
 
   return listings;
 }

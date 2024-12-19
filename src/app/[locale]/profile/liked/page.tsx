@@ -15,12 +15,20 @@ export default async function ProfileLikedPage() {
   if (isAuthenticated && !user) {
     redirect({ href: "/profile/info", locale: "mk" });
   }
-  const myLikedListings = await getLikedListingsByUser();
+  if (!user) {
+    redirect({ href: "/", locale: "mk" });
+    return null;
+  }
+  const myLikedListings = await getLikedListingsByUser(user.id);
+  console.log("myLikedListings", myLikedListings);
   return (
     <div className="flex flex-col gap-3">
       <div className="rounded-lg bg-white p-8 shadow">
         <h3 className="mb-3 text-2xl font-semibold">
           {t("user.profile.likedListings.title")}
+          <span className="ml-3 text-base text-gray-500">
+            ({myLikedListings.length})
+          </span>
         </h3>
         <Separator className="my-3" />
         {myLikedListings && <MyLikedListings listings={myLikedListings} />}

@@ -8,6 +8,7 @@ import { use, useState } from "react";
 export default function MyLikedListings({ listings }: { listings: Listing[] }) {
   const [activeFilter, setActiveFilter] = useState("sale");
   const t = useTranslations();
+  console.log("listings343", listings);
   return (
     <div>
       <div className="mb-2 flex justify-between">
@@ -40,7 +41,7 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
             {t("common.filters.mode.all")}
           </div>
         </div>
-        <div>{t("user.profile.likedListings.sort")}</div>
+        <div>{t("user.profile.likedListings.sort")} </div>
       </div>
       <div className="flex flex-wrap gap-2">
         {listings
