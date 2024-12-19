@@ -6,7 +6,7 @@ interface HireAgencyBannerProps {}
 export default async function HireAgencyBanner({}: HireAgencyBannerProps) {
   const t = await getTranslations();
   return (
-    <div className="ml-4 mt-4 flex h-[220px] items-center justify-between overflow-x-auto rounded-lg bg-white p-8 shadow">
+    <div className="flex h-[220px] items-center justify-between overflow-x-auto rounded-lg bg-white p-8 shadow">
       <div>
         <h3 className="text-2xl font-semibold">
           {t("user.profile.savedSearches.hireAgencies")}

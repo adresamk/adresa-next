@@ -24,7 +24,7 @@ export default async function ProfileListingsPage() {
     },
   });
   return (
-    <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+    <div className="flex flex-col gap-3 rounded-lg bg-white p-8 shadow">
       <h3 className="mb-3 text-2xl font-semibold">
         {t("user.profile.listings.title")}
       </h3>

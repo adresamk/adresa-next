@@ -17,8 +17,8 @@ export default async function ProfileLikedPage() {
   }
   const myLikedListings = await getLikedListingsByUser();
   return (
-    <>
-      <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+    <div className="flex flex-col gap-3">
+      <div className="rounded-lg bg-white p-8 shadow">
         <h3 className="mb-3 text-2xl font-semibold">
           {t("user.profile.likedListings.title")}
         </h3>
@@ -31,9 +31,9 @@ export default async function ProfileLikedPage() {
         )}
       </div>
       <HireAgencyBanner />
-      <div className="ml-4 mt-4 overflow-x-auto rounded-lg bg-white p-8 shadow">
+      <div className="verflow-x-auto rounded-lg bg-white shadow">
         <SuggestedAgencies />
       </div>
-    </>
+    </div>
   );
 }

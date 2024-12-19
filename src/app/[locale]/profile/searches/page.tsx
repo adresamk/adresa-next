@@ -17,8 +17,8 @@ export default async function MySavedSearchesPage() {
   }
   const mySavedSearches = await getMySavedSearches();
   return (
-    <>
-      <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+    <div className="flex flex-col gap-3">
+      <div className="rounded-lg bg-white p-8 shadow">
         <h3 className="mb-3 flex items-center justify-between text-2xl font-semibold">
           {t("user.profile.savedSearches.title")}
           <Button className="uppercase" size={"sm"}>
@@ -30,6 +30,6 @@ export default async function MySavedSearchesPage() {
         <MySavedSearchesList savedSearches={mySavedSearches} />
       </div>
       <HireAgencyBanner />
-    </>
+    </div>
   );
 }

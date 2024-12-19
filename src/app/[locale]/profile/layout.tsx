@@ -28,7 +28,7 @@ export default async function ProfileLayout({
 
   return (
     <main className="mx-auto flex max-w-7xl px-6">
-      <div className="min-h-screen min-w-[220px] bg-white shadow">
+      <div className="min-h-screen w-[220px] bg-white shadow">
         <div className="px-3 py-6">
           <p>{t("user.profile.menu.welcome")}</p>
           {isAuthenticated && !user && (
@@ -44,7 +44,8 @@ export default async function ProfileLayout({
         </div>
         <ProfileSideMenu user={user} />
       </div>
-      <div className="">{children}</div>
+
+      <div className="p-4">{children}</div>
     </main>
   );
 }
