@@ -109,6 +109,7 @@ for (let index = 1; index < 100; index++) {
     transactionType: tType,
     category: c,
     type: t,
+    viewCountId: null,
     queryHash: "",
     ///
     municipality: municipality,
@@ -222,6 +223,7 @@ for (let index = 1; index < 100; index++) {
     createdAt: new Date(),
     updatedAt: new Date(),
     isAvailable: true,
+    viewCountId: null,
     dateAvailable: new Date(),
     userId: agencyUserIds[userIndex],
     transactionType: tType,
