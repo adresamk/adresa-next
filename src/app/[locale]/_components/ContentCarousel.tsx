@@ -42,8 +42,8 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({
             </div>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="text-black" />
+        <CarouselNext className="text-black" />
       </Carousel>
     </div>
   );

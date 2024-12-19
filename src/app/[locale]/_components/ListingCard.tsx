@@ -7,18 +7,19 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Heart } from "lucide-react";
+import { ArrowDown, Heart } from "lucide-react";
 import { displayPrice } from "@/lib/utils";
 import LikeListingButton from "@/app/[locale]/search/_components/LikeListingButton";
 import { useTranslations } from "next-intl";
 import { getMunicipalityInfo } from "@/lib/data/macedoniaOld/importantData";
 import { useLocale } from "next-intl";
-import { UploadedImageData } from "@/types/listing.types";
+import { ListingWithRelations, UploadedImageData } from "@/types/listing.types";
 
 export default function ListingCard({ listing }: { listing: Listing }) {
   const t = useTranslations();
   const locale = useLocale();
 
+  const lwr = listing as ListingWithRelations;
   const municipalityInfo = listing.municipality
     ? getMunicipalityInfo(listing.municipality)
     : null;
@@ -33,12 +34,12 @@ export default function ListingCard({ listing }: { listing: Listing }) {
     {}) as UploadedImageData;
   const tags: string[] = [];
   return (
-    <Card className="max-w-[325px]">
+    <Card className="flex h-full w-full min-w-[200px] max-w-[325px] flex-col">
       <CardHeader className="relative p-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={image?.url || "/assets/missing-image2.jpg"}
-          className="h-[200px] w-[325px] object-cover"
+          className="aspect-video h-full min-h-[160px] w-[325px] min-w-full rounded-t-md object-cover md:min-h-[200px]"
           alt=""
           width={325}
           height={200}
@@ -54,7 +55,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           ))}
         </div>
       </CardHeader>
-      <CardContent className="px-4 pt-2">
+      <CardContent className="px-4 pb-0 pt-2">
         <p>
           <span className="capitalize">
             {t(`common.property.type.${listing.type}`)}
@@ -70,10 +71,25 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           <p className="text-sm capitalize">{municipalityName}</p>
         )}
       </CardContent>
-      <CardFooter className="flex justify-around px-4 pb-3">
-        <span>{displayPrice(listing.price)}</span>
+      <CardFooter className="@container mt-auto flex justify-around px-4 pb-3">
+        <div className="prices gap 2 relative flex items-center">
+          <div className="text-lg font-bold">{displayPrice(listing.price)}</div>
+          {listing.previousPrice &&
+            listing.price &&
+            listing.previousPrice < listing.price && (
+              <div className="absolute -top-4 right-0 flex items-center gap-1 text-xs text-gray-500 md:static">
+                <ArrowDown className="h-5 w-5" stroke="green" />{" "}
+                <span className="line-through">
+                  {displayPrice(listing.previousPrice)}
+                </span>
+              </div>
+            )}
+        </div>
         <span className="ml-auto">
-          <LikeListingButton listingId={listing.id} />
+          <LikeListingButton
+            listingId={listing.id}
+            isLiked={lwr.favoritedBy.length > 0}
+          />
         </span>
       </CardFooter>
     </Card>

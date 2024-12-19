@@ -15,15 +15,17 @@ import { useTranslations } from "next-intl";
 export default function LikeListingButton({
   listingId,
   className,
+  isLiked,
 }: {
   listingId: number;
   className?: string;
+  isLiked?: boolean;
 }) {
   const t = useTranslations();
   const router = useRouter();
   const { withAuthCheck, AuthDialog } = useAuthGuard();
   const [isLoading, setIsLoading] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(isLiked);
 
   useEffect(() => {
     async function checkFavoriteStatus() {

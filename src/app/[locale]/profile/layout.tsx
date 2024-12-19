@@ -45,7 +45,7 @@ export default async function ProfileLayout({
         <ProfileSideMenu user={user} />
       </div>
 
-      <div className="p-4">{children}</div>
+      <div className="flex-1 p-4">{children}</div>
     </main>
   );
 }

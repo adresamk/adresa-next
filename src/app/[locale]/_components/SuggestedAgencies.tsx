@@ -29,8 +29,6 @@ export default async function SuggestedAgencies() {
     },
   });
 
-  console.log("agencies", agencies);
-
   return (
     <div className="mx-auto flex flex-col gap-3 px-12 pb-3 pt-6">
       <h3 className="flex gap-4">

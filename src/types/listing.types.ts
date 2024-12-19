@@ -25,6 +25,7 @@ export const listingWithRelationsInclude = {
       feature: true,
     },
   },
+  favoritedBy: true,
 } as const;
 
 export const listingWithFavoritedByInclude = {

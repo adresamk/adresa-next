@@ -110,6 +110,7 @@ const config = withUt({
       },
       screens: {
         xs: "20rem",
+        xxs: "12rem",
       },
     },
   },
