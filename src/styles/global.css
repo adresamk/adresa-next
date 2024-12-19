@@ -274,7 +274,11 @@ button.reveal-button {
   z-index: 2000 !important;
 }
 
-.marker-pin:hover .icon-combo > div:first-child {
+.price-box-pin:hover .icon-combo > div:first-child {
+  color: white;
+  background-color: #0a057b;
+}
+.circle-pin:hover .icon-combo > div:first-child {
   color: white;
   background-color: #0a057b;
 }
