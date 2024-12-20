@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { LocalStorageKeysOptions } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -142,14 +143,7 @@ export function parseQueryString(queryString: string) {
 export function createSlug(text: string) {
   return text.replace(/\s+/g, "-").toLowerCase();
 }
-export enum LocalStorageKeysOptions {
-  mkRecentSearches = "mkRecentSearches",
-  enRecentSearches = "enRecentSearches",
-  alRecentSearches = "alRecentSearches",
-  mkRecentlyViewedListings = "mkRecentlyViewedListings",
-  enRecentlyViewedListings = "enRecentlyViewedListings",
-  alRecentlyViewedListings = "alRecentlyViewedListings",
-}
+
 export function writeToLocalStorage(key: LocalStorageKeysOptions, value: any) {
   localStorage.setItem(key, JSON.stringify(value));
 }

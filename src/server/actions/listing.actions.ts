@@ -24,6 +24,19 @@ import {
   UploadedImageData,
 } from "@/types/listing.types";
 
+export async function getListingsByIdForRecentlyViewed(
+  listingNumbers: number[],
+) {
+  const listings = await prismadb.listing.findMany({
+    where: {
+      listingNumber: {
+        in: listingNumbers,
+      },
+    },
+  });
+  return listings;
+}
+
 export async function addListingAsFavorite(listingId: number) {
   const { user } = await getCurrentUser();
 

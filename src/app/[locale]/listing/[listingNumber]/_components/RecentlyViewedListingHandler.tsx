@@ -1,10 +1,7 @@
 "use client";
 
-import {
-  LocalStorageKeysOptions,
-  readFromLocalStorage,
-  writeToLocalStorage,
-} from "@/lib/utils";
+import { LocalStorageKeysOptions } from "@/lib/types";
+import { readFromLocalStorage, writeToLocalStorage } from "@/lib/utils";
 import { Listing } from "@prisma/client";
 import { useLocale } from "next-intl";
 import { useEffect } from "react";
@@ -26,16 +23,15 @@ export default function RecentlyViewedListingHandler({
   useEffect(() => {
     const addToRecentlyViewed = () => {
       const recentlyViewedListings: RecentlyViewedListing[] =
-        readFromLocalStorage(
-          `${locale}RecentlyViewedListings` as LocalStorageKeysOptions,
-        ) || [];
+        readFromLocalStorage("recentlyViewedListings") || [];
 
-      if (
-        recentlyViewedListings.find(
-          (l: RecentlyViewedListing) =>
-            l.listingNumber === listing.listingNumber,
-        )
-      ) {
+      const listingViewed = recentlyViewedListings.find(
+        (l: RecentlyViewedListing) => l.listingNumber === listing.listingNumber,
+      );
+      if (listingViewed) {
+        // Update the timestamp for this listing
+        listingViewed.addedToRecentlyViewedDateTime = new Date().getTime();
+        writeToLocalStorage("recentlyViewedListings", recentlyViewedListings);
         return;
       }
 
@@ -45,10 +41,7 @@ export default function RecentlyViewedListingHandler({
       };
 
       recentlyViewedListings.push(newRecentlyViewedListing);
-      writeToLocalStorage(
-        `${locale}RecentlyViewedListings` as LocalStorageKeysOptions,
-        recentlyViewedListings,
-      );
+      writeToLocalStorage("recentlyViewedListings", recentlyViewedListings);
     };
 
     addToRecentlyViewed();

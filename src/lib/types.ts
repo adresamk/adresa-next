@@ -23,7 +23,14 @@ type DateFieldsToString<T> = {
 
 // Your serialized listing type that only changes Date fields to strings
 export type SerializedListing = DateFieldsToString<ListingWithUserAndAgency>;
+export type LocalStorageKeysOptions =
+  | "recentlyViewedListings"
+  | "recentSearches";
 
+export interface RecentlyViewedListing {
+  listingNumber: number;
+  addedToRecentlyViewedDateTime: number;
+}
 export interface ListingContactData {
   firstName?: string;
   lastName?: string;

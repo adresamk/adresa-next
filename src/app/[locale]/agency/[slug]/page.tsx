@@ -67,8 +67,10 @@ export default async function AgencyPage({
     },
     {} as Record<string, number>,
   );
-  console.log(groupedListings);
 
+  const topFourGroups = Object.entries(groupedListings)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 4);
   const logoUrl =
     (agency.logo as UploadedImageData)?.url || "/assets/missing-image2.jpg";
   return (
@@ -94,34 +96,33 @@ export default async function AgencyPage({
                 />
               </div>
               <div className="flex flex-1 flex-col justify-between py-2">
-                <p>{agency.shortDescription}</p>
-                <h3 className="text-4xl font-semibold">{agency.name}</h3>
+                <p className="max-w-[42ch]">{agency.shortDescription}</p>
+                <h3 className="max-w-[72ch] text-4xl font-semibold">
+                  {agency.name}
+                </h3>
               </div>
             </div>
             <p>{agency.description}</p>
             {/* Grouped Listings */}
             <div className="my-7 flex gap-3">
-              {Object.entries(groupedListings)
-                .sort(([, a], [, b]) => b - a)
-                .slice(0, 4)
-                .map(([key, count]) => {
-                  const [transactionType, category, type] = key.split("-");
+              {topFourGroups.map(([key, count]) => {
+                const [transactionType, category, type] = key.split("-");
 
-                  return (
-                    <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
-                      <div className="mb-2 flex items-end gap-1">
-                        {icons[category as PropertyCategory]}
-                        <div>
-                          <p>{count}</p>
-                          <p>{t(`listing.category.${category}`)}</p>
-                        </div>
+                return (
+                  <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
+                    <div className="mb-2 flex items-end gap-1">
+                      {icons[category as PropertyCategory]}
+                      <div>
+                        <p>{count}</p>
+                        <p>{t(`listing.category.${category}`)}</p>
                       </div>
-                      <p className="text-nowrap">
-                        {t(`listing.transactionType.${transactionType}`)} {">"}
-                      </p>
                     </div>
-                  );
-                })}
+                    <p className="text-nowrap">
+                      {t(`listing.transactionType.${transactionType}`)} {">"}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
             <div className="my-3 text-slate-700">
               <p>{agency.address}</p>
