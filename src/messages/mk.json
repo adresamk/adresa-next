@@ -445,7 +445,7 @@
       "other": "Други"
     },
     "transactionType": {
-      "sale": "П��одажба",
+      "sale": "Продажба",
       "rent": "Изнајмување"
     },
     "breadcrumbs": {
@@ -720,7 +720,7 @@
   "agency": {
     "notFound": "Агенцијата не е пронајдена",
     "properties": {
-      "apartments": "Станови",
+      "other": "Станови",
       "stores": "Дуќани",
       "buildings": "Згради",
       "houses": "Куќи",

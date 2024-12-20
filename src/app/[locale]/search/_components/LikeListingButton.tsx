@@ -30,7 +30,6 @@ export default function LikeListingButton({
   useEffect(() => {
     setIsFavorite(isLiked);
   }, [isLiked]);
-  console.log("isFavorite", isFavorite, isLiked, listingId);
   return (
     <>
       <AuthDialog />
@@ -40,16 +39,13 @@ export default function LikeListingButton({
         onClick={async (e) => {
           e.preventDefault();
           await withAuthCheck(async () => {
-            console.log("isFavorite", isFavorite);
             if (!isFavorite) {
               const resp = await addListingAsFavorite(listingId);
-              console.log("resp", resp);
               if (resp.success) {
                 setIsFavorite(true);
               }
             } else {
               const resp = await removeListingAsFavorite(listingId);
-              console.log("resp", resp);
               if (resp.success) {
                 setIsFavorite(false);
               }

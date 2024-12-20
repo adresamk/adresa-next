@@ -54,6 +54,7 @@ import { headers } from "next/headers";
 import CalculateMortgageButton from "./_components/CalculateMortgageButton";
 import ImportantFeatures from "./_components/ImportantFeatures";
 import BackButton from "./_components/BackButton";
+import RecentlyViewedListingHandler from "./_components/RecentlyViewedListingHandler";
 
 // function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
 //   return {
@@ -166,6 +167,7 @@ export default async function SingleListingPage({
 
   return (
     <article className="">
+      <RecentlyViewedListingHandler listing={listing} />
       {/* Above Images Breadcrumbs and Action Buttons */}
       <section className="px-0 py-4">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 md:flex-row">

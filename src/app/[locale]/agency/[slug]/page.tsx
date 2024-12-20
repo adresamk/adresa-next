@@ -1,17 +1,26 @@
 import Container from "@/components/shared/Container";
 import RevealButton from "@/components/shared/RevealButton";
-import { House, Store } from "lucide-react";
+import { Building, House, LandPlot, Store } from "lucide-react";
 import prismadb from "@/lib/db";
 import { getTranslations } from "next-intl/server";
 import PopularAgencyListings from "./PopularAgencyListings";
 import { UploadedImageData } from "@/types/listing.types";
 import {
   CommercialPropertyType,
+  LandPropertyType,
+  OtherPropertyType,
   PropertyCategory,
   PropertyTransactionType,
   ResidentalPropertyType,
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/sessions";
+
+const icons = {
+  [PropertyCategory.commercial]: <Store className="h-8 w-8" />,
+  [PropertyCategory.residential]: <House className="h-8 w-8" />,
+  [PropertyCategory.land]: <LandPlot className="h-8 w-8" />,
+  [PropertyCategory.other]: <Building className="h-8 w-8" />,
+};
 
 export default async function AgencyPage({
   params,
@@ -47,29 +56,18 @@ export default async function AgencyPage({
     return <div>{t("agency.notFound")}</div>;
   }
 
-  const apartmentsForRent = agency.listings.filter(
-    (listing) =>
-      listing.transactionType === PropertyTransactionType.rent &&
-      listing.type === ResidentalPropertyType.apartment,
+  const groupedListings = agency.listings.reduce(
+    (acc, listing) => {
+      const key = `${listing.transactionType}-${listing.category}-${listing.type}`;
+      if (!acc[key]) {
+        acc[key] = 0;
+      }
+      acc[key]++;
+      return acc;
+    },
+    {} as Record<string, number>,
   );
-
-  const apartmentsForSale = agency.listings.filter(
-    (listing) =>
-      listing.transactionType === PropertyTransactionType.sale &&
-      listing.type === ResidentalPropertyType.apartment,
-  );
-
-  const housesForSale = agency.listings.filter(
-    (listing) =>
-      listing.transactionType === PropertyTransactionType.sale &&
-      listing.type === ResidentalPropertyType.house,
-  );
-
-  const storesForRent = agency.listings.filter(
-    (listing) =>
-      listing.transactionType === PropertyTransactionType.rent &&
-      listing.type === CommercialPropertyType.store,
-  );
+  console.log(groupedListings);
 
   const logoUrl =
     (agency.logo as UploadedImageData)?.url || "/assets/missing-image2.jpg";
@@ -101,67 +99,29 @@ export default async function AgencyPage({
               </div>
             </div>
             <p>{agency.description}</p>
+            {/* Grouped Listings */}
             <div className="my-7 flex gap-3">
-              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
-                <div className="mb-2 flex items-end gap-1">
-                  <House size={36} />
-                  <div>
-                    <p>{apartmentsForSale.length}</p>
-                    <p>{t("agency.properties.apartments")}</p>
-                  </div>
-                </div>
-                <p className="text-nowrap">
-                  {t("agency.properties.forSale")} {">"}
-                </p>
-              </div>
-              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
-                <div className="mb-2 flex items-end gap-1">
-                  <House size={36} />
-                  <div>
-                    <p>{apartmentsForRent.length}</p>
-                    <p>{t("agency.properties.apartments")}</p>
-                  </div>
-                </div>
-                <p className="text-nowrap">
-                  {t("agency.properties.forRent")} {">"}
-                </p>
-              </div>
-              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
-                <div className="mb-2 flex items-end gap-1">
-                  <Store size={36} />
-                  <div>
-                    <p>{storesForRent.length}</p>
-                    <p>{t("agency.properties.stores")}</p>
-                  </div>
-                </div>
-                <p className="text-nowrap">
-                  {t("agency.properties.forRent")} {">"}
-                </p>
-              </div>
+              {Object.entries(groupedListings)
+                .sort(([, a], [, b]) => b - a)
+                .slice(0, 4)
+                .map(([key, count]) => {
+                  const [transactionType, category, type] = key.split("-");
 
-              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
-                <div className="mb-2 flex items-end gap-1">
-                  <House size={36} />
-                  <div>
-                    <p>{housesForSale.length}</p>
-                    <p>{t("agency.properties.houses")}</p>
-                  </div>
-                </div>
-                <p className="text-nowrap">
-                  {t("agency.properties.forRent")} {">"}
-                </p>
-              </div>
-
-              <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
-                <div className="mb-2 flex items-end gap-1">
-                  <p className="text-4xl font-semibold">
-                    {agency._count.listings}
-                  </p>
-                </div>
-                <p className="text-nowrap">
-                  {t("agency.properties.allListings")} {">"}
-                </p>
-              </div>
+                  return (
+                    <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
+                      <div className="mb-2 flex items-end gap-1">
+                        {icons[category as PropertyCategory]}
+                        <div>
+                          <p>{count}</p>
+                          <p>{t(`listing.category.${category}`)}</p>
+                        </div>
+                      </div>
+                      <p className="text-nowrap">
+                        {t(`listing.transactionType.${transactionType}`)} {">"}
+                      </p>
+                    </div>
+                  );
+                })}
             </div>
             <div className="my-3 text-slate-700">
               <p>{agency.address}</p>

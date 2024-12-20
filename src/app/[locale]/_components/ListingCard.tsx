@@ -34,7 +34,6 @@ export default function ListingCard({ listing }: { listing: Listing }) {
   const image: UploadedImageData = (listing.mainImage ||
     {}) as UploadedImageData;
   const tags: string[] = [];
-  console.log("listing", lwr);
   return (
     <Card className="relative flex h-full w-full min-w-[200px] max-w-[325px] flex-col">
       <CardHeader className="relative p-0">

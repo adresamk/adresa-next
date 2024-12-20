@@ -142,9 +142,21 @@ export function parseQueryString(queryString: string) {
 export function createSlug(text: string) {
   return text.replace(/\s+/g, "-").toLowerCase();
 }
-
-export function writeToLocalStorage(key: string, value: any) {
+export enum LocalStorageKeysOptions {
+  mkRecentSearches = "mkRecentSearches",
+  enRecentSearches = "enRecentSearches",
+  alRecentSearches = "alRecentSearches",
+  mkRecentlyViewedListings = "mkRecentlyViewedListings",
+  enRecentlyViewedListings = "enRecentlyViewedListings",
+  alRecentlyViewedListings = "alRecentlyViewedListings",
+}
+export function writeToLocalStorage(key: LocalStorageKeysOptions, value: any) {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+export function readFromLocalStorage(key: LocalStorageKeysOptions) {
+  const value = localStorage.getItem(key);
+  return value ? JSON.parse(value) : null;
 }
 
 export function getFromLocalStorage(key: string) {
