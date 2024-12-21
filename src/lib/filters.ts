@@ -102,9 +102,10 @@ export function parseQueryParams(params: string[] = []) {
           delete parsedParams[mainFiltersShort[key]];
         }
       } else {
-        parsedParams[mainFiltersShort[key]] = isNaN(Number(value))
-          ? value
-          : Number(value);
+        parsedParams[mainFiltersShort[key]] = value;
+        // isNaN(Number(value))
+        //   ? value
+        //   : Number(value);
       }
     }
   }
@@ -126,14 +127,33 @@ export function parseQueryParams(params: string[] = []) {
 }
 
 export function extractFromUrl(pathname: string, filter: MainFilters) {
-  if (filter === "transactionType") {
-  }
-  return defaultFilters[filter];
+  // console.log("extractFromUrl", pathname, filter);
+  const parsedQueryParams = parseQueryParams(pathname.split("/"));
+
+  // console.log("parsedQueryParams", parsedQueryParams);
+  // console.log("output", filter, parsedQueryParams[filter] || "");
+  return parsedQueryParams[filter] || "";
+}
+
+export function replaceFilterInUrl(
+  pathname: string,
+  filter: MainFilters,
+  value: string,
+) {
+  const parsedQueryParams = parseQueryParams(pathname.split("/"));
+  console.log(value, typeof value);
+  parsedQueryParams[filter] = value;
+  const newUrl = generateSearchUrl(parsedQueryParams as FiltersObject);
+  console.log("newUrl", newUrl);
+  return newUrl;
 }
 
 export function generateSearchUrl(filters: FiltersObject) {
   return `/search/${Object.entries(filters)
-    .filter(([_, value]) => value !== "")
+    .filter(([_, value]) => {
+      console.log(value, typeof value);
+      return value !== "" && value !== undefined;
+    })
     .map(([key, value]) => {
       const shortKey = Object.entries(mainFiltersShort).find(
         ([_, long]) => long === key,

@@ -73,6 +73,8 @@
       "title": "Филтри",
       "description": "Филтрирајте ги резултатите",
       "viewResults": "Прикажи {count} резултати",
+      "results": "{count} резултати",
+      "result": "резултат",
       "location": {
         "label": "Локација",
         "notActivePlaceholder": "Внесете најмалку 3 карактери",

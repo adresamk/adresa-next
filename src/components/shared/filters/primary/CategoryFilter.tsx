@@ -15,8 +15,9 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { PropertyCategory } from "@prisma/client";
-import { extractFromUrl } from "@/lib/filters";
+import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
 import { usePathname } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 interface CategoryFilterProps {
   variant: "homepage" | "search";
 }
@@ -25,7 +26,7 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
   const updateFilters = useFilters((store) => store.updateFilters);
   const t = useTranslations();
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
-
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const setFocusedFilter = useSelectedFilter(
@@ -94,27 +95,35 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
       </PopoverTrigger>
       <PopoverContent asChild align="start" className="testt">
         <ul className="relative rounded bg-white p-2 text-sm shadow-lg">
-          {Object.values(PropertyCategory).map((_type: PropertyCategory) => (
-            <li
-              key={_type}
-              className={cn(
-                "cursor-pointer rounded px-2 py-1 hover:bg-green-50",
-                category === _type && "bg-green-50 text-brand-dark-blue",
-              )}
-              onClick={() => {
-                if (variant === "homepage") {
-                  updateFilters({
-                    category: _type,
-                  });
-                } else {
-                  setCategory(_type);
-                }
-                setIsOpen(false);
-              }}
-            >
-              {t(`common.filters.category.${_type}`)}
-            </li>
-          ))}
+          {Object.values(PropertyCategory).map(
+            (_category: PropertyCategory) => (
+              <li
+                key={_category}
+                className={cn(
+                  "cursor-pointer rounded px-2 py-1 hover:bg-green-50",
+                  category === _category && "bg-green-50 text-brand-dark-blue",
+                )}
+                onClick={() => {
+                  if (variant === "homepage") {
+                    updateFilters({
+                      category: _category,
+                    });
+                  } else {
+                    const newPath = replaceFilterInUrl(
+                      pathname,
+                      "category",
+                      _category,
+                    );
+                    router.push(newPath);
+                    // setCategory(_category);
+                  }
+                  setIsOpen(false);
+                }}
+              >
+                {t(`common.filters.category.${_category}`)}
+              </li>
+            ),
+          )}
         </ul>
       </PopoverContent>{" "}
     </Popover>

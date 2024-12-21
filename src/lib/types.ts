@@ -47,6 +47,42 @@ export interface ListingContactData {
   phoneVerified: boolean;
   contactHours?: string;
 }
+export interface SearchCriteria {
+  listingType: string;
+  category: string;
+  priceLow: number;
+  priceHigh: number;
+  livingAreaHigh: number;
+  areaIDs: number[];
+  sortBy: string;
+  sortOrder: string;
+}
+
+export interface SearchGeography {
+  geographyId: number;
+  slug: string;
+  parent: number;
+  parentSlug: string;
+  name: string;
+  fullName: string;
+  titleName: string;
+  metaName: string;
+  level: number;
+  root_id: number;
+  ancestors: {
+    id: number[];
+  };
+  latitude: number;
+  longitude: number;
+}
+
+export interface RealEstateSearch {
+  searchCriteria: SearchCriteria;
+  searchGeographies: SearchGeography[];
+  searchHash: string;
+  savedSearchTitle: string;
+  addedToRecentDateTime: number;
+}
 
 export interface FiltersObject {
   // primary

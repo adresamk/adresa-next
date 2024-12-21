@@ -16,6 +16,7 @@ type AllowedCurrencies = "USD" | "EUR";
 export function formatPrice(value: number | null) {
   const price = displayPrice(value, "EUR");
   // console.log(price);
+  // this is not space but a non-breaking space,copie pasted from console log
   return price.replace(" €", "");
 }
 export function displayPrice(

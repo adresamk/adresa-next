@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useState } from "react";
 import { MapPin, X } from "lucide-react";
 
@@ -43,7 +44,6 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
   //effect description
   useEffect(() => {
     // updateFilters({ location: debouncedLocation });
-    console.log("location", location);
     if (location && location.length > 2) {
       setDebouncedFilterLocation(location);
     }

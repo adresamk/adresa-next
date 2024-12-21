@@ -16,8 +16,9 @@ import { Button } from "@/components/ui/button";
 import { parseAsString, useQueryState } from "nuqs";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { extractFromUrl } from "@/lib/filters";
+import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
 import { usePathname } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 
 interface PriceFilterProps {
   variant: "homepage" | "search";
@@ -26,6 +27,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
   const t = useTranslations();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [selectionClicked, setSelectionClicked] = useState({
     priceLow: false,
@@ -63,20 +65,21 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
 
   //effect description
   useEffect(() => {
-    console.log(filters.transactionType);
-    setPriceLow("");
-    setPriceHigh("");
-    updateFilters({
-      priceLow: "",
-      priceHigh: "",
-    });
+    if (variant === "homepage") {
+      setPriceLow("");
+      setPriceHigh("");
+      updateFilters({
+        priceLow: "",
+        priceHigh: "",
+      });
+    }
   }, [filters.transactionType]);
 
   if (variant === "homepage") {
     priceLow = filters.priceLow ? formatPrice(Number(filters.priceLow)) : "";
     priceHigh = filters.priceHigh ? formatPrice(Number(filters.priceHigh)) : "";
   }
-  // console.log(priceLow, priceHigh);
+  console.log("priceLowHigh", priceLow, priceHigh);
   const priceLowValue = priceLow
     ? priceLow.replace(/,/g, "").replace(".", "")
     : "";
@@ -209,7 +212,13 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                       priceLow: e.target.value.replace(/,/g, ""),
                     });
                   } else {
-                    setPriceLow(e.target.value);
+                    const newPath = replaceFilterInUrl(
+                      pathname,
+                      "priceLow",
+                      e.target.value.replace(/,/g, ""),
+                    );
+                    router.push(newPath);
+                    // setPriceLow(e.target.value);
                   }
                   setSelectionClicked({
                     ...selectionClicked,
@@ -236,7 +245,13 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                           price === "Any" ? "" : price.replace(/,/g, ""),
                       });
                     } else {
-                      setPriceLow(price === "Any" ? "" : price);
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "priceLow",
+                        price === "Any" ? "" : price.replace(/,/g, ""),
+                      );
+                      router.push(newPath);
+                      // setPriceLow(price === "Any" ? "" : price);
                     }
                     setSelectionClicked({
                       ...selectionClicked,
@@ -273,7 +288,13 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                       priceHigh: e.target.value.replace(/,/g, ""),
                     });
                   } else {
-                    setPriceHigh(e.target.value);
+                    const newPath = replaceFilterInUrl(
+                      pathname,
+                      "priceHigh",
+                      e.target.value.replace(/,/g, ""),
+                    );
+                    router.push(newPath);
+                    // setPriceHigh(e.target.value);
                   }
                   setSelectionClicked({
                     ...selectionClicked,
@@ -300,7 +321,13 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                           price === "Any" ? "" : price.replace(/,/g, ""),
                       });
                     } else {
-                      setPriceHigh(price === "Any" ? "" : price);
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "priceHigh",
+                        price === "Any" ? "" : price.replace(/,/g, ""),
+                      );
+                      router.push(newPath);
+                      // setPriceHigh(price === "Any" ? "" : price);
                     }
                     setSelectionClicked({
                       ...selectionClicked,

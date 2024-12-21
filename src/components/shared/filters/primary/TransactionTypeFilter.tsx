@@ -2,15 +2,16 @@
 import { Button } from "@/components/ui/button";
 import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useFilters } from "@/hooks/useFilters";
-import { extractFromUrl } from "@/lib/filters";
+import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
 import { cn } from "@/lib/utils";
 import { PropertyTransactionType } from "@prisma/client";
 import { Popover } from "@radix-ui/react-popover";
 import { ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { parseAsString, useQueryState } from "nuqs";
+
 import { useState } from "react";
+import { useRouter } from "@/i18n/routing";
 interface TransactionTypeProps {
   variant: "homepage" | "search";
 }
@@ -18,6 +19,7 @@ interface TransactionTypeProps {
 export default function TransactionType({ variant }: TransactionTypeProps) {
   const [isOpen, setIsOpen] = useState(false);
   const filters = useFilters((store) => store.filters);
+  const router = useRouter();
 
   const t = useTranslations();
   const updateFilters = useFilters((store) => store.updateFilters);
@@ -92,11 +94,18 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
             </Button>
           </PopoverTrigger>
           <PopoverContent asChild align="start">
-            <ul className="relative rounded bg-white p-2 text-sm font-semibold shadow-lg">
+            <ul className="relative rounded bg-white p-2 text-sm shadow-lg">
               <li
                 onClick={() => {
-                  setTransactionType("sale");
+                  // setTransactionType("sale");
                   setIsOpen(false);
+                  const newPath = replaceFilterInUrl(
+                    pathname,
+                    "transactionType",
+                    "sale",
+                  );
+                  console.log("newPath", newPath);
+                  router.push(newPath);
                 }}
                 className={cn(
                   "mb-0.5 cursor-pointer rounded px-2.5 py-2 hover:bg-green-50",
@@ -113,8 +122,15 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
                     "bg-green-50 text-brand-dark-blue",
                 )}
                 onClick={() => {
-                  setTransactionType("rent");
                   setIsOpen(false);
+                  // setTransactionType("rent");
+                  const newPath = replaceFilterInUrl(
+                    pathname,
+                    "transactionType",
+                    "rent",
+                  );
+                  console.log("newPath", newPath);
+                  router.push(newPath);
                 }}
               >
                 {t("common.filters.mode.rent")}

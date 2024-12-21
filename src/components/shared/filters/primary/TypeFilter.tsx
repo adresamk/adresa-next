@@ -12,33 +12,39 @@ import { useQueryState } from "nuqs";
 import { useFilters } from "@/hooks/useFilters";
 import { useTranslations } from "next-intl";
 import { listingTypeOptions } from "@/lib/data/listing/importantData";
-import { PropertyCategory } from "@prisma/client";
+import { PropertyCategory, PropertyType } from "@prisma/client";
 import { useState } from "react";
 
-interface SubTypeFilterProps {
+import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
+import { usePathname } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
+interface TypeFilterProps {
   variant: "homepage" | "search";
 }
-export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
+export default function TypeFilter({ variant }: TypeFilterProps) {
   const filters = useFilters((store) => store.filters);
   const t = useTranslations("");
   const [isOpen, setIsOpen] = useState(false);
 
   const updateFilters = useFilters((store) => store.updateFilters);
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
+
   const setFocusedFilter = useSelectedFilter(
     (store) => store.setSelectedFilter,
   );
-  let [propertyType, setPropertyType] = useQueryState("propertyType", {
-    shallow: false,
-  });
-  let [subType, setSubType] = useQueryState("subType", {
-    shallow: false,
-  });
+  const pathname = usePathname();
+  const router = useRouter();
+  let [category, setCategory] = useState<PropertyCategory | "">(
+    () => extractFromUrl(pathname, "category") as PropertyCategory,
+  );
+  let [type, setType] = useState<PropertyType | "">(
+    () => extractFromUrl(pathname, "type") as PropertyType,
+  );
   if (variant === "homepage") {
-    subType = filters.subType;
+    type = filters.type;
   }
-  const subtypeOptions = propertyType
-    ? listingTypeOptions[propertyType as PropertyCategory]
+  const typeOptions = category
+    ? listingTypeOptions[category as PropertyCategory]
     : [];
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -48,12 +54,11 @@ export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
           <div
             className={cn(
               "h-[90px] w-[185px] overflow-visible border-r border-r-black p-4",
-              focusedFilter === "property-type" &&
-                "z-10 rounded-t bg-white shadow-lg",
+              focusedFilter === "type" && "z-10 rounded-t bg-white shadow-lg",
               !focusedFilter && "bg-gray-50",
             )}
             onClick={() => {
-              setFocusedFilter("property-type");
+              setFocusedFilter("type");
             }}
           >
             <div className="">
@@ -65,9 +70,9 @@ export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
                   {<House size={22} />} {"Property Type"}
                 </label>
                 <div className="flex h-10 items-center text-sm">
-                  {propertyType && subType
-                    ? t(`common.filters.subType.${subType}`)
-                    : t("common.filters.subType.emptyPlaceholder")}
+                  {category && type
+                    ? t(`common.filters.type.${type}`)
+                    : t("common.filters.type.emptyPlaceholder")}
                 </div>
               </div>
             </div>
@@ -78,36 +83,38 @@ export default function SubTypeFilter({ variant }: SubTypeFilterProps) {
             className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
           >
             <span className="capitalize">
-              {subType
-                ? t(`common.filters.subType.${subType}`)
-                : t("common.filters.subType.emptyPlaceholder")}
+              {type
+                ? t(`common.filters.type.${type}`)
+                : t("common.filters.type.emptyPlaceholder")}
             </span>
             <ChevronDown width={20} className="h-4 w-4 md:ml-2 md:h-5 md:w-5" />{" "}
           </Button>
         )}
       </PopoverTrigger>
-      {subtypeOptions.length > 0 && (
+      {typeOptions.length > 0 && (
         <PopoverContent asChild align="start">
           <ul className="relative rounded bg-white p-2 text-sm shadow-lg">
-            {subtypeOptions.map((st: string) => (
+            {typeOptions.map((_type: PropertyType) => (
               <li
-                key={st}
+                key={_type}
                 className={cn(
                   "cursor-pointer rounded px-2 py-1 capitalize hover:bg-green-50",
-                  subType === st && "bg-green-50 text-brand-dark-blue",
+                  type === _type && "bg-green-50 text-brand-dark-blue",
                 )}
                 onClick={() => {
                   if (variant === "homepage") {
                     updateFilters({
-                      subType: st,
+                      type: _type,
                     });
                   } else {
-                    setSubType(st);
+                    const newPath = replaceFilterInUrl(pathname, "type", _type);
+                    router.push(newPath);
+                    // setType(_type);
                   }
                   setIsOpen(false);
                 }}
               >
-                {t(`common.filters.subType.${st}`)}
+                {t(`common.filters.type.${_type}`)}
               </li>
             ))}
           </ul>

@@ -6,6 +6,7 @@ type selectedFilterOptions =
   | "price"
   | "transactionType"
   | "category"
+  | "type"
   | "";
 interface useSelectedFilterStore {
   selectedFilter: selectedFilterOptions;

@@ -14,7 +14,7 @@ export default async function getAllListings(
   parsedParams: Record<string, any>,
 ): Promise<Listing[]> {
   const pp = parsedParams as ParsedQueryParams;
-  console.log("API CALL");
+  // console.log("API CALL");
   // console.log("pp", pp);
 
   let municipalities: string[] = [];
@@ -61,12 +61,12 @@ export default async function getAllListings(
           status: ListingStatus.ACTIVE,
           isVisible: true,
           area: {
-            gte: pp.areaLow,
-            lte: pp.areaHigh,
+            gte: Number(pp.areaLow) || undefined,
+            lte: Number(pp.areaHigh) || undefined,
           },
           price: {
-            gte: pp.priceLow,
-            lte: pp.priceHigh,
+            gte: Number(pp.priceLow) || undefined,
+            lte: Number(pp.priceHigh) || undefined,
           },
           category: pp.category as PropertyCategory,
           type: pp.type as PropertyType,

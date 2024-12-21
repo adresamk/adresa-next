@@ -38,7 +38,6 @@ export const useFilters = create<useFiltersStore>((set) => ({
   shouldUpdate: false,
   updateFilters: (newFilters: PartialFiltersObject) =>
     set((prevState) => {
-      console.log("newFilters", newFilters);
       const primaryFiltersChanged = Object.keys(newFilters).some((key) =>
         primaryFilters.includes(key),
       );
@@ -61,7 +60,7 @@ export const useFilters = create<useFiltersStore>((set) => ({
       const newState = {
         ...prevState.filters,
       };
-      console.log(newState);
+      // console.log(newState);
       return {
         filters: newState,
       };

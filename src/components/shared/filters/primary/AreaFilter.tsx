@@ -15,7 +15,8 @@ import { set } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { extractFromUrl } from "@/lib/filters";
+import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
+import { useRouter } from "@/i18n/routing";
 
 interface AreaFilterProps {
   variant: "homepage" | "search";
@@ -28,6 +29,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
     areaLow: false,
     areaHigh: false,
   });
+  const router = useRouter();
   const t = useTranslations();
   const pathname = usePathname();
   let [areaLow, setAreaLow] = useState(() =>
@@ -184,7 +186,13 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                       areaLow: e.target.value,
                     });
                   } else {
-                    setAreaLow(e.target.value);
+                    const newPath = replaceFilterInUrl(
+                      pathname,
+                      "areaLow",
+                      e.target.value,
+                    );
+                    router.push(newPath);
+                    // setAreaLow(e.target.value);
                   }
                   setSelectionClicked({
                     ...selectionClicked,
@@ -210,7 +218,13 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                         areaLow: area === "Any" ? "" : area,
                       });
                     } else {
-                      setAreaLow(area === "Any" ? "" : area);
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "areaLow",
+                        area === "Any" ? "" : area,
+                      );
+                      router.push(newPath);
+                      // setAreaLow(area === "Any" ? "" : area);
                     }
                     setSelectionClicked({
                       ...selectionClicked,
@@ -247,7 +261,13 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                       areaHigh: e.target.value,
                     });
                   } else {
-                    setAreaHigh(e.target.value);
+                    const newPath = replaceFilterInUrl(
+                      pathname,
+                      "areaHigh",
+                      e.target.value,
+                    );
+                    router.push(newPath);
+                    // setAreaHigh(e.target.value);
                   }
                   setSelectionClicked({
                     ...selectionClicked,
@@ -273,7 +293,13 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                         areaHigh: area === "Any" ? "" : area,
                       });
                     } else {
-                      setAreaHigh(area === "Any" ? "" : area);
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "areaHigh",
+                        area === "Any" ? "" : area,
+                      );
+                      router.push(newPath);
+                      // setAreaHigh(area === "Any" ? "" : area);
                     }
                     setSelectionClicked({
                       ...selectionClicked,

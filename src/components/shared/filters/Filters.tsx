@@ -3,27 +3,16 @@
 import { Button } from "@/components/ui/button";
 import ModeFilter from "./primary/TransactionTypeFilter";
 import PriceFilter from "./primary/PriceFilter";
-import PropertyTypeFilter from "./primary/CategoryFilter";
-import SurfaceFilter from "./primary/AreaFilter";
-import SubTypeFilter from "./primary/SubTypeFilter";
+import CategoryFilter from "./primary/CategoryFilter";
+import AreaFilter from "./primary/AreaFilter";
+import Type from "./primary/TypeFilter";
 
 import { ChevronDown, Search, SlidersVertical } from "lucide-react";
 import SmartOverlay from "../SmartOverlay";
 import { useEffect, useState } from "react";
-import FloorsFilter from "./secondary/FloorsFilter";
-import BedroomsFilter from "./secondary/BedroomsFilter";
-import ConstructionYearFilter from "./secondary/ConstructionYearFilter";
-import HeatingTypeFilter from "./secondary/HeatingTypeFilter";
-import FurnitureFilter from "./secondary/FurnitureFilter";
-import ExternalFeaturesFilter from "./secondary/ExternalFeaturesFilter";
-import InternalFeaturesFilter from "./secondary/InternalFeaturesFilter";
-import LastUpdatedFilter from "./secondary/LastUpdatedFilter";
-import CreationDateFilter from "./secondary/CreationDateFilter";
 
 import { useFilters } from "@/hooks/useFilters";
 import { usePathname, useRouter } from "next/navigation";
-import { useQueryStates } from "nuqs";
-import { secondaryFiltersParsers } from "@/app/[locale]/searchParams";
 import CreateSavedSearch from "./CreateSavedSearch";
 import { useTranslations } from "next-intl";
 
@@ -40,63 +29,6 @@ export default function Filters() {
   const clearSecondaryFilters = useFilters(
     (store) => store.clearSecondaryFilters,
   );
-
-  // let [secondarySearchParams, setSecondarySearchParams] = useQueryStates(
-  //   secondaryFiltersParsers,
-  //   {
-  //     history: "push",
-  //   },
-  // );
-  // let {
-  //   floorNumberLow,
-  //   floorNumberHigh,
-  //   bedroomsNumberLow,
-  //   bedroomsNumberHigh,
-  //   constructionYearLow,
-  //   constructionYearHigh,
-  //   isNewDevelopment,
-  //   heatingType,
-  //   isFurnitureIncluded,
-  //   externalFeatures,
-  //   internalFeatures,
-  //   lastUpdated,
-  //   creationDate,
-  // } = secondarySearchParams;
-
-  // // update the filters state based on search params on mount
-  // useEffect(() => {
-  //   updateFilters({
-  //     floorNumberLow,
-  //     floorNumberHigh,
-  //     bedroomsNumberLow,
-  //     bedroomsNumberHigh,
-  //     constructionYearLow,
-  //     constructionYearHigh,
-  //     isNewDevelopment,
-  //     heatingType,
-  //     isFurnitureIncluded,
-  //     externalFeatures,
-  //     internalFeatures,
-  //     lastUpdated,
-  //     creationDate,
-  //   });
-  // }, [
-  //   bedroomsNumberHigh,
-  //   bedroomsNumberLow,
-  //   constructionYearHigh,
-  //   constructionYearLow,
-  //   creationDate,
-  //   externalFeatures,
-  //   floorNumberHigh,
-  //   floorNumberLow,
-  //   heatingType,
-  //   internalFeatures,
-  //   isFurnitureIncluded,
-  //   isNewDevelopment,
-  //   lastUpdated,
-  //   secondarySearchParams,
-  //   updateFilters,
-  // ]);
 
   const results = {
     length: Math.floor(Math.random() * 100),
@@ -151,24 +83,26 @@ export default function Filters() {
   return (
     <aside className="sticky top-[80px] z-10 flex min-h-[70px] w-full items-center gap-3 overflow-x-auto bg-white px-6 shadow-md">
       <ModeFilter variant="search" />
-      <PropertyTypeFilter variant="search" />
-      <SubTypeFilter variant="search" />
+      <CategoryFilter variant="search" />
+      <Type variant="search" />
       <PriceFilter variant="search" />
-      <SurfaceFilter variant="search" />
-      <Button
-        variant="outline"
-        className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
-        onClick={() => {
-          setAreMoreFiltersOpen(true);
-        }}
-      >
-        <SlidersVertical
-          width={20}
-          className="mr-2 h-4 w-4 text-brand-light-blue md:h-5 md:w-5"
-        />
-        <span className="capitalize">{t("common.filters.title")}</span>
-        <ChevronDown width={20} className="ml-2 h-4 w-4 md:h-5 md:w-5" />{" "}
-      </Button>
+      <AreaFilter variant="search" />
+      {false && (
+        <Button
+          variant="outline"
+          className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
+          onClick={() => {
+            setAreMoreFiltersOpen(true);
+          }}
+        >
+          <SlidersVertical
+            width={20}
+            className="mr-2 h-4 w-4 text-brand-light-blue md:h-5 md:w-5"
+          />
+          <span className="capitalize">{t("common.filters.title")}</span>
+          <ChevronDown width={20} className="ml-2 h-4 w-4 md:h-5 md:w-5" />{" "}
+        </Button>
+      )}
       <CreateSavedSearch />
       <SmartOverlay
         isOpen={areMoreFiltersOpen}
@@ -178,7 +112,8 @@ export default function Filters() {
         innerScroll
         footerJSX={moreFiltersFooter}
       >
-        <div className="flex flex-col gap-3">
+        <div>
+          {/* <div className="flex flex-col gap-3">
           <div className="flex flex-wrap border-b-2 px-1.5 py-2.5">
             <FloorsFilter />
           </div>
@@ -204,7 +139,7 @@ export default function Filters() {
           </div>
           <div className="flex flex-wrap items-end gap-3 border-b-2 px-1.5 py-2.5">
             <CreationDateFilter />
-          </div>
+          </div> */}
           {/* 
           <HeatingFuelFilter />
           <SuitableForFilter />
