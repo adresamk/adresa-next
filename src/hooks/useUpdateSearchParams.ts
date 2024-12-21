@@ -34,6 +34,7 @@ export const useUpdateSearchParams = () => {
           currentSearchParams.delete(key);
         }
       });
+      console.log("this happens");
       router.push(`${router.pathname}?${currentSearchParams.toString()}`);
     },
     [router],

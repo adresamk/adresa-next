@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { ArrowDown, Heart } from "lucide-react";
 import { displayPrice } from "@/lib/utils";
-import LikeListingButton from "@/app/[locale]/search/_components/LikeListingButton";
+import LikeListingButton from "@/app/[locale]/search/[[...queryParams]]/_components/LikeListingButton";
 import { useTranslations } from "next-intl";
 import { getMunicipalityInfo } from "@/lib/data/macedoniaOld/importantData";
 import { useLocale } from "next-intl";

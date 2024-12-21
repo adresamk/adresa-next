@@ -1,4 +1,3 @@
-import { getUser } from "@/lib/auth";
 import UserControls from "./UserControls";
 import AuthOptionsPopup from "./AuthOptionsPopup";
 import { getCurrentUser } from "@/lib/sessions";

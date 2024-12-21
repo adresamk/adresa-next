@@ -6,7 +6,8 @@ import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 
 const SearchMap = dynamic(
-  () => import("@/app/[locale]/search/_components/SearchMap"),
+  () =>
+    import("@/app/[locale]/search/[[...queryParams]]/_components/SearchMap"),
   {
     ssr: false,
     loading: () => <MapLoadingPlaceholder />,

@@ -9,7 +9,7 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import { useTranslations } from "next-intl";
 import { exactPinIcon } from "./map/MapIcons";
 import { getMapPinIcon } from "./map/helpers";
-import ZoomTracker from "@/app/[locale]/search/_components/ZoomTracker";
+import ZoomTracker from "@/app/[locale]/search/[[...queryParams]]/_components/ZoomTracker";
 
 export default function MapLocationPreview({
   listing,

@@ -6,7 +6,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Listing } from "@prisma/client";
-import LikeListingButton from "../search/_components/LikeListingButton";
+import LikeListingButton from "@/app/[locale]/search/[[...queryParams]]/_components/LikeListingButton";
 import { displayPrice } from "@/lib/utils";
 import { useTranslations, useLocale } from "next-intl";
 import { getMunicipalityInfo } from "@/lib/data/macedoniaOld/importantData";
@@ -33,7 +33,15 @@ export default function ReacentlyViewedListingCard({
       : municipalityInfo.name
     : "";
 
-  const tags = ["bla", "tag", "other tag", "fourth tag"];
+  let tags: string[] = [];
+  if (listing.isPaidPromo) {
+    tags.push("featured");
+  }
+  const sevenDaysAgo = new Date(Date.now() - 1000 * 60 * 60 * 24 * 7);
+  if (listing.publishedAt && listing.publishedAt > sevenDaysAgo) {
+    tags.push("new");
+  }
+
   // const tags = listing?.tags || ["bla", "tag", "other tag"];
 
   //remove code when launching

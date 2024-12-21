@@ -23,6 +23,7 @@ import {
   listingWithRelationsInclude,
   UploadedImageData,
 } from "@/types/listing.types";
+import { ParsedQueryParams } from "@/lib/listings";
 
 export async function getListingsByIdForRecentlyViewed(
   listingNumbers: number[],
@@ -206,6 +207,9 @@ export async function adjustListingVisibility(formData: FormData) {
 }
 
 export async function getListing(listingNumber: number) {
+  if (isNaN(listingNumber)) {
+    console.log("listingNumber is NaN", typeof listingNumber, listingNumber);
+  }
   try {
     const listing = await prismadb.listing.findUnique({
       where: {
@@ -1444,24 +1448,86 @@ export async function editListing(
 }
 
 export default async function getAllListings(
-  search: string = "",
+  parsedParams: Record<string, any>,
 ): Promise<Listing[]> {
-  // console.log("this is the search on the server", search);
+  const pp = parsedParams as ParsedQueryParams;
+  console.log("HI WORLDS");
+  // console.log("pp", pp);
 
-  // const { user } = await getCurrentUser();
+  let municipalities: string[] = [];
+  let places: string[] = [];
+
+  if (pp.location) {
+    if (Array.isArray(pp.location)) {
+      municipalities = pp.location.filter((l) => l.startsWith("1"));
+
+      places = pp.location.filter((l) => l.startsWith("2"));
+    } else {
+      municipalities = pp.location.startsWith("1") ? [pp.location] : [];
+      places = pp.location.startsWith("2") ? [pp.location] : [];
+    }
+  }
+
+  console.log("municipalities", municipalities);
+  console.log("places", places);
 
   const listings = await prismadb.listing.findMany({
     where: {
-      isPublished: true,
-      isAvailable: true,
-      status: ListingStatus.ACTIVE,
-      isVisible: true,
+      AND: [
+        {
+          OR: [
+            municipalities.length > 0
+              ? {
+                  municipality: {
+                    in: municipalities,
+                  },
+                }
+              : {},
+            places.length > 0
+              ? {
+                  place: {
+                    in: places,
+                  },
+                }
+              : {},
+          ],
+        },
+        {
+          isPublished: true,
+          isAvailable: true,
+          status: ListingStatus.ACTIVE,
+          isVisible: true,
+          area: {
+            gte: pp.areaLow,
+            lte: pp.areaHigh,
+          },
+          price: {
+            gte: pp.priceLow,
+            lte: pp.priceHigh,
+          },
+          category: pp.category as PropertyCategory,
+          type: pp.type as PropertyType,
+          transactionType: pp.transactionType as PropertyTransactionType,
+        },
+      ],
+      // MAIN FILTERS
     },
     include: {
-      agency: true,
-      user: true,
+      agency: {
+        select: {
+          slug: true,
+          logo: true,
+          name: true,
+        },
+      },
+      user: {
+        select: {
+          contactName: true,
+          pictureUrl: true,
+        },
+      },
     },
-    take: 20,
+    // take: 20,
   });
   // Optimize with this
   //   // Assuming you have the current userId from session or JWT
@@ -1489,7 +1555,7 @@ export default async function getAllListings(
 
   // // Step 3: Add a `isFavorited` property to each listing
   // const listingsWithFavoriteInfo = listings.map(listing => ({
-  //   ...listing,
+  //   ...listing, ...(pp.l ? { location: { contains: pp.l } } : {}),
   //   isFavorited: favoritedListingIds.has(listing.id),
   // }));
 

@@ -1,6 +1,6 @@
 "use client";
 
-import LikeListingButton from "@/app/[locale]/search/_components/LikeListingButton";
+import LikeListingButton from "@/app/[locale]/search/[[...queryParams]]/_components/LikeListingButton";
 import { Button } from "@/components/ui/button";
 import { SerializedListing } from "@/lib/types";
 import { useTranslations } from "next-intl";

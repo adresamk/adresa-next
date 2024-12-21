@@ -5,10 +5,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { User, Agency } from "@prisma/client";
 import userProfileBg from "@/assets/user-profile-bg.svg";
 import { useRouter } from "next/navigation";
-import { logout } from "@/server/actions/auth.actions";
 import { useTranslations } from "next-intl";
 import LogoutButton from "./LogoutButton";
-
 export default function UserControls({
   user,
   agency,
@@ -23,7 +21,7 @@ export default function UserControls({
     ? user.pictureUrl
       ? user.pictureUrl
       : user.firstName && user.lastName
-        ? userProfileBg
+        ? userProfileBg.src
         : undefined
     : undefined;
 

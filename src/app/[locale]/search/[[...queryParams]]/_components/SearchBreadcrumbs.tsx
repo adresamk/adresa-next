@@ -8,9 +8,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Listing } from "@prisma/client";
-import { parseAsString, useQueryState } from "nuqs";
 import { useLocale, useTranslations } from "next-intl";
-import ListingBreadcrumbs from "../../listing/[listingNumber]/_components/ListingBreadcrumbs";
 import { useRouter } from "next/navigation";
 import {
   getMunicipalityOptionsTranslated,
@@ -33,7 +31,7 @@ export default function SearchBreadcrumbs({
   const router = useRouter();
   const locale = useLocale();
   const { municipality, places } = getMunicipalityPlacesTranslated(
-    listings[2].municipality,
+    listings.length > 0 ? listings[0].municipality : "",
     locale,
   );
   const currentPlace = places?.find((p) => p.value === listings[0].place);
@@ -53,6 +51,7 @@ export default function SearchBreadcrumbs({
             <Select
               value={listing.municipality || ""}
               onValueChange={(value) => {
+                console.log("hmm");
                 router.push(
                   `/search?mode=${listing.transactionType}&municipality=${value}`,
                 );

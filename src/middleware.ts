@@ -3,7 +3,6 @@ import { routing } from "./i18n/routing";
 import { NextRequest, NextResponse } from "next/server";
 
 const PUBLIC_FILE = /\.(.*)$/;
-
 // Initialize the next-intl middleware
 const intlMiddleware = createMiddleware(routing);
 

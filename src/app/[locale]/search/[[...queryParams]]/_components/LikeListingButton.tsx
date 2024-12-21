@@ -1,7 +1,6 @@
 "use client";
 import {
   addListingAsFavorite,
-  getFavoriteStatus,
   removeListingAsFavorite,
 } from "@/server/actions/listing.actions";
 import { Button } from "@/components/ui/button";

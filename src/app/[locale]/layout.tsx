@@ -42,6 +42,7 @@ export default async function RootLayout({
 }) {
   const layoutParams = await params;
   const { locale } = layoutParams;
+  // console.log("ASDF");
   // console.log("B4 Locale FROM LAYOUT", locale);
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as Locale)) {

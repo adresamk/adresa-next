@@ -48,25 +48,12 @@ import {
   getListing,
   registerListingView,
 } from "@/server/actions/listing.actions";
-import { getClientIp } from "request-ip"; // You might need to install this package
-import { NextRequest } from "next/server";
 import { headers } from "next/headers";
 import CalculateMortgageButton from "./_components/CalculateMortgageButton";
 import ImportantFeatures from "./_components/ImportantFeatures";
 import BackButton from "./_components/BackButton";
 import RecentlyViewedListingHandler from "./_components/RecentlyViewedListingHandler";
 
-// function serializeDates(listing: ListingWithOwnerAndAgency): SerializedListing {
-//   return {
-//     ...listing,
-//     createdAt: displayDate(listing.createdAt) || "",
-//     updatedAt: displayDate(listing.updatedAt) || "",
-//     dateAvailable: displayDate(listing.dateAvailable) || "",
-//     publishedAt: displayDate(listing.publishedAt),
-//     publishEndDate: displayDate(listing.publishEndDate),
-//   };
-// }
-// In your page.tsx or layout.tsx
 interface SingleListingPageProps {
   params: Promise<{
     listingNumber: string;
@@ -107,16 +94,12 @@ export default async function SingleListingPage({
 }: SingleListingPageProps) {
   const { listingNumber } = await params;
 
-  console.log("listingNumber", listingNumber);
+  // console.log("listingNumber", listingNumber);
   if (isNaN(Number(listingNumber))) {
     return <div>Not a listing number</div>;
-    // redirect("/404");
   }
   const locale = await getLocale();
-  // const ip = getClientIp(req as unknown as Request); // Get the user's IP address
   const headersList = await headers();
-  // console.log("x-forwarded-for", headersList.get("x-forwarded-for"));
-  // console.log("remote-addr", headersList.get("remote-addr"));
 
   const listing = (await prismadb.listing.findUnique({
     where: { listingNumber: Number(listingNumber) },
@@ -140,11 +123,11 @@ export default async function SingleListingPage({
   const lwr = listing as ListingWithRelations;
 
   // console.log("Listing", listing);
-  console.log("Listing", {
-    cateogry: listing.category,
-    tType: listing.transactionType,
-    // lF: lwr.listingFeatures,
-  });
+  // console.log("Listing", {
+  //   cateogry: listing.category,
+  //   tType: listing.transactionType,
+  //   // lF: lwr.listingFeatures,
+  // });
   const { municipality, places } = getMunicipalityPlacesTranslated(
     listing.municipality,
     locale,
@@ -289,14 +272,3 @@ export default async function SingleListingPage({
     </article>
   );
 }
-
-// export async function generateStaticParams() {
-//   // Get all possible listing numbers from your database
-//   const listings = await prismadb.listing.findMany({
-//     select: { listingNumber: true },
-//   });
-
-//   return listings.map((listing) => ({
-//     listingNumber: listing.listingNumber.toString(),
-//   }));
-// }
