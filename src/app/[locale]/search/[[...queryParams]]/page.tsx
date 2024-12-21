@@ -1,9 +1,19 @@
-export const revalidate = 60;
 import SearchResults from "@/components/shared/SearchResults";
 import { searchParamsCache } from "../../searchParams";
-import getAllListings from "@/server/actions/listing.actions";
+// import getAllListings from "@/server/actions/listing.actions";
+import getAllListings from "@/server/actions/listing.gets";
 import { parseQueryParams } from "@/lib/listings";
 import Custom404 from "./_components/Custom404";
+import { unstable_cache } from "next/cache";
+
+export const revalidate = 60;
+export const dynamicParams = true;
+
+export async function getStaticParams() {
+  console.log("getStaticParams");
+  // Return an empty array to generate pages on-demand
+  return [];
+}
 
 interface SearchPageProps {
   searchParams: Promise<Record<string, string>>;
@@ -19,6 +29,7 @@ export default async function SearchPage({
   const { queryParams, locale } = await params;
 
   const parsedQueryParams = parseQueryParams(queryParams);
+  // console.log("parsedQueryParams", JSON.stringify(parsedQueryParams));
   // console.log("parsedQueryParams", parsedQueryParams);
 
   const locationMissing = !queryParams.some(
@@ -27,7 +38,15 @@ export default async function SearchPage({
   if (locationMissing) {
     return <Custom404 />;
   }
-  const listings = await getAllListings(parsedQueryParams);
+
+  const listings = await unstable_cache(
+    async () => getAllListings(parsedQueryParams),
+    ["listings", JSON.stringify(parsedQueryParams)],
+    {
+      revalidate: 60,
+    },
+  )();
+
   return (
     <main className="min-h-screen bg-white">
       <SearchResults listings={listings} />

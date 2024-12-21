@@ -1451,7 +1451,7 @@ export default async function getAllListings(
   parsedParams: Record<string, any>,
 ): Promise<Listing[]> {
   const pp = parsedParams as ParsedQueryParams;
-  console.log("HI WORLDS");
+  console.log("API CALL");
   // console.log("pp", pp);
 
   let municipalities: string[] = [];
@@ -1468,8 +1468,8 @@ export default async function getAllListings(
     }
   }
 
-  console.log("municipalities", municipalities);
-  console.log("places", places);
+  // console.log("municipalities", municipalities);
+  // console.log("places", places);
 
   const listings = await prismadb.listing.findMany({
     where: {
