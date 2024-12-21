@@ -13,6 +13,11 @@ export function validPhoneNumber(phone: string) {
   return true;
 }
 type AllowedCurrencies = "USD" | "EUR";
+export function formatPrice(value: number | null) {
+  const price = displayPrice(value, "EUR");
+  // console.log(price);
+  return price.replace(" €", "");
+}
 export function displayPrice(
   value: number | null,
   currency: AllowedCurrencies = "EUR",

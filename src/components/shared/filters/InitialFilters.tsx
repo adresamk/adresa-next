@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import LocationFilter from "./primary/LocationFilter";
-import PropertyTypeFilter from "./primary/PropertyTypeFilter";
+import CategoryFilter from "./primary/CategoryFilter";
 import PriceFilter from "./primary/PriceFilter";
-import SurfaceFilter from "./primary/SurfaceFilter";
+import AreaFilter from "./primary/AreaFilter";
 import TransactionTypeFilter from "./primary/TransactionTypeFilter";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { useTranslations } from "next-intl";
@@ -34,9 +34,9 @@ export default function SearchFilter() {
         )}
       >
         <LocationFilter variant="homepage" />
-        <PropertyTypeFilter variant="homepage" />
+        <CategoryFilter variant="homepage" />
         <PriceFilter variant="homepage" />
-        <SurfaceFilter variant="homepage" />
+        <AreaFilter variant="homepage" />
 
         <div className="xl:right absolute right-0 top-0 flex w-full max-w-[205px] items-center justify-center p-5 pl-1.5 xl:static xl:top-0">
           <Link href={newDestination}>

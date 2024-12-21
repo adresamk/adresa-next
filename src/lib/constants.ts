@@ -1,6 +1,4 @@
-import { propertyTypeValues } from "./types";
-
-export const priceFilterOptions = [
+export const salePriceFilterOptions = [
   "Any",
   "10,000",
   "20,000",
@@ -116,6 +114,30 @@ export const priceFilterOptions = [
   "4,000,000",
   "4,500,000",
   "5,000,000",
+];
+
+export const rentPriceFilterOptions = [
+  "Any",
+  "100",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "900",
+  "1,000",
+  "1,200",
+  "1,400",
+  "1,600",
+  "1,800",
+  "2,000",
+  "2,200",
+  "2,400",
+  "2,600",
+  "2,800",
+  "3,000",
 ];
 export const locationDropdownOptions = [
   "Chalkidiki (Macedonia)",
@@ -358,12 +380,6 @@ export const areaFilterOptions = [
   "180,000",
   "190,000",
   "200,000",
-] as const;
-export const propertyTypes: propertyTypeValues[] = [
-  "residential",
-  "land",
-  "commercial",
-  "other",
 ] as const;
 
 export const floorsLowOptions = [];

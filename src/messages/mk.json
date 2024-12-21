@@ -78,7 +78,7 @@
         "notActivePlaceholder": "Внесете најмалку 3 карактери",
         "emptyPlaceholder": "На пример: Скопје, Куманово, Велес"
       },
-      "propertyType": {
+      "category": {
         "label": "Тип на имот",
         "emptyPlaceholder": "Дом",
         "residential": "Дом",
@@ -86,7 +86,7 @@
         "land": "Земјиште",
         "other": "Друго"
       },
-      "subType": {
+      "type": {
         "label": "Подтип на имот",
         "emptyPlaceholder": "Подтип",
         "construction": "Градба",

@@ -1,7 +1,10 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import { ChevronDown, Tag } from "lucide-react";
-import { priceFilterOptions } from "@/lib/constants";
+import {
+  salePriceFilterOptions,
+  rentPriceFilterOptions,
+} from "@/lib/constants";
 import {
   Popover,
   PopoverContent,
@@ -13,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { parseAsString, useQueryState } from "nuqs";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { extractFromUrl } from "@/lib/filters";
+import { usePathname } from "next/navigation";
 
 interface PriceFilterProps {
   variant: "homepage" | "search";
@@ -26,6 +31,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
     priceLow: false,
     priceHigh: false,
   });
+  const pathname = usePathname();
 
   //effect description
   useEffect(() => {
@@ -42,25 +48,47 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
     }
   }, [selectionClicked]);
 
-  let [priceLow, setPriceLow] = useQueryState(
-    "priceLow",
-    parseAsString.withOptions({ shallow: false }).withDefault(""),
+  let [priceLow, setPriceLow] = useState(() =>
+    extractFromUrl(pathname, "priceLow"),
   );
-  let [priceHigh, setPriceHigh] = useQueryState(
-    "priceHigh",
-    parseAsString.withOptions({ shallow: false }).withDefault(""),
+  let [priceHigh, setPriceHigh] = useState(() =>
+    extractFromUrl(pathname, "priceHigh"),
   );
+
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
 
   const setFocusedFilter = useSelectedFilter(
     (store) => store.setSelectedFilter,
   );
 
-  if (variant === "homepage") {
-    priceLow = filters.priceLow;
-    priceHigh = filters.priceHigh;
-  }
+  //effect description
+  useEffect(() => {
+    console.log(filters.transactionType);
+    setPriceLow("");
+    setPriceHigh("");
+    updateFilters({
+      priceLow: "",
+      priceHigh: "",
+    });
+  }, [filters.transactionType]);
 
+  if (variant === "homepage") {
+    priceLow = filters.priceLow ? formatPrice(Number(filters.priceLow)) : "";
+    priceHigh = filters.priceHigh ? formatPrice(Number(filters.priceHigh)) : "";
+  }
+  // console.log(priceLow, priceHigh);
+  const priceLowValue = priceLow
+    ? priceLow.replace(/,/g, "").replace(".", "")
+    : "";
+  const priceHighValue = priceHigh
+    ? priceHigh.replace(/,/g, "").replace(".", "")
+    : "";
+  // console.log(priceLowValue, priceHighValue);
+
+  const priceFilterOptions =
+    filters.transactionType === "sale"
+      ? salePriceFilterOptions
+      : rentPriceFilterOptions;
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -174,11 +202,11 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                 id="price-from"
                 type="text"
                 placeholder="10,000"
-                value={priceLow}
+                value={priceLowValue}
                 onChange={(e) => {
                   if (variant === "homepage") {
                     updateFilters({
-                      priceLow: e.target.value,
+                      priceLow: e.target.value.replace(/,/g, ""),
                     });
                   } else {
                     setPriceLow(e.target.value);
@@ -204,7 +232,8 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                   onClick={() => {
                     if (variant === "homepage") {
                       updateFilters({
-                        priceLow: price === "Any" ? "" : price,
+                        priceLow:
+                          price === "Any" ? "" : price.replace(/,/g, ""),
                       });
                     } else {
                       setPriceLow(price === "Any" ? "" : price);
@@ -237,11 +266,11 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                 id="price-to"
                 type="text"
                 placeholder="10,000"
-                value={priceHigh}
+                value={priceHighValue}
                 onChange={(e) => {
                   if (variant === "homepage") {
                     updateFilters({
-                      priceHigh: e.target.value,
+                      priceHigh: e.target.value.replace(/,/g, ""),
                     });
                   } else {
                     setPriceHigh(e.target.value);
@@ -267,7 +296,8 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                   onClick={() => {
                     if (variant === "homepage") {
                       updateFilters({
-                        priceHigh: price === "Any" ? "" : price,
+                        priceHigh:
+                          price === "Any" ? "" : price.replace(/,/g, ""),
                       });
                     } else {
                       setPriceHigh(price === "Any" ? "" : price);

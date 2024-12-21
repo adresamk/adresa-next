@@ -71,7 +71,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
       keys: ["label"],
     });
     const filteredOptions = fuse.search(debouncedLocation);
-    console.log("filteredOptions", filteredOptions);
+    // console.log("filteredOptions", filteredOptions);
     const existingLocations = filters.location
       ? filters.location.split(",")
       : [];

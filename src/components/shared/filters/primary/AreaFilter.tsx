@@ -14,11 +14,13 @@ import { parseAsString, useQueryState } from "nuqs";
 import { set } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { extractFromUrl } from "@/lib/filters";
 
-interface PropertyTypeFilterProps {
+interface AreaFilterProps {
   variant: "homepage" | "search";
 }
-export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
+export default function AreaFilter({ variant }: AreaFilterProps) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
   const [isOpen, setIsOpen] = useState(false);
@@ -27,13 +29,12 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
     areaHigh: false,
   });
   const t = useTranslations();
-  let [areaLow, setAreaLow] = useQueryState(
-    "areaLow",
-    parseAsString.withOptions({ shallow: false }).withDefault(""),
+  const pathname = usePathname();
+  let [areaLow, setAreaLow] = useState(() =>
+    extractFromUrl(pathname, "areaLow"),
   );
-  let [areaHigh, setAreaHigh] = useQueryState(
-    "areaHigh",
-    parseAsString.withOptions({ shallow: false }).withDefault(""),
+  let [areaHigh, setAreaHigh] = useState(() =>
+    extractFromUrl(pathname, "areaHigh"),
   );
 
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
@@ -69,12 +70,11 @@ export default function SurfaceFilter({ variant }: PropertyTypeFilterProps) {
           <div
             className={cn(
               "h-[90px] w-[180px] overflow-visible border-b border-slate-200 p-4 xl:border-t",
-              focusedFilter === "area-size" &&
-                "z-10 rounded-t bg-white shadow-lg",
+              focusedFilter === "area" && "z-10 rounded-t bg-white shadow-lg",
               !focusedFilter && "bg-gray-50",
             )}
             onClick={() => {
-              setFocusedFilter("area-size");
+              setFocusedFilter("area");
             }}
           >
             <div className="">

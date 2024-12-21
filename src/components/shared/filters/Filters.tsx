@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import ModeFilter from "./primary/TransactionTypeFilter";
 import PriceFilter from "./primary/PriceFilter";
-import PropertyTypeFilter from "./primary/PropertyTypeFilter";
-import SurfaceFilter from "./primary/SurfaceFilter";
+import PropertyTypeFilter from "./primary/CategoryFilter";
+import SurfaceFilter from "./primary/AreaFilter";
 import SubTypeFilter from "./primary/SubTypeFilter";
 
 import { ChevronDown, Search, SlidersVertical } from "lucide-react";

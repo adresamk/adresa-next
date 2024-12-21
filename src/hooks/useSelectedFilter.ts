@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 type selectedFilterOptions =
-  | "type"
   | "location"
   | "area"
   | "price"
   | "transactionType"
+  | "category"
   | "";
 interface useSelectedFilterStore {
   selectedFilter: selectedFilterOptions;
