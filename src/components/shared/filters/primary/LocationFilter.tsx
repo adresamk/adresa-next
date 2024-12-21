@@ -37,18 +37,17 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
 
   const [location, setLocation] = useState("");
   const [debouncedLocation, setDebouncedFilterLocation] = useDebounceValue(
-    filters.location,
+    "",
     400,
   );
   //effect description
   useEffect(() => {
     // updateFilters({ location: debouncedLocation });
-    setDebouncedFilterLocation(location);
+    console.log("location", location);
+    if (location && location.length > 2) {
+      setDebouncedFilterLocation(location);
+    }
   }, [location, setDebouncedFilterLocation]);
-
-  useEffect(() => {
-    // updateFilters({ location: debouncedLocation });
-  }, [debouncedLocation]);
 
   const locale = useLocale();
   const getLocationDropdownOptions = useCallback(() => {
@@ -72,19 +71,27 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
       keys: ["label"],
     });
     const filteredOptions = fuse.search(debouncedLocation);
-    console.log("fuse", filteredOptions);
-    const results = filteredOptions.map((o) => o.item).slice(0, 6);
+    console.log("filteredOptions", filteredOptions);
+    const existingLocations = filters.location
+      ? filters.location.split(",")
+      : [];
+    const results = filteredOptions
+      .filter((o) => !existingLocations.includes(o.item.value))
+      .map((o) => o.item)
+      .slice(0, 6);
     return { options, translatedPlaces, fuseResults: results };
-  }, [locale, debouncedLocation]);
+  }, [locale, debouncedLocation, filters.location]);
   const locationDropdown = getLocationDropdownOptions();
   const [tags, setTags] = useState<Tag[]>(() => {
-    return filters.location.split(",").map((value) => ({
-      value: value,
-      label:
-        getLocationDropdownOptions().translatedPlaces.find(
-          (o) => o.value === value,
-        )?.label || "",
-    }));
+    return filters.location
+      ? filters.location.split(",").map((value) => ({
+          value: value,
+          label:
+            getLocationDropdownOptions().translatedPlaces.find(
+              (o) => o.value === value,
+            )?.label || "",
+        }))
+      : [];
   });
 
   function handleUpdateTags(location: TranslatedOption) {
@@ -173,7 +180,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
               setLocation(e.target.value);
             }}
           />
-          {focusedFilter === "location" && isOpen && (
+          {focusedFilter === "location" && isOpen && location.length > 2 && (
             <ul className="absolute left-0 top-full z-[100] -ml-[22px] mt-[5px] max-h-[280px] w-[calc(100%_+_41px)] overflow-auto rounded-b-xl bg-white shadow-lg">
               {locationDropdown.fuseResults.map(
                 (location: TranslatedOption) => (
