@@ -63,7 +63,7 @@ function cleanedUpLocation(location: string | string[]) {
   return undefined;
 }
 
-export function parseQueryParams(params: string[]) {
+export function parseQueryParams(params: string[] = []) {
   const parsedParams: Record<string, string | string[] | number> = {};
   // console.log("params", params);
   for (const param of params) {

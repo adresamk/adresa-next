@@ -23,13 +23,14 @@ export default async function SearchPage({
 
   const { queryParams, locale } = await params;
 
+  // console.log("queryParams", queryParams);
   const parsedQueryParams = parseQueryParams(queryParams);
-  // console.log("parsedQueryParams", JSON.stringify(parsedQueryParams));
   // console.log("parsedQueryParams", parsedQueryParams);
-
-  const locationMissing = !queryParams.some(
-    (param) => param.startsWith("l-") && param.length > 2,
-  );
+  // console.log("parsedQueryParams", JSON.stringify(parsedQueryParams));
+  // console.log("queryParams", queryParams);
+  const locationMissing =
+    !queryParams ||
+    !queryParams.some((param) => param.startsWith("l-") && param.length > 2);
   if (locationMissing) {
     return <Custom404 />;
   }
