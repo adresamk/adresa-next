@@ -9,16 +9,11 @@ import { unstable_cache } from "next/cache";
 export const revalidate = 60;
 export const dynamicParams = true;
 
-export async function getStaticParams() {
-  console.log("getStaticParams");
-  // Return an empty array to generate pages on-demand
-  return [];
-}
-
 interface SearchPageProps {
   searchParams: Promise<Record<string, string>>;
   params: Promise<{ queryParams: string[]; locale: string }>;
 }
+
 export default async function SearchPage({
   searchParams,
   params,
