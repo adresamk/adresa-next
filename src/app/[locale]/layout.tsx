@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { GetServerSideProps, Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import "@/styles/global.css";
@@ -14,6 +14,8 @@ import { extractRouterConfig } from "uploadthing/server";
 import { Locale, routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
+import { useEffect } from "react";
+import { headers } from "next/headers";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -42,9 +44,15 @@ export default async function RootLayout({
 }) {
   const layoutParams = await params;
   const { locale } = layoutParams;
-  // console.log("ASDF");
-  // console.log("B4 Locale FROM LAYOUT", locale);
-  // Ensure that the incoming `locale` is valid
+
+  // Get device type from user agent on server side
+  const headersList = await headers();
+  const userAgent = headersList.get("user-agent") || "";
+  const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
+  const isTablet = /tablet|ipad/i.test(userAgent);
+  const deviceType = isMobile ? "mobile" : "desktop";
+
+  console.log("deviceType", deviceType);
   if (!routing.locales.includes(locale as Locale)) {
     console.log("locale not found", locale);
     notFound();
@@ -54,7 +62,7 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={`group ${deviceType}`}>
       <body
         className={cn(
           "min-h-screen bg-background pt-[80px] font-sans antialiased",
