@@ -52,7 +52,6 @@ export default async function RootLayout({
   const isTablet = /tablet|ipad/i.test(userAgent);
   const deviceType = isMobile ? "mobile" : "desktop";
 
-  console.log("deviceType", deviceType);
   if (!routing.locales.includes(locale as Locale)) {
     console.log("locale not found", locale);
     notFound();

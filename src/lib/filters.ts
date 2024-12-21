@@ -1,3 +1,7 @@
+import { defaultFilters } from "@/hooks/useFilters";
+import { PropertyTransactionType } from "@prisma/client";
+import { FiltersObject } from "./types";
+
 const mainFiltersDefaults = {
   location: undefined,
   transactionType: undefined,
@@ -19,7 +23,6 @@ export const mainFiltersShort: Record<string, string> = {
   al: "areaLow",
   ah: "areaHigh",
 };
-
 const mainFilters = [
   "location",
   "transactionType",
@@ -30,6 +33,15 @@ const mainFilters = [
   "areaLow",
   "areaHigh",
 ];
+type MainFilters =
+  | "location"
+  | "transactionType"
+  | "category"
+  | "type"
+  | "priceLow"
+  | "priceHigh"
+  | "areaLow"
+  | "areaHigh";
 
 export type ParsedQueryParams = {
   location: string | string[] | undefined;
@@ -111,4 +123,22 @@ export function parseQueryParams(params: string[] = []) {
   );
 
   return filteredParams;
+}
+
+export function extractFromUrl(pathname: string, filter: MainFilters) {
+  if (filter === "transactionType") {
+  }
+  return defaultFilters[filter];
+}
+
+export function generateSearchUrl(filters: FiltersObject) {
+  return `/search/${Object.entries(filters)
+    .filter(([_, value]) => value !== "")
+    .map(([key, value]) => {
+      const shortKey = Object.entries(mainFiltersShort).find(
+        ([_, long]) => long === key,
+      )?.[0];
+      return `${shortKey}-${value}`;
+    })
+    .join("/")}`;
 }

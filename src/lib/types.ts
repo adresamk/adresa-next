@@ -1,4 +1,11 @@
-import { Listing, Agency, User } from "@prisma/client";
+import {
+  Listing,
+  Agency,
+  User,
+  PropertyTransactionType,
+  PropertyCategory,
+  PropertyType,
+} from "@prisma/client";
 
 // export type ListingWithOwnerAndAgency = Listing & {
 //   owner: {
@@ -40,74 +47,17 @@ export interface ListingContactData {
   phoneVerified: boolean;
   contactHours?: string;
 }
-export type propertyTypeValues =
-  | "residential"
-  | "land"
-  | "commercial"
-  | "other";
-
-export type modeOptions = "sale" | "rent";
 
 export interface FiltersObject {
   // primary
-  mode: modeOptions;
+  transactionType: PropertyTransactionType;
   location: string;
-  propertyType: propertyTypeValues[number];
-  subType: string;
+  category: PropertyCategory | "";
+  type: PropertyType | "";
   priceLow: string;
   priceHigh: string;
   areaLow: string;
   areaHigh: string;
   // secondary
-  floorNumberLow: string;
-  floorNumberHigh: string;
-  bedroomsNumberLow: string;
-  bedroomsNumberHigh: string;
-  constructionYearLow: string;
-  constructionYearHigh: string;
-  isNewDevelopment: boolean;
-  heatingType: string;
-  isFurnitureIncluded: boolean;
-  externalFeatures: string[];
-  internalFeatures: string[];
-  lastUpdated: string;
-  creationDate: string;
 }
 export type PartialFiltersObject = Partial<FiltersObject>;
-
-export interface SearchCriteria {
-  listingType: string;
-  category: string;
-  priceLow: number;
-  priceHigh: number;
-  livingAreaHigh: number;
-  areaIDs: number[];
-  sortBy: string;
-  sortOrder: string;
-}
-
-export interface SearchGeography {
-  geographyId: number;
-  slug: string;
-  parent: number;
-  parentSlug: string;
-  name: string;
-  fullName: string;
-  titleName: string;
-  metaName: string;
-  level: number;
-  root_id: number;
-  ancestors: {
-    id: number[];
-  };
-  latitude: number;
-  longitude: number;
-}
-
-export interface RealEstateSearch {
-  searchCriteria: SearchCriteria;
-  searchGeographies: SearchGeography[];
-  searchHash: string;
-  savedSearchTitle: string;
-  addedToRecentDateTime: number;
-}

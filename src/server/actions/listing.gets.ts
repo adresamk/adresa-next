@@ -1,6 +1,6 @@
 "server-only";
 import prismadb from "@/lib/db";
-import { ParsedQueryParams } from "@/lib/listings";
+import { ParsedQueryParams } from "@/lib/filters";
 import {
   Listing,
   PropertyType,

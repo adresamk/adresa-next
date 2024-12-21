@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import ModeFilter from "./primary/ModeFilter";
+import ModeFilter from "./primary/TransactionTypeFilter";
 import PriceFilter from "./primary/PriceFilter";
 import PropertyTypeFilter from "./primary/PropertyTypeFilter";
 import SurfaceFilter from "./primary/SurfaceFilter";
@@ -27,8 +27,6 @@ import { secondaryFiltersParsers } from "@/app/[locale]/searchParams";
 import CreateSavedSearch from "./CreateSavedSearch";
 import { useTranslations } from "next-intl";
 
-export const dynamic = "force-dynamic";
-
 export default function Filters() {
   // not sure why we need this
   const router = useRouter();
@@ -43,62 +41,62 @@ export default function Filters() {
     (store) => store.clearSecondaryFilters,
   );
 
-  let [secondarySearchParams, setSecondarySearchParams] = useQueryStates(
-    secondaryFiltersParsers,
-    {
-      history: "push",
-    },
-  );
-  let {
-    floorNumberLow,
-    floorNumberHigh,
-    bedroomsNumberLow,
-    bedroomsNumberHigh,
-    constructionYearLow,
-    constructionYearHigh,
-    isNewDevelopment,
-    heatingType,
-    isFurnitureIncluded,
-    externalFeatures,
-    internalFeatures,
-    lastUpdated,
-    creationDate,
-  } = secondarySearchParams;
+  // let [secondarySearchParams, setSecondarySearchParams] = useQueryStates(
+  //   secondaryFiltersParsers,
+  //   {
+  //     history: "push",
+  //   },
+  // );
+  // let {
+  //   floorNumberLow,
+  //   floorNumberHigh,
+  //   bedroomsNumberLow,
+  //   bedroomsNumberHigh,
+  //   constructionYearLow,
+  //   constructionYearHigh,
+  //   isNewDevelopment,
+  //   heatingType,
+  //   isFurnitureIncluded,
+  //   externalFeatures,
+  //   internalFeatures,
+  //   lastUpdated,
+  //   creationDate,
+  // } = secondarySearchParams;
 
-  // update the filters state based on search params on mount
-  useEffect(() => {
-    updateFilters({
-      floorNumberLow,
-      floorNumberHigh,
-      bedroomsNumberLow,
-      bedroomsNumberHigh,
-      constructionYearLow,
-      constructionYearHigh,
-      isNewDevelopment,
-      heatingType,
-      isFurnitureIncluded,
-      externalFeatures,
-      internalFeatures,
-      lastUpdated,
-      creationDate,
-    });
-  }, [
-    bedroomsNumberHigh,
-    bedroomsNumberLow,
-    constructionYearHigh,
-    constructionYearLow,
-    creationDate,
-    externalFeatures,
-    floorNumberHigh,
-    floorNumberLow,
-    heatingType,
-    internalFeatures,
-    isFurnitureIncluded,
-    isNewDevelopment,
-    lastUpdated,
-    secondarySearchParams,
-    updateFilters,
-  ]);
+  // // update the filters state based on search params on mount
+  // useEffect(() => {
+  //   updateFilters({
+  //     floorNumberLow,
+  //     floorNumberHigh,
+  //     bedroomsNumberLow,
+  //     bedroomsNumberHigh,
+  //     constructionYearLow,
+  //     constructionYearHigh,
+  //     isNewDevelopment,
+  //     heatingType,
+  //     isFurnitureIncluded,
+  //     externalFeatures,
+  //     internalFeatures,
+  //     lastUpdated,
+  //     creationDate,
+  //   });
+  // }, [
+  //   bedroomsNumberHigh,
+  //   bedroomsNumberLow,
+  //   constructionYearHigh,
+  //   constructionYearLow,
+  //   creationDate,
+  //   externalFeatures,
+  //   floorNumberHigh,
+  //   floorNumberLow,
+  //   heatingType,
+  //   internalFeatures,
+  //   isFurnitureIncluded,
+  //   isNewDevelopment,
+  //   lastUpdated,
+  //   secondarySearchParams,
+  //   updateFilters,
+  // ]);
 
   const results = {
     length: Math.floor(Math.random() * 100),
@@ -121,21 +119,21 @@ export default function Filters() {
       </Button>
       <Button
         onClick={() => {
-          setSecondarySearchParams({
-            floorNumberLow: filters.floorNumberLow,
-            floorNumberHigh: filters.floorNumberHigh,
-            bedroomsNumberLow: filters.bedroomsNumberLow,
-            bedroomsNumberHigh: filters.bedroomsNumberHigh,
-            constructionYearLow: filters.constructionYearLow,
-            constructionYearHigh: filters.constructionYearHigh,
-            isNewDevelopment: filters.isNewDevelopment,
-            heatingType: filters.heatingType,
-            isFurnitureIncluded: filters.isFurnitureIncluded,
-            externalFeatures: filters.externalFeatures,
-            internalFeatures: filters.internalFeatures,
-            lastUpdated: filters.lastUpdated,
-            creationDate: filters.creationDate,
-          });
+          // setSecondarySearchParams({
+          //   floorNumberLow: filters.floorNumberLow,
+          //   floorNumberHigh: filters.floorNumberHigh,
+          //   bedroomsNumberLow: filters.bedroomsNumberLow,
+          //   bedroomsNumberHigh: filters.bedroomsNumberHigh,
+          //   constructionYearLow: filters.constructionYearLow,
+          //   constructionYearHigh: filters.constructionYearHigh,
+          //   isNewDevelopment: filters.isNewDevelopment,
+          //   heatingType: filters.heatingType,
+          //   isFurnitureIncluded: filters.isFurnitureIncluded,
+          //   externalFeatures: filters.externalFeatures,
+          //   internalFeatures: filters.internalFeatures,
+          //   lastUpdated: filters.lastUpdated,
+          //   creationDate: filters.creationDate,
+          // });
           setTimeout(() => {
             // to force the new queries on the server, without setTimeout its late one click
             router.refresh();

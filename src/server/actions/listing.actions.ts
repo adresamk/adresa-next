@@ -23,7 +23,7 @@ import {
   listingWithRelationsInclude,
   UploadedImageData,
 } from "@/types/listing.types";
-import { ParsedQueryParams } from "@/lib/listings";
+import { ParsedQueryParams } from "@/lib/filters";
 
 export async function getListingsByIdForRecentlyViewed(
   listingNumbers: number[],

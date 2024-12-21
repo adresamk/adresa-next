@@ -1,4 +1,5 @@
-import { FiltersObject, modeOptions, PartialFiltersObject } from "@/lib/types";
+import { FiltersObject, PartialFiltersObject } from "@/lib/types";
+import { PropertyTransactionType } from "@prisma/client";
 import { create } from "zustand";
 
 interface useFiltersStore {
@@ -9,36 +10,22 @@ interface useFiltersStore {
   clearSecondaryFilters: () => void;
 }
 
-export const defaultFilters = {
+export const defaultFilters: FiltersObject = {
   // primary
-  mode: "sale" as modeOptions,
+  transactionType: "sale",
   location: "",
-  propertyType: "",
-  subType: "",
+  type: "",
+  category: "",
   priceLow: "",
   priceHigh: "",
   areaLow: "",
   areaHigh: "",
-  // secondary
-  floorNumberLow: "",
-  floorNumberHigh: "",
-  bedroomsNumberLow: "",
-  bedroomsNumberHigh: "",
-  constructionYearLow: "",
-  constructionYearHigh: "",
-  isNewDevelopment: false,
-  heatingType: "",
-  isFurnitureIncluded: false,
-  externalFeatures: ["ac"],
-  internalFeatures: [],
-  lastUpdated: "",
-  creationDate: "",
 };
 const primaryFilters = [
-  "mode",
+  "transactionType",
   "location",
-  "propertyType",
-  "subType",
+  "type",
+  "category",
   "priceLow",
   "priceHigh",
   "areaLow",
@@ -51,6 +38,7 @@ export const useFilters = create<useFiltersStore>((set) => ({
   shouldUpdate: false,
   updateFilters: (newFilters: PartialFiltersObject) =>
     set((prevState) => {
+      console.log("newFilters", newFilters);
       const primaryFiltersChanged = Object.keys(newFilters).some((key) =>
         primaryFilters.includes(key),
       );
@@ -70,24 +58,8 @@ export const useFilters = create<useFiltersStore>((set) => ({
     set((prevState) => {}),
   clearSecondaryFilters: () =>
     set((prevState) => {
-      const secondaryFilters = {
-        floorNumberLow: "",
-        floorNumberHigh: "",
-        bedroomsNumberLow: "",
-        bedroomsNumberHigh: "",
-        constructionYearLow: "",
-        constructionYearHigh: "",
-        isNewDevelopment: false,
-        heatingType: "",
-        isFurnitureIncluded: false,
-        externalFeatures: ["ac"],
-        internalFeatures: [],
-        lastUpdated: "",
-        creationDate: "",
-      };
       const newState = {
         ...prevState.filters,
-        ...secondaryFilters,
       };
       console.log(newState);
       return {

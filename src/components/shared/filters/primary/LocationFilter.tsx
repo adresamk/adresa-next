@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { MapPin } from "lucide-react";
+import { MapPin, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useRef } from "react";
@@ -20,11 +20,14 @@ import {
   TranslatedOptionWithMaybePlaces,
 } from "@/lib/data/macedonia/importantData";
 
+type Tag = {
+  label: string;
+  value: string;
+};
+
 function BigVariant({ isOpen }: { isOpen: boolean }) {
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
   const t = useTranslations();
-
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const setFocusedFilter = useSelectedFilter(
     (store) => store.setSelectedFilter,
@@ -32,6 +35,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
 
+  const [location, setLocation] = useState("");
   const [debouncedLocation, setDebouncedFilterLocation] = useDebounceValue(
     filters.location,
     400,
@@ -39,8 +43,12 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
   //effect description
   useEffect(() => {
     // updateFilters({ location: debouncedLocation });
-    setDebouncedFilterLocation(filters.location);
-  }, [filters.location, setDebouncedFilterLocation]);
+    setDebouncedFilterLocation(location);
+  }, [location, setDebouncedFilterLocation]);
+
+  useEffect(() => {
+    // updateFilters({ location: debouncedLocation });
+  }, [debouncedLocation]);
 
   const locale = useLocale();
   const getLocationDropdownOptions = useCallback(() => {
@@ -64,11 +72,32 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
       keys: ["label"],
     });
     const filteredOptions = fuse.search(debouncedLocation);
-    console.log("FO", filteredOptions);
+    console.log("fuse", filteredOptions);
     const results = filteredOptions.map((o) => o.item).slice(0, 6);
     return { options, translatedPlaces, fuseResults: results };
   }, [locale, debouncedLocation]);
   const locationDropdown = getLocationDropdownOptions();
+  const [tags, setTags] = useState<Tag[]>(() => {
+    return filters.location.split(",").map((value) => ({
+      value: value,
+      label:
+        getLocationDropdownOptions().translatedPlaces.find(
+          (o) => o.value === value,
+        )?.label || "",
+    }));
+  });
+
+  function handleUpdateTags(location: TranslatedOption) {
+    const newTags = [...tags, location];
+    setTags(newTags);
+  }
+  function handleRemoveTag(value: string) {
+    const newTags = tags.filter((t) => t.value !== value);
+    setTags(newTags);
+    updateFilters({
+      location: newTags.map((t) => t.value).join(","),
+    });
+  }
 
   //focus field on selection of the space around it for location
   // useEffect(() => {
@@ -80,7 +109,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
   return (
     <div
       className={cn(
-        "relative h-[88px] w-full max-w-full rounded-xl border border-transparent bg-gray-100 pb-[6px] pl-[20px] pr-[19px] pt-[17px]",
+        "relative h-full min-h-[88px] w-full max-w-full rounded-xl border border-transparent bg-gray-100 pb-[6px] pl-[20px] pr-[19px] pt-[17px]",
         focusedFilter === "location" && "rounded-b-none",
         !focusedFilter && "",
       )}
@@ -91,7 +120,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
     >
       <div
         className={cn(
-          "flex flex-col gap-1.5 text-brand-dark-blue",
+          "flex h-[calc(100%_+2px)] flex-col gap-1.5 text-brand-dark-blue",
           focusedFilter === "location" && "rounded-b-none",
         )}
       >
@@ -100,9 +129,26 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
           htmlFor={"location"}
         >
           {<MapPin className="h-4 w-4" />} {t("common.filters.location.label")}
-          <span className="text-sm">{selectedOption}</span>
+          <span className="text-sm">{filters.location}</span>
         </label>
-        <div className="relative flex h-10 items-center text-sm">
+        <div className="relative flex min-h-10 flex-wrap items-center text-sm">
+          {tags.map((t) => {
+            return (
+              <div
+                className="relative mr-2.5 mt-1 inline-flex h-10 items-center gap-2 rounded-md bg-slate-200 py-2 pl-2.5 pr-8 text-sm tracking-tight text-slate-900"
+                key={t.value}
+              >
+                <span className="flex-grow overflow-hidden">{t.label}</span>
+
+                <div
+                  onClick={() => handleRemoveTag(t.value)}
+                  className="absolute right-0 top-0 inline-flex h-full w-8 cursor-pointer items-center justify-center"
+                >
+                  <X className="h-5 w-5 text-slate-400" />
+                </div>
+              </div>
+            );
+          })}
           {/* line-height: 1; border: 0; height: 40px; padding: 0;
       flex-grow: 1; letter-spacing: -.32px; */}
           <input
@@ -120,15 +166,11 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
                 ? t("common.filters.location.notActivePlaceholder")
                 : t("common.filters.location.emptyPlaceholder")
             }
-            value={
-              filters.location
-              // locationDropdown.options.find((o) => o.value === filters.location)
-              //   ?.label
-            }
+            value={location}
             onChange={(e) => {
               // setDebouncedFilterLocation(e.target.value);
               // setDebouncedFilterLocation({ location: e.target.value });
-              updateFilters({ location: e.target.value });
+              setLocation(e.target.value);
             }}
           />
           {focusedFilter === "location" && isOpen && (
@@ -142,8 +184,14 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
                     )}
                     onClick={() => {
                       console.log(location.value);
-                      setSelectedOption(location.value);
-                      updateFilters({ location: location.label });
+                      setLocation(location.value);
+                      updateFilters({
+                        location: filters.location
+                          ? `${filters.location},${location.value}`
+                          : location.value,
+                      });
+                      handleUpdateTags(location);
+                      setLocation("");
                     }}
                   >
                     <span>

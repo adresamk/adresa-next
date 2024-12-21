@@ -2,7 +2,7 @@ import SearchResults from "@/components/shared/SearchResults";
 import { searchParamsCache } from "../../searchParams";
 // import getAllListings from "@/server/actions/listing.actions";
 import getAllListings from "@/server/actions/listing.gets";
-import { parseQueryParams } from "@/lib/listings";
+import { parseQueryParams } from "@/lib/filters";
 import Custom404 from "./_components/Custom404";
 import { unstable_cache } from "next/cache";
 
