@@ -17,7 +17,7 @@ export default function SearchResults({
       <Filters />
       <section className="relative z-0 flex w-full flex-col-reverse lg:flex-row">
         <Listings listings={listings} />
-        {/* <SearchMapClient listings={listings} /> */}
+        <SearchMapClient listings={listings} />
       </section>
     </div>
   );
