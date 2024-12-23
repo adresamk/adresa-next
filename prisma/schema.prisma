@@ -132,7 +132,7 @@ model User {
 model SavedSearch {
   id                   Int      @id @default(autoincrement())
   userId               Int
-  user                 User     @relation(fields: [userId], references: [id])
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name                 String   @db.VarChar(65)
   img                  String? // optional image
   isNotificationOn     Boolean  @default(false) // whether notifications are active
@@ -509,7 +509,7 @@ model ListingView {
 
   // Who
   accountId Int?
-  account   Account? @relation(fields: [accountId], references: [id])
+  account   Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
 
   locale     String?
   ipAddress  String?
@@ -523,7 +523,7 @@ model ListingView {
 model ListingViewCount {
   id        Int     @id @default(autoincrement())
   listingId Int     @unique
-  listing   Listing @relation(fields: [listingId], references: [id])
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   count     Int     @default(0)
 
   createdAt DateTime @default(now())

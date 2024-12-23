@@ -250,12 +250,20 @@ export async function generateListings(
     const mkDescription = "MKD: " + enDescription;
     const alDescription = "ALB: " + enDescription;
 
-    const price = faker.number.int({ min: 5000, max: 300000 });
+    const rentPrice = faker.number.int({ min: 300, max: 1000 });
+    const salePrice = faker.number.int({ min: 5000, max: 300000 });
+
+    const rentPriceIncrease = faker.number.int({ min: 100, max: 300 });
+    const salePriceIncrease = faker.number.int({ min: 5000, max: 30000 });
+    const price =
+      transactionType === PropertyTransactionType.rent ? rentPrice : salePrice;
     const previousPrice = faker.helpers.arrayElement([
       null,
-      faker.number.int({ min: 50000, max: 300000 }),
+      price +
+        (transactionType === PropertyTransactionType.rent
+          ? rentPriceIncrease
+          : salePriceIncrease),
     ]);
-    const priceHistory = null;
     const area = faker.number.int({ min: 25, max: 600 });
     const images = faker.helpers
       .arrayElements(
@@ -562,13 +570,13 @@ export async function generateUserAccounts() {
         });
 
         // Generate fewer listings per transaction
-        await generateListingsInTransaction(tx, userProfile, null, 15);
+        await generateListingsInTransaction(tx, userProfile, null, 30);
 
         return userProfile;
       },
       {
-        timeout: 150000, // 2 minutes
-        maxWait: 160000, // 2.5 minutes max wait time
+        timeout: 500000, // 2 minutes
+        maxWait: 520000, // 2.5 minutes max wait time
         isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted,
       },
     );
@@ -649,13 +657,13 @@ export async function generateAgencyAccounts() {
         });
 
         // Generate fewer listings per transaction
-        await generateListingsInTransaction(tx, null, agencyProfile, 15);
+        await generateListingsInTransaction(tx, null, agencyProfile, 45);
 
         return agencyProfile;
       },
       {
-        timeout: 150000, // 2 minutes
-        maxWait: 160000, // 2.5 minutes max wait time
+        timeout: 500000, // 2 minutes
+        maxWait: 520000, // 2.5 minutes max wait time
         isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted,
       },
     );
@@ -833,7 +841,7 @@ async function generateListingsInTransaction(
   });
 
   // Process fewer listings at a time within the transaction
-  await processBatch(listingPromises, 3);
+  await processBatch(listingPromises, 5);
 }
 
 // Similar modifications for other functions to use transaction...
