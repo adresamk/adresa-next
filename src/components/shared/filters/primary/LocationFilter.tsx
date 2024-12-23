@@ -142,7 +142,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
           {tags.map((t) => {
             return (
               <div
-                className="relative mr-2.5 mt-1 inline-flex h-10 items-center gap-2 rounded-md bg-slate-200 py-2 pl-2.5 pr-8 text-sm tracking-tight text-slate-900"
+                className="relative mr-2.5 mt-1 inline-flex min-h-10 items-center gap-2 rounded-md bg-slate-200 py-2 pl-2.5 pr-8 text-sm tracking-tight text-slate-900"
                 key={t.value}
               >
                 <span className="flex-grow overflow-hidden">{t.label}</span>
