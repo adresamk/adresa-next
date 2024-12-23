@@ -2,14 +2,14 @@
 import { SelectDemo } from "@/components/shared/SelectDemo";
 import { Button } from "@/components/ui/button";
 import { Bell, BellOff, BellOffIcon, LinkIcon, Trash } from "lucide-react";
-import { useState } from "react";
-import { SavedSearch } from "@prisma/client";
+import { useEffect, useState } from "react";
+import { Listing, SavedSearch } from "@prisma/client";
 import { parseQueryString } from "@/lib/utils";
 import {
   deleteSavedSearch,
   updateSavedSearch,
 } from "@/server/actions/savedSearche.actions";
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 
 const notificationIntervalOptions = [
   {
@@ -37,11 +37,31 @@ export default function SavedSearchCard({
   const [isNotificationOn, setIsNotificationOn] = useState(
     savedSearch.isNotificationOn,
   );
-  const searchParamsExtracted = parseQueryString(savedSearch.searchParams);
-  console.log(searchParamsExtracted);
 
-  const listingsCount = 10;
-  const newListingsCount = 2;
+  const [listingsCount, setListingsCount] = useState<number | null>(null);
+  const [newListingsCount, setNewListingsCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (savedSearch.searchParams) {
+      const fetchListings = async () => {
+        const resp = await fetch(
+          `/api/listing/getBySearchParams?path=${savedSearch.searchParams}`,
+        );
+        const data = await resp.json();
+        console.log("data", data);
+        setListingsCount(data.listings.length);
+        const newListingsCount = data.listings.filter(
+          (listing: Listing) =>
+            new Date(listing.createdAt) > new Date(savedSearch.lastOpenedAt),
+        ).length;
+        setNewListingsCount(newListingsCount);
+      };
+      fetchListings();
+    }
+  }, [savedSearch.lastOpenedAt, savedSearch.searchParams]);
+
+  const router = useRouter();
+
   return (
     <div
       id={"ss" + savedSearch.id}
@@ -68,10 +88,7 @@ export default function SavedSearchCard({
                     );
                     if (resp.success) {
                       // or change this to click a hidden link element
-                      window.open(
-                        "/search?" + savedSearch.searchParams,
-                        "_blank",
-                      );
+                      router.push(savedSearch.searchParams);
                     }
                   }}
                 >
@@ -108,11 +125,25 @@ export default function SavedSearchCard({
           </Button>
         </div>
       </div>
-      <div className="my-4 flex gap-1.5 text-sm">
-        <span>{listingsCount} listings</span>
-        <span className="text-brand-light-blue">+{newListingsCount} new</span>
+      <div className="my-4 flex h-4 gap-1.5 text-sm">
+        {listingsCount !== null && (
+          <span>
+            {listingsCount}{" "}
+            {listingsCount > 0
+              ? "listings"
+              : listingsCount === 0
+                ? "no listings"
+                : "listing"}
+          </span>
+        )}
+        {newListingsCount !== null && (
+          <span className="text-brand-light-blue">
+            {newListingsCount > 0 ? `+${newListingsCount} new` : "0 new"}
+          </span>
+        )}
       </div>
       <div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={savedSearch.img || "/assets/saved-search-map-area.png"}
           width={250}

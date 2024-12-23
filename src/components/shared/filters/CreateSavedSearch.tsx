@@ -10,12 +10,14 @@ import { Input } from "@/components/ui/input";
 import { createSavedSearch } from "@/server/actions/savedSearche.actions";
 import { useTranslations } from "next-intl";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { useParams, usePathname } from "next/navigation";
 
 const notificationIntervalOptions = ["daily", "weekly", "live"];
 
 export default function CreateSavedSearch() {
   const [isSavedSearchModalOpen, setIsSavedSearchModalOpen] = useState(false);
   const [areNotificationsOn, setareNotificationsOn] = useState(false);
+  const pathname = usePathname();
   const [searchParams, setSearchParams] = useState("");
   const [response, formAction] = useActionState(createSavedSearch, {
     success: false,
@@ -34,8 +36,9 @@ export default function CreateSavedSearch() {
   );
 
   useEffect(() => {
-    setSearchParams(window.location.href.split("/search?")[1]);
-  }, []);
+    console.log("pathname", pathname);
+    setSearchParams(pathname);
+  }, [pathname]);
 
   useEffect(() => {
     if (response?.success) {
@@ -72,7 +75,10 @@ export default function CreateSavedSearch() {
               type="text"
               className="hidden"
               name="searchParams"
-              defaultValue={searchParams}
+              value={searchParams}
+              onChange={(e) => {
+                // setSearchParams(e.target.value);
+              }}
             />
             <Label htmlFor="name">{t("common.inputs.savedSearchName")}</Label>
             <Input
@@ -120,12 +126,14 @@ export default function CreateSavedSearch() {
                 </span>
               </div>
             </div>
-            <RadioGroupDemo
-              name="notificationInterval"
-              defaultValue={notificationIntervalOptionsTranslated[1].value}
-              title={t("savedSearches.notificationInterval.title")}
-              options={notificationIntervalOptionsTranslated}
-            />
+            {areNotificationsOn && (
+              <RadioGroupDemo
+                name="notificationInterval"
+                defaultValue={notificationIntervalOptionsTranslated[1].value}
+                title={t("savedSearches.notificationInterval.title")}
+                options={notificationIntervalOptionsTranslated}
+              />
+            )}
             <div className="flex w-full items-center justify-end">
               <Button type="submit">{t("common.actions.save")}</Button>
             </div>

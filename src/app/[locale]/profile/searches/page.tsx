@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { HousePlus, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import MySavedSearchesList from "./_components/MySavedSearchesList";
-import { get } from "http";
 import { getMySavedSearches } from "@/server/actions/savedSearche.actions";
 import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";

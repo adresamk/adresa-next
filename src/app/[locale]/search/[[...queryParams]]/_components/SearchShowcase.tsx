@@ -20,9 +20,13 @@ import {
   ListingWithFavoritedBy,
   UploadedImageData,
 } from "@/types/listing.types";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Listing, User } from "@prisma/client";
 import { ListingWithUserAndAgency } from "@/lib/types";
+import {
+  getMunicipalityPlaces,
+  getMunicipalityPlacesTranslated,
+} from "@/lib/data/macedonia/importantData";
 interface SearchShowcaseProps {
   listing: Listing;
   images: UploadedImageData[];
@@ -35,6 +39,14 @@ export default function SearchShowcase({
 }: SearchShowcaseProps) {
   const t = useTranslations("common");
   const lwu = listing as ListingWithUserAndAgency;
+  const locale = useLocale();
+  const { municipality, places } = getMunicipalityPlacesTranslated(
+    listing.municipality || "",
+    locale,
+  );
+
+  const place = places.find((p) => p.value === listing.place);
+  const locationTranslated = place ? place.label : municipality?.label;
 
   return (
     <li
@@ -109,7 +121,7 @@ export default function SearchShowcase({
                   </div>
                 </div>
                 <h3 className="mb-2.5 overflow-hidden text-xs leading-5">
-                  {listing.municipality || t("listing.defaultMunicipality")}
+                  {locationTranslated || t("listing.defaultMunicipality")}
                 </h3>
                 <p className="text-xs">
                   <span className="text-gray-500">
