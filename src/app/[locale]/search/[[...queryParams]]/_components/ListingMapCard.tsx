@@ -22,7 +22,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
   const t = useTranslations();
   const images = listing.images as UploadedImageData[];
   return (
-    <div className="no-scrollbar max-h-[260px] max-w-[220px] overflow-y-auto rounded-md border border-slate-500 bg-white">
+    <div className="no-scrollbar max-h-[260px] max-w-[220px] overflow-y-auto rounded-md border border-slate-500 bg-white md:max-h-[280px] md:max-w-[250px]">
       <figure className="relative mx-auto my-0 block">
         {/* image header */}
         <div className="pointer-events-none absolute left-0 top-0 z-50 flex w-full items-center overflow-hidden px-3.5 py-2.5">
@@ -35,8 +35,8 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
             {/* {listing.tags} */}
           </div>
         </div>
-        <div className="relative h-[120px] w-[220px] overflow-hidden">
-          <ImagesCarousel images={images} height={120} />
+        <div className="relative h-[120px] w-[220px] overflow-hidden md:h-[140px] md:w-[250px]">
+          <ImagesCarousel images={images} height={140} />
           <div className="absolute bottom-1 left-1 flex gap-1">
             {listing.isPaidPromo && (
               <span
@@ -121,7 +121,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           {/* Price */}
           <div className="mb-1.5 flex items-center">
             <p
-              className="text-xl font-bold leading-4 tracking-tighter"
+              className="text-lg font-bold leading-4 tracking-tighter md:text-xl"
               style={{
                 marginTop: 8,
                 marginBottom: 8,
@@ -133,8 +133,11 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
             {listing.previousPrice &&
               listing.previousPrice > (listing.price ?? 0) && (
                 <div className="flex items-center">
-                  <ArrowDown className="ml-2.5 mr-1" stroke="green" />
-                  <span className="text-sm text-gray-400 line-through">
+                  <ArrowDown
+                    className="ml-2.5 mr-1 h-4 w-4 md:h-5 md:w-5"
+                    stroke="green"
+                  />
+                  <span className="text-xs text-gray-400 line-through md:text-sm">
                     €{displayPrice(listing.previousPrice)}
                   </span>
                 </div>
@@ -147,7 +150,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                     variant="ghost"
                     className="h-8 w-8 px-0.5 text-brand-light-blue hover:text-brand-dark-blue"
                   >
-                    <Heart size={16} />
+                    <Heart size={16} className="" />
                   </Button>
                 </li>
               </ul>

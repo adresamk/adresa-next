@@ -1,16 +1,17 @@
 import { defaultFilters } from "@/hooks/useFilters";
-import { PropertyTransactionType } from "@prisma/client";
+import { PropertyCategory, PropertyTransactionType } from "@prisma/client";
 import { FiltersObject } from "./types";
 
 const mainFiltersDefaults = {
   location: undefined,
-  transactionType: undefined,
-  category: undefined,
+  transactionType: PropertyTransactionType.sale,
+  category: PropertyCategory.residential,
   type: undefined,
   priceLow: undefined,
   priceHigh: undefined,
   areaLow: undefined,
   areaHigh: undefined,
+  sorting: "new",
 };
 
 export const mainFiltersShort: Record<string, string> = {
@@ -22,6 +23,7 @@ export const mainFiltersShort: Record<string, string> = {
   ph: "priceHigh",
   al: "areaLow",
   ah: "areaHigh",
+  s: "sorting",
 };
 const mainFilters = [
   "location",
@@ -32,6 +34,7 @@ const mainFilters = [
   "priceHigh",
   "areaLow",
   "areaHigh",
+  "sorting",
 ];
 type MainFilters =
   | "location"
@@ -41,7 +44,8 @@ type MainFilters =
   | "priceLow"
   | "priceHigh"
   | "areaLow"
-  | "areaHigh";
+  | "areaHigh"
+  | "sorting";
 
 export type ParsedQueryParams = {
   location: string | string[] | undefined;
@@ -52,6 +56,7 @@ export type ParsedQueryParams = {
   priceHigh: number | undefined;
   areaLow: number | undefined;
   areaHigh: number | undefined;
+  sorting: string | undefined;
 };
 
 function cleanedUpLocation(location: string | string[]) {
@@ -141,17 +146,17 @@ export function replaceFilterInUrl(
   value: string,
 ) {
   const parsedQueryParams = parseQueryParams(pathname.split("/"));
-  console.log(value, typeof value);
+  // console.log(value, typeof value);
   parsedQueryParams[filter] = value;
   const newUrl = generateSearchUrl(parsedQueryParams as FiltersObject);
-  console.log("newUrl", newUrl);
+  // console.log("newUrl", newUrl);
   return newUrl;
 }
 
 export function generateSearchUrl(filters: FiltersObject) {
   return `/search/${Object.entries(filters)
     .filter(([_, value]) => {
-      console.log(value, typeof value);
+      // console.log(value, typeof value);
       return value !== "" && value !== undefined;
     })
     .map(([key, value]) => {

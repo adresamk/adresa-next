@@ -28,7 +28,13 @@ export default function ImagesCarousel({
     <Carousel className="relative w-full">
       <CarouselContent>
         {images.map((image, index) => (
-          <CarouselItem key={index} className={`h-[${height}px] w-full`}>
+          <CarouselItem
+            key={index}
+            className={`w-full`}
+            style={{
+              height: `${height}px`,
+            }}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={image?.url || missingImage}

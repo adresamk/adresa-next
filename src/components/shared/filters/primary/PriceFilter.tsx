@@ -79,7 +79,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
     priceLow = filters.priceLow ? formatPrice(Number(filters.priceLow)) : "";
     priceHigh = filters.priceHigh ? formatPrice(Number(filters.priceHigh)) : "";
   }
-  console.log("priceLowHigh", priceLow, priceHigh);
+  // console.log("priceLowHigh", priceLow, priceHigh);
   const priceLowValue = priceLow
     ? priceLow.replace(/,/g, "").replace(".", "")
     : "";

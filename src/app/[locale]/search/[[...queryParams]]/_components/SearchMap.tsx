@@ -1,12 +1,19 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import "leaflet/dist/leaflet.css";
 // import "react-leaflet-markercluster/dist/styles.min.css";
 // import MarkerClusterGroup from "react-leaflet-markercluster";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Agency, Listing } from "@prisma/client";
-import L, { Icon, LatLngExpression, LeafletMouseEvent, divIcon } from "leaflet";
+import L, {
+  Icon,
+  LatLngExpression,
+  LatLngTuple,
+  LeafletMouseEvent,
+  divIcon,
+  map,
+} from "leaflet";
 import {
   MapContainer,
   TileLayer,
@@ -28,6 +35,7 @@ import ZoomTracker from "./ZoomTracker";
 import ActiveListing from "./ActiveListing";
 import { useTranslations } from "next-intl";
 import { getMapPinIcon } from "@/components/shared/map/helpers";
+import { northMacedoniaCoordinates } from "@/lib/data/macedoniaOld/importantData";
 
 const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
 const agencyLocation: LatLngExpression = [41.99564, 21.428277];
@@ -52,8 +60,15 @@ export default function SearchMap({
     null,
   );
 
-  useEffect(() => {
-    // @ts-ignore
+  const coordsArray = listings.reduce((acc, curr) => {
+    if (curr.latitude && curr.longitude) {
+      acc.push([curr.latitude, curr.longitude]);
+    }
+    return acc;
+  }, [] as LatLngTuple[]);
+
+  useLayoutEffect(() => {
+    //@ts-ignore
     window.setSelectedListingId = setSelectedListingId;
   }, [selectedListingId]);
 
@@ -75,6 +90,16 @@ export default function SearchMap({
   const mapMovedWithoutSearching = resultsFilters !== mapFilters;
 
   let timeoutId: NodeJS.Timeout | null = null;
+  const mapCoords = coordsArray.length
+    ? coordsArray.map((coords) => L.marker(coords))
+    : [L.marker(northMacedoniaCoordinates)];
+  // console.log(mapCoords);
+  const featureGroup = L.featureGroup(mapCoords);
+
+  let mapBounds: L.LatLngBoundsExpression | undefined = undefined;
+  if (featureGroup.getBounds()) {
+    mapBounds = featureGroup.getBounds();
+  }
 
   const MapClickHandler = () => {
     useMapEvent("click", (e) => {
@@ -122,7 +147,7 @@ export default function SearchMap({
           <ActiveListing listing={activeListing} />
         </aside>
         <aside className="absolute bottom-0 left-0 z-[1050]">
-          <div className="rounded-tr-md bg-white px-3.5 py-2.5 text-sm shadow">
+          <div className="rounded-tr-md bg-white px-2.5 py-1.5 text-xs shadow-lg md:text-sm">
             {t("map.viewProperties", {
               listingsLength: listings.length,
             })}
@@ -130,19 +155,21 @@ export default function SearchMap({
         </aside>
 
         <MapContainer
+          // center={mapCenter.getCenter()}
+          // zoom={11}
           key={`map-${mapSearchedCounter}`}
-          center={skopjeLatLng}
           ref={mapRef}
-          zoom={11}
+          bounds={mapBounds}
+          boundsOptions={{ padding: [30, 30], animate: true }}
           style={{ height: "100%", width: "100%" }}
         >
           <ZoomTracker onZoomChange={setZoom} />
 
-          <MapWithBounds
+          {/* <MapWithBounds
             mapSearchedCounter={mapSearchedCounter}
             searchOnMove={searchOnMove}
             handleMapMove={handleMapMove}
-          />
+          /> */}
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -40,7 +40,7 @@ export default function SearchButton({ variant }: SearchButtonProps) {
     fetchListingCount();
   }, [filters, newDestination]);
   return (
-    <Link href={newDestination}>
+    <Link href={listingCount === 0 ? "#" : newDestination}>
       <Button
         size={"lg"}
         className="h-12 w-full min-w-[180px] px-2.5 py-0.5 text-sm font-bold uppercase tracking-tight"

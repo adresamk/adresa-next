@@ -1,5 +1,5 @@
 import { FiltersObject, PartialFiltersObject } from "@/lib/types";
-import { PropertyTransactionType } from "@prisma/client";
+import { PropertyCategory, PropertyTransactionType } from "@prisma/client";
 import { create } from "zustand";
 
 interface useFiltersStore {
@@ -12,10 +12,10 @@ interface useFiltersStore {
 
 export const defaultFilters: FiltersObject = {
   // primary
-  transactionType: "sale",
+  transactionType: PropertyTransactionType.sale,
   location: "",
   type: "",
-  category: "",
+  category: PropertyCategory.residential,
   priceLow: "",
   priceHigh: "",
   areaLow: "",

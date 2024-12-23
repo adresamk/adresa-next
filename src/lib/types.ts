@@ -88,7 +88,7 @@ export interface FiltersObject {
   // primary
   transactionType: PropertyTransactionType;
   location: string;
-  category: PropertyCategory | "";
+  category: PropertyCategory;
   type: PropertyType | "";
   priceLow: string;
   priceHigh: string;

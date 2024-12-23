@@ -64,7 +64,7 @@ export default async function RootLayout({
     <html lang={locale} className={`group ${deviceType}`}>
       <body
         className={cn(
-          "min-h-screen bg-background pt-[80px] font-sans antialiased",
+          "min-h-screen bg-background pt-[60px] font-sans antialiased md:pt-[80px]",
           fontSans.variable,
         )}
       >

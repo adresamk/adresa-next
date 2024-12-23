@@ -25,10 +25,10 @@ export default function ListingsList({ listings }: ListingListProps) {
           <span>
             {listings.length} {t("common.search.results")}
           </span>{" "}
-          {"|"}{" "}
           {loweredPriceListings > 0 && (
             <span className="cursor-pointer text-brand-light-blue">
-              {loweredPriceListings} {t("common.search.loweredPriceResults")}
+              {"|"} {loweredPriceListings}{" "}
+              {t("common.search.loweredPriceResults")}
             </span>
           )}
         </div>

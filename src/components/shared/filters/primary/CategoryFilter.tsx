@@ -33,7 +33,7 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
     (store) => store.setSelectedFilter,
   );
 
-  let [category, setCategory] = useState<PropertyCategory | "">(
+  let [category, setCategory] = useState<PropertyCategory>(
     () => extractFromUrl(pathname, "category") as PropertyCategory,
   );
 

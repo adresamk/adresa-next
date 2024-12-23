@@ -81,7 +81,7 @@ export default function Filters() {
   );
 
   return (
-    <aside className="sticky top-[80px] z-10 flex min-h-[70px] w-full items-center gap-3 overflow-x-auto bg-white px-6 shadow-md">
+    <aside className="sticky top-[60px] z-10 flex w-full items-center gap-3 overflow-x-auto bg-white px-6 py-2 shadow-md md:top-[80px]">
       <ModeFilter variant="search" />
       <CategoryFilter variant="search" />
       <Type variant="search" />

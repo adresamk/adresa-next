@@ -47,7 +47,7 @@ export default function CreateSavedSearch() {
     <>
       <AuthDialog />
       <Button
-        className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
+        className="h-8 px-1.5 py-0.5 md:h-10 md:px-2 md:py-1"
         onClick={() => {
           withAuthCheck(() => {
             setIsSavedSearchModalOpen(true);

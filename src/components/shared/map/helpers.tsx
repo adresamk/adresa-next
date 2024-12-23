@@ -56,10 +56,8 @@ export const getMapPinIcon = (
       html: renderToStaticMarkup(
         <div className={`icon-combo ${exactClass} ${vipClass}`}>
           <div className="flex w-fit items-center text-nowrap rounded-3xl border border-white bg-brand-light-blue px-1.5 py-0.5 font-medium text-white hover:py-[3px]">
-            {listing?.transactionType === "sale" &&
-              displayPrice(listing?.price ?? 0)}
-            {listing?.transactionType === "rent" &&
-              displayPricePerSquare(listing?.price ?? 0, listing?.area ?? 0)}
+            {displayPrice(listing?.price ?? 0)}
+
             {listing?.previousPrice &&
               listing?.previousPrice > (listing?.price ?? 0) && (
                 <div className="flex items-center">

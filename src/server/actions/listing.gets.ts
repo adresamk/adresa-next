@@ -33,7 +33,6 @@ export default async function getAllListings(
 
   // console.log("municipalities", municipalities);
   // console.log("places", places);
-
   const listings = await prismadb.listing.findMany({
     where: {
       AND: [
@@ -73,7 +72,6 @@ export default async function getAllListings(
           transactionType: pp.transactionType as PropertyTransactionType,
         },
       ],
-      // MAIN FILTERS
     },
     include: {
       agency: {
@@ -90,9 +88,16 @@ export default async function getAllListings(
         },
       },
     },
-    // take: 20,
+    orderBy: {
+      price:
+        pp.sorting === "low_price"
+          ? "asc"
+          : pp.sorting === "high_price"
+            ? "desc"
+            : undefined,
+      createdAt: pp.sorting === "new" ? "desc" : undefined,
+    },
   });
-  // Optimize with this
   //   // Assuming you have the current userId from session or JWT
   // const currentUserId = 'some-user-id';
 

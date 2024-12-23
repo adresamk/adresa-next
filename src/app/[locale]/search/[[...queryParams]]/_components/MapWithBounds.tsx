@@ -27,7 +27,10 @@ export default function MapWithBounds({
   const { NELat, NELng, SWLat, SWLng, zoom } = boundingBoxCoordinates;
 
   useEffect(() => {
-    const bounds = map.getBounds();
+    console.log(map);
+    const bounds = map && map.getBounds();
+    console.log(bounds);
+
     const zoom = map.getZoom();
     const southWest = bounds.getSouthWest();
     const northEast = bounds.getNorthEast();

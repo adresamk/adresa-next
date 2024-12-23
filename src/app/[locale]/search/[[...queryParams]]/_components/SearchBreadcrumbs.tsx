@@ -7,9 +7,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Listing } from "@prisma/client";
+import {
+  Listing,
+  PropertyCategory,
+  PropertyTransactionType,
+} from "@prisma/client";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   getMunicipalityOptionsTranslated,
   getMunicipalityPlacesTranslated,
@@ -21,6 +25,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
+import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
 
 export default function SearchBreadcrumbs({
   listings,
@@ -30,31 +36,60 @@ export default function SearchBreadcrumbs({
   const t = useTranslations();
   const router = useRouter();
   const locale = useLocale();
+  const pathname = usePathname();
+
+  let [transactionType, setTransactionType] = useState<PropertyTransactionType>(
+    // TODO: This doesn't set the default value correctly
+    () =>
+      extractFromUrl(pathname, "transactionType") as PropertyTransactionType,
+  );
+
+  let [category, setCategory] = useState<PropertyCategory>(
+    () => extractFromUrl(pathname, "category") as PropertyCategory,
+  );
+
+  let [location, setLocation] = useState<string | string[]>(
+    () => extractFromUrl(pathname, "location") as string | string[],
+  );
+
+  if (Array.isArray(location)) {
+    return null;
+  }
+
+  let municipalityFromUrl = "";
+  let placeFromUrl = "";
+  if (location.startsWith("1")) {
+    municipalityFromUrl = location;
+  } else if (location.startsWith("2")) {
+    municipalityFromUrl = `100${location[1]}${location[2]}`;
+    placeFromUrl = location;
+  }
+
   const { municipality, places } = getMunicipalityPlacesTranslated(
-    listings.length > 0 ? listings[0].municipality : "",
+    municipalityFromUrl,
     locale,
   );
-  const currentPlace = places?.find((p) => p.value === listings[0].place);
+  const currentMunicipality = municipality?.value;
+  const currentPlace = places?.find((p) => p.value === placeFromUrl)?.value;
   const municipalitiesOptions = getMunicipalityOptionsTranslated(locale);
   const listing = listings[0];
+
   return (
-    <div className="text-sm">
+    <div className="py-3 text-sm">
       <Breadcrumb>
         <BreadcrumbList className="gap-1 sm:gap-1">
           <BreadcrumbItem className="text-xs">
-            <BreadcrumbLink href={`/search?mode=${listing.transactionType}`}>
-              {t("common.filters.mode." + listing.transactionType)}
-            </BreadcrumbLink>
+            {/* <BreadcrumbLink href={`/search?mode=${transactionType}`}> */}
+            {t("common.filters.mode." + transactionType)}
+            {/* </BreadcrumbLink> */}
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem className="text-xs">
             <Select
-              value={listing.municipality || ""}
+              value={currentMunicipality}
               onValueChange={(value) => {
-                console.log("hmm");
-                router.push(
-                  `/search?mode=${listing.transactionType}&municipality=${value}`,
-                );
+                const newPath = replaceFilterInUrl(pathname, "location", value);
+                router.push(newPath);
               }}
             >
               <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
@@ -77,11 +112,14 @@ export default function SearchBreadcrumbs({
               <BreadcrumbSeparator />
               <BreadcrumbItem className="text-xs">
                 <Select
-                  value={listing.place || ""}
+                  value={currentPlace}
                   onValueChange={(value) => {
-                    router.push(
-                      `/search?mode=${listing.transactionType}&municipality=${listing.municipality}&place=${value}`,
+                    const newPath = replaceFilterInUrl(
+                      pathname,
+                      "location",
+                      value,
                     );
+                    router.push(newPath);
                   }}
                 >
                   <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">

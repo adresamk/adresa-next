@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 import { Link } from "@/i18n/routing";
-import { displayPrice, displayPricePerSquare } from "@/lib/utils";
+import { displayArea, displayPrice, displayPricePerSquare } from "@/lib/utils";
 import ImagesCarousel from "./ImagesCarousel";
 import LikeListingButton from "./LikeListingButton";
 import { cn, displayDate } from "@/lib/utils";
@@ -56,10 +56,10 @@ export default function SearchShowcase({
         window.setSelectedListingId(null)
       }
     >
-      <article className="@container mb-5 w-full">
+      <article className="mb-5 w-full @container">
         <div
           className={cn(
-            "group relative flex w-full overflow-hidden rounded-lg border border-solid bg-white shadow drop-shadow transition-all ease-linear hover:shadow-xl",
+            "group relative flex w-full flex-col overflow-hidden rounded-lg border border-solid bg-white shadow drop-shadow transition-all ease-linear hover:shadow-xl sm:flex-row sm:items-center",
             listing.isPaidPromo && "border border-orange-500",
           )}
         >
@@ -71,12 +71,11 @@ export default function SearchShowcase({
               </div>
               <div></div>
             </div>
-            <div className="@2xl:w-[320px] @3xl:w-[360px] h-[240px] w-[260px] transition-[width] duration-500">
+            <div className="h-full max-h-[240px] w-full transition-[width] duration-500 @2xl:w-[320px] @3xl:w-[360px]">
               <ImagesCarousel images={images} height={240} width={260} />
             </div>
             <figcaption className="hidden">
-              {t("listing.type", { type: listing.type })}, {listing.area}
-              m²
+              {t(`listing.type.${listing.type}`)}, {displayArea(listing.area)}
             </figcaption>
           </figure>
           <div className="relative flex-1 px-5 pb-2.5 pt-3.5">
@@ -85,9 +84,9 @@ export default function SearchShowcase({
                 <div className="flex items-start gap-2">
                   <h3 className="mb-1.5 overflow-hidden text-lg font-medium leading-6">
                     <span className="capitalize">
-                      {t("listing.type", { type: listing.type })}
+                      {t(`listing.type.${listing.type}`)}
                     </span>
-                    , {listing.area}m²
+                    , {displayArea(listing.area)}
                   </h3>
                   <div className="flex gap-1">
                     {listing.isPaidPromo && (
@@ -208,6 +207,7 @@ export default function SearchShowcase({
           {lwu.agency && (
             <Link href={`/agency/${lwu.agency?.slug}`}>
               <div className="group absolute right-3 top-3 z-10 h-[30px] w-[70px] overflow-hidden rounded-md bg-slate-500">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={
                     (lwu.agency?.logo as UploadedImageData).url ||

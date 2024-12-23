@@ -31,7 +31,6 @@ export function SelectDemo({
       name={name}
       value={value}
       onValueChange={(value) => {
-        console.log(value);
         onClick?.(value);
       }}
     >

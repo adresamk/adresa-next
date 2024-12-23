@@ -33,7 +33,7 @@
     "searchInArea": "Пребарај во оваа област",
     "searchAsMove": "Пребарувај додека се движам",
     "loading": "Вчитување на мапа...",
-    "viewProperties": "Прикажани {listingsLength} опции на мапата"
+    "viewProperties": "Прикажани {listingsLength} резултати на мапата"
   },
   "search": {
     "404": {
@@ -83,9 +83,9 @@
       "category": {
         "label": "Тип на имот",
         "emptyPlaceholder": "Дом",
-        "residential": "Дом",
-        "commercial": "Комерцијален",
-        "land": "Земјиште",
+        "residential": "Живеалишта",
+        "commercial": "Комерцијални",
+        "land": "Земјишта",
         "other": "Друго"
       },
       "type": {
@@ -194,7 +194,9 @@
     },
     "words": {
       "listings": "огласи",
-      "listing": "оглас"
+      "listing": "оглас",
+      "for": "за",
+      "and": "и"
     },
     "search": {
       "results": "резултати",
@@ -205,7 +207,6 @@
       "more": "повеќе",
       "selectNeighbourhood": "Изберете населба",
       "loweredPriceResults": "резултати со намалена цена",
-      "titleFormat": "{type}: {location}",
       "defaultType": "Домови",
       "defaultLocation": "Скопје"
     },
@@ -283,7 +284,21 @@
     },
     "cannotBeChanged": "(не може да се промени подоцна!)",
     "listing": {
-      "type": "{type}",
+      "type": {
+        "construction": "Во градба",
+        "agricultural": "Селска земја",
+        "apartment": "Стан",
+        "business": "Бизнис",
+        "house": "Куќа",
+        "vacation_house": "Летен дом",
+        "office": "Канцелариски простор",
+        "warehouse": "Склад",
+        "industrial_space": "Индустриски објекти",
+        "assembly_facilities": "Монтажни објекти",
+        "garage": "Гаража",
+        "store": "Комерцијален простор",
+        "other": "Други"
+      },
       "defaultMunicipality": "Општина",
       "updated": "Ажурирано",
       "published": "Објавено на",
@@ -296,8 +311,8 @@
       },
       "sorting": {
         "new": "Нов",
-        "lowPrice": "Најниска цена",
-        "highPrice": "Највисока цена"
+        "low_price": "Најниска цена",
+        "high_price": "Највисока цена"
       },
       "labels": {
         "featured": "Истакнат оглас",
