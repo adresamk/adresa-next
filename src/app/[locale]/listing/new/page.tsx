@@ -101,6 +101,7 @@ export default async function NewListingPage() {
             action={async (formData: FormData) => {
               "use server";
               const result = await createNewListing(formData);
+              console.log(result);
               if (result && result.error) {
                 // Handle error (e.g., show a notification)
               }

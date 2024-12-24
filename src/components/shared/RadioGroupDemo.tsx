@@ -5,6 +5,7 @@ import { cx } from "class-variance-authority";
 interface RadioGroupDemoProps {
   title: string;
   name: string;
+  required?: boolean;
   defaultValue?: string;
   direction?: "horisontal" | "vertical";
   options: { label: string; value: string }[];
@@ -13,6 +14,7 @@ interface RadioGroupDemoProps {
 }
 export function RadioGroupDemo({
   title = "Default title",
+  required = false,
   name,
   defaultValue,
   options = [],
@@ -40,6 +42,7 @@ export function RadioGroupDemo({
         )}
       </h2>
       <RadioGroup
+        required
         name={name}
         className={cx("", direction === "horisontal" && "flex gap-2")}
         defaultValue={defaultValue}

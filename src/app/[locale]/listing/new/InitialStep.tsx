@@ -53,6 +53,7 @@ export default function InitialStep() {
 
       <RadioGroupDemo
         name="category"
+        required
         title={t("listing.new.propertyType.label")}
         description={t("common.cannotBeChanged")}
         options={listingCategoryOptionsTranslated}
@@ -63,11 +64,13 @@ export default function InitialStep() {
 
       <RadioGroupDemo
         name="type"
+        required
         title={t("listing.new.propertyType.label")}
         options={listingTypeOptionsTranslated}
       />
 
       <RadioGroupDemo
+        required
         name="transactionType"
         title={t("listing.new.listingType.label")}
         description={t("common.cannotBeChanged")}
