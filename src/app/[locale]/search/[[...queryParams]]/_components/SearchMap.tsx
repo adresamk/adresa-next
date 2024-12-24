@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Agency, Listing } from "@prisma/client";
 import L, {
   Icon,
+  LatLngBounds,
   LatLngBoundsExpression,
   LatLngExpression,
   LatLngTuple,
@@ -36,6 +37,7 @@ import { getMapPinIcon } from "@/components/shared/map/helpers";
 import { northMacedoniaCoordinates } from "@/lib/data/macedoniaOld/importantData";
 import { useQueryStates } from "nuqs";
 import { mapRelatedFiltersParsers } from "@/app/[locale]/searchParams";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
 const agencyLocation: LatLngExpression = [41.99564, 21.428277];
@@ -51,13 +53,38 @@ export default function SearchMap({
   listings: Listing[];
   agency?: Agency;
 }) {
-  console.log("SearchMap render", new Date().getTime());
+  // console.log("SearchMap render", new Date().getTime());
 
   const t = useTranslations();
-  const [resultsFilters, setResultsFilters] = useState("");
-  const [mapFilters, setMapFilters] = useState("");
+
+  // to toggle the checkbox
   const [searchOnMove, setSearchOnMove] = useState(false);
   const [mapSearchedCounter, setMapSearchedCounter] = useState(0);
+
+  const [boundsAreUpdatedAfterPan, setBoundsAreUpdatedAfterPan] =
+    useState(false);
+
+  const [resultsFilters, setResultsFilters] = useState("");
+  const [mapFilters, setMapFilters] = useState("");
+
+  const loadedMapBounds = useRef<LatLngBoundsExpression | undefined>(undefined);
+  const maybeNewQP = useRef<
+    | {
+        NELat: number;
+        NELng: number;
+        SWLat: number;
+        SWLng: number;
+        zoom: number;
+      }
+    | undefined
+  >(undefined);
+  let [boundingBoxCoordinatesQP, setBoundingBoxCoordinatesQP] = useQueryStates(
+    mapRelatedFiltersParsers,
+    {
+      shallow: false,
+      history: "replace",
+    },
+  );
   const [activeListing, setActiveListing] = useState<Listing | null>(null);
   const [zoom, setZoom] = useState(11);
   const mapRef = useRef<L.Map>(null);
@@ -77,7 +104,7 @@ export default function SearchMap({
     return acc;
   }, [] as LatLngTuple[]);
 
-  console.log("coordsArray", coordsArray);
+  // console.log("coordsArray", coordsArray);
 
   // Calculate bounds based on listings or get from localStorage
   const bounds =
@@ -102,16 +129,68 @@ export default function SearchMap({
   useEffect(() => {
     if (coordsArray.length > 0) {
       writeToLocalStorage("map-bounds", bounds);
+      loadedMapBounds.current = bounds;
     }
   }, [coordsArray.length, bounds]);
 
-  let [boundingBoxCoordinates, setBoundingBoxCoordinates] = useQueryStates(
-    mapRelatedFiltersParsers,
-    {
-      shallow: false,
-      history: "replace",
-    },
-  );
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const map = mapRef.current;
+
+    const handleMoveEnd = () => {
+      const currentBounds = map.getBounds();
+      const startingMapBounds = loadedMapBounds.current as LatLngBounds;
+
+      const mapWasMoved =
+        startingMapBounds &&
+        startingMapBounds.getSouthWest().lat !==
+          currentBounds.getSouthWest().lat;
+
+      if (mapWasMoved) {
+        console.log(searchOnMove);
+
+        if (searchOnMove) {
+          const newQP = {
+            NELat: currentBounds.getNorthEast().lat,
+            NELng: currentBounds.getNorthEast().lng,
+            SWLat: currentBounds.getSouthWest().lat,
+            SWLng: currentBounds.getSouthWest().lng,
+            zoom: map.getZoom(),
+          };
+          setBoundingBoxCoordinatesQP(newQP);
+          setBoundsAreUpdatedAfterPan(false);
+          loadedMapBounds.current = L.latLngBounds(
+            [newQP.SWLat, newQP.SWLng],
+            [newQP.NELat, newQP.NELng],
+          );
+        } else {
+          setBoundsAreUpdatedAfterPan(true);
+          maybeNewQP.current = {
+            NELat: currentBounds.getNorthEast().lat,
+            NELng: currentBounds.getNorthEast().lng,
+            SWLat: currentBounds.getSouthWest().lat,
+            SWLng: currentBounds.getSouthWest().lng,
+            zoom: map.getZoom(),
+          };
+        }
+      }
+
+      // Save to localStorage if needed
+      writeToLocalStorage("map-bounds", currentBounds);
+    };
+
+    // Add the event listener
+    setTimeout(() => {
+      map.on("moveend", handleMoveEnd);
+    }, 10);
+
+    // Cleanup
+    return () => {
+      map.off("moveend", handleMoveEnd);
+    };
+  }, [searchOnMove, boundsAreUpdatedAfterPan]);
+
   const mapMovedWithoutSearching = false;
 
   const MapClickHandler = () => {
@@ -122,7 +201,7 @@ export default function SearchMap({
   };
 
   const handleCheckedChange = useCallback((newState: boolean) => {
-    // setSearchOnMove(newState);
+    setSearchOnMove(newState);
   }, []);
 
   return (
@@ -132,25 +211,35 @@ export default function SearchMap({
           <div
             className={cn(
               "mt-2 inline-block rounded-md bg-white shadow",
-              !mapMovedWithoutSearching && "px-3.5 py-2.5",
+              !boundsAreUpdatedAfterPan && "px-3.5 py-2.5",
             )}
           >
-            {mapMovedWithoutSearching ? (
+            {boundsAreUpdatedAfterPan ? (
               <Button
                 variant={"ghost"}
                 onClick={() => {
-                  setMapSearchedCounter((prev) => prev + 1);
+                  if (maybeNewQP.current) {
+                    setBoundingBoxCoordinatesQP(maybeNewQP.current);
+                    setBoundsAreUpdatedAfterPan(false);
+                    loadedMapBounds.current = L.latLngBounds(
+                      [maybeNewQP.current.SWLat, maybeNewQP.current.SWLng],
+                      [maybeNewQP.current.NELat, maybeNewQP.current.NELng],
+                    );
+                  }
+                  // setMapSearchedCounter((prev) => prev + 1);
+                  // update the bounding box coordinates
+                  // setBoundingBoxCoordinates(boundsAreUpdatedAfterPan);
                 }}
               >
                 <Compass className="mr-2" /> {t("map.searchInArea")}
               </Button>
             ) : (
               <div className="flex items-center space-x-2">
-                {/* <Checkbox
+                <Checkbox
                   id="search-on-pan"
                   checked={searchOnMove}
                   onCheckedChange={handleCheckedChange}
-                /> */}
+                />
                 <Label className="font-semibold" htmlFor="search-on-pan">
                   {t("map.searchAsMove")}
                 </Label>
