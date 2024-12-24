@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "../ui/input";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface SelectSelfContainedProps {
   value?: string | null;
@@ -48,7 +49,8 @@ export function SelectSelfContained({
         }}
       >
         <SelectTrigger
-          className={`w-[${triggerWidth}] select-self-contained z-[140]`}
+          style={{ width: triggerWidth }}
+          className={cn(`select-self-contained z-[140]`)}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

@@ -98,7 +98,9 @@ export default function ImagesPreview({
   return (
     <div className="flex w-full flex-col gap-2">
       {images.length === 0 && (
-        <div className="text-center text-sm text-gray-500">{t("noImages")}</div>
+        <div className="my-3 flex min-h-[120px] items-center justify-center rounded border border-slate-300 text-center text-sm text-gray-500">
+          {t("noImages")}
+        </div>
       )}
       <div className="mt-3 flex w-full flex-row flex-wrap gap-4 overflow-hidden">
         {previewImages.map((image, idx) => {

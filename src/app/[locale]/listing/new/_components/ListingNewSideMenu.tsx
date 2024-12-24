@@ -140,9 +140,11 @@ export default function ListingNewSideMenu({ steps }: ListingNewSideMenuProps) {
           <div className="h-20 w-20">
             <CircularProgress percentage={formProgress} />
           </div>
-
+          <p className="text-sm">
+            {formProgress}% {t(`common.words.filledOut`)}
+          </p>
           <p>
-            {stepStatus["Publish listing"] === "in-progress" && (
+            {stepStatus["publish"] === "in-progress" && (
               <span className="text-sm text-red-500">
                 {t("listing.new.steps.fillOut")}
               </span>

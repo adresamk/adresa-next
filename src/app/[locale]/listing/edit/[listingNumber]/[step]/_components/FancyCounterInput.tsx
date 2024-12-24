@@ -69,7 +69,7 @@ export default function FancyCounterInput({
 }: FancyCounterInputProps) {
   const [counter, setCounter] = useState(startingValue);
   return (
-    <div className="flex w-full items-center justify-center">
+    <div className="flex w-full max-w-[280px] items-center justify-center">
       <Button
         type="button"
         className=""

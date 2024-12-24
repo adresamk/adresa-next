@@ -86,7 +86,9 @@ export default function LandSpecificFields({
           defaultChecked={listing.land.isCornerProperty}
         />
         <Label htmlFor="isCornerProperty">
-          {t("listing.new.progress.steps.mainCharacteristics.isCornerProperty")}
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.isCornerProperty.label",
+          )}
         </Label>
       </div>
 

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ListingWithRelations } from "@/types/listing.types";
 import { Feature, Listing } from "@prisma/client";
+import { useTranslations } from "next-intl";
 
 interface OtherSpecificFieldsProps {
   listing: Listing;
@@ -17,16 +18,22 @@ export default function OtherSpecificFields({
     ...lwr,
     other: lwr.other!,
   };
-
-  const accessFromOptionsTranslated = [
-    { label: "Paved", value: "paved" },
-    { label: "Asphalt", value: "asphalt" },
-    { label: "Pedestrian", value: "pedestrian" },
-    { label: "Dirt Road", value: "dirt_road" },
-    { label: "Sea", value: "sea" },
-    { label: "Other", value: "other" },
-    { label: "No Road Access", value: "no_road_access" },
+  const t = useTranslations();
+  const accessFromOptions = [
+    "paved",
+    "asphalt",
+    "pedestrian",
+    "dirt_road",
+    "sea",
+    "other",
+    "no_road_access",
   ];
+  const accessFromOptionsTranslated = accessFromOptions.map((option) => ({
+    label: t(
+      `listing.new.progress.steps.mainCharacteristics.accessFrom.accessFromOptions.${option}`,
+    ),
+    value: option,
+  }));
 
   return (
     <>
@@ -37,28 +44,38 @@ export default function OtherSpecificFields({
         name="otherId"
       />
       {/* Access From */}
-      <div className="flex flex-col gap-3">
-        <Label>Access From</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t("listing.new.progress.steps.mainCharacteristics.accessFrom.label")}
+        </Label>
 
         <SelectSelfContained
           name="accessFrom"
           id="heatingMedium"
           value={listing.other.accessFrom}
-          placeholder="Select Access From"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.accessFrom.placeholder",
+          )}
           options={accessFromOptionsTranslated}
         />
       </div>
 
       {/* Total Property Area */}
-      <div className="flex flex-col gap-3">
-        <Label>Total Property Area</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.totalPropertyArea.label",
+          )}
+        </Label>
         <Input
           min={1}
           max={10000}
           type="number"
           name="totalPropertyArea"
           id="totalPropertyArea"
-          placeholder="Total property area in square meters"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.totalPropertyArea.placeholder",
+          )}
           value={listing.other.totalPropertyArea || undefined}
         />
       </div>

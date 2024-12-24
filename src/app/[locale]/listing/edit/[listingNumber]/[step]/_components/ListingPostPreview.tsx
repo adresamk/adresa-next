@@ -1,4 +1,4 @@
-import { displayArea, displayPrice } from "@/lib/utils";
+import { displayArea, displayDate, displayPrice } from "@/lib/utils";
 import { ListingTitles, UploadedImageData } from "@/types/listing.types";
 import { Listing } from "@prisma/client";
 import { useLocale, useTranslations } from "next-intl";
@@ -13,6 +13,10 @@ export default function ListingPostPreview({
   const locale = useLocale();
   const mainImage = listing.mainImage as UploadedImageData;
 
+  const startDate = new Date();
+
+  const endDate = new Date(new Date().setMonth(new Date().getMonth() + 6));
+
   return (
     <div className="mt-4">
       <h2>{t("listing.new.progress.steps.publish.details")}</h2>
@@ -24,7 +28,7 @@ export default function ListingPostPreview({
               <img
                 src={mainImage?.url || "/assets/missing-image2.jpg"}
                 className="rounded-md object-cover"
-                alt={`${t(`common.filters.subType.${listing.type}`)}, ${t(`common.filters.mode.${listing.transactionType}`)}, ${displayArea(listing.area)}`}
+                alt={`${t(`common.filters.type.${listing.type}`)}, ${t(`common.filters.mode.${listing.transactionType}`)}, ${displayArea(listing.area)}`}
                 width="110"
                 height="80"
               />
@@ -36,7 +40,7 @@ export default function ListingPostPreview({
           </div>
           <div className="flex-grow pb-4 font-semibold">
             <h4>
-              {t(`common.filters.subType.${listing.type}`)},{" "}
+              {t(`common.filters.type.${listing.type}`)},{" "}
               {t(`common.filters.mode.${listing.transactionType}`)},{" "}
               {displayArea(listing.area)}
             </h4>
@@ -57,10 +61,7 @@ export default function ListingPostPreview({
               {t("listing.new.progress.steps.publish.publishDuration")}
             </p>
             <p className="font-semibold">
-              {new Date().toLocaleDateString()} -{" "}
-              {new Date(
-                new Date().setMonth(new Date().getMonth() + 6),
-              ).toLocaleDateString()}
+              {displayDate(startDate)} - {displayDate(endDate)}
             </p>
           </div>
         </div>

@@ -43,8 +43,10 @@ export default function Step6({ listing }: { listing: Listing }) {
       <h2 className="text-lg">{t("title")}</h2>
       <Separator className="my-2 mt-4" />
       <div className="flex flex-col justify-between">
-        <span>{t("uploadHighResolution")}</span>
-        <span>
+        <span className="text-sm text-gray-500">
+          *{t("uploadHighResolution")}
+        </span>
+        <span className="my-3 text-sm font-semibold text-gray-500">
           {images.length}/15 {t("uploaded")} | <span>{t("controls")} </span>
         </span>
       </div>

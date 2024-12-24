@@ -89,7 +89,7 @@ export default function ListingEditForm({
         setCurrentStep={setCurrentStep}
         steps={steps}
       />
-      <div className="min-w-[460px] pl-10">
+      <div className="min-w-[460px]">
         <div className="mt-2 rounded bg-white p-2 shadow-md">
           <form onSubmit={handleFormSubmit}>
             <input

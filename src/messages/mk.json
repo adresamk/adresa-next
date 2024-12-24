@@ -197,6 +197,8 @@
       "listing": "оглас",
       "for": "за",
       "and": "и",
+      "no": "не",
+      "without": "без",
       "filledOut": "пополнет",
       "done": "завршен"
     },
@@ -625,9 +627,65 @@
             "pricePlaceholder": "Внесете цена во евра",
             "area": "Површина",
             "areaPlaceholder": "Внесете површина во м²",
-            "floor": "Кат",
-            "floorPlaceholder": "Внесете на кој кат се наоѓа",
-            "isCornerProperty": "На крајот",
+            "floor": {
+              "label": "Кат",
+              "placeholder": "Внесете на кој кат се наоѓа"
+            },
+            "isCornerProperty": {
+              "label": "Имотот се наоѓа на крајот"
+            },
+
+            "constructionYear": {
+              "label": "Година на градба",
+              "placeholder": "Внесете година"
+            },
+            "totalPropertyArea": {
+              "label": "Вкупна површина",
+              "placeholder": "Внесете површина во м²"
+            },
+            "heatingType": {
+              "label": "Тип на греење",
+              "placeholder": "Изберете тип на греење",
+              "heatingTypeOptions": {
+                "autonomous": "Аутономно",
+                "central": "Централно",
+                "air_condition": "Аир кондиционер",
+                "none": "Нема"
+              }
+            },
+            "isFurnished": {
+              "label": "Со намештај",
+              "description": "Имотот е со намештај"
+            },
+            "isForStudents": {
+              "label": "За студенти",
+              "description": "Имотот е за студенти"
+            },
+            "isForHolidayHome": {
+              "label": "Летен дом",
+              "description": "Имотот е за летен дом"
+            },
+            "totalFloors": {
+              "label": "Вкупен број на кати",
+              "placeholder": "Изберете го највисокиот кат"
+            },
+            "heatingMedium": {
+              "label": "Ресурси за греење",
+              "placeholder": "Внесете ресурси за греење",
+              "heatingMediumOptions": {
+                "oil": "Нафта",
+                "natural_gas": "Натурал гас",
+                "diesel": "Дизел",
+                "electricity": "Електричество",
+                "wood": "Дрво",
+                "solar": "Сончева енергија",
+                "geothermal": "Геотермална енергија",
+                "heat_pump": "Хладилна машина"
+              }
+            },
+            "isOnTopFloor": {
+              "label": "Имотот се наоѓа на најгорниот кат"
+            },
             "orientation": {
               "label": "Ориентација",
               "placeholder": "Изберете ориентација",
@@ -641,6 +699,25 @@
                 "south-east": "Југоисток",
                 "south-west": "Југозапад"
               }
+            },
+            "rooms": {
+              "label": "Број на соби",
+              "placeholder": "Изберете број на соби",
+              "bathroom": "Бања",
+              "bathrooms": "Бањи",
+              "wc": "Тоалет",
+              "wcs": "Тоалети",
+              "kitchen": "Кујна",
+              "kitchens": "Кујни",
+              "livingRoom": "Дневна соба",
+              "livingRooms": "Дневни соби",
+              "bedroom": "Спална соба",
+              "bedrooms": "Спални соби"
+            },
+            "commonExpenses": {
+              "label": "Сопствени трошоци",
+              "description": "Сопствени трошоци се трошоци кои се споделуваат меѓу станувачите на имотот на месечна основа, како ориентативен број во евра без наем.",
+              "placeholder": "Внесете трошоци во евра"
             },
             "accessFrom": {
               "label": "Пристап од",

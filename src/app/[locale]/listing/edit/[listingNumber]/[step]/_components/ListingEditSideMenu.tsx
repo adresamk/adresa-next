@@ -415,7 +415,7 @@ export default function ListingEditSideMenu({
                       )}
 
                       {stepStatus[step.key] === "in-progress" && (
-                        <CircleCheck stroke="orange" strokeWidth={1.2} />
+                        <CircleAlert stroke="orange" strokeWidth={1.2} />
                       )}
 
                       {stepStatus[step.key] === "incomplete" && (

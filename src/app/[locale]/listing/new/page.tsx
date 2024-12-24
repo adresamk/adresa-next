@@ -38,7 +38,7 @@ export default async function NewListingPage() {
   return (
     <div className="flex gap-2 p-2">
       <ListingNewSideMenu steps={initialSteps} />
-      <div className="w-2/3">
+      <div className="min-w-[460px]">
         <div className="mt-2 rounded bg-white p-2 shadow-md">
           <form
             // action={addNewListing}

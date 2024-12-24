@@ -15,9 +15,6 @@ export default function InitialStep() {
   const t = useTranslations();
   const [listingCategory, setListingCategory] = useState("");
 
-  // const listingCategoryOptions = notTranslatedListingCategoryOptions.map(
-  //   (option) => t(`common.listing.categoryOptions.${option}`),
-  // );
   const listingCategoryOptionsTranslated = listingCategoryOptions.map(
     (option) => {
       return {

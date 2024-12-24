@@ -5,6 +5,7 @@ import { ListingWithRelations } from "@/types/listing.types";
 import { Feature, Listing } from "@prisma/client";
 import FancyCounterInput from "../FancyCounterInput";
 import { Bath } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface CommercialSpecificFieldsProps {
   listing: Listing;
@@ -19,40 +20,56 @@ export default function CommercialSpecificFields({
     ...lwr,
     commercial: lwr.commercial!,
   };
+  const t = useTranslations();
 
-  const heatingTypeOptionsTranslated = [
-    { label: "Autonomous", value: "autonomous" },
-    { label: "Central", value: "central" },
-    { label: "Air-Condition", value: "air-condition" },
-    { label: "None", value: "none" },
+  const heatingTypeOptions = ["autonomous", "central", "air_condition", "none"];
+  const heatingTypeOptionsTranslated = heatingTypeOptions.map((option) => ({
+    label: t(
+      `listing.new.progress.steps.mainCharacteristics.heatingType.heatingTypeOptions.${option}`,
+    ),
+    value: option,
+  }));
+
+  const heatingMediumOptions = [
+    "oil",
+    "natural_gas",
+    "diesel",
+    "electricity",
+    "wood",
+    "solar",
+    "geothermal",
+    "heat_pump",
   ];
-
-  const heatingMediumOptionsTranslated = [
-    { label: "Oil", value: "oil" },
-    { label: "Natural Gas", value: "natural-gas" },
-    { label: "Diesel", value: "diesel" },
-    { label: "Electricity", value: "electricity" },
-    { label: "Wood", value: "wood" },
-    { label: "Solar", value: "solar" },
-    { label: "Geothermal", value: "geothermal" },
-    { label: "Heat Pump", value: "heat-pump" },
+  const heatingMediumOptionsTranslated = heatingMediumOptions.map((option) => ({
+    label: t(
+      `listing.new.progress.steps.mainCharacteristics.heatingMedium.heatingMediumOptions.${option}`,
+    ),
+    value: option,
+  }));
+  const accessFromOptions = [
+    "paved",
+    "asphalt",
+    "pedestrian",
+    "dirt_road",
+    "sea",
+    "other",
+    "no_road_access",
   ];
-
-  const accessFromOptionsTranslated = [
-    { label: "Paved", value: "paved" },
-    { label: "Asphalt", value: "asphalt" },
-    { label: "Pedestrian", value: "pedestrian" },
-    { label: "Dirt Road", value: "dirt_road" },
-    { label: "Sea", value: "sea" },
-    { label: "Other", value: "other" },
-    { label: "No Road Access", value: "no_road_access" },
-  ];
-
+  const accessFromOptionsTranslated = accessFromOptions.map((option) => ({
+    label: t(
+      `listing.new.progress.steps.mainCharacteristics.accessFrom.accessFromOptions.${option}`,
+    ),
+    value: option,
+  }));
   const roomsLabelRules = {
     wcCount: {
-      "0": "No WC",
-      "1": "$$ WC",
-      "2-max": "$$ WCs",
+      "0": `${t(`common.words.without`)} ${t(
+        `listing.new.progress.steps.mainCharacteristics.rooms.wc`,
+      )}`,
+      "1": `$$ ${t(`listing.new.progress.steps.mainCharacteristics.rooms.wc`)}`,
+      "2-max": `$$ ${t(
+        `listing.new.progress.steps.mainCharacteristics.rooms.wcs`,
+      )}`,
     },
   };
   return (
@@ -64,36 +81,52 @@ export default function CommercialSpecificFields({
         name="commercialId"
       />
       {/* Construction Year */}
-      <div className="flex flex-col gap-3">
-        <Label>Construction Year</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.constructionYear.label",
+          )}
+        </Label>
         <Input
           min={1285}
           max={2025}
           type="number"
           name="constructionYear"
           id="constructionYear"
-          placeholder="Year when it was built"
+          className="max-w-[400px]"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.constructionYear.placeholder",
+          )}
           value={listing.commercial.constructionYear || undefined}
         />
       </div>
 
       {/* Total Property Area */}
-      <div className="flex flex-col gap-3">
-        <Label>Total Property Area</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.totalPropertyArea.label",
+          )}
+        </Label>
         <Input
           min={1}
           max={10000}
           type="number"
           name="totalPropertyArea"
           id="totalPropertyArea"
-          placeholder="Total property area in square meters"
+          className="max-w-[400px]"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.totalPropertyArea.placeholder",
+          )}
           value={listing.commercial.totalPropertyArea || undefined}
         />
       </div>
 
       {/* Floor */}
-      <div className="flex flex-col gap-3">
-        <Label>Floor</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t("listing.new.progress.steps.mainCharacteristics.floor.label")}
+        </Label>
         {/* Change it to select demo */}
         <Input
           min={0}
@@ -101,25 +134,47 @@ export default function CommercialSpecificFields({
           type="number"
           name="floor"
           id="floor"
-          placeholder="Floor number"
+          className="max-w-[400px]"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.floor.placeholder",
+          )}
           value={listing.commercial.floor || undefined}
         />
       </div>
 
       {/* Is Corner Property */}
-      <div className="">
-        <Input
+      <div className="mt-2 flex items-center gap-3">
+        <input
           type="checkbox"
           name="isCornerProperty"
           id="isCornerProperty"
           value={"1"}
           defaultChecked={listing.commercial.isCornerProperty}
         />
-        <Label>Is Corner Property</Label>
+        <Label>
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.isCornerProperty.label",
+          )}
+        </Label>
       </div>
 
+      {/* Is On Top Floor */}
+      <div className="my-3 flex gap-3">
+        <input
+          type="checkbox"
+          name="isOnTopFloor"
+          id="isOnTopFloor"
+          value={"1"}
+          defaultChecked={listing.commercial.isOnTopFloor}
+        />
+        <Label>
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.isOnTopFloor.label",
+          )}
+        </Label>
+      </div>
       {/* WCS */}
-      <div className="flex items-center gap-3">
+      <div className="my-4 flex items-center gap-3">
         <Bath className="h-8 w-8" />
         <FancyCounterInput
           name="wcCount"
@@ -131,29 +186,23 @@ export default function CommercialSpecificFields({
         />
       </div>
 
-      {/* Is On Top Floor */}
-      <div className="flex flex-col gap-3">
-        <Label>Is On Top Floor</Label>
-        <Input
-          type="checkbox"
-          name="isOnTopFloor"
-          id="isOnTopFloor"
-          value={"1"}
-          defaultChecked={listing.commercial.isOnTopFloor}
-        />
-      </div>
-
       {/* Common Expenses */}
-      <div className="flex flex-col gap-3">
-        <Label>Common Expenses</Label>
-        <p className="text-sm text-slate-500">
-          Common expenses are the expenses that are shared by the tenants of the
-          property per month, as an orientational number in euros without rent.
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.commonExpenses.label",
+          )}
+        </Label>
+        <p className="max-w-[400px] text-sm text-slate-500">
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.commonExpenses.description",
+          )}
         </p>
         <Input
           min={0}
           max={300}
           type="number"
+          className="max-w-[400px]"
           name="commonExpenses"
           id="commonExpenses"
           value={listing.commercial.commonExpenses || undefined}
@@ -161,8 +210,12 @@ export default function CommercialSpecificFields({
       </div>
 
       {/* Heating Type */}
-      <div className="flex flex-col gap-3">
-        <Label>Heating Type</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.heatingType.label",
+          )}
+        </Label>
 
         <SelectSelfContained
           name="heatingType"
@@ -174,8 +227,12 @@ export default function CommercialSpecificFields({
       </div>
 
       {/* Heating Medium */}
-      <div className="flex flex-col gap-3">
-        <Label>Heating Medium</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.heatingMedium.label",
+          )}
+        </Label>
 
         <SelectSelfContained
           name="heatingMedium"
@@ -187,8 +244,10 @@ export default function CommercialSpecificFields({
       </div>
 
       {/* Access From */}
-      <div className="flex flex-col gap-3">
-        <Label>Access From</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t("listing.new.progress.steps.mainCharacteristics.accessFrom.label")}
+        </Label>
 
         <SelectSelfContained
           name="accessFrom"
