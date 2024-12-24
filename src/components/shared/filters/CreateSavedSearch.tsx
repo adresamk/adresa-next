@@ -36,7 +36,7 @@ export default function CreateSavedSearch() {
   );
 
   useEffect(() => {
-    console.log("pathname", pathname);
+    // console.log("pathname", pathname);
     setSearchParams(pathname);
   }, [pathname]);
 

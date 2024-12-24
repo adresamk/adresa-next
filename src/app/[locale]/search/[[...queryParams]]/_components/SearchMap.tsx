@@ -8,29 +8,22 @@ import { Label } from "@/components/ui/label";
 import { Agency, Listing } from "@prisma/client";
 import L, {
   Icon,
+  LatLngBoundsExpression,
   LatLngExpression,
   LatLngTuple,
-  LeafletMouseEvent,
-  divIcon,
-  map,
 } from "leaflet";
 import {
   MapContainer,
   TileLayer,
   Marker,
-  Circle,
   LayerGroup,
   useMapEvent,
 } from "react-leaflet";
-import ListingMapCard from "./ListingMapCard";
 import MapWithBounds from "./MapWithBounds";
-import { useState, memo, useRef } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Building, Compass, Ghost, MapPinCheck } from "lucide-react";
-import { cn, displayPrice } from "@/lib/utils";
-import { renderToStaticMarkup } from "react-dom/server";
-import "leaflet.markercluster/dist/MarkerCluster.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import { Compass } from "lucide-react";
+import { cn, readFromLocalStorage, writeToLocalStorage } from "@/lib/utils";
 import ZoomTracker from "./ZoomTracker";
 import ActiveListing from "./ActiveListing";
 import { useTranslations } from "next-intl";
@@ -39,6 +32,10 @@ import { northMacedoniaCoordinates } from "@/lib/data/macedoniaOld/importantData
 
 const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
 const agencyLocation: LatLngExpression = [41.99564, 21.428277];
+const northMacedoniaBounds: LatLngBoundsExpression = [
+  [41.01721057822846, 19.649047851562504],
+  [42.24071874922669, 23.499755859375004],
+];
 
 export default function SearchMap({
   listings,
@@ -55,10 +52,12 @@ export default function SearchMap({
   const [activeListing, setActiveListing] = useState<Listing | null>(null);
   const [zoom, setZoom] = useState(11);
   const mapRef = useRef<L.Map>(null);
-  const popupRef = useRef<L.Popup>(null);
   const [selectedListingId, setSelectedListingId] = useState<number | null>(
     null,
   );
+  const [initialMapBounds, setInitialMapBounds] = useState<
+    LatLngBoundsExpression | undefined
+  >(undefined);
 
   const coordsArray = listings.reduce((acc, curr) => {
     if (curr.latitude && curr.longitude) {
@@ -89,17 +88,35 @@ export default function SearchMap({
   }
   const mapMovedWithoutSearching = resultsFilters !== mapFilters;
 
-  let timeoutId: NodeJS.Timeout | null = null;
-  const mapCoords = coordsArray.length
-    ? coordsArray.map((coords) => L.marker(coords))
-    : [L.marker(northMacedoniaCoordinates)];
-  // console.log(mapCoords);
-  const featureGroup = L.featureGroup(mapCoords);
-
   let mapBounds: L.LatLngBoundsExpression | undefined = undefined;
-  if (featureGroup.getBounds()) {
-    mapBounds = featureGroup.getBounds();
+
+  // SET UP MAP BOUNDS
+  if (coordsArray.length) {
+    const mapMarkers = coordsArray.map((coords) => L.marker(coords));
+    const featureGroup = L.featureGroup(mapMarkers);
+    if (featureGroup.getBounds()) {
+      writeToLocalStorage("prevMapBounds", featureGroup.getBounds());
+      // console.log(featureGroup.getBounds());
+      mapBounds = featureGroup.getBounds();
+    }
+  } else {
+    const boundsFromLS = readFromLocalStorage("prevMapBounds");
+    if (boundsFromLS) {
+      mapBounds = [
+        [boundsFromLS._southWest.lat, boundsFromLS._southWest.lng],
+        [boundsFromLS._northEast.lat, boundsFromLS._northEast.lng],
+      ];
+    } else {
+      mapBounds = northMacedoniaBounds;
+    }
   }
+
+  //effect description
+  useEffect(() => {
+    if (!initialMapBounds) {
+      setInitialMapBounds(mapBounds);
+    }
+  }, [mapBounds]);
 
   const MapClickHandler = () => {
     useMapEvent("click", (e) => {
@@ -155,8 +172,6 @@ export default function SearchMap({
         </aside>
 
         <MapContainer
-          // center={mapCenter.getCenter()}
-          // zoom={11}
           key={`map-${mapSearchedCounter}`}
           ref={mapRef}
           bounds={mapBounds}
@@ -165,11 +180,14 @@ export default function SearchMap({
         >
           <ZoomTracker onZoomChange={setZoom} />
 
-          {/* <MapWithBounds
+          <MapWithBounds
+            mapBounds={mapBounds}
+            listingsCount={listings.length}
             mapSearchedCounter={mapSearchedCounter}
             searchOnMove={searchOnMove}
             handleMapMove={handleMapMove}
-          /> */}
+          />
+
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

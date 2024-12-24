@@ -2,12 +2,18 @@ import { useMap } from "react-leaflet";
 import { useEffect } from "react";
 import { useQueryStates } from "nuqs";
 import { mapRelatedFiltersParsers } from "@/app/[locale]/searchParams";
+import { readFromLocalStorage, writeToLocalStorage } from "@/lib/utils";
+import { LatLngBoundsExpression } from "leaflet";
 
 export default function MapWithBounds({
+  mapBounds,
+  listingsCount,
   searchOnMove,
   handleMapMove,
   mapSearchedCounter,
 }: {
+  mapBounds: LatLngBoundsExpression | undefined;
+  listingsCount: number;
   searchOnMove: boolean;
   handleMapMove: (
     target: "resultsFilters" | "mapFilters" | "both",
@@ -26,11 +32,13 @@ export default function MapWithBounds({
   );
   const { NELat, NELng, SWLat, SWLng, zoom } = boundingBoxCoordinates;
 
+  console.log("bbc", boundingBoxCoordinates);
+
+  useEffect(() => {}, [listingsCount]);
+
   useEffect(() => {
-    console.log(map);
     const bounds = map && map.getBounds();
     console.log(bounds);
-
     const zoom = map.getZoom();
     const southWest = bounds.getSouthWest();
     const northEast = bounds.getNorthEast();
@@ -63,7 +71,6 @@ export default function MapWithBounds({
       };
       handleMapMove("mapFilters", JSON.stringify(bbox));
       //   console.log("Bounding Box:", bbox);
-
       if (searchOnMove) {
         handleMapMove("resultsFilters", JSON.stringify(bbox));
         setBoundingBoxCoordinates(bbox);
@@ -71,10 +78,8 @@ export default function MapWithBounds({
     };
     // Get the initial bounds when the component mounts
     handleBoundsChange();
-
     // Set up event listener for map movement (when the user pans or zooms)
     map.on("moveend", handleBoundsChange);
-
     // Clean up the event listener on component unmount
     return () => {
       map.off("moveend", handleBoundsChange);

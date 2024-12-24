@@ -23,7 +23,7 @@ export default async function SearchPage({
 
   const { queryParams, locale } = await params;
 
-  console.log("queryParams", queryParams);
+  // console.log("queryParams", queryParams);
   const parsedQueryParams = parseQueryParams(queryParams);
   // console.log("parsedQueryParams", parsedQueryParams);
   // console.log("parsedQueryParams", JSON.stringify(parsedQueryParams));
