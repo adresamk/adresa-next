@@ -107,8 +107,7 @@ export default function CommercialSpecificFields({
       </div>
 
       {/* Is Corner Property */}
-      <div className="flex flex-col gap-3">
-        <Label>Is Corner Property</Label>
+      <div className="">
         <Input
           type="checkbox"
           name="isCornerProperty"
@@ -116,6 +115,7 @@ export default function CommercialSpecificFields({
           value={"1"}
           defaultChecked={listing.commercial.isCornerProperty}
         />
+        <Label>Is Corner Property</Label>
       </div>
 
       {/* WCS */}

@@ -47,7 +47,9 @@ export function SelectSelfContained({
           onClick?.(value);
         }}
       >
-        <SelectTrigger className={`w-[${triggerWidth}] z-[140]`}>
+        <SelectTrigger
+          className={`w-[${triggerWidth}] select-self-contained z-[140]`}
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent className="z-[140] max-h-64">

@@ -2,8 +2,7 @@ import { redirect } from "@/i18n/routing";
 import prismadb from "@/lib/db";
 import ListingEditForm from "./ListingEditForm";
 import { Step, steps } from "./types";
-import { cookies } from "next/headers";
-import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
+import { getCurrentUser } from "@/lib/sessions";
 import { ListingWithRelations } from "@/types/listing.types";
 
 type Params = Promise<{ listingNumber: string; step: string }>;

@@ -118,36 +118,41 @@ export default function ListingEditForm({
             {currentStepIdx === 5 && <Step6 listing={listing} key={"6"} />}
             {currentStepIdx === 6 && <Step7 listing={listing} key={"7"} />}
             {currentStepIdx === 7 && <Step8 listing={listing} key={"8"} />}
-            {/* {stepsComponents[currentStepIdx]} */}
 
-            <Button size={"sm"} className="my-2" type="submit">
+            <Button size={"sm"} className="m-2" type="submit">
               {t("common.actions.saveChanges")}
             </Button>
           </form>
-          {/* <div>
-            <div className="flex gap-2">
-              <Button
-                disabled={currentStep === "category"}
-                size={"sm"}
-                onClick={() => {
-                  setCurrentStep(steps[currentStepIdx - 1]?.uniquePath);
-                }}
-              >
-                Prev
-              </Button>
-              <Button
-                disabled={currentStep === "publish"}
-                size={"sm"}
-                onClick={() => {
-                  setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
-                }}
-              >
-                Next
-              </Button>
-            </div>
-          </div> */}
         </div>
       </div>
     </>
   );
+}
+
+{
+  /* {stepsComponents[currentStepIdx]} */
+}
+{
+  /* <div>
+  <div className="flex gap-2">
+    <Button
+      disabled={currentStep === "category"}
+      size={"sm"}
+      onClick={() => {
+        setCurrentStep(steps[currentStepIdx - 1]?.uniquePath);
+      }}
+    >
+      Prev
+    </Button>
+    <Button
+      disabled={currentStep === "publish"}
+      size={"sm"}
+      onClick={() => {
+        setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
+      }}
+    >
+      Next
+    </Button>
+  </div>
+</div> */
 }

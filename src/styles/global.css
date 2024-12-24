@@ -382,3 +382,7 @@ button.reveal-button {
 .featured-pin {
   z-index: 300 !important;
 }
+
+.select-self-contained span {
+  text-align: left;
+}

@@ -1,4 +1,4 @@
-import type { GetServerSideProps, Metadata } from "next";
+import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import "@/styles/global.css";
@@ -14,7 +14,6 @@ import { extractRouterConfig } from "uploadthing/server";
 import { Locale, routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
-import { useEffect } from "react";
 import { headers } from "next/headers";
 
 const fontSans = FontSans({

@@ -137,6 +137,7 @@ export default function MapPinSetup({
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/assets/coordinates-example-1.png"
                   alt="Right click on map"
@@ -154,6 +155,7 @@ export default function MapPinSetup({
                 </p>
               </div>
               <div className="space-y-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/assets/coordinates-example-2.jpg"
                   alt="Copy coordinates"

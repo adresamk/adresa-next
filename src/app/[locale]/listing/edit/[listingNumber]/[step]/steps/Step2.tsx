@@ -3,7 +3,7 @@ import { InputSelect } from "@/components/shared/InputSelect";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { Listing } from "@prisma/client";
 
 import {
@@ -15,6 +15,7 @@ import {
 import MapPinSetup from "./MapPinSetup";
 import { getLocaleFromCookies } from "@/utils/cookies";
 import { useTranslations } from "next-intl";
+import MapPinSetupClient from "./MapPinSetupClient";
 
 export default function Step2({ listing }: { listing: Listing }) {
   const locale = getLocaleFromCookies();
@@ -98,7 +99,7 @@ export default function Step2({ listing }: { listing: Listing }) {
         </>
       )}
       {(listing.address || address) && (
-        <MapPinSetup
+        <MapPinSetupClient
           listing={listing}
           municipality={municipality}
           populatedPlace={place}

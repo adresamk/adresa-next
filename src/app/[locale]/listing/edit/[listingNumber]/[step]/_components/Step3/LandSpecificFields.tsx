@@ -24,7 +24,7 @@ export default function LandSpecificFields({
 
   const orientationOptionsTranslated = orientationOptions.map((option) => ({
     label: t(
-      `listing.new.progress.steps.mainCharacteristics.orientationOptions.${option}`,
+      `listing.new.progress.steps.mainCharacteristics.orientation.orientationOptions.${option}`,
     ),
     value: option,
   }));
@@ -43,21 +43,29 @@ export default function LandSpecificFields({
     value: option,
   }));
 
-  const accessFromOptionsTranslated = [
-    { label: "Paved", value: "paved" },
-    { label: "Asphalt", value: "asphalt" },
-    { label: "Pedestrian", value: "pedestrian" },
-    { label: "Dirt Road", value: "dirt_road" },
-    { label: "Sea", value: "sea" },
-    { label: "Other", value: "other" },
-    { label: "No Road Access", value: "no_road_access" },
+  const accessFromOptions = [
+    "paved",
+    "asphalt",
+    "pedestrian",
+    "dirt_road",
+    "sea",
+    "other",
+    "no_road_access",
   ];
+  const accessFromOptionsTranslated = accessFromOptions.map((option) => ({
+    label: t(
+      `listing.new.progress.steps.mainCharacteristics.accessFrom.accessFromOptions.${option}`,
+    ),
+    value: option,
+  }));
 
-  const slopeOptionsTranslated = [
-    { label: "Flat", value: "flat" },
-    { label: "Inclined", value: "inclined" },
-    { label: "Steep", value: "steep" },
-  ];
+  const slopeOptions = ["flat", "inclined", "steep"];
+  const slopeOptionsTranslated = slopeOptions.map((option) => ({
+    label: t(
+      `listing.new.progress.steps.mainCharacteristics.slope.slopeOptions.${option}`,
+    ),
+    value: option,
+  }));
 
   return (
     <>
@@ -68,29 +76,34 @@ export default function LandSpecificFields({
         name="landId"
       />
       {/* Is Corner Property */}
-      <div className="flex flex-col gap-3">
-        <Label>Is Corner Property</Label>
-        <Input
+      <div className="flex items-center gap-2 py-3">
+        <input
           type="checkbox"
           name="isCornerProperty"
           id="isCornerProperty"
           value={"1"}
+          className="h-4 w-4 rounded border border-gray-300 text-blue-600 focus:ring-blue-500"
           defaultChecked={listing.land.isCornerProperty}
         />
+        <Label htmlFor="isCornerProperty">
+          {t("listing.new.progress.steps.mainCharacteristics.isCornerProperty")}
+        </Label>
       </div>
 
       {/* Orientation */}
-      <div className="flex flex-col gap-3">
+      <div className="mt-2 flex flex-col gap-3">
         <Label htmlFor="orientation">
-          {t("listing.new.progress.steps.mainCharacteristics.orientation")}
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.orientation.label",
+          )}
           <span className="text-red-500">*</span>
         </Label>
-        <div className="mb-2 flex w-1/2 min-w-[300px] items-center">
+        <div className="mb-2 mt-2 flex w-1/2 min-w-[300px] items-center">
           <SelectSelfContained
             name="orientation"
             id="orientation"
             placeholder={t(
-              "listing.new.progress.steps.mainCharacteristics.orientationPlaceholder",
+              "listing.new.progress.steps.mainCharacteristics.orientation.placeholder",
             )}
             value={listing.land.orientation}
             options={orientationOptionsTranslated}
@@ -99,39 +112,51 @@ export default function LandSpecificFields({
       </div>
 
       {/* Zone */}
-      <div className="flex flex-col gap-3">
-        <Label>Zone</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t("listing.new.progress.steps.mainCharacteristics.zone.label")}
+        </Label>
         <SelectSelfContained
           value={listing.land.zone}
           options={zoneOptionsTranslated}
           name="zone"
           id="zone"
-          placeholder="Zone"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.zone.placeholder",
+          )}
         />
       </div>
 
       {/* Access From */}
-      <div className="flex flex-col gap-3">
-        <Label>Access From</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t("listing.new.progress.steps.mainCharacteristics.accessFrom.label")}
+        </Label>
 
         <SelectSelfContained
           name="accessFrom"
           id="heatingMedium"
           value={listing.land.accessFrom}
-          placeholder="Select Access From"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.accessFrom.placeholder",
+          )}
           options={accessFromOptionsTranslated}
         />
       </div>
 
       {/*Slope */}
-      <div className="flex flex-col gap-3">
-        <Label>Slope</Label>
+      <div className="mt-2 flex flex-col gap-3">
+        <Label>
+          {t("listing.new.progress.steps.mainCharacteristics.slope.label")}
+        </Label>
 
         <SelectSelfContained
           name="slope"
           id="slope"
           value={listing.land.slope}
-          placeholder="Select Slope"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.slope.placeholder",
+          )}
           options={slopeOptionsTranslated}
         />
       </div>

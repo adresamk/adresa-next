@@ -4,10 +4,10 @@ export default function CircularProgress({
   percentage: number;
 }) {
   return (
-    <div className="flex items-center justify-center h-full">
-      <div className="relative w-[200px] h-[200px]">
+    <div className="flex h-full items-center justify-center">
+      <div className="relative h-[200px] w-[200px]">
         <svg
-          className="absolute top-0 left-0 w-full h-full transform -rotate-90"
+          className="absolute left-0 top-0 h-full w-full -rotate-90 transform"
           viewBox="0 0 100 100"
         >
           <circle
@@ -41,8 +41,15 @@ export default function CircularProgress({
             </linearGradient>
           </defs>
         </svg>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-gray-900 dark:text-gray-50">
-          {percentage}%
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform font-bold text-gray-900 dark:text-gray-50">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className="active:rotate-360 hover:rotate-6"
+            src="/assets/adresa-logo-small.svg"
+            width={33}
+            height={33}
+            alt="adresa logo"
+          />
         </div>
       </div>
     </div>

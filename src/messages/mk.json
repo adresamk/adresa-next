@@ -196,7 +196,9 @@
       "listings": "огласи",
       "listing": "оглас",
       "for": "за",
-      "and": "и"
+      "and": "и",
+      "filledOut": "пополнет",
+      "done": "завршен"
     },
     "search": {
       "results": "резултати",
@@ -456,6 +458,7 @@
       }
     },
     "category": {
+      "title": "Категорија",
       "land": "Земја",
       "residential": "За живеење",
       "commercial": "Комерцијален",
@@ -477,6 +480,7 @@
       "other": "Други"
     },
     "transactionType": {
+      "title": "За",
       "sale": "Продажба",
       "rent": "Изнајмување"
     },
@@ -623,19 +627,46 @@
             "areaPlaceholder": "Внесете површина во м²",
             "floor": "Кат",
             "floorPlaceholder": "Внесете на кој кат се наоѓа",
-            "orientation": "Ориентација",
-            "orientationOptions": {
-              "north": "Север",
-              "south": "Југ",
-              "east": "Исток",
-              "west": "Запад",
-              "north-east": "Североисток",
-              "north-west": "Северозапад",
-              "south-east": "Југоисток",
-              "south-west": "Југозапад"
+            "isCornerProperty": "На крајот",
+            "orientation": {
+              "label": "Ориентација",
+              "placeholder": "Изберете ориентација",
+              "orientationOptions": {
+                "north": "Север",
+                "south": "Југ",
+                "east": "Исток",
+                "west": "Запад",
+                "north-east": "Североисток",
+                "north-west": "Северозапад",
+                "south-east": "Југоисток",
+                "south-west": "Југозапад"
+              }
+            },
+            "accessFrom": {
+              "label": "Пристап од",
+              "placeholder": "Изберете пристап од",
+              "accessFromOptions": {
+                "paved": "Поплочен",
+                "asphalt": "Асфалтиран",
+                "pedestrian": "Пешачки",
+                "dirt_road": "Дрвен",
+                "sea": "Море",
+                "other": "Други",
+                "no_road_access": "Нема пристап"
+              }
+            },
+            "slope": {
+              "label": "Наклон",
+              "placeholder": "Изберете наклон",
+              "slopeOptions": {
+                "flat": "Flat",
+                "inclined": "Inclined",
+                "steep": "Steep"
+              }
             },
             "zone": {
               "label": "Зона",
+              "placeholder": "Изберете зона",
               "zoneOptions": {
                 "residential": "Резиденција",
                 "commercial": "Торгова",
@@ -644,8 +675,7 @@
                 "recreational": "Рекреација",
                 "unincorporated": "Неинкорпорирана"
               }
-            },
-            "orientationPlaceholder": "Изберете ориентација"
+            }
           },
           "contact": {
             "title": "Контакт информации",

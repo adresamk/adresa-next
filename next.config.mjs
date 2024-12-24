@@ -16,6 +16,7 @@ const nextConfig = {
   experimental: {
     // serverActions: true,
     // reactCompiler: true,
+    // optimizeCss: true,
   },
   images: {
     remotePatterns: [

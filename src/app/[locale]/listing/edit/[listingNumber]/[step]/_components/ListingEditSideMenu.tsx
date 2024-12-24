@@ -365,14 +365,18 @@ export default function ListingEditSideMenu({
           <div className="h-20 w-20">
             <CircularProgress percentage={formProgress} />
           </div>
-
-          <p>
-            {stepStatus["Publish listing"] === "in-progress" && (
-              <span className="text-sm text-red-500">
-                {t("listing.new.steps.fillOut")}
-              </span>
-            )}
-          </p>
+          <div>
+            <p className="text-sm">
+              {formProgress}% {t(`common.words.filledOut`)}
+            </p>
+            <p>
+              {stepStatus["publish"] === "in-progress" && (
+                <span className="text-sm text-red-500">
+                  {t("listing.new.progress.steps.fillOut")}
+                </span>
+              )}
+            </p>
+          </div>
 
           <div className="mt-4">
             <Progress

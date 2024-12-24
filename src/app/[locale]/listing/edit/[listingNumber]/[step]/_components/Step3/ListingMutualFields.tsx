@@ -28,12 +28,13 @@ export default function ListingMutualFields({
           {t("listing.new.progress.steps.mainCharacteristics.price")}
           <span className="text-red-500">*</span>
         </Label>
-        <div className="mb-2 flex w-1/2 min-w-[300px] items-center">
-          <div className="mr-2 w-5">
-            <Euro size={18} />
+        <div className="relative mb-2 flex w-1/2 min-w-[300px] items-center">
+          <div className="absolute left-1 mr-2 w-5 font-semibold">
+            <Euro className="h-4 w-4" />
           </div>
           <Input
             required
+            className="pl-6"
             name="price"
             id="price"
             placeholder={t(
@@ -59,14 +60,15 @@ export default function ListingMutualFields({
           {t("listing.new.progress.steps.mainCharacteristics.area")}
           <span className="text-red-500">*</span>
         </Label>
-        <div className="mb-2 flex w-1/2 min-w-[300px] items-center">
-          <div className="mr-2 w-5">
+        <div className="relative mb-2 flex w-1/2 min-w-[300px] items-center">
+          <div className="absolute left-1 mr-2 w-5 text-sm font-semibold">
             m<sup>2</sup>
           </div>
           <Input
             required
             type="number"
             name="area"
+            className="pl-7"
             id="area"
             min={1}
             max={3000}
