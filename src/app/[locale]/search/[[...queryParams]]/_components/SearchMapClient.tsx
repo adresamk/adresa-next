@@ -5,15 +5,6 @@ import { Listing, Agency } from "@prisma/client";
 import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 
-const SearchMap = dynamic(
-  () =>
-    import("@/app/[locale]/search/[[...queryParams]]/_components/SearchMap"),
-  {
-    ssr: false,
-    loading: () => <MapLoadingPlaceholder />,
-  },
-);
-
 function MapLoadingPlaceholder() {
   const t = useTranslations();
   return (
@@ -23,6 +14,16 @@ function MapLoadingPlaceholder() {
   );
 }
 
+// Move dynamic import outside of component to maintain instance
+const SearchMap = dynamic(
+  () =>
+    import("@/app/[locale]/search/[[...queryParams]]/_components/SearchMap"),
+  {
+    ssr: false,
+    loading: MapLoadingPlaceholder,
+  },
+);
+
 export default function SearchMapClient({
   listings,
   agency,
@@ -31,8 +32,10 @@ export default function SearchMapClient({
   agency?: Agency;
 }) {
   return (
-    <Suspense fallback={<MapLoadingPlaceholder />}>
-      <SearchMap listings={listings} agency={agency} />
-    </Suspense>
+    <div className="transition-opacity duration-300">
+      <Suspense fallback={<MapLoadingPlaceholder />}>
+        <SearchMap listings={listings} agency={agency} />
+      </Suspense>
+    </div>
   );
 }

@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 export default function LikeListingButton({
   listingId,
   className,
-  isLiked,
+  isLiked = false,
 }: {
   listingId: number;
   className?: string;
@@ -29,28 +29,28 @@ export default function LikeListingButton({
   useEffect(() => {
     setIsFavorite(isLiked);
   }, [isLiked]);
+
+  const handleClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    await withAuthCheck(async () => {
+      setIsLoading(true);
+      const resp = isFavorite
+        ? await removeListingAsFavorite(listingId)
+        : await addListingAsFavorite(listingId);
+      if (resp.success) {
+        setIsFavorite(!isFavorite);
+      }
+      setIsLoading(false);
+    });
+  };
+
   return (
     <>
       <AuthDialog />
       <Button
         disabled={isLoading}
         type="button"
-        onClick={async (e) => {
-          e.preventDefault();
-          await withAuthCheck(async () => {
-            if (!isFavorite) {
-              const resp = await addListingAsFavorite(listingId);
-              if (resp.success) {
-                setIsFavorite(true);
-              }
-            } else {
-              const resp = await removeListingAsFavorite(listingId);
-              if (resp.success) {
-                setIsFavorite(false);
-              }
-            }
-          });
-        }}
+        onClick={handleClick}
         variant="ghost"
         size="icon"
         className={cn("h-10 w-10", className)}

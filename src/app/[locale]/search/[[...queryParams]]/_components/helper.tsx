@@ -1,16 +1,11 @@
+// eslint-disable-next-line import/no-unresolved
+
 "use client";
-import {
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useRef,
-  useCallback,
-  useMemo,
-} from "react";
+import { useEffect, useLayoutEffect } from "react";
 import "leaflet/dist/leaflet.css";
 // import "react-leaflet-markercluster/dist/styles.min.css";
 // import MarkerClusterGroup from "react-leaflet-markercluster";
-// import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Agency, Listing } from "@prisma/client";
 import L, {
@@ -26,6 +21,7 @@ import {
   LayerGroup,
   useMapEvent,
 } from "react-leaflet";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Compass } from "lucide-react";
 import { cn, readFromLocalStorage, writeToLocalStorage } from "@/lib/utils";
@@ -51,8 +47,6 @@ export default function SearchMap({
   listings: Listing[];
   agency?: Agency;
 }) {
-  console.log("SearchMap render", new Date().getTime());
-
   const t = useTranslations();
   const [resultsFilters, setResultsFilters] = useState("");
   const [mapFilters, setMapFilters] = useState("");
@@ -64,11 +58,9 @@ export default function SearchMap({
   const [selectedListingId, setSelectedListingId] = useState<number | null>(
     null,
   );
-
-  useLayoutEffect(() => {
-    //@ts-ignore
-    window.setSelectedListingId = setSelectedListingId;
-  }, [selectedListingId]);
+  const [initialMapBounds, setInitialMapBounds] = useState<
+    LatLngBoundsExpression | undefined
+  >(undefined);
 
   const coordsArray = listings.reduce((acc, curr) => {
     if (curr.latitude && curr.longitude) {
@@ -77,33 +69,50 @@ export default function SearchMap({
     return acc;
   }, [] as LatLngTuple[]);
 
-  console.log("coordsArray", coordsArray);
+  useLayoutEffect(() => {
+    //@ts-ignore
+    window.setSelectedListingId = setSelectedListingId;
+  }, [selectedListingId]);
 
-  // Calculate bounds based on listings or get from localStorage
-  const bounds =
-    coordsArray.length > 0
-      ? L.latLngBounds(coordsArray)
-      : (() => {
-          const storedBounds = readFromLocalStorage("map-bounds");
-          if (storedBounds) {
-            // Convert stored bounds back to Leaflet bounds
-            return L.latLngBounds(
-              [storedBounds._southWest.lat, storedBounds._southWest.lng],
-              [storedBounds._northEast.lat, storedBounds._northEast.lng],
-            );
-          }
-          return L.latLngBounds([
-            [0, 0],
-            [0, 0],
-          ]); // fallback
-        })();
-
-  // Update localStorage when we have valid bounds
-  useEffect(() => {
-    if (coordsArray.length > 0) {
-      writeToLocalStorage("map-bounds", bounds);
+  function handleMapMove(
+    target: "resultsFilters" | "mapFilters" | "both",
+    coordinates: string,
+  ) {
+    if (target === "both") {
+      setResultsFilters(coordinates);
+      setMapFilters(coordinates);
+      // setLastMapMoveCoordinates(coordinates);
+    } else if (target === "resultsFilters") {
+      setResultsFilters(coordinates);
+      // setLastMapMoveCoordinates(coordinates);
+    } else if (target === "mapFilters") {
+      setMapFilters(coordinates);
     }
-  }, [coordsArray.length, bounds]);
+  }
+  const mapMovedWithoutSearching = resultsFilters !== mapFilters;
+
+  let mapBounds: L.LatLngBoundsExpression | undefined = undefined;
+
+  // SET UP MAP BOUNDS
+  if (coordsArray.length) {
+    const mapMarkers = coordsArray.map((coords) => L.marker(coords));
+    const featureGroup = L.featureGroup(mapMarkers);
+    if (featureGroup.getBounds()) {
+      writeToLocalStorage("prevMapBounds", featureGroup.getBounds());
+      // console.log(featureGroup.getBounds());
+      mapBounds = featureGroup.getBounds();
+    }
+  } else {
+    const boundsFromLS = readFromLocalStorage("prevMapBounds");
+    if (boundsFromLS) {
+      mapBounds = [
+        [boundsFromLS._southWest.lat, boundsFromLS._southWest.lng],
+        [boundsFromLS._northEast.lat, boundsFromLS._northEast.lng],
+      ];
+    } else {
+      mapBounds = northMacedoniaBounds;
+    }
+  }
 
   let [boundingBoxCoordinates, setBoundingBoxCoordinates] = useQueryStates(
     mapRelatedFiltersParsers,
@@ -112,18 +121,69 @@ export default function SearchMap({
       history: "replace",
     },
   );
-  const mapMovedWithoutSearching = false;
+  const { NELat, NELng, SWLat, SWLng, zoom: mapZoom } = boundingBoxCoordinates;
 
+  console.log("bbc", boundingBoxCoordinates);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const bounds = map && map.getBounds();
+    console.log(bounds);
+    const zoom = map.getZoom();
+    const southWest = bounds.getSouthWest();
+    const northEast = bounds.getNorthEast();
+    const bbox = {
+      SWLat: southWest.lat,
+      SWLng: southWest.lng,
+      NELat: northEast.lat,
+      NELng: northEast.lng,
+      zoom,
+    };
+    handleMapMove("both", JSON.stringify(bbox));
+    if (mapSearchedCounter > 0) {
+      setBoundingBoxCoordinates(bbox);
+    }
+  }, [mapSearchedCounter, setBoundingBoxCoordinates]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const handleBoundsChange = () => {
+      //   console.log("searchOnMove", searchOnMove);
+      // Function to get the bounds and send them to your API
+      const bounds = map.getBounds();
+      const zoom = map.getZoom();
+      const southWest = bounds.getSouthWest();
+      const northEast = bounds.getNorthEast();
+      const bbox = {
+        SWLat: southWest.lat,
+        SWLng: southWest.lng,
+        NELat: northEast.lat,
+        NELng: northEast.lng,
+        zoom,
+      };
+      handleMapMove("mapFilters", JSON.stringify(bbox));
+      //   console.log("Bounding Box:", bbox);
+      if (searchOnMove) {
+        handleMapMove("resultsFilters", JSON.stringify(bbox));
+        setBoundingBoxCoordinates(bbox);
+      }
+    };
+    // Get the initial bounds when the component mounts
+    handleBoundsChange();
+    // Set up event listener for map movement (when the user pans or zooms)
+    map.on("moveend", handleBoundsChange);
+    // Clean up the event listener on component unmount
+    return () => {
+      map.off("moveend", handleBoundsChange);
+    };
+  }, [searchOnMove, setBoundingBoxCoordinates]);
   const MapClickHandler = () => {
     useMapEvent("click", (e) => {
       setActiveListing(null);
     });
     return null;
   };
-
-  const handleCheckedChange = useCallback((newState: boolean) => {
-    // setSearchOnMove(newState);
-  }, []);
 
   return (
     <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border md:h-[380px] lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
@@ -146,11 +206,13 @@ export default function SearchMap({
               </Button>
             ) : (
               <div className="flex items-center space-x-2">
-                {/* <Checkbox
+                <Checkbox
                   id="search-on-pan"
                   checked={searchOnMove}
-                  onCheckedChange={handleCheckedChange}
-                /> */}
+                  onCheckedChange={(newState: boolean) => {
+                    setSearchOnMove(newState);
+                  }}
+                />
                 <Label className="font-semibold" htmlFor="search-on-pan">
                   {t("map.searchAsMove")}
                 </Label>
@@ -172,7 +234,7 @@ export default function SearchMap({
         <MapContainer
           key={`map-search`}
           ref={mapRef}
-          bounds={bounds}
+          bounds={mapBounds}
           boundsOptions={{ padding: [30, 30], animate: true }}
           style={{ height: "100%", width: "100%" }}
         >

@@ -15,9 +15,9 @@ export default function SearchResults({
     <div className="w-full">
       {agency && <AgencyBanner agency={agency} />}
       <Filters />
-      <section className="relative z-0 flex w-full flex-col-reverse lg:flex-row">
-        <Listings listings={listings} />
+      <section className="relative z-0 flex w-full flex-col lg:flex-row">
         <SearchMapClient listings={listings} />
+        <Listings listings={listings} />
       </section>
     </div>
   );

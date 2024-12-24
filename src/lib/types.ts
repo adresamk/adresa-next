@@ -33,7 +33,8 @@ export type SerializedListing = DateFieldsToString<ListingWithUserAndAgency>;
 export type LocalStorageKeysOptions =
   | "recentlyViewedListings"
   | "recentSearches"
-  | "prevMapBounds";
+  | "prevMapBounds"
+  | "map-bounds";
 
 export interface RecentlyViewedListing {
   listingNumber: number;
