@@ -10,6 +10,15 @@ export type Step = {
   uniquePath: string;
 };
 
+export const initialSteps: Step[] = [
+  {
+    key: "category",
+    description: "Select the category",
+    fieldsMentioned: ["category"],
+    uniquePath: "category",
+  },
+];
+
 export const steps: Step[] = [
   {
     key: "propertyType",

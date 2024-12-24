@@ -563,6 +563,10 @@
         "completed": "завршено",
         "newListing": "Нов оглас",
         "steps": {
+          "category": {
+            "title": "Категорија на имот и др основни",
+            "description": "Изберете категорија и детали"
+          },
           "fillOut": "Пополнете ги деталите",
           "propertyCategory": {
             "title": "Категорија на имот",

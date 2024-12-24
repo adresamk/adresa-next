@@ -41,7 +41,6 @@ export default function ListingEditForm({
   // TODO, this doesnt update
 
   const [currentStep, setCurrentStep] = useState(requestedStep);
-  const [progress, setProgress] = useState(22);
   const stepsFlow = steps.map((step) => step.uniquePath);
   const currentStepIdx = stepsFlow.indexOf(currentStep);
 
@@ -88,7 +87,7 @@ export default function ListingEditForm({
         currentStep={currentStep}
         listing={listing}
         setCurrentStep={setCurrentStep}
-        progress={progress}
+        steps={steps}
       />
       <div className="min-w-[460px] pl-10">
         <div className="mt-2 rounded bg-white p-2 shadow-md">

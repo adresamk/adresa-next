@@ -34,6 +34,7 @@ export default function InitialStep() {
         value: option,
       };
     });
+
   const listingTypeOptionsTranslated = listingCategory
     ? listingTypeOptions[listingCategory as PropertyCategory].map((option) => {
         return {
@@ -59,6 +60,10 @@ export default function InitialStep() {
         options={listingCategoryOptionsTranslated}
         onChange={function (value: string) {
           setListingCategory(value);
+          // @ts-ignore
+          window.setInitialListing &&
+            // @ts-ignore
+            window.setInitialListing("category", value);
         }}
       />
 
@@ -67,6 +72,12 @@ export default function InitialStep() {
         required
         title={t("listing.new.propertyType.label")}
         options={listingTypeOptionsTranslated}
+        onChange={function (value: string) {
+          // @ts-ignore
+          window.setInitialListing &&
+            // @ts-ignore
+            window.setInitialListing("type", value);
+        }}
       />
 
       <RadioGroupDemo
@@ -75,6 +86,12 @@ export default function InitialStep() {
         title={t("listing.new.listingType.label")}
         description={t("common.cannotBeChanged")}
         options={listingTransactionTypeOptionsTranslated}
+        onChange={function (value: string) {
+          // @ts-ignore
+          window.setInitialListing &&
+            // @ts-ignore
+            window.setInitialListing("transactionType", value);
+        }}
       />
     </div>
   );

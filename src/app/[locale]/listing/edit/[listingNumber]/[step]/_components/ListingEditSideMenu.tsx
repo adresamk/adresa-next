@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { capitalizeString, cn, displayArea, displayPrice } from "@/lib/utils";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { Listing } from "@prisma/client";
-import { steps, Step, StepStatus } from "../types";
+import { Step, StepStatus } from "../types";
 import CircularProgress from "@/components/ui/circular-progress";
 import {
   getMunicipalityPlaces,
@@ -20,8 +20,8 @@ import {
 
 interface ListingEditSideMenuProps {
   currentStep: string;
-  progress: number;
   listing: Listing;
+  steps: Step[];
   setCurrentStep: (step: string) => void;
 }
 interface stepsValueSystemType {
@@ -31,7 +31,9 @@ interface stepsValueSystemType {
 }
 const stepsValueSystem: stepsValueSystemType = {
   propertyType: {
-    type: 100,
+    category: 34,
+    type: 33,
+    transactionType: 33,
   },
   location: {
     municipality: 20,
@@ -80,7 +82,7 @@ const stepsValueSystem: stepsValueSystemType = {
     isPublished: 100,
   },
 };
-function calculateStepStatus(listing: Listing): StepStatus {
+function calculateStepStatus(listing: Listing, steps: Step[]): StepStatus {
   let statuses: StepStatus = {};
   for (const step of steps) {
     if (step.key === "propertyType") {
@@ -185,6 +187,7 @@ function generateStepDescriptions(
   listing: Listing,
   t: any,
   locale: string,
+  steps: Step[],
 ): StepDescription {
   const descriptions: StepDescription = {};
   for (const step of steps) {
@@ -293,8 +296,8 @@ function generateStepDescriptions(
 }
 export default function ListingEditSideMenu({
   currentStep,
-  progress,
   listing,
+  steps,
   setCurrentStep,
 }: ListingEditSideMenuProps) {
   const stepsProgress = steps.map((step) => {
@@ -345,11 +348,12 @@ export default function ListingEditSideMenu({
   const formProgress = Math.round((stepsProgressSum / 800) * 100);
   const t = useTranslations("");
   const locale = useLocale();
-  const stepStatus: StepStatus = calculateStepStatus(listing);
+  const stepStatus: StepStatus = calculateStepStatus(listing, steps);
   const stepDescriptions: StepDescription = generateStepDescriptions(
     listing,
     t,
     locale,
+    steps,
   );
   // console.log("stePstatus", stepStatus);
   // console.log("stepProgress", stepsProgress);
