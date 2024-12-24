@@ -172,7 +172,7 @@ export default function SearchMap({
         </aside>
 
         <MapContainer
-          key={`map-${mapSearchedCounter}`}
+          key={`map-search`}
           ref={mapRef}
           bounds={mapBounds}
           boundsOptions={{ padding: [30, 30], animate: true }}
