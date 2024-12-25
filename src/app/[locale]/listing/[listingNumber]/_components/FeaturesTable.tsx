@@ -23,7 +23,10 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
             "EUR",
             t("MortgageCalculator.month"),
           ),
-    pricePerSquare: displayPricePerSquare(listing.price, listing.area, "EUR"),
+    pricePerSquare:
+      listing.transactionType === "sale"
+        ? displayPricePerSquare(listing.price, listing.area, "EUR")
+        : null,
     area: displayArea(listing.area),
     ...(lwr.residential && {
       floor: lwr.residential.floor,
