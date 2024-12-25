@@ -1293,8 +1293,45 @@ async function editContactDetails(formData: FormData) {
     },
   };
 }
+
+async function handleProfessionalPromotion(
+  listingId: number,
+  requestProfessionalPromotion: "on" | "off",
+) {
+  if (requestProfessionalPromotion === "on") {
+    const pp = await prismadb.professionalPromotion.findFirst({
+      where: {
+        listingId: listingId,
+      },
+    });
+    if (pp) {
+      return;
+    }
+    await prismadb.professionalPromotion.create({
+      data: {
+        listingId: listingId,
+      },
+    });
+  }
+
+  if (requestProfessionalPromotion === "off") {
+    const pp = await prismadb.professionalPromotion.findFirst({
+      where: {
+        listingId: listingId,
+      },
+    });
+    if (pp) {
+      await prismadb.professionalPromotion.delete({
+        where: {
+          id: pp.id,
+        },
+      });
+    }
+  }
+}
 async function editPublishing(formData: FormData) {
   const isPublished = formData.get("isPublished");
+
   if (typeof isPublished !== "string") {
     return {
       success: false,
@@ -1302,21 +1339,19 @@ async function editPublishing(formData: FormData) {
     };
   }
 
-  const makePublished = isPublished === "yes" ? true : false;
+  let requestProfessionalPromotion = formData.get(
+    "requestProfessionalPromotion",
+  );
 
   const listingId = formData.get("listingId")! as string;
-  const listing = await prismadb.listing.findUnique({
-    where: {
-      id: Number(listingId),
-    },
-  });
+  requestProfessionalPromotion = requestProfessionalPromotion ? "on" : "off";
+  await handleProfessionalPromotion(
+    Number(listingId),
+    requestProfessionalPromotion as "on" | "off",
+  );
 
-  if (!listing) {
-    return {
-      success: false,
-      error: "Listing not found",
-    };
-  }
+  const makePublished = isPublished === "yes" ? true : false;
+
   const oneMonthFromNow = new Date();
   oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
 

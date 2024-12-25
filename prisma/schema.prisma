@@ -308,70 +308,9 @@ model Listing {
   // extract this into user as separate values
   listingFeatures ListingFeature[]
 
-  // Should go to cateogry Residental
-  // orientation String? // 'north', 'south', 'east', 'west', 'north-east', 'north-west', 'south-east', 'south-west'
-  // floorNumber Int? // 0 for ground floor, and coded values for others
-  // additional to floor
-  // isPenthouse       Boolean?  @default(false)
-  // isAtCorner        Boolean?  @default(false)
-  // levels            Int?
-  // rooms
-
-  // I will have these as Features
-  // bedrooms       Int?             @default(0)
-  // bathrooms      Int?             @default(0)
-  // wcs            Int?             @default(0)
-  // kitchens       Int?             @default(0)
-  // livingRooms    Int?             @default(0)
-  // Other features that are on spitogatos
-
-  // These also become featuers
-  // parking        Boolean          @default(false) // true = there is, false = there isn't, null = not specified
-  // elevator       Boolean          @default(false)
-  // balcony        Boolean          @default(false)
-  // yard           Boolean          @default(false)
-  // basement       Boolean          @default(false)
-  // equiped           Boolean?  @default(false)
-  // alarm             Boolean?  @default(false)
-  // loadingRamp       Boolean?  @default(false)
-  // garage            Boolean?  @default(false)
-  // secureDoor        Boolean?  @default(false)
-  // view              Boolean?  @default(false)
-  // zoning            String?
-  // roadType          String? // access From?
-  // Additional Features & Heating
-  // renovated              Boolean?  @default(false)
-  // requiresRenovation     Boolean?  @default(false)
-  // luxurious              Boolean?  @default(false)
-  // underConstruction      Boolean?  @default(false)
-  // constructionYear       Int?
-  // averageMonthlyExpenses Int? // in euros
-  // heatingType            String? // 'autonomous', 'central', 'air-condition', 'none'
-  // heatingFuel            String? // 'oil', 'natural gas', 'diesel', 'electricity', 'wood', 'solar', 'geothermal', 'heat pump'
-  // additional heating options
-  // fireplace         Boolean?  @default(false)
-  // solar      Boolean?  @default(false)
-  // airCondition           Boolean?  @default(false)
-  // underFloorHeating      Boolean?  @default(false)
-  // Description
-
-  // short description
-  // shortDescription  String?
-
-  // Unresolved
-  // favourites
-
-  // Unexplained
-  // published   Boolean   @default(false)
-  // isLiked      Boolean
-  // internalFeatures String[]
-  // externalFeatures String[]
-  // Not every listing is owned by an Agency, these info will go through user
-  // agency           Agency?  @relation(fields: [agencyId], references: [id])
-  // agencyId         String?
-  // enquirerData      EnquirerData @relation(fields: [enquirerDataId], references: [id])
-  // enquirerDataId    String       @unique
-  // EnquirerData      EnquirerData[]
+  // 
+  professionalPromotion   ProfessionalPromotion?
+  professionalPromotionId Int?                   @unique
 
   // @@index([transactionType, category]) // Most basic filter combination
   // @@index([transactionType, price]) // Price ranges within rent/sale
@@ -395,6 +334,14 @@ model Listing {
   // // Complex search support
   // @@index([transactionType, municipality, category])
   // @@index([municipality, price])
+}
+
+model ProfessionalPromotion {
+  id        Int      @id @default(autoincrement())
+  listingId Int      @unique
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum ResidentalPropertyType {

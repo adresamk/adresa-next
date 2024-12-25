@@ -2,6 +2,7 @@ import { Listing } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import ListingPostPreview from "../_components/ListingPostPreview";
 import PaymentMethod from "@/components/PaymentMethod";
+import RequestProfessionalPromotion from "./RequestProfessionalPromotion";
 
 export default function Step8({ listing }: { listing: Listing }) {
   const t = useTranslations("listing.new.progress.steps.publish");
@@ -10,6 +11,7 @@ export default function Step8({ listing }: { listing: Listing }) {
       <h2 className="text-lg font-semibold">{t("title")}</h2>
       <input type="string" className="hidden" defaultValue="8" name="step" />
       <ListingPostPreview listing={listing} />
+      <RequestProfessionalPromotion listing={listing} />
       <PaymentMethod amount={400} />
       <h3 className="mt-3 text-lg font-semibold">{t("subtitle")}</h3>
       <div className="mt-3 flex items-center space-x-4">

@@ -37,6 +37,7 @@ export default async function EditListingPage({ params }: { params: Params }) {
           },
         },
         favoritedBy: true,
+        professionalPromotion: true,
       },
     });
 

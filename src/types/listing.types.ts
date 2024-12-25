@@ -26,6 +26,7 @@ export const listingWithRelationsInclude = {
     },
   },
   favoritedBy: true,
+  professionalPromotion: true,
 } as const;
 
 export const listingWithFavoritedByInclude = {
