@@ -44,7 +44,7 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
     type = filters.type;
   }
   const typeOptions = category
-    ? listingTypeOptions[category as PropertyCategory]
+    ? ["all_types", ...listingTypeOptions[category as PropertyCategory]]
     : [];
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -83,9 +83,7 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
             className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
           >
             <span className="capitalize">
-              {type
-                ? t(`common.filters.type.${type}`)
-                : t("common.filters.type.emptyPlaceholder")}
+              {t(`common.filters.type.${type || "all_types"}`)}
             </span>
             <ChevronDown width={20} className="h-4 w-4 md:ml-2 md:h-5 md:w-5" />{" "}
           </Button>
@@ -94,29 +92,42 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
       {typeOptions.length > 0 && (
         <PopoverContent asChild align="start">
           <ul className="relative rounded bg-white p-2 text-sm shadow-lg">
-            {typeOptions.map((_type: PropertyType) => (
-              <li
-                key={_type}
-                className={cn(
-                  "cursor-pointer rounded px-2 py-1 capitalize hover:bg-green-50",
-                  type === _type && "bg-green-50 text-brand-dark-blue",
-                )}
-                onClick={() => {
-                  if (variant === "homepage") {
-                    updateFilters({
-                      type: _type,
-                    });
-                  } else {
-                    const newPath = replaceFilterInUrl(pathname, "type", _type);
-                    router.push(newPath);
-                    // setType(_type);
-                  }
-                  setIsOpen(false);
-                }}
-              >
-                {t(`common.filters.type.${_type}`)}
-              </li>
-            ))}
+            {typeOptions.map((ty) => {
+              const _type = ty as PropertyType | "all_types";
+              return (
+                <li
+                  key={_type}
+                  className={cn(
+                    "cursor-pointer rounded px-2 py-1 capitalize hover:bg-green-50",
+                    type === _type && "bg-green-50 text-brand-dark-blue",
+                    type === "" &&
+                      _type === "all_types" &&
+                      "bg-green-50 text-brand-dark-blue",
+                  )}
+                  onClick={() => {
+                    if (variant === "homepage") {
+                      // ignore all types
+                      if (_type !== "all_types") {
+                        updateFilters({
+                          type: _type,
+                        });
+                      }
+                    } else {
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "type",
+                        _type === "all_types" ? "" : _type,
+                      );
+                      router.push(newPath);
+                      // setType(_type);
+                    }
+                    setIsOpen(false);
+                  }}
+                >
+                  {t(`common.filters.type.${_type}`)}
+                </li>
+              );
+            })}
           </ul>
         </PopoverContent>
       )}

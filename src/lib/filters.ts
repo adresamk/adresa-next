@@ -154,6 +154,10 @@ export function replaceFilterInUrl(
 }
 
 export function generateSearchUrl(filters: FiltersObject) {
+  console.log("filters", filters);
+  // if (filters.type === "all_types") {
+  //   filters.type = undefined;
+  // }
   return `/search/${Object.entries(filters)
     .filter(([_, value]) => {
       // console.log(value, typeof value);

@@ -89,6 +89,7 @@
         "other": "Друго"
       },
       "type": {
+        "all_types": "Сите типови",
         "label": "Подтип на имот",
         "emptyPlaceholder": "Подтип",
         "construction": "Градба",

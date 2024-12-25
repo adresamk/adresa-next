@@ -59,13 +59,9 @@ export default function SearchMap({
 
   // to toggle the checkbox
   const [searchOnMove, setSearchOnMove] = useState(false);
-  const [mapSearchedCounter, setMapSearchedCounter] = useState(0);
 
   const [boundsAreUpdatedAfterPan, setBoundsAreUpdatedAfterPan] =
     useState(false);
-
-  const [resultsFilters, setResultsFilters] = useState("");
-  const [mapFilters, setMapFilters] = useState("");
 
   const loadedMapBounds = useRef<LatLngBoundsExpression | undefined>(undefined);
   const maybeNewQP = useRef<
@@ -189,7 +185,7 @@ export default function SearchMap({
     return () => {
       map.off("moveend", handleMoveEnd);
     };
-  }, [searchOnMove, boundsAreUpdatedAfterPan]);
+  }, [searchOnMove, boundsAreUpdatedAfterPan, setBoundingBoxCoordinatesQP]);
 
   const mapMovedWithoutSearching = false;
 
@@ -226,9 +222,6 @@ export default function SearchMap({
                       [maybeNewQP.current.NELat, maybeNewQP.current.NELng],
                     );
                   }
-                  // setMapSearchedCounter((prev) => prev + 1);
-                  // update the bounding box coordinates
-                  // setBoundingBoxCoordinates(boundsAreUpdatedAfterPan);
                 }}
               >
                 <Compass className="mr-2" /> {t("map.searchInArea")}
