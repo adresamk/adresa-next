@@ -26,7 +26,7 @@ export default function SearchFilter() {
         <PriceFilter variant="homepage" />
         <AreaFilter variant="homepage" />
 
-        <div className="xl:right absolute right-0 top-0 flex w-full max-w-[205px] items-center justify-center p-5 pl-1.5 xl:static xl:top-0">
+        <div className="xl:right flex w-full items-center justify-center p-5 pl-1.5 sm:absolute sm:right-0 sm:top-0 sm:max-w-[205px] xl:static xl:top-0">
           <SearchButton variant="homepage" />
         </div>
       </div>

@@ -1,9 +1,19 @@
 "use client";
 
-import L, { LatLngExpression } from "leaflet";
-import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
+import L, {
+  LatLngExpression,
+  LatLngBoundsExpression,
+  LatLngTuple,
+} from "leaflet";
+import {
+  MapContainer,
+  Marker,
+  Polygon,
+  TileLayer,
+  useMapEvent,
+} from "react-leaflet";
 import { MapPosition, isPointWithinPolygon } from "./mapHelpers";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   getCoordinates,
   getMunicipalityCoordinates,
@@ -30,6 +40,21 @@ const markerIcon = L.icon({
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
+
+function MapClickHandler({
+  setPinLocation,
+}: {
+  setPinLocation: (location: MapPosition) => void;
+}) {
+  const map = useMapEvent("click", (e: any) => {
+    const { lat, lng } = e.latlng;
+    setPinLocation({
+      lat: parseFloat(lat.toFixed(6)),
+      lng: parseFloat(lng.toFixed(6)),
+    });
+  });
+  return null;
+}
 
 export default function MapConfirmLocation({
   municipality,
@@ -93,8 +118,16 @@ export default function MapConfirmLocation({
       )
     : null;
 
-  console.log("placePolygon", placePolygon);
-  console.log("municipalityPolygon", municipalityPolygon);
+  //effect description
+  useEffect(() => {
+    if (placePolygon && pinLocation) {
+      const isWithin = isPointWithinPolygon(
+        L.latLng(pinLocation.lat, pinLocation.lng),
+        placePolygon,
+      );
+      setIsPinOutside(!isWithin);
+    }
+  }, [placePolygon, pinLocation]);
 
   // console.log("municipalityPolygon", municipalityPolygon);
   // let placePolygon: any = place ? getMunicipalityCoordinates([place]) : null;
@@ -167,20 +200,28 @@ export default function MapConfirmLocation({
   const mapCenter = pinCoords
     ? pinCoords
     : (northMacedoniaCoordinates as LatLngExpression);
+
+  const municipalityPolygonBounds: LatLngBoundsExpression = useMemo(() => {
+    if (!municipalityPolygon) {
+      // Provide a default bounds, e.g., the whole country or a specific area
+      return L.latLngBounds(
+        northMacedoniaCoordinates as unknown as LatLngExpression[],
+      );
+    }
+
+    const bounds = L.latLngBounds([]);
+    municipalityPolygon.forEach((polygon) =>
+      polygon.forEach((ring) =>
+        ring.forEach((point) => {
+          bounds.extend([point[0], point[1]] as unknown as LatLngTuple);
+        }),
+      ),
+    );
+
+    return bounds;
+  }, [municipalityPolygon]);
   return (
     <div className="space-y-2">
-      {/* <div>
-
-      {activePolygon}
-      </div>
-      <div>
-
-      {municipalityCoordinates}
-      </div>
-      <div>
-
-      {placeCoordinates}
-      </div> */}
       {isPinOutside && (
         <div className="rounded-md bg-yellow-50 p-4">
           <div className="flex">
@@ -215,8 +256,10 @@ export default function MapConfirmLocation({
 
       <MapContainer
         ref={mapRef}
-        center={mapCenter}
-        zoom={pinCoords ? 13 : 7}
+        // center={mapCenter}
+        // zoom={pinCoords ? 13 : 7}
+        bounds={municipalityPolygonBounds}
+        boundsOptions={{ padding: [20, 20] }}
         className="h-[250px] w-full rounded"
       >
         <TileLayer
@@ -224,6 +267,7 @@ export default function MapConfirmLocation({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
+        <MapClickHandler setPinLocation={setPinLocation} />
         {municipalityPolygon && (
           <Polygon
             // @ts-ignore

@@ -14,6 +14,7 @@ import { useTranslations } from "next-intl";
 import FancyCounterInput from "../FancyCounterInput";
 import { ListingWithRelations } from "@/types/listing.types";
 import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface ResidentialSpecificFieldsProps {
   listing: Listing;
@@ -402,13 +403,13 @@ export default function ResidentialSpecificFields({
 
       {/* Is Furnished */}
       <div className="my-2 flex gap-3 py-2">
-        <input
-          type="checkbox"
+        <Checkbox
           name="isFurnished"
           id="isFurnished"
-          defaultValue={"1"}
           defaultChecked={listing.residential.isFurnished}
+          defaultValue={"1"}
         />
+
         <Label htmlFor="isFurnished">
           {t(
             "listing.new.progress.steps.mainCharacteristics.isFurnished.label",
@@ -418,13 +419,13 @@ export default function ResidentialSpecificFields({
 
       {/* Is For Students */}
       <div className="my-2 flex gap-3 py-2">
-        <input
-          type="checkbox"
+        <Checkbox
           name="isForStudents"
           id="isForStudents"
           defaultValue={"1"}
           defaultChecked={listing.residential.isForStudents}
         />
+
         <Label htmlFor="isForStudents">
           {t(
             "listing.new.progress.steps.mainCharacteristics.isForStudents.label",
@@ -434,8 +435,7 @@ export default function ResidentialSpecificFields({
 
       {/* Is For Holiday Home */}
       <div className="my-2 flex gap-3 py-2">
-        <input
-          type="checkbox"
+        <Checkbox
           name="isForHolidayHome"
           id="isForHolidayHome"
           defaultValue={"1"}

@@ -6,6 +6,7 @@ import { Feature, Listing } from "@prisma/client";
 import FancyCounterInput from "../FancyCounterInput";
 import { Bath } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface CommercialSpecificFieldsProps {
   listing: Listing;
@@ -144,14 +145,13 @@ export default function CommercialSpecificFields({
 
       {/* Is Corner Property */}
       <div className="mt-2 flex items-center gap-3">
-        <input
-          type="checkbox"
+        <Checkbox
           name="isCornerProperty"
           id="isCornerProperty"
-          value={"1"}
+          defaultValue={"1"}
           defaultChecked={listing.commercial.isCornerProperty}
         />
-        <Label>
+        <Label htmlFor="isCornerProperty">
           {t(
             "listing.new.progress.steps.mainCharacteristics.isCornerProperty.label",
           )}
@@ -160,14 +160,13 @@ export default function CommercialSpecificFields({
 
       {/* Is On Top Floor */}
       <div className="my-3 flex gap-3">
-        <input
-          type="checkbox"
+        <Checkbox
           name="isOnTopFloor"
           id="isOnTopFloor"
-          value={"1"}
+          defaultValue={"1"}
           defaultChecked={listing.commercial.isOnTopFloor}
         />
-        <Label>
+        <Label htmlFor="isOnTopFloor">
           {t(
             "listing.new.progress.steps.mainCharacteristics.isOnTopFloor.label",
           )}

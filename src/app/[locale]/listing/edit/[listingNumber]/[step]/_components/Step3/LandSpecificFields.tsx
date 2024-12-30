@@ -1,4 +1,5 @@
 import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { orientationOptions } from "@/lib/data/listing/importantData";
@@ -77,12 +78,10 @@ export default function LandSpecificFields({
       />
       {/* Is Corner Property */}
       <div className="flex items-center gap-2 py-3">
-        <input
-          type="checkbox"
+        <Checkbox
           name="isCornerProperty"
           id="isCornerProperty"
-          value={"1"}
-          className="h-4 w-4 rounded border border-gray-300 text-blue-600 focus:ring-blue-500"
+          defaultValue={"1"}
           defaultChecked={listing.land.isCornerProperty}
         />
         <Label htmlFor="isCornerProperty">
