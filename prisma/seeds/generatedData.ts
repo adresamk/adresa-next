@@ -98,6 +98,7 @@ for (let index = 1; index < 100; index++) {
   };
   rL.push({
     id: index,
+    professionalPromotionId: null,
     uuid: "u-listing" + index,
     externalRef: null,
     listingNumber: 122 + index,
@@ -217,6 +218,7 @@ for (let index = 1; index < 100; index++) {
   };
   aL.push({
     id: index,
+    professionalPromotionId: null,
     uuid: "a-listing" + index,
     externalRef: null,
     listingNumber: index,

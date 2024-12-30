@@ -40,6 +40,8 @@ export default function PlacesTestMap() {
   let currentPlacePolygon: LatLngExpression[][][] = selectedPlace
     ? (getCoordinates2(selectedPlace.id) as LatLngExpression[][][])
     : [];
+
+  console.log("currentPlacePolygon", currentPlacePolygon);
   //   console.log("rerender", selectedPlace?.id);
   //   console.log("currentPlacePolygon", { currentPlacePolygon });
   let allMunicipalitiesPolygons: MappedCoordinates = getCoordinates2(

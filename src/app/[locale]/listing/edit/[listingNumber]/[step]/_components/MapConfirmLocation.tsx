@@ -3,19 +3,23 @@
 import L, { LatLngExpression } from "leaflet";
 import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
 import { MapPosition, isPointWithinPolygon } from "./mapHelpers";
-import { PopulatedPlace } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
-import { getPlaceCoordinates } from "@/lib/data/macedoniaOld/importantData";
 import { useEffect, useRef, useState } from "react";
+import {
+  getCoordinates,
+  getMunicipalityCoordinates,
+} from "@/lib/data/macedonia/importantData";
+
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "./map.css";
+import { northMacedoniaCoordinates } from "@/lib/data/macedoniaOld/importantData";
 
 interface MapConfirmLocationProps {
-  municipality: PopulatedPlace | null;
-  populatedPlace: PopulatedPlace | null;
-  pinCoordinates: MapPosition | null;
-  setPinCoordinates: (coordinates: MapPosition) => void;
+  municipality: string | null;
+  place: string | null;
+  pinLocation: MapPosition | null;
+  setPinLocation: (location: MapPosition) => void;
 }
 
 const markerIcon = L.icon({
@@ -29,31 +33,86 @@ const markerIcon = L.icon({
 
 export default function MapConfirmLocation({
   municipality,
-  populatedPlace,
-  pinCoordinates,
-  setPinCoordinates,
+  place,
+  pinLocation,
+  setPinLocation,
 }: MapConfirmLocationProps) {
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
   const [isPinOutside, setIsPinOutside] = useState(false);
 
-  const municipalityCoordinates: LatLngExpression[][][] | null = municipality
-    ? getPlaceCoordinates(Number(municipality.jsonId))
+  const municipalityCoordinates = municipality
+    ? getMunicipalityCoordinates(municipality!)
     : null;
 
-  const populatedPlaceCoordinates: LatLngExpression[][][] | null =
-    populatedPlace ? getPlaceCoordinates(Number(populatedPlace.jsonId)) : null;
+  const placeCoordinates = place ? getCoordinates([place]) : null;
 
+  const placeFixed = placeCoordinates ? placeCoordinates[0][place!] : null;
+
+  const municipalityFixed = municipalityCoordinates
+    ? municipalityCoordinates.map((o) => {
+        return Object.values(o)[0];
+      })
+    : null;
+
+  console.log({
+    municipalityCoordinates,
+    placeCoordinates,
+  });
+
+  console.log({
+    municipalityFixed,
+    placeFixed,
+  });
+
+  // const municipalityPolygon: LatLngExpression[][][] =
+  //   municipalityCoordinates
+  //     ? Object.values(municipalityCoordinates).reduce(
+  //         (acc, polygon) => {
+  //           if (polygon && polygon.length > 0) {
+  //             acc.push(...polygon);
+  //           }
+  //           return acc;
+  //         },
+  //         [] as LatLngExpression[][][],
+  //       )
+  //     : [];
+  // window.mF = municipalityFixed;
+  const municipalityPolygon: LatLngExpression[][][][] | null = municipalityFixed
+    ? municipalityFixed.map((polygon) =>
+        polygon.map((ring) =>
+          ring.map((coord) => coord.map((c) => [c[1], c[0]])),
+        ),
+      )
+    : null;
+  const placePolygon: LatLngExpression[][][] | null = placeFixed
+    ? placeFixed.map((polygon) =>
+        polygon.map((ring) =>
+          ring.map((coord) => [coord[1], coord[0]] as LatLngExpression),
+        ),
+      )
+    : null;
+
+  console.log("placePolygon", placePolygon);
+  console.log("municipalityPolygon", municipalityPolygon);
+
+  // console.log("municipalityPolygon", municipalityPolygon);
+  // let placePolygon: any = place ? getMunicipalityCoordinates([place]) : null;
+
+  // console.log("placePolygon", placePolygon);
+  // selectedMunicipality && places.length > 0
+  //   ? Object.values(allPlacesFromSelectedMunicipalityPolygons).reduce(
+  //       (acc, placePolygons) => {
+  //         // Only add non-empty polygons
+  //         if (placePolygons && placePolygons.length > 0) {
+  //           acc.push(...placePolygons);
+  //         }
+  //         return acc;
+  //       },
+  //       [] as LatLngExpression[][][],
+  //     )
+  //   : [];
   // The active polygon that we check against (prioritize populated place)
-  const activePolygon = populatedPlaceCoordinates || municipalityCoordinates;
-
-  // Check if point is within polygon
-  const checkPinLocation = (lat: number, lng: number) => {
-    if (!activePolygon) return;
-    const point = L.latLng(lat, lng);
-    const isInside = isPointWithinPolygon(point, activePolygon);
-    setIsPinOutside(!isInside);
-  };
 
   // Event handlers for marker drag
   const eventHandlers = {
@@ -65,8 +124,9 @@ export default function MapConfirmLocation({
           lat: parseFloat(position.lat.toFixed(6)),
           lng: parseFloat(position.lng.toFixed(6)),
         };
-        setPinCoordinates(newCoords);
-        checkPinLocation(newCoords.lat, newCoords.lng);
+        console.log("newCoords", newCoords);
+        setPinLocation(newCoords);
+        // checkPinLocation(newCoords.lat, newCoords.lng);
       }
     },
   };
@@ -74,20 +134,20 @@ export default function MapConfirmLocation({
   // Center map on polygon when coordinates change
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !populatedPlaceCoordinates) return;
+    if (!map || !placeCoordinates) return;
 
-    const polygon = L.polygon(populatedPlaceCoordinates);
-    map.fitBounds(polygon.getBounds());
-  }, [populatedPlaceCoordinates]);
+    // const polygon = L.polygon(placeCoordinates);
+    // map.fitBounds(polygon.getBounds());
+  }, [placeCoordinates]);
 
   // Animate map to pin position when coordinates change
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !pinCoordinates) return;
+    if (!map || !pinLocation) return;
 
     // Check if pin is visible in the current view
     const bounds = map.getBounds();
-    const pinLatLng = L.latLng(pinCoordinates.lat, pinCoordinates.lng);
+    const pinLatLng = L.latLng(pinLocation.lat, pinLocation.lng);
 
     if (!bounds.contains(pinLatLng)) {
       map.setView(pinLatLng, map.getZoom(), {
@@ -97,11 +157,16 @@ export default function MapConfirmLocation({
     }
 
     // Check if pin is within polygon boundaries
-    checkPinLocation(pinCoordinates.lat, pinCoordinates.lng);
-  }, [pinCoordinates, activePolygon]);
+    // checkPinLocation(pinLocation.lat, pinLocation.lng);
+  }, [pinLocation]);
 
-  if (!pinCoordinates) return null;
-
+  // if (!pinLocation) return null;
+  const pinCoords = pinLocation
+    ? ([pinLocation.lat, pinLocation.lng] as LatLngExpression)
+    : null;
+  const mapCenter = pinCoords
+    ? pinCoords
+    : (northMacedoniaCoordinates as LatLngExpression);
   return (
     <div className="space-y-2">
       {/* <div>
@@ -114,7 +179,7 @@ export default function MapConfirmLocation({
       </div>
       <div>
 
-      {populatedPlaceCoordinates}
+      {placeCoordinates}
       </div> */}
       {isPinOutside && (
         <div className="rounded-md bg-yellow-50 p-4">
@@ -139,8 +204,8 @@ export default function MapConfirmLocation({
               <div className="mt-2 text-sm text-yellow-700">
                 <p>
                   The selected location is outside the{" "}
-                  {populatedPlace ? "city/village" : "municipality"} boundaries.
-                  Please adjust the pin location.
+                  {place ? "city/village" : "municipality"} boundaries. Please
+                  adjust the pin location.
                 </p>
               </div>
             </div>
@@ -150,8 +215,8 @@ export default function MapConfirmLocation({
 
       <MapContainer
         ref={mapRef}
-        center={[pinCoordinates.lat, pinCoordinates.lng]}
-        zoom={13}
+        center={mapCenter}
+        zoom={pinCoords ? 13 : 7}
         className="h-[250px] w-full rounded"
       >
         <TileLayer
@@ -159,35 +224,25 @@ export default function MapConfirmLocation({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {municipalityCoordinates && (
+        {municipalityPolygon && (
           <Polygon
-            positions={municipalityCoordinates}
-            pathOptions={{
-              color: "#374151",
-              weight: 2,
-              fillOpacity: 0.1,
-            }}
+            // @ts-ignore
+            positions={municipalityPolygon}
+            color="red"
           />
         )}
 
-        {populatedPlaceCoordinates && (
-          <Polygon
-            positions={populatedPlaceCoordinates}
-            pathOptions={{
-              color: "#2563eb",
-              weight: 2,
-              fillOpacity: 0.1,
-            }}
+        {placePolygon && <Polygon positions={placePolygon} color="yellow" />}
+
+        {pinCoords && (
+          <Marker
+            position={pinCoords}
+            draggable
+            ref={markerRef}
+            eventHandlers={eventHandlers}
+            icon={markerIcon}
           />
         )}
-
-        <Marker
-          position={[pinCoordinates.lat, pinCoordinates.lng]}
-          draggable
-          ref={markerRef}
-          eventHandlers={eventHandlers}
-          icon={markerIcon}
-        />
       </MapContainer>
     </div>
   );

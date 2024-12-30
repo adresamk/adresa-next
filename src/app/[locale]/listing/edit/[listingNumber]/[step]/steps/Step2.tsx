@@ -78,7 +78,7 @@ export default function Step2({ listing }: { listing: Listing }) {
           defaultValue={place}
         />
       )}
-      {(listing.place || place) && (
+      {(listing.place || place) && (listing.municipality || municipality) && (
         <>
           <Label htmlFor="address">
             {t("listing.new.progress.steps.location.address")}{" "}
@@ -98,13 +98,17 @@ export default function Step2({ listing }: { listing: Listing }) {
           />
         </>
       )}
-      {(listing.address || address) && (
-        <MapPinSetupClient
-          listing={listing}
-          municipality={municipality}
-          populatedPlace={place}
-        />
-      )}
+      {(listing.place || place) &&
+        (listing.municipality || municipality) &&
+        (listing.address || address) &&
+        municipality &&
+        place && (
+          <MapPinSetup
+            listing={listing}
+            municipality={municipality}
+            place={place}
+          />
+        )}
     </div>
   );
 }

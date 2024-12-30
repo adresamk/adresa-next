@@ -29,18 +29,18 @@ function MapLoadingPlaceholder() {
 export default function SearchMapClient({
   listing,
   municipality,
-  populatedPlace,
+  place,
 }: {
   listing: Listing;
-  municipality: string | null;
-  populatedPlace: string | null;
+  municipality: string;
+  place: string;
 }) {
   return (
     <Suspense fallback={<MapLoadingPlaceholder />}>
       <MapPinSetup
         listing={listing}
         municipality={municipality}
-        populatedPlace={populatedPlace}
+        place={place}
       />
     </Suspense>
   );
