@@ -144,7 +144,7 @@ export default function SearchMap({
           currentBounds.getSouthWest().lat;
 
       if (mapWasMoved) {
-        console.log(searchOnMove);
+        // console.log(searchOnMove);
 
         if (searchOnMove) {
           const newQP = {

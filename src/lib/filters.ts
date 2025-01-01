@@ -140,21 +140,67 @@ export function extractFromUrl(pathname: string, filter: MainFilters) {
   return parsedQueryParams[filter] || "";
 }
 
+function adjustForPriceAndArea(
+  filters: FiltersObject,
+  targetUpdate: MainFilters,
+) {
+  console.log(filters, targetUpdate);
+  if (targetUpdate === "priceLow") {
+    const pL = filters.priceLow;
+    const pH = filters.priceHigh;
+    if (pL && pH && Number(pL) > Number(pH)) {
+      filters.priceHigh = "";
+    }
+  }
+
+  if (targetUpdate === "priceHigh") {
+    const pL = filters.priceLow;
+    const pH = filters.priceHigh;
+    if (pL && pH && Number(pL) > Number(pH)) {
+      filters.priceLow = "";
+    }
+  }
+
+  if (targetUpdate === "areaLow") {
+    const aL = filters.areaLow;
+    const aH = filters.areaHigh;
+    if (aL && aH && Number(aL) > Number(aH)) {
+      filters.areaHigh = "";
+    }
+  }
+
+  if (targetUpdate === "areaHigh") {
+    const aL = filters.areaLow;
+    const aH = filters.areaHigh;
+    if (aL && aH && Number(aL) > Number(aH)) {
+      filters.areaLow = "";
+    }
+  }
+
+  return filters;
+}
 export function replaceFilterInUrl(
   pathname: string,
   filter: MainFilters,
   value: string,
 ) {
-  const parsedQueryParams = parseQueryParams(pathname.split("/"));
+  let parsedQueryParams = parseQueryParams(pathname.split("/"));
   // console.log(value, typeof value);
   parsedQueryParams[filter] = value;
+
+  parsedQueryParams = adjustForPriceAndArea(
+    parsedQueryParams as FiltersObject,
+    filter,
+  );
+  // handle price and area bad filters
+
   const newUrl = generateSearchUrl(parsedQueryParams as FiltersObject);
   // console.log("newUrl", newUrl);
   return newUrl;
 }
 
 export function generateSearchUrl(filters: FiltersObject) {
-  console.log("filters", filters);
+  // console.log("filters", filters);
   // if (filters.type === "all_types") {
   //   filters.type = undefined;
   // }

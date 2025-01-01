@@ -88,10 +88,21 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
     : "";
   // console.log(priceLowValue, priceHighValue);
 
-  const priceFilterOptions =
-    filters.transactionType === "sale"
-      ? salePriceFilterOptions
-      : rentPriceFilterOptions;
+  let priceFilterOptions: string[] = [];
+  if (variant === "homepage") {
+    if (filters.transactionType === "sale") {
+      priceFilterOptions = salePriceFilterOptions;
+    } else {
+      priceFilterOptions = rentPriceFilterOptions;
+    }
+  } else {
+    if (pathname.includes("sale")) {
+      priceFilterOptions = salePriceFilterOptions;
+    } else {
+      priceFilterOptions = rentPriceFilterOptions;
+    }
+  }
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
