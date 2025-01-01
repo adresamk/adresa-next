@@ -19,7 +19,7 @@ export default async function SearchPage({
   params,
 }: SearchPageProps) {
   const parsedSearchParams = await searchParams;
-  console.log("parsedSearchParams", parsedSearchParams);
+  // console.log("parsedSearchParams", parsedSearchParams);
   // const parsedParams = searchParamsCache.parse(parsedSearchParams);
 
   const { queryParams, locale } = await params;

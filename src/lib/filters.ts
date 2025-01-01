@@ -144,7 +144,7 @@ function adjustForPriceAndArea(
   filters: FiltersObject,
   targetUpdate: MainFilters,
 ) {
-  console.log(filters, targetUpdate);
+  // console.log(filters, targetUpdate);
   if (targetUpdate === "priceLow") {
     const pL = filters.priceLow;
     const pH = filters.priceHigh;
