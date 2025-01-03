@@ -1,32 +1,42 @@
+import Custom404 from "@/app/[locale]/search/[[...queryParams]]/_components/Custom404";
 import { searchParamsCache } from "@/app/[locale]/searchParams";
 import SearchResults from "@/components/shared/SearchResults";
 import prismadb from "@/lib/db";
+import { parseQueryParams } from "@/lib/filters";
 import getAllListings from "@/server/actions/listing.actions";
+import { unstable_cache } from "next/cache";
 
 interface SearchPageProps {
   searchParams: Promise<Record<string, string>>;
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; queryParams: string[]; locale: string }>;
 }
 
 export default async function SearchPage({
   params,
   searchParams,
 }: SearchPageProps) {
-  const searchParamsResult = await searchParams;
-  const { slug } = await params;
+  const { queryParams, locale, slug } = await params;
+  console.log("everything", queryParams, locale, slug);
+
   const agency = await prismadb.agency.findUnique({
     where: {
       slug: slug,
     },
   });
-  // console.log(agency);
   if (!agency) {
     return <div>Agency not found</div>;
   }
-  const parsedParams = searchParamsCache.parse(searchParamsResult);
-  // console.log("Re-run server component", Math.random(), parsedParams);
-  // @ts-ignore
-  const listings = await getAllListings(parsedParams);
+
+  const parsedQueryParams = parseQueryParams(queryParams);
+
+  const listings = await unstable_cache(
+    async () => getAllListings(parsedQueryParams),
+    ["listings", JSON.stringify(parsedQueryParams)],
+    {
+      revalidate: 60,
+    },
+  )();
+
   return (
     <main className="min-h-screen bg-white">
       <SearchResults listings={listings} agency={agency} />

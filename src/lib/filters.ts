@@ -101,6 +101,7 @@ export function parseQueryParams(params: string[] = []) {
         const cleanedLocation = cleanedUpLocation(
           parsedParams[mainFiltersShort[key]] as string | string[],
         );
+        console.log("cleanedLocation", cleanedLocation);
         if (cleanedLocation) {
           parsedParams[mainFiltersShort[key]] = cleanedLocation;
         } else {
@@ -184,6 +185,8 @@ export function replaceFilterInUrl(
   filter: MainFilters,
   value: string,
 ) {
+  console.log(pathname);
+  const destination = pathname.split("/search")[0] + "/search/";
   let parsedQueryParams = parseQueryParams(pathname.split("/"));
   // console.log(value, typeof value);
   parsedQueryParams[filter] = value;
@@ -194,17 +197,21 @@ export function replaceFilterInUrl(
   );
   // handle price and area bad filters
 
-  const newUrl = generateSearchUrl(parsedQueryParams as FiltersObject);
-  // console.log("newUrl", newUrl);
+  const newUrl = generateSearchUrl(
+    parsedQueryParams as FiltersObject,
+    destination,
+  );
+  console.log("newUrl", newUrl);
   return newUrl;
 }
 
-export function generateSearchUrl(filters: FiltersObject) {
+export function generateSearchUrl(filters: FiltersObject, destination: string) {
   // console.log("filters", filters);
   // if (filters.type === "all_types") {
   //   filters.type = undefined;
   // }
-  return `/search/${Object.entries(filters)
+  console.log("destination", destination);
+  return `${destination}${Object.entries(filters)
     .filter(([_, value]) => {
       // console.log(value, typeof value);
       return value !== "" && value !== undefined;
