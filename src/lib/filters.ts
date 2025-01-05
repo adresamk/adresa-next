@@ -101,7 +101,7 @@ export function parseQueryParams(params: string[] = []) {
         const cleanedLocation = cleanedUpLocation(
           parsedParams[mainFiltersShort[key]] as string | string[],
         );
-        console.log("cleanedLocation", cleanedLocation);
+
         if (cleanedLocation) {
           parsedParams[mainFiltersShort[key]] = cleanedLocation;
         } else {
@@ -205,7 +205,10 @@ export function replaceFilterInUrl(
   return newUrl;
 }
 
-export function generateSearchUrl(filters: FiltersObject, destination: string) {
+export function generateSearchUrl(
+  filters: FiltersObject,
+  destination: string = "search/",
+) {
   // console.log("filters", filters);
   // if (filters.type === "all_types") {
   //   filters.type = undefined;
@@ -221,6 +224,12 @@ export function generateSearchUrl(filters: FiltersObject, destination: string) {
         ([_, long]) => long === key,
       )?.[0];
       return `${shortKey}-${value}`;
+    })
+    .sort((a, b) => {
+      const order = ["tt", "l", "c", "t", "pl", "ph", "al", "ah", "s"];
+      const keyA = a.split("-")[0];
+      const keyB = b.split("-")[0];
+      return order.indexOf(keyA) - order.indexOf(keyB);
     })
     .join("/")}`;
 }
