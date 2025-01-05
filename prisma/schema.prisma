@@ -7,6 +7,17 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model ResetPasswordLink {
+  id        Int       @id @default(autoincrement())
+  accountId Int
+  account   Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  token     String    @unique @db.VarChar(50)
+  isUsed    Boolean   @default(false)
+  usedAt    DateTime?
+}
+
 // ... existing code ...
 model VerificationLink {
   id        Int      @id @default(autoincrement())
@@ -49,13 +60,14 @@ model Account {
   updatedAt      DateTime @updatedAt
 
   // Other fields
-  role             AccountType        @default(USER)
-  emailVerified    DateTime?
-  sessions         Session[]
-  verificationLink VerificationLink[]
-  agency           Agency?
-  user             User?
-  listingViews     ListingView[]
+  role              AccountType         @default(USER)
+  emailVerified     DateTime?
+  sessions          Session[]
+  verificationLink  VerificationLink[]
+  agency            Agency?
+  user              User?
+  listingViews      ListingView[]
+  resetPasswordLink ResetPasswordLink[]
 }
 
 model Agency {

@@ -19,7 +19,8 @@ import {
 } from "@/lib/sessions";
 import { NextResponse } from "next/server";
 import { getVerificationLink } from "./verification.actions";
-import { sendVerificationEmail } from "./email.actions";
+import { sendResetPasswordEmail, sendVerificationEmail } from "./email.actions";
+import { generateUniqueToken } from "@/lib/utils";
 
 export async function signIn(
   prevState: any,
@@ -313,4 +314,146 @@ export async function getGoogleOAuthConsentURL() {
       error: "Something went wrong during the google sso::" + error,
     };
   }
+}
+
+export async function forgotPasswordRequest(
+  prevState: ActionResult,
+  formData: FormData,
+) {
+  const email = formData.get("email")?.toString();
+
+  // always return success true to minimize timing attacks
+  if (!email || !emailRegex.test(email)) {
+    return {
+      // error: "Invalid email",
+      error: null,
+      success: true,
+    };
+  }
+
+  const account = await prismadb.account.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (!account) {
+    console.log(
+      "Somebody requested a reset password link for an account that doesn't exist",
+    );
+    return {
+      // error: "Account with that email doesn't exist",
+      error: null,
+      success: true,
+    };
+  }
+
+  const resetPasswordLink = await getResetPasswordLink(account.id);
+  if (resetPasswordLink) {
+    await sendResetPasswordEmail(account.email, resetPasswordLink);
+  }
+
+  return {
+    success: true,
+    error: null,
+  };
+}
+
+export async function getResetPasswordLink(accountId: number) {
+  const token = generateUniqueToken(); // Function to generate a unique token
+  const expiresAt = new Date(Date.now() + 900000); // 15 minutes
+
+  // Create the verification link in the database
+  try {
+    await prismadb.resetPasswordLink.create({
+      data: {
+        accountId,
+        token,
+        expiresAt,
+      },
+    });
+    return `${process.env.NEXT_PUBLIC_URL}/reset-password?token=${token}`;
+  } catch (error) {
+    console.error("Reset password link creation", error);
+  }
+}
+
+export async function checkResetPasswordTokenValidity(token: string) {
+  if (!token) {
+    return {
+      success: false,
+      error: "Invalid token",
+    };
+  }
+
+  const resetPasswordLink = await prismadb.resetPasswordLink.findUnique({
+    where: {
+      token,
+    },
+  });
+
+  if (!resetPasswordLink) {
+    return {
+      success: false,
+      error: "Invalid token",
+    };
+  }
+  if (resetPasswordLink.expiresAt < new Date()) {
+    return {
+      success: false,
+      error: "Token expired",
+    };
+  }
+
+  return {
+    success: true,
+    error: null,
+  };
+}
+
+export async function resetPassword(
+  prevState: ActionResult,
+  formData: FormData,
+) {
+  const newPassword = formData.get("newPassword")?.toString();
+  const confirmPassword = formData.get("confirmPassword")?.toString();
+  const token = formData.get("token")?.toString();
+
+  if (!newPassword || !confirmPassword || !token) {
+    return {
+      success: false,
+      error: "Passwords and token are required",
+    };
+  }
+  if (newPassword !== confirmPassword) {
+    return {
+      success: false,
+      error: "Passwords do not match",
+    };
+  }
+
+  const tokenLink = await prismadb.resetPasswordLink.findUnique({
+    where: {
+      token,
+    },
+    include: {
+      account: true,
+    },
+  });
+
+  //update password for account
+  const hashedPassword = await new Argon2id().hash(newPassword);
+  await prismadb.account.update({
+    where: {
+      id: tokenLink?.accountId,
+    },
+    data: {
+      hashedPassword,
+    },
+  });
+
+  return {
+    success: true,
+    error: null,
+  };
 }

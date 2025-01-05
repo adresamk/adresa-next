@@ -31,3 +31,22 @@ export async function sendVerificationEmail(
   console.log("Verification email sent successfully");
   return true;
 }
+
+export async function sendResetPasswordEmail(
+  email: string,
+  resetPasswordLink: string,
+) {
+  console.log("resetPasswordLink ", resetPasswordLink);
+
+  const emailTemp = "macesmajli@gmail.com";
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/send/resetpassword`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: emailTemp, resetPasswordLink }),
+    },
+  );
+}
