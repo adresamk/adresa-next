@@ -37,7 +37,6 @@ export default function SearchBreadcrumbs({
   const router = useRouter();
   const locale = useLocale();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   let [transactionType, setTransactionType] = useState<PropertyTransactionType>(
     // TODO: This doesn't set the default value correctly
@@ -94,7 +93,6 @@ export default function SearchBreadcrumbs({
                     pathname,
                     "location",
                     value,
-                    searchParams,
                   );
                   router.push(newPath);
                 }
@@ -127,7 +125,6 @@ export default function SearchBreadcrumbs({
                         pathname,
                         "location",
                         value,
-                        searchParams,
                       );
                       router.push(newPath);
                     }

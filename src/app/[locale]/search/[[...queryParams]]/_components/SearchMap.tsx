@@ -116,11 +116,18 @@ export default function SearchMap({
 
   useEffect(() => {
     if (mapRef.current && searchParams) {
-      const newBounds = L.latLngBounds(
-        [Number(searchParams.get("SWLat")), Number(searchParams.get("SWLng"))],
-        [Number(searchParams.get("NELat")), Number(searchParams.get("NELng"))],
-      );
-      mapRef.current.fitBounds(newBounds);
+      const SWLat = searchParams.get("SWLat");
+      const SWLng = searchParams.get("SWLng");
+      const NELat = searchParams.get("NELat");
+      const NELng = searchParams.get("NELng");
+      // const zoom = searchParams.get("zoom");
+      if (SWLat && SWLng && NELat && NELng) {
+        const newBounds = L.latLngBounds(
+          [Number(SWLat), Number(SWLng)],
+          [Number(NELat), Number(NELng)],
+        );
+        mapRef.current.fitBounds(newBounds);
+      }
       // mapRef.current.setView(skopjeLatLng, 11);
     }
   }, [searchParams]);
