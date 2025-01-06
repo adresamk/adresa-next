@@ -38,6 +38,8 @@ import { northMacedoniaCoordinates } from "@/lib/data/macedoniaOld/importantData
 import { useQueryStates } from "nuqs";
 import { mapRelatedFiltersParsers } from "@/app/[locale]/searchParams";
 import { Checkbox } from "@/components/ui/checkbox";
+import { replaceFilterInUrl } from "@/lib/filters";
+import { usePathname } from "next/navigation";
 
 const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
 const agencyLocation: LatLngExpression = [41.99564, 21.428277];
@@ -56,6 +58,7 @@ export default function SearchMap({
   // console.log("SearchMap render", new Date().getTime());
 
   const t = useTranslations();
+  const pathname = usePathname();
 
   // to toggle the checkbox
   const [searchOnMove, setSearchOnMove] = useState(false);
@@ -74,6 +77,7 @@ export default function SearchMap({
       }
     | undefined
   >(undefined);
+
   let [boundingBoxCoordinatesQP, setBoundingBoxCoordinatesQP] = useQueryStates(
     mapRelatedFiltersParsers,
     {
@@ -216,6 +220,9 @@ export default function SearchMap({
                 onClick={() => {
                   if (maybeNewQP.current) {
                     setBoundingBoxCoordinatesQP(maybeNewQP.current);
+                    if (pathname) {
+                      replaceFilterInUrl(pathname, "location", "ms");
+                    }
                     setBoundsAreUpdatedAfterPan(false);
                     loadedMapBounds.current = L.latLngBounds(
                       [maybeNewQP.current.SWLat, maybeNewQP.current.SWLng],

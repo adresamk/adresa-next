@@ -99,13 +99,15 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
                 onClick={() => {
                   // setTransactionType("sale");
                   setIsOpen(false);
-                  const newPath = replaceFilterInUrl(
-                    pathname,
-                    "transactionType",
-                    "sale",
-                  );
-                  console.log("newPath", newPath);
-                  router.push(newPath);
+                  if (pathname) {
+                    const newPath = replaceFilterInUrl(
+                      pathname,
+                      "transactionType",
+                      "sale",
+                    );
+                    console.log("newPath", newPath);
+                    router.push(newPath);
+                  }
                 }}
                 className={cn(
                   "mb-0.5 cursor-pointer rounded px-2.5 py-2 hover:bg-green-50",
@@ -124,13 +126,15 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
                 onClick={() => {
                   setIsOpen(false);
                   // setTransactionType("rent");
-                  const newPath = replaceFilterInUrl(
-                    pathname,
-                    "transactionType",
-                    "rent",
-                  );
-                  console.log("newPath", newPath);
-                  router.push(newPath);
+                  if (pathname) {
+                    const newPath = replaceFilterInUrl(
+                      pathname,
+                      "transactionType",
+                      "rent",
+                    );
+                    console.log("newPath", newPath);
+                    router.push(newPath);
+                  }
                 }}
               >
                 {t("common.filters.mode.rent")}

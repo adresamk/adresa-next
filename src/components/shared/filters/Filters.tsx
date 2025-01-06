@@ -39,8 +39,10 @@ export default function Filters() {
         variant="ghost"
         className="text-gray-500"
         onClick={() => {
-          router.replace(pathname);
-          setAreMoreFiltersOpen(false);
+          if (pathname) {
+            router.replace(pathname);
+            setAreMoreFiltersOpen(false);
+          }
 
           // no need for this it takes care by itself (hopefully) but question is do we want to reset
           // the primary filters as well?

@@ -110,12 +110,14 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
                       category: _category,
                     });
                   } else {
-                    const newPath = replaceFilterInUrl(
-                      pathname,
-                      "category",
-                      _category,
-                    );
-                    router.push(newPath);
+                    if (pathname) {
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "category",
+                        _category,
+                      );
+                      router.push(newPath);
+                    }
                     // setCategory(_category);
                   }
                   setIsOpen(false);

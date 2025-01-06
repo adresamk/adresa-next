@@ -96,7 +96,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
       priceFilterOptions = rentPriceFilterOptions;
     }
   } else {
-    if (pathname.includes("sale")) {
+    if (pathname && pathname.includes("sale")) {
       priceFilterOptions = salePriceFilterOptions;
     } else {
       priceFilterOptions = rentPriceFilterOptions;
@@ -223,12 +223,14 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                       priceLow: e.target.value.replace(/,/g, ""),
                     });
                   } else {
-                    const newPath = replaceFilterInUrl(
-                      pathname,
-                      "priceLow",
-                      e.target.value.replace(/,/g, ""),
-                    );
-                    router.push(newPath);
+                    if (pathname) {
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "priceLow",
+                        e.target.value.replace(/,/g, ""),
+                      );
+                      router.push(newPath);
+                    }
                     // setPriceLow(e.target.value);
                   }
                   setSelectionClicked({
@@ -256,12 +258,14 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                           price === "Any" ? "" : price.replace(/,/g, ""),
                       });
                     } else {
-                      const newPath = replaceFilterInUrl(
-                        pathname,
-                        "priceLow",
-                        price === "Any" ? "" : price.replace(/,/g, ""),
-                      );
-                      router.push(newPath);
+                      if (pathname) {
+                        const newPath = replaceFilterInUrl(
+                          pathname,
+                          "priceLow",
+                          price === "Any" ? "" : price.replace(/,/g, ""),
+                        );
+                        router.push(newPath);
+                      }
                       // setPriceLow(price === "Any" ? "" : price);
                     }
                     setSelectionClicked({
@@ -299,12 +303,14 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                       priceHigh: e.target.value.replace(/,/g, ""),
                     });
                   } else {
-                    const newPath = replaceFilterInUrl(
-                      pathname,
-                      "priceHigh",
-                      e.target.value.replace(/,/g, ""),
-                    );
-                    router.push(newPath);
+                    if (pathname) {
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "priceHigh",
+                        e.target.value.replace(/,/g, ""),
+                      );
+                      router.push(newPath);
+                    }
                     // setPriceHigh(e.target.value);
                   }
                   setSelectionClicked({
@@ -332,12 +338,14 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                           price === "Any" ? "" : price.replace(/,/g, ""),
                       });
                     } else {
-                      const newPath = replaceFilterInUrl(
-                        pathname,
-                        "priceHigh",
-                        price === "Any" ? "" : price.replace(/,/g, ""),
-                      );
-                      router.push(newPath);
+                      if (pathname) {
+                        const newPath = replaceFilterInUrl(
+                          pathname,
+                          "priceHigh",
+                          price === "Any" ? "" : price.replace(/,/g, ""),
+                        );
+                        router.push(newPath);
+                      }
                       // setPriceHigh(price === "Any" ? "" : price);
                     }
                     setSelectionClicked({

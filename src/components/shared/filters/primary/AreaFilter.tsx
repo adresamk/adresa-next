@@ -186,12 +186,14 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                       areaLow: e.target.value,
                     });
                   } else {
-                    const newPath = replaceFilterInUrl(
-                      pathname,
-                      "areaLow",
-                      e.target.value,
-                    );
-                    router.push(newPath);
+                    if (pathname) {
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "areaLow",
+                        e.target.value,
+                      );
+                      router.push(newPath);
+                    }
                     // setAreaLow(e.target.value);
                   }
                   setSelectionClicked({
@@ -218,12 +220,14 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                         areaLow: area === "Any" ? "" : area,
                       });
                     } else {
-                      const newPath = replaceFilterInUrl(
-                        pathname,
-                        "areaLow",
-                        area === "Any" ? "" : area,
-                      );
-                      router.push(newPath);
+                      if (pathname) {
+                        const newPath = replaceFilterInUrl(
+                          pathname,
+                          "areaLow",
+                          area === "Any" ? "" : area,
+                        );
+                        router.push(newPath);
+                      }
                       // setAreaLow(area === "Any" ? "" : area);
                     }
                     setSelectionClicked({
@@ -261,12 +265,14 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                       areaHigh: e.target.value,
                     });
                   } else {
-                    const newPath = replaceFilterInUrl(
-                      pathname,
-                      "areaHigh",
-                      e.target.value,
-                    );
-                    router.push(newPath);
+                    if (pathname) {
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "areaHigh",
+                        e.target.value,
+                      );
+                      router.push(newPath);
+                    }
                     // setAreaHigh(e.target.value);
                   }
                   setSelectionClicked({
@@ -293,12 +299,14 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                         areaHigh: area === "Any" ? "" : area,
                       });
                     } else {
-                      const newPath = replaceFilterInUrl(
-                        pathname,
-                        "areaHigh",
-                        area === "Any" ? "" : area,
-                      );
-                      router.push(newPath);
+                      if (pathname) {
+                        const newPath = replaceFilterInUrl(
+                          pathname,
+                          "areaHigh",
+                          area === "Any" ? "" : area,
+                        );
+                        router.push(newPath);
+                      }
                       // setAreaHigh(area === "Any" ? "" : area);
                     }
                     setSelectionClicked({

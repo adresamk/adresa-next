@@ -23,13 +23,15 @@ export default function TransactionTypeSwitchButton() {
       size={"sm"}
       className="border-brand-light-blue p-2 text-brand-light-blue hover:text-brand-dark-blue"
       onClick={() => {
-        const newPath = replaceFilterInUrl(
-          pathname,
-          "transactionType",
-          transactionType === "sale" ? "rent" : "sale",
-        );
-        // console.log("newPath", newPath);
-        router.push(newPath);
+        if (pathname) {
+          const newPath = replaceFilterInUrl(
+            pathname,
+            "transactionType",
+            transactionType === "sale" ? "rent" : "sale",
+          );
+          // console.log("newPath", newPath);
+          router.push(newPath);
+        }
       }}
     >
       {" "}

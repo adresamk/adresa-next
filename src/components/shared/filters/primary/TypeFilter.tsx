@@ -113,12 +113,14 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
                         });
                       }
                     } else {
-                      const newPath = replaceFilterInUrl(
-                        pathname,
-                        "type",
-                        _type === "all_types" ? "" : _type,
-                      );
-                      router.push(newPath);
+                      if (pathname) {
+                        const newPath = replaceFilterInUrl(
+                          pathname,
+                          "type",
+                          _type === "all_types" ? "" : _type,
+                        );
+                        router.push(newPath);
+                      }
                       // setType(_type);
                     }
                     setIsOpen(false);

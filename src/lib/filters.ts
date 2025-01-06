@@ -60,6 +60,9 @@ export type ParsedQueryParams = {
 };
 
 function cleanedUpLocation(location: string | string[]) {
+  if (location === "ms") {
+    return location;
+  }
   if (Array.isArray(location)) {
     const filtered = location.filter(
       (l) => l.length === 5 && (l.startsWith("1") || l.startsWith("2")),
@@ -95,6 +98,9 @@ export function parseQueryParams(params: string[] = []) {
           parsedParams[mainFiltersShort[key]] = decodedParams
             .split(",")
             .filter(Boolean);
+        } else if (decodedParams.includes("ms")) {
+          // its the same step i just want to be able to remind my self it exists
+          parsedParams[mainFiltersShort[key]] = value;
         } else {
           parsedParams[mainFiltersShort[key]] = value;
         }
@@ -132,7 +138,10 @@ export function parseQueryParams(params: string[] = []) {
   return filteredParams;
 }
 
-export function extractFromUrl(pathname: string, filter: MainFilters) {
+export function extractFromUrl(pathname: string | null, filter: MainFilters) {
+  if (!pathname) {
+    return "";
+  }
   // console.log("extractFromUrl", pathname, filter);
   const parsedQueryParams = parseQueryParams(pathname.split("/"));
 

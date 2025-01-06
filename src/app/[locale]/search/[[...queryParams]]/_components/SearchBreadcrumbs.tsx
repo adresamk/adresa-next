@@ -88,8 +88,14 @@ export default function SearchBreadcrumbs({
             <Select
               value={currentMunicipality}
               onValueChange={(value) => {
-                const newPath = replaceFilterInUrl(pathname, "location", value);
-                router.push(newPath);
+                if (pathname) {
+                  const newPath = replaceFilterInUrl(
+                    pathname,
+                    "location",
+                    value,
+                  );
+                  router.push(newPath);
+                }
               }}
             >
               <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
@@ -114,12 +120,14 @@ export default function SearchBreadcrumbs({
                 <Select
                   value={currentPlace}
                   onValueChange={(value) => {
-                    const newPath = replaceFilterInUrl(
-                      pathname,
-                      "location",
-                      value,
-                    );
-                    router.push(newPath);
+                    if (pathname) {
+                      const newPath = replaceFilterInUrl(
+                        pathname,
+                        "location",
+                        value,
+                      );
+                      router.push(newPath);
+                    }
                   }}
                 >
                   <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">

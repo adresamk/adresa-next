@@ -31,8 +31,10 @@ export default function SortingFilter() {
       value={sorting}
       options={sortingOptionsTranslated}
       onClick={(newValue) => {
-        const newPath = replaceFilterInUrl(pathname, "sorting", newValue);
-        router.push(newPath);
+        if (pathname) {
+          const newPath = replaceFilterInUrl(pathname, "sorting", newValue);
+          router.push(newPath);
+        }
       }}
     />
   );
