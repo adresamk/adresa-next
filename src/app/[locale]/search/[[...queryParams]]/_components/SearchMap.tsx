@@ -39,7 +39,7 @@ import { useQueryStates } from "nuqs";
 import { mapRelatedFiltersParsers } from "@/app/[locale]/searchParams";
 import { Checkbox } from "@/components/ui/checkbox";
 import { replaceFilterInUrl } from "@/lib/filters";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
 const agencyLocation: LatLngExpression = [41.99564, 21.428277];
@@ -59,6 +59,7 @@ export default function SearchMap({
 
   const t = useTranslations();
   const pathname = usePathname();
+  const router = useRouter();
 
   // to toggle the checkbox
   const [searchOnMove, setSearchOnMove] = useState(false);
@@ -158,7 +159,20 @@ export default function SearchMap({
             SWLng: currentBounds.getSouthWest().lng,
             zoom: map.getZoom(),
           };
-          setBoundingBoxCoordinatesQP(newQP);
+          // setBoundingBoxCoordinatesQP(newQP);
+          if (pathname) {
+            let newPath = replaceFilterInUrl(pathname, "location", "ms");
+            newPath =
+              newPath +
+              `?${new URLSearchParams({
+                NELat: newQP.NELat.toString(),
+                NELng: newQP.NELng.toString(),
+                SWLat: newQP.SWLat.toString(),
+                SWLng: newQP.SWLng.toString(),
+                zoom: newQP.zoom.toString(),
+              })}`;
+            router.push(newPath);
+          }
           setBoundsAreUpdatedAfterPan(false);
           loadedMapBounds.current = L.latLngBounds(
             [newQP.SWLat, newQP.SWLng],
@@ -219,10 +233,24 @@ export default function SearchMap({
                 variant={"ghost"}
                 onClick={() => {
                   if (maybeNewQP.current) {
-                    setBoundingBoxCoordinatesQP(maybeNewQP.current);
                     if (pathname) {
-                      replaceFilterInUrl(pathname, "location", "ms");
+                      let newPath = replaceFilterInUrl(
+                        pathname,
+                        "location",
+                        "ms",
+                      );
+                      newPath =
+                        newPath +
+                        `?${new URLSearchParams({
+                          NELat: maybeNewQP.current.NELat.toString(),
+                          NELng: maybeNewQP.current.NELng.toString(),
+                          SWLat: maybeNewQP.current.SWLat.toString(),
+                          SWLng: maybeNewQP.current.SWLng.toString(),
+                          zoom: maybeNewQP.current.zoom.toString(),
+                        })}`;
+                      router.replace(newPath);
                     }
+                    // setBoundingBoxCoordinatesQP(maybeNewQP.current);
                     setBoundsAreUpdatedAfterPan(false);
                     loadedMapBounds.current = L.latLngBounds(
                       [maybeNewQP.current.SWLat, maybeNewQP.current.SWLng],

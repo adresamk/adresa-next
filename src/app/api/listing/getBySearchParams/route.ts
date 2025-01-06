@@ -1,5 +1,5 @@
 import { parseQueryParams } from "@/lib/filters";
-import getAllListings from "@/server/actions/listing.gets";
+import { getAllListings } from "@/server/actions/listing.gets";
 import { unstable_cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
