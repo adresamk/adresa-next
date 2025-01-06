@@ -19,6 +19,7 @@ import L, {
   LatLngBoundsExpression,
   LatLngExpression,
   LatLngTuple,
+  map,
 } from "leaflet";
 import {
   MapContainer,
@@ -39,7 +40,7 @@ import { useQueryStates } from "nuqs";
 import { mapRelatedFiltersParsers } from "@/app/[locale]/searchParams";
 import { Checkbox } from "@/components/ui/checkbox";
 import { replaceFilterInUrl } from "@/lib/filters";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
 const agencyLocation: LatLngExpression = [41.99564, 21.428277];
@@ -59,8 +60,9 @@ export default function SearchMap({
 
   const t = useTranslations();
   const pathname = usePathname();
-  const router = useRouter();
+  const searchParams = useSearchParams();
 
+  const router = useRouter();
   // to toggle the checkbox
   const [searchOnMove, setSearchOnMove] = useState(false);
 
@@ -106,6 +108,17 @@ export default function SearchMap({
   }, [] as LatLngTuple[]);
 
   // console.log("coordsArray", coordsArray);
+
+  useEffect(() => {
+    if (mapRef.current && searchParams) {
+      const newBounds = L.latLngBounds(
+        [Number(searchParams.get("SWLat")), Number(searchParams.get("SWLng"))],
+        [Number(searchParams.get("NELat")), Number(searchParams.get("NELng"))],
+      );
+      mapRef.current.fitBounds(newBounds);
+      // mapRef.current.setView(skopjeLatLng, 11);
+    }
+  }, [searchParams]);
 
   // Calculate bounds based on listings or get from localStorage
   const bounds =
