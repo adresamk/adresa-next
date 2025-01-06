@@ -17,7 +17,7 @@ import { useState } from "react";
 
 import { PropertyCategory } from "@prisma/client";
 import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/routing";
 interface CategoryFilterProps {
   variant: "homepage" | "search";
@@ -30,6 +30,7 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const setFocusedFilter = useSelectedFilter(
     (store) => store.setSelectedFilter,
   );
@@ -115,6 +116,7 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
                         pathname,
                         "category",
                         _category,
+                        searchParams,
                       );
                       router.push(newPath);
                     }

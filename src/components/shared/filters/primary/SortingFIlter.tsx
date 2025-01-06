@@ -6,7 +6,7 @@ import { parseAsString, useQueryState } from "nuqs";
 import { PropertyCategory } from "@prisma/client";
 import { useState } from "react";
 import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/routing";
 const sortingOptions = [
   { value: "new", label: "Newest" },
@@ -15,6 +15,7 @@ const sortingOptions = [
 ];
 export default function SortingFilter() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   let [sorting, setSorting] = useState<string>(
     () => extractFromUrl(pathname, "sorting") as string,
@@ -32,7 +33,12 @@ export default function SortingFilter() {
       options={sortingOptionsTranslated}
       onClick={(newValue) => {
         if (pathname) {
-          const newPath = replaceFilterInUrl(pathname, "sorting", newValue);
+          const newPath = replaceFilterInUrl(
+            pathname,
+            "sorting",
+            newValue,
+            searchParams,
+          );
           router.push(newPath);
         }
       }}

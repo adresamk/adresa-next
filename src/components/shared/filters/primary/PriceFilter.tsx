@@ -17,7 +17,7 @@ import { parseAsString, useQueryState } from "nuqs";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/routing";
 
 interface PriceFilterProps {
@@ -34,6 +34,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
     priceHigh: false,
   });
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   //effect description
   useEffect(() => {
@@ -228,6 +229,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                         pathname,
                         "priceLow",
                         e.target.value.replace(/,/g, ""),
+                        searchParams,
                       );
                       router.push(newPath);
                     }
@@ -263,6 +265,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                           pathname,
                           "priceLow",
                           price === "Any" ? "" : price.replace(/,/g, ""),
+                          searchParams,
                         );
                         router.push(newPath);
                       }
@@ -308,6 +311,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                         pathname,
                         "priceHigh",
                         e.target.value.replace(/,/g, ""),
+                        searchParams,
                       );
                       router.push(newPath);
                     }
@@ -343,6 +347,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                           pathname,
                           "priceHigh",
                           price === "Any" ? "" : price.replace(/,/g, ""),
+                          searchParams,
                         );
                         router.push(newPath);
                       }

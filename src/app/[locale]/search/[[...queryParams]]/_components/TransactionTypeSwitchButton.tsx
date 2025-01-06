@@ -6,11 +6,12 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
 import { PropertyTransactionType } from "@prisma/client";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function TransactionTypeSwitchButton() {
   const t = useTranslations();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   let [transactionType, setTransactionType] = useState<PropertyTransactionType>(
     // TODO: This doesn't set the default value correctly
@@ -28,6 +29,7 @@ export default function TransactionTypeSwitchButton() {
             pathname,
             "transactionType",
             transactionType === "sale" ? "rent" : "sale",
+            searchParams,
           );
           // console.log("newPath", newPath);
           router.push(newPath);

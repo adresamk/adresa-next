@@ -16,7 +16,7 @@ import { PropertyCategory, PropertyType } from "@prisma/client";
 import { useState } from "react";
 
 import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/routing";
 interface TypeFilterProps {
   variant: "homepage" | "search";
@@ -33,6 +33,7 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
     (store) => store.setSelectedFilter,
   );
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   let [category, setCategory] = useState<PropertyCategory | "">(
     () => extractFromUrl(pathname, "category") as PropertyCategory,
@@ -118,6 +119,7 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
                           pathname,
                           "type",
                           _type === "all_types" ? "" : _type,
+                          searchParams,
                         );
                         router.push(newPath);
                       }

@@ -1,6 +1,7 @@
 import { defaultFilters } from "@/hooks/useFilters";
 import { PropertyCategory, PropertyTransactionType } from "@prisma/client";
 import { FiltersObject } from "./types";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
 const mainFiltersDefaults = {
   location: undefined,
@@ -193,6 +194,7 @@ export function replaceFilterInUrl(
   pathname: string,
   filter: MainFilters,
   value: string,
+  searchParams: ReadonlyURLSearchParams | null = null,
 ) {
   console.log(pathname);
   const destination = pathname.split("/search")[0] + "/search/";
@@ -211,7 +213,10 @@ export function replaceFilterInUrl(
     destination,
   );
   console.log("newUrl", newUrl);
-  return newUrl;
+
+  return searchParams?.toString()
+    ? `${newUrl}?${searchParams.toString()}`
+    : newUrl;
 }
 
 export function generateSearchUrl(

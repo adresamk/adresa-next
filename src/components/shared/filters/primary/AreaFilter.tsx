@@ -14,7 +14,7 @@ import { parseAsString, useQueryState } from "nuqs";
 import { set } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
 import { useRouter } from "@/i18n/routing";
 
@@ -32,6 +32,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
   const router = useRouter();
   const t = useTranslations();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   let [areaLow, setAreaLow] = useState(() =>
     extractFromUrl(pathname, "areaLow"),
   );
@@ -191,6 +192,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                         pathname,
                         "areaLow",
                         e.target.value,
+                        searchParams,
                       );
                       router.push(newPath);
                     }
@@ -225,6 +227,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                           pathname,
                           "areaLow",
                           area === "Any" ? "" : area,
+                          searchParams,
                         );
                         router.push(newPath);
                       }
@@ -270,6 +273,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                         pathname,
                         "areaHigh",
                         e.target.value,
+                        searchParams,
                       );
                       router.push(newPath);
                     }
@@ -304,6 +308,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                           pathname,
                           "areaHigh",
                           area === "Any" ? "" : area,
+                          searchParams,
                         );
                         router.push(newPath);
                       }

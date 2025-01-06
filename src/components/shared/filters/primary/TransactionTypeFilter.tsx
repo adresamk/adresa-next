@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { PropertyTransactionType } from "@prisma/client";
 import { Popover } from "@radix-ui/react-popover";
 import { ChevronDown } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 import { useState } from "react";
@@ -24,6 +24,7 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
   const t = useTranslations();
   const updateFilters = useFilters((store) => store.updateFilters);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   let [transactionType, setTransactionType] = useState<PropertyTransactionType>(
     // TODO: This doesn't set the default value correctly
     () =>
@@ -104,6 +105,7 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
                       pathname,
                       "transactionType",
                       "sale",
+                      searchParams,
                     );
                     console.log("newPath", newPath);
                     router.push(newPath);
@@ -131,6 +133,7 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
                       pathname,
                       "transactionType",
                       "rent",
+                      searchParams,
                     );
                     console.log("newPath", newPath);
                     router.push(newPath);

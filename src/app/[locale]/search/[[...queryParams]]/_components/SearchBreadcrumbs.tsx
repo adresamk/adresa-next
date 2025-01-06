@@ -13,7 +13,7 @@ import {
   PropertyTransactionType,
 } from "@prisma/client";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   getMunicipalityOptionsTranslated,
   getMunicipalityPlacesTranslated,
@@ -37,6 +37,7 @@ export default function SearchBreadcrumbs({
   const router = useRouter();
   const locale = useLocale();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   let [transactionType, setTransactionType] = useState<PropertyTransactionType>(
     // TODO: This doesn't set the default value correctly
@@ -93,6 +94,7 @@ export default function SearchBreadcrumbs({
                     pathname,
                     "location",
                     value,
+                    searchParams,
                   );
                   router.push(newPath);
                 }
@@ -125,6 +127,7 @@ export default function SearchBreadcrumbs({
                         pathname,
                         "location",
                         value,
+                        searchParams,
                       );
                       router.push(newPath);
                     }

@@ -40,7 +40,12 @@ import { useQueryStates } from "nuqs";
 import { mapRelatedFiltersParsers } from "@/app/[locale]/searchParams";
 import { Checkbox } from "@/components/ui/checkbox";
 import { replaceFilterInUrl } from "@/lib/filters";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  ReadonlyURLSearchParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
 const skopjeLatLng: LatLngExpression = [41.9990607, 21.342318];
 const agencyLocation: LatLngExpression = [41.99564, 21.428277];
@@ -174,16 +179,27 @@ export default function SearchMap({
           };
           // setBoundingBoxCoordinatesQP(newQP);
           if (pathname) {
-            let newPath = replaceFilterInUrl(pathname, "location", "ms");
-            newPath =
-              newPath +
-              `?${new URLSearchParams({
+            let newPath = replaceFilterInUrl(
+              pathname,
+              "location",
+              "ms",
+              new URLSearchParams({
                 NELat: newQP.NELat.toString(),
                 NELng: newQP.NELng.toString(),
                 SWLat: newQP.SWLat.toString(),
                 SWLng: newQP.SWLng.toString(),
                 zoom: newQP.zoom.toString(),
-              })}`;
+              }) as ReadonlyURLSearchParams,
+            );
+            // newPath =
+            //   newPath +
+            //   `?${new URLSearchParams({
+            //     NELat: newQP.NELat.toString(),
+            //     NELng: newQP.NELng.toString(),
+            //     SWLat: newQP.SWLat.toString(),
+            //     SWLng: newQP.SWLng.toString(),
+            //     zoom: newQP.zoom.toString(),
+            //   })}`;
             router.push(newPath);
           }
           setBoundsAreUpdatedAfterPan(false);
@@ -251,16 +267,23 @@ export default function SearchMap({
                         pathname,
                         "location",
                         "ms",
-                      );
-                      newPath =
-                        newPath +
-                        `?${new URLSearchParams({
+                        new URLSearchParams({
                           NELat: maybeNewQP.current.NELat.toString(),
                           NELng: maybeNewQP.current.NELng.toString(),
                           SWLat: maybeNewQP.current.SWLat.toString(),
                           SWLng: maybeNewQP.current.SWLng.toString(),
                           zoom: maybeNewQP.current.zoom.toString(),
-                        })}`;
+                        }) as ReadonlyURLSearchParams,
+                      );
+                      // newPath =
+                      //   newPath +
+                      //   `?${new URLSearchParams({
+                      //     NELat: maybeNewQP.current.NELat.toString(),
+                      //     NELng: maybeNewQP.current.NELng.toString(),
+                      //     SWLat: maybeNewQP.current.SWLat.toString(),
+                      //     SWLng: maybeNewQP.current.SWLng.toString(),
+                      //     zoom: maybeNewQP.current.zoom.toString(),
+                      //   })}`;
                       router.replace(newPath);
                     }
                     // setBoundingBoxCoordinatesQP(maybeNewQP.current);
