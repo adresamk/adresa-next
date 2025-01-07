@@ -126,7 +126,9 @@ export default function SearchMap({
           [Number(SWLat), Number(SWLng)],
           [Number(NELat), Number(NELng)],
         );
-        mapRef.current.fitBounds(newBounds);
+        mapRef.current.fitBounds(newBounds, {
+          padding: [30, 30],
+        });
       }
       // mapRef.current.setView(skopjeLatLng, 11);
     }

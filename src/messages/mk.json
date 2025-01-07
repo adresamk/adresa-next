@@ -1027,6 +1027,18 @@
       "loginNeededDescription": "Оваа акција бара најавување",
       "loginMessage": "За оваа акција потребно е да бидете најавени"
     },
+    "resetPassword": {
+      "title": "Сменете лозинка",
+      "newPassword": "Нова лозинка",
+      "newPasswordPlaceholder": "Внесете нова лозинка",
+      "confirmPassword": "Потврди лозинка",
+      "confirmPasswordPlaceholder": "Потврдете лозинката",
+      "resetting": "Се ресетира",
+      "resetPassword": "Сменете лозинка",
+      "success": "Успешно востанете лозинката",
+      "tokenExpired": "Времето за промена на лозинката е изтечено",
+      "backToHomepage": "Вратете се на главната страница"
+    },
     "signUp": {
       "title": "Регистрирајте се",
       "subtitle": "Креирајте нова сметка",
