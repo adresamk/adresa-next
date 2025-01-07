@@ -1,7 +1,8 @@
 import { checkResetPasswordTokenValidity } from "@/server/actions/auth.actions";
 import { Link } from "@/i18n/routing";
-import ResetPasswordForm from "./ResetPasswordForm";
+
 import { getTranslations } from "next-intl/server";
+import ResetPasswordForm from "./ResetPasswordForm";
 
 interface ResetPasswordPageProps {
   searchParams: Promise<{

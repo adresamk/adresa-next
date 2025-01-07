@@ -1,7 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { forgotPasswordRequest } from "@/server/actions/auth.actions";
-import { error } from "console";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useActionState } from "react";
