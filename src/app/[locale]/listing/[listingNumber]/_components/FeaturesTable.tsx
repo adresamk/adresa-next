@@ -21,7 +21,7 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
         : displayPriceMonthly(
             listing.price,
             "EUR",
-            t("MortgageCalculator.month"),
+            t("mortgageCalculator.month"),
           ),
     pricePerSquare:
       listing.transactionType === "sale"
@@ -40,18 +40,18 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
       constructionYear: lwr.residential.constructionYear,
       totalPropertyArea: lwr.residential.totalPropertyArea,
       isFurnished: lwr.residential.isFurnished
-        ? t("common.buttons.yes")
-        : t("common.buttons.no"),
+        ? t("common.words.yes")
+        : t("common.words.no"),
       isForStudents: lwr.residential.isForStudents
-        ? t("common.buttons.yes")
-        : t("common.buttons.no"),
+        ? t("common.words.yes")
+        : t("common.words.no"),
       isForHolidayHome: lwr.residential.isForHolidayHome
-        ? t("common.buttons.yes")
-        : t("common.buttons.no"),
+        ? t("common.words.yes")
+        : t("common.words.no"),
       commonExpenses: displayPriceMonthly(
         lwr.residential.commonExpenses,
         "EUR",
-        t("MortgageCalculator.month"),
+        t("mortgageCalculator.month"),
       ),
       heatingType: lwr.residential.heatingType,
       heatingMedium: lwr.residential.heatingMedium,

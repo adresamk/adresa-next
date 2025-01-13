@@ -64,7 +64,7 @@ export default async function SuggestedAgencies() {
                     className="relative z-30 mt-auto cursor-pointer text-center text-xs text-brand-light-blue"
                   >
                     <p className="text-center text-sm">
-                      {agency._count.listings} {t("common.search.results")}
+                      {agency._count.listings} {t("search.results")}
                     </p>
                   </Link>
                 </div>

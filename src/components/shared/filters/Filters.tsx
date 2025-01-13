@@ -49,7 +49,7 @@ export default function Filters() {
           // clearSecondaryFilters();
         }}
       >
-        {t("common.filters.clearAll")}
+        {t("search.filters.clearAll")}
       </Button>
       <Button
         onClick={() => {
@@ -77,7 +77,7 @@ export default function Filters() {
         className="bg-brand-light-blue"
       >
         <Search width={20} className="mr-2" />
-        {t("common.filters.viewResults", { count: results.length })}
+        {t("search.filters.viewResults", { count: results.length })}
       </Button>
     </div>
   );
@@ -101,7 +101,7 @@ export default function Filters() {
             width={20}
             className="mr-2 h-4 w-4 text-brand-light-blue md:h-5 md:w-5"
           />
-          <span className="capitalize">{t("common.filters.title")}</span>
+          <span className="capitalize">{t("search.filters.title")}</span>
           <ChevronDown width={20} className="ml-2 h-4 w-4 md:h-5 md:w-5" />{" "}
         </Button>
       )}
@@ -109,8 +109,8 @@ export default function Filters() {
       <SmartOverlay
         isOpen={areMoreFiltersOpen}
         onClose={() => setAreMoreFiltersOpen(false)}
-        title={t("common.filters.title")}
-        description={t("common.filters.description")}
+        title={t("search.filters.title")}
+        description={t("search.filters.description")}
         innerScroll
         footerJSX={moreFiltersFooter}
       >

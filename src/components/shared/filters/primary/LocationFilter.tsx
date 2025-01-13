@@ -135,7 +135,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
           className="flex h-5 w-full items-center gap-2"
           htmlFor={"location"}
         >
-          {<MapPin className="h-4 w-4" />} {t("common.filters.location.label")}
+          {<MapPin className="h-4 w-4" />} {t("search.filters.location.label")}
           <span className="text-sm">{filters.location}</span>
         </label>
         <div className="relative flex min-h-10 flex-wrap items-center text-sm">
@@ -170,8 +170,8 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
             id="location"
             placeholder={
               focusedFilter === "location"
-                ? t("common.filters.location.notActivePlaceholder")
-                : t("common.filters.location.emptyPlaceholder")
+                ? t("search.filters.location.notActivePlaceholder")
+                : t("search.filters.location.emptyPlaceholder")
             }
             value={location}
             onChange={(e) => {

@@ -39,7 +39,7 @@ export default function TransactionTypeSwitchButton() {
       {" "}
       <Repeat className="mr-2" size={16} />{" "}
       <span className="text-sm capitalize">
-        {t(`common.filters.mode.${transactionType}`)}
+        {t(`search.filters.mode.${transactionType}`)}
       </span>
     </Button>
   );

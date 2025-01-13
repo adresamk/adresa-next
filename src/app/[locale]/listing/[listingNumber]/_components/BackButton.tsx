@@ -36,7 +36,7 @@ function BackButton() {
       className="mr-5 inline-flex items-center text-xs font-semibold"
     >
       <ArrowLeftIcon className="mr-2 h-4 w-4" />
-      {t("common.buttons.back")}
+      {t("common.actions.back")}
     </Button>
   );
 }

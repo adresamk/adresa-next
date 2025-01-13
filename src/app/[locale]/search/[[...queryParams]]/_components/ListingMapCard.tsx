@@ -40,7 +40,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           <div className="absolute bottom-1 left-1 flex gap-1">
             {listing.isPaidPromo && (
               <span
-                title={t("common.listing.featuredListing")}
+                title={t("common.common.property.featuredListing")}
                 className="inline-block items-center gap-1.5 rounded border bg-white p-0.5 text-xs shadow-sm"
               >
                 <Crown size={16} />
@@ -82,7 +82,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           <div className="flex items-center gap-6">
             <ul className="flex gap-1.5">
               <li
-                title={t("common.listing.features.floor")}
+                title={t("common.property.features.floor")}
                 className="flex items-center text-xs tracking-tighter"
               >
                 <LampFloor width={17} height={17} className="mr-1" />
@@ -93,7 +93,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                 </span>
               </li>
               <li
-                title={t("common.listing.features.bedrooms")}
+                title={t("common.property.features.bedrooms")}
                 className="flex items-center text-xs tracking-tighter"
               >
                 <Bed width={17} height={17} className="mr-1" />
@@ -101,11 +101,11 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                   <span className="mr-0.5 text-sm font-medium">
                     {/* {listing.bedrooms} */}
                   </span>
-                  {t("common.listing.features.bedroomsAbbr")}
+                  {t("common.property.features.bedroomsAbbr")}
                 </span>
               </li>
               <li
-                title={t("common.listing.features.bathrooms")}
+                title={t("common.property.features.bathrooms")}
                 className="flex items-center text-xs tracking-tighter"
               >
                 <Bath width={17} height={17} className="mr-1" />
@@ -113,7 +113,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                   <span className="mr-0.5 text-sm font-medium">
                     {/* {listing.bathrooms} */}
                   </span>
-                  {t("common.listing.features.bathroomsAbbr")}
+                  {t("common.property.features.bathroomsAbbr")}
                 </span>
               </li>
             </ul>

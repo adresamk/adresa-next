@@ -53,7 +53,7 @@ export default async function NewListingPage() {
           >
             <InitialStep />
             <Button size={"sm"} className="my-2">
-              {t("listing.new.actions.next")}
+              {t("common.actions.next")}
             </Button>
           </form>
         </div>

@@ -11,7 +11,9 @@
       "daily": "Секој ден",
       "weekly": "Неделно",
       "live": "Во живо"
-    }
+    },
+    "savedSearchName": "Име на пребарување",
+    "savedSearchNamePlaceholder": "пр: Омилени во Скопје"
   },
   "creditCard": {
     "title": "Изберете начин на плаќање",
@@ -48,26 +50,16 @@
     "noResults": {
       "title": "Нема резултати",
       "description": "Се чини дека нема недвижнини кои одговараат на вашиот критериум. Можете да избришете филтер или да проширите обсег на пребарување за да видите повеќе резултати, но исто така можете да зачувате вашето пребарување и да бидете известувани за нови недвижнини кои одговараат на вашиот критериум кога ќе бидат објавени!"
-    }
-  },
-  "common": {
-    "inputs": {
-      "savedSearchName": "Име на пребарување",
-      "savedSearchNamePlaceholder": "пр: Омилени во Скопје"
     },
-    "buttons": {
-      "search": "Пребарај",
-      "submit": "Потврди",
-      "cancel": "Откажи",
-      "back": "Назад",
-      "share": "Сподели",
-      "save": "Зачувај",
-      "contact": "Контактирај",
-      "reveal": "Прикажи",
-      "signIn": "Најави се",
-      "yes": "Да",
-      "no": "Не"
-    },
+    "results": "резултати",
+    "result": "резултат",
+    "new": "нови",
+    "singleNew": "нов",
+    "more": "повеќе",
+    "selectNeighbourhood": "Изберете населба",
+    "loweredPriceResults": "резултати со намалена цена",
+    "defaultType": "Домови",
+    "defaultLocation": "Скопје",
     "filters": {
       "clearAll": "Избриши ги сите",
       "title": "Филтри",
@@ -75,6 +67,7 @@
       "viewResults": "Прикажи {count} резултати",
       "results": "{count} резултати",
       "result": "резултат",
+
       "location": {
         "label": "Локација",
         "notActivePlaceholder": "Внесете најмалку 3 карактери",
@@ -86,26 +79,10 @@
         "residential": "Живеалишта",
         "commercial": "Комерцијални",
         "land": "Земјишта",
+        "all": "Сите",
         "other": "Друго"
       },
-      "type": {
-        "all_types": "Сите типови",
-        "label": "Подтип на имот",
-        "emptyPlaceholder": "Подтип",
-        "construction": "Градба",
-        "agricultural": "Селска земја",
-        "other": "Друго",
-        "apartment": "Стан",
-        "house": "Куќа",
-        "vacation_house": "Летен дом",
-        "office": "Канцеларија",
-        "store": "Дуќан",
-        "warehouse": "Склад",
-        "industrial_space": "Индустриски објекти",
-        "garage": "Гаража",
-        "business": "Бизнис",
-        "assembly_facilities": "Монтажни објекти"
-      },
+
       "price": {
         "label": "Цена",
         "from": "од",
@@ -181,15 +158,30 @@
         "parking": "Паркинг",
         "yard": "Двор"
       }
-    },
+    }
+  },
+  "common": {
     "actions": {
-      "save": "зачувај",
+      "hide": "Сокриј",
+      "sort": "Сортирај",
+      "saved": "Зачувано",
+      "print": "Испечати",
+      "notes": "Белешки",
+      "publish": "Објави",
+      "next": "Следно",
+      "search": "Пребарај",
+      "submit": "Потврди",
+      "cancel": "Откажи",
+      "back": "Назад",
+      "share": "Сподели",
+      "save": "Зачувај",
+      "contact": "Контактирај",
+      "reveal": "Прикажи",
+      "signIn": "Најави се",
       "saveChanges": "Зачувај промени",
-      "saved": "зачувано",
       "saveSearch": "Зачувај пребарување",
       "on": "Да",
       "off": "Не",
-      "cancel": "Откажи",
       "showMore": "Цел текст",
       "showLess": "Скриј текст"
     },
@@ -199,41 +191,56 @@
       "for": "за",
       "and": "и",
       "no": "не",
+      "yes": "Да",
       "without": "без",
       "filledOut": "пополнет",
       "done": "завршен",
       "monthly": "месечно"
     },
-    "search": {
-      "results": "резултати",
-      "noResults": "нема резултати",
-      "result": "резултат",
-      "new": "нови",
-      "singleNew": "нов",
-      "more": "повеќе",
-      "selectNeighbourhood": "Изберете населба",
-      "loweredPriceResults": "резултати со намалена цена",
-      "defaultType": "Домови",
-      "defaultLocation": "Скопје"
-    },
     "property": {
       "type": {
-        "house": "куќа",
-        "apartment": "стан",
-        "office": "канцеларија",
-        "land": "земјиште",
-        "warehouse": "склад",
-        "agricultural": "селска земја",
-        "industrial_space": "индустриски објекти",
-        "assembly_facilities": "монтажни објекти",
-        "garage": "гаража",
-        "store": "дуќан",
-        "construction": "во градба",
-        "other": "други",
-        "commercial": "Комерцијален",
-        "vacation_house": "Летен дом",
+        "all_types": "Сите типови",
+        "label": "Подтип на имот",
+        "emptyPlaceholder": "Подтип",
+        "residential": "За живеење",
+        "construction": "Во градба",
+        "agricultural": "Селска земја",
+        "apartment": "Стан",
         "business": "Бизнис",
-        "residential": "За живеење"
+        "house": "Куќа",
+        "vacation_house": "Летен дом",
+        "office": "Канцелариски простор",
+        "warehouse": "Склад",
+        "industrial_space": "Индустриски објекти",
+        "assembly_facilities": "Монтажни објекти",
+        "garage": "Гаража",
+        "store": "Комерцијален простор",
+        "other": "Други"
+      },
+      "feature": {
+        "category": {
+          "OTHER": "Други",
+          "INTERNAL": "Внатрешни",
+          "EXTERNAL": "Надворешни"
+        },
+        "keys": {
+          "parking": "Паркинг",
+          "elevator": "Лифт",
+          "balcony": "Балкон",
+          "yard": "Двор",
+          "basement": "Подрум",
+          "internet": "Интернет",
+          "cabel_tv": "Кабелска",
+          "close_to_center": "Близу до центар",
+          "quiet_neighbourhood": "Тивка населба"
+        }
+      },
+      "category": {
+        "title": "Категорија",
+        "land": "Земја",
+        "residential": "За живеење",
+        "commercial": "Комерцијален",
+        "other": "Други"
       },
       "area": "м²",
       "price": "цена",
@@ -267,7 +274,6 @@
       "insideFeatures": "Внатрешни карактеристики",
       "outsideFeatures": "Надворешни карактеристики",
       "location": "Локација",
-
       "publisher": "Објавувач",
       "publisherDetails": {
         "preferredContactMethod": "Префериран начин на контакт",
@@ -290,45 +296,10 @@
     },
     "cannotBeChanged": "(не може да се промени подоцна!)",
     "listing": {
-      "type": {
-        "construction": "Во градба",
-        "agricultural": "Селска земја",
-        "apartment": "Стан",
-        "business": "Бизнис",
-        "house": "Куќа",
-        "vacation_house": "Летен дом",
-        "office": "Канцелариски простор",
-        "warehouse": "Склад",
-        "industrial_space": "Индустриски објекти",
-        "assembly_facilities": "Монтажни објекти",
-        "garage": "Гаража",
-        "store": "Комерцијален простор",
-        "other": "Други"
-      },
       "defaultMunicipality": "Општина",
       "updated": "Ажурирано",
       "published": "Објавено на",
-      "features": {
-        "floor": "Кат",
-        "bedrooms": "Спални соби",
-        "bedroomsAbbr": "сс",
-        "bathrooms": "Бањи",
-        "bathroomsAbbr": "б"
-      },
-      "sorting": {
-        "new": "Нов",
-        "low_price": "Најниска цена",
-        "high_price": "Највисока цена"
-      },
-      "labels": {
-        "featured": "Истакнат оглас",
-        "exactLocation": "Точна локација на мапа",
-        "sort": "Сортирај"
-      },
-      "actions": {
-        "hide": "Сокриј",
-        "contact": "Контактирај"
-      },
+
       "featuredListing": "Истакнат оглас",
       "exactLocation": "Точна локација на мапа",
       "propertyDetails": "{type}, {area}м²",
@@ -366,49 +337,16 @@
       "lastNamePlaceholder": "Вашето презиме"
     }
   },
-  "header": {
-    "createListing": "Нов оглас",
-    "userControls": {
-      "profile": "Профил",
-      "logout": "Одјави се"
-    }
-  },
-  "footer": {
-    "About Us": "За нас",
-    "Contact": "Контакт",
-    "Categories": "Категории",
-    "Cookies": "Политика за колачиња",
-    "CookiesAcknowledgement": "OK",
-    "CookiesDescription": "Ние користиме колачиња за подобрување на вашата навигација на нашиот веб-сајт.",
-
-    "Terms of Use": "Услови за користење",
-    "Policies": "Политика за приватност",
-    "Terms": "Услови",
-    "Sale": "Продажба",
-    "Rental": "Изнајмување",
-    "Station Categories": "Категории на стан",
-    "allRightsReserved": "Сите права се задржани"
-  },
-  "home": {
-    "search": {
-      "title": "Пронајди ја твојата следна адреса"
-    },
-    "sections": {
-      "lastSearches": "Последни пребарувања",
-      "lastOpenedListings": {
-        "lastOpened": "Последно прегледани огласи"
-      },
-      "suggested": "Препорачани имоти",
-      "agencies": "Препорачани агенции",
-      "featuredListings": "Истакнати огласи",
-      "featuredAgencies": "Промовирани агенции"
-    },
-    "userGreeting": {
-      "greeting": "Здраво",
-      "dashboard": "Вашата контролна табла"
-    }
-  },
   "listing": {
+    "sorting": {
+      "new": "Нов",
+      "low_price": "Најниска цена",
+      "high_price": "Највисока цена"
+    },
+    "labels": {
+      "featured": "Истакнат оглас",
+      "exactLocation": "Точна локација на мапа"
+    },
     "fieldsKeys": {
       "importantFeatures": {
         "floor": "кат",
@@ -443,46 +381,7 @@
       "isCornerProperty": "на крајот",
       "isOnTopFloor": "на најгорниот кат"
     },
-    "feature": {
-      "category": {
-        "OTHER": "Други",
-        "INTERNAL": "Внатрешни",
-        "EXTERNAL": "Надворешни"
-      },
-      "keys": {
-        "parking": "Паркинг",
-        "elevator": "Лифт",
-        "balcony": "Балкон",
-        "yard": "Двор",
-        "basement": "Подрум",
-        "internet": "Интернет",
-        "cabel_tv": "Кабелска",
-        "close_to_center": "Близу до центар",
-        "quiet_neighbourhood": "Тивка населба"
-      }
-    },
-    "category": {
-      "title": "Категорија",
-      "land": "Земја",
-      "residential": "За живеење",
-      "commercial": "Комерцијален",
-      "other": "Други"
-    },
-    "type": {
-      "construction": "Во градба",
-      "agricultural": "Селска земја",
-      "apartment": "Стан",
-      "business": "Бизнис",
-      "house": "Куќа",
-      "vacation_house": "Летен дом",
-      "office": "Канцелариски простор",
-      "warehouse": "Склад",
-      "industrial_space": "Индустриски објекти",
-      "assembly_facilities": "Монтажни објекти",
-      "garage": "Гаража",
-      "store": "Комерцијален простор",
-      "other": "Други"
-    },
+
     "transactionType": {
       "title": "За",
       "sale": "Продажба",
@@ -493,15 +392,6 @@
       "properties": "Имоти",
       "search": "Пребарување",
       "listing": "Оглас"
-    },
-    "actions": {
-      "share": "Сподели",
-      "save": "Зачувај",
-      "saved": "Зачувано",
-      "contact": "Контактирај",
-      "print": "Испечати",
-      "notes": "Белешки",
-      "hide": "Сокриј"
     },
     "contact": {
       "title": "Контактирај го продавачот",
@@ -839,11 +729,6 @@
             "description": "Поставете ја цена��а"
           }
         }
-      },
-      "actions": {
-        "submit": "Објави",
-        "next": "Следно",
-        "back": "Назад"
       }
     },
     "listingImages": {
@@ -855,7 +740,47 @@
       "moreImages": "Уште {count} слики"
     }
   },
-  "MortgageCalculator": {
+  "header": {
+    "createListing": "Нов оглас",
+    "userControls": {
+      "profile": "Профил",
+      "logout": "Одјави се"
+    }
+  },
+  "footer": {
+    "About Us": "За нас",
+    "Contact": "Контакт",
+    "Categories": "Категории",
+    "Cookies": "Политика за колачиња",
+    "CookiesAcknowledgement": "OK",
+    "CookiesDescription": "Ние користиме колачиња за подобрување на вашата навигација на нашиот веб-сајт.",
+    "Terms of Use": "Услови за користење",
+    "Policies": "Политика за приватност",
+    "Terms": "Услови",
+    "Sale": "Продажба",
+    "Rental": "Изнајмување",
+    "Station Categories": "Категории на стан",
+    "allRightsReserved": "Сите права се задржани"
+  },
+  "home": {
+    "title": "Пронајди ја твојата следна адреса",
+    "sections": {
+      "lastSearches": "Последни пребарувања",
+      "lastOpenedListings": {
+        "lastOpened": "Последно прегледани огласи"
+      },
+      "suggested": "Препорачани имоти",
+      "agencies": "Препорачани агенции",
+      "featuredListings": "Истакнати огласи",
+      "featuredAgencies": "Промовирани агенции"
+    },
+    "userGreeting": {
+      "greeting": "Здраво",
+      "dashboard": "Вашата контролна табла"
+    }
+  },
+
+  "mortgageCalculator": {
     "title": "Калкулатор за хипотека",
     "homePrice": "Цена на дом",
     "downPayment": "Учество",

@@ -10,7 +10,7 @@ export default function Step1({ listing }: { listing: Listing }) {
   const listingTypeOptionsTranslated = listing.category
     ? listingTypeOptions[listing.category].map((option) => {
         return {
-          label: t(`listing.type.${option}`),
+          label: t(`common.property.type.${option}`),
           value: option,
         };
       })
@@ -25,7 +25,7 @@ export default function Step1({ listing }: { listing: Listing }) {
       <Separator className="my-2 mt-4" />
 
       <div className="flex flex-col gap-1">
-        <h2 className="font-semibold">{t("listing.category.title")}</h2>
+        <h2 className="font-semibold">{t("common.property.category.title")}</h2>
         <span className="text-sm">
           {t(`listing.category.${listing.category}`)}
         </span>

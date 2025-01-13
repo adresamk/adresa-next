@@ -87,7 +87,8 @@ export default function SearchShowcase({
               <ImagesCarousel images={images} height={240} width={260} />
             </div>
             <figcaption className="hidden">
-              {t(`listing.type.${listing.type}`)}, {displayArea(listing.area)}
+              {t(`common.property.type.${listing.type}`)},{" "}
+              {displayArea(listing.area)}
             </figcaption>
           </figure>
           <div className="relative flex-1 px-5 pb-2.5 pt-3.5">
@@ -96,7 +97,7 @@ export default function SearchShowcase({
                 <div className="flex items-start gap-2">
                   <h3 className="mb-1.5 overflow-hidden text-lg font-medium leading-6">
                     <span className="capitalize">
-                      {t(`listing.type.${listing.type}`)}
+                      {t(`common.property.type.${listing.type}`)}
                     </span>
                     , {displayArea(listing.area)}
                   </h3>
@@ -139,7 +140,7 @@ export default function SearchShowcase({
                 <div className="flex items-center gap-6">
                   <ul className="flex gap-1.5">
                     <li
-                      title={t("listing.features.floor")}
+                      title={t("common.property.features.floor")}
                       className="flex items-center text-xs tracking-tighter"
                     >
                       <LampFloor width={17} height={17} className="mr-1" />
@@ -150,7 +151,7 @@ export default function SearchShowcase({
                       </span>
                     </li>
                     <li
-                      title={t("listing.features.bedrooms")}
+                      title={t("common.property.features.bedrooms")}
                       className="flex items-center text-xs tracking-tighter"
                     >
                       <Bed width={17} height={17} className="mr-1" />
@@ -158,11 +159,11 @@ export default function SearchShowcase({
                         <span className="mr-0.5 text-sm font-medium">
                           {/* {listing.bedrooms} */}
                         </span>
-                        {t("listing.features.bedroomsAbbr")}
+                        {t("common.property.features.bedroomsAbbr")}
                       </span>
                     </li>
                     <li
-                      title={t("listing.features.bathrooms")}
+                      title={t("common.property.features.bathrooms")}
                       className="flex items-center text-xs tracking-tighter"
                     >
                       <Bath width={17} height={17} className="mr-1" />
@@ -170,7 +171,7 @@ export default function SearchShowcase({
                         <span className="mr-0.5 text-sm font-medium">
                           {/* {listing.bathrooms} */}
                         </span>
-                        {t("listing.features.bathroomsAbbr")}
+                        {t("common.property.features.bathroomsAbbr")}
                       </span>
                     </li>
                   </ul>

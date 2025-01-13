@@ -48,9 +48,9 @@ export default async function FeaturedAgencies() {
             >
               <span>{agency.listings.length}</span>
               <span className="ml-1">
-                {agency.listings.length === 0 && t("common.search.noResults")}
-                {agency.listings.length === 1 && t("common.search.result")}
-                {agency.listings.length > 1 && t("common.search.results")}
+                {agency.listings.length === 0 && t("search.noResults")}
+                {agency.listings.length === 1 && t("search.result")}
+                {agency.listings.length > 1 && t("search.results")}
               </span>
             </Link>
 

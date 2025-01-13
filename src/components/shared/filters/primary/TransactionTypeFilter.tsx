@@ -55,7 +55,7 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
               transactionType !== "sale" && "border border-brand-light-blue",
             )}
           >
-            {t("common.filters.mode.sale")}
+            {t("search.filters.mode.sale")}
           </Button>
           <Button
             onClick={() => {
@@ -71,7 +71,7 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
               transactionType !== "rent" && "border border-brand-light-blue",
             )}
           >
-            {t("common.filters.mode.rent")}
+            {t("search.filters.mode.rent")}
           </Button>
         </div>
       )}
@@ -85,8 +85,8 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
             >
               <span className="capitalize">
                 {transactionType
-                  ? t(`common.filters.mode.${transactionType}`)
-                  : t("common.filters.mode.availableFor")}
+                  ? t(`search.filters.mode.${transactionType}`)
+                  : t("search.filters.mode.availableFor")}
               </span>
               <ChevronDown
                 width={20}
@@ -117,7 +117,7 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
                     "bg-green-50 text-brand-dark-blue",
                 )}
               >
-                {t("common.filters.mode.sale")}
+                {t("search.filters.mode.sale")}
               </li>
               <li
                 className={cn(
@@ -140,7 +140,7 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
                   }
                 }}
               >
-                {t("common.filters.mode.rent")}
+                {t("search.filters.mode.rent")}
               </li>
             </ul>
           </PopoverContent>

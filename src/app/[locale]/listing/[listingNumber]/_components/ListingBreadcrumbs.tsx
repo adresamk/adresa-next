@@ -45,7 +45,7 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
       <BreadcrumbList className="justify-center gap-0.5 md:gap-0.5">
         <BreadcrumbItem className="text-xs">
           <BreadcrumbLink href={`/search?mode=${listing.transactionType}`}>
-            {t("common.filters.mode." + listing.transactionType)}
+            {t("search.filters.mode." + listing.transactionType)}
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -59,7 +59,7 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
             }}
           >
             <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
-              <SelectValue placeholder={t("common.filters.location.label")} />
+              <SelectValue placeholder={t("search.filters.location.label")} />
             </SelectTrigger>
             <SelectContent>
               {municipalitiesOptions.map((municipality) => (
@@ -84,7 +84,7 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
               >
                 <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
                   <SelectValue
-                    placeholder={t("common.filters.location.label")}
+                    placeholder={t("search.filters.location.label")}
                   />
                 </SelectTrigger>
                 <SelectContent>

@@ -43,7 +43,7 @@ export default function ListingsListTitle() {
       return municipality;
     })
     .join(", ");
-  const title = `${t(`common.filters.category.${category}`)} ${t("common.words.for")} ${t(`common.filters.mode.${transactionType}`).toLowerCase()}:${locationLabel}`;
+  const title = `${t(`search.filters.category.${category}`)} ${t("common.words.for")} ${t(`search.filters.mode.${transactionType}`).toLowerCase()}:${locationLabel}`;
 
   return (
     <div className="flex items-start justify-between">

@@ -18,7 +18,7 @@ export default function InitialStep() {
   const listingCategoryOptionsTranslated = listingCategoryOptions.map(
     (option) => {
       return {
-        label: t(`common.listing.categoryOptions.${option}`),
+        label: t(`common.property.categoryOptions.${option}`),
         value: option,
       };
     },
@@ -35,7 +35,7 @@ export default function InitialStep() {
   const listingTypeOptionsTranslated = listingCategory
     ? listingTypeOptions[listingCategory as PropertyCategory].map((option) => {
         return {
-          label: t(`listing.type.${option}`),
+          label: t(`common.property.type.${option}`),
           value: option,
         };
       })

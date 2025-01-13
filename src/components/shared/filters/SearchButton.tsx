@@ -50,10 +50,10 @@ export default function SearchButton({ variant }: SearchButtonProps) {
         ) : (
           <>
             {newDestination === "#"
-              ? t("common.buttons.search")
+              ? t("common.actions.search")
               : listingCount === 1
-                ? "1 " + t("common.filters.result")
-                : t("common.filters.results", { count: listingCount })}
+                ? "1 " + t("search.filters.result")
+                : t("search.filters.results", { count: listingCount })}
             <Search className="ml-3 h-4 w-4" />
           </>
         )}

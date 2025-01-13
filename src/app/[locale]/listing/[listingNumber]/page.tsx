@@ -124,7 +124,7 @@ export default async function SingleListingPage({
 
   // console.log("Listing", listing);
   // console.log("Listing", {
-  //   cateogry: listing.category,
+  //   cateogry: common.property.category,
   //   tType: listing.transactionType,
   //   // lF: lwr.listingFeatures,
   // });
@@ -143,7 +143,7 @@ export default async function SingleListingPage({
   let title = listing[`${locale}Title` as keyof ListingTitles] || "";
 
   const fullAddress = `${currentMunicipalityLabel}, ${currentPlaceLabel}, ${listing.address}`;
-  const pinPopupText = `${t(`listing.type.${listing.type}`)}, ${displayArea(listing.area)}, ${currentPlaceLabel}, ${currentMunicipalityLabel}, `;
+  const pinPopupText = `${t(`common.property.type.${listing.type}`)}, ${displayArea(listing.area)}, ${currentPlaceLabel}, ${currentMunicipalityLabel}, `;
   // const rawListing = await getListing(listingNumber);
   // const listing = serializeDates(rawListing);
   // const publisherData = extractPublisherData(listing);

@@ -90,7 +90,7 @@ export default async function ProfileInfoPage() {
           />
         </div>
 
-        <Button>{t("common.buttons.save")}</Button>
+        <Button>{t("common.actions.save")}</Button>
       </form>
     </div>
   );

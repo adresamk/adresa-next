@@ -23,11 +23,11 @@ export default function SortingFilter() {
   const t = useTranslations();
   const sortingOptionsTranslated = sortingOptions.map((option) => ({
     ...option,
-    label: t(`common.listing.sorting.${option.value}`),
+    label: t(`listing.sorting.${option.value}`),
   }));
   return (
     <SelectDemo
-      placeholder={t("common.listing.labels.sort")}
+      placeholder={t("listing.labels.sort")}
       triggerWidth="w-fit"
       value={sorting}
       options={sortingOptionsTranslated}

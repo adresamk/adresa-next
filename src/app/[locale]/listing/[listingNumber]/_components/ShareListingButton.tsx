@@ -64,7 +64,7 @@ export default function ShareListingButton({
     <>
       <Button
         size="icon"
-        title={t("listing.actions.share")}
+        title={t("common.actions.share")}
         variant="outline"
         className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         onClick={() => setIsOpen(true)}
@@ -91,7 +91,7 @@ export default function ShareListingButton({
             </Button>
 
             <h2 className="mb-6 text-center text-2xl font-semibold">
-              {t("listing.actions.share")}
+              {t("common.actions.share")}
             </h2>
 
             <div className="grid grid-cols-2 gap-4">

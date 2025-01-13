@@ -166,7 +166,8 @@ enum FeatureCategory {
   EXTERNAL
 
   UTILITIES
-  ROOMS
+  CONSTRUCTION
+  SUITABLE_FOR
   RESIDENTAL_OTHER
   OTHER
 }
@@ -176,6 +177,7 @@ enum PropertyCategory {
   commercial
   land
   other
+  all
 }
 
 model ListingFeature {

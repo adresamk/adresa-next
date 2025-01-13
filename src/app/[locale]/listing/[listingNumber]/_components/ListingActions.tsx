@@ -19,7 +19,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
           <Button
             disabled
             size={"icon"}
-            title={t("listing.actions.print")}
+            title={t("common.actions.print")}
             variant={"outline"}
             className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
           >
@@ -35,7 +35,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
           <Button
             disabled
             size={"icon"}
-            title={t("listing.actions.notes")}
+            title={t("common.actions.notes")}
             variant={"outline"}
             className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
           >
@@ -48,7 +48,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
           <Button
             disabled
             size={"icon"}
-            title={t("listing.actions.hide")}
+            title={t("common.actions.hide")}
             variant={"outline"}
             className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
           >
@@ -73,7 +73,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
             });
           }}
           size={"icon"}
-          title={t("listing.actions.contact")}
+          title={t("common.actions.contact")}
           variant={"outline"}
           className="border border-gray-500 text-brand-light-blue hover:text-brand-dark-blue"
         >

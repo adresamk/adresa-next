@@ -76,7 +76,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           <p className="text-sm capitalize">{municipalityName}</p>
         )}
       </CardContent>
-      <CardFooter className="@container mt-auto flex justify-around px-4 pb-3">
+      <CardFooter className="mt-auto flex justify-around px-4 pb-3 @container">
         <div className="prices gap 2 relative flex items-center">
           <div className="text-lg font-bold">{displayPrice(listing.price)}</div>
           {listing.previousPrice &&

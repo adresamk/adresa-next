@@ -197,7 +197,7 @@ function generateStepDescriptions(
         properties.push(t(`listing.category.${listing.category}`));
       }
       if (listing.type) {
-        properties.push(t(`listing.type.${listing.type}`));
+        properties.push(t(`common.property.type.${listing.type}`));
       }
       descriptions[step.key] = properties.length
         ? properties.map(capitalizeString).join(", ")

@@ -72,8 +72,8 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
                 </label>
                 <div className="flex h-10 items-center text-sm">
                   {category && type
-                    ? t(`common.filters.type.${type}`)
-                    : t("common.filters.type.emptyPlaceholder")}
+                    ? t(`search.filters.type.${type}`)
+                    : t("search.filters.type.emptyPlaceholder")}
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
             className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
           >
             <span className="capitalize">
-              {t(`common.filters.type.${type || "all_types"}`)}
+              {t(`search.filters.type.${type || "all_types"}`)}
             </span>
             <ChevronDown width={20} className="h-4 w-4 md:ml-2 md:h-5 md:w-5" />{" "}
           </Button>
@@ -128,7 +128,7 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
                     setIsOpen(false);
                   }}
                 >
-                  {t(`common.filters.type.${_type}`)}
+                  {t(`search.filters.type.${_type}`)}
                 </li>
               );
             })}

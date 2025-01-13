@@ -23,12 +23,11 @@ export default function ListingsList({ listings }: ListingListProps) {
       <div className="my-2.5 flex items-center justify-between">
         <div className="text-sm">
           <span>
-            {listings.length} {t("common.search.results")}
+            {listings.length} {t("search.results")}
           </span>{" "}
           {loweredPriceListings > 0 && (
             <span className="cursor-pointer text-brand-light-blue">
-              {"|"} {loweredPriceListings}{" "}
-              {t("common.search.loweredPriceResults")}
+              {"|"} {loweredPriceListings} {t("search.loweredPriceResults")}
             </span>
           )}
         </div>

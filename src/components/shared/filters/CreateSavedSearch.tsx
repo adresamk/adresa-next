@@ -81,9 +81,9 @@ export default function CreateSavedSearch() {
                 // setSearchParams(e.target.value);
               }}
             />
-            <Label htmlFor="name">{t("common.inputs.savedSearchName")}</Label>
+            <Label htmlFor="name">{t("savedSearches.savedSearchName")}</Label>
             <Input
-              placeholder={t("common.inputs.savedSearchNamePlaceholder")}
+              placeholder={t("savedSearches.savedSearchNamePlaceholder")}
               required
               minLength={3}
               maxLength={50}

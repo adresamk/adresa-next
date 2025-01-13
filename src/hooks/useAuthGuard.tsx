@@ -42,14 +42,14 @@ export function useAuthGuard() {
               setIsAuthDialogOpen(false);
             }}
           >
-            {t("common.buttons.cancel")}
+            {t("common.actions.cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               setIsAuthDialogOpen(false);
             }}
           >
-            <Link href="/signin">{t("common.buttons.signIn")}</Link>
+            <Link href="/signin">{t("common.actions.signIn")}</Link>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

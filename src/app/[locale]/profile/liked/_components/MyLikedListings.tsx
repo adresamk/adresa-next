@@ -20,7 +20,7 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
               activeFilter === "sale" && "bg-brand-light-blue text-white",
             )}
           >
-            {t("common.filters.mode.sale")}
+            {t("search.filters.mode.sale")}
           </div>
           <div
             onClick={() => setActiveFilter("rent")}
@@ -29,7 +29,7 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
               activeFilter === "rent" && "bg-brand-light-blue text-white",
             )}
           >
-            {t("common.filters.mode.rent")}
+            {t("search.filters.mode.rent")}
           </div>
           <div
             onClick={() => setActiveFilter("all")}
@@ -38,7 +38,7 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
               activeFilter === "all" && "bg-brand-light-blue text-white",
             )}
           >
-            {t("common.filters.mode.all")}
+            {t("search.filters.mode.all")}
           </div>
         </div>
         <div>{t("user.profile.likedListings.sort")} </div>

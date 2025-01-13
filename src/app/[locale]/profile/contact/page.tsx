@@ -140,7 +140,7 @@ export default async function ProfileInfoPage({
             options={prefferedContactMethodOptionsTranslated}
           />
         </div>
-        <Button>{t("common.buttons.save")}</Button>
+        <Button>{t("common.actions.save")}</Button>
       </form>
     </div>
   );

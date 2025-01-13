@@ -66,12 +66,12 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
                   htmlFor={"category"}
                 >
                   {<House className="h-4 w-4" />}
-                  {t("common.filters.category.label")}
+                  {t("search.filters.category.label")}
                 </label>
                 <div className="flex h-10 items-center text-sm">
-                  {(category && t(`common.filters.category.${category}`)) || (
+                  {(category && t(`search.filters.category.${category}`)) || (
                     <span className="text-gray-400">
-                      {t("common.filters.category.emptyPlaceholder")}
+                      {t("search.filters.category.emptyPlaceholder")}
                     </span>
                   )}
                 </div>
@@ -88,8 +88,8 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
           >
             <span className="capitalize">
               {category
-                ? t(`common.filters.category.${category}`)
-                : t("common.filters.category.label")}
+                ? t(`search.filters.category.${category}`)
+                : t("search.filters.category.label")}
             </span>
             <ChevronDown width={20} className="h-4 w-4 md:ml-2 md:h-5 md:w-5" />{" "}
           </Button>
@@ -131,7 +131,7 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
                   setIsOpen(false);
                 }}
               >
-                {t(`common.filters.category.${_category}`)}
+                {t(`search.filters.category.${_category}`)}
               </li>
             ),
           )}
