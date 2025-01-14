@@ -27,7 +27,9 @@ export function Form({
   return (
     <form onSubmit={handleSubmit} className={className}>
       {children}
-      <p className="my-3 text-red-400">{t(`errors.${state.error}`)}</p>
+      {state.error && (
+        <p className="my-3 text-red-400">{t(`errors.${state.error}`)}</p>
+      )}
     </form>
   );
 }

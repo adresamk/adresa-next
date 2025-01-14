@@ -8,7 +8,7 @@
     "buildnolint": "next build --no-lint",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "npx prisma generate",
+    "postinstall": "npx prisma generate && npx prisma db push",
     "migration:create": "prisma migrate dev --create-only",
     "migration": "prisma migrate deploy",
     "seed": "tsx ./prisma/seeds/ual.ts",
