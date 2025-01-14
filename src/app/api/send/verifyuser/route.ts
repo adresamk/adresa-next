@@ -12,11 +12,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   // authorization
 
   try {
-    const { userName, verificationLink } = await request.json();
+    const { userName, verificationLink, email } = await request.json();
 
     const { data, error } = await resend.emails.send({
       from: "Adresa <onboarding@resend.dev>",
-      to: ["macesmajli@gmail.com"],
+      to: [email],
       subject: "Verify your account on Adresa",
       html: await render(VerifyUserEmail({ userName, verificationLink })),
     });

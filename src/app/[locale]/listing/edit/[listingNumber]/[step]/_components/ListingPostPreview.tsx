@@ -28,7 +28,7 @@ export default function ListingPostPreview({
               <img
                 src={mainImage?.url || "/assets/missing-image2.jpg"}
                 className="rounded-md object-cover"
-                alt={`${t(`search.filters.type.${listing.type}`)}, ${t(`search.filters.mode.${listing.transactionType}`)}, ${displayArea(listing.area)}`}
+                alt={`${t(`common.property.type.${listing.type}`)}, ${t(`search.filters.mode.${listing.transactionType}`)}, ${displayArea(listing.area)}`}
                 width="110"
                 height="80"
               />
@@ -40,7 +40,7 @@ export default function ListingPostPreview({
           </div>
           <div className="flex-grow pb-4 font-semibold">
             <h4>
-              {t(`search.filters.type.${listing.type}`)},{" "}
+              {t(`common.property.type.${listing.type}`)},{" "}
               {t(`search.filters.mode.${listing.transactionType}`)},{" "}
               {displayArea(listing.area)}
             </h4>

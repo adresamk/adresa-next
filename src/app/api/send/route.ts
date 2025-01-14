@@ -8,11 +8,11 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const { userName } = await request.json();
+    const { userName, email } = await request.json();
 
     const { data, error } = await resend.emails.send({
       from: "Adresa <onboarding@resend.dev>",
-      to: ["macesmajli@gmail.com"],
+      to: [email],
       subject: "Welcome to Adresa",
       html: await render(AdresaWelcomeEmail({ userName })), // render doesn't need to be awaited
     });

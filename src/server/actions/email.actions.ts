@@ -14,7 +14,7 @@ export async function sendVerificationEmail(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userName: emailTemp, verificationLink }),
+      body: JSON.stringify({ userName: email, email, verificationLink }),
     },
   );
   // console.log("response", response);
@@ -38,7 +38,7 @@ export async function sendResetPasswordEmail(
 ) {
   console.log("resetPasswordLink ", resetPasswordLink);
 
-  const emailTemp = "macesmajli@gmail.com";
+  // const emailTemp = "macesmajli@gmail.com";
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/send/resetpassword`,
     {
@@ -46,7 +46,7 @@ export async function sendResetPasswordEmail(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: emailTemp, resetPasswordLink }),
+      body: JSON.stringify({ email, resetPasswordLink }),
     },
   );
 }
