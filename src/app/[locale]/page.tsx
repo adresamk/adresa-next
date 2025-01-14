@@ -1,8 +1,5 @@
-import SuggestedProperties from "./_components/SuggestedProperties";
 import Banner from "@/components/shared/Banner";
-import SuggestedAgencies from "./_components/SuggestedAgencies";
 import SearchHero from "./_components/SearchHero";
-import { getUser } from "@/lib/auth";
 import UserGreeting from "./_components/UserGreeting";
 import LastSearches from "./_components/LastSearches";
 import RecentlyViewedListings from "./_components/RecentlyViewedListings";
@@ -42,7 +39,7 @@ export default async function Home() {
         )}
         {/* <SuggestedProperties /> */}
         <FeaturedListings />
-        <Banner />
+        {/* <Banner /> */}
         {/* <SuggestedAgencies /> */}
         <FeaturedAgencies />
       </section>

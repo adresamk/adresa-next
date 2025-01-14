@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { startTransition } from "react";
 
 export function Form({
@@ -13,6 +14,7 @@ export function Form({
   state: ActionResult;
   className?: string;
 }) {
+  const t = useTranslations("auth");
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -25,7 +27,7 @@ export function Form({
   return (
     <form onSubmit={handleSubmit} className={className}>
       {children}
-      <p className="my-3 text-red-400">{state.error}</p>
+      <p className="my-3 text-red-400">{t(`errors.${state.error}`)}</p>
     </form>
   );
 }

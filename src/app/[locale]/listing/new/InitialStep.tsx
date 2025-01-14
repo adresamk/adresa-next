@@ -52,7 +52,7 @@ export default function InitialStep() {
       <RadioGroupDemo
         name="category"
         required
-        title={t("listing.new.propertyType.label")}
+        title={t("common.property.type..label")}
         description={t("common.cannotBeChanged")}
         options={listingCategoryOptionsTranslated}
         onChange={function (value: string) {
@@ -67,7 +67,7 @@ export default function InitialStep() {
       <RadioGroupDemo
         name="type"
         required
-        title={t("listing.new.propertyType.label")}
+        title={t("common.property.type..label")}
         options={listingTypeOptionsTranslated}
         onChange={function (value: string) {
           // @ts-ignore
@@ -80,7 +80,7 @@ export default function InitialStep() {
       <RadioGroupDemo
         required
         name="transactionType"
-        title={t("listing.new.listingType.label")}
+        title={t("listing.new.transactionType.label")}
         description={t("common.cannotBeChanged")}
         options={listingTransactionTypeOptionsTranslated}
         onChange={function (value: string) {

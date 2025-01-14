@@ -29,10 +29,10 @@ export async function signIn(
   // this should be done in middleware and the cookies to be attached there
   const { session: existingSession } = await getCurrentSession();
   if (existingSession) {
-    console.log("session, already logged in", existingSession);
+    // console.log("session, already logged in", existingSession);
     // redirect("/");
     return {
-      error: "You are already logged in",
+      error: "alreadyLoggedIn",
       success: false,
     };
   }
@@ -42,16 +42,15 @@ export async function signIn(
 
   if (!email || !emailRegex.test(email)) {
     return {
-      error: "Invalid email",
+      error: "invalidEmail",
       success: false,
     };
   }
   const password = formData.get("password");
-  console.log("Sent email and password", email, password);
 
   if (typeof password !== "string") {
     return {
-      error: "Invalid password",
+      error: "invalidPassword",
       success: false,
     };
   }
@@ -62,10 +61,9 @@ export async function signIn(
     },
   });
 
-  console.log("Existing account", existingAccount);
   if (!existingAccount) {
     return {
-      error: "Account with that email doesn't exist",
+      error: "accountDoesNotExist",
       success: false,
     };
   }
@@ -90,7 +88,7 @@ export async function signIn(
     // it is crucial your implementation is protected against brute-force attacks with login throttling, 2FA, etc.
     // If usernames are public, you can outright tell the user that the username is invalid.
     return {
-      error: "Incorrect username or password",
+      error: "incorrectEmailOrPassword",
       success: false,
     };
   }
@@ -112,21 +110,21 @@ export async function signUpAsUser(
   if (true) {
     if (!email || !emailRegex.test(email)) {
       return {
-        error: "Invalid email",
+        error: "invalidEmail",
         success: false,
       };
     }
 
     if (typeof password !== "string" || password.length < 5) {
       return {
-        error: "Invalid password, it must be more than 5 characters long",
+        error: "badPasswordFormatting",
         success: false,
       };
     }
 
     if (typeof confirmPassword !== "string" || confirmPassword !== password) {
       return {
-        error: "Make sure confirm password matches password",
+        error: "confirmPasswordDoesNotMatchPassword",
         success: false,
       };
     }
@@ -141,7 +139,7 @@ export async function signUpAsUser(
 
     if (existingAccount) {
       return {
-        error: "An account with that email already exists",
+        error: "accountAlreadyExists",
         success: false,
       };
     }
@@ -180,7 +178,7 @@ export async function signUpAsUser(
     console.error("error", error);
     return {
       success: false,
-      error: "Something went wrong",
+      error: "somethingWentWrong",
     };
   }
 }
@@ -195,21 +193,21 @@ export async function signUpAsAgency(
 
   if (!email || !emailRegex.test(email)) {
     return {
-      error: "Invalid email",
+      error: "invalidEmail",
       success: false,
     };
   }
 
   if (typeof password !== "string") {
     return {
-      error: "Invalid password",
+      error: "invalidPassword",
       success: false,
     };
   }
 
   if (typeof confirmPassword !== "string" || confirmPassword !== password) {
     return {
-      error: "Make sure confirm password matches password",
+      error: "confirmPasswordDoesNotMatchPassword",
       success: false,
     };
   }
@@ -223,7 +221,7 @@ export async function signUpAsAgency(
 
     if (existingAccount) {
       return {
-        error: "An account with that email already exists",
+        error: "accountAlreadyExists",
         success: false,
       };
     }
@@ -260,7 +258,7 @@ export async function signUpAsAgency(
     console.error(error);
     return {
       success: false,
-      error: "Something went wrong",
+      error: "somethingWentWrong",
     };
   }
 }
@@ -306,7 +304,7 @@ export async function getGoogleOAuthConsentURL() {
       },
     );
 
-    console.log("authUrl", authUrl);
+    // console.log("authUrl", authUrl);
     return { success: true, url: authUrl.toString() };
   } catch (error) {
     return {
@@ -382,7 +380,7 @@ export async function checkResetPasswordTokenValidity(token: string) {
   if (!token) {
     return {
       success: false,
-      error: "Invalid token",
+      error: "invalidToken",
     };
   }
 
@@ -395,13 +393,13 @@ export async function checkResetPasswordTokenValidity(token: string) {
   if (!resetPasswordLink) {
     return {
       success: false,
-      error: "Invalid token",
+      error: "invalidToken",
     };
   }
   if (resetPasswordLink.expiresAt < new Date()) {
     return {
       success: false,
-      error: "Token expired",
+      error: "tokenExpired",
     };
   }
 
@@ -422,13 +420,13 @@ export async function resetPassword(
   if (!newPassword || !confirmPassword || !token) {
     return {
       success: false,
-      error: "Passwords and token are required",
+      error: "passwordsAndTokenAreRequired",
     };
   }
   if (newPassword !== confirmPassword) {
     return {
       success: false,
-      error: "Passwords do not match",
+      error: "passwordsDoNotMatch",
     };
   }
 

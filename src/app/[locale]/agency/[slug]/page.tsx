@@ -109,7 +109,10 @@ export default async function AgencyPage({
                 const [transactionType, category, type] = key.split("-");
 
                 return (
-                  <div className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white">
+                  <div
+                    key={key}
+                    className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white"
+                  >
                     <div className="mb-2 flex items-end gap-1">
                       {icons[category as PropertyCategory]}
                       <div>

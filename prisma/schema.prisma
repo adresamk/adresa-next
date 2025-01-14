@@ -177,7 +177,14 @@ enum PropertyCategory {
   commercial
   land
   other
+}
+
+enum ApplicablePropertyCategory {
   all
+  residential
+  commercial
+  land
+  other
 }
 
 model ListingFeature {
@@ -193,15 +200,15 @@ model ListingFeature {
 }
 
 model Feature {
-  id              Int                @id @default(autoincrement())
-  name            String             @db.VarChar(30) // Display name
-  key             String             @unique @db.VarChar(30) // Unique identifier for the feature
+  id              Int                          @id @default(autoincrement())
+  name            String                       @db.VarChar(30) // Display name
+  key             String                       @unique @db.VarChar(30) // Unique identifier for the feature
   category        FeatureCategory
-  applicableTypes PropertyCategory[] // Changed from ListingType[] to PropertyCategory[]
+  applicableTypes ApplicablePropertyCategory[] // Changed from ListingType[] to PropertyCategory[]
   listings        ListingFeature[]
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
-  isActive        Boolean            @default(true)
+  createdAt       DateTime                     @default(now())
+  updatedAt       DateTime                     @updatedAt
+  isActive        Boolean                      @default(true)
 }
 
 enum PropertyType {

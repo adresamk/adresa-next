@@ -41,7 +41,7 @@ export default function Step1({ listing }: { listing: Listing }) {
       <RadioGroupDemo
         name="type"
         defaultValue={listing.type}
-        title={t("listing.new.propertyType.label")}
+        title={t("common.property.type..label")}
         options={listingTypeOptionsTranslated}
       />
     </div>

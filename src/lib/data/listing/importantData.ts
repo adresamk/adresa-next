@@ -58,7 +58,8 @@ export const features: Record<FeatureCategory, string[]> = {
   INTERNAL: ["wifi", "ac", "elevator", "alart", "protectionDoor", "spajz"],
   EXTERNAL: ["garage"],
   UTILITIES: [],
-  ROOMS: ["bedroom", "living", "wcs", "kitchen", "bathroom"],
+  CONSTRUCTION: [],
+  SUITABLE_FOR: [],
   RESIDENTAL_OTHER: [],
   OTHER: [],
 };
