@@ -163,11 +163,14 @@
   "common": {
     "actions": {
       "hide": "Сокриј",
+      "show": "Прикажи",
       "sort": "Сортирај",
       "saved": "Зачувано",
       "print": "Испечати",
       "notes": "Белешки",
       "publish": "Објави",
+      "edit": "Уреди",
+      "delete": "Избриши",
       "next": "Следно",
       "search": "Пребарај",
       "submit": "Потврди",
@@ -186,6 +189,8 @@
       "showLess": "Скриј текст"
     },
     "words": {
+      "createdAt": "креиран на",
+      "publishedAt": "објавен на",
       "listings": "огласи",
       "listing": "оглас",
       "for": "за",
@@ -481,7 +486,7 @@
       },
       "rooms": {
         "label": "Број на соби",
-        "placeholder": "Изберете број на с��би"
+        "placeholder": "Изберете број на соби"
       },
       "floor": {
         "label": "Кат",
@@ -771,10 +776,13 @@
           },
           "pricing": {
             "title": "Цена",
-            "description": "Поставете ја цена��а"
+            "description": "Поставете ја цената"
           }
         }
       }
+    },
+    "errors": {
+      "requiredFields": "Пополнете ги сите потребни полиња!"
     },
     "listingImages": {
       "modalTitle": "{type}, {area}m²",
@@ -880,7 +888,7 @@
         "contactInfoTitle": "Контакт информации за агенцијата",
         "contactPerson": "Контакт личност",
         "contactPersonFullName": "Име и презиме на контакт личност",
-        "contactPersonFullNamePlaceholder": "Ваш��то име и презиме",
+        "contactPersonFullNamePlaceholder": "Вашето име и презиме",
         "contactPersonEmail": "Е-пошта на контакт личност",
         "contactPersonEmailPlaceholder": "Вашата е-пошта",
         "contactPersonPhone": "Телефон на контакт личност",
@@ -961,7 +969,7 @@
       "contactInfo": {
         "title": "Контакт информации",
         "info": "Овие информации ќе се прикажат на вашата агенциска страница и на огласите кои ги имате на располагање. Може да се различни од вашите лични податоци наведени во Инфо",
-        "contactName": "Име и презиме на конта��т личност",
+        "contactName": "Име и презиме на контакт личност",
         "contactNamePlaceholder": "Името кое ќе се прикажува на огласите",
         "contactPhone": "Телефон на контакт личност",
         "contactPhonePlaceholder": "Телефон кој ќе се прикажува на огласите",
@@ -1036,7 +1044,7 @@
 
       "agencySignUp": "Регистрирајте се како агенција",
       "error": {
-        "emailExists": "Оваа е-пошта в��ќе е регистрирана",
+        "emailExists": "Оваа е-пошта веќе е регистрирана",
         "passwordMismatch": "Лозинките не се совпаѓаат",
         "invalidEmail": "Невалидна е-пошта",
         "weakPassword": "Лозинката мора да содржи најмалку 8 карактери"

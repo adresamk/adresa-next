@@ -100,7 +100,7 @@ function calculateStepStatus(listing: Listing, steps: Step[]): StepStatus {
       if (
         !listing.municipality &&
         !listing.place &&
-        !listing.district &&
+        // !listing.district &&
         !listing.address
       ) {
         statuses[step.key] = "incomplete";
@@ -109,7 +109,7 @@ function calculateStepStatus(listing: Listing, steps: Step[]): StepStatus {
       if (
         listing.municipality &&
         listing.place &&
-        listing.district &&
+        // listing.district &&
         listing.address
       ) {
         statuses[step.key] = "completed";

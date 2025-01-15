@@ -162,7 +162,9 @@
   },
   "common": {
     "actions": {
+      "delete": "Fshije",
       "hide": "Fsheh",
+      "show": "Shfaq",
       "sort": "Rendit",
       "saved": "Ruajtur",
       "print": "Printo",
@@ -186,6 +188,8 @@
       "showLess": "Fsheh tekstin"
     },
     "words": {
+      "createdAt": "Krijuar në",
+      "publishedAt": "Publikuar në",
       "listings": "shpallje",
       "listing": "shpallje",
       "for": "për",
@@ -774,6 +778,9 @@
           }
         }
       }
+    },
+    "errors": {
+      "requiredFields": "Vendosni të gjithë fusha të nevojshme!"
     },
     "listingImages": {
       "modalTitle": "{type}, {area}m²",

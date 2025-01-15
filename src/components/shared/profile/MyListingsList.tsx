@@ -112,7 +112,7 @@ export default function MyListingsList({
                             size={"sm"}
                             className="px-2 text-xs"
                           >
-                            <Edit className="mr-2" /> Edit
+                            <Edit className="mr-2" /> {t("common.actions.edit")}
                           </Button>
                         </Link>
                       ) : (
@@ -135,8 +135,15 @@ export default function MyListingsList({
                       </h4>
                     </Link>
                     <div className="text-xs">
-                      <p>created at {displayDate(l.createdAt)}</p>
-                      <p>published at {displayDate(l.publishedAt)}</p>
+                      <p>
+                        {t("common.words.createdAt")} {displayDate(l.createdAt)}
+                      </p>
+                      {l.publishedAt && (
+                        <p>
+                          {t("common.words.publishedAt")}{" "}
+                          {displayDate(l.publishedAt)}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="mt-auto flex items-center justify-between">
@@ -144,7 +151,7 @@ export default function MyListingsList({
                       {hasRequiredFieldsLeft ? (
                         <div className="flex items-center gap-3">
                           <AlertCircle stroke="orange" />{" "}
-                          <span>Fill in all the required fields!</span>
+                          <span>{t("listing.errors.requiredFields")}</span>
                         </div>
                       ) : (
                         <div className="flex h-9 items-center gap-3">
@@ -171,7 +178,7 @@ export default function MyListingsList({
                       )}
                       {!l.isPublished && (
                         <Button className="w-full border-brand-light-blue text-white hover:text-brand-dark-blue">
-                          Publish
+                          {t("common.actions.publish")}
                         </Button>
                       )}
                     </div>
