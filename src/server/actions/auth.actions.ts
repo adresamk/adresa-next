@@ -17,7 +17,7 @@ import {
   setSessionTokenCookie,
   invalidateSession,
 } from "@/lib/sessions";
-import { NextResponse } from "next/server";
+
 import { getVerificationLink } from "./verification.actions";
 import { sendResetPasswordEmail, sendVerificationEmail } from "./email.actions";
 import { generateUniqueToken } from "@/lib/utils";
@@ -156,7 +156,7 @@ export async function signUpAsUser(
 
     const verificationLink = await getVerificationLink(account.id);
     // console.log("verificationLink", verificationLink);
-    await sendVerificationEmail(account.email, verificationLink);
+    await sendVerificationEmail(email, verificationLink);
     // console.log("Verification email sent successfully 2");
 
     const token = await generateSessionToken();

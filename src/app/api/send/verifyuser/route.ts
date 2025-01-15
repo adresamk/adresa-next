@@ -15,7 +15,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const { userName, verificationLink, email } = await request.json();
 
     const { data, error } = await resend.emails.send({
-      from: "Adresa <onboarding@resend.dev>",
+      from: "Adresa <dev@adresa.mk>",
       to: [email],
       subject: "Verify your account on Adresa",
       html: await render(VerifyUserEmail({ userName, verificationLink })),

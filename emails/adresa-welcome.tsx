@@ -16,11 +16,11 @@ interface AdresaWelcomeEmailProps {
   userName: string;
 }
 
-// let baseUrl = process.env.NEXT_PUBLIC_URL
-//   ? `https://${process.env.NEXT_PUBLIC_URL}`
-//   : "";
+let baseUrl = process.env.NEXT_PUBLIC_URL
+  ? `https://${process.env.NEXT_PUBLIC_URL}`
+  : "";
 
-let baseUrl = "http://localhost:3001";
+// let baseUrl = "http://localhost:3001";
 
 export const AdresaWelcomeEmail = ({ userName }: AdresaWelcomeEmailProps) => (
   <Html>
