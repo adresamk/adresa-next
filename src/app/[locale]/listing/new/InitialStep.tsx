@@ -18,7 +18,7 @@ export default function InitialStep() {
   const listingCategoryOptionsTranslated = listingCategoryOptions.map(
     (option) => {
       return {
-        label: t(`common.property.categoryOptions.${option}`),
+        label: t(`common.property.category.${option}`),
         value: option,
       };
     },
@@ -52,7 +52,7 @@ export default function InitialStep() {
       <RadioGroupDemo
         name="category"
         required
-        title={t("common.property.type..label")}
+        title={t("common.property.category.label")}
         description={t("common.cannotBeChanged")}
         options={listingCategoryOptionsTranslated}
         onChange={function (value: string) {
@@ -67,7 +67,7 @@ export default function InitialStep() {
       <RadioGroupDemo
         name="type"
         required
-        title={t("common.property.type..label")}
+        title={t("common.property.type.label")}
         options={listingTypeOptionsTranslated}
         onChange={function (value: string) {
           // @ts-ignore

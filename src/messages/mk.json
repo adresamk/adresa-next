@@ -669,9 +669,9 @@
               "label": "Наклон",
               "placeholder": "Изберете наклон",
               "slopeOptions": {
-                "flat": "Flat",
-                "inclined": "Inclined",
-                "steep": "Steep"
+                "flat": "Рамно",
+                "inclined": "Наклонет",
+                "steep": "Стрмен"
               }
             },
             "zone": {

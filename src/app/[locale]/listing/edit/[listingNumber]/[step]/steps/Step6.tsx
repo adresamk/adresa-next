@@ -12,6 +12,7 @@ import ImagesPreview from "./ImagesPreview";
 import { attachImagesToListing } from "@/server/actions/listing.actions";
 import { UploadedFileData } from "uploadthing/types";
 import { UploadedImageData } from "@/types/listing.types";
+import { Button } from "@/components/ui/button";
 
 export default function Step6({ listing }: { listing: Listing }) {
   const t = useTranslations("listing.new.progress.steps.media");
@@ -53,6 +54,11 @@ export default function Step6({ listing }: { listing: Listing }) {
 
       <div className="w-max">
         <UploadButton
+          content={{
+            button: () => {
+              return <Button>YES</Button>;
+            },
+          }}
           endpoint="listingImagesUpload"
           onClientUploadComplete={async (res) => {
             console.log("Files: ", res);

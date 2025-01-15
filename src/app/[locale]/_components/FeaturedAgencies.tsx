@@ -15,6 +15,7 @@ export default async function FeaturedAgencies() {
   const t = await getTranslations();
   const agencies = await prismadb.agency.findMany({
     take: 6,
+
     include: {
       listings: {
         select: {
@@ -23,6 +24,10 @@ export default async function FeaturedAgencies() {
       },
     },
   });
+
+  if (agencies.length === 0) {
+    return null;
+  }
 
   return (
     <ContentCarousel

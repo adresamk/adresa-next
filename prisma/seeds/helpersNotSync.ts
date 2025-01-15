@@ -254,7 +254,7 @@ export async function generateListings(
           ? user.id * 100000 + i
           : i + 1000,
       uuid: faker.string.uuid(),
-      externalRef: null,
+      externalRef: "",
       userId: user ? user.id : null,
       agencyId: user ? null : null,
       queryHash: "",

@@ -68,10 +68,8 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           , {listing.area}
           {t("common.property.area")}
         </p>
-        <p>
-          {listing.listingNumber}{" "}
-          <span className="text-xs">(to be removed b4 launch)</span>{" "}
-        </p>
+        <p className={`${listing.listingNumber}`}></p>
+
         {municipalityName && (
           <p className="text-sm capitalize">{municipalityName}</p>
         )}

@@ -91,9 +91,8 @@ export default function ReacentlyViewedListingCard({
             </>
           )}
         </h3>
-        <p className="text-[9px] text-slate-400">
-          {listing.listingNumber} <span>(to be removed b4 launch)</span>{" "}
-        </p>
+        <p className={`${listing.listingNumber}`}></p>
+
         {municipalityName && (
           <p className="text-sm capitalize">{municipalityName}</p>
         )}

@@ -97,6 +97,11 @@ const searches: RealEstateSearch[] = [
 export default function LastSearches() {
   const t = useTranslations();
 
+  const a = false;
+
+  if (!a) {
+    return null;
+  }
   return (
     <ContentCarousel
       icon={<ScanSearch className="h-7 w-7" />}

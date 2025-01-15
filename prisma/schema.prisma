@@ -257,7 +257,7 @@ enum ListingStatus {
 model Listing {
   id            Int      @id @default(autoincrement())
   uuid          String   @unique @default(uuid()) @db.Char(36) // not used but here for the future if we need to scale and merge
-  externalRef   String?  @unique @db.VarChar(350) // External ID for importing data from other sources
+  externalRef   String?  @default("") // External ID for importing data from other sources
   listingNumber Int      @unique @default(autoincrement()) // 6 digit number controled by counter listing-number-counter
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

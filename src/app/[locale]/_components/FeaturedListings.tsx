@@ -4,15 +4,25 @@ import ContentCarousel from "./ContentCarousel";
 import prismadb from "@/lib/db";
 import RecentlyViewedListingCard from "./RecentlyViewedListingCard";
 import { getTranslations } from "next-intl/server";
+import { ListingStatus } from "@prisma/client";
 
 export default async function FeaturedListings() {
   const t = await getTranslations();
   const listings = await prismadb.listing.findMany({
     take: 5,
     where: {
-      //   isPaidPromo: true,
+      isPaidPromo: true,
+      isPublished: true,
+      isAvailable: true,
+      status: ListingStatus.ACTIVE,
+      isVisible: true,
     },
   });
+
+  if (listings.length === 0) {
+    return null;
+  }
+
   return (
     <ContentCarousel
       icon={<Crown className="h-7 w-7" />}

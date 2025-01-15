@@ -27,7 +27,7 @@ export default function Step1({ listing }: { listing: Listing }) {
       <div className="flex flex-col gap-1">
         <h2 className="font-semibold">{t("common.property.category.title")}</h2>
         <span className="text-sm">
-          {t(`listing.category.${listing.category}`)}
+          {t(`common.property.category${listing.category}`)}
         </span>
       </div>
 
