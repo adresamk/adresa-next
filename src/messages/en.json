@@ -1,9 +1,174 @@
 {
-  "HomePage": {
-    "greeting": "Hello"
+  "savedSearches": {
+    "moreLocations": "other locations",
+    "location": "location",
+    "moreCriteria": "other criteria",
+    "criteria": "criterion",
+    "saveSearchDescription": "You can receive notifications when new listings appear matching your criteria",
+    "notifications": "Notifications",
+    "notificationInterval": {
+      "title": "Notification interval",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "live": "Live"
+    },
+    "savedSearchName": "Search name",
+    "savedSearchNamePlaceholder": "e.g.: Favorites in Skopje"
+  },
+  "creditCard": {
+    "title": "Choose payment method",
+    "subtitle": "This is a one-time payment for publishing your listing and has a duration of six months!",
+    "debitCreditCard": "Debit/Credit card",
+    "otherPayment": "Other payment method",
+    "otherPaymentDescription": "Alternative payment methods are available",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "cardNumber": "Card number",
+    "expiryDate": "Expiry date",
+    "expiryDatePlaceholder": "MM/YY",
+    "cvv": "CVV",
+    "securityMessage": "By clicking \"Complete purchase\" you will be redirected to a secure banking system."
+  },
+  "map": {
+    "notSet": "Location not set",
+    "attribution": "© OpenStreetMap contributors",
+    "searchInArea": "Search in this area",
+    "searchAsMove": "Search as I move",
+    "loading": "Loading map...",
+    "viewProperties": "Showing {listingsLength} results on the map"
+  },
+  "search": {
+    "404": {
+      "title": "404",
+      "description": "Page not found",
+      "messageP1": "You can return to ",
+      "messageP2": " or ",
+      "messageP3": " if the problem is not resolved.",
+      "homepage": "homepage",
+      "contactUs": "contact us"
+    },
+    "noResults": {
+      "title": "No results",
+      "description": "It seems there are no properties matching your criteria. You can remove a filter or expand your search range to see more results, but you can also save your search and be notified about new properties that match your criteria when they are posted!"
+    },
+    "results": "results",
+    "result": "result",
+    "new": "new",
+    "singleNew": "new",
+    "more": "more",
+    "selectNeighbourhood": "Select neighborhood",
+    "loweredPriceResults": "results with reduced price",
+    "defaultType": "Homes",
+    "defaultLocation": "Skopje",
+    "filters": {
+      "clearAll": "Clear all",
+      "title": "Filters",
+      "description": "Filter results",
+      "viewResults": "Show {count} results",
+      "results": "{count} results",
+      "result": "result",
+
+      "location": {
+        "label": "Location",
+        "notActivePlaceholder": "Enter at least 3 characters",
+        "emptyPlaceholder": "For example: Skopje, Kumanovo, Veles"
+      },
+      "category": {
+        "label": "Property type",
+        "emptyPlaceholder": "Home",
+        "residential": "Residential",
+        "commercial": "Commercial",
+        "land": "Land",
+        "all": "All",
+        "other": "Other"
+      },
+
+      "price": {
+        "label": "Price",
+        "from": "from",
+        "to": "to",
+        "upTo": "up to",
+        "any": "Any"
+      },
+      "surface": {
+        "label": "Surface area",
+        "from": "from",
+        "to": "to",
+        "upTo": "up to",
+        "any": "Any"
+      },
+      "mode": {
+        "buy": "Buy",
+        "sale": "Sale",
+        "rent": "Rent",
+        "all": "All",
+        "availableFor": "Available for"
+      },
+      "secondaryFilters": {
+        "any": "Any",
+        "basement": "Basement",
+        "mezanine": "Mezzanine",
+        "ground_floor": "Ground floor",
+        "attic": "Attic",
+        "from": "From",
+        "to": "To",
+        "floor": "Floor",
+        "bedrooms": "Bedrooms",
+        "yearOfConstruction": "Year of construction",
+        "underConstruction": "Under construction",
+        "newDevelopment": "New development",
+        "central": "Central",
+        "electric": "Electric",
+        "gas": "Gas",
+        "geothermal": "Geothermal",
+        "heat_pump": "Heat pump",
+        "wood": "Wood",
+        "solar": "Solar",
+        "underfloor": "Underfloor",
+        "other": "Other",
+        "heating": "Heating",
+        "heatingType": "Heating type",
+        "furnitureIncluded": "Furniture included",
+        "internalFeatures": "Internal features",
+        "externalFeatures": "External features",
+        "lastUpdated": "Last updated",
+        "creationDate": "Creation date",
+        "timeRange": {
+          "any": "Any",
+          "24h": "24 hours",
+          "1d": "1 day",
+          "3d": "3 days",
+          "7d": "1 week",
+          "30d": "1 month"
+        },
+        "extraTimeRange": {
+          "6m": "6 months",
+          "1y": "1 year"
+        }
+      },
+      "features": {
+        "ac": "AC",
+        "storage": "Storage",
+        "garage": "Garage",
+        "alarm": "Alarm",
+        "fancy_art": "Fancy art",
+        "tito_furniture": "Tito furniture",
+        "cat": "Cat",
+        "pool": "Pool",
+        "parking": "Parking",
+        "yard": "Yard"
+      }
+    }
   },
   "common": {
-    "buttons": {
+    "actions": {
+      "hide": "Hide",
+      "sort": "Sort",
+      "saved": "Saved",
+      "print": "Print",
+      "notes": "Notes",
+      "publish": "Publish",
+      "next": "Next",
       "search": "Search",
       "submit": "Submit",
       "cancel": "Cancel",
@@ -12,55 +177,128 @@
       "save": "Save",
       "contact": "Contact",
       "reveal": "Reveal",
-      "signIn": "Sign In"
+      "signIn": "Sign in",
+      "saveChanges": "Save changes",
+      "saveSearch": "Save search",
+      "on": "Yes",
+      "off": "No",
+      "showMore": "Show more",
+      "showLess": "Show less"
     },
-    "filters": {
-      "location": "Location",
-      "propertyType": "Property Type",
-      "price": "Price",
-      "surface": "Surface",
-      "mode": {
-        "buy": "Buy",
-        "sale": "Sale",
-        "rent": "Rent"
-      }
-    },
-    "actions": {
-      "save": "save",
-      "saved": "saved"
-    },
-    "search": {
-      "results": "results",
-      "new": "new",
-      "more": "more",
-      "selectNeighbourhood": "Select Neighbourhood",
-      "loweredPriceResults": "results with lowered price",
-      "titleFormat": "{type}: {location}",
-      "defaultType": "Homes",
-      "defaultLocation": "Skopje"
+    "words": {
+      "listings": "listings",
+      "listing": "listing",
+      "for": "for",
+      "and": "and",
+      "no": "no",
+      "yes": "Yes",
+      "without": "without",
+      "filledOut": "filled out",
+      "done": "done",
+      "monthly": "monthly"
     },
     "property": {
       "type": {
-        "house": "house",
-        "apartment": "apartment",
-        "office": "office",
-        "land": "land",
-        "warehouse": "warehouse",
-        "agricultural": "agricultural land",
-        "industrial space": "industrial space",
-        "assembly facilities": "assembly facilities",
-        "garage": "garage",
-        "store": "store",
-        "construction": "under construction",
-        "other": "other"
+        "all_types": "All types",
+        "label": "Property type",
+        "emptyPlaceholder": "Subtype",
+        "residential": "Residential",
+        "construction": "Under construction",
+        "agricultural": "Agricultural land",
+        "apartment": "Apartment",
+        "business": "Business",
+        "house": "House",
+        "vacation_house": "Vacation house",
+        "office": "Office space",
+        "warehouse": "Warehouse",
+        "industrial_space": "Industrial facilities",
+        "assembly_facilities": "Assembly facilities",
+        "garage": "Garage",
+        "store": "Commercial space",
+        "other": "Other"
+      },
+      "feature": {
+        "category": {
+          "OTHER": "Other",
+          "INTERNAL": "Internal",
+          "EXTERNAL": "External"
+        },
+        "keys": {
+          "parking": "Parking",
+          "elevator": "Elevator",
+          "balcony": "Balcony",
+          "yard": "Yard",
+          "basement": "Basement",
+          "internet": "Internet",
+          "cabel_tv": "Cable TV",
+          "close_to_center": "Close to center",
+          "quiet_neighbourhood": "Quiet neighborhood",
+          "renovated": "Renovated",
+          "lake_access": "River access",
+          "near_center": "Near center",
+          "quiet_area": "Quiet area",
+          "accessibility": "Accessibility",
+          "has_view": "Has view",
+          "pets_allowed": "Pets allowed",
+          "tv": "TV",
+          "smoke_alarm": "Smoke alarm",
+          "furnished": "Furnished",
+          "washing_machine": "Washing machine",
+          "modernized": "Modern",
+          "shower": "Shower",
+          "bathtub": "Bathtub",
+          "bidet": "Bidet",
+          "bright_rooms": "Bright rooms",
+          "fireplace": "Fireplace",
+          "alarm": "Alarm",
+          "fresh_paint": "Fresh paint",
+          "storage_space_3": "Storage space 3m²",
+          "storage_space_5": "Storage space 5m²",
+          "storage_space_10": "Storage space 10m²",
+          "internal_staircase": "Internal staircase",
+          "attic": "Attic",
+          "underfloor_heating": "Underfloor heating",
+          "secure_door": "Secure door",
+          "shared_garden": "Shared garden",
+          "swimming_pool": "Swimming pool",
+          "modern_architecture": "Modern architecture",
+          "gated_community": "Gated community",
+          "solar_panels": "Solar panels",
+          "laundry_room": "Laundry room",
+          "bike_parking": "Bike parking",
+          "porch": "Porch",
+          "security_guard": "Security guard",
+          "reception": "Reception",
+          "keycode_doorlock": "Keycode doorlock",
+          "satelite_receiver": "Satellite receiver",
+          "solar_water_heating": "Solar water heating",
+          "requires_renovation": "Requires renovation",
+          "unfinished": "Unfinished",
+          "preserved": "Preserved",
+          "new_development": "New development",
+          "investment": "Investment",
+          "students": "For students",
+          "commercial_use": "For commercial use",
+          "holiday_home": "For holiday home",
+          "office": "For office space",
+          "short_term_rental": "For short-term rental",
+          "loading_dock": "Loading dock"
+        }
+      },
+      "category": {
+        "title": "Category",
+        "land": "Land",
+        "residential": "Residential",
+        "commercial": "Commercial",
+        "other": "Other"
       },
       "area": "m²",
       "price": "price",
       "features": {
         "bathroom": "bathroom",
         "bathrooms": "bathrooms",
-        "aircon": "air conditioner",
-        "aircons": "air conditioners",
+        "aircon": "AC",
+        "aircons": "ACs",
         "garage": "garage",
         "garages": "garages",
         "parking": "parking",
@@ -70,7 +308,7 @@
         "floor": "floor",
         "totalFloors": "total floors",
         "floorInfo": "{floor} (of {total})",
-        "yearBuilt": "Year Built",
+        "yearBuilt": "Year built",
         "pricePerSquare": "Price per m²"
       },
       "metadata": {
@@ -82,109 +320,126 @@
       },
       "description": "Description",
       "characteristics": "Characteristics",
-      "insideCharacteristics": "Inside Characteristics",
-      "outsideCharacteristics": "Outside Characteristics",
+      "generalFeatures": "General features",
+      "insideFeatures": "Inside features",
+      "outsideFeatures": "Outside features",
       "location": "Location",
-      "map": {
-        "notSet": "Location not set",
-        "attribution": " OpenStreetMap contributors",
-        "searchInArea": "Search in this area",
-        "searchAsMove": "Search as I move",
-        "loading": "Loading map..."
-      },
       "publisher": "Publisher",
       "publisherDetails": {
+        "preferredContactMethod": "Preferred contact method",
         "title": "Seller",
+        "agency": "Agency",
         "phone": "Phone",
         "email": "Email",
         "website": "Website",
-        "contactPerson": "Contact Person",
-        "workHours": "Work Hours",
-        "contactPersonEmail": "Contact Person Email",
-        "contactPersonPhone": "Contact Person Phone",
-        "contactHours": "Contact Hours"
+        "contactPerson": "Contact person",
+        "workHours": "Work hours",
+        "contactHoursUser": "Ideal contact time",
+        "contactPersonEmail": "Contact person email",
+        "contactPersonPhone": "Contact person phone",
+        "contactHours": "Contact hours"
       },
       "mortgage": {
         "options": "Check your options",
         "calculate": "Calculate payment"
       }
     },
+    "cannotBeChanged": "(cannot be changed later!)",
     "listing": {
-      "type": "{type}",
       "defaultMunicipality": "Municipality",
       "updated": "Updated",
-      "features": {
-        "floor": "Floor",
-        "bedrooms": "Bedrooms",
-        "bedroomsAbbr": "bd",
-        "bathrooms": "Bathrooms",
-        "bathroomsAbbr": "ba"
-      },
-      "labels": {
-        "featured": "Featured Listing",
-        "exactLocation": "Exact Location on Map"
-      },
-      "actions": {
-        "hide": "Hide",
-        "contact": "Contact"
-      },
-      "featuredListing": "Featured Listing",
-      "exactLocation": "Exact Location on Map",
+      "published": "Published on",
+      "featuredListing": "Featured listing",
+      "exactLocation": "Exact location on map",
       "propertyDetails": "{type}, {area}m²",
-      "defaultAgency": "Real Estate Agency"
+      "propertyImage": "Image {index}",
+      "defaultAgency": "Real estate agency",
+      "categoryOptions": {
+        "apartment": "Apartment",
+        "house": "House",
+        "office": "Office space",
+        "land": "Land",
+        "store": "Commercial space",
+        "residential": "Residential",
+        "commercial": "Commercial",
+        "other": "Other"
+      }
     },
     "navigation": {
-      "myAccount": "My Account",
+      "myAccount": "My account",
       "dashboard": "Dashboard"
     },
     "status": {
       "missing": "missing"
     },
     "contact": {
+      "imInterested": "I'm interested in this property",
+      "label": "Contact",
       "phone": "Phone",
       "email": "Email",
       "message": "Message",
-      "name": "Full Name"
-    },
-    "cannotBeChanged": "(cannot be changed later!)"
-  },
-  "header": {
-    "createListing": "Create Listing",
-    "userControls": {
-      "profile": "Profile",
-      "logout": "Logout"
-    }
-  },
-  "home": {
-    "search": {
-      "title": "Find your perfect home",
-      "subtitle": "Search through thousands of properties"
-    },
-    "sections": {
-      "lastSearches": "Last Searches",
-      "lastOpened": "Last Viewed",
-      "suggested": "Suggested Properties",
-      "agencies": "Suggested Agencies"
-    },
-    "userGreeting": {
-      "greeting": "Hello",
-      "dashboard": "Your Dashboard"
+      "sendMessage": "Send message",
+      "name": "Full name",
+      "firstName": "First name",
+      "firstNamePlaceholder": "Your first name",
+      "lastName": "Last name",
+      "lastNamePlaceholder": "Your last name"
     }
   },
   "listing": {
+    "sorting": {
+      "new": "New",
+      "low_price": "Lowest price",
+      "high_price": "Highest price"
+    },
+    "labels": {
+      "featured": "Featured listing",
+      "exactLocation": "Exact location on map"
+    },
+    "fieldsKeys": {
+      "importantFeatures": {
+        "floor": "floor",
+        "bedroomCount": "bedrooms",
+        "bathroomCount": "bathrooms",
+        "parkingCount": "parking"
+      },
+      "bedroomCount": "bedrooms",
+      "price": "price",
+      "pricePerSquare": "price per m²",
+      "area": "area",
+      "floor": "floor",
+      "kitchenCount": "kitchens",
+      "bathroomCount": "bathrooms",
+      "wcCount": "wc",
+      "constructionYear": "Year built",
+      "updatedAt": "Updated",
+      "publishedAt": "Published",
+      "parking": "parking",
+      "totalFloors": "total floors",
+      "orientation": "orientation",
+      "zone": "zone",
+      "accessFrom": "access",
+      "slope": "slope",
+      "totalPropertyArea": "area",
+      "isFurnished": "Furnished",
+      "isForStudents": "for students",
+      "isForHolidayHome": "for holiday home",
+      "commonExpenses": "Common expenses",
+      "heatingType": "heating type",
+      "heatingMedium": "heating medium",
+      "isCornerProperty": "corner property",
+      "isOnTopFloor": "on top floor"
+    },
+    "transactionType": {
+      "title": "For",
+      "sale": "Sale",
+      "rent": "Rent"
+    },
     "breadcrumbs": {
       "home": "Home",
       "properties": "Properties",
-      "search": "Search"
-    },
-    "actions": {
-      "share": "Share",
-      "save": "Save",
-      "saved": "Saved",
-      "contact": "Contact",
-      "print": "Print",
-      "notes": "Notes",
-      "hide": "Hide"
+      "search": "Search",
+      "listing": "Listing"
     },
     "contact": {
       "title": "Contact the seller",
@@ -193,41 +448,37 @@
       "error": "An error occurred while sending the message"
     },
     "like": {
-      "loginNeeded": "Login Required",
+      "loginNeeded": "Login required",
       "loginMessage": "You need to be logged in for this action",
       "toggleFavorite": "Add/Remove from favorites"
     },
     "new": {
-      "title": "Create New Listing",
-      "description": "Fill in the details below to create your listing",
-      "propertyDetails": "Property Details",
+      "completed": "completed",
+      "inProgress": "in progress",
+      "selectCategory": "Select category",
+      "propertyCategory": "Property category",
+      "newListing": "New listing",
+      "title": "Create new listing",
+      "description": "Fill in the details below to create a listing",
+      "propertyDetails": "Property details",
       "location": "Location",
       "features": "Features",
       "images": "Images",
       "price": "Price",
-      "contact": "Contact Information",
+      "contact": "Contact information",
       "preview": "Preview",
-      "submit": "Submit Listing",
-      "propertyType": {
-        "label": "Property Type",
-        "apartment": "Apartment",
-        "house": "House",
-        "office": "Office Space",
-        "land": "Land",
-        "store": "Commercial Space"
-      },
-      "listingType": {
-        "label": "Listing Type",
-        "sale": "For Sale",
-        "rent": "For Rent"
+      "transactionType": {
+        "label": "Listing type",
+        "sale": "Sale",
+        "rent": "Rent"
       },
       "size": {
-        "label": "Size",
-        "placeholder": "Enter size in m²",
+        "label": "Area",
+        "placeholder": "Enter area in m²",
         "unit": "m²"
       },
       "rooms": {
-        "label": "Number of Rooms",
+        "label": "Number of rooms",
         "placeholder": "Select number of rooms"
       },
       "floor": {
@@ -235,11 +486,11 @@
         "placeholder": "Select floor"
       },
       "construction": {
-        "label": "Year of Construction",
+        "label": "Year built",
         "placeholder": "Enter year"
       },
       "heating": {
-        "label": "Heating Type",
+        "label": "Heating type",
         "central": "Central",
         "electric": "Electric",
         "gas": "Gas",
@@ -247,69 +498,401 @@
       },
       "progress": {
         "completed": "completed",
-        "newListing": "New Listing",
+        "newListing": "New listing",
         "steps": {
-          "propertyCategory": {
-            "title": "Property Category",
-            "description": "Select the category"
+          "category": {
+            "title": "Property category and basics",
+            "description": "Select category and details"
           },
-          "propertyDetails": {
-            "title": "Property Details",
-            "description": "Enter property specifications"
+          "fillOut": "Fill in the details",
+          "propertyCategory": {
+            "title": "Property category",
+            "description": "Select category"
+          },
+          "propertyType": {
+            "title": "Property type",
+            "description": "Select property type",
+            "basicInformation": "Basic information"
           },
           "location": {
             "title": "Location",
-            "description": "Specify property location"
+            "description": "Set the property location",
+            "municipality": "Municipality",
+            "municipalityPlaceholder": "Select municipality",
+            "notFoundText": "No municipalities",
+            "place": "Place",
+            "placePlaceholder": "Select place",
+            "notFoundPlaceText": "No places",
+            "address": "Address",
+            "addressPlaceholder": "Enter address",
+            "map": {
+              "confirmLocation": "Confirm location",
+              "howToFindCoordinates": "Enter coordinates manually or select on map",
+              "seeExample": "See example",
+              "instructions": {
+                "description": "You can find the coordinates of your location by:",
+                "step1": "Going to Google Maps",
+                "step2": "Right-clicking on your location",
+                "step3": "The coordinates will appear at the top of the menu",
+                "step4": "Step 1: Right click on the map",
+                "step5": "Step 2: Click on the coordinates to copy them",
+                "step6": "Step 1: Tap on Google Maps App",
+                "step7": "Step 2: Click on the coordinates to copy them"
+              },
+              "coordinates": "Coordinates",
+              "coordinatesPlaceholder": "ex: 41.9981,21.4254",
+              "applyCoordinates": "Load coordinates on map",
+              "locationPrecision": "Location precision",
+              "locationPrecisionPlaceholder": "Select location precision",
+              "locationPrecisionOptions": {
+                "exact": "Exact",
+                "approximate": "Approximate",
+                "wide": "Wide"
+              }
+            }
+          },
+          "mainCharacteristics": {
+            "title": "Main characteristics",
+            "description": "Enter basic property characteristics",
+            "price": "Price",
+            "pricePlaceholder": "Enter price in euros",
+            "area": "Area",
+            "areaPlaceholder": "Enter area in m²",
+            "floor": {
+              "label": "Floor",
+              "placeholder": "Enter floor number"
+            },
+            "isCornerProperty": {
+              "label": "Property is on the corner"
+            },
+            "constructionYear": {
+              "label": "Year built",
+              "placeholder": "Enter year"
+            },
+            "totalPropertyArea": {
+              "label": "Total area",
+              "placeholder": "Enter area in m²"
+            },
+            "heatingType": {
+              "label": "Heating type",
+              "placeholder": "Select heating type",
+              "heatingTypeOptions": {
+                "autonomous": "Autonomous",
+                "central": "Central",
+                "air_condition": "Air condition",
+                "none": "None"
+              }
+            },
+            "isFurnished": {
+              "label": "Furnished",
+              "description": "Property is furnished"
+            },
+            "isForStudents": {
+              "label": "For students",
+              "description": "Property is for students"
+            },
+            "isForHolidayHome": {
+              "label": "Holiday home",
+              "description": "Property is for holiday home"
+            },
+            "totalFloors": {
+              "label": "Total number of floors",
+              "placeholder": "Select highest floor"
+            },
+            "heatingMedium": {
+              "label": "Heating resources",
+              "placeholder": "Enter heating resources",
+              "heatingMediumOptions": {
+                "oil": "Oil",
+                "natural_gas": "Natural gas",
+                "diesel": "Diesel",
+                "electricity": "Electricity",
+                "wood": "Wood",
+                "solar": "Solar energy",
+                "geothermal": "Geothermal energy",
+                "heat_pump": "Heat pump"
+              }
+            },
+            "isOnTopFloor": {
+              "label": "Property is on the top floor"
+            },
+            "orientation": {
+              "label": "Orientation",
+              "placeholder": "Select orientation",
+              "orientationOptions": {
+                "north": "North",
+                "south": "South",
+                "east": "East",
+                "west": "West",
+                "north-east": "Northeast",
+                "north-west": "Northwest",
+                "south-east": "Southeast",
+                "south-west": "Southwest"
+              }
+            },
+            "rooms": {
+              "label": "Number of rooms",
+              "placeholder": "Select number of rooms",
+              "bathroom": "Bathroom",
+              "bathrooms": "Bathrooms",
+              "wc": "WC",
+              "wcs": "WCs",
+              "kitchen": "Kitchen",
+              "kitchens": "Kitchens",
+              "livingRoom": "Living room",
+              "livingRooms": "Living rooms",
+              "bedroom": "Bedroom",
+              "bedrooms": "Bedrooms"
+            },
+            "commonExpenses": {
+              "label": "Common expenses",
+              "description": "Common expenses are costs shared between property residents on a monthly basis, as an indicative amount in euros excluding rent.",
+              "placeholder": "Enter expenses in euros"
+            },
+            "accessFrom": {
+              "label": "Access from",
+              "placeholder": "Select access from",
+              "accessFromOptions": {
+                "paved": "Paved",
+                "asphalt": "Asphalt",
+                "pedestrian": "Pedestrian",
+                "dirt_road": "Dirt road",
+                "sea": "Sea",
+                "other": "Other",
+                "no_road_access": "No road access"
+              }
+            },
+            "slope": {
+              "label": "Slope",
+              "placeholder": "Select slope",
+              "slopeOptions": {
+                "flat": "Flat",
+                "inclined": "Inclined",
+                "steep": "Steep"
+              }
+            },
+            "zone": {
+              "label": "Zone",
+              "placeholder": "Select zone",
+              "zoneOptions": {
+                "residential": "Residential",
+                "commercial": "Commercial",
+                "agricultural": "Agricultural",
+                "industrial": "Industrial",
+                "recreational": "Recreational",
+                "unincorporated": "Unincorporated"
+              }
+            }
+          },
+          "contact": {
+            "title": "Contact information",
+            "description": "Enter contact information",
+            "emailInfo": {
+              "notPublished": "Your email will not be published",
+              "learnMore": "Learn more",
+              "whyNotPublished": "Why won't it be published?",
+              "reasonNotPublished": "Users interested in your property will be able to send a message to your email without needing to know your email address."
+            },
+            "securityInfo": "Your information is important to us. We will verify your phone number using a one-time code that you will receive via phone or SMS.",
+            "justVisual": "This information is just for you to verify your data. If you want to change it, click the button below to go to your profile where you can make changes.",
+            "updateInfo": "Update information"
+          },
+          "description": {
+            "title": "Description",
+            "description": "Enter property description",
+            "englishTitle": "English title",
+            "englishTitlePlaceholder": "Enter title in English",
+            "englishDescription": "Detailed description in English",
+            "englishDescriptionPlaceholder": "Enter detailed description in English",
+            "macedonianTitle": "Macedonian title",
+            "macedonianTitlePlaceholder": "Enter title in Macedonian",
+            "macedonianDescription": "Detailed description in Macedonian",
+            "macedonianDescriptionPlaceholder": "Enter detailed description in Macedonian",
+            "albanianTitle": "Albanian title",
+            "albanianTitlePlaceholder": "Enter title in Albanian",
+            "albanianDescription": "Detailed description in Albanian",
+            "albanianDescriptionPlaceholder": "Enter detailed description in Albanian",
+            "characters": "characters",
+            "translateTo": "Translate to"
+          },
+          "additionalFeatures": {
+            "title": "Additional features",
+            "description": "Add additional property features"
+          },
+          "propertyDetails": {
+            "title": "Property details",
+            "description": "Enter property specifications"
           },
           "media": {
+            "images": "Images",
+            "image": "Image",
             "title": "Media",
-            "description": "Add photos and videos"
+            "uploadHighResolution": "Upload high resolution images",
+            "uploaded": "uploaded",
+            "controls": "Drag to reorder",
+            "video": "Video",
+            "description": "Add photos and videos",
+            "uploadImages": "Upload images",
+            "youtubeLink": "YouTube video link",
+            "youtubeLinkExample": "e.g.: https://www.youtube.com/watch?v=[videoID]",
+            "youtubeLinkPlaceholder": "https://www.youtube.com/watch?v=[videoID]",
+            "imagesPreview": {
+              "title": "Images for your property",
+              "mainImage": "Main image",
+              "imageCount": "{count}/15",
+              "propertyImageAlt": "Property image {index}",
+              "noImages": "You haven't uploaded any images"
+            }
+          },
+          "publish": {
+            "requestProfessionalPromotion": {
+              "title": "Free service",
+              "description": "We will send your listing to real estate agents who specialize in your property area to help you.",
+              "label": "I want professional promotion for my property!"
+            },
+            "title": "Publish listing",
+            "description": "Publish listing",
+            "details": "Details",
+            "preview": "Preview",
+            "listingId": "Listing ID",
+            "publishDuration": "Publishing period",
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "publishMessage": "Listing published",
+            "unpublishMessage": "Listing unpublished",
+            "subtitle": "Publish or unpublish listing"
           },
           "pricing": {
-            "title": "Pricing",
-            "description": "Set your price"
+            "title": "Price",
+            "description": "Set the price"
           }
         }
-      },
-      "actions": {
-        "submit": "Submit",
-        "next": "Next",
-        "back": "Back"
       }
     },
-    "categoryOptions": {
-      "apartment": "Apartment",
-      "house": "House",
-      "office": "Office Space",
-      "land": "Land",
-      "store": "Commercial Space"
+    "listingImages": {
+      "modalTitle": "{type}, {area}m²",
+      "modalDescription": "{place}, {municipality}, €{price}",
+      "noPlaceSet": "no location set",
+      "noMunicipalitySet": "no municipality set",
+      "photo": "Photo {index}",
+      "moreImages": "{count} more images"
     }
   },
-  "MortgageCalculator": {
+  "header": {
+    "createListing": "New listing",
+    "userControls": {
+      "profile": "Profile",
+      "logout": "Log out"
+    }
+  },
+  "footer": {
+    "About Us": "About Us",
+    "Contact": "Contact",
+    "Categories": "Categories",
+    "Cookies": "Cookie Policy",
+    "CookiesAcknowledgement": "OK",
+    "CookiesDescription": "We use cookies to improve your navigation on our website.",
+    "Terms of Use": "Terms of Use",
+    "Policies": "Privacy Policy",
+    "Terms": "Terms",
+    "Sale": "Sale",
+    "Rental": "Rental",
+    "Station Categories": "Apartment Categories",
+    "allRightsReserved": "All rights reserved"
+  },
+  "home": {
+    "title": "Find your next address",
+    "sections": {
+      "lastSearches": "Recent searches",
+      "lastOpenedListings": {
+        "lastOpened": "Recently viewed listings"
+      },
+      "suggested": "Recommended properties",
+      "agencies": "Recommended agencies",
+      "featuredListings": "Featured listings",
+      "featuredAgencies": "Featured agencies"
+    },
+    "userGreeting": {
+      "greeting": "Hello",
+      "dashboard": "Your dashboard"
+    }
+  },
+  "mortgageCalculator": {
     "title": "Mortgage Calculator",
-    "homePrice": "Home Price",
-    "downPayment": "Down Payment",
-    "interestRate": "Interest Rate",
-    "loanTerm": "Loan Term",
-    "monthlyPayment": "Monthly Payment",
+    "homePrice": "Home price",
+    "downPayment": "Down payment",
+    "interestRate": "Interest rate",
+    "loanTerm": "Loan term",
+    "monthlyPayment": "Monthly payment",
     "amount": "Amount",
-    "loanAmount": "Loan Amount",
+    "loanAmount": "Loan amount",
     "years": "years",
     "month": "monthly"
   },
   "agency": {
     "notFound": "Agency not found",
     "properties": {
-      "apartments": "Apartments",
+      "other": "Apartments",
       "stores": "Stores",
       "buildings": "Buildings",
       "houses": "Houses",
-      "forSale": "For Sale",
-      "forRent": "For Rent",
-      "allListings": "All Listings",
-      "popularListings": "Popular Listings from {agencyName}"
+      "forSale": "For sale",
+      "forRent": "For rent",
+      "allListings": "All listings",
+      "popularListings": "Popular listings from {agencyName}"
     },
     "profile": {
+      "info": {
+        "title": "Agency information",
+        "ownerFirstName": "Owner's first name",
+        "ownerLastName": "Owner's last name",
+        "ownerEmail": "Owner's email",
+        "ownerPhone": "Owner's phone",
+        "phone": "Owner's phone",
+        "contactInfo": "Contact information"
+      },
+      "details": {
+        "agencyName": "Agency name",
+        "agencyNamePlaceholder": "Acme Inc",
+        "agencyAdress": "Agency address",
+        "agencyAdressPlaceholder": "e.g.: 12 Petrovac St, 1000 Skopje",
+        "agencyLogo": "Agency logo",
+        "agencyWebsite": "Agency website",
+        "agencyWebsitePlaceholder": "e.g.: https://www.acme.com",
+        "agencyPhone": "Agency phone",
+        "agencyPhonePlaceholder": "e.g.: 070 123 456",
+        "agencyDescription": "Agency description",
+        "agencyDescriptionPlaceholder": "Longer description that will be displayed on your agency page",
+        "agencyShortDescription": "Agency short description",
+        "agencyShortDescriptionPlaceholder": "One sentence describing your business",
+        "agencyMapCoordinates": "Agency map coordinates",
+        "agencyMapCoordinatesPlaceholder": "Example: 41.9981, 21.4254",
+        "agencyBrandingDetails": "Branding",
+        "agencyBrandingDetailsPlaceholder": "This will get a special design soon for managing agency branding",
+        "contactInfoTitle": "Agency contact information",
+        "contactPerson": "Contact person",
+        "contactPersonFullName": "Contact person full name",
+        "contactPersonFullNamePlaceholder": "Your full name",
+        "contactPersonEmail": "Contact person email",
+        "contactPersonEmailPlaceholder": "Your email",
+        "contactPersonPhone": "Contact person phone",
+        "contactPersonPhonePlaceholder": "+389 XX XXX XXX",
+        "workHours": "Work hours",
+        "contactHours": "Contact hours",
+        "contactHoursPlaceholder": "08:00-17:00",
+        "workHoursPlaceholder": "Monday-Friday \n 08:00-17:00 \n Saturday \n 08:00-13:00 \n Sunday \n Closed",
+        "title": "Agency details",
+        "info": "This information will be displayed on your agency page and on your available listings.",
+        "email": "Email",
+        "phone": "Phone",
+        "both": "Both"
+      },
+      "listingsPage": {
+        "title": "My listings",
+        "uploadCsv": "Upload CSV",
+        "createNewListing": "Create new listing"
+      },
+      "finishSetup": "Please complete agency details",
       "welcome": "Welcome",
       "menu": {
         "dashboard": "Dashboard",
@@ -320,72 +903,160 @@
       },
       "unauthorized": "You don't have access to this page",
       "propertyStats": {
-        "title": "Property Statistics",
-        "forSale": "For Sale",
-        "forRent": "For Rent",
+        "title": "Property statistics",
+        "forSale": "For sale",
+        "forRent": "For rent",
         "total": "Total"
       }
     },
     "contact": {
-      "hours": "Work Hours",
+      "hours": "Work hours",
       "phone": "Phone",
       "website": "Website",
       "address": "Address"
     }
   },
+  "user": {
+    "profile": {
+      "menu": {
+        "profile": "Profile",
+        "contactInfo": "Contact information",
+        "myListings": "My listings",
+        "savedSearches": "Saved searches",
+        "likedListings": "Favorite listings",
+        "welcome": "Welcome"
+      },
+      "savedSearches": {
+        "title": "Saved searches",
+        "noSavedSearches": "You don't have any saved searches. You can create one by clicking the Save Search button on the search page to remember your search or if you want to receive notifications for new listings matching these criteria",
+        "newSearch": "New search",
+        "hireAgencies": "Hire agencies",
+        "hireAgenciesDescription": "Let agencies do the work for you"
+      },
+      "listings": {
+        "title": "My listings"
+      },
+      "info": {
+        "title": "Your profile information",
+        "firstName": "First name",
+        "firstNamePlaceholder": "Enter your first name",
+        "lastName": "Last name",
+        "lastNamePlaceholder": "Enter your last name",
+        "phone": "Phone",
+        "phonePlaceholder": "Enter your phone",
+        "email": "Email",
+        "emailPlaceholder": "Enter your email"
+      },
+      "finishSetup": "Please complete your profile details",
+      "contactInfo": {
+        "title": "Contact information",
+        "info": "This information will be displayed on your agency page and on your available listings. It can be different from your personal information listed in Info",
+        "contactName": "Contact person full name",
+        "contactNamePlaceholder": "Name that will be displayed on listings",
+        "contactPhone": "Contact person phone",
+        "contactPhonePlaceholder": "Phone that will be displayed on listings",
+        "contactPhoneVerified": "Contact phone is verified",
+        "contactPhoneNotVerified": "Contact phone is not verified",
+        "contactEmail": "Contact person email",
+        "contactEmailPlaceholder": "Email that will be displayed on listings",
+        "contactEmailVerified": "Contact email is verified",
+        "contactEmailNotVerified": "Contact email is not verified",
+        "contactHours": "Available for contact",
+        "contactHoursPlaceholder": "08:00-17:00",
+        "preferredContactMethod": "Preferred contact method",
+        "preferredContactMethodPlaceholder": "Select contact method"
+      },
+      "likedListings": {
+        "title": "Favorite listings",
+        "noLikedListings": "You don't have any favorite listings",
+        "sort": "Sort"
+      }
+    }
+  },
   "auth": {
+    "errors": {
+      "incorrectEmailOrPassword": "Incorrect email or password",
+      "alreadyLoggedIn": "You are already logged in",
+      "invalidEmail": "Invalid email",
+      "invalidPassword": "Invalid password",
+      "accountDoesNotExist": "No account exists with that email",
+      "confirmPasswordDoesNotMatchPassword": "Passwords don't match",
+      "badPasswordFormatting": "Password must contain at least 8 characters",
+      "somethingWentWrong": "Something went wrong",
+      "invalidToken": "Invalid password reset link",
+      "tokenExpired": "Password reset time has expired",
+      "passwordsAndTokenAreRequired": "Passwords and reset link are required"
+    },
     "signIn": {
-      "title": "Sign In",
+      "title": "Sign in",
       "subtitle": "Sign in to your account",
       "email": "Email",
       "password": "Password",
       "forgotPassword": "Forgot password?",
-      "button": "Sign In",
+      "button": "Sign in",
       "noAccount": "Don't have an account?",
-      "createAccount": "Sign Up",
-      "error": "Invalid email or password",
-      "success": "Successfully signed in"
+      "createAccount": "Register",
+      "error": "Incorrect email or password",
+      "success": "Successfully signed in",
+      "loginNeeded": "Login required",
+      "loginNeededDescription": "This action requires login",
+      "loginMessage": "You need to be logged in for this action"
+    },
+    "resetPassword": {
+      "title": "Change password",
+      "newPassword": "New password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "resetting": "Resetting",
+      "resetPassword": "Reset password",
+      "success": "Password successfully reset",
+      "tokenExpired": "Password reset time has expired",
+      "backToHomepage": "Return to homepage"
     },
     "signUp": {
-      "title": "Sign Up",
+      "title": "Register",
       "subtitle": "Create a new account",
       "email": "Email",
       "password": "Password",
-      "confirmPassword": "Confirm Password",
-      "button": "Sign Up",
+      "confirmPassword": "Confirm password",
+      "button": "Register",
       "hasAccount": "Already have an account?",
-      "signIn": "Sign In",
-      "agencySignUp": "Sign Up as Agency",
+      "signIn": "Sign in",
+      "agencySignUp": "Register as agency",
       "error": {
         "emailExists": "This email is already registered",
-        "passwordMismatch": "Passwords do not match",
+        "passwordMismatch": "Passwords don't match",
         "invalidEmail": "Invalid email",
-        "weakPassword": "Password must be at least 8 characters"
+        "weakPassword": "Password must contain at least 8 characters"
       },
-      "success": "Successfully signed up"
+      "success": "Successfully registered"
     },
     "agencySignUp": {
-      "title": "Sign Up as Agency",
+      "title": "Register as agency",
       "subtitle": "Create a new agency account",
       "email": "Email",
       "password": "Password",
-      "confirmPassword": "Confirm Password",
-      "button": "Sign Up",
+      "confirmPassword": "Confirm password",
+      "button": "Register",
+      "important": "Important",
       "profileInfo": "After registration, you'll be able to complete your agency profile with additional information",
       "error": {
         "emailExists": "This email is already registered",
-        "passwordMismatch": "Passwords do not match",
+        "passwordMismatch": "Passwords don't match",
         "invalidEmail": "Invalid email",
-        "weakPassword": "Password must be at least 8 characters"
+        "weakPassword": "Password must contain at least 8 characters"
       },
-      "success": "Successfully signed up as agency"
+      "success": "Successfully registered as agency"
     },
     "forgotPassword": {
-      "title": "Forgot Password?",
-      "subtitle": "Enter your email to receive a password reset link",
+      "title": "Forgot password?",
+      "subtitle": "Enter your email to send you a password reset link",
       "email": "Email",
-      "button": "Send Reset Link",
-      "backToSignIn": "Back to Sign In"
+      "button": "Send reset link",
+      "backToSignIn": "Back to sign in",
+      "success": "Password reset link has been sent to your email",
+      "passwordUpdatedSuccessfully": "Password successfully reset"
     },
     "oauth": {
       "or": "or",

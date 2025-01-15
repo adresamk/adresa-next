@@ -1,66 +1,303 @@
 {
-  "HomePage": {
-    "greeting": "Përshëndetje"
+  "savedSearches": {
+    "moreLocations": "lokacione të tjera",
+    "location": "lokacioni",
+    "moreCriteria": "kritere të tjera",
+    "criteria": "kriteri",
+    "saveSearchDescription": "Mund të merrni njoftime kur shfaqen shpallje të reja që përputhen me kriteret tuaja",
+    "notifications": "Njoftimet",
+    "notificationInterval": {
+      "title": "Intervali i njoftimeve",
+      "daily": "Çdo ditë",
+      "weekly": "Çdo javë",
+      "live": "Live"
+    },
+    "savedSearchName": "Emri i kërkimit",
+    "savedSearchNamePlaceholder": "p.sh: Të preferuarat në Shkup"
   },
+  "creditCard": {
+    "title": "Zgjidhni mënyrën e pagesës",
+    "subtitle": "Kjo është një pagesë e vetme për publikimin e shpalljes suaj dhe ka një kohëzgjatje prej gjashtë muajsh!",
+    "debitCreditCard": "Kartë debiti/krediti",
+    "otherPayment": "Mënyra tjetër e pagesës",
+    "otherPaymentDescription": "Janë në dispozicion mënyra alternative të pagesës",
+    "firstName": "Emri",
+    "lastName": "Mbiemri",
+    "cardNumber": "Numri i kartës",
+    "expiryDate": "Data e skadimit",
+    "expiryDatePlaceholder": "MM/VV",
+    "cvv": "CVV",
+    "securityMessage": "Duke klikuar \"Përfundo blerjen\" do të ridrejtoheni në një sistem të sigurt bankar."
+  },
+  "map": {
+    "notSet": "Lokacioni nuk është vendosur",
+    "attribution": "© Kontribuesit e OpenStreetMap",
+    "searchInArea": "Kërko në këtë zonë",
+    "searchAsMove": "Kërko ndërsa lëviz",
+    "loading": "Duke ngarkuar hartën...",
+    "viewProperties": "Shfaqur {listingsLength} rezultate në hartë"
+  },
+  "search": {
+    "404": {
+      "title": "404",
+      "description": "Faqja nuk u gjet",
+      "messageP1": "Mund të ktheheni në ",
+      "messageP2": " ose ",
+      "messageP3": " nëse problemi nuk është zgjidhur.",
+      "homepage": "faqen kryesore",
+      "contactUs": "na kontaktoni"
+    },
+    "noResults": {
+      "title": "Nuk ka rezultate",
+      "description": "Duket se nuk ka prona që përputhen me kriteret tuaja. Mund të fshini filtrin ose të zgjeroni fushën e kërkimit për të parë më shumë rezultate, por gjithashtu mund të ruani kërkimin tuaj dhe të njoftoheni për prona të reja që përputhen me kriteret tuaja kur publikohen!"
+    },
+    "results": "rezultate",
+    "result": "rezultat",
+    "new": "të reja",
+    "singleNew": "e re",
+    "more": "më shumë",
+    "selectNeighbourhood": "Zgjidhni lagjen",
+    "loweredPriceResults": "rezultate me çmim të ulur",
+    "defaultType": "Shtëpi",
+    "defaultLocation": "Shkup",
+    "filters": {
+      "clearAll": "Fshiji të gjitha",
+      "title": "Filtrat",
+      "description": "Filtro rezultatet",
+      "viewResults": "Shfaq {count} rezultate",
+      "results": "{count} rezultate",
+      "result": "rezultat",
 
+      "location": {
+        "label": "Vendndodhja",
+        "notActivePlaceholder": "Shkruani të paktën 3 karaktere",
+        "emptyPlaceholder": "Për shembull: Shkup, Kumanovë, Veles"
+      },
+      "category": {
+        "label": "Lloji i pronës",
+        "emptyPlaceholder": "Shtëpi",
+        "residential": "Banesore",
+        "commercial": "Komerciale",
+        "land": "Toka",
+        "all": "Të gjitha",
+        "other": "Tjetër"
+      },
+
+      "price": {
+        "label": "Çmimi",
+        "from": "nga",
+        "to": "deri",
+        "upTo": "deri",
+        "any": "Çfarëdo"
+      },
+      "surface": {
+        "label": "Sipërfaqja",
+        "from": "nga",
+        "to": "deri",
+        "upTo": "deri",
+        "any": "Çfarëdo"
+      },
+      "mode": {
+        "buy": "Bli",
+        "sale": "Shitje",
+        "rent": "Qira",
+        "all": "Të gjitha",
+        "availableFor": "Në dispozicion për"
+      },
+      "secondaryFilters": {
+        "any": "Çfarëdo",
+        "basement": "Bodrum",
+        "mezanine": "Mezanin",
+        "ground_floor": "Kati përdhes",
+        "attic": "Nënkulm",
+        "from": "Nga",
+        "to": "Deri",
+        "floor": "Kati",
+        "bedrooms": "Dhoma gjumi",
+        "yearOfConstruction": "Viti i ndërtimit",
+        "underConstruction": "Në ndërtim",
+        "newDevelopment": "Ndërtim i ri",
+        "central": "Qendrore",
+        "electric": "Energji elektrike",
+        "gas": "Energji me gaz",
+        "geothermal": "Energji gjeotermale",
+        "heat_pump": "Pompë nxehtësie",
+        "wood": "Dru",
+        "solar": "Energji diellore",
+        "underfloor": "Nënpodrum",
+        "other": "Tjetër",
+        "heating": "Ngrohje",
+        "heatingType": "Lloji i ngrohjes",
+        "furnitureIncluded": "Mobilje të përfshira",
+        "internalFeatures": "Karakteristika të brendshme",
+        "externalFeatures": "Karakteristika të jashtme",
+        "lastUpdated": "Përditësimi i fundit",
+        "creationDate": "Data e krijimit",
+        "timeRange": {
+          "any": "Çfarëdo",
+          "24h": "24 orë",
+          "1d": "1 ditë",
+          "3d": "3 ditë",
+          "7d": "1 javë",
+          "30d": "1 muaj"
+        },
+        "extraTimeRange": {
+          "6m": "6 muaj",
+          "1y": "1 vit"
+        }
+      },
+      "features": {
+        "ac": "Kondicionim",
+        "storage": "Depo",
+        "garage": "Garazh",
+        "alarm": "Alarm",
+        "fancy_art": "Art luksoz",
+        "tito_furniture": "Mobilje Tito",
+        "cat": "Mace",
+        "pool": "Pishinë",
+        "parking": "Parking",
+        "yard": "Oborr"
+      }
+    }
+  },
   "common": {
-    "buttons": {
+    "actions": {
+      "hide": "Fsheh",
+      "sort": "Rendit",
+      "saved": "Ruajtur",
+      "print": "Printo",
+      "notes": "Shënime",
+      "publish": "Publiko",
+      "next": "Tjetër",
       "search": "Kërko",
-      "submit": "Dërgo",
+      "submit": "Konfirmo",
       "cancel": "Anulo",
       "back": "Kthehu",
       "share": "Ndaj",
       "save": "Ruaj",
       "contact": "Kontakto",
       "reveal": "Shfaq",
-      "signIn": "Hyr"
+      "signIn": "Kyçu",
+      "saveChanges": "Ruaj ndryshimet",
+      "saveSearch": "Ruaj kërkimin",
+      "on": "Po",
+      "off": "Jo",
+      "showMore": "Teksti i plotë",
+      "showLess": "Fsheh tekstin"
     },
-    "filters": {
-      "location": "Vendndodhja",
-      "propertyType": "Lloji i Pronës",
-      "price": "Çmimi",
-      "surface": "Sipërfaqja",
-      "mode": {
-        "buy": "Bli",
-        "sale": "Shitje",
-        "rent": "Me Qira"
-      }
-    },
-    "actions": {
-      "save": "ruaj",
-      "saved": "ruajtur"
-    },
-    "search": {
-      "results": "rezultate",
-      "new": "të reja",
-      "more": "më shumë",
-      "selectNeighbourhood": "Zgjidh Lagjen",
-      "loweredPriceResults": "rezultate me çmim të ulur",
-      "titleFormat": "{type}: {location}",
-      "defaultType": "Shtëpi",
-      "defaultLocation": "Shkup"
+    "words": {
+      "listings": "shpallje",
+      "listing": "shpallje",
+      "for": "për",
+      "and": "dhe",
+      "no": "jo",
+      "yes": "po",
+      "without": "pa",
+      "filledOut": "plotësuar",
+      "done": "përfunduar",
+      "monthly": "mujore"
     },
     "property": {
       "type": {
-        "house": "shtëpi",
-        "apartment": "apartament",
-        "office": "zyrë",
-        "land": "tokë",
-        "warehouse": "magazinë",
-        "agricultural": "tokë bujqësore",
-        "industrial space": "hapësirë industriale",
-        "assembly facilities": "objekte montimi",
-        "garage": "garazh",
-        "store": "dyqan",
-        "construction": "në ndërtim",
-        "other": "tjetër"
+        "all_types": "Të gjitha llojet",
+        "label": "Lloji i pronës",
+        "emptyPlaceholder": "Nënlloji",
+        "residential": "Banesore",
+        "construction": "Në ndërtim",
+        "agricultural": "Tokë bujqësore",
+        "apartment": "Apartament",
+        "business": "Biznes",
+        "house": "Shtëpi",
+        "vacation_house": "Shtëpi pushimi",
+        "office": "Zyrë",
+        "warehouse": "Magazinë",
+        "industrial_space": "Hapësirë industriale",
+        "assembly_facilities": "Objekte montimi",
+        "garage": "Garazh",
+        "store": "Hapësirë komerciale",
+        "other": "Të tjera"
+      },
+      "feature": {
+        "category": {
+          "OTHER": "Të tjera",
+          "INTERNAL": "Të brendshme",
+          "EXTERNAL": "Të jashtme"
+        },
+        "keys": {
+          "parking": "Parking",
+          "elevator": "Ashensor",
+          "balcony": "Ballkon",
+          "yard": "Oborr",
+          "basement": "Bodrum",
+          "internet": "Internet",
+          "cabel_tv": "TV kabllor",
+          "close_to_center": "Afër qendrës",
+          "quiet_neighbourhood": "Lagje e qetë",
+          "renovated": "E rinovuar",
+          "lake_access": "Qasje në liqen",
+          "near_center": "Afër qendrës",
+          "quiet_area": "Zonë e qetë",
+          "accessibility": "Qasje",
+          "has_view": "Ka pamje",
+          "pets_allowed": "Lejohen kafshët shtëpiake",
+          "tv": "TV",
+          "smoke_alarm": "Alarm tymi",
+          "furnished": "E mobiluar",
+          "washing_machine": "Lavatriçe",
+          "modernized": "E modernizuar",
+          "shower": "Dush",
+          "bathtub": "Vaskë",
+          "bidet": "Bidet",
+          "bright_rooms": "Dhoma të ndriçuara",
+          "fireplace": "Oxhak",
+          "alarm": "Alarm",
+          "fresh_paint": "Bojë e freskët",
+          "storage_space_3": "Depo 3m²",
+          "storage_space_5": "Depo 5m²",
+          "storage_space_10": "Depo 10m²",
+          "internal_staircase": "Shkallë të brendshme",
+          "attic": "Nënkulm",
+          "underfloor_heating": "Ngrohje nën dysheme",
+          "secure_door": "Derë e sigurt",
+          "shared_garden": "Kopsht i përbashkët",
+          "swimming_pool": "Pishinë",
+          "modern_architecture": "Arkitekturë moderne",
+          "gated_community": "Komunitet i mbyllur",
+          "solar_panels": "Panele diellore",
+          "laundry_room": "Dhomë lavanderie",
+          "bike_parking": "Parking për biçikleta",
+          "porch": "Verandë",
+          "security_guard": "Roje sigurie",
+          "reception": "Recepcion",
+          "keycode_doorlock": "Bravë me kod",
+          "satelite_receiver": "Marrës satelitor",
+          "solar_water_heating": "Ngrohje diellore e ujit",
+          "requires_renovation": "Kërkon rinovim",
+          "unfinished": "E papërfunduar",
+          "preserved": "E ruajtur",
+          "new_development": "Ndërtim i ri",
+          "investment": "Investim",
+          "students": "për studentë",
+          "commercial_use": "për përdorim komercial",
+          "holiday_home": "për shtëpi pushimi",
+          "office": "për zyrë",
+          "short_term_rental": "për qira afatshkurtër",
+          "loading_dock": "Platformë ngarkimi"
+        }
+      },
+      "category": {
+        "title": "Kategoria",
+        "land": "Tokë",
+        "residential": "Banesore",
+        "commercial": "Komerciale",
+        "other": "Të tjera"
       },
       "area": "m²",
       "price": "çmimi",
       "features": {
         "bathroom": "banjë",
         "bathrooms": "banja",
-        "aircon": "kondicioner",
+        "aircon": "kondicioneri",
         "aircons": "kondicionerë",
         "garage": "garazh",
         "garages": "garazhe",
@@ -70,129 +307,141 @@
         "kitchens": "kuzhina",
         "floor": "kat",
         "totalFloors": "kate gjithsej",
-        "floorInfo": "{floor} (nga {total})",
+        "floorInfo": "{floor} (nga gjithsej {total})",
         "yearBuilt": "Viti i ndërtimit",
         "pricePerSquare": "Çmimi për m²"
       },
       "metadata": {
-        "posted": "Postuar më",
+        "posted": "Publikuar më",
         "updated": "Përditësuar më",
-        "available": "E disponueshme nga",
-        "id": "ID",
-        "lastModified": "Modifikuar së fundmi"
+        "available": "Në dispozicion nga",
+        "id": "Kodi",
+        "lastModified": "Ndryshimi i fundit"
       },
       "description": "Përshkrimi",
       "characteristics": "Karakteristikat",
-      "insideCharacteristics": "Karakteristikat e Brendshme",
-      "outsideCharacteristics": "Karakteristikat e Jashtme",
+      "generalFeatures": "Karakteristika të përgjithshme",
+      "insideFeatures": "Karakteristika të brendshme",
+      "outsideFeatures": "Karakteristika të jashtme",
       "location": "Vendndodhja",
-      "map": {
-        "notSet": "Vendndodhja nuk është vendosur",
-        "attribution": "Kontribuesit e OpenStreetMap",
-        "searchInArea": "Kërko në këtë zonë",
-        "searchAsMove": "Kërko ndërsa lëviz",
-        "loading": "Duke ngarkuar hartën..."
-      },
       "publisher": "Publikuesi",
       "publisherDetails": {
+        "preferredContactMethod": "Mënyra e preferuar e kontaktit",
         "title": "Shitësi",
-        "phone": "Telefon",
+        "agency": "Agjencia",
+        "phone": "Telefoni",
         "email": "Email",
-        "website": "Faqja e internetit",
-        "contactPerson": "Personi i Kontaktit",
-        "workHours": "Orari i Punës",
-        "contactPersonEmail": "Email i Personit të Kontaktit",
-        "contactPersonPhone": "Telefoni i Personit të Kontaktit",
-        "contactHours": "Orët e Kontaktit"
+        "website": "Faqja web",
+        "contactPerson": "Personi i kontaktit",
+        "workHours": "Orari i punës",
+        "contactHoursUser": "Koha ideale për kontakt",
+        "contactPersonEmail": "Email i personit të kontaktit",
+        "contactPersonPhone": "Telefoni i personit të kontaktit",
+        "contactHours": "Orari i kontaktit"
       },
       "mortgage": {
-        "options": "Kontrollo opsionet e tua",
-        "calculate": "Llogarit pagesën"
+        "options": "Kontrolloni opsionet tuaja",
+        "calculate": "Llogarit këstin"
       }
     },
+    "cannotBeChanged": "(nuk mund të ndryshohet më vonë!)",
     "listing": {
-      "type": "{type}",
       "defaultMunicipality": "Komuna",
       "updated": "Përditësuar",
-      "features": {
-        "floor": "Kati",
-        "bedrooms": "Dhoma gjumi",
-        "bedroomsAbbr": "dh",
-        "bathrooms": "Banja",
-        "bathroomsAbbr": "b"
-      },
-      "labels": {
-        "featured": "Shpallje e Veçantë",
-        "exactLocation": "Vendndodhja e Saktë në Hartë"
-      },
-      "actions": {
-        "hide": "Fshih",
-        "contact": "Kontakto"
-      },
-      "featuredListing": "Shpallje e Veçantë",
-      "exactLocation": "Vendndodhja e Saktë në Hartë",
+      "published": "Publikuar më",
+
+      "featuredListing": "Shpallje e veçantë",
+      "exactLocation": "Vendndodhja e saktë në hartë",
       "propertyDetails": "{type}, {area}m²",
-      "defaultAgency": "Agjenci e Pasurive të Paluajtshme",
+      "propertyImage": "Foto {index}",
+      "defaultAgency": "Agjenci e patundshmërive",
       "categoryOptions": {
         "apartment": "Apartament",
         "house": "Shtëpi",
-        "office": "Hapsirë Kantorale",
+        "office": "Zyrë",
         "land": "Tokë",
-        "store": "Hapsirë Tregtare"
+        "store": "Hapësirë komerciale",
+        "residential": "Banesore",
+        "commercial": "Komerciale",
+        "other": "Të tjera"
       }
     },
     "navigation": {
-      "myAccount": "Llogaria Ime",
+      "myAccount": "Profili im",
       "dashboard": "Paneli"
     },
     "status": {
       "missing": "mungon"
     },
     "contact": {
+      "imInterested": "Jam i interesuar për këtë pronë",
+      "label": "Kontakto",
       "phone": "Telefon",
       "email": "Email",
       "message": "Mesazh",
-      "name": "Emri i Plotë"
-    },
-    "cannotBeChanged": "(nuk mund të ndryshohet më vonë!)"
-  },
-  "header": {
-    "createListing": "Shto Shpallje",
-    "userControls": {
-      "profile": "Profili",
-      "logout": "Dilni"
-    }
-  },
-  "home": {
-    "search": {
-      "title": "Gjej shtëpinë tënde të përkryer",
-      "subtitle": "Kërko në mijëra prona"
-    },
-    "sections": {
-      "lastSearches": "Kërkimet e Fundit",
-      "lastOpened": "Shikuar së Fundmi",
-      "suggested": "Prona të Sugjeruara",
-      "agencies": "Agjenci të Sugjeruara"
-    },
-    "userGreeting": {
-      "greeting": "Përshëndetje",
-      "dashboard": "Paneli Juaj"
+      "sendMessage": "Dërgo mesazh",
+      "name": "Emri dhe mbiemri",
+      "firstName": "Emri",
+      "firstNamePlaceholder": "Emri juaj",
+      "lastName": "Mbiemri",
+      "lastNamePlaceholder": "Mbiemri juaj"
     }
   },
   "listing": {
-    "breadcrumbs": {
-      "home": "Kryefaqja",
-      "properties": "Pronat",
-      "search": "Kërko"
+    "sorting": {
+      "new": "I ri",
+      "low_price": "Çmimi më i ulët",
+      "high_price": "Çmimi më i lartë"
     },
-    "actions": {
-      "share": "Ndaj",
-      "save": "Ruaj",
-      "saved": "Ruajtur",
-      "contact": "Kontakto",
-      "print": "Printo",
-      "notes": "Shënime",
-      "hide": "Fshih"
+    "labels": {
+      "featured": "Shpallje e veçantë",
+      "exactLocation": "Vendndodhja e saktë në hartë"
+    },
+    "fieldsKeys": {
+      "importantFeatures": {
+        "floor": "kati",
+        "bedroomCount": "dhoma gjumi",
+        "bathroomCount": "banja",
+        "parkingCount": "parking"
+      },
+      "bedroomCount": "dhoma gjumi",
+      "price": "çmimi",
+      "pricePerSquare": "çmimi për m²",
+      "area": "sipërfaqja",
+      "floor": "kati",
+      "kitchenCount": "kuzhina",
+      "bathroomCount": "banja",
+      "wcCount": "wc",
+      "constructionYear": "Viti i ndërtimit",
+      "updatedAt": "Përditësuar",
+      "publishedAt": "Publikuar",
+      "parking": "parking",
+      "totalFloors": "kate gjithsej",
+      "orientation": "orientimi",
+      "zone": "zona",
+      "accessFrom": "qasja",
+      "slope": "pjerrësia",
+      "totalPropertyArea": "sipërfaqja",
+      "isFurnished": "I mobiluar",
+      "isForStudents": "për studentë",
+      "isForHolidayHome": "për shtëpi pushimi",
+      "commonExpenses": "Shpenzimet e përbashkëta",
+      "heatingType": "lloji i ngrohjes",
+      "heatingMedium": "burimi i ngrohjes",
+      "isCornerProperty": "në skaj",
+      "isOnTopFloor": "në katin e fundit"
+    },
+
+    "transactionType": {
+      "title": "Për",
+      "sale": "Shitje",
+      "rent": "Qira"
+    },
+    "breadcrumbs": {
+      "home": "Ballina",
+      "properties": "Pronat",
+      "search": "Kërkimi",
+      "listing": "Shpallja"
     },
     "contact": {
       "title": "Kontakto shitësin",
@@ -201,33 +450,29 @@
       "error": "Ndodhi një gabim gjatë dërgimit të mesazhit"
     },
     "like": {
-      "loginNeeded": "Kërkohet Hyrja",
-      "loginMessage": "Duhet të jeni të kyçur për këtë veprim",
+      "loginNeeded": "Nevojitet kyçja",
+      "loginMessage": "Për këtë veprim duhet të jeni të kyçur",
       "toggleFavorite": "Shto/Hiq nga të preferuarat"
     },
     "new": {
-      "title": "Krijo Shpallje të Re",
-      "description": "Plotësoni detajet më poshtë për të krijuar shpalljen tuaj",
-      "propertyDetails": "Detajet e Pronës",
+      "completed": "përfunduar",
+      "inProgress": "në proces",
+      "selectCategory": "Zgjidhni kategorinë",
+      "propertyCategory": "Kategoria e pronës",
+      "newListing": "Shpallje e re",
+      "title": "Krijo shpallje të re",
+      "description": "Plotësoni detajet më poshtë për të krijuar shpalljen",
+      "propertyDetails": "Detajet e pronës",
       "location": "Vendndodhja",
       "features": "Karakteristikat",
       "images": "Fotot",
       "price": "Çmimi",
-      "contact": "Informacioni i Kontaktit",
+      "contact": "Informacionet e kontaktit",
       "preview": "Parapamja",
-      "submit": "Publiko Shpalljen",
-      "propertyType": {
-        "label": "Lloji i Pronës",
-        "apartment": "Apartament",
-        "house": "Shtëpi",
-        "office": "Hapësirë Zyre",
-        "land": "Tokë",
-        "store": "Hapësirë Komerciale"
-      },
-      "listingType": {
-        "label": "Lloji i Shpalljes",
-        "sale": "Për Shitje",
-        "rent": "Për Qira"
+      "transactionType": {
+        "label": "Lloji i shpalljes",
+        "sale": "Shitje",
+        "rent": "Qira"
       },
       "size": {
         "label": "Sipërfaqja",
@@ -235,7 +480,7 @@
         "unit": "m²"
       },
       "rooms": {
-        "label": "Numri i Dhomave",
+        "label": "Numri i dhomave",
         "placeholder": "Zgjidhni numrin e dhomave"
       },
       "floor": {
@@ -243,158 +488,586 @@
         "placeholder": "Zgjidhni katin"
       },
       "construction": {
-        "label": "Viti i Ndërtimit",
+        "label": "Viti i ndërtimit",
         "placeholder": "Vendosni vitin"
       },
       "heating": {
-        "label": "Lloji i Ngrohjes",
+        "label": "Lloji i ngrohjes",
         "central": "Qendrore",
         "electric": "Elektrike",
-        "gas": "Me Gaz",
-        "none": "Pa Ngrohje"
+        "gas": "Me gaz",
+        "none": "Nuk ka"
       },
       "progress": {
         "completed": "përfunduar",
-        "newListing": "Shpallje e Re",
+        "newListing": "Shpallje e re",
         "steps": {
+          "category": {
+            "title": "Kategoria e pronës dhe të dhënat bazë",
+            "description": "Zgjidhni kategorinë dhe detajet"
+          },
+          "fillOut": "Plotësoni detajet",
           "propertyCategory": {
-            "title": "Kategoria e Pronës",
+            "title": "Kategoria e pronës",
             "description": "Zgjidhni kategorinë"
           },
-          "propertyDetails": {
-            "title": "Detajet e Pronës",
-            "description": "Vendosni specifikimet e pronës"
+          "propertyType": {
+            "title": "Lloji i pronës",
+            "description": "Zgjidhni llojin e pronës",
+            "basicInformation": "Informacionet bazë"
           },
           "location": {
             "title": "Vendndodhja",
-            "description": "Përcaktoni vendndodhjen e pronës"
+            "description": "Përcaktoni vendndodhjen e pronës",
+            "municipality": "Komuna",
+            "municipalityPlaceholder": "Zgjidhni komunën",
+            "notFoundText": "Nuk ka komuna",
+            "place": "Vendi",
+            "placePlaceholder": "Zgjidhni vendin",
+            "notFoundPlaceText": "Nuk ka vende",
+            "address": "Adresa",
+            "addressPlaceholder": "Vendosni adresën",
+            "map": {
+              "confirmLocation": "Konfirmo vendndodhjen",
+              "howToFindCoordinates": "Vendosni koordinatat manualisht ose zgjidhni në hartë",
+              "seeExample": "Shih shembullin",
+              "instructions": {
+                "description": "Mund të gjeni koordinatat e vendndodhjes suaj duke:",
+                "step1": "Shkuar në Google Maps",
+                "step2": "Duke klikuar me të djathtën në vendndodhjen tuaj",
+                "step3": "Koordinatat do të shfaqen në krye të menysë",
+                "step4": "Hapi 1: Kliko me të djathtën në hartë",
+                "step5": "Hapi 2: Kliko në koordinata për t'i kopjuar",
+                "step6": "Hapi 1: Prek aplikacionin Google Maps",
+                "step7": "Hapi 2: Kliko në koordinata për t'i kopjuar"
+              },
+              "coordinates": "Koordinatat",
+              "coordinatesPlaceholder": "p.sh: 41.9981,21.4254",
+              "applyCoordinates": "Ngarko koordinatat në hartë",
+              "locationPrecision": "Saktësia e vendndodhjes",
+              "locationPrecisionPlaceholder": "Zgjidhni saktësinë e vendndodhjes",
+              "locationPrecisionOptions": {
+                "exact": "E saktë",
+                "approximate": "E përafërt",
+                "wide": "E gjerë"
+              }
+            }
+          },
+          "mainCharacteristics": {
+            "title": "Karakteristikat kryesore",
+            "description": "Vendosni karakteristikat kryesore të pronës",
+            "price": "Çmimi",
+            "pricePlaceholder": "Vendosni çmimin në euro",
+            "area": "Sipërfaqja",
+            "areaPlaceholder": "Vendosni sipërfaqen në m²",
+            "floor": {
+              "label": "Kati",
+              "placeholder": "Vendosni në cilin kat ndodhet"
+            },
+            "isCornerProperty": {
+              "label": "Prona ndodhet në skaj"
+            },
+            "constructionYear": {
+              "label": "Viti i ndërtimit",
+              "placeholder": "Vendosni vitin"
+            },
+            "totalPropertyArea": {
+              "label": "Sipërfaqja totale",
+              "placeholder": "Vendosni sipërfaqen në m²"
+            },
+            "heatingType": {
+              "label": "Lloji i ngrohjes",
+              "placeholder": "Zgjidhni llojin e ngrohjes",
+              "heatingTypeOptions": {
+                "autonomous": "Autonome",
+                "central": "Qendrore",
+                "air_condition": "Kondicionim",
+                "none": "Nuk ka"
+              }
+            },
+            "isFurnished": {
+              "label": "Me mobilje",
+              "description": "Prona është e mobiluar"
+            },
+            "isForStudents": {
+              "label": "Për studentë",
+              "description": "Prona është për studentë"
+            },
+            "isForHolidayHome": {
+              "label": "Shtëpi pushimi",
+              "description": "Prona është për shtëpi pushimi"
+            },
+            "totalFloors": {
+              "label": "Numri total i kateve",
+              "placeholder": "Zgjidhni katin më të lartë"
+            },
+            "heatingMedium": {
+              "label": "Burimet e ngrohjes",
+              "placeholder": "Vendosni burimet e ngrohjes",
+              "heatingMediumOptions": {
+                "oil": "Naftë",
+                "natural_gas": "Gaz natyror",
+                "diesel": "Naftë",
+                "electricity": "Elektricitet",
+                "wood": "Dru",
+                "solar": "Energji diellore",
+                "geothermal": "Energji gjeotermale",
+                "heat_pump": "Pompë nxehtësie"
+              }
+            },
+            "isOnTopFloor": {
+              "label": "Prona ndodhet në katin e fundit"
+            },
+            "orientation": {
+              "label": "Orientimi",
+              "placeholder": "Zgjidhni orientimin",
+              "orientationOptions": {
+                "north": "Veri",
+                "south": "Jug",
+                "east": "Lindje",
+                "west": "Perëndim",
+                "north-east": "Verilindje",
+                "north-west": "Veriperëndim",
+                "south-east": "Juglindje",
+                "south-west": "Jugperëndim"
+              }
+            },
+            "rooms": {
+              "label": "Numri i dhomave",
+              "placeholder": "Zgjidhni numrin e dhomave",
+              "bathroom": "Banjë",
+              "bathrooms": "Banja",
+              "wc": "Tualet",
+              "wcs": "Tualete",
+              "kitchen": "Kuzhinë",
+              "kitchens": "Kuzhina",
+              "livingRoom": "Dhomë dite",
+              "livingRooms": "Dhoma dite",
+              "bedroom": "Dhomë gjumi",
+              "bedrooms": "Dhoma gjumi"
+            },
+            "commonExpenses": {
+              "label": "Shpenzimet e përbashkëta",
+              "description": "Shpenzimet e përbashkëta janë shpenzime që ndahen mes banorëve të pronës në baza mujore, si numër orientues në euro pa qira.",
+              "placeholder": "Vendosni shpenzimet në euro"
+            },
+            "accessFrom": {
+              "label": "Qasja nga",
+              "placeholder": "Zgjidhni qasjen nga",
+              "accessFromOptions": {
+                "paved": "E shtruar",
+                "asphalt": "Asfalt",
+                "pedestrian": "Këmbësore",
+                "dirt_road": "Rrugë dheu",
+                "sea": "Deti",
+                "other": "Tjetër",
+                "no_road_access": "Pa qasje rrugore"
+              }
+            },
+            "slope": {
+              "label": "Pjerrësia",
+              "placeholder": "Zgjidhni pjerrësinë",
+              "slopeOptions": {
+                "flat": "E rrafshët",
+                "inclined": "E pjerrët",
+                "steep": "Shumë e pjerrët"
+              }
+            },
+            "zone": {
+              "label": "Zona",
+              "placeholder": "Zgjidhni zonën",
+              "zoneOptions": {
+                "residential": "Banesore",
+                "commercial": "Komerciale",
+                "agricultural": "Bujqësore",
+                "industrial": "Industriale",
+                "recreational": "Rekreative",
+                "unincorporated": "E painkorporuar"
+              }
+            }
+          },
+          "contact": {
+            "title": "Informacionet e kontaktit",
+            "description": "Vendosni informacionet e kontaktit",
+            "emailInfo": {
+              "notPublished": "Email-i juaj nuk do të publikohet",
+              "learnMore": "Mëso më shumë",
+              "whyNotPublished": "Pse nuk do të publikohet?",
+              "reasonNotPublished": "Përdoruesit që janë të interesuar për pronën tuaj do të mund të dërgojnë mesazh në email-in tuaj, pa pasur nevojë të dinë email-in tuaj."
+            },
+            "securityInfo": "Informacioni juaj është i rëndësishëm për ne. Do ta verifikojmë numrin tuaj të telefonit me ndihmën e një kodi njëpërdorimsh që do ta merrni përmes telefonit ose SMS-së.",
+            "justVisual": "Këto informacione shërbejnë vetëm për të kontrolluar të dhënat tuaja. Nëse dëshironi t'i ndryshoni, klikoni butonin më poshtë për t'ju çuar te profili juaj ku mund t'i ndryshoni.",
+            "updateInfo": "Ndrysho informacionet"
+          },
+          "description": {
+            "title": "Përshkrimi",
+            "description": "Vendosni përshkrimin e pronës",
+            "englishTitle": "Titulli në anglisht",
+            "englishTitlePlaceholder": "Vendosni titullin në anglisht",
+            "englishDescription": "Përshkrim i detajuar në anglisht",
+            "englishDescriptionPlaceholder": "Vendosni përshkrim të detajuar në anglisht",
+            "macedonianTitle": "Titulli në maqedonisht",
+            "macedonianTitlePlaceholder": "Vendosni titullin në maqedonisht",
+            "macedonianDescription": "Përshkrim i detajuar në maqedonisht",
+            "macedonianDescriptionPlaceholder": "Vendosni përshkrim të detajuar në maqedonisht",
+            "albanianTitle": "Titulli në shqip",
+            "albanianTitlePlaceholder": "Vendosni titullin në shqip",
+            "albanianDescription": "Përshkrim i detajuar në shqip",
+            "albanianDescriptionPlaceholder": "Vendosni përshkrim të detajuar në shqip",
+            "characters": "karaktere",
+            "translateTo": "Përkthe në"
+          },
+          "additionalFeatures": {
+            "title": "Karakteristika shtesë",
+            "description": "Shtoni karakteristika shtesë të pronës"
+          },
+          "propertyDetails": {
+            "title": "Detajet e pronës",
+            "description": "Vendosni specifikimet e pronës"
           },
           "media": {
+            "images": "Fotot",
+            "image": "Foto",
             "title": "Media",
-            "description": "Shtoni foto dhe video"
+            "uploadHighResolution": "Ngarko foto me rezolucion të lartë",
+            "uploaded": "ngarkuar",
+            "controls": "Tërhiq për t'i riorganizuar",
+            "video": "Video",
+            "description": "Shtoni foto dhe video",
+            "uploadImages": "Ngarko foto",
+            "youtubeLink": "Lidhje për video në YouTube",
+            "youtubeLinkExample": "p.sh: https://www.youtube.com/watch?v=[videoID]",
+            "youtubeLinkPlaceholder": "https://www.youtube.com/watch?v=[videoID]",
+            "imagesPreview": {
+              "title": "Fotot për pronën tuaj",
+              "mainImage": "Foto kryesore",
+              "imageCount": "{count}/15",
+              "propertyImageAlt": "Foto e pronës {index}",
+              "noImages": "Nuk keni asnjë foto të ngarkuar"
+            }
+          },
+          "publish": {
+            "requestProfessionalPromotion": {
+              "title": "Shërbim falas",
+              "description": "Do ta dërgojmë shpalljen tuaj te agjentët e patundshmërive që janë të specializuar në fushën e pronës suaj, për t'ju ndihmuar.",
+              "label": "Dua promovim profesional të pronës sime!"
+            },
+            "title": "Publiko shpalljen",
+            "description": "Publiko shpalljen",
+            "details": "Detajet",
+            "preview": "Parapamja",
+            "listingId": "ID e shpalljes",
+            "publishDuration": "Periudha e publikimit",
+            "publish": "Publiko",
+            "unpublish": "Hiq shpalljen",
+            "publishMessage": "Shpallja u publikua",
+            "unpublishMessage": "Shpallja u hoq",
+            "subtitle": "Publiko shpalljen, ose mos e publiko"
           },
           "pricing": {
             "title": "Çmimi",
             "description": "Vendosni çmimin"
           }
         }
-      },
-      "actions": {
-        "submit": "Publiko",
-        "next": "Tjetër",
-        "back": "Kthehu"
       }
+    },
+    "listingImages": {
+      "modalTitle": "{type}, {area}m²",
+      "modalDescription": "{place}, {municipality}, €{price}",
+      "noPlaceSet": "nuk ka vendndodhje të vendosur",
+      "noMunicipalitySet": "nuk ka komunë të vendosur",
+      "photo": "Foto {index}",
+      "moreImages": "Edhe {count} foto"
     }
   },
-  "MortgageCalculator": {
-    "title": "Llogaritësi i Hipotekës",
-    "homePrice": "Çmimi i Shtëpisë",
-    "downPayment": "Pagesa Fillestare",
-    "interestRate": "Norma e Interesit",
-    "loanTerm": "Afati i Kredisë",
-    "monthlyPayment": "Pagesa Mujore",
+  "header": {
+    "createListing": "Shpallje e re",
+    "userControls": {
+      "profile": "Profili",
+      "logout": "Çkyçu"
+    }
+  },
+  "footer": {
+    "About Us": "Rreth nesh",
+    "Contact": "Kontakti",
+    "Categories": "Kategoritë",
+    "Cookies": "Politika e cookies",
+    "CookiesAcknowledgement": "OK",
+    "CookiesDescription": "Ne përdorim cookies për të përmirësuar navigimin tuaj në faqen tonë të internetit.",
+    "Terms of Use": "Kushtet e përdorimit",
+    "Policies": "Politika e privatësisë",
+    "Terms": "Kushtet",
+    "Sale": "Shitje",
+    "Rental": "Qira",
+    "Station Categories": "Kategoritë e banesave",
+    "allRightsReserved": "Të gjitha të drejtat e rezervuara"
+  },
+  "home": {
+    "title": "Gjej adresën tënde të ardhshme",
+    "sections": {
+      "lastSearches": "Kërkimet e fundit",
+      "lastOpenedListings": {
+        "lastOpened": "Shpalljet e shikuara së fundi"
+      },
+      "suggested": "Prona të rekomanduara",
+      "agencies": "Agjenci të rekomanduara",
+      "featuredListings": "Shpallje të veçanta",
+      "featuredAgencies": "Agjenci të promovuara"
+    },
+    "userGreeting": {
+      "greeting": "Përshëndetje",
+      "dashboard": "Paneli juaj"
+    }
+  },
+
+  "mortgageCalculator": {
+    "title": "Kalkulatori i hipotekës",
+    "homePrice": "Çmimi i shtëpisë",
+    "downPayment": "Pagesa fillestare",
+    "interestRate": "Norma e interesit",
+    "loanTerm": "Periudha e kredisë",
+    "monthlyPayment": "Kësti mujor",
     "amount": "Shuma",
-    "loanAmount": "Shuma e Kredisë",
+    "loanAmount": "Shuma e kredisë",
     "years": "vite",
     "month": "në muaj"
   },
   "agency": {
     "notFound": "Agjencia nuk u gjet",
     "properties": {
-      "apartments": "Apartamente",
+      "other": "Apartamente",
       "stores": "Dyqane",
       "buildings": "Ndërtesa",
       "houses": "Shtëpi",
-      "forSale": "Në Shitje",
-      "forRent": "Me Qira",
-      "allListings": "Të Gjitha Shpalljet",
-      "popularListings": "Shpalljet Popullore nga {agencyName}"
+      "forSale": "Për shitje",
+      "forRent": "Për qira",
+      "allListings": "Të gjitha shpalljet",
+      "popularListings": "Shpallje të popullarizuara nga {agencyName}"
     },
     "profile": {
+      "info": {
+        "title": "Informacione për agjencinë",
+        "ownerFirstName": "Emri i pronarit",
+        "ownerLastName": "Mbiemri i pronarit",
+        "ownerEmail": "Email-i i pronarit",
+        "ownerPhone": "Telefoni i pronarit",
+        "phone": "Telefoni i pronarit",
+        "contactInfo": "Informacione kontakti"
+      },
+      "details": {
+        "agencyName": "Emri i agjencisë",
+        "agencyNamePlaceholder": "Acme Inc",
+        "agencyAdress": "Adresa e agjencisë",
+        "agencyAdressPlaceholder": "p.sh: rr. Petrovac 12, 1000 Shkup",
+        "agencyLogo": "Logoja e agjencisë",
+        "agencyWebsite": "Faqja e internetit e agjencisë",
+        "agencyWebsitePlaceholder": "p.sh: https://www.acme.com",
+        "agencyPhone": "Telefoni i agjencisë",
+        "agencyPhonePlaceholder": "p.sh: 070 123 456",
+        "agencyDescription": "Përshkrimi i agjencisë",
+        "agencyDescriptionPlaceholder": "Përshkrim i gjatë që do të shfaqet në faqen tuaj të agjencisë",
+        "agencyShortDescription": "Përshkrim i shkurtër i agjencisë",
+        "agencyShortDescriptionPlaceholder": "Një fjali që përshkruan punën tuaj",
+        "agencyMapCoordinates": "Koordinatat e agjencisë në hartë",
+        "agencyMapCoordinatesPlaceholder": "Shembull: 41.9981, 21.4254",
+        "agencyBrandingDetails": "Brendimi",
+        "agencyBrandingDetailsPlaceholder": "Kjo do të marrë një dizajn të veçantë së shpejti për menaxhimin e brendimit të agjencisë",
+        "contactInfoTitle": "Informacione kontakti për agjencinë",
+        "contactPerson": "Personi i kontaktit",
+        "contactPersonFullName": "Emri dhe mbiemri i personit të kontaktit",
+        "contactPersonFullNamePlaceholder": "Emri dhe mbiemri juaj",
+        "contactPersonEmail": "Email-i i personit të kontaktit",
+        "contactPersonEmailPlaceholder": "Email-i juaj",
+        "contactPersonPhone": "Telefoni i personit të kontaktit",
+        "contactPersonPhonePlaceholder": "+389 XX XXX XXX",
+        "workHours": "Orari i punës",
+        "contactHours": "Orët e kontaktit",
+        "contactHoursPlaceholder": "08:00-17:00",
+        "workHoursPlaceholder": "E Hënë-E Premte \n 08:00-17:00 \n E Shtunë \n 08:00-13:00 \n E Diel \n Mbyllur",
+        "title": "Detajet e agjencisë",
+        "info": "Këto informacione do të shfaqen në faqen tuaj të agjencisë dhe në shpalljet që keni në dispozicion.",
+        "email": "Email",
+        "phone": "Telefon",
+        "both": "Të dyja"
+      },
+      "listingsPage": {
+        "title": "Shpalljet e mia",
+        "uploadCsv": "Ngarko CSV",
+        "createNewListing": "Krijo shpallje të re"
+      },
+      "finishSetup": "Ju lutemi, plotësoni detajet e agjencisë",
       "welcome": "Mirë se vini",
       "menu": {
         "dashboard": "Paneli",
         "listings": "Shpalljet",
         "details": "Detajet",
-        "info": "Informacioni",
+        "info": "Informacionet",
         "settings": "Cilësimet"
       },
       "unauthorized": "Nuk keni qasje në këtë faqe",
       "propertyStats": {
-        "title": "Statistikat e Pronave",
-        "forSale": "Në Shitje",
-        "forRent": "Me Qira",
+        "title": "Statistikat e pronave",
+        "forSale": "Për shitje",
+        "forRent": "Për qira",
         "total": "Gjithsej"
       }
     },
     "contact": {
-      "hours": "Orari i Punës",
+      "hours": "Orari i punës",
       "phone": "Telefon",
       "website": "Faqja e internetit",
       "address": "Adresa"
     }
   },
+  "user": {
+    "profile": {
+      "menu": {
+        "profile": "Profili",
+        "contactInfo": "Informacionet e kontaktit",
+        "myListings": "Shpalljet e mia",
+        "savedSearches": "Kërkimet e ruajtura",
+        "likedListings": "Shpalljet e preferuara",
+        "welcome": "Mirë se vini"
+      },
+      "savedSearches": {
+        "title": "Kërkimet e ruajtura",
+        "noSavedSearches": "Nuk keni kërkime të ruajtura, mund të krijoni duke klikuar butonin Ruaj kërkimin në faqen e kërkimit për të ruajtur kërkimin tuaj ose nëse dëshironi të merrni njoftime për shpallje të reja që përputhen me këto kritere",
+        "newSearch": "Kërkim i ri",
+        "hireAgencies": "Angazho agjenci",
+        "hireAgenciesDescription": "Lini agjencitë ta bëjnë punën për ju"
+      },
+      "listings": {
+        "title": "Shpalljet e mia"
+      },
+      "info": {
+        "title": "Informacionet e profilit tuaj",
+        "firstName": "Emri",
+        "firstNamePlaceholder": "Shkruani emrin tuaj",
+        "lastName": "Mbiemri",
+        "lastNamePlaceholder": "Shkruani mbiemrin tuaj",
+        "phone": "Telefoni",
+        "phonePlaceholder": "Shkruani numrin tuaj të telefonit",
+        "email": "Email",
+        "emailPlaceholder": "Shkruani email-in tuaj"
+      },
+      "finishSetup": "Ju lutemi, plotësoni detajet e profilit tuaj",
+      "contactInfo": {
+        "title": "Informacionet e kontaktit",
+        "info": "Këto informacione do të shfaqen në faqen tuaj të agjencisë dhe në shpalljet që keni në dispozicion. Mund të jenë të ndryshme nga të dhënat tuaja personale të listuara në Info",
+        "contactName": "Emri dhe mbiemri i personit të kontaktit",
+        "contactNamePlaceholder": "Emri që do të shfaqet në shpallje",
+        "contactPhone": "Telefoni i personit të kontaktit",
+        "contactPhonePlaceholder": "Telefoni që do të shfaqet në shpallje",
+        "contactPhoneVerified": "Telefoni i kontaktit është verifikuar",
+        "contactPhoneNotVerified": "Telefoni i kontaktit nuk është verifikuar",
+        "contactEmail": "Email-i i personit të kontaktit",
+        "contactEmailPlaceholder": "Email-i që do të shfaqet në shpallje",
+        "contactEmailVerified": "Email-i i kontaktit është verifikuar",
+        "contactEmailNotVerified": "Email-i i kontaktit nuk është verifikuar",
+        "contactHours": "Të disponueshëm për kontakt",
+        "contactHoursPlaceholder": "08:00-17:00",
+        "preferredContactMethod": "Mënyra e preferuar e kontaktit",
+        "preferredContactMethodPlaceholder": "Zgjidhni mënyrën e kontaktit"
+      },
+      "likedListings": {
+        "title": "Shpalljet e preferuara",
+        "noLikedListings": "Nuk keni asnjë shpallje të preferuar",
+        "sort": "Rendit"
+      }
+    }
+  },
   "auth": {
+    "errors": {
+      "incorrectEmailOrPassword": "Email ose fjalëkalim i pasaktë",
+      "alreadyLoggedIn": "Jeni tashmë të kyçur",
+      "invalidEmail": "Email i pavlefshëm",
+      "invalidPassword": "Fjalëkalim i pavlefshëm",
+      "accountDoesNotExist": "Nuk ka llogari me këtë email",
+      "confirmPasswordDoesNotMatchPassword": "Fjalëkalimet nuk përputhen",
+      "badPasswordFormatting": "Fjalëkalimi duhet të përmbajë të paktën 8 karaktere",
+      "somethingWentWrong": "Diçka shkoi keq",
+      "invalidToken": "Lidhje e pavlefshme për rivendosjen e fjalëkalimit",
+      "tokenExpired": "Koha për ndryshimin e fjalëkalimit ka skaduar",
+      "passwordsAndTokenAreRequired": "Fjalëkalimet dhe lidhja për rivendosjen e fjalëkalimit janë të detyrueshme"
+    },
     "signIn": {
-      "title": "Hyr",
-      "subtitle": "Hyr në llogarinë tënde",
+      "title": "Kyçuni",
+      "subtitle": "Kyçuni në llogarinë tuaj",
       "email": "Email",
       "password": "Fjalëkalimi",
-      "forgotPassword": "Harruat fjalëkalimin?",
-      "button": "Hyr",
+      "forgotPassword": "Keni harruar fjalëkalimin?",
+      "button": "Kyçu",
       "noAccount": "Nuk keni llogari?",
-      "createAccount": "Regjistrohu",
-      "error": "Email ose fjalëkalim i pavlefshëm",
-      "success": "Hyrja u krye me sukses"
+      "createAccount": "Regjistrohuni",
+      "error": "Email ose fjalëkalim i pasaktë",
+      "success": "U kyçët me sukses",
+      "loginNeeded": "Nevojitet kyçja",
+      "loginNeededDescription": "Ky veprim kërkon kyçje",
+      "loginMessage": "Për këtë veprim duhet të jeni të kyçur"
+    },
+    "resetPassword": {
+      "title": "Ndrysho fjalëkalimin",
+      "newPassword": "Fjalëkalim i ri",
+      "newPasswordPlaceholder": "Shkruani fjalëkalimin e ri",
+      "confirmPassword": "Konfirmo fjalëkalimin",
+      "confirmPasswordPlaceholder": "Konfirmoni fjalëkalimin",
+      "resetting": "Po rivendoset",
+      "resetPassword": "Ndrysho fjalëkalimin",
+      "success": "Fjalëkalimi u rivendos me sukses",
+      "tokenExpired": "Koha për ndryshimin e fjalëkalimit ka skaduar",
+      "backToHomepage": "Kthehu në faqen kryesore"
     },
     "signUp": {
-      "title": "Regjistrohu",
-      "subtitle": "Krijo një llogari të re",
+      "title": "Regjistrohuni",
+      "subtitle": "Krijoni një llogari të re",
       "email": "Email",
       "password": "Fjalëkalimi",
-      "confirmPassword": "Konfirmo Fjalëkalimin",
+      "confirmPassword": "Konfirmo fjalëkalimin",
       "button": "Regjistrohu",
       "hasAccount": "Keni tashmë një llogari?",
-      "signIn": "Hyr",
-      "agencySignUp": "Regjistrohu si Agjenci",
+      "signIn": "Kyçuni",
+      "agencySignUp": "Regjistrohuni si agjenci",
       "error": {
-        "emailExists": "Ky email është i regjistruar tashmë",
+        "emailExists": "Ky email është tashmë i regjistruar",
         "passwordMismatch": "Fjalëkalimet nuk përputhen",
         "invalidEmail": "Email i pavlefshëm",
-        "weakPassword": "Fjalëkalimi duhet të ketë të paktën 8 karaktere"
+        "weakPassword": "Fjalëkalimi duhet të përmbajë të paktën 8 karaktere"
       },
-      "success": "Regjistrimi u krye me sukses"
+      "success": "U regjistruat me sukses"
     },
     "agencySignUp": {
-      "title": "Regjistrohu si Agjenci",
-      "subtitle": "Krijo një llogari të re agjencie",
+      "title": "Regjistrohuni si agjenci",
+      "subtitle": "Krijoni një llogari të re agjencie",
       "email": "Email",
       "password": "Fjalëkalimi",
-      "confirmPassword": "Konfirmo Fjalëkalimin",
+      "confirmPassword": "Konfirmo fjalëkalimin",
       "button": "Regjistrohu",
-      "profileInfo": "Pas regjistrimit, do të mund të plotësoni profilin tuaj të agjencisë me informacion shtesë",
+      "important": "E rëndësishme",
+      "profileInfo": "Pas regjistrimit do të mund të plotësoni profilin tuaj të agjencisë me informacione shtesë",
       "error": {
-        "emailExists": "Ky email është i regjistruar tashmë",
+        "emailExists": "Ky email është tashmë i regjistruar",
         "passwordMismatch": "Fjalëkalimet nuk përputhen",
         "invalidEmail": "Email i pavlefshëm",
-        "weakPassword": "Fjalëkalimi duhet të ketë të paktën 8 karaktere"
+        "weakPassword": "Fjalëkalimi duhet të përmbajë të paktën 8 karaktere"
       },
-      "success": "Regjistrimi si agjenci u krye me sukses"
+      "success": "U regjistruat me sukses si agjenci"
     },
     "forgotPassword": {
-      "title": "Harruat Fjalëkalimin?",
-      "subtitle": "Vendosni emailin tuaj për të marrë një lidhje për rivendosjen e fjalëkalimit",
+      "title": "Keni harruar fjalëkalimin?",
+      "subtitle": "Shkruani email-in tuaj që t'ju dërgojmë një lidhje për rivendosjen e fjalëkalimit",
       "email": "Email",
-      "button": "Dërgo Lidhjen e Rivendosjes",
-      "backToSignIn": "Kthehu te Hyrja"
+      "button": "Dërgo lidhjen për rivendosje",
+      "backToSignIn": "Kthehu te kyçja",
+      "success": "Lidhja për rivendosjen e fjalëkalimit është dërguar në email-in tuaj",
+      "passwordUpdatedSuccessfully": "Fjalëkalimi u rivendos me sukses"
     },
     "oauth": {
       "or": "ose",
       "google": "Vazhdo me Google",
       "facebook": "Vazhdo me Facebook",
       "error": {
-        "failed": "Hyrja me Google dështoi",
-        "cancelled": "Hyrja me Google u anulua"
+        "failed": "Kyçja me Google dështoi",
+        "cancelled": "Kyçja me Google u anulua"
       }
     }
   }
