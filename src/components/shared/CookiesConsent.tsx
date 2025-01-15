@@ -11,7 +11,9 @@ export default function CookiesConsent() {
   useEffect(() => {
     const acknowledgementGiven = localStorage.getItem("cookiesAcknowledgement");
     if (!acknowledgementGiven) {
-      setIsOpen(true);
+      setTimeout(() => {
+        setIsOpen(true);
+      }, 5000);
     }
   }, []);
 
