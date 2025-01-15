@@ -16,7 +16,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     resend.apiKeys.list;
     const { data, error } = await resend.emails.send({
-      from: "Adresa <dev@adresa.mk>",
+      from: "Adresa <no-reply@adresa.mk>",
       to: [email],
       subject: "Reset your password on Adresa",
       html: await render(ResetPasswordEmail({ resetPasswordLink })),
