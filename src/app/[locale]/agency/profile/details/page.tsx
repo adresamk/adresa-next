@@ -254,12 +254,14 @@ export default async function AgencyProfileDetailsPage({
 
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="preferredContactMethod">
-            {t("agency.profile.details.contactPersonFullName")}
+            {t("agency.profile.details.preferredContactMethod")}
           </Label>
           <SelectSelfContained
             name="preferredContactMethod"
-            placeholder="Select preferred contact method"
-            value={agency?.preferredContactMethod || "both"}
+            placeholder={t(
+              "agency.profile.details.preferredContactMethodPlaceholder",
+            )}
+            value={agency?.preferredContactMethod || ""}
             options={prefferedContactMethodOptionsTranslated}
           />
         </div>

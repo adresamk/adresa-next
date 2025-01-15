@@ -552,6 +552,8 @@
             }
           },
           "mainCharacteristics": {
+            "externalRef": "Code if you need to mark the listing according to your internal reference",
+            "externalRefPlaceholder": "Enter code",
             "title": "Main characteristics",
             "description": "Enter basic property characteristics",
             "price": "Price",
@@ -724,6 +726,8 @@
             "description": "Enter property specifications"
           },
           "media": {
+            "chooseFiles": "Choose files",
+            "allowedContent": "Maximum 15 images",
             "images": "Images",
             "image": "Image",
             "title": "Media",
@@ -880,6 +884,8 @@
         "workHours": "Work hours",
         "contactHours": "Contact hours",
         "contactHoursPlaceholder": "08:00-17:00",
+        "preferredContactMethod": "Preferred contact method",
+        "preferredContactMethodPlaceholder": "Select preferred contact method",
         "workHoursPlaceholder": "Monday-Friday \n 08:00-17:00 \n Saturday \n 08:00-13:00 \n Sunday \n Closed",
         "title": "Agency details",
         "info": "This information will be displayed on your agency page and on your available listings.",

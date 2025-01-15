@@ -622,16 +622,19 @@ async function editCharacteristics(formData: FormData) {
 
   const price = formData.get("price");
   const area = formData.get("area");
-
-  if (typeof price !== "string" || typeof area !== "string") {
+  const externalRef = formData.get("externalRef");
+  console.log("externalRef", externalRef);
+  if (
+    typeof price !== "string" ||
+    typeof area !== "string"
+    // typeof externalRef !== "string"
+  ) {
     return {
       success: false,
       error: "Invalid Inputs",
     };
   }
-  console.log("price", price);
   const priceCleaned = price.replace(".", "").replace(" ", "").replace(",", "");
-  console.log("priceCleaned", priceCleaned);
   await prismadb.listing.update({
     where: {
       id: Number(listingId),
@@ -639,6 +642,7 @@ async function editCharacteristics(formData: FormData) {
     data: {
       price: Number(priceCleaned),
       area: Number(area),
+      externalRef: externalRef ? (externalRef as string) : null,
     },
   });
 

@@ -52,7 +52,7 @@ export default function InitialStep() {
       <RadioGroupDemo
         name="category"
         required
-        title={t("common.property.category.label")}
+        title={t("common.property.category.title")}
         description={t("common.cannotBeChanged")}
         options={listingCategoryOptionsTranslated}
         onChange={function (value: string) {

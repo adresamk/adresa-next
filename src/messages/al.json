@@ -554,6 +554,8 @@
             }
           },
           "mainCharacteristics": {
+            "externalRef": "Kodi nëse vihet nevoja të shënohet shpallja në bazë të kodit tuaj internal",
+            "externalRefPlaceholder": "Vendosni kodin",
             "title": "Karakteristikat kryesore",
             "description": "Vendosni karakteristikat kryesore të pronës",
             "price": "Çmimi",
@@ -726,6 +728,8 @@
             "description": "Vendosni specifikimet e pronës"
           },
           "media": {
+            "chooseFiles": "Zgjidhni fajllat",
+            "allowedContent": "Maksimum 15 foto",
             "images": "Fotot",
             "image": "Foto",
             "title": "Media",
@@ -881,6 +885,8 @@
         "contactPersonPhone": "Telefoni i personit të kontaktit",
         "contactPersonPhonePlaceholder": "+389 XX XXX XXX",
         "workHours": "Orari i punës",
+        "preferredContactMethod": "Mënyra e preferuar e kontaktit",
+        "preferredContactMethodPlaceholder": "Zgjidhni mënyrën e kontaktit",
         "contactHours": "Orët e kontaktit",
         "contactHoursPlaceholder": "08:00-17:00",
         "workHoursPlaceholder": "E Hënë-E Premte \n 08:00-17:00 \n E Shtunë \n 08:00-13:00 \n E Diel \n Mbyllur",

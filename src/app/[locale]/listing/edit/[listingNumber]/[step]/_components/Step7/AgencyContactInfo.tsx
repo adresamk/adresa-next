@@ -129,13 +129,15 @@ export default function AgencyContactInfo({ agency }: AgencyContactInfoProps) {
 
       <div className="mb-2 flex flex-col gap-3">
         <Label htmlFor="preferredContactMethod">
-          {t("agency.profile.details.contactHours")}
+          {t("agency.profile.details.preferredContactMethod")}
         </Label>
         <Input
           disabled
           id="preferredContactMethod"
           name="preferredContactMethod"
-          defaultValue={agency.preferredContactMethod ?? ""}
+          defaultValue={
+            t(`agency.profile.details.${agency.preferredContactMethod}`) ?? ""
+          }
         />
       </div>
 

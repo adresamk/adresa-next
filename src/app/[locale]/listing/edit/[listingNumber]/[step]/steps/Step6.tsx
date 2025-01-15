@@ -56,7 +56,10 @@ export default function Step6({ listing }: { listing: Listing }) {
         <UploadButton
           content={{
             button: () => {
-              return <Button>YES</Button>;
+              return <span>{t("chooseFiles")}</span>;
+            },
+            allowedContent: () => {
+              return <span>{t("allowedContent")}</span>;
             },
           }}
           endpoint="listingImagesUpload"

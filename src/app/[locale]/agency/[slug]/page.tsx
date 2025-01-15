@@ -117,7 +117,7 @@ export default async function AgencyPage({
                       {icons[category as PropertyCategory]}
                       <div>
                         <p>{count}</p>
-                        <p>{t(`common.property.category${category}`)}</p>
+                        <p>{t(`common.property.category.${category}`)}</p>
                       </div>
                     </div>
                     <p className="text-nowrap">

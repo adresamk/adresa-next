@@ -10,6 +10,8 @@ import ResidentialSpecificFields from "../_components/Step3/ResidentialSpecificF
 import CommercialSpecificFields from "../_components/Step3/CommercialSpecificFields";
 import LandSpecificFields from "../_components/Step3/LandSpecificFields";
 import OtherSpecificFields from "../_components/Step3/OtherSpecificFields";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function Step3({
   listing: basicTypedListing,
@@ -41,6 +43,7 @@ export default function Step3({
       <Separator className="my-2 mt-4" />
 
       <ListingMutualFields listing={basicTypedListing} />
+
       {listing.residential && (
         <>
           <ResidentialSpecificFields

@@ -220,7 +220,9 @@ export default function CommercialSpecificFields({
           name="heatingType"
           id="heatingType"
           value={listing.commercial.heatingType}
-          placeholder="Select Heating Type"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.heatingType.placeholder",
+          )}
           options={heatingTypeOptionsTranslated}
         />
       </div>
@@ -237,7 +239,9 @@ export default function CommercialSpecificFields({
           name="heatingMedium"
           id="heatingMedium"
           value={listing.commercial.heatingMedium}
-          placeholder="Select Heating Medium"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.heatingMedium.placeholder",
+          )}
           options={heatingMediumOptionsTranslated}
         />
       </div>
@@ -252,7 +256,9 @@ export default function CommercialSpecificFields({
           name="accessFrom"
           id="heatingMedium"
           value={listing.commercial.accessFrom}
-          placeholder="Select Access From"
+          placeholder={t(
+            "listing.new.progress.steps.mainCharacteristics.accessFrom.placeholder",
+          )}
           options={accessFromOptionsTranslated}
         />
       </div>

@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { displayPrice } from "@/lib/utils";
 import { Listing } from "@prisma/client";
 import { useState } from "react";
+import { ListingWithRelations } from "@/types/listing.types";
 
 interface ListingMutualFieldsProps {
   listing: Listing;
@@ -19,7 +20,7 @@ export default function ListingMutualFields({
     listing.price ? displayPrice(listing.price) : "",
   );
   const [propertyArea, setPropertyArea] = useState(listing.area?.toString());
-
+  const lwr = listing as ListingWithRelations;
   return (
     <>
       {/* Price */}
@@ -86,6 +87,23 @@ export default function ListingMutualFields({
           />
         </div>
       </div>
+
+      {/* ExternalRef for agencies only */}
+      {lwr.agency && (
+        <div className="flex flex-col gap-3">
+          <Label htmlFor="externalRef">
+            {t("listing.new.progress.steps.mainCharacteristics.externalRef")}
+          </Label>
+          <Input
+            id="externalRef"
+            name="externalRef"
+            defaultValue={lwr.externalRef ?? ""}
+            placeholder={t(
+              "listing.new.progress.steps.mainCharacteristics.externalRefPlaceholder",
+            )}
+          />
+        </div>
+      )}
     </>
   );
 }

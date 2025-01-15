@@ -194,7 +194,7 @@ function generateStepDescriptions(
     if (step.key === "propertyType") {
       let properties = [];
       if (listing.category) {
-        properties.push(t(`common.property.category${listing.category}`));
+        properties.push(t(`common.property.category.${listing.category}`));
       }
       if (listing.type) {
         properties.push(t(`common.property.type.${listing.type}`));
