@@ -13,7 +13,9 @@ import {
   PropertyTransactionType,
 } from "@prisma/client";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
+
 import {
   getMunicipalityOptionsTranslated,
   getMunicipalityPlacesTranslated,
@@ -94,7 +96,7 @@ export default function SearchBreadcrumbs({
                     "location",
                     value,
                   );
-                  router.push(newPath);
+                  router.push(newPath, { locale: locale });
                 }
               }}
             >
