@@ -1,5 +1,5 @@
 import AgencyProfileSideMenu from "./AgencyProfileSideMenu";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
 type Params = Promise<{ children: React.ReactNode }>;
@@ -14,10 +14,10 @@ export default async function ProfileLayout({
   const t = await getTranslations();
   const layoutParams = await params;
   const { isAuthenticated, agency } = await getCurrentUser();
-
+  const locale = await getLocale();
   // redirect is ok becase we are moving it away from the layout
   if (!isAuthenticated) {
-    redirect({ href: "/", locale: "mk" });
+    redirect({ href: "/", locale: locale });
   }
 
   return (

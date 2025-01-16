@@ -5,14 +5,14 @@ import { redirect } from "@/i18n/routing";
 import { getUser } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { getCurrentUser } from "@/lib/sessions";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function ProfileListingsPage() {
   const { isAuthenticated, user } = await getCurrentUser();
   const t = await getTranslations();
-
+  const locale = await getLocale();
   if (isAuthenticated && !user) {
-    redirect({ href: "/profile/info", locale: "mk" });
+    redirect({ href: "/profile/info", locale: locale });
   }
 
   const myListings = await prismadb.listing.findMany({

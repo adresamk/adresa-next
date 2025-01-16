@@ -1,14 +1,18 @@
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import prismadb from "@/lib/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, Users, Eye, DollarSign } from "lucide-react";
 import { getCurrentUser } from "@/lib/sessions";
+import { getLocale } from "next-intl/server";
 
 export default async function AdminDashboardPage() {
   const { account } = await getCurrentUser();
-
+  const locale = await getLocale();
   if (!account || account.role !== "ADMIN") {
-    redirect("/");
+    redirect({
+      href: "/",
+      locale: locale,
+    });
   }
 
   const [totalListings, totalUsers] = await Promise.all([

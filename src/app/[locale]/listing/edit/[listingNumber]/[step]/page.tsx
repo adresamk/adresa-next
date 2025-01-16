@@ -4,19 +4,21 @@ import ListingEditForm from "./ListingEditForm";
 import { Step, steps } from "./types";
 import { getCurrentUser } from "@/lib/sessions";
 import { ListingWithRelations } from "@/types/listing.types";
+import { getLocale } from "next-intl/server";
 
 type Params = Promise<{ listingNumber: string; step: string }>;
 
 export default async function EditListingPage({ params }: { params: Params }) {
   const { listingNumber, step: requestedStep } = await params;
 
+  const locale = await getLocale();
   const stepExists = steps.find(
     (step: Step) => step.uniquePath === requestedStep,
   );
   const { user, agency, account } = await getCurrentUser();
 
   if (!account || isNaN(Number(listingNumber))) {
-    redirect({ href: "/", locale: "mk" });
+    redirect({ href: "/", locale: locale });
   }
 
   const listing: ListingWithRelations | null =
@@ -42,7 +44,7 @@ export default async function EditListingPage({ params }: { params: Params }) {
     });
 
   if (!listing) {
-    redirect({ href: "/404", locale: "mk" });
+    redirect({ href: "/404", locale: locale });
     return <div>Listing not found</div>;
   }
 
@@ -65,7 +67,7 @@ export default async function EditListingPage({ params }: { params: Params }) {
   if (!stepExists) {
     redirect({
       href: `/listing/edit/${listingNumber}/${steps[0].uniquePath}`,
-      locale: "mk",
+      locale: locale,
     });
   }
 

@@ -4,11 +4,12 @@ import { redirect } from "@/i18n/routing";
 import prismadb from "@/lib/db";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 import { capitalizeString, validPhoneNumber } from "@/lib/utils";
+import { getLocale } from "next-intl/server";
 
 export async function updateAgencyDetails(formData: FormData) {
   const { isAuthenticated, agency } = await getCurrentUser();
   const { session, account } = await getCurrentSession();
-
+  const locale = await getLocale();
   // This should never be called technically
   if (!account || !session) {
     return {
@@ -107,10 +108,11 @@ export async function updateAgencyDetails(formData: FormData) {
       },
     });
   }
-  redirect({ href: "/agency/profile/details", locale: "mk" });
+  redirect({ href: "/agency/profile/details", locale: locale });
 }
 export async function updateAgencyInfo(formData: FormData) {
   const { agency } = await getCurrentUser();
+  const locale = await getLocale();
   if (!agency) {
     return {
       success: false,
@@ -149,7 +151,7 @@ export async function updateAgencyInfo(formData: FormData) {
       ownerEmail: ownerEmail,
     },
   });
-  redirect({ href: "/agency/profile/info", locale: "mk" });
+  redirect({ href: "/agency/profile/info", locale: locale });
 
   return {
     success: true,

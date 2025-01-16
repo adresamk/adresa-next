@@ -1,8 +1,9 @@
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import Link from "next/link";
 import { LayoutGrid, Home, Building2, Users, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getCurrentUser } from "@/lib/sessions";
+import { getLocale } from "next-intl/server";
 
 export default async function AdminLayout({
   children,
@@ -10,9 +11,13 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const { user, account } = await getCurrentUser();
+  const locale = await getLocale();
 
   if (!account || account.role !== "ADMIN") {
-    redirect("/");
+    redirect({
+      href: "/",
+      locale: locale,
+    });
   }
 
   const navigation = [

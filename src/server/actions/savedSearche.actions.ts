@@ -3,12 +3,19 @@
 import { ActionResult } from "@/components/Form";
 import prismadb from "@/lib/db";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
+import { getLocale } from "next-intl/server";
 
 export async function getMySavedSearches() {
   const { user } = await getCurrentUser();
+  const locale = await getLocale();
   if (!user) {
-    redirect("/");
+    redirect({
+      href: "/",
+      locale: locale,
+    });
+
+    return;
   }
 
   const savedSearches = await prismadb.savedSearch.findMany({

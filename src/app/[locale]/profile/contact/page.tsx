@@ -10,7 +10,7 @@ import { getUser } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/sessions";
 import { updateUserContactInfo } from "@/server/actions/user.actions";
 import { Info } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 type Params = Promise<Record<string, string>>;
 
@@ -22,8 +22,9 @@ export default async function ProfileInfoPage({
   const params = await searchParams;
   const { isAuthenticated, user, account } = await getCurrentUser();
   const t = await getTranslations();
+  const locale = await getLocale();
   if (isAuthenticated && !user) {
-    redirect({ href: "/profile/info", locale: "mk" });
+    redirect({ href: "/profile/info", locale: locale });
   }
 
   const prefferedContactMethodOptionsTranslated = [

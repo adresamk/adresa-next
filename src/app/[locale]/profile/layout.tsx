@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import ProfileSideMenu from "./ProfileSideMenu";
 import { getCurrentUser } from "@/lib/sessions";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 type Params = Promise<{ children: React.ReactNode }>;
 
@@ -15,14 +15,20 @@ export default async function ProfileLayout({
   const layoutParams = await params;
   const { isAuthenticated, user, agency, account } = await getCurrentUser();
   const t = await getTranslations();
-
+  const locale = await getLocale();
   if (!isAuthenticated) {
-    redirect("/");
+    redirect({
+      href: "/",
+      locale: locale,
+    });
   }
 
   if (!user) {
     if (agency) {
-      redirect("/agency/profile/info");
+      redirect({
+        href: "/agency/profile/info",
+        locale: locale,
+      });
     }
   }
 

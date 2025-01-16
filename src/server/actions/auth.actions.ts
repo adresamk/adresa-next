@@ -21,6 +21,7 @@ import {
 import { getVerificationLink } from "./verification.actions";
 import { sendResetPasswordEmail, sendVerificationEmail } from "./email.actions";
 import { generateUniqueToken } from "@/lib/utils";
+import { getLocale } from "next-intl/server";
 
 export async function signIn(
   prevState: any,
@@ -265,11 +266,11 @@ export async function signUpAsAgency(
 
 export async function logout() {
   const { session } = await getCurrentSession();
-
+  const locale = await getLocale();
   if (!session) {
     return redirect({
       href: "/",
-      locale: "mk",
+      locale: locale,
     });
   }
 

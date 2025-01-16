@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { updateAgencyDetails } from "@/server/actions/agency.actions";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { SelectDemo } from "@/components/shared/SelectDemo";
 import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
 import { UploadedImageData } from "@/types/listing.types";
@@ -25,6 +25,7 @@ export default async function AgencyProfileDetailsPage({
   const params = await searchParams;
   console.log(params);
 
+  const locale = await getLocale();
   const { session, account } = await getCurrentSession();
   const t = await getTranslations();
   console.log("Session", session, "Account", account);
@@ -32,7 +33,7 @@ export default async function AgencyProfileDetailsPage({
   if (!session || !account) {
     redirect({
       href: "/",
-      locale: "mk",
+      locale: locale,
     });
   }
 

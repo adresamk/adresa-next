@@ -6,17 +6,18 @@ import { HousePlus } from "lucide-react";
 import { getLikedListingsByUser } from "@/server/actions/listing.actions";
 import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import HireAgencyBanner from "../searches/_components/HireAgencyBanner";
 
 export default async function ProfileLikedPage() {
   const { isAuthenticated, user } = await getCurrentUser();
   const t = await getTranslations();
+  const locale = await getLocale();
   if (isAuthenticated && !user) {
-    redirect({ href: "/profile/info", locale: "mk" });
+    redirect({ href: "/profile/info", locale: locale });
   }
   if (!user) {
-    redirect({ href: "/", locale: "mk" });
+    redirect({ href: "/", locale: locale });
     return null;
   }
   const myLikedListings = await getLikedListingsByUser(user.id);

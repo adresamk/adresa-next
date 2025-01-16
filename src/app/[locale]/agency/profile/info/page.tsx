@@ -5,16 +5,16 @@ import { redirect } from "@/i18n/routing";
 import { getCurrentUser } from "@/lib/sessions";
 import { updateAgencyInfo } from "@/server/actions/agency.actions";
 import {} from "@/server/actions/user.actions";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function ProfileInfoPage() {
   // we always expect user because of the layout auth
 
   const { isAuthenticated, agency } = await getCurrentUser();
   const t = await getTranslations();
-
+  const locale = await getLocale();
   if (isAuthenticated && !agency) {
-    redirect({ href: "/agency/profile/details", locale: "mk" });
+    redirect({ href: "/agency/profile/details", locale: locale });
   }
 
   return (

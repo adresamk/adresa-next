@@ -2,7 +2,8 @@
 
 import prismadb from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import { IResult, UAParser } from "ua-parser-js";
 
 import {
@@ -24,6 +25,7 @@ import {
   UploadedImageData,
 } from "@/types/listing.types";
 import { ParsedQueryParams } from "@/lib/filters";
+import { getLocale } from "next-intl/server";
 
 export async function getListingsByIdForRecentlyViewed(
   listingNumbers: number[],
@@ -264,11 +266,15 @@ export async function getFavoriteStatus(listingId: number) {
 export async function createNewListing(formData: FormData) {
   // console.log("Adding new listing", formData);
   const { isAuthenticated, user, agency } = await getCurrentUser();
+  const locale = await getLocale();
 
   if (!isAuthenticated) {
     // const cookieStore = await cookies();
     // cookieStore.set("signin-redirect", "/listing/new");
-    redirect("/signin?redirect=/listing/new");
+    redirect({
+      href: "/signin?redirect=/listing/new",
+      locale: locale,
+    });
 
     return {
       success: false,
@@ -393,7 +399,10 @@ export async function createNewListing(formData: FormData) {
 
   // console.log("Listing created", listing);
 
-  redirect("/listing/edit/" + listing.listingNumber + "/location");
+  redirect({
+    href: "/listing/edit/" + listing.listingNumber + "/location",
+    locale: locale,
+  });
 }
 
 export interface EditListingResponse {

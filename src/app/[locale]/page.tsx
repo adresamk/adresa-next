@@ -7,15 +7,17 @@ import FeaturedListings from "./_components/FeaturedListings";
 import FeaturedAgencies from "./_components/FeaturedAgencies";
 import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
+import { getLocale } from "next-intl/server";
 
 export default async function Home() {
   // works on the server side
   // const user = await getUser();
   const { user, agency, isAuthenticated } = await getCurrentUser();
+  const locale = await getLocale();
   if (!agency && !user && isAuthenticated) {
     redirect({
       href: "/profile/info",
-      locale: "mk",
+      locale: locale,
     });
   }
 

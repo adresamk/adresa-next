@@ -107,7 +107,7 @@ export default async function SingleListingPage({
   })) as Listing | null;
 
   if (!listing) {
-    redirect({ href: "/404", locale: "mk" });
+    redirect({ href: "/404", locale: locale });
     return null;
   }
 

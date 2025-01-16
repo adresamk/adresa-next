@@ -2,19 +2,20 @@ import { googleOAuthClient } from "@/lib/googleOAuth";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import prismadb from "@/lib/db";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import { AccountType } from "@prisma/client";
 import {
   createSession,
   generateSessionToken,
   setSessionTokenCookie,
 } from "@/lib/sessions";
+import { getLocale } from "next-intl/server";
 
 export async function GET(req: NextRequest) {
   const url = req.nextUrl;
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-
+  const locale = await getLocale();
   if (!code || !state) {
     console.error("No code or state");
     return new Response("Invalid Request", { status: 400 });
@@ -111,5 +112,8 @@ export async function GET(req: NextRequest) {
   //   httpOnly: false,
   // });
 
-  redirect("/");
+  redirect({
+    href: "/",
+    locale: locale,
+  });
 }

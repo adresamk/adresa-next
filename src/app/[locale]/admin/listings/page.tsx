@@ -1,15 +1,19 @@
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import prismadb from "@/lib/db";
 import AdminListingsTable from "./_components/AdminListingsTable";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/sessions";
+import { getLocale } from "next-intl/server";
 
 export default async function AdminListingsPage() {
   const { account } = await getCurrentUser();
-
+  const locale = await getLocale();
   if (!account || account.role !== "ADMIN") {
-    redirect("/");
+    redirect({
+      href: "/",
+      locale: locale,
+    });
   }
 
   const listings = await prismadb.listing.findMany({

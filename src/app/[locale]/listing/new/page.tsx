@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import InitialStep from "./InitialStep";
 
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import { createNewListing } from "@/server/actions/listing.actions";
 import { getCurrentUser } from "@/lib/sessions";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { initialSteps } from "../edit/[listingNumber]/[step]/types";
 import ListingNewSideMenu from "./_components/ListingNewSideMenu";
 
@@ -28,10 +28,13 @@ const stepStatus: StepStatus = {
 
 export default async function NewListingPage() {
   const { account } = await getCurrentUser();
-
+  const locale = await getLocale();
   const t = await getTranslations();
   if (!account) {
-    redirect("/signin?redirect=/listing/new");
+    redirect({
+      href: "/signin?redirect=/listing/new",
+      locale: locale,
+    });
   }
 
   // const progress = 10;

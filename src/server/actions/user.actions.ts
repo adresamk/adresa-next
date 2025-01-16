@@ -4,10 +4,11 @@ import { redirect } from "@/i18n/routing";
 import prismadb from "@/lib/db";
 import { getCurrentUser } from "@/lib/sessions";
 import { capitalizeString, validPhoneNumber } from "@/lib/utils";
+import { getLocale } from "next-intl/server";
 
 export async function updateUserInfo(formData: FormData) {
   const { user, account } = await getCurrentUser();
-
+  const locale = await getLocale();
   if (!account) {
     return {
       success: false,
@@ -56,13 +57,17 @@ export async function updateUserInfo(formData: FormData) {
     });
     // update user info
   }
-  redirect({ href: "/profile/info", locale: "mk" });
+  redirect({
+    href: "/profile/info",
+    locale: locale,
+  });
 }
 
 export async function updateUserContactInfo(formData: FormData) {
   // console.log("updateUserContactInfo", formData);
 
   const { user, account } = await getCurrentUser();
+  const locale = await getLocale();
   if (!account) {
     return {
       success: false,
@@ -107,5 +112,5 @@ export async function updateUserContactInfo(formData: FormData) {
   }
   // update user info
 
-  redirect({ href: "/profile/contact", locale: "mk" });
+  redirect({ href: "/profile/contact", locale: locale });
 }
