@@ -53,6 +53,7 @@ const footerColumns: FooterColumnProps[] = [
 ];
 export default async function Footer() {
   const t = await getTranslations("footer");
+  const tHome = await getTranslations("home");
   return (
     <footer className="flex w-full flex-col items-center justify-center overflow-x-auto bg-white pb-7 pt-10 md:pb-3.5">
       {/* Footer top part */}
@@ -73,7 +74,7 @@ export default async function Footer() {
                     />
                   </div>
                   <div className="mt-2.5 text-sm font-medium text-neutral-600">
-                    Пронајди ја твојата следна адреса
+                    {tHome("title")}
                   </div>
                   <div className="mt-5 flex justify-between gap-5 self-start">
                     <Link
