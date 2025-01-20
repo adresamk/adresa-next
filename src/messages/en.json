@@ -1051,7 +1051,7 @@
       "email": "Email",
       "password": "Password",
       "confirmPassword": "Confirm password",
-      "button": "Register",
+      "button": "Register new agency",
       "important": "Important",
       "profileInfo": "After registration, you'll be able to complete your agency profile with additional information",
       "error": {

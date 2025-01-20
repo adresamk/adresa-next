@@ -1,5 +1,5 @@
-import SignUpForm from "./SignUpForm";
+import SignUpAgencyForm from "../signup-agency/SignUpAgencyForm";
 
 export default function SignUp() {
-  return <SignUpForm />;
+  return <SignUpAgencyForm />;
 }

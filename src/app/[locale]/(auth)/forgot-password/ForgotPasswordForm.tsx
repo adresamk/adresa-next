@@ -25,7 +25,7 @@ export default function ForgotPasswordForm({}: ForgotPasswordFormProps) {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form action={formAction} method="POST" className="space-y-6">
+        <form action={formAction} className="space-y-6">
           <div>
             <label
               htmlFor="email"
@@ -64,6 +64,7 @@ export default function ForgotPasswordForm({}: ForgotPasswordFormProps) {
 
         <p className="mt-10 text-center text-sm text-gray-500">
           <Link
+            replace
             href="/signin"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >

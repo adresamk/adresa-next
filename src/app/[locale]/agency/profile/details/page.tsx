@@ -37,9 +37,9 @@ export default async function AgencyProfileDetailsPage({
     });
   }
 
-  const { isAuthenticated, agency } = await getCurrentUser();
+  const { isAuthenticated, agency, user } = await getCurrentUser();
 
-  console.log("Current User", isAuthenticated, agency);
+  console.log("Current Agency", { isAuthenticated, agency, user });
   // First Time Here, they need to setup profile
 
   const prefferedContactMethodOptionsTranslated = [

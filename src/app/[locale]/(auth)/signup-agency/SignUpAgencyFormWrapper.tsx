@@ -1,19 +1,23 @@
 "use client";
 import { useActionState, useEffect } from "react";
 import { Form } from "@/components/Form";
-import { signIn, signUpAsUser } from "@/server/actions/auth.actions";
+import {
+  signIn,
+  signUpAsAgency,
+  signUpAsUser,
+} from "@/server/actions/auth.actions";
 import { usePathname } from "next/navigation";
 import { useRouter } from "@/i18n/routing";
 import { useLocale } from "next-intl";
 
-export default function SignUpFormWrapper({
+export default function SignUpAgencyFormWrapper({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const initialState = { error: null, success: false };
   const [state, formAction, isPending] = useActionState(
-    signUpAsUser,
+    signUpAsAgency,
     initialState,
   );
   const router = useRouter();
@@ -23,7 +27,7 @@ export default function SignUpFormWrapper({
     if (state.success) {
       router.back();
       setTimeout(() => {
-        router.push("/profile/info", { locale: locale });
+        router.push("/agency/profile/details", { locale: locale });
       }, 400);
     }
   }, [state.success, router, pathname, locale]);

@@ -94,6 +94,7 @@ export default function SignUpForm({}: SignUpFormProps) {
         <p className="mt-10 text-center text-sm text-gray-500">
           {t("auth.signUp.hasAccount")}{" "}
           <Link
+            replace
             href={"/signin"}
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
@@ -103,6 +104,7 @@ export default function SignUpForm({}: SignUpFormProps) {
 
         <p className="mt-4 text-center text-sm text-gray-500">
           <Link
+            replace
             href={"/signup-agency"}
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
