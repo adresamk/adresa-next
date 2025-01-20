@@ -5,14 +5,15 @@ import MySavedSearchesList from "./_components/MySavedSearchesList";
 import { getMySavedSearches } from "@/server/actions/savedSearche.actions";
 import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import HireAgencyBanner from "./_components/HireAgencyBanner";
 
 export default async function MySavedSearchesPage() {
   const { isAuthenticated, user } = await getCurrentUser();
   const t = await getTranslations();
+  const locale = await getLocale();
   if (isAuthenticated && !user) {
-    redirect({ href: "/profile/info", locale: "mk" });
+    redirect({ href: "/profile/info", locale: locale });
   }
   const mySavedSearches = await getMySavedSearches();
   return (
@@ -26,7 +27,7 @@ export default async function MySavedSearchesPage() {
           </Button>
         </h3>
         <Separator className="my-3" />
-        <MySavedSearchesList savedSearches={mySavedSearches} />
+        <MySavedSearchesList savedSearches={mySavedSearches || []} />
       </div>
       <HireAgencyBanner />
     </div>
