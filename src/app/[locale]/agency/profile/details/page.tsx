@@ -14,6 +14,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { SelectDemo } from "@/components/shared/SelectDemo";
 import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
 import { UploadedImageData } from "@/types/listing.types";
+import { Separator } from "@/components/ui/separator";
 
 type Params = Promise<Record<string, string>>;
 
@@ -186,7 +187,9 @@ export default async function AgencyProfileDetailsPage({
             id="gpsLocation"
             defaultValue={agency?.gpsLocation || ""}
             name="gpsLocation"
-            placeholder={t("agency.profile.details.agencyMapCoordinates")}
+            placeholder={t(
+              "agency.profile.details.agencyMapCoordinatesPlaceholder",
+            )}
           />
         </div>
 
@@ -196,6 +199,7 @@ export default async function AgencyProfileDetailsPage({
             {t("agency.profile.details.agencyBrandingDetails")}
           </Label>
           <Input
+            disabled
             id="branding"
             defaultValue={agency?.branding || ""}
             name="branding"
@@ -204,7 +208,7 @@ export default async function AgencyProfileDetailsPage({
             )}
           />
         </div>
-
+        <Separator className="my-8" />
         <h3 className="my-4 text-lg font-semibold">
           {t("agency.profile.details.contactPerson")}
         </h3>
@@ -280,6 +284,8 @@ export default async function AgencyProfileDetailsPage({
             name="contactHours"
           />
         </div>
+
+        <Separator className="my-8" />
 
         <h3 className="my-4 text-lg font-semibold">
           {t("agency.profile.details.workHours")}

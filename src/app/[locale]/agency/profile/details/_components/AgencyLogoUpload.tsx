@@ -1,6 +1,7 @@
 "use client";
 import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
 import { UploadedImageData } from "@/types/listing.types";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 export default function AgencyLogoUpload({
@@ -9,6 +10,7 @@ export default function AgencyLogoUpload({
   existingLogo: UploadedImageData | null | undefined;
 }) {
   const [logo, setLogo] = useState<UploadedImageData | null>();
+  const t = useTranslations();
   return (
     <div>
       <input
@@ -19,6 +21,22 @@ export default function AgencyLogoUpload({
         onChange={() => {}}
       />
       <UploadDropzone
+        className="ut-label:leading-4"
+        content={{
+          label: () => {
+            return <span>{t("agency.profile.details.logoUploadLabel")}</span>;
+          },
+          button: () => {
+            return <span>{t("agency.profile.details.logoUploadContent")}</span>;
+          },
+          allowedContent: () => {
+            return (
+              <span>
+                {t("agency.profile.details.logoUploadAllowedContent")}
+              </span>
+            );
+          },
+        }}
         endpoint="agencyLogoUpload"
         onClientUploadComplete={async (res) => {
           // Do something with the response
