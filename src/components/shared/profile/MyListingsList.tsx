@@ -42,7 +42,7 @@ export default function MyListingsList({
             className="border-brand-light-blue text-brand-light-blue hover:text-brand-dark-blue"
           >
             {" "}
-            {t("agency.profile.listings.uploadCsv")}
+            {t("agency.profile.listingsPage.uploadCsv")}
           </Button>
         </div>
       )}
