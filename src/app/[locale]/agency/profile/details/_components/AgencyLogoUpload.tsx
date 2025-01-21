@@ -87,7 +87,13 @@ export default function AgencyLogoUpload({
       />
       {logo && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={logo.url} width={200} height={130} alt="Agency Logo" />
+        <img
+          src={logo.url}
+          width={200}
+          className="my-4 min-w-full rounded border border-slate-600"
+          height={130}
+          alt="Agency Logo"
+        />
       )}
     </div>
   );
