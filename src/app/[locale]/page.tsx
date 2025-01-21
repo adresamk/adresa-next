@@ -8,17 +8,29 @@ import FeaturedAgencies from "./_components/FeaturedAgencies";
 import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
 import { getLocale } from "next-intl/server";
+import { AccountType } from "@prisma/client";
 
 export default async function Home() {
   // works on the server side
   // const user = await getUser();
-  const { user, agency, isAuthenticated } = await getCurrentUser();
+  const { user, agency, isAuthenticated, account } = await getCurrentUser();
   const locale = await getLocale();
   if (!agency && !user && isAuthenticated) {
-    redirect({
-      href: "/profile/info",
-      locale: locale,
-    });
+    if (account?.role === AccountType.USER) {
+      redirect({
+        href: "/profile/info",
+        locale: locale,
+      });
+    }
+  }
+
+  if (!agency && !user && isAuthenticated) {
+    if (account?.role === AccountType.AGENCY) {
+      redirect({
+        href: "/agency/profile/details",
+        locale: locale,
+      });
+    }
   }
 
   return (
