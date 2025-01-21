@@ -47,13 +47,13 @@ export async function updateAgencyDetails(formData: FormData) {
     typeof gpsLocation !== "string" ||
     typeof description !== "string" ||
     typeof shortDescription !== "string" ||
-    typeof branding !== "string" ||
     typeof contactPersonFullName !== "string" ||
     typeof contactPersonEmail !== "string" ||
     typeof contactPersonPhone !== "string" ||
     typeof preferredContactMethod !== "string" ||
     typeof contactHours !== "string"
   ) {
+    console.log("invalid form data");
     return {
       success: false,
       error: "Invalid form data",
@@ -62,8 +62,11 @@ export async function updateAgencyDetails(formData: FormData) {
 
   // on first time here, we need to check if the user has an agency
   // if not, they're just setting up their profile and we need to create an agency for them
+  console.log("agency", agency);
+  console.log("account", account);
   if (!agency) {
     // create an agency
+    console.log("creating agency");
     await prismadb.agency.create({
       data: {
         accountId: account.id,
@@ -73,7 +76,7 @@ export async function updateAgencyDetails(formData: FormData) {
         address,
         website,
         phone,
-        logo,
+        logo: logo ? JSON.parse(logo) : null,
         contactPersonFullName,
         contactPersonEmail,
         contactPersonPhone,
@@ -81,9 +84,10 @@ export async function updateAgencyDetails(formData: FormData) {
         gpsLocation,
         description,
         shortDescription,
-        branding,
+        branding: typeof branding === "string" ? branding : null,
       },
     });
+    console.log("agency created");
   }
   if (agency) {
     await prismadb.agency.update({
@@ -94,7 +98,7 @@ export async function updateAgencyDetails(formData: FormData) {
         name,
         slug: name.toLowerCase().replace(" ", "-"),
         address,
-        logo,
+        logo: logo ? JSON.parse(logo) : null,
         website,
         phone,
         contactPersonFullName,
@@ -104,7 +108,7 @@ export async function updateAgencyDetails(formData: FormData) {
         gpsLocation,
         description,
         shortDescription,
-        branding,
+        branding: typeof branding === "string" ? branding : null,
       },
     });
   }

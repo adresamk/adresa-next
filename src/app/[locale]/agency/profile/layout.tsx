@@ -21,8 +21,8 @@ export default async function ProfileLayout({
   }
 
   return (
-    <main className="mx-auto flex max-w-[1200px] px-6">
-      <div className="min-h-screen min-w-[220px] bg-white shadow">
+    <main className="mx-auto flex max-w-[1200px] px-6 pb-12 group-[.mobile]:flex-col">
+      <div className="min-h-screen min-w-[220px] bg-white shadow group-[.mobile]:min-h-fit">
         <div className="px-3 py-6">
           <p>{t("agency.profile.welcome")}</p>
           {isAuthenticated && !agency && (

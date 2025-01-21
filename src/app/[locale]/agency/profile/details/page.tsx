@@ -306,7 +306,9 @@ export default async function AgencyProfileDetailsPage({
           />
         </div>
 
-        <Button>{t("common.actions.save")}</Button>
+        <Button className="group-[.mobile]:mt-8 group-[.mobile]:w-full">
+          {t("common.actions.save")}
+        </Button>
       </form>
     </div>
   );

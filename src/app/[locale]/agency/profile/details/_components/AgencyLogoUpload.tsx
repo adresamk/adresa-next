@@ -9,21 +9,25 @@ export default function AgencyLogoUpload({
 }: {
   existingLogo: UploadedImageData | null | undefined;
 }) {
-  const [logo, setLogo] = useState<UploadedImageData | null>();
+  const [logo, setLogo] = useState<UploadedImageData | null>(
+    existingLogo || null,
+  );
+  const logoDataStringified = logo ? JSON.stringify(logo) : "";
   const t = useTranslations();
+
   return (
     <div>
       <input
         type="text"
         name="logo"
         className="hidden"
-        value={logo?.url || ""}
+        value={logoDataStringified}
         onChange={() => {}}
       />
       <UploadDropzone
         className="ut-label:leading-4"
         content={{
-          label: () => {
+          label: ({}) => {
             return <span>{t("agency.profile.details.logoUploadLabel")}</span>;
           },
           button: () => {
@@ -43,8 +47,21 @@ export default function AgencyLogoUpload({
           console.log("Files: ", res);
           // here on res we have a value key, that should be used for deleting the files
           // afterwards so maybe add this to the db as well?
+          const file = res[0];
+          const imageData: UploadedImageData = {
+            url: file.url,
+            name: file.name,
+            size: file.size,
+            key: file.key,
+            lastModified: file.lastModified,
+            appUrl: file.appUrl,
+            customId: file.customId,
+            type: file.type,
+            fileHash: file.fileHash,
+          };
 
           setLogo(res[0] as UploadedImageData);
+
           // alert("Upload Completed");
         }}
         onUploadError={(error: Error) => {
