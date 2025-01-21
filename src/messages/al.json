@@ -162,6 +162,9 @@
   },
   "common": {
     "actions": {
+      "upload": "Ngarko",
+      "select": "Zgjidh",
+      "isUploading": "Duke ngarkuar",
       "delete": "Fshije",
       "hide": "Fsheh",
       "show": "Shfaq",

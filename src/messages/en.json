@@ -162,6 +162,9 @@
   },
   "common": {
     "actions": {
+      "upload": "Upload",
+      "select": "Select",
+      "isUploading": "Uploading",
       "delete": "Delete",
       "hide": "Hide",
       "show": "Show",

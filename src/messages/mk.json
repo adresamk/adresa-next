@@ -163,6 +163,9 @@
   "common": {
     "actions": {
       "hide": "Сокриј",
+      "upload": "Прикачи",
+      "select": "Избери",
+      "isUploading": "Се закачува",
       "show": "Прикажи",
       "sort": "Сортирај",
       "saved": "Зачувано",
@@ -875,7 +878,7 @@
         "agencyLogo": "Лого на агенција",
         "logoUploadLabel": "Изберете слика со клик или повлечи и спушти ја овде",
         "logoUploadContent": "Избери",
-        "logoUploadAllowedContent": "Максимум 1 слика",
+        "logoUploadAllowedContent": "Максимум 1 слика до 4MB",
         "agencyWebsite": "Веб-сајт на агенција",
         "agencyWebsitePlaceholder": "ex: https://www.acme.com",
         "agencyPhone": "Телефон на агенција",

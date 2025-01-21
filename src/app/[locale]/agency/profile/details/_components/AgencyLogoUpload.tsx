@@ -30,8 +30,24 @@ export default function AgencyLogoUpload({
           label: ({}) => {
             return <span>{t("agency.profile.details.logoUploadLabel")}</span>;
           },
-          button: () => {
-            return <span>{t("agency.profile.details.logoUploadContent")}</span>;
+          button: ({ ready, isUploading, uploadProgress, files }) => {
+            console.log({ ready, isUploading, uploadProgress, files });
+            return (
+              <span className="inline-flex items-center gap-2">
+                {isUploading &&
+                  `${t("common.actions.isUploading")}... ${uploadProgress}%`}
+                {!isUploading &&
+                  uploadProgress === 0 &&
+                  files.length === 0 &&
+                  t("common.actions.select")}
+                {!isUploading &&
+                  uploadProgress === 0 &&
+                  files.length === 1 &&
+                  t(`common.actions.upload`)}
+              </span>
+            );
+
+            // return <span>{}</span>;
           },
           allowedContent: () => {
             return (
