@@ -1,5 +1,5 @@
 import React from "react";
-import { Bitcoin } from "lucide-react";
+import { Bitcoin, Gem } from "lucide-react";
 import ContentCarousel from "./ContentCarousel";
 import prismadb from "@/lib/db";
 import { getTranslations } from "next-intl/server";
@@ -31,7 +31,7 @@ export default async function FeaturedAgencies() {
 
   return (
     <ContentCarousel
-      icon={<Bitcoin className="h-7 w-7" />}
+      icon={<Gem className="h-7 w-7" />}
       title={t("home.sections.featuredAgencies")}
       items={agencies}
       renderItem={(agency: AgencyWithListings) => {
@@ -47,18 +47,25 @@ export default async function FeaturedAgencies() {
               className="h-[86px] w-[112px]"
             />
             <h3 className="mt-2 text-center text-base">{agency.name}</h3>
-            <Link
-              href={`/agency/${agency.slug}/search`}
-              className="relative z-30 mt-4 cursor-pointer text-center text-xs text-brand-light-blue"
-            >
-              <span>{agency.listings.length}</span>
-              <span className="ml-1">
-                {agency.listings.length === 0 && t("search.noResults")}
-                {agency.listings.length === 1 && t("search.result")}
-                {agency.listings.length > 1 && t("search.results")}
-              </span>
-            </Link>
+            {agency.listings.length > 0 && (
+              <Link
+                href={`/agency/${agency.slug}/search`}
+                className="relative z-30 mt-4 cursor-pointer text-center text-xs text-brand-light-blue"
+              >
+                <span>{agency.listings.length}</span>
 
+                <span className="ml-1">
+                  {agency.listings.length === 0 && t("search.noResults.title")}
+                  {agency.listings.length === 1 && t("search.result")}
+                  {agency.listings.length > 1 && t("search.results")}
+                </span>
+              </Link>
+            )}
+            {agency.listings.length === 0 && (
+              <span className="mt-4 cursor-pointer text-center text-xs lowercase text-brand-light-blue">
+                {t("search.noResults.title")}
+              </span>
+            )}
             <Link
               href={`/agency/${agency.slug}`}
               className="absolute inset-0 z-20"
