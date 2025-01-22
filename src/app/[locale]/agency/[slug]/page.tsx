@@ -8,6 +8,7 @@ import { UploadedImageData } from "@/types/listing.types";
 import {
   CommercialPropertyType,
   LandPropertyType,
+  ListingStatus,
   OtherPropertyType,
   PropertyCategory,
   PropertyTransactionType,
@@ -41,6 +42,12 @@ export default async function AgencyPage({
         },
       },
       listings: {
+        where: {
+          status: ListingStatus.ACTIVE,
+          isPublished: true,
+          isVisible: true,
+          isAvailable: true,
+        },
         include: {
           favoritedBy: {
             where: {
