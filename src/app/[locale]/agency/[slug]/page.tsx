@@ -156,14 +156,16 @@ export default async function AgencyPage({
 
         {/* Popular Agency Properties */}
       </div>
-      <div className="bg-blue-950 text-white">
-        <PopularAgencyListings
-          listings={agency.listings.slice(0, 8)}
-          title={t("agency.properties.popularListings", {
-            agencyName: agency.name,
-          })}
-        />
-      </div>
+      {agency.listings.length > 0 && (
+        <div className="bg-blue-950 text-white">
+          <PopularAgencyListings
+            listings={agency.listings.slice(0, 8)}
+            title={t("agency.properties.popularListings", {
+              agencyName: agency.name,
+            })}
+          />
+        </div>
+      )}
     </main>
   );
 }
