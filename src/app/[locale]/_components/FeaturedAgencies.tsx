@@ -4,7 +4,7 @@ import ContentCarousel from "./ContentCarousel";
 import prismadb from "@/lib/db";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
-import { Agency } from "@prisma/client";
+import { Agency, ListingStatus } from "@prisma/client";
 import { UploadedImageData } from "@/types/listing.types";
 
 type AgencyWithListings = Agency & {
@@ -18,6 +18,12 @@ export default async function FeaturedAgencies() {
 
     include: {
       listings: {
+        where: {
+          status: ListingStatus.ACTIVE,
+          isPublished: true,
+          isVisible: true,
+          isAvailable: true,
+        },
         select: {
           id: true, // You can select any field, but we only need the count
         },
