@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Tag } from "lucide-react";
+import { ChevronDown, Proportions } from "lucide-react";
 import { areaFilterOptions } from "@/lib/constants";
 import {
   Popover,
@@ -83,7 +83,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
                 <label className="flex h-5 w-full items-center gap-2">
-                  {<Tag className="h-4 w-4" />}{" "}
+                  {<Proportions className="h-4 w-4" />}{" "}
                   {t("search.filters.surface.label")}
                 </label>
                 <div className="flex h-10 items-center text-sm">
