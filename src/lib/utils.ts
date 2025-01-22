@@ -8,7 +8,13 @@ export function cn(...inputs: ClassValue[]) {
 export function generateUniqueToken() {
   return Math.random().toString(36).slice(2, 11); // Simple token generation
 }
-
+export function normalizeUrl(url: string) {
+  // Check if the URL already has a scheme
+  if (!/^https?:\/\//i.test(url)) {
+    return `https://${url}`;
+  }
+  return url;
+}
 export function validPhoneNumber(phone: string) {
   return true;
 }

@@ -3,7 +3,7 @@
 import { redirect } from "@/i18n/routing";
 import prismadb from "@/lib/db";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
-import { capitalizeString, validPhoneNumber } from "@/lib/utils";
+import { capitalizeString, normalizeUrl, validPhoneNumber } from "@/lib/utils";
 import { getLocale } from "next-intl/server";
 
 export async function updateAgencyDetails(formData: FormData) {
@@ -74,7 +74,7 @@ export async function updateAgencyDetails(formData: FormData) {
         name,
         slug: name.toLowerCase().replace(" ", "-"),
         address,
-        website,
+        website: normalizeUrl(website),
         phone,
         logo: logo ? JSON.parse(logo) : null,
         contactPersonFullName,
@@ -99,7 +99,7 @@ export async function updateAgencyDetails(formData: FormData) {
         slug: name.toLowerCase().replace(" ", "-"),
         address,
         logo: logo ? JSON.parse(logo) : null,
-        website,
+        website: normalizeUrl(website),
         phone,
         contactPersonFullName,
         contactPersonEmail,
