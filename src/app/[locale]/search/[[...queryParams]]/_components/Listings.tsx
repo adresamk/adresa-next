@@ -14,9 +14,9 @@ export default function Listings({ listings }: { listings: Listing[] }) {
       {listings.length > 0 && <ListingsList listings={listings} />}
       {listings.length === 0 && (
         <Container>
-          <div className="my-10 flex h-[205px] flex-col items-center justify-center">
+          <div className="my-10 flex min-h-fit flex-col items-center justify-center text-center">
             <h1 className="my-3 text-4xl font-bold">{t("title")}</h1>
-            <p className="text-center text-base text-gray-500">
+            <p className="my-3 text-center text-sm text-gray-500">
               {t("description")}
             </p>
           </div>

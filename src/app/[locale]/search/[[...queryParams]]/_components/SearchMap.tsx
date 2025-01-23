@@ -257,7 +257,7 @@ export default function SearchMap({
   }, []);
 
   return (
-    <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border md:h-[380px] lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
+    <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border md:h-[380px] lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:flex-row-reverse">
       <div id="search-page-map" className="relative mb-10 h-full w-full">
         <aside className="absolute left-0 right-0 top-0 z-[1050] h-0 w-full text-center">
           <div

@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 function MapLoadingPlaceholder() {
   const t = useTranslations();
   return (
-    <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:w-2/5">
+    <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)]">
       {t("map.loading")}
     </div>
   );
@@ -32,7 +32,7 @@ export default function SearchMapClient({
   agency?: Agency;
 }) {
   return (
-    <div className="transition-opacity duration-300">
+    <div className="transition-opacity duration-300 lg:w-2/5">
       <Suspense fallback={<MapLoadingPlaceholder />}>
         <SearchMap listings={listings} agency={agency} />
       </Suspense>
