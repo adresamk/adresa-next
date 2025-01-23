@@ -12,27 +12,27 @@ export default function ProfileSideMenu({ user }: { user: User | null }) {
   const profileNavigation = [
     {
       label: t("user.profile.menu.profile"),
-      icon: <UserIcon />,
+      icon: <UserIcon className="h-5 w-5" />,
       path: "/profile/info",
     },
     {
       label: t("user.profile.menu.contactInfo"),
-      icon: <Contact />,
+      icon: <Contact className="h-5 w-5" />,
       path: "/profile/contact",
     },
     {
       label: t("user.profile.menu.myListings"),
-      icon: <HousePlus />,
+      icon: <HousePlus className="h-5 w-5" />,
       path: "/profile/listings",
     },
     {
       label: t("user.profile.menu.savedSearches"),
-      icon: <Bookmark />,
+      icon: <Bookmark className="h-5 w-5" />,
       path: "/profile/searches",
     },
     {
       label: t("user.profile.menu.likedListings"),
-      icon: <Heart />,
+      icon: <Heart className="h-5 w-5" />,
       path: "/profile/liked",
     },
   ];
@@ -64,12 +64,13 @@ export default function ProfileSideMenu({ user }: { user: User | null }) {
             <li
               key={nav.label}
               className={cn(
-                "flex items-center gap-3 px-5 py-3",
+                "flex items-center gap-3 px-3 py-3",
 
                 pathname === nav.path && "border-l-2 border-brand-light-blue",
               )}
             >
-              {nav.icon} {nav.label}
+              <div>{nav.icon}</div>
+              <span>{nav.label}</span>
             </li>
           </Link>
         ))}

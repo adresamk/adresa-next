@@ -13,17 +13,17 @@ export default function ProfileSideMenu({ agency }: { agency: Agency | null }) {
   const profileNavigation = [
     {
       label: t("agency.profile.menu.info"),
-      icon: <User />,
+      icon: <User className="h-4 w-4" />,
       path: "/agency/profile/info",
     },
     {
       label: t("agency.profile.menu.details"),
-      icon: <LayoutDashboard />,
+      icon: <LayoutDashboard className="h-4 w-4" />,
       path: "/agency/profile/details",
     },
     {
       label: t("agency.profile.menu.listings"),
-      icon: <HousePlus />,
+      icon: <HousePlus className="h-4 w-4" />,
       path: "/agency/profile/listings",
     },
   ];
@@ -59,7 +59,8 @@ export default function ProfileSideMenu({ agency }: { agency: Agency | null }) {
                 pathname === nav.path && "border-l-2 border-brand-light-blue",
               )}
             >
-              {nav.icon} {nav.label}
+              <div>{nav.icon}</div>
+              <span>{nav.label}</span>
             </li>
           </Link>
         ))}
