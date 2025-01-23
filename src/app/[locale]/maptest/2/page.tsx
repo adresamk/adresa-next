@@ -1,10 +1,10 @@
-import PlacesTestMap from "./PlacesTestMap";
+import PlaceTestMapClient from "./PlaceTestMapClient";
 
 interface MapTestProps {}
 export default async function MapTestPage({}: MapTestProps) {
   return (
     <div>
-      <PlacesTestMap />
+      <PlaceTestMapClient />
     </div>
   );
 }

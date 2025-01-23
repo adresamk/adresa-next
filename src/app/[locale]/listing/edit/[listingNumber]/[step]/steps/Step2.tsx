@@ -103,7 +103,7 @@ export default function Step2({ listing }: { listing: Listing }) {
         (listing.address || address) &&
         municipality &&
         place && (
-          <MapPinSetup
+          <MapPinSetupClient
             listing={listing}
             municipality={municipality}
             place={place}

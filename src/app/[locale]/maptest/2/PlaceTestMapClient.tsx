@@ -1,16 +1,10 @@
 // src/components/shared/MapLocationPreviewClient.tsx
 "use client"; // This makes it a Client Component
 import dynamic from "next/dynamic";
-import { Listing } from "@prisma/client";
-import { Suspense } from "react";
 import { useTranslations } from "next-intl";
-// import MapPinSetup from "./MapPinSetup";
 
-const MapPinSetup = dynamic(
-  () =>
-    import(
-      "@/app/[locale]/listing/edit/[listingNumber]/[step]/steps/MapPinSetup"
-    ),
+const PlacesTestMap = dynamic(
+  () => import("@/app/[locale]/maptest/2/PlacesTestMap"),
   {
     ssr: false,
     loading: () => <MapLoadingPlaceholder />,
@@ -26,16 +20,6 @@ function MapLoadingPlaceholder() {
   );
 }
 
-export default function SearchMapClient({
-  listing,
-  municipality,
-  place,
-}: {
-  listing: Listing;
-  municipality: string;
-  place: string;
-}) {
-  return (
-    <MapPinSetup listing={listing} municipality={municipality} place={place} />
-  );
+export default function PlaceTestMapClient() {
+  return <PlacesTestMap />;
 }

@@ -33,9 +33,7 @@ export default function SearchMapClient({
 }) {
   return (
     <div className="transition-opacity duration-300 lg:w-2/5">
-      <Suspense fallback={<MapLoadingPlaceholder />}>
-        <SearchMap listings={listings} agency={agency} />
-      </Suspense>
+      <SearchMap listings={listings} agency={agency} />
     </div>
   );
 }

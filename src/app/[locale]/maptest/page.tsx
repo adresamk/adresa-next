@@ -1,11 +1,10 @@
-import MapWithControlsStatic from "./MapWithControlsStatic";
-import MapWithCustomPane from "./MapWithCustomPane";
+import MapWithCustomPaneClient from "./MapWithCustomPaneClient";
 interface MapTestProps {}
 export default async function MapTestPage({}: MapTestProps) {
   return (
     <div>
       {/* <MapWithControlsStatic /> */}
-      <MapWithCustomPane />
+      <MapWithCustomPaneClient />
     </div>
   );
 }
