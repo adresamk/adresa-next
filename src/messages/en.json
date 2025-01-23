@@ -400,6 +400,7 @@
       "high_price": "Highest price"
     },
     "labels": {
+      "sort": "Sort",
       "featured": "Featured listing",
       "exactLocation": "Exact location on map"
     },
@@ -644,6 +645,9 @@
               "placeholder": "Select number of rooms",
               "bathroom": "Bathroom",
               "bathrooms": "Bathrooms",
+
+              "bedroomsAbbr": "sp",
+              "bathroomsAbbr": "ba",
               "wc": "WC",
               "wcs": "WCs",
               "kitchen": "Kitchen",

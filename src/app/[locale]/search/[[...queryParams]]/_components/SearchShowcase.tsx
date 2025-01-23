@@ -37,7 +37,7 @@ export default function SearchShowcase({
   images,
   description,
 }: SearchShowcaseProps) {
-  const t = useTranslations("common");
+  const t = useTranslations();
   const lwu = listing as ListingWithUserAndAgency;
   const locale = useLocale();
   const { municipality, places } = getMunicipalityPlacesTranslated(
@@ -126,7 +126,7 @@ export default function SearchShowcase({
                 </h3>
                 <p className="text-xs">
                   <span className="text-gray-500">
-                    {t("listing.published")}{" "}
+                    {t("common.listing.published")}{" "}
                   </span>
                   <time dateTime={displayDate(listing.publishedAt) || ""}>
                     {displayDate(listing.publishedAt) || ""}
@@ -151,7 +151,9 @@ export default function SearchShowcase({
                       </span>
                     </li>
                     <li
-                      title={t("common.property.features.bedrooms")}
+                      title={t(
+                        "listing.new.progress.steps.mainCharacteristics.rooms.bedrooms",
+                      )}
                       className="flex items-center text-xs tracking-tighter"
                     >
                       <Bed width={17} height={17} className="mr-1" />
@@ -159,11 +161,15 @@ export default function SearchShowcase({
                         <span className="mr-0.5 text-sm font-medium">
                           {/* {listing.bedrooms} */}
                         </span>
-                        {t("common.property.features.bedroomsAbbr")}
+                        {t(
+                          "listing.new.progress.steps.mainCharacteristics.rooms.bedroomsAbbr",
+                        )}
                       </span>
                     </li>
                     <li
-                      title={t("common.property.features.bathrooms")}
+                      title={t(
+                        "listing.new.progress.steps.mainCharacteristics.rooms.bathrooms",
+                      )}
                       className="flex items-center text-xs tracking-tighter"
                     >
                       <Bath width={17} height={17} className="mr-1" />
@@ -171,7 +177,9 @@ export default function SearchShowcase({
                         <span className="mr-0.5 text-sm font-medium">
                           {/* {listing.bathrooms} */}
                         </span>
-                        {t("common.property.features.bathroomsAbbr")}
+                        {t(
+                          "listing.new.progress.steps.mainCharacteristics.rooms.bathroomsAbbr",
+                        )}
                       </span>
                     </li>
                   </ul>

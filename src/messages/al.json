@@ -401,6 +401,7 @@
       "high_price": "Çmimi më i lartë"
     },
     "labels": {
+      "sort": "Sort",
       "featured": "Shpallje e veçantë",
       "exactLocation": "Vendndodhja e saktë në hartë"
     },
@@ -646,6 +647,8 @@
               "placeholder": "Zgjidhni numrin e dhomave",
               "bathroom": "Banjë",
               "bathrooms": "Banja",
+              "bedroomsAbbr": "sp",
+              "bathroomsAbbr": "ba",
               "wc": "Tualet",
               "wcs": "Tualete",
               "kitchen": "Kuzhinë",

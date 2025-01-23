@@ -40,7 +40,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           <div className="absolute bottom-1 left-1 flex gap-1">
             {listing.isPaidPromo && (
               <span
-                title={t("common.common.property.featuredListing")}
+                title={t("common.property.featuredListing")}
                 className="inline-block items-center gap-1.5 rounded border bg-white p-0.5 text-xs shadow-sm"
               >
                 <Crown size={16} />

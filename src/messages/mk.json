@@ -402,6 +402,7 @@
       "high_price": "Највисока цена"
     },
     "labels": {
+      "sort": "Сортирај",
       "featured": "Истакнат оглас",
       "exactLocation": "Точна локација на мапа"
     },
@@ -648,6 +649,8 @@
               "placeholder": "Изберете број на соби",
               "bathroom": "Бања",
               "bathrooms": "Бањи",
+              "bedroomsAbbr": "сп",
+              "bathroomsAbbr": "ба",
               "wc": "Тоалет",
               "wcs": "Тоалети",
               "kitchen": "Кујна",
