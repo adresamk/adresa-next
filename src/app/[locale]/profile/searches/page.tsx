@@ -21,15 +21,15 @@ export default async function MySavedSearchesPage() {
       <div className="rounded-lg bg-white p-8 shadow">
         <h3 className="mb-3 flex items-center justify-between text-2xl font-semibold">
           {t("user.profile.savedSearches.title")}
-          <Button className="uppercase" size={"sm"}>
+          {/* <Button className="uppercase" size={"sm"}>
             <Search className="mr-2" />{" "}
             {t("user.profile.savedSearches.newSearch")}
-          </Button>
+          </Button> */}
         </h3>
         <Separator className="my-3" />
         <MySavedSearchesList savedSearches={mySavedSearches || []} />
       </div>
-      <HireAgencyBanner />
+      {/* <HireAgencyBanner /> */}
     </div>
   );
 }

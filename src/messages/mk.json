@@ -6,6 +6,8 @@
     "criteria": "критериум",
     "saveSearchDescription": "Можете да добивате известувања кога ќе бидат нови огласи кои ќе се појават на вашиот критериум",
     "notifications": "Известувања",
+    "notificationsOn": "Известувања вклучени",
+    "notificationsOff": "Известувања исклучени",
     "notificationInterval": {
       "title": "Интервал на известувања",
       "daily": "Секој ден",

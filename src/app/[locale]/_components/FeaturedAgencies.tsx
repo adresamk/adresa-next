@@ -56,7 +56,7 @@ export default async function FeaturedAgencies() {
             {agency.listings.length > 0 && (
               <Link
                 href={`/agency/${agency.slug}/search`}
-                className="relative z-30 mt-4 cursor-pointer text-center text-xs text-brand-light-blue"
+                className="relative z-30 mt-auto cursor-pointer text-center text-xs text-brand-light-blue"
               >
                 <span>{agency.listings.length}</span>
 
@@ -68,7 +68,7 @@ export default async function FeaturedAgencies() {
               </Link>
             )}
             {agency.listings.length === 0 && (
-              <span className="mt-4 cursor-pointer text-center text-xs lowercase text-brand-light-blue">
+              <span className="mt-auto cursor-pointer text-center text-xs lowercase text-brand-light-blue">
                 {t("search.noResults.title")}
               </span>
             )}

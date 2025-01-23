@@ -10,22 +10,9 @@ import {
   updateSavedSearch,
 } from "@/server/actions/savedSearche.actions";
 import { Link, useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
-const notificationIntervalOptions = [
-  {
-    value: "daily",
-    label: "Daily",
-  },
-  {
-    value: "weekly",
-    label: "Weekly",
-  },
-  {
-    value: "live",
-    label: "Live",
-  },
-];
-
+const notificationIntervalOptions = ["daily", "weekly", "live"];
 export default function SavedSearchCard({
   savedSearch,
 }: {
@@ -37,6 +24,8 @@ export default function SavedSearchCard({
   const [isNotificationOn, setIsNotificationOn] = useState(
     savedSearch.isNotificationOn,
   );
+  const router = useRouter();
+  const t = useTranslations();
 
   const [listingsCount, setListingsCount] = useState<number | null>(null);
   const [newListingsCount, setNewListingsCount] = useState<number | null>(null);
@@ -60,8 +49,14 @@ export default function SavedSearchCard({
     }
   }, [savedSearch.lastOpenedAt, savedSearch.searchParams]);
 
-  const router = useRouter();
-
+  const notificationIntervalOptionsTranslated = notificationIntervalOptions.map(
+    (option) => {
+      return {
+        value: option,
+        label: t(`savedSearches.notificationInterval.${option}`),
+      };
+    },
+  );
   return (
     <div
       id={"ss" + savedSearch.id}
@@ -169,15 +164,18 @@ export default function SavedSearchCard({
             }}
           >
             {isNotificationOn ? <Bell /> : <BellOff />}
-            Notifications
+            {isNotificationOn
+              ? t("savedSearches.notificationsOn")
+              : t("savedSearches.notificationsOff")}
           </Button>
         </p>
         <SelectDemo
+          disabled={!isNotificationOn}
           placeholder={
             isNotificationOn ? "Select Notification Interval" : "Off"
           }
           name="notificationInterval"
-          options={notificationIntervalOptions}
+          options={notificationIntervalOptionsTranslated}
           value={notificationInterval}
           onClick={async (value) => {
             const resp = await updateSavedSearch(

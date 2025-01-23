@@ -86,6 +86,7 @@ export default function CreateSavedSearch() {
               placeholder={t("savedSearches.savedSearchNamePlaceholder")}
               required
               minLength={3}
+              className="my-2"
               maxLength={50}
               defaultValue={""}
               name="name"
@@ -101,7 +102,7 @@ export default function CreateSavedSearch() {
               />
             </div>
             <div className="flex items-center gap-3">
-              <Label htmlFor="isNotificationOn" className="text-xl">
+              <Label htmlFor="isNotificationOnCheckbox" className="text-xl">
                 {t("savedSearches.notifications")}
               </Label>
               <div className="flex items-center gap-2">
@@ -109,7 +110,11 @@ export default function CreateSavedSearch() {
                   type="text"
                   className="hidden"
                   name="isNotificationOn"
-                  defaultValue={areNotificationsOn ? "on" : "off"}
+                  id="isNotificationOn"
+                  value={areNotificationsOn ? "on" : "off"}
+                  onChange={(e) => {
+                    // setareNotificationsOn(e.target.checked);
+                  }}
                 />
                 <Input
                   className=""
@@ -118,7 +123,7 @@ export default function CreateSavedSearch() {
                   onChange={(e) => {
                     setareNotificationsOn(e.target.checked);
                   }}
-                  id={"isNotificationOn"}
+                  id={"isNotificationOnCheckbox"}
                 />
                 <span className="text-base">
                   {areNotificationsOn

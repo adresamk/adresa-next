@@ -8,6 +8,7 @@ import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
 import { getLocale, getTranslations } from "next-intl/server";
 import HireAgencyBanner from "../searches/_components/HireAgencyBanner";
+import FeaturedAgencies from "../../_components/FeaturedAgencies";
 
 export default async function ProfileLikedPage() {
   const { isAuthenticated, user } = await getCurrentUser();
@@ -41,7 +42,7 @@ export default async function ProfileLikedPage() {
       </div>
       <HireAgencyBanner />
       <div className="verflow-x-auto rounded-lg bg-white shadow">
-        <SuggestedAgencies />
+        <FeaturedAgencies />
       </div>
     </div>
   );

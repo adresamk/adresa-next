@@ -51,8 +51,8 @@ export const createSavedSearch = async (
     name.length < 3 ||
     name.length > 50 ||
     typeof searchParams !== "string" ||
-    typeof isNotificationOn !== "string" ||
-    typeof notificationInterval !== "string"
+    typeof isNotificationOn !== "string"
+    // typeof notificationInterval !== "string"
   ) {
     return {
       error: "Invalid values",
@@ -66,7 +66,7 @@ export const createSavedSearch = async (
       img: "/assets/saved-search-map-polygon2.png",
       searchParams,
       isNotificationOn: isNotificationOn === "on",
-      notificationInterval: notificationInterval,
+      notificationInterval: (notificationInterval as string) || "weekly",
       userId: user.id,
     },
   });

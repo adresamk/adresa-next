@@ -16,6 +16,7 @@ interface SelectDemoProps {
   options: { label: string; value: string }[];
   triggerWidth?: string;
   name?: string;
+  disabled?: boolean;
 }
 
 export function SelectDemo({
@@ -25,9 +26,11 @@ export function SelectDemo({
   placeholder = "",
   triggerWidth = "180px",
   name,
+  disabled,
 }: SelectDemoProps) {
   return (
     <Select
+      disabled={disabled}
       name={name}
       value={value}
       onValueChange={(value) => {
