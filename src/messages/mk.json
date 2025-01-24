@@ -231,7 +231,11 @@
         "category": {
           "OTHER": "Други",
           "INTERNAL": "Внатрешни",
-          "EXTERNAL": "Надворешни"
+          "EXTERNAL": "Надворешни",
+          "UTILITY": "Услуги",
+          "CONSTRUCTION": "Градење",
+          "SUITABLE_FOR": "Применливо за",
+          "RESIDENTIAL_OTHER": "За живеење"
         },
         "keys": {
           "parking": "Паркинг",
@@ -351,7 +355,7 @@
       },
       "mortgage": {
         "options": "Проверете ги вашите опции",
-        "calculate": "Пресметај рата"
+        "calculate": "Калкулатор за хипотека"
       }
     },
     "cannotBeChanged": "(не може да се промени подоцна!)",
@@ -794,7 +798,7 @@
     },
     "listingImages": {
       "modalTitle": "{type}, {area}m²",
-      "modalDescription": "{place}, {municipality}, €{price}",
+      "modalDescription": "{place}, {municipality}, {price}",
       "noPlaceSet": "нема поставена локација",
       "noMunicipalitySet": "нема поставена општина",
       "photo": "Слика {index}",

@@ -228,7 +228,11 @@
         "category": {
           "OTHER": "Të tjera",
           "INTERNAL": "Të brendshme",
-          "EXTERNAL": "Të jashtme"
+          "EXTERNAL": "Të jashtme",
+          "UTILITY": "Ujë",
+          "CONSTRUCTION": "Ndërtim",
+          "SUITABLE_FOR": "Për",
+          "RESIDENTIAL_OTHER": "Banesore"
         },
         "keys": {
           "parking": "Parking",
@@ -348,7 +352,7 @@
       },
       "mortgage": {
         "options": "Kontrolloni opsionet tuaja",
-        "calculate": "Llogarit këstin"
+        "calculate": "Kalkulator i hipotekës"
       }
     },
     "cannotBeChanged": "(nuk mund të ndryshohet më vonë!)",
@@ -790,7 +794,7 @@
     },
     "listingImages": {
       "modalTitle": "{type}, {area}m²",
-      "modalDescription": "{place}, {municipality}, €{price}",
+      "modalDescription": "{place}, {municipality}, {price}",
       "noPlaceSet": "nuk ka vendndodhje të vendosur",
       "noMunicipalitySet": "nuk ka komunë të vendosur",
       "photo": "Foto {index}",

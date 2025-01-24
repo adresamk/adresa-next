@@ -12,24 +12,24 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { SerializedListing } from "@/lib/types";
-import {
-  getMunicipalityPlaces,
-  getPlaceInfo,
-  municipalitiesOptions,
-} from "@/lib/data/macedoniaOld/importantData";
-import { useLocale, useTranslations } from "next-intl";
-import { PopulatedPlace } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces";
-import { municipalities } from "@/lib/data/macedoniaOld/macedoniaPopulatedPlaces2";
+
+import { useTranslations } from "next-intl";
 import { Listing } from "@prisma/client";
 import { UploadedImageData } from "@/types/listing.types";
 
-export default function ListingImages({ listing }: { listing: Listing }) {
+export default function ListingImages({
+  listing,
+  currentMunicipalityLabel,
+  currentPlaceLabel,
+}: {
+  listing: Listing;
+  currentMunicipalityLabel: string;
+  currentPlaceLabel: string;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [openTab, setOpenTab] = useState("overview");
   const [openImageIndex, setOpenImageIndex] = useState<null | number>(null);
   const t = useTranslations();
-  const locale = useLocale();
   function onClose() {
     setOpenTab("overview");
     setOpenImageIndex(null);
@@ -45,19 +45,6 @@ export default function ListingImages({ listing }: { listing: Listing }) {
     setOpenTab("singleAtATime");
     setOpenImageIndex(idx);
   }
-  const nameKey = locale === "en" ? "name_en" : "name";
-  const municipality = municipalities.find(
-    (municipality) => municipality.customId === listing.municipality,
-  )?.[nameKey];
-
-  const placeLoad = listing.place
-    ? (getPlaceInfo(listing.place) as PopulatedPlace | null)
-    : null;
-  const place = placeLoad ? (placeLoad as any)[nameKey] : null;
-
-  // const municipality = manucipalitiesOptions.find(
-  //   (municipality) => municipality.value === listing.municipality,
-  // )?.label
 
   return (
     <>
@@ -67,12 +54,8 @@ export default function ListingImages({ listing }: { listing: Listing }) {
           area: listing.area,
         })}
         description={t("listing.listingImages.modalDescription", {
-          place: capitalizeString(
-            place || t("listing.listingImages.noPlaceSet"),
-          ),
-          municipality: capitalizeString(
-            municipality || t("listing.listingImages.noMunicipalitySet"),
-          ),
+          place: currentPlaceLabel,
+          municipality: currentMunicipalityLabel,
           price: displayPrice(listing.price),
         })}
         isOpen={isOpen}

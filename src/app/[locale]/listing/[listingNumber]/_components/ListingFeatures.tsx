@@ -36,7 +36,7 @@ export default function ListingFeatures({ listing }: ListingFeaturesProps) {
           <div key={category}>
             <div className="my-3 flex items-center gap-3 overflow-x-hidden">
               <span className="inline-flex w-fit text-nowrap">
-                {t(`listing.feature.category.${category}`)}
+                {t(`common.property.feature.category.${category}`)}
               </span>
               <Separator />
             </div>

@@ -24,7 +24,7 @@ export default function FeatureShowcase({ feature }: FeatureShowcaseProps) {
     <div className="flex items-center gap-2 rounded-sm border border-slate-500 px-2 py-1 text-slate-700">
       {featureIcons.hasOwnProperty(feature.key) &&
         featureIcons[feature.key as keyof typeof featureIcons]}
-      {t(`listing.feature.keys.${feature.key}`)}
+      {t(`common.property.feature.keys.${feature.key}`)}
     </div>
   );
 }

@@ -228,7 +228,11 @@
         "category": {
           "OTHER": "Other",
           "INTERNAL": "Internal",
-          "EXTERNAL": "External"
+          "EXTERNAL": "External",
+          "UTILITY": "Utility",
+          "CONSTRUCTION": "Construction",
+          "SUITABLE_FOR": "Suitable for",
+          "RESIDENTIAL_OTHER": "Residential other"
         },
         "keys": {
           "parking": "Parking",
@@ -348,7 +352,7 @@
       },
       "mortgage": {
         "options": "Check your options",
-        "calculate": "Calculate payment"
+        "calculate": "Mortgage calculator"
       }
     },
     "cannotBeChanged": "(cannot be changed later!)",
@@ -789,7 +793,7 @@
     },
     "listingImages": {
       "modalTitle": "{type}, {area}m²",
-      "modalDescription": "{place}, {municipality}, €{price}",
+      "modalDescription": "{place}, {municipality}, {price}",
       "noPlaceSet": "no location set",
       "noMunicipalitySet": "no municipality set",
       "photo": "Photo {index}",

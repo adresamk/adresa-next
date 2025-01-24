@@ -12,7 +12,7 @@ interface MortgageCalculatorProps {
 }
 
 export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
-  const t = useTranslations("MortgageCalculator");
+  const t = useTranslations("mortgageCalculator");
   const [homePrice, setHomePrice] = useState(initialPrice);
   const [downPaymentPercent, setDownPaymentPercent] = useState(10);
   const [interestRate, setInterestRate] = useState(3.12);

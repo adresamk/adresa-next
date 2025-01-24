@@ -164,7 +164,11 @@ export default async function SingleListingPage({
       <StickyControls listing={listing} />
       {/* Images */}
       <section className="mx-auto w-full px-5 lg:max-w-7xl">
-        <ListingImages listing={listing} />
+        <ListingImages
+          listing={listing}
+          currentMunicipalityLabel={currentMunicipalityLabel}
+          currentPlaceLabel={currentPlaceLabel}
+        />
       </section>
       {/* Main section with Info */}
       <section className="mx-auto w-full px-5 lg:max-w-7xl">
@@ -207,8 +211,8 @@ export default async function SingleListingPage({
             <Separator className="my-3 bg-slate-400" />
             <div className="my-4 flex flex-wrap items-center justify-center gap-4 lg:flex-nowrap lg:justify-start">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/halkbank-logo.png" alt="Halkbank" />
-              <span>{t("common.property.mortgage.options")}</span>
+              {/* <img src="/assets/halkbank-logo.png" alt="Halkbank" /> */}
+              {/* <span>{t("common.property.mortgage.options")}</span> */}
               <CalculateMortgageButton />
             </div>
             <Separator className="my-3 bg-slate-400" />

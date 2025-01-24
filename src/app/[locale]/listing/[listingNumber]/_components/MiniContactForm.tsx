@@ -26,7 +26,7 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
       id="mini-contact-form"
       className="rounded border border-gray-100 bg-white p-0 shadow-xl transition-all duration-300 ease-in"
     >
-      <div className="overflow-auto">
+      <div className="overflow-auto py-3">
         <h3 className="my-3 mb-3 px-6 text-xl">
           {t("common.contact.imInterested")}
         </h3>
