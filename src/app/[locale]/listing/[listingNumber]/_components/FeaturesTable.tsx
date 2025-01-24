@@ -31,8 +31,12 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
     ...(lwr.residential && {
       floor: lwr.residential.floor,
       totalFloors: lwr.residential.totalFloors,
-      orientation: lwr.residential.orientation,
-      zone: lwr.residential.zone,
+      orientation: t(
+        `listing.new.progress.steps.mainCharacteristics.orientation.orientationOptions.${lwr.residential.orientation}`,
+      ),
+      zone: t(
+        `listing.new.progress.steps.mainCharacteristics.zone.zoneOptions.${lwr.residential.zone}`,
+      ),
       kitchenCount: lwr.residential.kitchenCount,
       bathroomCount: lwr.residential.bathroomCount,
       bedroomCount: lwr.residential.bedroomCount,
@@ -53,8 +57,12 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
         "EUR",
         t("mortgageCalculator.month"),
       ),
-      heatingType: lwr.residential.heatingType,
-      heatingMedium: lwr.residential.heatingMedium,
+      heatingType: t(
+        `listing.new.progress.steps.mainCharacteristics.heatingType.heatingTypeOptions.${lwr.residential.heatingType}`,
+      ),
+      heatingMedium: t(
+        `listing.new.progress.steps.mainCharacteristics.heatingMedium.heatingMediumOptions.${lwr.residential.heatingMedium}`,
+      ),
     }),
     ...(lwr.commercial && {
       floor: lwr.commercial.floor,
@@ -64,14 +72,22 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
       isOnTopFloor: lwr.commercial.isOnTopFloor,
       accessFrom: lwr.commercial.accessFrom,
       commonExpenses: lwr.commercial.commonExpenses,
-      heatingType: lwr.commercial.heatingType,
-      heatingMedium: lwr.commercial.heatingMedium,
+      heatingType: t(
+        `listing.new.progress.steps.mainCharacteristics.heatingType.heatingTypeOptions.${lwr.commercial.heatingType}`,
+      ),
+      heatingMedium: t(
+        `listing.new.progress.steps.mainCharacteristics.heatingMedium.heatingMediumOptions.${lwr.commercial.heatingMedium}`,
+      ),
       wcCount: lwr.commercial.wcCount,
     }),
     ...(lwr.land && {
       isCornerProperty: lwr.land.isCornerProperty,
-      orientation: lwr.land.orientation,
-      zone: lwr.land.zone,
+      orientation: t(
+        `listing.new.progress.steps.mainCharacteristics.orientation.orientationOptions.${lwr.land.orientation}`,
+      ),
+      zone: t(
+        `listing.new.progress.steps.mainCharacteristics.zone.zoneOptions.${lwr.land.zone}`,
+      ),
       accessFrom: lwr.land.accessFrom,
       slope: lwr.land.slope,
     }),

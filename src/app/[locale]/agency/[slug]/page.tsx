@@ -83,9 +83,11 @@ export default async function AgencyPage({
   return (
     <main className="min-h-screen">
       <div
-        style={{
-          background: `url(${logoUrl}) no-repeat right 10%`,
-        }}
+        style={
+          {
+            // background: `url(${logoUrl}) no-repeat right 10%`,
+          }
+        }
         className="relative"
       >
         <div className="absolute top-0.5 h-full min-h-[300px] w-full backdrop-blur-md"></div>
@@ -109,7 +111,7 @@ export default async function AgencyPage({
                 </h3>
               </div>
             </div>
-            <p>{agency.description}</p>
+            <p className="whitespace-pre-line">{agency.description}</p>
             {/* Grouped Listings */}
             <div className="my-7 flex gap-3">
               {topFourGroups.map(([key, count]) => {
@@ -137,7 +139,7 @@ export default async function AgencyPage({
             <div className="my-3 text-slate-700">
               <p>{agency.address}</p>
               <p>{t("agency.contact.hours")}</p>
-              <p>{agency.workHours}</p>
+              <p className="whitespace-pre-line">{agency.workHours}</p>
             </div>
             <div className="flex items-center gap-3">
               <RevealButton

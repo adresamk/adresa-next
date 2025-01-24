@@ -108,25 +108,25 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
           <div className="border-t-2 px-5 py-4">
             <>
               <div className="flex gap-2">
-                <div className="h-[60px] w-[60px] rounded px-3 py-1.5">
+                <div className="h-[64px] w-[100px] rounded px-3 py-1.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    className="h-full w-full object-fill"
+                    className="h-full min-w-full object-fill"
                     width={100}
                     height={60}
                     src={(agency.logo as UploadedImageData)?.url || ""}
                     alt={agency.name + " Logo"}
                   />
                 </div>
-                <div>
-                  <p className="mb-1 text-sm leading-4">
-                    {agency.shortDescription}
-                  </p>
+                <div className="flex-1">
                   <Link href={`/agency/${agency.slug}`}>
                     <p className="text-xl font-semibold hover:underline">
-                      {agency.contactPersonFullName}
+                      {agency.name}
                     </p>
                   </Link>
+                  <p className="mb-1 whitespace-pre-line text-sm leading-4">
+                    {agency.shortDescription}
+                  </p>
                 </div>
               </div>
               <div className="my-2 flex flex-wrap items-center">

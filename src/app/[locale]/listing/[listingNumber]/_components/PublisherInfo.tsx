@@ -39,16 +39,18 @@ export default async function PublisherInfo({
               </h4>
               <Link href={`/agency/${agency.slug}`}>
                 <p className="my-2 mb-1.5 text-lg font-semibold leading-4 hover:underline">
-                  {agency.contactPersonFullName}
+                  {agency.name}
                 </p>
               </Link>
               <p className="mb-1.5 leading-4">{agency.address}</p>
             </div>
             <div className="mt-10">
-              <p className="text-sm">
+              <p className="text-sm text-slate-600">
                 {t("common.property.publisherDetails.workHours")}
               </p>
-              <p className="mb-3">{agency.workHours}</p>
+              <p className="mb-3 whitespace-pre-line text-sm">
+                {agency.workHours}
+              </p>
               <p className="text-sm">
                 {t("common.property.publisherDetails.preferredContactMethod")}
               </p>
