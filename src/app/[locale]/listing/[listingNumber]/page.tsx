@@ -166,8 +166,8 @@ export default async function SingleListingPage({
       <section className="mx-auto w-full px-5 lg:max-w-7xl">
         <ListingImages
           listing={listing}
-          currentMunicipalityLabel={currentMunicipalityLabel}
-          currentPlaceLabel={currentPlaceLabel}
+          currentMunicipalityLabel={currentMunicipalityLabel || ""}
+          currentPlaceLabel={currentPlaceLabel || ""}
         />
       </section>
       {/* Main section with Info */}
