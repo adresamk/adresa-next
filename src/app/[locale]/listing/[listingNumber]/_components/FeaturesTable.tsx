@@ -88,11 +88,17 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
       zone: t(
         `listing.new.progress.steps.mainCharacteristics.zone.zoneOptions.${lwr.land.zone}`,
       ),
-      accessFrom: lwr.land.accessFrom,
-      slope: lwr.land.slope,
+      accessFrom: t(
+        `listing.new.progress.steps.mainCharacteristics.accessFrom.accessFromOptions.${lwr.land.accessFrom}`,
+      ),
+      slope: t(
+        `listing.new.progress.steps.mainCharacteristics.slope.slopeOptions.${lwr.land.slope}`,
+      ),
     }),
     ...(lwr.other && {
-      accessFrom: lwr.other.accessFrom,
+      accessFrom: t(
+        `listing.new.progress.steps.mainCharacteristics.accessFrom.accessFromOptions.${lwr.other.accessFrom}`,
+      ),
       totalPropertyArea: lwr.other.totalPropertyArea,
     }),
     updatedAt: displayDate(listing.updatedAt),
