@@ -133,22 +133,24 @@ export async function updateAgencyInfo(formData: FormData) {
   console.log("userFormData", formData);
   const ownerFirstName = formData.get("ownerFirstName");
   const ownerLastName = formData.get("ownerLastName");
-  const phone = formData.get("phone");
+  const ownerPhone = formData.get("ownerPhone");
   const ownerEmail = formData.get("ownerEmail");
   // validate the form data
   if (
     typeof ownerFirstName !== "string" ||
     typeof ownerLastName !== "string" ||
-    typeof phone !== "string" ||
+    typeof ownerPhone !== "string" ||
     typeof ownerEmail !== "string" ||
-    !validPhoneNumber(phone)
+    !validPhoneNumber(ownerPhone)
   ) {
+    console.log("invalid form data");
     return {
       success: false,
       error: "Invalid form data",
     };
   }
 
+  console.log("validation passed");
   // update user info
   await prismadb.agency.update({
     where: {
@@ -157,12 +159,12 @@ export async function updateAgencyInfo(formData: FormData) {
     data: {
       ownerFirstName: capitalizeString(ownerFirstName),
       ownerLastName: capitalizeString(ownerLastName),
-      phone: phone,
+      ownerPhone: ownerPhone,
       ownerEmail: ownerEmail,
     },
   });
+  console.log("redirected");
   redirect({ href: "/agency/profile/info", locale: locale });
-
   return {
     success: true,
     error: null,
