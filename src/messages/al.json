@@ -878,6 +878,9 @@
       "details": {
         "agencyName": "Emri i agjencisë",
         "agencyNamePlaceholder": "Acme Inc",
+        "agencySlug": "Kratko emer në URL",
+        "agencySlugPlaceholder": "acme-inc",
+        "agencySlugInfo": "Slug-u duhet të përmbajë të paktën 3 karaktere dhe të përdorë vetëm shkronja të vogla, numra dhe viza",
         "agencyAdress": "Adresa e agjencisë",
         "agencyAdressPlaceholder": "p.sh: rr. Petrovac 12, 1000 Shkup",
         "agencyLogo": "Logoja e agjencisë",
@@ -914,7 +917,7 @@
         "info": "Këto informacione do të shfaqen në faqen tuaj të agjencisë dhe në shpalljet që keni në dispozicion.",
         "email": "Email",
         "phone": "Telefon",
-        "both": "Të dyja"
+        "both": "Telefon ose email"
       },
       "listingsPage": {
         "title": "Shpalljet e mia",

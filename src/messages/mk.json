@@ -882,6 +882,9 @@
       "details": {
         "agencyName": "Име на агенција",
         "agencyNamePlaceholder": "Acme Inc",
+        "agencySlug": "Кратко име за во URL",
+        "agencySlugPlaceholder": "acme-inc",
+        "agencySlugInfo": "Кратенката мора да содржи најмалку 3 карактери и да користи само мали букви, броеви и цртички",
         "agencyAdress": "Адреса на агенција",
         "agencyAdressPlaceholder": "ex: ул. Петровац 12, 1000 Скопје",
         "agencyLogo": "Лого на агенција",
@@ -918,7 +921,7 @@
         "info": "Овие информации ќе се прикажат на вашата агенциска страница и на огласите кои ги имате на располагање.",
         "email": "Е-пошта",
         "phone": "Телефон",
-        "both": "И двете"
+        "both": "Телефон или е-пошта"
       },
       "listingsPage": {
         "title": "Мои огласи",

@@ -876,6 +876,9 @@
       "details": {
         "agencyName": "Agency name",
         "agencyNamePlaceholder": "Acme Inc",
+        "agencySlug": "Short name for URL",
+        "agencySlugPlaceholder": "acme-inc",
+        "agencySlugInfo": "The slug must contain at least 3 characters and only use lowercase letters, numbers, and hyphens",
         "agencyAdress": "Agency address",
         "agencyAdressPlaceholder": "e.g.: 12 Petrovac St, 1000 Skopje",
         "agencyLogo": "Agency logo",
@@ -912,7 +915,7 @@
         "info": "This information will be displayed on your agency page and on your available listings.",
         "email": "Email",
         "phone": "Phone",
-        "both": "Both"
+        "both": "Phone or email"
       },
       "listingsPage": {
         "title": "My listings",

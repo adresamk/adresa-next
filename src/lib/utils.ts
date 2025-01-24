@@ -8,6 +8,15 @@ export function cn(...inputs: ClassValue[]) {
 export function generateUniqueToken() {
   return Math.random().toString(36).slice(2, 11); // Simple token generation
 }
+export function generateCompanySlug(companyName: string) {
+  return companyName
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
 export function normalizeUrl(url: string) {
   // Check if the URL already has a scheme
   if (!/^https?:\/\//i.test(url)) {

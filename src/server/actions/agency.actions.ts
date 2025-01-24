@@ -3,7 +3,12 @@
 import { redirect } from "@/i18n/routing";
 import prismadb from "@/lib/db";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
-import { capitalizeString, normalizeUrl, validPhoneNumber } from "@/lib/utils";
+import {
+  capitalizeString,
+  generateCompanySlug,
+  normalizeUrl,
+  validPhoneNumber,
+} from "@/lib/utils";
 import { getLocale } from "next-intl/server";
 
 export async function updateAgencyDetails(formData: FormData) {
@@ -20,6 +25,7 @@ export async function updateAgencyDetails(formData: FormData) {
 
   console.log("userFormData", formData);
   const name = formData.get("name");
+  const slug = formData.get("slug");
   const address = formData.get("address");
   const logo = formData.get("logo");
 
@@ -35,10 +41,10 @@ export async function updateAgencyDetails(formData: FormData) {
   const branding = formData.get("branding");
   const preferredContactMethod = formData.get("preferredContactMethod");
   const contactHours = formData.get("contactHours");
-
   // validate the form data
   if (
     typeof name !== "string" ||
+    typeof slug !== "string" ||
     typeof address !== "string" ||
     typeof logo !== "string" ||
     typeof website !== "string" ||
@@ -72,7 +78,7 @@ export async function updateAgencyDetails(formData: FormData) {
         accountId: account.id,
         uuid: account.uuid,
         name,
-        slug: name.toLowerCase().replace(" ", "-"),
+        slug,
         address,
         website: normalizeUrl(website),
         phone,
@@ -96,7 +102,7 @@ export async function updateAgencyDetails(formData: FormData) {
       },
       data: {
         name,
-        slug: name.toLowerCase().replace(" ", "-"),
+        slug,
         address,
         logo: logo ? JSON.parse(logo) : null,
         website: normalizeUrl(website),

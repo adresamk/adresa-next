@@ -1,8 +1,6 @@
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getUser } from "@/lib/auth";
-import prismadb from "@/lib/db";
+import { Input } from "@/components/ui/input";
 import { Info } from "lucide-react";
 import AgencyLogoUpload from "./_components/AgencyLogoUpload";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +13,8 @@ import { SelectDemo } from "@/components/shared/SelectDemo";
 import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
 import { UploadedImageData } from "@/types/listing.types";
 import { Separator } from "@/components/ui/separator";
+import { useState } from "react";
+import NameAndSlugInputs from "./_components/NameAndSlugInputs";
 
 type Params = Promise<Record<string, string>>;
 
@@ -24,24 +24,21 @@ export default async function AgencyProfileDetailsPage({
   searchParams: Params;
 }) {
   const params = await searchParams;
-  console.log(params);
 
   const locale = await getLocale();
   const { session, account } = await getCurrentSession();
   const t = await getTranslations();
-  console.log("Session", session, "Account", account);
 
+  const { isAuthenticated, agency, user } = await getCurrentUser();
+
+  // console.log("Current Agency", { isAuthenticated, agency, user });
+  // First Time Here, they need to setup profile
   if (!session || !account) {
     redirect({
       href: "/",
       locale: locale,
     });
   }
-
-  const { isAuthenticated, agency, user } = await getCurrentUser();
-
-  console.log("Current Agency", { isAuthenticated, agency, user });
-  // First Time Here, they need to setup profile
 
   const prefferedContactMethodOptionsTranslated = [
     { label: t("agency.profile.details.email"), value: "email" },
@@ -70,24 +67,10 @@ export default async function AgencyProfileDetailsPage({
           }
         }}
         className="py-2"
-        // action={updateAgencyDetails}
       >
-        {/* Agency Name */}
-        <div className="mb-2 flex flex-col gap-3">
-          <Label htmlFor="name">
-            {t("agency.profile.details.agencyName")}{" "}
-            <span className="text-red-500">*</span>
-          </Label>
-          <Input
-            required
-            id="name"
-            defaultValue={agency?.name || ""}
-            name="name"
-            placeholder={t("agency.profile.details.agencyNamePlaceholder")}
-          />
-        </div>
+        <NameAndSlugInputs agency={agency!} />
 
-        {/* Agency Adress */}
+        {/* Agency Address */}
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="address">
             {t("agency.profile.details.agencyAdress")}{" "}
@@ -266,7 +249,7 @@ export default async function AgencyProfileDetailsPage({
             placeholder={t(
               "agency.profile.details.preferredContactMethodPlaceholder",
             )}
-            value={agency?.preferredContactMethod || ""}
+            value={agency?.preferredContactMethod || "both"}
             options={prefferedContactMethodOptionsTranslated}
           />
         </div>
