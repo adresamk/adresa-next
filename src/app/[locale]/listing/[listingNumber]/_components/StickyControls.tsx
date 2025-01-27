@@ -39,15 +39,17 @@ export default function StickyControls({ listing }: { listing: Listing }) {
               alt="Main image small"
             />
           </div>
-          <div className="flex-shrink-0 flex-grow-0">
-            <strong className="block capitalize">
-              {listing.type}, {listing.area}m²
-            </strong>
-            <span className="block text-xs">{listing.address}</span>
-          </div>
-          <div className="flex-1 flex-shrink pl-[8%]">
-            <div className="font-semibold">
-              <span>{displayPrice(listing.price, "EUR")}</span>
+          <div className="flex-col smaller:flex-row">
+            <div className="flex-shrink-0 flex-grow-0">
+              <strong className="block capitalize">
+                {listing.type}, {listing.area}m²
+              </strong>
+              <span className="block text-xs">{listing.address}</span>
+            </div>
+            <div className="flex-1 flex-shrink pl-[8%]">
+              <div className="font-semibold">
+                <span>{displayPrice(listing.price, "EUR")}</span>
+              </div>
             </div>
           </div>
         </div>

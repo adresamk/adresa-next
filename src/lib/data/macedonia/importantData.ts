@@ -11,6 +11,14 @@ export type TranslatedOption = {
   label: string;
   value: string;
 };
+export type TranslatedOptionMultipleLanguages = {
+  label: {
+    mk: string;
+    en: string;
+    al: string;
+  };
+  value: string;
+};
 
 export const skopjeCoordinates: [number, number] = [42.005, 21.422];
 export const northMacedoniaCoordinates: [number, number] = [41.56614, 21.698];
@@ -145,4 +153,74 @@ export function getAllMunicipalitiesWithPlacesTranslated(
     label: translations[id] || id,
     places: getMunicipalityPlacesTranslated(id, locale).places,
   }));
+}
+
+export function getAllLocationOptionsTranslated(): TranslatedOptionMultipleLanguages[] {
+  const mkPlaces = getAllMunicipalitiesWithPlacesTranslated("mk");
+  const enPlaces = getAllMunicipalitiesWithPlacesTranslated("en");
+  const alPlaces = getAllMunicipalitiesWithPlacesTranslated("al");
+
+  const placesMerged = mkPlaces.map((municipality) => {
+    // Find corresponding translations for the municipality
+    const enMunicipality = enPlaces.find((p) => p.value === municipality.value);
+    const alMunicipality = alPlaces.find((p) => p.value === municipality.value);
+
+    return {
+      value: municipality.value,
+      label: {
+        mk: municipality.label,
+        en: enMunicipality?.label || municipality.value,
+        al: alMunicipality?.label || municipality.value,
+      },
+      places: municipality.places?.map((place) => {
+        // Find corresponding translations for each place
+        const enPlace = enMunicipality?.places?.find(
+          (p) => p.value === place.value,
+        );
+        const alPlace = alMunicipality?.places?.find(
+          (p) => p.value === place.value,
+        );
+
+        return {
+          value: place.value,
+          label: {
+            mk: `${place.label || place.value}`,
+            en: `${enPlace?.label || place.value}`,
+            al: `${alPlace?.label || place.value}`,
+          },
+        };
+      }),
+    };
+  });
+
+  // const translatedPlaces = getAllMunicipalitiesWithPlacesTranslated(locale);
+
+  const options: TranslatedOptionMultipleLanguages[] = placesMerged.reduce(
+    (acc, municipality) => {
+      acc.push({
+        label: {
+          mk: municipality.label.mk,
+          en: municipality.label.en,
+          al: municipality.label.al,
+        },
+        value: municipality.value,
+      });
+      if (municipality.places) {
+        municipality.places.forEach((place) => {
+          acc.push({
+            label: {
+              mk: `${municipality.label.mk}, ${place.label.mk}`,
+              en: `${municipality.label.en}, ${place.label.en}`,
+              al: `${municipality.label.al}, ${place.label.al}`,
+            },
+            value: place.value,
+          });
+        });
+      }
+      return acc;
+    },
+    [] as TranslatedOptionMultipleLanguages[],
+  );
+
+  return options;
 }

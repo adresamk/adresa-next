@@ -16,13 +16,19 @@ import { useFilters } from "@/hooks/useFilters";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { useLocale, useTranslations } from "next-intl";
 import {
+  getAllLocationOptionsTranslated,
   getAllMunicipalitiesWithPlacesTranslated,
   TranslatedOption,
+  TranslatedOptionMultipleLanguages,
   TranslatedOptionWithMaybePlaces,
 } from "@/lib/data/macedonia/importantData";
 
 type Tag = {
-  label: string;
+  label: {
+    mk: string;
+    en: string;
+    al: string;
+  };
   value: string;
 };
 
@@ -51,50 +57,58 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
 
   const locale = useLocale();
   const getLocationDropdownOptions = useCallback(() => {
-    const translatedPlaces = getAllMunicipalitiesWithPlacesTranslated(locale);
-    const options = translatedPlaces.reduce((acc, municipality) => {
-      acc.push({
-        label: municipality.label,
-        value: municipality.value,
-      });
-      if (municipality.places) {
-        municipality.places.forEach((place) => {
-          acc.push({
-            label: `${municipality.label}, ${place.label}`,
-            value: place.value,
-          });
-        });
-      }
-      return acc;
-    }, [] as TranslatedOption[]);
+    const options: TranslatedOptionMultipleLanguages[] =
+      getAllLocationOptionsTranslated();
+
+    // console.log("options", options);
+
     const fuse = new Fuse(options, {
-      keys: ["label"],
+      keys: ["label.mk", "label.en", "label.al"],
     });
+
     const filteredOptions = fuse.search(debouncedLocation);
     // console.log("filteredOptions", filteredOptions);
     const existingLocations = filters.location
       ? filters.location.split(",")
       : [];
+
     const results = filteredOptions
       .filter((o) => !existingLocations.includes(o.item.value))
       .map((o) => o.item)
       .slice(0, 6);
-    return { options, translatedPlaces, fuseResults: results };
+    return { options, translatedPlaces: options, fuseResults: results };
   }, [locale, debouncedLocation, filters.location]);
+
   const locationDropdown = getLocationDropdownOptions();
   const [tags, setTags] = useState<Tag[]>(() => {
-    return filters.location
-      ? filters.location.split(",").map((value) => ({
+    // return filters.location
+    //   ? filters.location.split(",").map((value) => ({
+    //       value: value,
+    //       label:
+    //         getLocationDropdownOptions().options.find(
+    //           (o) => o.value === value,
+    //         )?.label?[locale] || "",
+    //     }))
+    //   : [];
+    if (filters.location) {
+      const mappedTags: Tag[] = [];
+
+      filters.location.split(",").map((value) => {
+        let option = getLocationDropdownOptions().options.find(
+          (o) => o.value === value,
+        );
+        let label = option ? option.label : {};
+        return {
           value: value,
-          label:
-            getLocationDropdownOptions().translatedPlaces.find(
-              (o) => o.value === value,
-            )?.label || "",
-        }))
-      : [];
+          label: label,
+        };
+      });
+      return mappedTags;
+    }
+    return [];
   });
 
-  function handleUpdateTags(location: TranslatedOption) {
+  function handleUpdateTags(location: TranslatedOptionMultipleLanguages) {
     const newTags = [...tags, location];
     setTags(newTags);
   }
@@ -112,6 +126,29 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
   //     document.getElementById("location")?.focus();
   //   }
   // }, [focusedFilter]);
+
+  useEffect(() => {
+    // console.log("filters.location", filters.location);
+    // console.log("options", getLocationDropdownOptions().options);
+    if (filters.location && filters.location.length > 0) {
+      const mappedTags = filters.location.split(",").map((value) => {
+        let option = getLocationDropdownOptions().options.find(
+          (o) => o.value === value,
+        );
+        console.log("value", option);
+        let label = option ? option.label : { mk: "", en: "", al: "" };
+        return {
+          value: value,
+          label: label,
+        };
+      });
+      // console.log("mappedTags", mappedTags);
+      setTags(mappedTags);
+    }
+    if (filters.location && filters.location.length === 0) {
+      setTags([]);
+    }
+  }, [filters.location]);
 
   return (
     <div
@@ -140,12 +177,15 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
         </label>
         <div className="relative flex min-h-10 flex-wrap items-center text-sm">
           {tags.map((t) => {
+            console.log("t", t);
             return (
               <div
                 className="relative mr-2.5 mt-1 inline-flex min-h-10 items-center gap-2 rounded-md bg-slate-200 py-2 pl-2.5 pr-8 text-sm tracking-tight text-slate-900"
                 key={t.value}
               >
-                <span className="flex-grow overflow-hidden">{t.label}</span>
+                <span className="flex-grow overflow-hidden">
+                  {t.label[locale as keyof typeof t.label]}
+                </span>
 
                 <div
                   onClick={() => handleRemoveTag(t.value)}
@@ -183,7 +223,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
           {focusedFilter === "location" && isOpen && location.length > 2 && (
             <ul className="absolute left-0 top-full z-[100] -ml-[22px] mt-[5px] max-h-[280px] w-[calc(100%_+_41px)] overflow-auto rounded-b-xl bg-white shadow-lg">
               {locationDropdown.fuseResults.map(
-                (location: TranslatedOption) => (
+                (location: TranslatedOptionMultipleLanguages) => (
                   <li
                     key={location.value}
                     className={cn(
@@ -199,12 +239,15 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
                       });
                       handleUpdateTags(location);
                       setLocation("");
+                      locationDropdown.fuseResults = [];
                     }}
                   >
                     <span>
                       <MapPin className="h-4 w-4" />
                     </span>
-                    <span>{location.label}</span>
+                    <span>
+                      {location.label[locale as keyof typeof location.label]}
+                    </span>
                   </li>
                 ),
               )}
@@ -222,21 +265,11 @@ interface LocationFilterProps {
 export default function LocationFilter({ variant }: LocationFilterProps) {
   const locationFilterDivRef = useRef(null);
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
-  const filters = useFilters((store) => store.filters);
   const setFocusedFilter = useSelectedFilter(
     (store) => store.setSelectedFilter,
   );
-  const updateFilters = useFilters((store) => store.updateFilters);
   const [isOpen, setisOpen] = useState(false);
 
-  //effect description
-  useEffect(() => {
-    // if (filters.location.length >= 0) {
-    //   setisOpen(true);
-    // } else {
-    //   setisOpen(false);
-    // }
-  }, [filters.location]);
   const handleClickOutside = () => {
     setisOpen(false);
     setFocusedFilter("");

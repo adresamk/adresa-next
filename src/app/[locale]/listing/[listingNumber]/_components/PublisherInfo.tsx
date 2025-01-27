@@ -51,10 +51,10 @@ export default async function PublisherInfo({
               <p className="mb-3 whitespace-pre-line text-sm">
                 {agency.workHours}
               </p>
-              <p className="text-sm">
+              <p className="text-sm text-slate-600">
                 {t("common.property.publisherDetails.preferredContactMethod")}
               </p>
-              <p>
+              <p className="text-sm">
                 {t(
                   `agency.profile.details.${agency.preferredContactMethod ?? "both"}`,
                 )}
