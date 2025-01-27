@@ -173,7 +173,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
           htmlFor={"location"}
         >
           {<MapPin className="h-4 w-4" />} {t("search.filters.location.label")}
-          <span className="text-sm">{filters.location}</span>
+          {/* <span className="text-sm">{filters.location}</span> */}
         </label>
         <div className="relative flex min-h-10 flex-wrap items-center text-sm">
           {tags.map((t) => {
