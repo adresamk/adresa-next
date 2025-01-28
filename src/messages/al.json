@@ -166,6 +166,7 @@
       "select": "Zgjidh",
       "isUploading": "Duke ngarkuar",
       "delete": "Fshije",
+      "edit": "Ndrysho",
       "hide": "Fsheh",
       "show": "Shfaq",
       "sort": "Rendit",
@@ -191,6 +192,7 @@
       "showLess": "Fsheh tekstin"
     },
     "words": {
+      "missingValue": "mungon",
       "createdAt": "Krijuar në",
       "publishedAt": "Publikuar në",
       "listings": "shpallje",
@@ -324,6 +326,7 @@
       },
       "metadata": {
         "posted": "Publikuar më",
+        "notPublished": "Nuk publikuar",
         "updated": "Përditësuar më",
         "available": "Në dispozicion nga",
         "id": "Kodi",
@@ -399,6 +402,10 @@
     }
   },
   "listing": {
+    "preview": {
+      "previewWarning": "Kjo është një parapamja e shpalljes që mund të shfletosh vetëm ju.",
+      "missingInformation": "Shpallja juaj nuk është publikuar. Ju duhet të plotësoni informacionin, pa të cilën nuk mund të publikosh."
+    },
     "sorting": {
       "new": "I ri",
       "low_price": "Çmimi më i ulët",

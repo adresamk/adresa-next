@@ -1,10 +1,11 @@
 "use client";
 import ListingActions from "./ListingActions";
-import { cn, displayPrice } from "@/lib/utils";
+import { cn, displayArea, displayPrice } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { SerializedListing } from "@/lib/types";
 import { Listing } from "@prisma/client";
 import { UploadedImageData } from "@/types/listing.types";
+import { useTranslations } from "next-intl";
 export default function StickyControls({ listing }: { listing: Listing }) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -21,6 +22,7 @@ export default function StickyControls({ listing }: { listing: Listing }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   const image = listing.mainImage as UploadedImageData;
+  const t = useTranslations("");
   return (
     <section
       className={cn(
@@ -42,13 +44,24 @@ export default function StickyControls({ listing }: { listing: Listing }) {
           <div className="flex-col smaller:flex-row">
             <div className="flex-shrink-0 flex-grow-0">
               <strong className="block capitalize">
-                {listing.type}, {listing.area}m²
+                {listing.type},{" "}
+                {displayArea(listing.area) || (
+                  <span className="text-red-500">
+                    {t("common.words.missingValue")}
+                  </span>
+                )}
               </strong>
               <span className="block text-xs">{listing.address}</span>
             </div>
             <div className="flex-1 flex-shrink pl-[8%]">
               <div className="font-semibold">
-                <span>{displayPrice(listing.price, "EUR")}</span>
+                <span>
+                  {displayPrice(listing.price, "EUR") || (
+                    <span className="text-red-500">
+                      {t("common.words.missingValue")}
+                    </span>
+                  )}
+                </span>
               </div>
             </div>
           </div>

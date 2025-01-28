@@ -32,14 +32,14 @@ export function formatPrice(value: number | null) {
   const price = displayPrice(value, "EUR");
   // console.log(price);
   // this is not space but a non-breaking space,copie pasted from console log
-  return price.replace(" €", "");
+  return price?.toString().replace(" €", "");
 }
 export function displayPrice(
   value: number | null,
   currency: AllowedCurrencies = "EUR",
 ) {
   if (value === null) {
-    return "Number was null, check data";
+    return null;
   }
   if (currency !== "USD" && currency !== "EUR") {
     throw new Error("Invalid currency. Only USD and EUR are allowed.");
@@ -56,6 +56,9 @@ export function displayPriceMonthly(
   currency: AllowedCurrencies = "USD",
   periodLabel = "",
 ) {
+  if (value === null) {
+    return null;
+  }
   let output = displayPrice(value, currency);
 
   return output + "/" + periodLabel;
@@ -63,7 +66,7 @@ export function displayPriceMonthly(
 
 export function displayArea(value: number | null) {
   if (value === null) {
-    return "Number was null, check data";
+    return null;
   }
   return `${value} m²`;
 }

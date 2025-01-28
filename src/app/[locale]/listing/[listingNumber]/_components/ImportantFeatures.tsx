@@ -36,7 +36,15 @@ export default function ImportantFeatures({ listing }: ImportantFeaturesProps) {
               {idx !== 0 && (
                 <span className="h-1 w-1 rounded-full bg-slate-800"></span>
               )}
-              <span> {categoryData[key as keyof typeof categoryData]}</span>
+              <span>
+                {categoryData[key as keyof typeof categoryData] !== null ? (
+                  categoryData[key as keyof typeof categoryData]
+                ) : (
+                  <b className="text-red-500">
+                    {t("common.words.missingValue")}
+                  </b>
+                )}
+              </span>
               <span>{t(`listing.fieldsKeys.importantFeatures.${key}`)}</span>
             </div>
           </div>

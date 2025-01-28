@@ -11,7 +11,7 @@ export const revalidate = 60;
 // };
 
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Edit, Info } from "lucide-react";
 
 import { AirVentIcon, Heart, Percent } from "lucide-react";
 import MiniContactForm from "./_components/MiniContactForm";
@@ -39,7 +39,7 @@ import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
 import PriceDisplay from "./_components/PriceDisplay";
 import { MortgageCalculator } from "@/components/MortgageCalculator";
 import PublisherInfo from "./_components/PublisherInfo";
-import { Listing } from "@prisma/client";
+import { Listing, ListingStatus } from "@prisma/client";
 import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantData";
 import ListingFeatures from "./_components/ListingFeatures";
 import { ExpandableDescription } from "./_components/ExpandableDescription";
@@ -53,6 +53,8 @@ import CalculateMortgageButton from "./_components/CalculateMortgageButton";
 import ImportantFeatures from "./_components/ImportantFeatures";
 import BackButton from "./_components/BackButton";
 import RecentlyViewedListingHandler from "./_components/RecentlyViewedListingHandler";
+import { getUser } from "@/lib/auth";
+import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 
 interface SingleListingPageProps {
   params: Promise<{
@@ -93,6 +95,7 @@ export default async function SingleListingPage({
   params,
 }: SingleListingPageProps) {
   const { listingNumber } = await params;
+  const { agency, user } = await getCurrentUser();
 
   // console.log("listingNumber", listingNumber);
   if (isNaN(Number(listingNumber))) {
@@ -101,8 +104,15 @@ export default async function SingleListingPage({
   const locale = await getLocale();
   const headersList = await headers();
 
+  const owner = agency || user;
+
   const listing = (await prismadb.listing.findUnique({
-    where: { listingNumber: Number(listingNumber) },
+    where: {
+      listingNumber: Number(listingNumber),
+      status: agency || user ? undefined : ListingStatus.ACTIVE,
+      userId: user?.id || undefined,
+      agencyId: agency?.id || undefined,
+    },
     include: listingWithRelationsInclude,
   })) as Listing | null;
 
@@ -151,6 +161,30 @@ export default async function SingleListingPage({
   return (
     <article className="">
       <RecentlyViewedListingHandler listing={listing} />
+      {owner && listing.status !== ListingStatus.ACTIVE && (
+        <section className="mx-auto w-full px-5 py-5 text-sm lg:max-w-7xl">
+          <div className="rounded border border-orange-500 bg-slate-100 px-3 py-2">
+            <div className="flex items-center justify-between">
+              <h4 className="flex items-center">
+                {" "}
+                {t("listing.preview.previewWarning")}
+              </h4>
+              <Link href={`/listing/edit/${listing.listingNumber}`}>
+                <Button>
+                  {" "}
+                  <Edit className="mr-2 h-4 w-4" /> {t("common.actions.edit")}
+                </Button>
+              </Link>
+            </div>
+            <div className="mt-3 flex items-center border-t border-slate-400 py-3 pt-4">
+              <Info className="mr-2 h-5 w-5 text-orange-500" />{" "}
+              <p className="flex items-center text-slate-800">
+                {t("listing.preview.missingInformation")}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
       {/* Above Images Breadcrumbs and Action Buttons */}
       <section className="px-0 py-4">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 md:flex-row">
@@ -195,7 +229,13 @@ export default async function SingleListingPage({
                 </span>
                 <p className="mt-2.5 text-sm">
                   {t("common.property.metadata.posted")}{" "}
-                  {displayDate(listing.publishedAt)}
+                  {listing.publishedAt ? (
+                    displayDate(listing.publishedAt)
+                  ) : (
+                    <b className="text-red-500">
+                      {t("common.property.metadata.notPublished")}
+                    </b>
+                  )}
                 </p>
               </div>
             </div>

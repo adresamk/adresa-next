@@ -171,6 +171,7 @@
       "sort": "Sort",
       "saved": "Saved",
       "print": "Print",
+      "edit": "Edit",
       "notes": "Notes",
       "publish": "Publish",
       "next": "Next",
@@ -191,6 +192,7 @@
       "showLess": "Show less"
     },
     "words": {
+      "missingValue": "missing",
       "createdAt": "created at",
       "publishedAt": "published at",
       "listings": "listings",
@@ -325,6 +327,7 @@
       "metadata": {
         "posted": "Posted on",
         "updated": "Updated on",
+        "notPublished": "Not published",
         "available": "Available from",
         "id": "ID",
         "lastModified": "Last modified"
@@ -398,6 +401,10 @@
     }
   },
   "listing": {
+    "preview": {
+      "previewWarning": "This is a preview of the listing you can only see it yourself.",
+      "missingInformation": "Your listing is not published. You need to fill in the information, without which you cannot publish it."
+    },
     "sorting": {
       "new": "New",
       "low_price": "Lowest price",

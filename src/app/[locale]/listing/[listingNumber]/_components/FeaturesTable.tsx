@@ -17,26 +17,31 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
   const features = {
     price:
       listing.transactionType === "sale"
-        ? displayPrice(listing.price, "EUR")
+        ? displayPrice(listing.price, "EUR") || t("common.words.missingValue")
         : displayPriceMonthly(
             listing.price,
             "EUR",
             t("mortgageCalculator.month"),
-          ),
+          ) || t("common.words.missingValue"),
     pricePerSquare:
       listing.transactionType === "sale"
-        ? displayPricePerSquare(listing.price, listing.area, "EUR")
+        ? displayPricePerSquare(listing.price, listing.area, "EUR") ||
+          t("common.words.missingValue")
         : null,
-    area: displayArea(listing.area),
+    area: displayArea(listing.area) || t("common.words.missingValue"),
     ...(lwr.residential && {
       floor: lwr.residential.floor,
       totalFloors: lwr.residential.totalFloors,
-      orientation: t(
-        `listing.new.progress.steps.mainCharacteristics.orientation.orientationOptions.${lwr.residential.orientation}`,
-      ),
-      zone: t(
-        `listing.new.progress.steps.mainCharacteristics.zone.zoneOptions.${lwr.residential.zone}`,
-      ),
+      orientation:
+        lwr.residential.orientation &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.orientation.orientationOptions.${lwr.residential.orientation}`,
+        ),
+      zone:
+        lwr.residential.zone &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.zone.zoneOptions.${lwr.residential.zone}`,
+        ),
       kitchenCount: lwr.residential.kitchenCount,
       bathroomCount: lwr.residential.bathroomCount,
       bedroomCount: lwr.residential.bedroomCount,
@@ -57,12 +62,16 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
         "EUR",
         t("mortgageCalculator.month"),
       ),
-      heatingType: t(
-        `listing.new.progress.steps.mainCharacteristics.heatingType.heatingTypeOptions.${lwr.residential.heatingType}`,
-      ),
-      heatingMedium: t(
-        `listing.new.progress.steps.mainCharacteristics.heatingMedium.heatingMediumOptions.${lwr.residential.heatingMedium}`,
-      ),
+      heatingType:
+        lwr.residential.heatingType &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.heatingType.heatingTypeOptions.${lwr.residential.heatingType}`,
+        ),
+      heatingMedium:
+        lwr.residential.heatingMedium &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.heatingMedium.heatingMediumOptions.${lwr.residential.heatingMedium}`,
+        ),
     }),
     ...(lwr.commercial && {
       floor: lwr.commercial.floor,
@@ -72,33 +81,47 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
       isOnTopFloor: lwr.commercial.isOnTopFloor,
       accessFrom: lwr.commercial.accessFrom,
       commonExpenses: lwr.commercial.commonExpenses,
-      heatingType: t(
-        `listing.new.progress.steps.mainCharacteristics.heatingType.heatingTypeOptions.${lwr.commercial.heatingType}`,
-      ),
-      heatingMedium: t(
-        `listing.new.progress.steps.mainCharacteristics.heatingMedium.heatingMediumOptions.${lwr.commercial.heatingMedium}`,
-      ),
+      heatingType:
+        lwr.commercial.heatingType &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.heatingType.heatingTypeOptions.${lwr.commercial.heatingType}`,
+        ),
+      heatingMedium:
+        lwr.commercial.heatingMedium &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.heatingMedium.heatingMediumOptions.${lwr.commercial.heatingMedium}`,
+        ),
       wcCount: lwr.commercial.wcCount,
     }),
     ...(lwr.land && {
       isCornerProperty: lwr.land.isCornerProperty,
-      orientation: t(
-        `listing.new.progress.steps.mainCharacteristics.orientation.orientationOptions.${lwr.land.orientation}`,
-      ),
-      zone: t(
-        `listing.new.progress.steps.mainCharacteristics.zone.zoneOptions.${lwr.land.zone}`,
-      ),
-      accessFrom: t(
-        `listing.new.progress.steps.mainCharacteristics.accessFrom.accessFromOptions.${lwr.land.accessFrom}`,
-      ),
-      slope: t(
-        `listing.new.progress.steps.mainCharacteristics.slope.slopeOptions.${lwr.land.slope}`,
-      ),
+      orientation:
+        lwr.land.orientation &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.orientation.orientationOptions.${lwr.land.orientation}`,
+        ),
+      zone:
+        lwr.land.zone &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.zone.zoneOptions.${lwr.land.zone}`,
+        ),
+      accessFrom:
+        lwr.land.accessFrom &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.accessFrom.accessFromOptions.${lwr.land.accessFrom}`,
+        ),
+      slope:
+        lwr.land.slope &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.slope.slopeOptions.${lwr.land.slope}`,
+        ),
     }),
     ...(lwr.other && {
-      accessFrom: t(
-        `listing.new.progress.steps.mainCharacteristics.accessFrom.accessFromOptions.${lwr.other.accessFrom}`,
-      ),
+      accessFrom:
+        lwr.other.accessFrom &&
+        t(
+          `listing.new.progress.steps.mainCharacteristics.accessFrom.accessFromOptions.${lwr.other.accessFrom}`,
+        ),
       totalPropertyArea: lwr.other.totalPropertyArea,
     }),
     updatedAt: displayDate(listing.updatedAt),
@@ -117,7 +140,11 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
                 {capitalizeString(t(`listing.fieldsKeys.${key}`))}
               </td>
               <td className="border border-slate-300 bg-white px-4 font-semibold text-black">
-                {value}
+                {value === t("common.words.missingValue") ? (
+                  <b className="text-red-500">{value}</b>
+                ) : (
+                  value
+                )}
               </td>
             </tr>
           );
