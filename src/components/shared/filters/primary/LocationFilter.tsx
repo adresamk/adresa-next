@@ -18,6 +18,7 @@ import { useLocale, useTranslations } from "next-intl";
 import {
   getAllLocationOptionsTranslated,
   getAllMunicipalitiesWithPlacesTranslated,
+  getAllRegionsTranslated,
   TranslatedOption,
   TranslatedOptionMultipleLanguages,
   TranslatedOptionWithMaybePlaces,
@@ -60,9 +61,13 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
     const options: TranslatedOptionMultipleLanguages[] =
       getAllLocationOptionsTranslated();
 
+    const regions = getAllRegionsTranslated();
     // console.log("options", options);
+    const optionsWithRegions = [...regions, ...options];
 
-    const fuse = new Fuse(options, {
+    // console.log("optionsWithRegions", optionsWithRegions);
+
+    const fuse = new Fuse(optionsWithRegions, {
       keys: ["label.mk", "label.en", "label.al"],
     });
 
@@ -76,7 +81,11 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
       .filter((o) => !existingLocations.includes(o.item.value))
       .map((o) => o.item)
       .slice(0, 6);
-    return { options, translatedPlaces: options, fuseResults: results };
+    return {
+      options: optionsWithRegions,
+      translatedPlaces: optionsWithRegions,
+      fuseResults: results,
+    };
   }, [locale, debouncedLocation, filters.location]);
 
   const locationDropdown = getLocationDropdownOptions();
@@ -109,6 +118,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
   });
 
   function handleUpdateTags(location: TranslatedOptionMultipleLanguages) {
+    console.log("location", location);
     const newTags = [...tags, location];
     setTags(newTags);
   }

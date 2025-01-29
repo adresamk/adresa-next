@@ -106,6 +106,21 @@ export function getMunicipalityPlaces(municipalityId: string): {
   };
 }
 
+export function getAllRegionsTranslated(): TranslatedOptionMultipleLanguages[] {
+  const regions = Object.keys(mappedStructure.regions);
+  const mkTranslations = require(`../../../messages/places/mk.places.json`);
+  const enTranslations = require(`../../../messages/places/en.places.json`);
+  const alTranslations = require(`../../../messages/places/al.places.json`);
+
+  return regions.map((id) => ({
+    value: id,
+    label: {
+      mk: mkTranslations[id] || id,
+      en: enTranslations[id] || id,
+      al: alTranslations[id] || id,
+    },
+  }));
+}
 /**
  * Returns translated place options for a specific municipality
  * @param municipalityId Municipality ID
