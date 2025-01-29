@@ -41,7 +41,10 @@ export function getCoordinates(
  * Returns an array of all municipality IDs
  */
 export function getMunicipalitiesOptions(): string[] {
-  return Object.keys(mappedStructure);
+  return [
+    // ...Object.keys(mappedStructure.regions),
+    ...Object.keys(mappedStructure.municipalities),
+  ];
 }
 /**
  * Returns translated municipality options for dropdowns
@@ -74,7 +77,9 @@ export function getMunicipalityCoordinates(
   municipalityId: string,
 ): Array<{ [key: string]: number[][][][] }> {
   const places =
-    mappedStructure[municipalityId as keyof typeof mappedStructure];
+    mappedStructure.municipalities[
+      municipalityId as keyof typeof mappedStructure.municipalities
+    ];
   if (!places) return [];
   return getCoordinates(places);
 }
@@ -95,7 +100,9 @@ export function getMunicipalityPlaces(municipalityId: string): {
   return {
     municipality: municipalityId,
     places:
-      mappedStructure[municipalityId as keyof typeof mappedStructure] || [],
+      mappedStructure.municipalities[
+        municipalityId as keyof typeof mappedStructure.municipalities
+      ] || [],
   };
 }
 
