@@ -66,7 +66,9 @@ function cleanedUpLocation(location: string | string[]) {
   }
   if (Array.isArray(location)) {
     const filtered = location.filter(
-      (l) => l.length === 5 && (l.startsWith("1") || l.startsWith("2")),
+      (l) =>
+        l.length === 5 &&
+        (l.startsWith("1") || l.startsWith("2") || l.startsWith("0")),
     );
     if (filtered.length === 0) {
       return undefined;
@@ -76,7 +78,9 @@ function cleanedUpLocation(location: string | string[]) {
 
   if (
     location.length === 5 &&
-    (location.startsWith("1") || location.startsWith("2"))
+    (location.startsWith("1") ||
+      location.startsWith("2") ||
+      location.startsWith("0"))
   ) {
     return location;
   }

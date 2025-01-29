@@ -1,4 +1,5 @@
 "server-only";
+import { getRegionsMunicipalitiesIds } from "@/lib/data/macedonia/importantData";
 import prismadb from "@/lib/db";
 import { ParsedQueryParams } from "@/lib/filters";
 import {
@@ -118,23 +119,35 @@ export async function getAllListings(
   parsedParams: Record<string, any>,
 ): Promise<Listing[]> {
   const pp = parsedParams as ParsedQueryParams;
-  // console.log("API CALL");
+  console.log("API CALL");
   // console.log("pp", pp);
 
   let municipalities: string[] = [];
   let places: string[] = [];
-
+  let regions: string[] = [];
+  console.log("pp.location", pp.location);
   if (pp.location) {
     if (Array.isArray(pp.location)) {
       municipalities = pp.location.filter((l) => l.startsWith("1"));
-
       places = pp.location.filter((l) => l.startsWith("2"));
+      regions = pp.location.filter((l) => l.startsWith("0"));
     } else {
       municipalities = pp.location.startsWith("1") ? [pp.location] : [];
       places = pp.location.startsWith("2") ? [pp.location] : [];
+      regions = pp.location.startsWith("0") ? [pp.location] : [];
     }
   }
 
+  const regionMunicipalities =
+    regions.length > 0
+      ? regions
+          .map((r) => {
+            return getRegionsMunicipalitiesIds(r);
+          })
+          .flat()
+      : [];
+
+  // console.log({ regionMunicipalities });
   // console.log("municipalities", municipalities);
   // console.log("places", places);
   const listings = await prismadb.listing.findMany({
@@ -142,6 +155,13 @@ export async function getAllListings(
       AND: [
         {
           OR: [
+            regions.length > 0
+              ? {
+                  municipality: {
+                    in: [...regionMunicipalities],
+                  },
+                }
+              : {},
             municipalities.length > 0
               ? {
                   municipality: {

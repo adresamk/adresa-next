@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     const parsedQueryParams = parseQueryParams(path.split("/"));
     // console.log("parsedQueryParams", parsedQueryParams);
 
+    console.log("parsedQueryParams", parsedQueryParams);
     const listings = await unstable_cache(
       async () => getAllListings(parsedQueryParams),
       ["listings", JSON.stringify(parsedQueryParams)],

@@ -46,6 +46,22 @@ export function getMunicipalitiesOptions(): string[] {
     ...Object.keys(mappedStructure.municipalities),
   ];
 }
+
+export function getRegionsOptions(): string[] {
+  return Object.keys(mappedStructure.regions);
+}
+
+export function getRegionsMunicipalitiesIds(regionId: string): string[] {
+  if (!regionId) return [];
+  if (
+    mappedStructure.regions[regionId as keyof typeof mappedStructure.regions]
+  ) {
+    return mappedStructure.regions[
+      regionId as keyof typeof mappedStructure.regions
+    ];
+  }
+  return [];
+}
 /**
  * Returns translated municipality options for dropdowns
  * @param locale The current locale (e.g., 'en', 'mk', 'al')
