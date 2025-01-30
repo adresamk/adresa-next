@@ -40,7 +40,7 @@ export default function RecentlyViewedListings() {
     loadRecentlyViewedListings();
   }, []);
 
-  if (recentlyViewedListings.length === 0) {
+  if (!recentlyViewedListings || recentlyViewedListings.length === 0) {
     return null;
   }
   return (
