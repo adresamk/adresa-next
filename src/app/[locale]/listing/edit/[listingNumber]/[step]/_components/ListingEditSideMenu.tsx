@@ -232,7 +232,7 @@ function generateStepDescriptions(
         properties.push(displayArea(listing.area));
       }
       descriptions[step.key] = properties.length
-        ? properties.map(capitalizeString).join(", ")
+        ? properties.map((p) => capitalizeString(p!)).join(", ")
         : t(`listing.new.progress.steps.${step.key}.description`);
     }
     if (step.key === "additionalFeatures") {

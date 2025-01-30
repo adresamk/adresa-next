@@ -41,16 +41,18 @@ export default function ListingMutualFields({
             placeholder={t(
               "listing.new.progress.steps.mainCharacteristics.pricePlaceholder",
             )}
-            value={propertyPrice.replace("$", "").replace("€", "")}
+            value={propertyPrice?.replace("$", "").replace("€", "")}
             onChange={(e) => {
               // With Ai tell the code to make a splitter for number, comma after 3 digits
 
               // setPropertyPrice(e.target.value);
               const newValue = e.target.value.replace(/[^0-9]/g, "");
-              const formattedValue = displayPrice(Number(newValue))
-                .replace("$", "")
-                .replace("€", "");
-              setPropertyPrice(formattedValue);
+              const formattedValue = newValue
+                ? displayPrice(Number(newValue))
+                    ?.replace("$", "")
+                    .replace("€", "")
+                : "";
+              setPropertyPrice(formattedValue || null);
             }}
           />
         </div>
