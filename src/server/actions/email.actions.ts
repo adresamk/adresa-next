@@ -19,7 +19,8 @@ export async function sendVerificationEmail(
   // console.log("response", response);
 
   if (!response.ok) {
-    throw new Error("Failed to send verification email");
+    console.log("response", response);
+    // throw new Error("Failed to send verification email");
   }
 
   const data = await response.json();

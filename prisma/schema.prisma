@@ -45,10 +45,13 @@ enum AccountType {
 
 model Session {
   // id        Int      @id @default(autoincrement())
-  id        String   @id
-  accountId Int
-  expiresAt DateTime
-  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  id              String   @id
+  accountId       Int
+  expiresAt       DateTime
+  createdAt       DateTime @default(now())
+  lastActiveAt    DateTime @default(now())
+  lastValidatedAt DateTime @default(now())
+  account         Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
 }
 
 model Account {

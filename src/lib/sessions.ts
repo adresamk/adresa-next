@@ -33,6 +33,9 @@ export async function createSession(
     id: sessionId,
     accountId,
     expiresAt: new Date(Date.now() + extraTime),
+    createdAt: new Date(),
+    lastActiveAt: new Date(),
+    lastValidatedAt: new Date(),
   };
   await prismadb.session.create({
     data: session,
@@ -56,6 +59,14 @@ export async function validateSessionToken(
     return { session: null, account: null };
   }
   const { account, ...session } = result;
+
+  console.log("Session", session);
+  // Update lastValidated timestamp
+  await prismadb.session.update({
+    where: { id: sessionId },
+    data: { lastValidatedAt: new Date() },
+  });
+
   if (Date.now() >= session.expiresAt.getTime()) {
     await prismadb.session.delete({ where: { id: sessionId } });
     return { session: null, account: null };
@@ -69,6 +80,7 @@ export async function validateSessionToken(
       },
       data: {
         expiresAt: session.expiresAt,
+        lastActiveAt: new Date(),
       },
     });
   }
@@ -85,6 +97,7 @@ export type SessionValidationResult =
 
 export const getCurrentSession: () => Promise<SessionValidationResult> = cache(
   async (): Promise<SessionValidationResult> => {
+    console.log("Getting current session");
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_session")?.value ?? null;
     if (token === null) {
@@ -106,6 +119,7 @@ type GetCurrentUserResult = {
 export async function getCurrentUser(): Promise<GetCurrentUserResult> {
   const { account, session } = await getCurrentSession();
   // console.log("Account", account, "Session", session);
+  console.log("Getting current user");
   if (session === null) {
     return {
       isAuthenticated: account ? true : false,

@@ -987,7 +987,7 @@
       "finishSetup": "Please complete your profile details",
       "contactInfo": {
         "title": "Contact information",
-        "info": "This information will be displayed on your agency page and on your available listings. It can be different from your personal information listed in Info",
+        "info": "These information will be displayed on your listings. These information can be different from your personal information listed in Profile, to provide more privacy.",
         "contactName": "Contact person full name",
         "contactNamePlaceholder": "Name that will be displayed on listings",
         "contactPhone": "Contact person phone",

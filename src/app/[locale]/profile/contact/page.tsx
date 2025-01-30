@@ -82,6 +82,7 @@ export default async function ProfileInfoPage({
         </div>
         <div className="mb-2 flex gap-3">
           <Checkbox
+            disabled={true}
             id="contactPhoneVerified"
             name="contactPhoneVerified"
             defaultChecked={user?.contactPhoneVerified ? true : false}
@@ -107,6 +108,7 @@ export default async function ProfileInfoPage({
         </div>
         <div className="mb-2 flex gap-3">
           <Checkbox
+            disabled
             id="contactEmailVerified"
             name="contactEmailVerified"
             defaultChecked={user?.contactEmailVerified ? true : false}
