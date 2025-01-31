@@ -104,14 +104,16 @@ export default async function SingleListingPage({
   const locale = await getLocale();
   const headersList = await headers();
 
-  const owner = agency || user;
-
   const listing = (await prismadb.listing.findUnique({
     where: {
       listingNumber: Number(listingNumber),
-      status: agency || user ? undefined : ListingStatus.ACTIVE,
-      userId: user?.id || undefined,
-      agencyId: agency?.id || undefined,
+      OR: [
+        { status: ListingStatus.ACTIVE },
+        {
+          status: { not: ListingStatus.ACTIVE },
+          AND: [{ OR: [{ userId: user?.id }, { agencyId: agency?.id }] }],
+        },
+      ],
     },
     include: listingWithRelationsInclude,
   })) as Listing | null;
@@ -128,6 +130,8 @@ export default async function SingleListingPage({
   // Increment view count
 
   // Log or process the IP address and locale
+  const isOwner =
+    agency?.id === listing.agencyId || user?.id === listing.userId;
 
   const t = await getTranslations();
   const lwr = listing as ListingWithRelations;
@@ -161,7 +165,7 @@ export default async function SingleListingPage({
   return (
     <article className="">
       <RecentlyViewedListingHandler listing={listing} />
-      {owner && listing.status !== ListingStatus.ACTIVE && (
+      {isOwner && listing.status !== ListingStatus.ACTIVE && (
         <section className="mx-auto w-full px-5 py-5 text-sm lg:max-w-7xl">
           <div className="rounded border border-orange-500 bg-slate-100 px-3 py-2">
             <div className="flex items-center justify-between">
