@@ -386,3 +386,7 @@ button.reveal-button {
 .select-self-contained span {
   text-align: left;
 }
+
+#search-page-map.leaflet-drawing.leaflet-drawing {
+  cursor: crosshair !important ;
+}

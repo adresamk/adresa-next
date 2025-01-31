@@ -38,7 +38,7 @@ export function ExpandableDescription({
       <p
         ref={contentRef}
         className={cn(
-          "relative overflow-hidden transition-[height] duration-300 ease-in-out",
+          "relative overflow-hidden whitespace-pre-line transition-[height] duration-300 ease-in-out",
           className,
         )}
         style={{ height }}
