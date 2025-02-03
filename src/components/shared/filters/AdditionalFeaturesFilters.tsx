@@ -11,15 +11,17 @@ import { cn } from "@/lib/utils";
 interface AdditionalFeaturesFiltersProps {
   setSelectedFeaturesKeys: (keys: string[]) => void;
   selectedFeaturesKeys: string[];
+  features: Feature[];
+  isLoading: boolean;
 }
 export default function AdditionalFeaturesFilters({
   selectedFeaturesKeys,
   setSelectedFeaturesKeys,
+  features,
+  isLoading,
 }: AdditionalFeaturesFiltersProps) {
   const t = useTranslations();
-  const [features, setFeatures] = useState<Feature[]>([]);
 
-  const [isLoading, setIsLoading] = useState(false);
   const featuresByCategory = features.reduce(
     (acc, feature) => {
       acc[feature.category] = [...(acc[feature.category] || []), feature];
@@ -29,17 +31,6 @@ export default function AdditionalFeaturesFilters({
   );
   console.log(featuresByCategory);
   //effect description
-  useEffect(() => {
-    const fetchFeatures = async () => {
-      setIsLoading(true);
-      const response = await fetch("/api/listing/features");
-      const data = await response.json();
-      console.log(data);
-      setFeatures(data.features);
-      setIsLoading(false);
-    };
-    fetchFeatures();
-  }, []);
 
   function handleFeatureClick(key: string) {
     const newSelectedFeaturesKeys = selectedFeaturesKeys.includes(key)

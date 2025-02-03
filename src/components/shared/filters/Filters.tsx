@@ -16,6 +16,7 @@ import { usePathname, useRouter } from "next/navigation";
 import CreateSavedSearch from "./CreateSavedSearch";
 import { useTranslations } from "next-intl";
 import AdditionalFeaturesFilters from "./AdditionalFeaturesFilters";
+import { Feature } from "@prisma/client";
 
 export default function Filters() {
   // not sure why we need this
@@ -24,6 +25,19 @@ export default function Filters() {
   const shouldUpdate = useFilters((store) => store.shouldUpdate);
   const t = useTranslations("");
   const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(false);
+  const [features, setFeatures] = useState<Feature[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const fetchFeatures = async () => {
+      setIsLoading(true);
+      const response = await fetch("/api/listing/features");
+      const data = await response.json();
+      console.log(data);
+      setFeatures(data.features);
+      setIsLoading(false);
+    };
+    fetchFeatures();
+  }, []);
   const [selectedFeaturesKeys, setSelectedFeaturesKeys] = useState<string[]>(
     [],
   );
@@ -119,6 +133,8 @@ export default function Filters() {
           <AdditionalFeaturesFilters
             selectedFeaturesKeys={selectedFeaturesKeys}
             setSelectedFeaturesKeys={setSelectedFeaturesKeys}
+            features={features}
+            isLoading={isLoading}
           />
           {/* <div className="flex flex-col gap-3">
           <div className="flex flex-wrap border-b-2 px-1.5 py-2.5">
