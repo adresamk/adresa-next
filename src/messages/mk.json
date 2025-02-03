@@ -807,8 +807,8 @@
             "unpublished": "не објавен",
             "withNextSave": "со наредно зачувување",
             "unpublish": "Тргни оглас",
-            "publishMessage": "Оглас објавен",
-            "unpublishMessage": "Оглас не објавен",
+            "publishMessage": "Огласот е објавен",
+            "unpublishMessage": "Огласот е тргнат",
             "subtitle": "Статус на огласот"
           },
           "pricing": {

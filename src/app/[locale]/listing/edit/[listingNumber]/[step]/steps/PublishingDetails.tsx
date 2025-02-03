@@ -1,12 +1,41 @@
 import { Listing } from "@prisma/client";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
+import { useEffect, useRef } from "react";
 
 interface PublishingDetailsProps {
   listing: Listing;
 }
 export default function PublishingDetails({ listing }: PublishingDetailsProps) {
   const t = useTranslations("listing.new.progress.steps.publish");
+  const firstUpdate = useRef(true);
+  //effect description
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
 
+    if (listing.isPublished) {
+      toast.success(t("publishMessage"), {
+        richColors: true,
+        position: "top-right",
+        style: {
+          backgroundColor: "lightgreen",
+          color: "black",
+        },
+      });
+    } else {
+      toast.success(t("unpublishMessage"), {
+        richColors: true,
+        position: "top-right",
+        style: {
+          backgroundColor: "lightgreen",
+          color: "black",
+        },
+      });
+    }
+  }, [listing.isPublished]);
   return (
     <div className="px-2">
       <h3 className="mt-3 text-lg font-semibold">{t("subtitle")}</h3>

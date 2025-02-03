@@ -162,6 +162,7 @@
   },
   "common": {
     "actions": {
+      "saving": "Duke ruajtur",
       "upload": "Ngarko",
       "select": "Zgjidh",
       "isUploading": "Duke ngarkuar",
@@ -784,7 +785,11 @@
             "listingId": "ID e shpalljes",
             "publishDuration": "Periudha e publikimit",
             "publish": "Publiko",
+            "withNextSave": "me nënruajtjen",
+            "published": "Publikuar",
+            "unpublished": "Nuk publikuar",
             "unpublish": "Hiq shpalljen",
+            "listingCurrentlyIs": "Shpallja momentalisht është",
             "publishMessage": "Shpallja u publikua",
             "unpublishMessage": "Shpallja u hoq",
             "subtitle": "Publiko shpalljen, ose mos e publiko"

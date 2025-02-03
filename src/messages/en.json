@@ -162,6 +162,7 @@
   },
   "common": {
     "actions": {
+      "saving": "Saving",
       "upload": "Upload",
       "select": "Select",
       "isUploading": "Uploading",
@@ -783,6 +784,10 @@
             "listingId": "Listing ID",
             "publishDuration": "Publishing period",
             "publish": "Publish",
+            "withNextSave": "with next save",
+            "published": "Published",
+            "unpublished": "Unpublished",
+            "listingCurrentlyIs": "Listing currently is",
             "unpublish": "Unpublish",
             "publishMessage": "Listing published",
             "unpublishMessage": "Listing unpublished",
