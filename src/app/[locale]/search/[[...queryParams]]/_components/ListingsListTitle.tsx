@@ -1,6 +1,5 @@
 "use client";
 
-import { parseAsString, useQueryState } from "nuqs";
 import { useLocale, useTranslations } from "next-intl";
 import TransactionTypeSwitchButton from "./TransactionTypeSwitchButton";
 import { PropertyCategory } from "@prisma/client";

@@ -10,8 +10,6 @@ import {
 import { useFilters } from "@/hooks/useFilters";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { Button } from "@/components/ui/button";
-import { parseAsString, useQueryState } from "nuqs";
-import { set } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";

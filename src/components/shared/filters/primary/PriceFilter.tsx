@@ -13,7 +13,6 @@ import {
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { useFilters } from "@/hooks/useFilters";
 import { Button } from "@/components/ui/button";
-import { parseAsString, useQueryState } from "nuqs";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";

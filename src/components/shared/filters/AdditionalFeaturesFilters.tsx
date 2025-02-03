@@ -29,7 +29,6 @@ export default function AdditionalFeaturesFilters({
     },
     {} as Record<FeatureCategory, Feature[]>,
   );
-  console.log(featuresByCategory);
   //effect description
 
   function handleFeatureClick(key: string) {

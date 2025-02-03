@@ -17,6 +17,7 @@ import CreateSavedSearch from "./CreateSavedSearch";
 import { useTranslations } from "next-intl";
 import AdditionalFeaturesFilters from "./AdditionalFeaturesFilters";
 import { Feature } from "@prisma/client";
+import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 
 export default function Filters() {
   // not sure why we need this
@@ -24,6 +25,14 @@ export default function Filters() {
   const pathname = usePathname();
   const shouldUpdate = useFilters((store) => store.shouldUpdate);
   const t = useTranslations("");
+
+  const [appliedFeatures, setAppliedFeatures] = useQueryState(
+    "f",
+    parseAsArrayOf(parseAsString).withOptions({
+      shallow: false,
+      history: "push",
+    }),
+  );
   const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(false);
   const [features, setFeatures] = useState<Feature[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,14 +41,14 @@ export default function Filters() {
       setIsLoading(true);
       const response = await fetch("/api/listing/features");
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setFeatures(data.features);
       setIsLoading(false);
     };
     fetchFeatures();
   }, []);
   const [selectedFeaturesKeys, setSelectedFeaturesKeys] = useState<string[]>(
-    [],
+    () => appliedFeatures || [],
   );
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
@@ -57,6 +66,8 @@ export default function Filters() {
         className="text-gray-500"
         onClick={() => {
           if (pathname) {
+            setSelectedFeaturesKeys([]);
+            setAppliedFeatures([]);
             router.replace(pathname);
             setAreMoreFiltersOpen(false);
           }
@@ -70,6 +81,9 @@ export default function Filters() {
       </Button>
       <Button
         onClick={() => {
+          // console.log("pathname", pathname);
+          // console.log("selectedFeaturesKeys", selectedFeaturesKeys);
+          setAppliedFeatures(selectedFeaturesKeys);
           // setSecondarySearchParams({
           //   floorNumberLow: filters.floorNumberLow,
           //   floorNumberHigh: filters.floorNumberHigh,
@@ -87,7 +101,7 @@ export default function Filters() {
           // });
           setTimeout(() => {
             // to force the new queries on the server, without setTimeout its late one click
-            router.refresh();
+            // router.refresh();
             setAreMoreFiltersOpen(false);
           }, 0);
         }}
@@ -125,6 +139,12 @@ export default function Filters() {
         isOpen={areMoreFiltersOpen}
         onClose={() => setAreMoreFiltersOpen(false)}
         title={t("search.filters.title")}
+        // onConfirm={() => {
+        //   // setAreMoreFiltersOpen(false);
+        //   // updateURL / make request
+        //   console.log("selectedFeaturesKeys", selectedFeaturesKeys);
+        //   setAppliedFeatures(selectedFeaturesKeys);
+        // }}
         description={t("search.filters.description")}
         innerScroll
         footerJSX={moreFiltersFooter}
