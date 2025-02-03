@@ -16,6 +16,8 @@
     "savedSearchNamePlaceholder": "p.sh: Të preferuarat në Shkup"
   },
   "creditCard": {
+    "free": "E pamjaftueshme",
+    "freeDescription": "Promotional for all listings are free",
     "title": "Zgjidhni mënyrën e pagesës",
     "subtitle": "Kjo është një pagesë e vetme për publikimin e shpalljes suaj dhe ka një kohëzgjatje prej gjashtë muajsh!",
     "debitCreditCard": "Kartë debiti/krediti",
@@ -404,8 +406,11 @@
   },
   "listing": {
     "preview": {
+      "itsYourListing": "Kjo është shpallja juaj, dhe momentalisht është aktive",
       "previewWarning": "Kjo është një parapamja e shpalljes që mund të shfletosh vetëm ju.",
-      "missingInformation": "Shpallja juaj nuk është publikuar. Ju duhet të plotësoni informacionin, pa të cilën nuk mund të publikosh."
+      "missingInformation": "Shpallja juaj nuk është publikuar. Ju duhet të plotësoni informacionin, pa të cilën nuk mund të publikosh.",
+      "errorUnauthorized": "Error: Unauthorized",
+      "errorUnauthorizedMessage": "Nuk ke nevoje tek privilegjet e nevojshme per kete faqe. Ti do te ndryshosh shpejt."
     },
     "sorting": {
       "new": "I ri",
@@ -844,6 +849,7 @@
       },
       "suggested": "Prona të rekomanduara",
       "agencies": "Agjenci të rekomanduara",
+      "latestListings": "Shpallje të fundit",
       "featuredListings": "Shpallje të veçanta",
       "featuredAgencies": "Agjenci të promovuara"
     },

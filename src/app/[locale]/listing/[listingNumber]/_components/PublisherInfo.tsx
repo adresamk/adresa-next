@@ -18,7 +18,7 @@ export default async function PublisherInfo({
     const logoUrl = (agency.logo as UploadedImageData)?.url || "";
     return (
       <>
-        <div className="flex flex-row-reverse justify-end gap-4">
+        <div className="flex-col justify-end gap-4 sm:flex sm:flex-row-reverse">
           {logoUrl && (
             <Link href={`/agency/${agency.slug}`}>
               <div className="flex max-h-[130px] max-w-[200px] items-center justify-center rounded-xl px-8 py-4">

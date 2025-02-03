@@ -5,6 +5,7 @@ import { Step, steps } from "./types";
 import { getCurrentUser } from "@/lib/sessions";
 import { ListingWithRelations } from "@/types/listing.types";
 import { getLocale } from "next-intl/server";
+import NoAccessRedirectMessage from "./_components/NoAccessRedirectMessage";
 
 type Params = Promise<{ listingNumber: string; step: string }>;
 
@@ -50,18 +51,18 @@ export default async function EditListingPage({ params }: { params: Params }) {
 
   // Total mismatch
   if (listing?.agencyId && user) {
-    return <div>You don&apost own this one |change on launch| a</div>;
+    return <NoAccessRedirectMessage />;
   }
   if (listing?.userId && agency) {
-    return <div>You don&apost own this one |change on launch| b</div>;
+    return <NoAccessRedirectMessage />;
   }
   // Correct User Type but not his listing
   if (listing?.agencyId && agency?.id !== listing.agencyId) {
-    return <div>You don&apost own this one |change on launch| c</div>;
+    return <NoAccessRedirectMessage />;
   }
   // Correct User Type but not his listing
   if (listing?.userId && user?.id !== listing.userId) {
-    return <div>You don&apost own this one |change on launch| d</div>;
+    return <NoAccessRedirectMessage />;
   }
 
   if (!stepExists) {

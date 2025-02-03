@@ -16,6 +16,8 @@
     "savedSearchNamePlaceholder": "e.g.: Favorites in Skopje"
   },
   "creditCard": {
+    "free": "Free",
+    "freeDescription": "Promotional for all listings are free",
     "title": "Choose payment method",
     "subtitle": "This is a one-time payment for publishing your listing and has a duration of six months!",
     "debitCreditCard": "Debit/Credit card",
@@ -403,8 +405,11 @@
   },
   "listing": {
     "preview": {
+      "itsYourListing": "This is your listing, and it is currently active",
       "previewWarning": "This is a preview of the listing you can only see it yourself.",
-      "missingInformation": "Your listing is not published. You need to fill in the information, without which you cannot publish it."
+      "missingInformation": "Your listing is not published. You need to fill in the information, without which you cannot publish it.",
+      "errorUnauthorized": "Error: Unauthorized",
+      "errorUnauthorizedMessage": "You do not have the required privileges for this page. You will be redirected shortly."
     },
     "sorting": {
       "new": "New",
@@ -843,6 +848,7 @@
       },
       "suggested": "Recommended properties",
       "agencies": "Recommended agencies",
+      "latestListings": "Latest listings",
       "featuredListings": "Featured listings",
       "featuredAgencies": "Featured agencies"
     },

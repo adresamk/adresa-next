@@ -16,7 +16,7 @@ import { ArrowLeft, Edit, Info } from "lucide-react";
 import { AirVentIcon, Heart, Percent } from "lucide-react";
 import MiniContactForm from "./_components/MiniContactForm";
 import RevealButton from "@/components/shared/RevealButton";
-import { displayArea, displayDate } from "@/lib/utils";
+import { cn, displayArea, displayDate } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/db";
 import {
@@ -27,7 +27,7 @@ import {
   UploadedImageData,
 } from "@/types/listing.types";
 import ListingBreadcrumbs from "./_components/ListingBreadcrumbs";
-import { Link, redirect } from "@/i18n/routing";
+import { Link, redirect, routing } from "@/i18n/routing";
 import ListingActions from "./_components/ListingActions";
 import ListingImages from "./_components/ListingImages";
 import FeaturesTable from "./_components/FeaturesTable";
@@ -60,6 +60,7 @@ import RecentlyViewedListingHandler from "./_components/RecentlyViewedListingHan
 import { getUser } from "@/lib/auth";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 import TransactionType from "@/components/shared/filters/primary/TransactionTypeFilter";
+import { RoutingConfig } from "next-intl/routing";
 
 interface SingleListingPageProps {
   params: Promise<{
@@ -94,6 +95,34 @@ export async function generateMetadata({
       type: "website",
     },
   };
+}
+function generateDescriptionAndTitle(listing: Listing, loc: string) {
+  const locale = loc as (typeof routing.locales)[number];
+  let description = "";
+  let title = "";
+  if (locale === "en") {
+    description =
+      listing.enDescription ||
+      listing.mkDescription ||
+      listing.alDescription ||
+      "";
+    const title = listing.enTitle || listing.mkTitle || listing.alTitle || "";
+  } else if (locale === "al") {
+    const description =
+      listing.alDescription ||
+      listing.mkDescription ||
+      listing.enDescription ||
+      "";
+    const title = listing.alTitle || listing.mkTitle || listing.enTitle || "";
+  } else if (locale === "mk") {
+    const description =
+      listing.mkDescription ||
+      listing.enDescription ||
+      listing.alDescription ||
+      "";
+    const title = listing.mkTitle || listing.enTitle || listing.alTitle || "";
+  }
+  return { description, title };
 }
 
 export default async function SingleListingPage({
@@ -157,10 +186,11 @@ export default async function SingleListingPage({
     (place) => place.value === listing.place,
   )?.label;
 
-  let description =
-    listing[`${locale}Description` as keyof ListingDescriptions] || "";
-  let title = listing[`${locale}Title` as keyof ListingTitles] || "";
+  // let description =
+  //   listing[`${locale}Description` as keyof ListingDescriptions] || "";
+  // let title = listing[`${locale}Title` as keyof ListingTitles] || "";
 
+  const { description, title } = generateDescriptionAndTitle(listing, locale);
   const fullAddress = `${currentMunicipalityLabel}, ${currentPlaceLabel}, ${listing.address}`;
   const pinPopupText = `${t(`common.property.type.${listing.type}`)}, ${displayArea(listing.area)}, ${currentPlaceLabel}, ${currentMunicipalityLabel}, `;
   // const rawListing = await getListing(listingNumber);
@@ -170,13 +200,23 @@ export default async function SingleListingPage({
   return (
     <article className="">
       <RecentlyViewedListingHandler listing={listing} />
-      {isOwner && listing.status !== ListingStatus.ACTIVE && (
+      {isOwner && (
         <section className="mx-auto w-full px-5 py-5 text-sm lg:max-w-7xl">
-          <div className="rounded border border-orange-500 bg-slate-100 px-3 py-2">
+          <div
+            className={cn(
+              "rounded border px-3 py-2",
+              listing.status === ListingStatus.ACTIVE
+                ? "border-green-500 bg-green-50"
+                : "border-orange-500 bg-orange-50",
+            )}
+          >
             <div className="flex items-center justify-between">
               <h4 className="flex items-center">
-                {" "}
-                {t("listing.preview.previewWarning")}
+                {listing.status !== ListingStatus.ACTIVE &&
+                  t("listing.preview.previewWarning")}
+
+                {listing.status === ListingStatus.ACTIVE &&
+                  t("listing.preview.itsYourListing")}
               </h4>
               <Link href={`/listing/edit/${listing.listingNumber}`}>
                 <Button>
@@ -185,12 +225,14 @@ export default async function SingleListingPage({
                 </Button>
               </Link>
             </div>
-            <div className="mt-3 flex items-center border-t border-slate-400 py-3 pt-4">
-              <Info className="mr-2 h-5 w-5 text-orange-500" />{" "}
-              <p className="flex items-center text-slate-800">
-                {t("listing.preview.missingInformation")}
-              </p>
-            </div>
+            {listing.status !== ListingStatus.ACTIVE && (
+              <div className="mt-3 flex items-center border-t border-slate-400 py-3 pt-4">
+                <Info className="mr-2 h-5 w-5 text-orange-500" />{" "}
+                <p className="flex items-center text-slate-800">
+                  {t("listing.preview.missingInformation")}
+                </p>
+              </div>
+            )}
           </div>
         </section>
       )}

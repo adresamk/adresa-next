@@ -141,7 +141,7 @@ export default async function AgencyPage({
               <p>{t("agency.contact.hours")}</p>
               <p className="whitespace-pre-line">{agency.workHours}</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <RevealButton
                 usecase="website"
                 value={agency.website ?? ""}

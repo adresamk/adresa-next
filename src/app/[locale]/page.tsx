@@ -9,6 +9,7 @@ import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
 import { getLocale } from "next-intl/server";
 import { AccountType } from "@prisma/client";
+import LatestListings from "./_components/LatestListings";
 
 export default async function Home() {
   // works on the server side
@@ -51,6 +52,7 @@ export default async function Home() {
             <RecentlyViewedListings />
           </>
         )}
+        <LatestListings />
         {/* <SuggestedProperties /> */}
         <FeaturedListings />
         {/* <Banner /> */}
