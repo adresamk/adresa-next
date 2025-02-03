@@ -2,12 +2,17 @@
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Euro } from "lucide-react";
+import { Euro, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { displayPrice } from "@/lib/utils";
 import { Listing } from "@prisma/client";
 import { useState } from "react";
 import { ListingWithRelations } from "@/types/listing.types";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface ListingMutualFieldsProps {
   listing: Listing;
@@ -23,10 +28,28 @@ export default function ListingMutualFields({
   const lwr = listing as ListingWithRelations;
   return (
     <>
+      {/* ExternalRef for agencies only */}
+      {lwr.agency && (
+        <div className="flex flex-col gap-3">
+          <Label htmlFor="externalRef">
+            {t(
+              "listing.new.progress.steps.mainCharacteristics.externalRef.label",
+            )}
+          </Label>
+          <Input
+            id="externalRef"
+            name="externalRef"
+            defaultValue={lwr.externalRef ?? ""}
+            placeholder={t(
+              "listing.new.progress.steps.mainCharacteristics.externalRef.placeholder",
+            )}
+          />
+        </div>
+      )}
       {/* Price */}
-      <div className="flex flex-col gap-3">
+      <div className="inline-flex flex-col gap-3">
         <Label htmlFor="price">
-          {t("listing.new.progress.steps.mainCharacteristics.price")}
+          {t("listing.new.progress.steps.mainCharacteristics.price.label")}
           <span className="text-red-500">*</span>
         </Label>
         <div className="relative mb-2 flex w-1/2 min-w-[300px] items-center">
@@ -39,7 +62,7 @@ export default function ListingMutualFields({
             name="price"
             id="price"
             placeholder={t(
-              "listing.new.progress.steps.mainCharacteristics.pricePlaceholder",
+              "listing.new.progress.steps.mainCharacteristics.price.placeholder",
             )}
             value={propertyPrice?.replace("$", "").replace("€", "")}
             onChange={(e) => {
@@ -59,9 +82,21 @@ export default function ListingMutualFields({
       </div>
       {/* Area */}
       <div className="flex flex-col gap-3">
-        <Label htmlFor="area">
-          {t("listing.new.progress.steps.mainCharacteristics.area")}
+        <Label htmlFor="area" className="inline-flex items-center">
+          {t("listing.new.progress.steps.mainCharacteristics.area.label")}
           <span className="text-red-500">*</span>
+          <Popover>
+            <PopoverTrigger>
+              <Info className="ml-1 h-4 w-4" />
+            </PopoverTrigger>
+            <PopoverContent>
+              <p className="max-w-[300px] p-2 text-xs">
+                {t(
+                  "listing.new.progress.steps.mainCharacteristics.area.description",
+                )}
+              </p>
+            </PopoverContent>
+          </Popover>
         </Label>
         <div className="relative mb-2 flex w-1/2 min-w-[300px] items-center">
           <div className="absolute left-1 mr-2 w-5 text-sm font-semibold">
@@ -74,11 +109,11 @@ export default function ListingMutualFields({
             className="pl-7"
             id="area"
             min={1}
-            max={3000}
+            max={10000}
             placeholder={t(
-              "listing.new.progress.steps.mainCharacteristics.areaPlaceholder",
+              "listing.new.progress.steps.mainCharacteristics.area.placeholder",
             )}
-            value={propertyArea || 1}
+            value={propertyArea}
             onChange={(e) => {
               let newValue = e.target.value.replace(/[^0-9]/g, "");
               if (Number(newValue) > 3000) {
@@ -89,23 +124,6 @@ export default function ListingMutualFields({
           />
         </div>
       </div>
-
-      {/* ExternalRef for agencies only */}
-      {lwr.agency && (
-        <div className="flex flex-col gap-3">
-          <Label htmlFor="externalRef">
-            {t("listing.new.progress.steps.mainCharacteristics.externalRef")}
-          </Label>
-          <Input
-            id="externalRef"
-            name="externalRef"
-            defaultValue={lwr.externalRef ?? ""}
-            placeholder={t(
-              "listing.new.progress.steps.mainCharacteristics.externalRefPlaceholder",
-            )}
-          />
-        </div>
-      )}
     </>
   );
 }

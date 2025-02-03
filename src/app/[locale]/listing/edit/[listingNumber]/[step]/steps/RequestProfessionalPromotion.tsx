@@ -28,7 +28,7 @@ export default function RequestProfessionalPromotion({
           />
           <Label htmlFor="requestProfessionalPromotion">{t("label")}</Label>
         </div>
-        <p className="mt-2 pl-6 text-sm leading-3 text-gray-500">
+        <p className="mt-2 pl-6 text-sm leading-4 text-gray-500">
           {t("description")}
         </p>
       </div>

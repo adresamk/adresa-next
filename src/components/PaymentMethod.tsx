@@ -6,17 +6,39 @@ interface PaymentMethodProps {
 }
 
 export default function PaymentMethod({ amount }: PaymentMethodProps) {
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "other">("card");
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "other" | "free">(
+    "other",
+  );
   const t = useTranslations("creditCard");
 
   return (
-    <section className="">
-      <h5 className="mb-4 text-xl font-semibold">{t("title")}</h5>
-      <p className="mb-6 text-gray-600">{t("subtitle")}</p>
+    <section className="px-2">
+      <div className="mb-6">
+        <h5 className="text mb-2 font-semibold">{t("title")}</h5>
+        <p className="mb-6 text-sm text-gray-600">{t("subtitle")}</p>
+      </div>
 
       <div className="space-y-4">
-        {/* Credit Card Option */}
+        {/* Free  Option */}
         <div className="rounded-lg border p-4">
+          <label className="flex cursor-pointer items-center gap-3">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="free"
+              checked={paymentMethod === "free"}
+              onChange={(e) => setPaymentMethod("free")}
+              className="h-4 w-4"
+            />
+            <div>
+              <h5 className="font-medium">{t("free")}</h5>
+              <p className="text-sm text-gray-600">{t("freeDescription")}</p>
+            </div>
+          </label>
+        </div>
+
+        {/* Credit Card Option */}
+        <div className="pointer-events-none cursor-not-allowed rounded-lg border p-4 opacity-50">
           <label className="flex cursor-pointer items-center justify-between">
             <div className="flex items-center gap-3">
               <input
@@ -134,7 +156,7 @@ export default function PaymentMethod({ amount }: PaymentMethodProps) {
         </div>
 
         {/* Other Payment Option */}
-        <div className="rounded-lg border p-4">
+        <div className="pointer-events-none cursor-not-allowed rounded-lg border p-4 opacity-50">
           <label className="flex cursor-pointer items-center gap-3">
             <input
               type="radio"

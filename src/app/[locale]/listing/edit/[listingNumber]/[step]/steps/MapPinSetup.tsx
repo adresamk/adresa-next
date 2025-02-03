@@ -91,6 +91,7 @@ export default function MapPinSetup({
         <div className="flex items-center justify-between">
           <Label htmlFor="coordinates">
             {t("listing.new.progress.steps.location.map.coordinates")}
+            <span className="ml-1.5 text-red-500">*</span>
           </Label>
         </div>
         <p className="text-xs leading-3 text-gray-500">
@@ -107,6 +108,7 @@ export default function MapPinSetup({
               e.target.value.replace(/\s/g, "").replace(/\(|\)/g, ""),
             );
           }}
+          required
           name="coordinates"
           id="coordinates"
           type="text"

@@ -9,12 +9,17 @@ import {
   Listing,
   PropertyCategory,
 } from "@prisma/client";
-import { Bath, ChefHat, Bed, ShowerHead, Sofa } from "lucide-react";
+import { Bath, ChefHat, Bed, ShowerHead, Sofa, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
 import FancyCounterInput from "../FancyCounterInput";
 import { ListingWithRelations } from "@/types/listing.types";
 import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface ResidentialSpecificFieldsProps {
   listing: Listing;
@@ -135,6 +140,47 @@ export default function ResidentialSpecificFields({
   };
   return (
     <>
+      {/* Total Property Area */}
+      <div className="mt-2 flex flex-col gap-3">
+        <Label
+          className="inline-flex items-center gap-2"
+          htmlFor="totalPropertyArea"
+        >
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.totalPropertyArea.label",
+          )}
+          <Popover>
+            <PopoverTrigger>
+              <Info className="h-4 w-4" />
+            </PopoverTrigger>
+            <PopoverContent>
+              <p className="max-w-[300px] p-2 text-xs">
+                {t(
+                  "listing.new.progress.steps.mainCharacteristics.totalPropertyArea.description",
+                )}
+              </p>
+            </PopoverContent>
+          </Popover>
+        </Label>
+        <div className="relative mb-2 flex w-1/2 min-w-[300px] items-center">
+          <div className="absolute left-1 mr-2 w-5 text-sm font-semibold">
+            m<sup>2</sup>
+          </div>
+          <Input
+            min={1}
+            max={10000}
+            type="number"
+            name="totalPropertyArea"
+            id="totalPropertyArea"
+            className="max-w-[400px] pl-7"
+            placeholder={t(
+              "listing.new.progress.steps.mainCharacteristics.totalPropertyArea.placeholder",
+            )}
+            defaultValue={listing.residential.totalPropertyArea || undefined}
+          />
+        </div>
+      </div>
+
       {/* Floor Number */}
       <input
         type="string"
@@ -142,7 +188,7 @@ export default function ResidentialSpecificFields({
         defaultValue={listing.residential.id}
         name="residentialId"
       />
-      <div className="flex flex-col gap-3">
+      <div className="mt-2 flex flex-col gap-3">
         <Label htmlFor="floor">
           {t("listing.new.progress.steps.mainCharacteristics.floor.label")}
           <span className="text-red-500">*</span>
@@ -166,7 +212,7 @@ export default function ResidentialSpecificFields({
 
       {/* Total Floors */}
       <div className="flex flex-col gap-3">
-        <Label>
+        <Label htmlFor="totalFloors">
           {t(
             "listing.new.progress.steps.mainCharacteristics.totalFloors.label",
           )}
@@ -208,7 +254,7 @@ export default function ResidentialSpecificFields({
 
       {/* Construction Year */}
       <div className="mt-2 flex flex-col gap-3">
-        <Label>
+        <Label htmlFor="constructionYear">
           {t(
             "listing.new.progress.steps.mainCharacteristics.constructionYear.label",
           )}
@@ -227,30 +273,9 @@ export default function ResidentialSpecificFields({
         />
       </div>
 
-      {/* Total Property Area */}
-      <div className="mt-2 flex flex-col gap-3">
-        <Label>
-          {t(
-            "listing.new.progress.steps.mainCharacteristics.totalPropertyArea.label",
-          )}
-        </Label>
-        <Input
-          min={1}
-          max={10000}
-          type="number"
-          name="totalPropertyArea"
-          id="totalPropertyArea"
-          className="max-w-[400px]"
-          placeholder={t(
-            "listing.new.progress.steps.mainCharacteristics.totalPropertyArea.placeholder",
-          )}
-          defaultValue={listing.residential.totalPropertyArea || undefined}
-        />
-      </div>
-
       {/* Zone */}
       <div className="mt-2 flex flex-col gap-3">
-        <Label>
+        <Label htmlFor="zone">
           {t("listing.new.progress.steps.mainCharacteristics.zone.label")}
         </Label>
         <SelectSelfContained
@@ -337,12 +362,12 @@ export default function ResidentialSpecificFields({
 
       {/* Common Expenses */}
       <div className="mt-2 flex flex-col gap-3">
-        <Label>
+        <Label htmlFor="commonExpenses">
           {t(
             "listing.new.progress.steps.mainCharacteristics.commonExpenses.label",
           )}
         </Label>
-        <p className="max-w-[400px] text-sm text-slate-500">
+        <p className="max-w-[400px] text-xs text-slate-500">
           {t(
             "listing.new.progress.steps.mainCharacteristics.commonExpenses.description",
           )}

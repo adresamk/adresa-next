@@ -63,7 +63,8 @@ export default function UserContactInfo({ user }: UserContactInfoProps) {
           defaultValue={user.contactPhone ?? ""}
           placeholder={t("user.profile.contactInfo.contactPhonePlaceholder")}
         />
-        {user.contactPhoneVerified && user.contactPhone ? (
+        {/* For now we don't validate phone numbers */}
+        {/* {user.contactPhoneVerified && user.contactPhone ? (
           <div className="flex items-center gap-3 rounded bg-green-300 p-1.5">
             <Check className="h-4 w-4" />
             <span className="text-sm">
@@ -77,7 +78,7 @@ export default function UserContactInfo({ user }: UserContactInfoProps) {
               {t("user.profile.contactInfo.contactPhoneNotVerified")}
             </span>
           </div>
-        )}
+        )} */}
       </div>
 
       <div className="mb-2 flex flex-col gap-3">
@@ -94,7 +95,8 @@ export default function UserContactInfo({ user }: UserContactInfoProps) {
           defaultValue={user.contactEmail ?? ""}
           placeholder={t("user.profile.contactInfo.contactEmailPlaceholder")}
         />
-        {user.contactEmailVerified && user.contactEmail ? (
+        {/* For now we don't validate email addresses */}
+        {/* {user.contactEmailVerified && user.contactEmail ? (
           <div className="flex items-center gap-3 rounded bg-green-300 p-1.5">
             <Check className="h-4 w-4" />
             <span className="text-sm">
@@ -108,7 +110,7 @@ export default function UserContactInfo({ user }: UserContactInfoProps) {
               {t("user.profile.contactInfo.contactEmailNotVerified")}
             </span>
           </div>
-        )}
+        )} */}
 
         <div className="flex justify-between text-sm">
           <span>

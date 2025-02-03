@@ -7,6 +7,7 @@ import { getCurrentUser } from "@/lib/sessions";
 import { getLocale, getTranslations } from "next-intl/server";
 import { initialSteps } from "../edit/[listingNumber]/[step]/types";
 import ListingNewSideMenu from "./_components/ListingNewSideMenu";
+import { SubmitButton } from "@/components/SubmitButton";
 
 type StepStatus = {
   [key: string]: "completed" | "incomplete" | "in-progress";
@@ -55,9 +56,15 @@ export default async function NewListingPage() {
             }}
           >
             <InitialStep />
-            <Button size={"sm"} className="my-2">
+            <SubmitButton
+              size={"sm"}
+              className="my-2"
+              defaultText={t("common.actions.next")}
+              loadingText={t("common.actions.creating")}
+            />
+            {/* <Button size={"sm"} className="my-2">
               {t("common.actions.next")}
-            </Button>
+            </Button> */}
           </form>
         </div>
       </div>

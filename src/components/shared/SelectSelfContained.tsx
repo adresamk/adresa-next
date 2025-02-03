@@ -29,6 +29,7 @@ export function SelectSelfContained({
   placeholder = "",
   triggerWidth = "180px",
   name,
+  id,
 }: SelectSelfContainedProps) {
   const [selectValue, setSelectValue] = useState(value);
   return (
@@ -49,6 +50,7 @@ export function SelectSelfContained({
         }}
       >
         <SelectTrigger
+          id={id}
           style={{ width: triggerWidth }}
           className={cn(`select-self-contained z-[140]`)}
         >

@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { editListing } from "@/server/actions/listing.actions";
 import { useTranslations } from "next-intl";
 import { ListingWithRelations } from "@/types/listing.types";
+import { SubmitButton } from "@/components/SubmitButton";
 
 interface ListingEditFormProps {
   loadedListing: ListingWithRelations;
@@ -119,9 +120,15 @@ export default function ListingEditForm({
             {currentStepIdx === 6 && <Step7 listing={listing} key={"7"} />}
             {currentStepIdx === 7 && <Step8 listing={listing} key={"8"} />}
 
-            <Button size={"sm"} className="m-2" type="submit">
+            <SubmitButton
+              size={"sm"}
+              className="m-2"
+              defaultText={t("common.actions.saveChanges")}
+              loadingText={t("common.actions.saving")}
+            />
+            {/* <Button size={"sm"} className="m-2" type="submit">
               {t("common.actions.saveChanges")}
-            </Button>
+            </Button> */}
           </form>
         </div>
       </div>
