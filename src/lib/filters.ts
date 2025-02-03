@@ -90,7 +90,12 @@ function cleanedUpLocation(location: string | string[]) {
 
 export function parseQueryParams(params: string[] = []) {
   const parsedParams: Record<string, string | string[] | number> = {};
-  // console.log("params", params);
+  // console.log("params3", params);
+
+  // remove the last param if it ends with ?
+  const lastParam = params[params.length - 1]?.replace(/^\?/, "") ?? "";
+  params[params.length - 1] = lastParam;
+
   for (const param of params) {
     const [key, value] = param.split("-");
     if (mainFilters.includes(mainFiltersShort[key])) {
@@ -148,6 +153,7 @@ export function extractFromUrl(pathname: string | null, filter: MainFilters) {
     return "";
   }
   // console.log("extractFromUrl", pathname, filter);
+  pathname = pathname.split("?")[0];
   const parsedQueryParams = parseQueryParams(pathname.split("/"));
 
   // console.log("parsedQueryParams", parsedQueryParams);

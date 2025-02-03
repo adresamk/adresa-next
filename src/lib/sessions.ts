@@ -60,7 +60,7 @@ export async function validateSessionToken(
   }
   const { account, ...session } = result;
 
-  console.log("Session", session);
+  // console.log("Session", session);
   // Update lastValidated timestamp
   await prismadb.session.update({
     where: { id: sessionId },
@@ -97,7 +97,7 @@ export type SessionValidationResult =
 
 export const getCurrentSession: () => Promise<SessionValidationResult> = cache(
   async (): Promise<SessionValidationResult> => {
-    console.log("Getting current session");
+    // console.log("Getting current session");
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_session")?.value ?? null;
     if (token === null) {
@@ -119,7 +119,7 @@ type GetCurrentUserResult = {
 export async function getCurrentUser(): Promise<GetCurrentUserResult> {
   const { account, session } = await getCurrentSession();
   // console.log("Account", account, "Session", session);
-  console.log("Getting current user");
+  // console.log("Getting current user");
   if (session === null) {
     return {
       isAuthenticated: account ? true : false,

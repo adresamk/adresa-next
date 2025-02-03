@@ -7,19 +7,20 @@ import CategoryFilter from "./primary/CategoryFilter";
 import AreaFilter from "./primary/AreaFilter";
 import Type from "./primary/TypeFilter";
 
-import { ChevronDown, Search, SlidersVertical } from "lucide-react";
+import { ChevronDown, Loader2, Search, SlidersVertical } from "lucide-react";
 import SmartOverlay from "../SmartOverlay";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useFilters } from "@/hooks/useFilters";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import CreateSavedSearch from "./CreateSavedSearch";
 import { useTranslations } from "next-intl";
 import AdditionalFeaturesFilters from "./AdditionalFeaturesFilters";
-import { Feature } from "@prisma/client";
+import { Feature, Listing } from "@prisma/client";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
+import { cn } from "@/lib/utils";
 
-export default function Filters() {
+export default function Filters({ listings }: { listings: Listing[] }) {
   // not sure why we need this
   const router = useRouter();
   const pathname = usePathname();
@@ -33,9 +34,22 @@ export default function Filters() {
       history: "push",
     }),
   );
+
   const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(false);
   const [features, setFeatures] = useState<Feature[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRetrievingSearchHits, setIsRetrievingSearchHits] = useState(false);
+  const [selectedFeaturesKeys, setSelectedFeaturesKeys] = useState<string[]>(
+    () => appliedFeatures || [],
+  );
+  const filters = useFilters((store) => store.filters);
+  const updateFilters = useFilters((store) => store.updateFilters);
+
+  const clearSecondaryFilters = useFilters(
+    (store) => store.clearSecondaryFilters,
+  );
+  const isFirstRender = useRef(true);
+  const [searchHits, setSearchHits] = useState(listings.length);
   useEffect(() => {
     const fetchFeatures = async () => {
       setIsLoading(true);
@@ -47,18 +61,41 @@ export default function Filters() {
     };
     fetchFeatures();
   }, []);
-  const [selectedFeaturesKeys, setSelectedFeaturesKeys] = useState<string[]>(
-    () => appliedFeatures || [],
-  );
-  const filters = useFilters((store) => store.filters);
-  const updateFilters = useFilters((store) => store.updateFilters);
-  const clearSecondaryFilters = useFilters(
-    (store) => store.clearSecondaryFilters,
-  );
 
-  const results = {
-    length: Math.floor(Math.random() * 100),
-  };
+  useEffect(() => {
+    // Skip first render
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    // console.log("pathname", pathname);
+    // console.log("isFirstRender", isFirstRender.current);
+    // this will execute on every render except the first one
+
+    const fetchListingCount = async () => {
+      setIsRetrievingSearchHits(true);
+      // const newDestination = pathname;
+      // console.log("newDestination", newDestination);
+      const response = await fetch(
+        `/api/listing/count?path=${pathname}&${
+          selectedFeaturesKeys ? `f=${selectedFeaturesKeys.toString()}` : ""
+        }`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const data = await response.json();
+      console.log(data);
+      setSearchHits(data.count);
+      setIsRetrievingSearchHits(false);
+    };
+    fetchListingCount();
+
+    // setSearchHits(listings.length);
+  }, [listings, selectedFeaturesKeys, pathname]);
   const moreFiltersFooter = (
     <div className="flex w-full items-end justify-between">
       <Button
@@ -105,10 +142,16 @@ export default function Filters() {
             setAreMoreFiltersOpen(false);
           }, 0);
         }}
-        className="bg-brand-light-blue"
+        className={"bg-brand-light-blue"}
       >
-        <Search width={20} className="mr-2" />
-        {t("search.filters.viewResults", { count: results.length })}
+        {isRetrievingSearchHits ? (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <>
+            <Search width={20} className="mr-2" />
+            {t("search.filters.viewResults", { count: searchHits })}
+          </>
+        )}
       </Button>
     </div>
   );

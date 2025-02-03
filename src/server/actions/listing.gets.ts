@@ -125,7 +125,7 @@ export async function getAllListings(
   let municipalities: string[] = [];
   let places: string[] = [];
   let regions: string[] = [];
-  console.log("pp.location", pp.location);
+  // console.log("pp.location", pp.location);
   if (pp.location) {
     if (Array.isArray(pp.location)) {
       municipalities = pp.location.filter((l) => l.startsWith("1"));

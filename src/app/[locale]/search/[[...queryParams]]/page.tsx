@@ -42,7 +42,7 @@ export default async function SearchPage({
     return <Custom404 />;
   }
 
-  console.log("parsedQueryParams", parsedQueryParams);
+  // console.log("parsedQueryParams", parsedQueryParams);
 
   let listings: Listing[] = [];
   if (parsedQueryParams.location && parsedQueryParams.location === "ms") {
@@ -71,9 +71,7 @@ export default async function SearchPage({
           feature: Feature;
         })[];
       };
-      if (idx === 0) {
-        console.log("listing", lwf.listingFeatures);
-      }
+
       const appliedFeaturesKeys = lwf.listingFeatures.map(
         (lf) => lf.feature.key,
       );
