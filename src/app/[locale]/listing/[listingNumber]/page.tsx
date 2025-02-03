@@ -39,7 +39,11 @@ import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
 import PriceDisplay from "./_components/PriceDisplay";
 import { MortgageCalculator } from "@/components/MortgageCalculator";
 import PublisherInfo from "./_components/PublisherInfo";
-import { Listing, ListingStatus } from "@prisma/client";
+import {
+  Listing,
+  ListingStatus,
+  PropertyTransactionType,
+} from "@prisma/client";
 import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantData";
 import ListingFeatures from "./_components/ListingFeatures";
 import { ExpandableDescription } from "./_components/ExpandableDescription";
@@ -55,6 +59,7 @@ import BackButton from "./_components/BackButton";
 import RecentlyViewedListingHandler from "./_components/RecentlyViewedListingHandler";
 import { getUser } from "@/lib/auth";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
+import TransactionType from "@/components/shared/filters/primary/TransactionTypeFilter";
 
 interface SingleListingPageProps {
   params: Promise<{
@@ -253,13 +258,17 @@ export default async function SingleListingPage({
 
             {/* Mortgages Options */}
             <Separator className="my-3 bg-slate-400" />
-            <div className="my-4 flex flex-wrap items-center justify-center gap-4 lg:flex-nowrap lg:justify-start">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              {/* <img src="/assets/halkbank-logo.png" alt="Halkbank" /> */}
-              {/* <span>{t("common.property.mortgage.options")}</span> */}
-              <CalculateMortgageButton />
-            </div>
-            <Separator className="my-3 bg-slate-400" />
+            {listing.transactionType === PropertyTransactionType.sale && (
+              <>
+                <div className="my-4 flex flex-wrap items-center justify-center gap-4 lg:flex-nowrap lg:justify-start">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {/* <img src="/assets/halkbank-logo.png" alt="Halkbank" /> */}
+                  {/* <span>{t("common.property.mortgage.options")}</span> */}
+                  <CalculateMortgageButton />
+                </div>
+                <Separator className="my-3 bg-slate-400" />
+              </>
+            )}
 
             {/* Description */}
             <div className="my-7">
@@ -300,7 +309,9 @@ export default async function SingleListingPage({
             </div>
             <Separator className="my-3 bg-slate-400" />
             {/* Mortgage Calculator */}
-            <MortgageCalculator initialPrice={listing.price || 0} />
+            {listing.transactionType === PropertyTransactionType.sale && (
+              <MortgageCalculator initialPrice={listing.price || 0} />
+            )}
             {/* Publisher  */}
             <div className="my-6">
               <h3 className="mb-3 text-lg font-semibold">
