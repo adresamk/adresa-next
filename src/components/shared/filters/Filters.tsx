@@ -104,9 +104,6 @@ export default function Filters({ listings }: { listings: Listing[] }) {
         onClick={() => {
           if (pathname) {
             setSelectedFeaturesKeys([]);
-            setAppliedFeatures([]);
-            router.replace(pathname);
-            setAreMoreFiltersOpen(false);
           }
 
           // no need for this it takes care by itself (hopefully) but question is do we want to reset
