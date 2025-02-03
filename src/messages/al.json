@@ -240,6 +240,9 @@
           "RESIDENTIAL_OTHER": "Banesore"
         },
         "keys": {
+          "new_kitchen": "Kuzhinë e re",
+          "electric_car_charger": "Karikues për makinë elektrike",
+          "in_center": "Ndodhet në qendër",
           "parking": "Parking",
           "elevator": "Ashensor",
           "balcony": "Ballkon",

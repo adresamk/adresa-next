@@ -240,6 +240,9 @@
           "RESIDENTIAL_OTHER": "Residential other"
         },
         "keys": {
+          "new_kitchen": "New kitchen",
+          "electric_car_charger": "Electric car charger",
+          "in_center": "In center",
           "parking": "Parking",
           "elevator": "Elevator",
           "balcony": "Balcony",

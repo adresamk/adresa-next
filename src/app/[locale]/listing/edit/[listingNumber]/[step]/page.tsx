@@ -75,7 +75,7 @@ export default async function EditListingPage({ params }: { params: Params }) {
   const allCategoryFeatures = await prismadb.feature.findMany({
     where: {
       applicableTypes: {
-        has: listing.category,
+        hasSome: [listing.category, "all"],
       },
     },
   });

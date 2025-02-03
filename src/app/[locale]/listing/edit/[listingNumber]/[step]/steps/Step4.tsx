@@ -6,6 +6,7 @@ import OtherAdditionalFeatures from "../_components/Step3/OtherAdditionalFeature
 import { useTranslations } from "next-intl";
 import { ListingWithRelations } from "@/types/listing.types";
 import { Separator } from "@/components/ui/separator";
+import SharedAdditionalFeatures from "../_components/Step3/SharedMutualFeatures";
 
 export default function Step4({
   listing: basicTypedListing,
@@ -30,9 +31,15 @@ export default function Step4({
       <h2 className="text-lg">
         {t("listing.new.progress.steps.mainCharacteristics.title")}
       </h2>
+
       <Separator className="my-2 mt-4" />
 
-      {listing.residential && (
+      <SharedAdditionalFeatures
+        listing={basicTypedListing}
+        allCategoryFeatures={allCategoryFeatures}
+      />
+
+      {/* {listing.residential && (
         <>
           <ResidentialAdditionalFeatures
             listing={basicTypedListing}
@@ -63,7 +70,7 @@ export default function Step4({
             allCategoryFeatures={allCategoryFeatures}
           />
         </>
-      )}
+      )} */}
     </div>
   );
 }

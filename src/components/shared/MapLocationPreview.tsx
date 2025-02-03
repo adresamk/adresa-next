@@ -21,8 +21,7 @@ export default function MapLocationPreview({
   const t = useTranslations();
   const { latitude, longitude, locationPrecision } = listing;
   const [zoom, setZoom] = useState(11);
-  if (!longitude || !latitude)
-    return <div>{t("common.property.map.notSet")}</div>;
+  if (!longitude || !latitude) return <div>{t("map.notSet")}</div>;
 
   const location: LatLngExpression = [latitude, longitude];
   return (

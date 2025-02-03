@@ -191,7 +191,7 @@ export default async function SingleListingPage({
   // let title = listing[`${locale}Title` as keyof ListingTitles] || "";
 
   const { description, title } = generateDescriptionAndTitle(listing, locale);
-  const fullAddress = `${currentMunicipalityLabel}, ${currentPlaceLabel}, ${listing.address}`;
+  const fullAddress = `${currentMunicipalityLabel || t("common.words.missingValue")}, ${currentPlaceLabel || t("common.words.missingValue")}, ${listing.address || t("common.words.missingValue")}`;
   const pinPopupText = `${t(`common.property.type.${listing.type}`)}, ${displayArea(listing.area)}, ${currentPlaceLabel}, ${currentMunicipalityLabel}, `;
   // const rawListing = await getListing(listingNumber);
   // const listing = serializeDates(rawListing);

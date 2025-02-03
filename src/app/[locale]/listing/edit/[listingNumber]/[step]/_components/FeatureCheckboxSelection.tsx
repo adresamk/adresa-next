@@ -1,5 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Feature, ListingFeature } from "@prisma/client";
+import { useTranslations } from "next-intl";
+import { useTransition } from "react";
 
 interface FeatureCheckboxSelectionProps {
   feature: Feature;
@@ -9,6 +11,7 @@ export default function FeatureCheckboxSelection({
   feature,
   listingFeatures,
 }: FeatureCheckboxSelectionProps) {
+  const t = useTranslations();
   const listingFeatureExists = listingFeatures.find(
     (listingFeature) => listingFeature.featureId === feature.id,
   );
@@ -24,7 +27,7 @@ export default function FeatureCheckboxSelection({
         htmlFor={feature.key}
         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
       >
-        {feature.name}
+        {t(`common.property.feature.keys.${feature.key}`)}
       </label>
     </div>
   );

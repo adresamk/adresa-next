@@ -21,7 +21,7 @@ interface FeatureShowcaseProps {
 export default function FeatureShowcase({ feature }: FeatureShowcaseProps) {
   const t = useTranslations();
   return (
-    <div className="flex items-center gap-2 rounded-sm border border-slate-500 px-2 py-1 text-slate-700">
+    <div className="flex select-none items-center gap-2 rounded-sm border border-slate-500 px-2 py-1 text-slate-700">
       {featureIcons.hasOwnProperty(feature.key) &&
         featureIcons[feature.key as keyof typeof featureIcons]}
       {t(`common.property.feature.keys.${feature.key}`)}

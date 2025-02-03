@@ -18,7 +18,11 @@ export default function ListingFeatures({ listing }: ListingFeaturesProps) {
 
   const featuresByCategory = lfs
     .map((lf) => lf.feature)
-    .filter((f) => f.applicableTypes.includes(listing.category))
+    .filter(
+      (f) =>
+        f.applicableTypes.includes(listing.category) ||
+        f.applicableTypes.includes("all"),
+    )
     .reduce(
       (acc, feature) => {
         acc[feature.category as FeatureCategory] =
