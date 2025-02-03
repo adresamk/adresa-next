@@ -30,6 +30,7 @@ export default async function SearchPage({
 
   console.log("queryParams", queryParams);
   console.log("searchParams", parsedSearchParams);
+
   const parsedQueryParams = parseQueryParams(queryParams);
   // console.log("parsedQueryParams", parsedQueryParams);
   // console.log("parsedQueryParams", JSON.stringify(parsedQueryParams));
