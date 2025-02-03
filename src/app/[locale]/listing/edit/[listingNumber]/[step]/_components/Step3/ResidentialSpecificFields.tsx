@@ -237,7 +237,6 @@ export default function ResidentialSpecificFields({
           {t(
             "listing.new.progress.steps.mainCharacteristics.orientation.label",
           )}
-          <span className="text-red-500">*</span>
         </Label>
         <div className="mb-2 flex w-1/2 min-w-[300px] items-center">
           <SelectSelfContained

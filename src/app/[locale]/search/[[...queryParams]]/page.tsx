@@ -4,7 +4,7 @@ import { searchParamsCache } from "../../searchParams";
 import { parseQueryParams } from "@/lib/filters";
 import Custom404 from "./_components/Custom404";
 import { unstable_cache } from "next/cache";
-import { Listing } from "@prisma/client";
+import { Feature, Listing, ListingFeature } from "@prisma/client";
 import {
   getAllListingsByBoundingBox,
   getAllListings,
@@ -58,6 +58,28 @@ export default async function SearchPage({
         revalidate: 60,
       },
     )();
+  }
+
+  // FILTER BY FEATURES
+  const featureKeysAsString = parsedSearchParams.f;
+  // console.log("featureKeysAsString", featureKeysAsString);
+  if (featureKeysAsString && featureKeysAsString.length > 0) {
+    const featureKeys = featureKeysAsString.split(",");
+    listings = listings.filter((listing, idx) => {
+      const lwf = listing as Listing & {
+        listingFeatures: (ListingFeature & {
+          feature: Feature;
+        })[];
+      };
+      if (idx === 0) {
+        console.log("listing", lwf.listingFeatures);
+      }
+      const appliedFeaturesKeys = lwf.listingFeatures.map(
+        (lf) => lf.feature.key,
+      );
+      return featureKeys.every((key) => appliedFeaturesKeys.includes(key));
+      //
+    });
   }
 
   return (

@@ -33,6 +33,7 @@ export default function Step2({ listing }: { listing: Listing }) {
   const [address, setAddress] = useState(listing.address);
 
   const t = useTranslations();
+  console.log({ locale });
   const municipalityOptions = getMunicipalityOptionsTranslated(locale);
 
   return (

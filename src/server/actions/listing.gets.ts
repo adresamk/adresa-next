@@ -198,6 +198,15 @@ export async function getAllListings(
       ],
     },
     include: {
+      listingFeatures: {
+        include: {
+          feature: {
+            select: {
+              key: true,
+            },
+          },
+        },
+      },
       agency: {
         select: {
           slug: true,
