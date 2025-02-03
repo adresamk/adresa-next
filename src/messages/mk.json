@@ -67,7 +67,7 @@
     "filters": {
       "clearAll": "Избриши ги сите",
       "title": "Филтри",
-      "description": "Филтрирајте ги резултатите",
+      "description": "Дополнителни филтри",
       "viewResults": "Прикажи {count} резултати",
       "results": "{count} резултати",
       "result": "резултат",

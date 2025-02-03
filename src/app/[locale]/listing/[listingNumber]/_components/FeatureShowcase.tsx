@@ -1,19 +1,6 @@
-import { ListingFeatureWithFeature } from "@/types/listing.types";
+import { featureIcons } from "@/lib/data/listing/importantDataReact";
 import { Feature } from "@prisma/client";
-import { AlarmCheck, CarIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-const featureIcons = {
-  parking: <CarIcon className="h-4 w-4 text-primary" />,
-  elevator: <AlarmCheck className="h-4 w-4 text-primary" />,
-  //   balcony: <BalconyIcon />,
-  //   yard: <YardIcon />,
-  //   basement: <BasementIcon />,
-  //   internet: <InternetIcon />,
-  //   cabel_tv: <CableTvIcon />,
-  //   close_to_center: <CenterIcon />,
-  //   quiet_neighbourhood: <QuietNeighbourhoodIcon />,
-};
 
 interface FeatureShowcaseProps {
   feature: Feature;

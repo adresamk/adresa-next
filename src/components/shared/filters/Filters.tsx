@@ -15,6 +15,7 @@ import { useFilters } from "@/hooks/useFilters";
 import { usePathname, useRouter } from "next/navigation";
 import CreateSavedSearch from "./CreateSavedSearch";
 import { useTranslations } from "next-intl";
+import AdditionalFeaturesFilters from "./AdditionalFeaturesFilters";
 
 export default function Filters() {
   // not sure why we need this
@@ -23,7 +24,9 @@ export default function Filters() {
   const shouldUpdate = useFilters((store) => store.shouldUpdate);
   const t = useTranslations("");
   const [areMoreFiltersOpen, setAreMoreFiltersOpen] = useState(false);
-
+  const [selectedFeaturesKeys, setSelectedFeaturesKeys] = useState<string[]>(
+    [],
+  );
   const filters = useFilters((store) => store.filters);
   const updateFilters = useFilters((store) => store.updateFilters);
   const clearSecondaryFilters = useFilters(
@@ -89,22 +92,20 @@ export default function Filters() {
       <Type variant="search" />
       <PriceFilter variant="search" />
       <AreaFilter variant="search" />
-      {false && (
-        <Button
-          variant="outline"
-          className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
-          onClick={() => {
-            setAreMoreFiltersOpen(true);
-          }}
-        >
-          <SlidersVertical
-            width={20}
-            className="mr-2 h-4 w-4 text-brand-light-blue md:h-5 md:w-5"
-          />
-          <span className="capitalize">{t("search.filters.title")}</span>
-          <ChevronDown width={20} className="ml-2 h-4 w-4 md:h-5 md:w-5" />{" "}
-        </Button>
-      )}
+      <Button
+        variant="outline"
+        className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
+        onClick={() => {
+          setAreMoreFiltersOpen(true);
+        }}
+      >
+        <SlidersVertical
+          width={20}
+          className="mr-2 h-4 w-4 text-brand-light-blue md:h-5 md:w-5"
+        />
+        <span className="capitalize">{t("search.filters.title")}</span>
+        <ChevronDown width={20} className="ml-2 h-4 w-4 md:h-5 md:w-5" />{" "}
+      </Button>
       <CreateSavedSearch />
       <SmartOverlay
         isOpen={areMoreFiltersOpen}
@@ -115,6 +116,10 @@ export default function Filters() {
         footerJSX={moreFiltersFooter}
       >
         <div>
+          <AdditionalFeaturesFilters
+            selectedFeaturesKeys={selectedFeaturesKeys}
+            setSelectedFeaturesKeys={setSelectedFeaturesKeys}
+          />
           {/* <div className="flex flex-col gap-3">
           <div className="flex flex-wrap border-b-2 px-1.5 py-2.5">
             <FloorsFilter />

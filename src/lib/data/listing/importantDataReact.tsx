@@ -3,6 +3,7 @@ import {
   AirVentIcon,
   AlarmCheck,
   BrickWall,
+  CarIcon,
   DoorClosed,
   DoorOpen,
   Fence,
@@ -35,4 +36,9 @@ const icons: { [key: string]: JSX.Element } = {
   spajz: <DoorOpen />,
   terace: <Fence />,
   facade: <BrickWall />,
+};
+
+export const featureIcons = {
+  parking: <CarIcon className="h-4 w-4" />,
+  elevator: <AlarmCheck className="h-4 w-4" />,
 };
