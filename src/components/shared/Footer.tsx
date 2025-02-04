@@ -145,7 +145,7 @@ export default async function Footer() {
                       {column.items.map((item, index) => (
                         <Link
                           key={index}
-                          href={`${item.href}`}
+                          href={`/${item.href}`}
                           className={cn(
                             "mt-1 leading-5 underline",
                             index === 0 && "mt-2 self-stretch",
