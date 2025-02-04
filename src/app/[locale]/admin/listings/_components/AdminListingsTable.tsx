@@ -1,4 +1,4 @@
-import { Listing } from "@prisma/client";
+import { Listing, ListingStatus } from "@prisma/client";
 import {
   Table,
   TableBody,
@@ -52,8 +52,18 @@ export default function AdminListingsTable({
                 <TableCell>{displayPrice(listing.price)}</TableCell>
                 <TableCell className="capitalize">{listing.type}</TableCell>
                 <TableCell>
-                  <Badge variant={listing.isVisible ? "default" : "secondary"}>
-                    {listing.isVisible ? "Active" : "Draft"}
+                  <Badge
+                    variant={
+                      listing.status === ListingStatus.INACTIVE &&
+                      listing.substatus === "user_hidden"
+                        ? "default"
+                        : "secondary"
+                    }
+                  >
+                    {listing.status === ListingStatus.INACTIVE &&
+                    listing.substatus === "user_hidden"
+                      ? "Active"
+                      : "Draft"}
                   </Badge>
                 </TableCell>
                 {/* <TableCell>{listing.owner.email}</TableCell> */}

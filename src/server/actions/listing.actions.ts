@@ -198,8 +198,8 @@ export async function adjustListingVisibility(formData: FormData) {
       id: Number(listingId),
     },
     data: {
-      status: ListingStatus.INACTIVE,
-      substatus: "user_hidden",
+      status: wasVisible ? ListingStatus.INACTIVE : ListingStatus.ACTIVE,
+      substatus: wasVisible ? "user_hidden" : "",
     },
   });
 

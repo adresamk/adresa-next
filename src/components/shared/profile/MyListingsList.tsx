@@ -1,8 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Agency, Listing, User } from "@prisma/client";
-import { cn, displayDate } from "@/lib/utils";
+import { Agency, Listing, ListingStatus, User } from "@prisma/client";
+import { checkListingCompleteness, cn, displayDate } from "@/lib/utils";
 import { AlertCircle, Edit, MousePointerClick } from "lucide-react";
 import { useState } from "react";
 import { Link } from "@/i18n/routing";
@@ -64,24 +64,14 @@ export default function MyListingsList({
             console.log("listingWithViewCount", listingWithViewCount);
             const listingViewCount = listingWithViewCount.viewCount?.count || 0;
             const title = l[`${locale}Title` as keyof ListingTitles] || "";
-            const hasRequiredFieldsLeft =
-              !l.type ||
-              !l.municipality ||
-              !l.place ||
-              !l.district ||
-              !l.address ||
-              !l.price ||
-              !l.area;
-            // ||
-            // !contactData.email ||
-            // !contactData.phone ||
-            // !contactData.firstName ||
-            // !contactData.lastName;
+            const isComplete = checkListingCompleteness(l);
+            const shouldBeGrayedOut =
+              !isComplete || l.status === ListingStatus.INACTIVE;
 
             const image = l.mainImage as UploadedImageData;
             return (
               <div
-                key={l.id + l.isVisible.toString()}
+                key={l.id}
                 className="flex max-h-[240px] min-h-[202px] rounded-md border shadow-md"
               >
                 <div className="w-4/12 min-w-[250px]">
@@ -91,7 +81,7 @@ export default function MyListingsList({
                     alt="Property image"
                     className={cn(
                       "h-full w-full rounded-bl-md rounded-br-none rounded-tl-md rounded-tr-none bg-cover object-cover",
-                      hasRequiredFieldsLeft && "opacity-50",
+                      shouldBeGrayedOut && "opacity-50",
                     )}
                   />
                 </div>
@@ -148,7 +138,7 @@ export default function MyListingsList({
                   </div>
                   <div className="mt-auto flex items-center justify-between">
                     <div className="">
-                      {hasRequiredFieldsLeft ? (
+                      {!isComplete ? (
                         <div className="flex items-center gap-3">
                           <AlertCircle stroke="orange" />{" "}
                           <span>{t("listing.errors.requiredFields")}</span>
