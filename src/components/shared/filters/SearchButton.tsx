@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Loader2, Search } from "lucide-react";
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { useFilters } from "@/hooks/useFilters";
 import { generateSearchUrl } from "@/lib/filters";
@@ -16,6 +16,7 @@ export default function SearchButton({ variant }: SearchButtonProps) {
   const t = useTranslations();
   const newDestination =
     filters.location === "" ? "#" : generateSearchUrl(filters);
+  const router = useRouter();
 
   useEffect(() => {
     if (newDestination === "#") {
@@ -32,6 +33,7 @@ export default function SearchButton({ variant }: SearchButtonProps) {
           },
         },
       );
+      router.prefetch(newDestination);
       const data = await response.json();
       console.log(data);
       setListingCount(data.count);
@@ -40,7 +42,7 @@ export default function SearchButton({ variant }: SearchButtonProps) {
     fetchListingCount();
   }, [filters, newDestination]);
   return (
-    <Link href={listingCount === 0 ? "#" : newDestination}>
+    <Link href={listingCount === 0 ? "#" : newDestination} prefetch={true}>
       <Button
         size={"lg"}
         className="h-12 w-full min-w-[180px] px-2.5 py-0.5 text-sm font-bold uppercase tracking-tight"

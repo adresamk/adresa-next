@@ -14,6 +14,7 @@ export default async function NewListingButton({}: NewListingButtonProps) {
       <Link
         target={account ? "_blank" : undefined}
         href={account ? "/listing/new" : "/signin"}
+        prefetch={true}
       >
         <Button size="sm" className="flex items-center gap-1.5 px-2.5">
           <HousePlus className="h-5 w-4 md:h-6 md:w-6" />{" "}

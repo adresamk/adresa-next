@@ -844,7 +844,14 @@
     "Sale": "Sale",
     "Rental": "Rental",
     "Station Categories": "Apartment Categories",
-    "allRightsReserved": "All rights reserved"
+    "allRightsReserved": "All rights reserved",
+    "stanovi-skopje": "Apartments in Skopje",
+    "kukji-bitola": "Houses in Bitola",
+    "stanovi-ohrid": "Apartments in Ohrid",
+    "kancelariski-prostor-kumanovo": "Office space in Kumanovo",
+    "skladovi-kavadarci": "Warehouses in Kavadarci",
+    "zemjista-berovo": "Land in Berovo",
+    "garazi-skopje": "Garages in Skopje"
   },
   "home": {
     "title": "Find your next address",

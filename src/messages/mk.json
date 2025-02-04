@@ -863,7 +863,14 @@
     "Sale": "Продажба",
     "Rental": "Изнајмување",
     "Station Categories": "Категории на стан",
-    "allRightsReserved": "Сите права се задржани"
+    "allRightsReserved": "Сите права се задржани",
+    "stanovi-skopje": "Станови во Скопје",
+    "kukji-bitola": "Куќи во Битола",
+    "stanovi-ohrid": "Станови во Охрид",
+    "kancelariski-prostor-kumanovo": "Канцелариски простор во Куманово",
+    "skladovi-kavadarci": "Складови во Кавадарци",
+    "zemjista-berovo": "Земјишта во Беловар",
+    "garazi-skopje": "Гаражи во Скопје"
   },
   "home": {
     "title": "Пронајди ја твојата следна адреса",

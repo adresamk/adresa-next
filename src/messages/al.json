@@ -845,7 +845,14 @@
     "Sale": "Shitje",
     "Rental": "Qira",
     "Station Categories": "Kategoritë e banesave",
-    "allRightsReserved": "Të gjitha të drejtat e rezervuara"
+    "allRightsReserved": "Të gjitha të drejtat e rezervuara",
+    "stanovi-skopje": "Banesat në Skopje",
+    "kukji-bitola": "Kukët në Bitola",
+    "stanovi-ohrid": "Banesat në Ohrid",
+    "kancelariski-prostor-kumanovo": "Kancelari në Kumanovo",
+    "skladovi-kavadarci": "Skladorët në Kavadarci",
+    "zemjista-berovo": "Zemër në Berovo",
+    "garazi-skopje": "Garazhat në Skopje"
   },
   "home": {
     "title": "Gjej adresën tënde të ardhshme",

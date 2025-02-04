@@ -17,6 +17,7 @@ import CircularProgress from "@/components/ui/circular-progress";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import TransactionType from "@/components/shared/filters/primary/TransactionTypeFilter";
+import { useRouter } from "@/i18n/routing";
 
 interface NewListing {
   category: PropertyCategory | "";
@@ -80,6 +81,7 @@ function generateStepDescriptions(
 }
 
 export default function ListingNewSideMenu({ steps }: ListingNewSideMenuProps) {
+  const router = useRouter();
   const [listing, setListing] = useState<NewListing>({
     category: "",
     type: "",

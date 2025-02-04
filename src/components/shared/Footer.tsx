@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import CookiesConsent from "./CookiesConsent";
+import { cn } from "@/lib/utils";
 
 interface FooterColumnProps {
   title: string;
@@ -17,23 +18,38 @@ const footerColumns: FooterColumnProps[] = [
     title: "Sale",
     items: [
       {
-        text: "Station Categories",
-        href: "sale-categories",
+        text: "stanovi-skopje",
+        href: "search/tt-sale/l-00001/c-residential/t-apartment/s-new",
       },
-      { text: "Categories", href: "sale-categories" },
-      { text: "Categories", href: "sale-categories" },
-      { text: "Categories", href: "sale-categories" },
-      { text: "Categories", href: "sale-categories" },
+      {
+        text: "kukji-bitola",
+        href: "search/tt-sale/l-10059/c-residential/t-house/s-new",
+      },
+      {
+        text: "stanovi-ohrid",
+        href: "search/tt-sale/l-10061/c-residential/t-house/s-new",
+      },
+      {
+        text: "kancelariski-prostor-kumanovo",
+        href: "search/tt-sale/l-10037/c-commercial/t-office/s-new",
+      },
     ],
   },
   {
     title: "Rental",
     items: [
-      { text: "Categories", href: "rent-categories" },
-      { text: "Categories", href: "rent-categories" },
-      { text: "Categories", href: "rent-categories" },
-      { text: "Categories", href: "rent-categories" },
-      { text: "Categories", href: "rent-categories" },
+      {
+        text: "skladovi-kavadarci",
+        href: "search/tt-rent/l-10023/c-commercial/t-warehouse/s-new",
+      },
+      {
+        text: "zemjista-berovo",
+        href: "search/tt-rent/l-10035/c-land/t-agricultural/s-new",
+      },
+      {
+        text: "garazi-skopje",
+        href: "search/tt-sale/l-00001/c-other/t-garage/s-new",
+      },
     ],
   },
   {
@@ -130,7 +146,10 @@ export default async function Footer() {
                         <Link
                           key={index}
                           href={`${item.href}`}
-                          className={index === 0 ? "mt-2 self-stretch" : "mt-1"}
+                          className={cn(
+                            "mt-1 leading-5 underline",
+                            index === 0 && "mt-2 self-stretch",
+                          )}
                         >
                           {t(item.text)}
                         </Link>

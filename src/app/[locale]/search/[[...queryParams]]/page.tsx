@@ -9,9 +9,36 @@ import {
   getAllListingsByBoundingBox,
   getAllListings,
 } from "@/server/actions/listing.gets";
+import { Metadata } from "next";
 
 export const revalidate = 60;
 export const dynamicParams = true;
+
+export const metadata: Metadata = {
+  title: "Adresa.mk - Пребарајте недвижини",
+  description: "Пребарајте недвижини",
+  keywords: [
+    "realestate",
+    "real estate",
+    "недвижини",
+    "недвижински огласи",
+    "apartment",
+  ],
+  authors: [{ name: "Mario K", url: "https://mariok.mk" }],
+  creator: "Mario K",
+  publisher: "Adresa",
+  robots: {
+    index: false,
+    follow: true,
+    googleBot: {
+      index: false,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
 
 interface SearchPageProps {
   searchParams: Promise<Record<string, string>>;

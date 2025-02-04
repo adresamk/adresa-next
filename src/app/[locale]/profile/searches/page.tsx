@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Search } from "lucide-react";
 import MySavedSearchesList from "./_components/MySavedSearchesList";
 import { getMySavedSearches } from "@/server/actions/savedSearche.actions";
 import { getCurrentUser } from "@/lib/sessions";

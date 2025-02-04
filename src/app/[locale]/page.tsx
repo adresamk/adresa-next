@@ -10,6 +10,42 @@ import { redirect } from "@/i18n/routing";
 import { getLocale } from "next-intl/server";
 import { AccountType } from "@prisma/client";
 import LatestListings from "./_components/LatestListings";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Adresa.mk",
+    template: "%s | Adresa.mk",
+  },
+  description: "Вебсајт за огласи за недвижини",
+  keywords: [
+    "realestate",
+    "real estate",
+    "недвижини",
+    "недвижински огласи",
+    "apartment",
+  ],
+  authors: [{ name: "Mario K", url: "https://mariok.mk" }],
+  creator: "Mario K",
+  publisher: "Adresa",
+  twitter: {
+    card: "summary_large_image",
+    title: "Adresa.mk - Homepage",
+    description: "Вебсајт за огласи за недвижини",
+    images: ["/twitter-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
 
 export default async function Home() {
   // works on the server side
