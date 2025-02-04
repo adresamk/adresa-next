@@ -41,7 +41,7 @@ export async function getAllListingsByBoundingBox(
       isPublished: true,
       isAvailable: true,
       status: ListingStatus.ACTIVE,
-      isVisible: true,
+
       area: {
         gte: Number(pp.areaLow) || undefined,
         lte: Number(pp.areaHigh) || undefined,
@@ -182,7 +182,7 @@ export async function getAllListings(
           isPublished: true,
           isAvailable: true,
           status: ListingStatus.ACTIVE,
-          isVisible: true,
+
           area: {
             gte: Number(pp.areaLow) || undefined,
             lte: Number(pp.areaHigh) || undefined,

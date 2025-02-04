@@ -15,7 +15,6 @@ export default async function FeaturedListings() {
       isPublished: true,
       isAvailable: true,
       status: ListingStatus.ACTIVE,
-      isVisible: true,
     },
   });
 

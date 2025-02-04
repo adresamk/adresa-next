@@ -13,7 +13,6 @@ export default async function MostHitsPage({}: MostHitsPageProps) {
       isAvailable: true,
       isPublished: true,
       status: ListingStatus.ACTIVE,
-      isVisible: true,
     },
     _count: {
       municipality: true,

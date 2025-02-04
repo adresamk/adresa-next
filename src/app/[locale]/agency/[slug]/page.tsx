@@ -45,7 +45,7 @@ export default async function AgencyPage({
         where: {
           status: ListingStatus.ACTIVE,
           isPublished: true,
-          isVisible: true,
+
           isAvailable: true,
         },
         include: {

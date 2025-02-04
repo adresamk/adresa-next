@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/popover";
 import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { Button } from "@/components/ui/button";
-import { useQueryState } from "nuqs";
 import { useFilters } from "@/hooks/useFilters";
 import { useTranslations } from "next-intl";
 import { listingTypeOptions } from "@/lib/data/listing/importantData";

@@ -780,6 +780,10 @@
               "noImages": "Nuk keni asnjë foto të ngarkuar"
             }
           },
+          "payment": {
+            "title": "Parapamja dhe pagamenti",
+            "description": "Detajet e pagimit"
+          },
           "publish": {
             "requestProfessionalPromotion": {
               "title": "Shërbim falas",

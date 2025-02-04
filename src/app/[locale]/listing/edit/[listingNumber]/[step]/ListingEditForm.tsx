@@ -9,8 +9,7 @@ import Step5 from "./steps/Step5";
 import Step6 from "./steps/Step6";
 import Step7 from "./steps/Step7";
 import Step8 from "./steps/Step8";
-import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { steps } from "./types";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
@@ -18,6 +17,7 @@ import { editListing } from "@/server/actions/listing.actions";
 import { useTranslations } from "next-intl";
 import { ListingWithRelations } from "@/types/listing.types";
 import { SubmitButton } from "@/components/SubmitButton";
+import Step9 from "./steps/Step9";
 
 interface ListingEditFormProps {
   loadedListing: ListingWithRelations;
@@ -119,6 +119,7 @@ export default function ListingEditForm({
             {currentStepIdx === 5 && <Step6 listing={listing} key={"6"} />}
             {currentStepIdx === 6 && <Step7 listing={listing} key={"7"} />}
             {currentStepIdx === 7 && <Step8 listing={listing} key={"8"} />}
+            {currentStepIdx === 8 && <Step9 listing={listing} key={"9"} />}
 
             <SubmitButton
               size={"sm"}

@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { LocalStorageKeysOptions } from "./types";
+import { Listing } from "@prisma/client";
+import { ListingWithRelations, UploadedImageData } from "@/types/listing.types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -180,4 +182,23 @@ export function readFromLocalStorage(key: LocalStorageKeysOptions) {
 export function getFromLocalStorage(key: string) {
   const value = localStorage.getItem(key);
   return value ? JSON.parse(value) : null;
+}
+
+export function checkListingCompleteness(listing: Listing) {
+  const lwr = listing as ListingWithRelations;
+  if (
+    !lwr.type ||
+    !lwr.category ||
+    !lwr.transactionType ||
+    !lwr.price ||
+    !lwr.area ||
+    (lwr.commercial && !lwr.commercial.floor) ||
+    (lwr.images && (lwr.images as UploadedImageData[]).length === 0) ||
+    (lwr.user && !lwr.user.contactName) ||
+    (lwr.user && !lwr.user.contactPhone) ||
+    (lwr.user && !lwr.user.contactEmail)
+  ) {
+    return false;
+  }
+  return true;
 }

@@ -26,6 +26,7 @@ import {
 } from "@/types/listing.types";
 import { ParsedQueryParams } from "@/lib/filters";
 import { getLocale } from "next-intl/server";
+import { checkListingCompleteness } from "@/lib/utils";
 
 export async function getListingsByIdForRecentlyViewed(
   listingNumbers: number[],
@@ -197,7 +198,8 @@ export async function adjustListingVisibility(formData: FormData) {
       id: Number(listingId),
     },
     data: {
-      isVisible: !wasVisible,
+      status: ListingStatus.INACTIVE,
+      substatus: "user_hidden",
     },
   });
 
@@ -1307,30 +1309,34 @@ async function editContactDetails(formData: FormData) {
   };
 }
 
-async function handleProfessionalPromotion(
-  listingId: number,
-  requestProfessionalPromotion: "on" | "off",
-) {
+async function editPayment(formData: FormData) {
+  const listingId = formData.get("listingId")! as string;
+
+  let requestProfessionalPromotion = formData.get(
+    "requestProfessionalPromotion",
+  );
+
+  requestProfessionalPromotion = requestProfessionalPromotion ? "on" : "off";
+
   if (requestProfessionalPromotion === "on") {
     const pp = await prismadb.professionalPromotion.findFirst({
       where: {
-        listingId: listingId,
+        listingId: Number(listingId),
       },
     });
-    if (pp) {
-      return;
+    if (!pp) {
+      await prismadb.professionalPromotion.create({
+        data: {
+          listingId: Number(listingId),
+        },
+      });
     }
-    await prismadb.professionalPromotion.create({
-      data: {
-        listingId: listingId,
-      },
-    });
   }
 
   if (requestProfessionalPromotion === "off") {
     const pp = await prismadb.professionalPromotion.findFirst({
       where: {
-        listingId: listingId,
+        listingId: Number(listingId),
       },
     });
     if (pp) {
@@ -1341,32 +1347,84 @@ async function handleProfessionalPromotion(
       });
     }
   }
+  const updatedListing = (await prismadb.listing.findUnique({
+    where: {
+      id: Number(listingId),
+    },
+    include: {
+      agency: true,
+      user: true,
+      commercial: true,
+      residential: true,
+      land: true,
+      other: true,
+      professionalPromotion: true,
+      listingFeatures: {
+        include: {
+          feature: true,
+        },
+      },
+    },
+  })) as ListingWithRelations;
+
+  return {
+    success: true,
+    data: {
+      listing: updatedListing,
+    },
+  };
 }
 async function editPublishing(formData: FormData) {
   const isPublished = formData.get("isPublished");
+  const listingId = formData.get("listingId")! as string;
 
-  if (typeof isPublished !== "string") {
+  if (typeof isPublished !== "string" || !listingId) {
     return {
       success: false,
       error: "Invalid Inputs",
     };
   }
 
-  let requestProfessionalPromotion = formData.get(
-    "requestProfessionalPromotion",
-  );
+  // Get current listing to check completeness
+  const currentListing = await prismadb.listing.findUnique({
+    where: { id: Number(listingId) },
+  });
 
-  const listingId = formData.get("listingId")! as string;
-  requestProfessionalPromotion = requestProfessionalPromotion ? "on" : "off";
-  await handleProfessionalPromotion(
-    Number(listingId),
-    requestProfessionalPromotion as "on" | "off",
-  );
+  if (!currentListing) {
+    return { success: false, error: "Listing not found" };
+  }
 
   const makePublished = isPublished === "yes" ? true : false;
+  // Check if listing is complete
+  const isComplete = checkListingCompleteness(currentListing);
 
-  const oneMonthFromNow = new Date();
-  oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+  let newStatus = currentListing.status;
+  let newSubstatus = currentListing.substatus;
+
+  const monthsFromNow = new Date();
+  monthsFromNow.setMonth(monthsFromNow.getMonth() + 6);
+
+  const weTrustCreators = true;
+  const isTrusted = currentListing.userId ? weTrustCreators : true;
+
+  if (makePublished) {
+    if (!isComplete) {
+      newStatus = ListingStatus.DRAFT;
+      newSubstatus = "";
+    } else {
+      // MVP Fast-Track: Skip PENDING_REVIEW, go straight to RISKY_ACTIVE
+      newStatus = ListingStatus.ACTIVE;
+      newSubstatus = isTrusted ? "" : "requires_review_new";
+    }
+  } else {
+    if (currentListing.status === ListingStatus.ACTIVE) {
+      newStatus = ListingStatus.INACTIVE;
+      newSubstatus = "user_hidden";
+    } else {
+      newStatus = ListingStatus.DRAFT;
+      newSubstatus = "";
+    }
+  }
 
   await prismadb.listing.update({
     where: {
@@ -1375,11 +1433,13 @@ async function editPublishing(formData: FormData) {
     data: {
       isPublished: makePublished,
       publishedAt: makePublished ? new Date() : null,
-      publishEndDate: makePublished ? oneMonthFromNow : null,
-      status: makePublished ? ListingStatus.ACTIVE : ListingStatus.DRAFT,
+      publishEndDate: makePublished ? monthsFromNow : null,
+      status: newStatus,
+      substatus: newSubstatus,
       queryHash: "NEW_QUERY_HASH_CALCULATED_HERE",
     },
   });
+
   const updatedListing = (await prismadb.listing.findUnique({
     where: {
       id: Number(listingId),
@@ -1421,7 +1481,7 @@ export async function editListing(
 
   const step = formData.get("step");
 
-  if (typeof step !== "string" || Number(step) < 0 || Number(step) > 8) {
+  if (typeof step !== "string" || Number(step) < 0 || Number(step) > 9) {
     return {
       error: "Invalid step",
       success: false,
@@ -1487,6 +1547,9 @@ export async function editListing(
       output = await editContactDetails(formData);
       break;
     case 8:
+      output = await editPayment(formData);
+      break;
+    case 9:
       output = await editPublishing(formData);
       break;
     default:
@@ -1544,7 +1607,6 @@ export default async function getAllListings(
           isPublished: true,
           isAvailable: true,
           status: ListingStatus.ACTIVE,
-          isVisible: true,
           area: {
             gte: Number(pp.areaLow) || undefined,
             lte: Number(pp.areaHigh) || undefined,

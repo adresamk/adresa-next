@@ -779,6 +779,10 @@
               "noImages": "You haven't uploaded any images"
             }
           },
+          "payment": {
+            "title": "Preview and payment",
+            "description": "Payment details"
+          },
           "publish": {
             "requestProfessionalPromotion": {
               "title": "Free service",

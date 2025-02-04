@@ -7,7 +7,7 @@ interface PaymentMethodProps {
 
 export default function PaymentMethod({ amount }: PaymentMethodProps) {
   const [paymentMethod, setPaymentMethod] = useState<"card" | "other" | "free">(
-    "other",
+    "free",
   );
   const t = useTranslations("creditCard");
 

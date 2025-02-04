@@ -110,6 +110,7 @@ for (let index = 1; index < 100; index++) {
     transactionType: tType,
     category: c,
     type: t,
+    substatus: "",
     viewCountId: null,
     queryHash: "",
     ///
@@ -167,7 +168,6 @@ for (let index = 1; index < 100; index++) {
     videoLink: "https://www.youtube.com/watch?v=R8OejFuUYqo",
     ///
     isArchived: false,
-    isVisible: true,
     isPublished: true,
     publishedAt: new Date(),
     publishEndDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
@@ -287,7 +287,6 @@ for (let index = 1; index < 100; index++) {
     videoLink: "https://www.youtube.com/watch?v=R8OejFuUYqo",
     ///
     isArchived: false,
-    isVisible: true,
     isPublished: true,
     publishedAt: new Date(),
     publishEndDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
@@ -295,6 +294,7 @@ for (let index = 1; index < 100; index++) {
     isPaidPromo: faker.datatype.boolean({ probability: 0.1 }),
     ///
     agencyId: null,
+    substatus: "",
     mkTitle: "",
     alTitle: "",
     status: "ACTIVE",

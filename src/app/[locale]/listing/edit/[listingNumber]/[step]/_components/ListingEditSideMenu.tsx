@@ -148,12 +148,12 @@ function calculateStepStatus(listing: Listing, steps: Step[]): StepStatus {
     if (step.key === "media") {
       if (
         listing.images &&
-        (listing.images as UploadedImageData[]).length > 0 &&
-        listing.videoLink
+        (listing.images as UploadedImageData[]).length > 0
+        // &&        listing.videoLink
       ) {
         statuses[step.key] = "completed";
       } else {
-        statuses[step.key] = "none";
+        statuses[step.key] = "incomplete";
       }
     }
     if (step.key === "contact") {
@@ -168,6 +168,9 @@ function calculateStepStatus(listing: Listing, steps: Step[]): StepStatus {
       } else {
         statuses[step.key] = "in-progress";
       }
+    }
+    if (step.key === "payment") {
+      statuses[step.key] = "none";
     }
     if (step.key === "publish") {
       if (
@@ -285,6 +288,11 @@ function generateStepDescriptions(
           `listing.new.progress.steps.${step.key}.description`,
         );
       }
+    }
+    if (step.key === "payment") {
+      descriptions[step.key] = t(
+        `listing.new.progress.steps.${step.key}.description`,
+      );
     }
     if (step.key === "publish") {
       descriptions[step.key] = t(

@@ -46,7 +46,11 @@ export default function UserContactInfo({ user }: UserContactInfoProps) {
           id="contactName"
           name="contactName"
           defaultValue={user.contactName ?? ""}
-          placeholder={t("user.profile.contactInfo.contactNamePlaceholder")}
+          placeholder={
+            t("common.words.missingValue") +
+            " " +
+            t("user.profile.contactInfo.contactNamePlaceholder")
+          }
         />
       </div>
 
@@ -61,7 +65,11 @@ export default function UserContactInfo({ user }: UserContactInfoProps) {
           id="contactPhone"
           name="contactPhone"
           defaultValue={user.contactPhone ?? ""}
-          placeholder={t("user.profile.contactInfo.contactPhonePlaceholder")}
+          placeholder={
+            t("common.words.missingValue") +
+            " " +
+            t("user.profile.contactInfo.contactPhonePlaceholder")
+          }
         />
         {/* For now we don't validate phone numbers */}
         {/* {user.contactPhoneVerified && user.contactPhone ? (
@@ -93,7 +101,11 @@ export default function UserContactInfo({ user }: UserContactInfoProps) {
           id="contactEmail"
           name="contactEmail"
           defaultValue={user.contactEmail ?? ""}
-          placeholder={t("user.profile.contactInfo.contactEmailPlaceholder")}
+          placeholder={
+            t("common.words.missingValue") +
+            " " +
+            t("user.profile.contactInfo.contactEmailPlaceholder")
+          }
         />
         {/* For now we don't validate email addresses */}
         {/* {user.contactEmailVerified && user.contactEmail ? (

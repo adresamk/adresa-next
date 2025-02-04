@@ -284,7 +284,7 @@ export async function generateListings(
       videoLink: videoLink,
       status: status,
       isArchived: isArchived,
-      isVisible: isVisible,
+
       isPublished: isPublished,
       publishedAt: publishedAt,
       publishEndDate: publishEndDate,

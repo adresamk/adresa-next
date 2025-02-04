@@ -2,8 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { SelectDemo } from "../../SelectDemo";
-import { parseAsString, useQueryState } from "nuqs";
-import { PropertyCategory } from "@prisma/client";
 import { useState } from "react";
 import { extractFromUrl, replaceFilterInUrl } from "@/lib/filters";
 import { usePathname, useSearchParams } from "next/navigation";

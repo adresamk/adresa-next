@@ -17,7 +17,6 @@ export default async function LatestListings() {
       isPublished: true,
       isAvailable: true,
       status: ListingStatus.ACTIVE,
-      isVisible: true,
     },
   });
 

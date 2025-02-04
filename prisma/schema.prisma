@@ -253,8 +253,7 @@ enum ListingStatus {
   PENDING_REVIEW
   ACTIVE
   INACTIVE
-  SOLD
-  RENTED
+  // hidden, requires_payment, requires_review , needs_update
 }
 
 model Listing {
@@ -316,8 +315,9 @@ model Listing {
 
   // Publishing info
   status         ListingStatus @default(DRAFT)
+  substatus      String        @default("") @db.VarChar(20)
   isArchived     Boolean       @default(false)
-  isVisible      Boolean       @default(true) // user can turn it off/on which is different from isPublished
+  // isVisible      Boolean       @default(true) // user can turn it off/on which is different from isPublished
   isPaidPromo    Boolean       @default(false)
   isPublished    Boolean       @default(false) // meaning someone paid for this and its shown unless its hidden
   publishedAt    DateTime?

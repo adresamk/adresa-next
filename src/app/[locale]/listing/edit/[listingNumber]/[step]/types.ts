@@ -59,8 +59,14 @@ export const steps: Step[] = [
   {
     key: "contact",
     description: "Enter contact details",
-    fieldsMentioned: ["contact"],
+    fieldsMentioned: [],
     uniquePath: "contact",
+  },
+  {
+    key: "payment",
+    description: "Payment",
+    fieldsMentioned: [],
+    uniquePath: "payment",
   },
   {
     key: "publish",
