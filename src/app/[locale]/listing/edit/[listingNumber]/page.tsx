@@ -1,6 +1,15 @@
 import { redirect } from "@/i18n/routing";
 import { getCurrentSession } from "@/lib/sessions";
 import { steps } from "./[step]/types";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Уредување на оглас | Adresa.mk",
+    template: "%s | Adresa.mk",
+  },
+  description: "Уредување на оглас за Adresa.mk",
+};
 
 export default async function EditListingWithoutStep({
   params,

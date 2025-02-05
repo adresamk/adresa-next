@@ -454,7 +454,8 @@ export default function SearchMap({
                 positions={drawnPolygonCoords}
                 pathOptions={{ color: "red" }}
               ></Polygon>
-              {drawnPolygonCoords.length > 0 &&
+              {false &&
+                drawnPolygonCoords.length > 0 &&
                 drawnPolygonCoords.map((coord, idx) => (
                   <CircleMarker
                     eventHandlers={{

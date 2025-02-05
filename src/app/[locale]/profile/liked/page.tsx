@@ -9,7 +9,11 @@ import { redirect } from "@/i18n/routing";
 import { getLocale, getTranslations } from "next-intl/server";
 import HireAgencyBanner from "../searches/_components/HireAgencyBanner";
 import FeaturedAgencies from "../../_components/FeaturedAgencies";
-
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Сочувани огласи",
+  description: "Сочувани огласи за корисничкиот профил на Adresa.mk",
+};
 export default async function ProfileLikedPage() {
   const { isAuthenticated, user } = await getCurrentUser();
   const t = await getTranslations();

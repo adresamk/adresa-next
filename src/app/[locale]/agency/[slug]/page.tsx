@@ -15,6 +15,7 @@ import {
   ResidentalPropertyType,
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/sessions";
+import { Metadata } from "next";
 
 const icons = {
   [PropertyCategory.commercial]: <Store className="h-8 w-8" />,
@@ -23,6 +24,53 @@ const icons = {
   [PropertyCategory.other]: <Building className="h-8 w-8" />,
 };
 
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> => {
+  const { slug } = await params;
+  const agency = await prismadb.agency.findUnique({
+    where: {
+      slug: slug,
+    },
+    select: {
+      logo: true,
+    },
+  });
+  return {
+    title: `${slug} Страница на агенција`,
+    description: `${slug} Страница на агенција`,
+    openGraph: {
+      title: `${slug} Страница на агенција`,
+      description: `${slug} Страница на агенција`,
+      images: [
+        {
+          url: `${(agency?.logo as UploadedImageData)?.url}`,
+          width: 800,
+          height: 600,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Adresa.mk - Homepage",
+      description: "Вебсајт за огласи за недвижини",
+      images: [`${(agency?.logo as UploadedImageData)?.url}`],
+    },
+    robots: {
+      index: true,
+      follow: false,
+      googleBot: {
+        index: true,
+        follow: false,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+  };
+};
 export default async function AgencyPage({
   params,
 }: {

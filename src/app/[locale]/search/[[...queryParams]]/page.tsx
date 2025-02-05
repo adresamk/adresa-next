@@ -9,36 +9,81 @@ import {
   getAllListingsByBoundingBox,
   getAllListings,
 } from "@/server/actions/listing.gets";
-import { Metadata } from "next";
+import { getLocale, getTranslations } from "next-intl/server";
+import { getPathname } from "@/i18n/routing";
+import path from "path";
+import {
+  getAllRegionsTranslated,
+  getMunicipalityOptionsTranslated,
+} from "@/lib/data/macedonia/importantData";
 
 export const revalidate = 60;
 export const dynamicParams = true;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ queryParams: string[] }>;
+}) {
+  const locale = await getLocale();
+  const t = await getTranslations();
+  const paramss = await params;
+  const tt = paramss.queryParams
+    .find((param) => param.startsWith("tt-"))
+    ?.split("-")[1];
+  const l = paramss.queryParams
+    .find((param) => param.startsWith("l-"))
+    ?.split("-")[1];
+  const c = paramss.queryParams
+    .find((param) => param.startsWith("c-"))
+    ?.split("-")[1];
 
-export const metadata: Metadata = {
-  title: "Adresa.mk - Пребарајте недвижини",
-  description: "Пребарајте недвижини",
-  keywords: [
-    "realestate",
-    "real estate",
-    "недвижини",
-    "недвижински огласи",
-    "apartment",
-  ],
-  authors: [{ name: "Mario K", url: "https://mariok.mk" }],
-  creator: "Mario K",
-  publisher: "Adresa",
-  robots: {
-    index: false,
-    follow: true,
-    googleBot: {
-      index: false,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+  const muniTranslated = getMunicipalityOptionsTranslated(locale);
+  const regions = getAllRegionsTranslated();
+
+  const locationLabel = l
+    ?.split(",")
+    .map((place: string) => {
+      console.log("place", place);
+      if (place.startsWith("0")) {
+        const region = regions.find((r) => r.value === place);
+        console.log("region", region);
+        return region?.label[locale as keyof typeof region.label];
+      }
+      const municipality = muniTranslated.find((m) => m.value === place)?.label;
+      return municipality;
+    })
+    .join(", ");
+
+  let title = `${t(`search.filters.category.${c}`)} ${t("common.words.for")} ${t(`search.filters.mode.${tt}`).toLowerCase()} ${t("common.words.in")} ${locationLabel}`;
+
+  // console.log("title", paramss);
+  return {
+    title: title,
+    description: "Пребарајте недвижини",
+    keywords: [
+      "realestate",
+      "real estate",
+      "недвижини",
+      "недвижински огласи",
+      "apartment",
+    ],
+    robots: {
+      index: true,
+      follow: false,
+      googleBot: {
+        index: true,
+        follow: false,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
-};
+  };
+}
+// export const metadata: Metadata = {
+//   title: "1 Adresa.mk - Пребарајте недвижини",
+//   description: "1 Пребарајте недвижини",
+// };
 
 interface SearchPageProps {
   searchParams: Promise<Record<string, string>>;

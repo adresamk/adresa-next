@@ -17,6 +17,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/routing";
 
 import {
+  getAllRegionsTranslated,
   getMunicipalityOptionsTranslated,
   getMunicipalityPlacesTranslated,
 } from "@/lib/data/macedonia/importantData";
@@ -65,6 +66,8 @@ export default function SearchBreadcrumbs({
   } else if (location.startsWith("2")) {
     municipalityFromUrl = `100${location[1]}${location[2]}`;
     placeFromUrl = location;
+  } else if (location.startsWith("0")) {
+    municipalityFromUrl = location;
   }
 
   const { municipality, places } = getMunicipalityPlacesTranslated(
@@ -74,6 +77,17 @@ export default function SearchBreadcrumbs({
   const currentMunicipality = municipality?.value;
   const currentPlace = places?.find((p) => p.value === placeFromUrl)?.value;
   const municipalitiesOptions = getMunicipalityOptionsTranslated(locale);
+  const regions = getAllRegionsTranslated();
+  // const currentRegion = regions.find((r) => r.value === location)?.value;
+  const regionsWithCurrentLocaleLabel = regions.map((r) => ({
+    ...r,
+    label: r.label[locale as keyof typeof r.label],
+  }));
+
+  const muniOptionsWithRegions = [
+    ...regionsWithCurrentLocaleLabel,
+    ...municipalitiesOptions,
+  ];
   const listing = listings[0];
 
   return (
@@ -100,11 +114,11 @@ export default function SearchBreadcrumbs({
                 }
               }}
             >
-              <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
+              <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-1">
                 <SelectValue placeholder={t("search.filters.location.label")} />
               </SelectTrigger>
               <SelectContent>
-                {municipalitiesOptions.map((municipality) => (
+                {muniOptionsWithRegions.map((municipality) => (
                   <SelectItem
                     key={municipality.value}
                     value={municipality.value}

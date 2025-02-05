@@ -22,7 +22,10 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "Adresa.mk",
+  title: {
+    default: "Adresa.mk",
+    template: "%s | Adresa.mk",
+  },
   description: "Вебсајт за огласи за недвижини",
   icons: {
     icon: "/assets/adresa-favicon.png",

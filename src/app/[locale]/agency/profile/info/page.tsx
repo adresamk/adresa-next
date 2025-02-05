@@ -6,6 +6,16 @@ import { getCurrentUser } from "@/lib/sessions";
 import { updateAgencyInfo } from "@/server/actions/agency.actions";
 import {} from "@/server/actions/user.actions";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Информации",
+  description: "Информации за агенција на Adresa.mk",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function ProfileInfoPage() {
   // we always expect user because of the layout auth

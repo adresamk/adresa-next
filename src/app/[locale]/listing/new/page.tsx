@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+
 import InitialStep from "./InitialStep";
 
 import { redirect } from "@/i18n/routing";
@@ -8,6 +8,15 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { initialSteps } from "../edit/[listingNumber]/[step]/types";
 import ListingNewSideMenu from "./_components/ListingNewSideMenu";
 import { SubmitButton } from "@/components/SubmitButton";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Нов оглас | Adresa.mk",
+    template: "%s | Adresa.mk",
+  },
+  description: "Креирање на нов оглас за Adresa.mk",
+};
 
 type StepStatus = {
   [key: string]: "completed" | "incomplete" | "in-progress";

@@ -2,6 +2,16 @@ import { redirect } from "@/i18n/routing";
 
 import { getCurrentUser } from "@/lib/sessions";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Мој Профил",
+  description: "Мој Профил на Adresa.mk",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function ProfilePage() {
   const t = await getTranslations();

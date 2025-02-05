@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { extractFromUrl } from "@/lib/filters";
 import { PropertyTransactionType } from "@prisma/client";
 import {
+  getAllRegionsTranslated,
   getMunicipalityOptionsTranslated,
   getMunicipalityPlacesTranslated,
 } from "@/lib/data/macedonia/importantData";
@@ -35,9 +36,13 @@ export default function ListingsListTitle() {
   }
 
   const muniTranslated = getMunicipalityOptionsTranslated(locale);
-
+  const regions = getAllRegionsTranslated();
   const locationLabel = location
     .map((place: string) => {
+      if (place.startsWith("0")) {
+        const region = regions.find((r) => r.value === place);
+        return region?.label[locale as keyof typeof region.label];
+      }
       const municipality = muniTranslated.find((m) => m.value === place)?.label;
       return municipality;
     })

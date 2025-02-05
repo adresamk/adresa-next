@@ -68,34 +68,70 @@ interface SingleListingPageProps {
   }>;
 }
 
-export async function generateMetadata({
+export const generateMetadata = async ({
   params,
-}: SingleListingPageProps): Promise<Metadata> {
-  const { listingNumber } = await params;
-  const listing = await getListing(Number(listingNumber)); // Your listing fetch function
-  const locale = await getLocale();
-  const images = listing.images as UploadedImageData[];
-  const title = listing[`${locale}Title` as keyof ListingTitles] || "";
+}: {
+  params: Promise<{ listingNumber: string; locale: string }>;
+}): Promise<Metadata> => {
+  const { listingNumber, locale } = await params;
+  const t = await getTranslations();
+  const listing = await prismadb.listing.findUnique({
+    where: {
+      listingNumber: Number(listingNumber),
+    },
+    select: {
+      area: true,
+      place: true,
+      municipality: true,
+      price: true,
+      transactionType: true,
+      type: true,
+      category: true,
+      images: true,
+    },
+  });
+  const { municipality, places } = getMunicipalityPlacesTranslated(
+    listing?.municipality,
+    locale,
+  );
 
+  const currentMunicipalityLabel = municipality?.label;
+  const currentPlaceLabel = places?.find(
+    (place) => place.value === listing?.place,
+  )?.label;
+
+  const fullAddress = `${currentMunicipalityLabel || t("common.words.missingValue")}, ${currentPlaceLabel || t("common.words.missingValue")}`;
+  const title = `${t(`listing.transactionType.${listing?.transactionType}`)},${t(`common.property.type.${listing?.type}`)},  ${listing?.area}m²  ${t(`common.words.in`)} ${fullAddress} |  ${t("common.words.listing")}  ${t("common.words.numberAbbr")} ${listingNumber}`;
+  const images = (listing?.images as UploadedImageData[])
+    .map((image) => image.url)
+    .slice(0, 6);
   return {
-    title: `${title} - ${listing.price}€`,
-    description: `${listing.area}m² ${listing.transactionType} in ${listing.municipality}, ${listing.place}`,
+    title: title,
+    description: `Страница на агенција`,
     openGraph: {
-      title: `${title} - ${listing.price}€`,
-      description: `${listing.area}m² ${listing.transactionType} in ${listing.municipality}, ${listing.place}`,
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/listing/${listing.listingNumber}`,
-      images: [
-        {
-          url: images[0]?.url || "", // First image or default
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-      type: "website",
+      title: title,
+      description: `траница на агенција`,
+      images: images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Adresa.mk - Homepage",
+      description: "Вебсајт за огласи за недвижини",
+      images: images,
+    },
+    robots: {
+      index: true,
+      follow: false,
+      googleBot: {
+        index: true,
+        follow: false,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
-}
+};
 function generateDescriptionAndTitle(listing: Listing, loc: string) {
   const locale = loc as (typeof routing.locales)[number];
   let description = "";

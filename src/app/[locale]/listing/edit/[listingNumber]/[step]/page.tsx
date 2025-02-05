@@ -6,9 +6,16 @@ import { getCurrentUser } from "@/lib/sessions";
 import { ListingWithRelations } from "@/types/listing.types";
 import { getLocale } from "next-intl/server";
 import NoAccessRedirectMessage from "./_components/NoAccessRedirectMessage";
+import { Metadata } from "next";
 
 type Params = Promise<{ listingNumber: string; step: string }>;
-
+export const metadata: Metadata = {
+  title: {
+    default: "Уредување на оглас | Adresa.mk",
+    template: "%s | Adresa.mk",
+  },
+  description: "Уредување на оглас за Adresa.mk",
+};
 export default async function EditListingPage({ params }: { params: Params }) {
   const { listingNumber, step: requestedStep } = await params;
 

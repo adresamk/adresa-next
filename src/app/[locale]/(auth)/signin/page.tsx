@@ -1,4 +1,10 @@
 import SignInForm from "./SignInForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Најва",
+  description: "Најва на корисничкиот профил на Adresa.mk",
+};
 
 interface SignInPageProps {
   searchParams: Promise<Record<string, string>>;

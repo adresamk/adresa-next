@@ -4,11 +4,15 @@ import { Label } from "@/components/ui/label";
 import { getUser } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/sessions";
 import { updateUserInfo } from "@/server/actions/user.actions";
+import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 
 type Params = Promise<Record<string, string>>;
-
+export const metadata: Metadata = {
+  title: "Основни информации",
+  description: "Основни информации за корисничкиот профил на Adresa.mk",
+};
 export default async function ProfileInfoPage({
   searchParams,
 }: {

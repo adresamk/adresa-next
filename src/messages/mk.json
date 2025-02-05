@@ -200,7 +200,10 @@
     },
 
     "words": {
+      "numberAbbr": "бр.",
+      "number": "број",
       "missingValue": "недостасува",
+      "in": "во",
       "createdAt": "креиран на",
       "publishedAt": "објавен на",
       "listings": "огласи",

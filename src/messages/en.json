@@ -195,6 +195,8 @@
       "showLess": "Show less"
     },
     "words": {
+      "numberAbbr": "no.",
+      "number": "number",
       "missingValue": "missing",
       "createdAt": "created at",
       "publishedAt": "published at",
@@ -203,6 +205,7 @@
       "for": "for",
       "and": "and",
       "no": "no",
+      "in": "in",
       "yes": "Yes",
       "without": "without",
       "filledOut": "filled out",

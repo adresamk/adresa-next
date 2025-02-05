@@ -2,8 +2,48 @@ import { redirect } from "@/i18n/routing";
 import ProfileSideMenu from "./ProfileSideMenu";
 import { getCurrentUser } from "@/lib/sessions";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Metadata } from "next";
 
 type Params = Promise<{ children: React.ReactNode }>;
+
+export const metadata: Metadata = {
+  title: {
+    default: "Мој Профил",
+    template: "%s | Профил | Adresa.mk",
+  },
+  description: "Мој Профил",
+  keywords: [
+    "realestate",
+    "real estate",
+    "недвижини",
+    "огласи",
+    "агенции",
+    "продажба",
+    "изнајмување",
+    "станови",
+    "куќи",
+    "земјишта",
+  ],
+  authors: [{ name: "Mario K", url: "https://mariok.mk" }],
+  creator: "Mario K",
+  publisher: "Adresa",
+  openGraph: {
+    title: "Мој Профил | Adresa.mk",
+    description: "Мој профил на Adresa.mk",
+    // images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: false,
+    googleBot: {
+      index: true,
+      follow: false,
+      "max-video-preview": 0,
+      "max-image-preview": "none",
+      "max-snippet": 0,
+    },
+  },
+};
 
 export default async function ProfileLayout({
   children,

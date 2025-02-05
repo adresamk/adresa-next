@@ -3,13 +3,17 @@ import { Link } from "@/i18n/routing";
 
 import { getTranslations } from "next-intl/server";
 import ResetPasswordForm from "./ResetPasswordForm";
+import { Metadata } from "next";
 
 interface ResetPasswordPageProps {
   searchParams: Promise<{
     token: string;
   }>;
 }
-
+export const metadata: Metadata = {
+  title: "Ресетирај лозинка",
+  description: "Ресетирање на лозинка на профил на Adresa.mk",
+};
 export default async function ResetPasswordPage({
   searchParams,
 }: ResetPasswordPageProps) {

@@ -13,17 +13,19 @@ import LatestListings from "./_components/LatestListings";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: {
-    default: "Adresa.mk",
-    template: "%s | Adresa.mk",
-  },
-  description: "Вебсајт за огласи за недвижини",
+  title: "Недвижини во Македонија",
+  description: "Огласи за недвижини во Македонија",
   keywords: [
     "realestate",
     "real estate",
     "недвижини",
-    "недвижински огласи",
-    "apartment",
+    "огласи",
+    "агенции",
+    "продажба",
+    "изнајмување",
+    "станови",
+    "куќи",
+    "земјишта",
   ],
   authors: [{ name: "Mario K", url: "https://mariok.mk" }],
   creator: "Mario K",
@@ -33,6 +35,11 @@ export const metadata: Metadata = {
     title: "Adresa.mk - Homepage",
     description: "Вебсајт за огласи за недвижини",
     images: ["/twitter-image.png"],
+  },
+  openGraph: {
+    title: "Adresa.mk - Homepage",
+    description: "Вебсајт за огласи за недвижини",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,

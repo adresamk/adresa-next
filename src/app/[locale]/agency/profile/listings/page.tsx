@@ -6,6 +6,16 @@ import { getUser } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { getCurrentUser } from "@/lib/sessions";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Наши огласи",
+  description: "Наши огласи кои ги имаме објавено на Adresa.mk",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function ProfileListingsPage() {
   const { isAuthenticated, agency } = await getCurrentUser();

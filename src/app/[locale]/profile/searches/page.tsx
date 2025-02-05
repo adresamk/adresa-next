@@ -5,7 +5,12 @@ import { getCurrentUser } from "@/lib/sessions";
 import { redirect } from "@/i18n/routing";
 import { getLocale, getTranslations } from "next-intl/server";
 import HireAgencyBanner from "./_components/HireAgencyBanner";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Зачувани пребарувања",
+  description: "Зачувани пребарувања за корисничкиот профил на Adresa.mk",
+};
 export default async function MySavedSearchesPage() {
   const { isAuthenticated, user } = await getCurrentUser();
   const t = await getTranslations();

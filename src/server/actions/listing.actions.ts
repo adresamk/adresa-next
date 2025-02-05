@@ -270,7 +270,7 @@ export async function createNewListing(formData: FormData) {
   const { isAuthenticated, user, agency } = await getCurrentUser();
   const locale = await getLocale();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || (!user && !agency)) {
     // const cookieStore = await cookies();
     // cookieStore.set("signin-redirect", "/listing/new");
     redirect({

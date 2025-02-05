@@ -1,10 +1,14 @@
 import SignInForm from "@/app/[locale]/(auth)/signin/SignInForm";
 import { Modal2 } from "@/components/shared/Modal2";
+import { Metadata } from "next";
 
 interface ModalSigninPageProps {
   searchParams: Promise<Record<string, string>>;
 }
-
+export const metadata: Metadata = {
+  title: "Најва во модал на Adresa.mk",
+  description: "Најва во модал на Adresa.mk",
+};
 export default async function ModalSigninPage({
   searchParams,
 }: ModalSigninPageProps) {

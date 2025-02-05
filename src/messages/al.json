@@ -195,10 +195,14 @@
       "showLess": "Fsheh tekstin"
     },
     "words": {
+      "numberAbbr": "nr.",
+      "number": "numër",
+      "broj": "број",
       "missingValue": "mungon",
       "createdAt": "Krijuar në",
       "publishedAt": "Publikuar në",
       "listings": "shpallje",
+      "in": "në",
       "listing": "shpallje",
       "for": "për",
       "and": "dhe",

@@ -15,7 +15,7 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
   const [lastName, setLastName] = useState("");
   const [tel, setTel] = useState("");
   const [message, setMessage] = useState("");
-  const [email, setEmail] = useState("macesmajli@gmail.com");
+  const [email, setEmail] = useState("");
   // I know there is an agency or null, but cant bother typing it now
   // @ts-ignore
   const agency = listing.agency;

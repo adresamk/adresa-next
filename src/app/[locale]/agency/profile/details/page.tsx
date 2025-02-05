@@ -15,8 +15,18 @@ import { UploadedImageData } from "@/types/listing.types";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import NameAndSlugInputs from "./_components/NameAndSlugInputs";
+import { Metadata } from "next";
 
 type Params = Promise<Record<string, string>>;
+
+export const metadata: Metadata = {
+  title: "Детали",
+  description: "Детали за агенција на Adresa.mk",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function AgencyProfileDetailsPage({
   searchParams,

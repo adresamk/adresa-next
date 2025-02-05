@@ -10,10 +10,14 @@ import { getUser } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/sessions";
 import { updateUserContactInfo } from "@/server/actions/user.actions";
 import { Info } from "lucide-react";
+import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
 type Params = Promise<Record<string, string>>;
-
+export const metadata: Metadata = {
+  title: "Контакт информации",
+  description: "Контакт информации за корисничкиот профил на Adresa.mk",
+};
 export default async function ProfileInfoPage({
   searchParams,
 }: {
