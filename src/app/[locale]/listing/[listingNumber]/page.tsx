@@ -107,10 +107,10 @@ export const generateMetadata = async ({
     .slice(0, 6);
   return {
     title: title,
-    description: `Страница на агенција`,
+    description: `Оглас од Adresa.mk, вебсајт за огласи за недвижини`,
     openGraph: {
       title: title,
-      description: `траница на агенција`,
+      description: `Оглас од Adresa.mk, вебсајт за огласи за недвижини`,
       images: images,
     },
     twitter: {
