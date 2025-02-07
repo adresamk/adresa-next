@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import "@/styles/global.css";
@@ -21,11 +21,16 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  userScalable: false,
+};
 export const metadata: Metadata = {
   title: {
     default: "Adresa.mk",
     template: "%s | Adresa.mk",
   },
+
   description: "Вебсајт за огласи за недвижини",
   icons: {
     icon: "/assets/adresa-favicon.png",
