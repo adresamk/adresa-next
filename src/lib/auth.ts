@@ -5,7 +5,6 @@ import prismadb from "@/lib/db";
 import { cache } from "react";
 import { cookies } from "next/headers";
 import { Account, AccountType } from "@prisma/client";
-import { validateSessionToken, SessionValidationResult } from "./sessions";
 
 const adapter = new PrismaAdapter(prismadb.session, prismadb.account);
 

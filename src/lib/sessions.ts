@@ -47,7 +47,9 @@ const getSessionCacheKey = (token: string) => {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   return ["session-validation", sessionId];
 };
-function validateSessionToken(token: string): Promise<SessionValidationResult> {
+async function validateSessionToken(
+  token: string,
+): Promise<SessionValidationResult> {
   return unstable_cache(
     async () => checkSessionValidity(token),
     getSessionCacheKey(token),

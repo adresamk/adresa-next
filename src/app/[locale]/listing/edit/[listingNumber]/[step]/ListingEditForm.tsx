@@ -62,22 +62,44 @@ export default function ListingEditForm({
     }
 
     const formData = new FormData(e.currentTarget); // Get form data
+    const currListing = { ...listing };
+    // Create optimistic update
+    const optimisticListing = {
+      ...listing,
+      // Convert FormData to object and merge with current listing
+      ...Object.fromEntries(formData.entries()),
+    };
+
+    // Update UI immediately
+    setListing(optimisticListing);
+
+    // Move to next step immediately (except for last step)
+    if (currentStepIdx !== steps.length - 1) {
+      setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[currentStepIdx + 1].uniquePath}`,
+      );
+    }
+
     const { success, error, data } = await editListing(
       { success: false },
       formData,
     );
     if (success && data) {
       setListing(data.listing);
-      // for last step don't change to next
-      if (currentStepIdx !== steps.length - 1) {
-        setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
-        window.history.pushState(
-          {},
-          "",
-          `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[currentStepIdx + 1].uniquePath}`,
-        );
-      }
+      // // for last step don't change to next
+      // if (currentStepIdx !== steps.length - 1) {
+      //   setCurrentStep(steps[currentStepIdx + 1]?.uniquePath);
+      //   window.history.pushState(
+      //     {},
+      //     "",
+      //     `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[currentStepIdx + 1].uniquePath}`,
+      //   );
+      // }
     } else {
+      setListing(currListing);
       console.log("error", error);
     }
   }

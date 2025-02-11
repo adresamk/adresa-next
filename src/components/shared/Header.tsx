@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import Dynamic from "./Dynamic";
-import ErrorBoundary from "./ErrorBoundary";
 import AdresaLogo from "./AdresaLogo";
 
 export default async function Header() {

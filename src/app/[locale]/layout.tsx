@@ -82,7 +82,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <NuqsAdapter>
             <AuthProvider>
-              <Header locale={locale} />
+              <Header />
               <NextSSRPlugin
                 /**
                  * The `extractRouterConfig` will extract **only** the route configs
