@@ -5,10 +5,9 @@ import prismadb from "@/lib/db";
 import RecentlyViewedListingCard from "./RecentlyViewedListingCard";
 import { getTranslations } from "next-intl/server";
 import { ListingStatus } from "@prisma/client";
-
-export default async function LatestListings() {
-  const t = await getTranslations();
-  const listings = await prismadb.listing.findMany({
+// Add caching directive for the data fetch
+async function getLatestListings() {
+  return prismadb.listing.findMany({
     take: 10,
     orderBy: {
       createdAt: "desc",
@@ -19,26 +18,26 @@ export default async function LatestListings() {
       status: ListingStatus.ACTIVE,
     },
   });
+}
+export default async function LatestListings() {
+  const [listings, t] = await Promise.all([
+    getLatestListings(),
+    getTranslations(),
+  ]);
 
   if (listings.length === 0) {
     return null;
   }
 
   return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ContentCarousel
-          icon={<HistoryIcon className="h-7 w-7" />}
-          title={t("home.sections.latestListings")}
-          items={listings}
-          renderItem={(listing) => (
-            <RecentlyViewedListingCard listing={listing} />
-          )}
-          contentClasses="" // Example height
-          carouselItemContainerClasses="w-[256px] md:min-w-[336px] h-[342px]"
-          carouselItemClasses="h-full"
-        />
-      </Suspense>
-    </>
+    <ContentCarousel
+      icon={<HistoryIcon className="h-7 w-7" />}
+      title={t("home.sections.latestListings")}
+      items={listings}
+      renderItem={(listing) => <RecentlyViewedListingCard listing={listing} />}
+      contentClasses="" // Example height
+      carouselItemContainerClasses="w-[256px] md:min-w-[336px] h-[342px]"
+      carouselItemClasses="h-full"
+    />
   );
 }

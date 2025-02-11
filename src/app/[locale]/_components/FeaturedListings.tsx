@@ -6,9 +6,8 @@ import RecentlyViewedListingCard from "./RecentlyViewedListingCard";
 import { getTranslations } from "next-intl/server";
 import { ListingStatus } from "@prisma/client";
 
-export default async function FeaturedListings() {
-  const t = await getTranslations();
-  const listings = await prismadb.listing.findMany({
+async function getFeaturedListings() {
+  return prismadb.listing.findMany({
     take: 5,
     where: {
       isPaidPromo: true,
@@ -17,24 +16,26 @@ export default async function FeaturedListings() {
       status: ListingStatus.ACTIVE,
     },
   });
+}
+export default async function FeaturedListings() {
+  const [t, listings] = await Promise.all([
+    getTranslations(),
+    getFeaturedListings(),
+  ]);
 
   if (listings.length === 0) {
     return null;
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ContentCarousel
-        icon={<Crown className="h-7 w-7" />}
-        title={t("home.sections.featuredListings")}
-        items={listings}
-        renderItem={(listing) => (
-          <RecentlyViewedListingCard listing={listing} />
-        )}
-        contentClasses="" // Example height
-        carouselItemContainerClasses="w-[256px] md:min-w-[336px] h-[342px]"
-        carouselItemClasses="h-full"
-      />
-    </Suspense>
+    <ContentCarousel
+      icon={<Crown className="h-7 w-7" />}
+      title={t("home.sections.featuredListings")}
+      items={listings}
+      renderItem={(listing) => <RecentlyViewedListingCard listing={listing} />}
+      contentClasses="" // Example height
+      carouselItemContainerClasses="w-[256px] md:min-w-[336px] h-[342px]"
+      carouselItemClasses="h-full"
+    />
   );
 }
