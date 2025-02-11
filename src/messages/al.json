@@ -164,6 +164,7 @@
   },
   "common": {
     "actions": {
+      "creating": "Duke krijuar",
       "saving": "Duke ruajtur",
       "upload": "Ngarko",
       "select": "Zgjidh",

@@ -11,6 +11,7 @@ import { getLocale } from "next-intl/server";
 import { AccountType } from "@prisma/client";
 import LatestListings from "./_components/LatestListings";
 import { Metadata } from "next";
+import UserComponents from "./_components/UserComponents";
 
 export const metadata: Metadata = {
   title: "Недвижини во Македонија",
@@ -54,47 +55,37 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function Home() {
-  // works on the server side
-  // const user = await getUser();
-  const { user, agency, isAuthenticated, account } = await getCurrentUser();
-  const locale = await getLocale();
-  if (!agency && !user && isAuthenticated) {
-    if (account?.role === AccountType.USER) {
-      redirect({
-        href: "/profile/info",
-        locale: locale,
-      });
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  // Prefetch user data in parallel with page render
+  const userDataPromise = getCurrentUser();
+  // Only check and redirect if needed after initial content is shown
+  userDataPromise.then(({ user, agency, isAuthenticated, account }) => {
+    if (!agency && !user && isAuthenticated) {
+      if (account?.role === AccountType.USER) {
+        redirect({
+          href: "/profile/info",
+          locale: locale,
+        });
+      } else if (account?.role === AccountType.AGENCY) {
+        redirect({
+          href: "/agency/profile/details",
+          locale: locale,
+        });
+      }
     }
-  }
-
-  if (!agency && !user && isAuthenticated) {
-    if (account?.role === AccountType.AGENCY) {
-      redirect({
-        href: "/agency/profile/details",
-        locale: locale,
-      });
-    }
-  }
+  });
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <SearchHero />
       {/* Personalized content */}
       <section className="mb-3 mt-6 w-full max-w-7xl rounded-lg border border-slate-300 bg-slate-100">
-        {user && (
-          <>
-            <UserGreeting user={user} />
-            {/* Comes from LS, but needs to go to API for the newest listings count */}
-            {/* en_recentSearches */}
-            {/* en_latestSearchedGeographies */}
-            <LastSearches />
-            {/* Comes from LS or COOKIES, keep last search there */},
-            {/* en_recentlyViewedProperties */}
-            {/* Latest Searches ? */}
-            <RecentlyViewedListings />
-          </>
-        )}
+        <UserComponents />
         <LatestListings />
         {/* <SuggestedProperties /> */}
         <FeaturedListings />

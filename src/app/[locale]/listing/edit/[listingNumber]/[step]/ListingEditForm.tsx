@@ -124,7 +124,7 @@ export default function ListingEditForm({
             <SubmitButton
               size={"sm"}
               className="m-2"
-              defaultText={t("common.actions.saveChanges")}
+              defaultText={t("common.actions.next")}
               loadingText={t("common.actions.saving")}
             />
             {/* <Button size={"sm"} className="m-2" type="submit">

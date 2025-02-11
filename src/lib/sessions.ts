@@ -15,6 +15,7 @@ import {
 import prismadb from "./db";
 import { cookies } from "next/headers";
 import { cache } from "react";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 export async function generateSessionToken(): Promise<string> {
   const bytes = new Uint8Array(20);
@@ -42,8 +43,22 @@ export async function createSession(
   });
   return session;
 }
+const getSessionCacheKey = (token: string) => {
+  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+  return ["session-validation", sessionId];
+};
+function validateSessionToken(token: string): Promise<SessionValidationResult> {
+  return unstable_cache(
+    async () => checkSessionValidity(token),
+    getSessionCacheKey(token),
+    {
+      tags: ["session-validation-revalidation-" + getSessionCacheKey(token)],
+      revalidate: 60 * 60 * 24 * 5,
+    },
+  )();
+}
 
-export async function validateSessionToken(
+async function checkSessionValidity(
   token: string,
 ): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
@@ -66,6 +81,7 @@ export async function validateSessionToken(
     where: { id: sessionId },
     data: { lastValidatedAt: new Date() },
   });
+  console.log("session token validated");
 
   if (Date.now() >= session.expiresAt.getTime()) {
     await prismadb.session.delete({ where: { id: sessionId } });
@@ -89,6 +105,7 @@ export async function validateSessionToken(
 
 export async function invalidateSession(sessionId: string): Promise<void> {
   await prismadb.session.delete({ where: { id: sessionId } });
+  revalidateTag("session-validation-revalidation-" + sessionId);
 }
 
 export type SessionValidationResult =
@@ -107,19 +124,17 @@ export const getCurrentSession: () => Promise<SessionValidationResult> = cache(
     return result;
   },
 );
-type Admin = {};
 type GetCurrentUserResult = {
   account: Account | null;
   isAuthenticated: boolean;
   user: User | null;
   agency: Agency | null;
-  admin: Admin | null;
+  admin: null;
 };
 
-export async function getCurrentUser(): Promise<GetCurrentUserResult> {
+export const getCurrentUser = cache(async (): Promise<GetCurrentUserResult> => {
   const { account, session } = await getCurrentSession();
-  // console.log("Account", account, "Session", session);
-  // console.log("Getting current user");
+
   if (session === null) {
     return {
       isAuthenticated: account ? true : false,
@@ -129,6 +144,7 @@ export async function getCurrentUser(): Promise<GetCurrentUserResult> {
       admin: null,
     };
   }
+
   if (account.role === AccountType.USER) {
     const user = await prismadb.user.findUnique({
       where: {
@@ -170,7 +186,7 @@ export async function getCurrentUser(): Promise<GetCurrentUserResult> {
     };
   }
   throw new Error("Invalid account role");
-}
+});
 
 export async function setSessionTokenCookie(
   token: string,

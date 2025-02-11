@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/routing";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import {
   Accordion,
   AccordionContent,
@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import CookiesConsent from "./CookiesConsent";
 import { cn } from "@/lib/utils";
+import AdresaLogo from "./AdresaLogo";
 
 interface FooterColumnProps {
   title: string;
@@ -81,13 +82,7 @@ export default async function Footer() {
               <div className="flex w-fit min-w-[220px] flex-col md:ml-0">
                 <div className="flex w-full flex-col md:mt-10">
                   <div className="flex gap-5 whitespace-nowrap rounded-none text-4xl font-semibold tracking-wide text-violet-950 md:mr-1.5">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      loading="lazy"
-                      src="/assets/adresa-logo.png"
-                      className="rounded-xl"
-                      alt="адреса.мк logo"
-                    />
+                    <AdresaLogo />
                   </div>
                   <div className="mt-2.5 text-sm font-medium text-neutral-600">
                     {tHome("title")}
@@ -203,7 +198,7 @@ export default async function Footer() {
                       <Link
                         target="_blank"
                         className="text-brand-light-blue"
-                        href="/page/legalTerms"
+                        href="/terms-of-use"
                       >
                         {t("Terms of Use")}
                       </Link>
@@ -212,7 +207,7 @@ export default async function Footer() {
                       <Link
                         target="_blank"
                         className="text-brand-light-blue"
-                        href="/privacyPolicy"
+                        href="/privacy-policy"
                       >
                         {t("Policies")}
                       </Link>

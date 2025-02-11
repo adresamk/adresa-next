@@ -45,7 +45,6 @@ export default function ReacentlyViewedListingCard({
   // const tags = listing?.tags || ["bla", "tag", "other tag"];
 
   //remove code when launching
-  const luckyToShowPrevPricing = Math.random() < 1 / 20;
 
   const image = listing?.mainImage as UploadedFileData;
   const title = listing[`${locale}Title` as keyof ListingTitles] || "";
@@ -101,12 +100,14 @@ export default function ReacentlyViewedListingCard({
         <span className="text-xl font-semibold">
           {displayPrice(listing.price)}
         </span>
-        {(luckyToShowPrevPricing || listing.previousPrice) && (
-          <span className="ml-2.5 inline-flex items-center text-xs text-slate-400 line-through md:text-sm">
-            <ArrowDown className="h-6 w-4" stroke="green" />{" "}
-            {listing.price ? displayPrice(listing.price + 30000) : "N/A"}
-          </span>
-        )}
+        {listing.previousPrice &&
+          listing.price &&
+          listing.previousPrice > listing.price && (
+            <span className="ml-2.5 inline-flex items-center text-xs text-slate-400 line-through md:text-sm">
+              <ArrowDown className="h-6 w-4" stroke="green" />{" "}
+              {displayPrice(listing.previousPrice)}
+            </span>
+          )}
         <span className="relative z-30 ml-auto">
           <LikeListingButton listingId={listing.id} />
         </span>

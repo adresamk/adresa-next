@@ -165,6 +165,12 @@
     }
   },
   "common": {
+    "notifications": {
+      "loggedOutSuccessfully": "Успешно сте одјавени!",
+      "loggedInSuccessfully": "Успешно сте најавени!",
+      "alreadyLoggedIn": "Веќе сте најавени!",
+      "youWillBeRedirected": "Вие ќе бидете пренасочени назад!"
+    },
     "actions": {
       "submitting": "Се закачува",
       "creating": "Се креира",

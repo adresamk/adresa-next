@@ -4,9 +4,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { UserIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { getTranslations } from "next-intl/server";
-export default async function AuthOptionsPopup() {
-  const t = await getTranslations();
+import { useTranslations } from "next-intl";
+export default function AuthOptionsPopup() {
+  const t = useTranslations();
   return (
     <div>
       <Popover>

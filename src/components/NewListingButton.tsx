@@ -1,19 +1,26 @@
+"use client";
 import { Button } from "./ui/button";
 import { HousePlus } from "lucide-react";
 import { Link } from "@/i18n/routing";
-import { getCurrentSession } from "@/lib/sessions";
-import { getTranslations } from "next-intl/server";
+import { isLoggedInClient } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
-interface NewListingButtonProps {}
+interface NewListingButtonProps {
+  isAuthenticated: boolean;
+}
 
-export default async function NewListingButton({}: NewListingButtonProps) {
-  const t = await getTranslations();
-  const { account } = await getCurrentSession();
+export default function NewListingButton({
+  isAuthenticated,
+}: NewListingButtonProps) {
+  const t = useTranslations();
+  // const { account } = await getCurrentSession();
+  // const account = isLoggedInClient();
   return (
     <>
       <Link
-        target={account ? "_blank" : undefined}
-        href={account ? "/listing/new" : "/signin"}
+        // target={account ? "_blank" : undefined}
+        href={isAuthenticated ? "/listing/new" : "/signin"}
+        // href="/listing/new"
         prefetch={true}
       >
         <Button size="sm" className="flex items-center gap-1.5 px-2.5">

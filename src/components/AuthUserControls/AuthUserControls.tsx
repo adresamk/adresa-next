@@ -1,21 +1,42 @@
+"use client";
+
 import UserControls from "./UserControls";
 import AuthOptionsPopup from "./AuthOptionsPopup";
-import { getCurrentUser } from "@/lib/sessions";
 import AuthButNoProfilePopup from "./AuthButNoProfilePopup";
+import { Agency, User } from "@prisma/client";
+import { AvatarFallback } from "../ui/avatar";
+import { Avatar } from "../ui/avatar";
+import { Loader2Icon } from "lucide-react";
 
-export default async function AuthUserControls() {
-  const { user, agency, isAuthenticated } = await getCurrentUser();
+export default function AuthUserControls({
+  authState,
+}: {
+  authState: {
+    user: User | null;
+    agency: Agency | null;
+    isAuthenticated: boolean;
+    // isLoading: boolean;
+  };
+}) {
+  // if (authState.isLoading) {
+  //   return (
+  //     <Avatar>
+  //       <AvatarFallback>
+  //         <Loader2Icon className="animate-spin" />
+  //       </AvatarFallback>
+  //     </Avatar>
+  //   ); // Or return a loading spinner/skeleton
+  // }
 
-  // console.log("header", user, agency);
-  if (user) {
-    return <UserControls user={user} />;
+  if (authState.user) {
+    return <UserControls user={authState.user} />;
   }
 
-  if (agency) {
-    return <UserControls agency={agency} />;
+  if (authState.agency) {
+    return <UserControls agency={authState.agency} />;
   }
 
-  if (isAuthenticated && !user && !agency) {
+  if (authState.isAuthenticated && !authState.user && !authState.agency) {
     return <AuthButNoProfilePopup />;
   }
 

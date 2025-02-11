@@ -5,10 +5,7 @@ import { Metadata } from "next";
 interface ModalSigninPageProps {
   searchParams: Promise<Record<string, string>>;
 }
-export const metadata: Metadata = {
-  title: "Најва во модал на Adresa.mk",
-  description: "Најва во модал на Adresa.mk",
-};
+
 export default async function ModalSigninPage({
   searchParams,
 }: ModalSigninPageProps) {

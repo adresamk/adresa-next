@@ -1,4 +1,3 @@
-
 import InitialStep from "./InitialStep";
 
 import { redirect } from "@/i18n/routing";
@@ -9,7 +8,9 @@ import { initialSteps } from "../edit/[listingNumber]/[step]/types";
 import ListingNewSideMenu from "./_components/ListingNewSideMenu";
 import { SubmitButton } from "@/components/SubmitButton";
 import { Metadata } from "next";
-
+import { Suspense } from "react";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export const metadata: Metadata = {
   title: {
     default: "Нов оглас | Adresa.mk",
@@ -37,9 +38,12 @@ const stepStatus: StepStatus = {
 // };
 
 export default async function NewListingPage() {
-  const { account } = await getCurrentUser();
-  const locale = await getLocale();
-  const t = await getTranslations();
+  const [{ account }, locale, t] = await Promise.all([
+    getCurrentUser(),
+    getLocale(),
+    getTranslations(),
+  ]);
+
   if (!account) {
     redirect({
       href: "/signin?redirect=/listing/new",
@@ -50,31 +54,31 @@ export default async function NewListingPage() {
   // const progress = 10;
   return (
     <div className="flex gap-2 p-2">
-      <ListingNewSideMenu steps={initialSteps} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ListingNewSideMenu steps={initialSteps} />
+      </Suspense>
       <div className="min-w-[460px]">
         <div className="mt-2 rounded bg-white p-2 shadow-md">
-          <form
-            // action={addNewListing}
-            action={async (formData: FormData) => {
-              "use server";
-              const result = await createNewListing(formData);
-              console.log(result);
-              if (result && result.error) {
-                // Handle error (e.g., show a notification)
-              }
-            }}
-          >
-            <InitialStep />
-            <SubmitButton
-              size={"sm"}
-              className="my-2"
-              defaultText={t("common.actions.next")}
-              loadingText={t("common.actions.creating")}
-            />
-            {/* <Button size={"sm"} className="my-2">
-              {t("common.actions.next")}
-            </Button> */}
-          </form>
+          <Suspense fallback={<div>Loading...</div>}>
+            <form
+              action={async (formData: FormData) => {
+                "use server";
+                const result = await createNewListing(formData);
+                console.log(result);
+                if (result && result.error) {
+                  // Handle error (e.g., show a notification)
+                }
+              }}
+            >
+              <InitialStep />
+              <SubmitButton
+                size={"sm"}
+                className="my-2"
+                defaultText={t("common.actions.next")}
+                loadingText={t("common.actions.creating")}
+              />
+            </form>
+          </Suspense>
         </div>
       </div>
     </div>

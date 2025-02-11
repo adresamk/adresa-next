@@ -15,6 +15,7 @@ import { Locale, routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
 import { headers } from "next/headers";
+import { AuthProvider } from "@/providers/auth-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -80,20 +81,22 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <NuqsAdapter>
-            <Header />
-            <NextSSRPlugin
-              /**
-               * The `extractRouterConfig` will extract **only** the route configs
-               * from the router to prevent additional information from being
-               * leaked to the client. The data passed to the client is the same
-               * as if you were to fetch `/api/uploadthing` directly.
-               */
-              routerConfig={extractRouterConfig(ourFileRouter)}
-            />
-            {modal}
-            {children}
-            <Footer />
-            <Toaster />
+            <AuthProvider>
+              <Header locale={locale} />
+              <NextSSRPlugin
+                /**
+                 * The `extractRouterConfig` will extract **only** the route configs
+                 * from the router to prevent additional information from being
+                 * leaked to the client. The data passed to the client is the same
+                 * as if you were to fetch `/api/uploadthing` directly.
+                 */
+                routerConfig={extractRouterConfig(ourFileRouter)}
+              />
+              {modal}
+              {children}
+              <Footer />
+            </AuthProvider>
+            <Toaster position="top-right" />
           </NuqsAdapter>
         </NextIntlClientProvider>
       </body>

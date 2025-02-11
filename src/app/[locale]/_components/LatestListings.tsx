@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Crown, HistoryIcon } from "lucide-react";
 import ContentCarousel from "./ContentCarousel";
 import prismadb from "@/lib/db";
@@ -25,14 +25,20 @@ export default async function LatestListings() {
   }
 
   return (
-    <ContentCarousel
-      icon={<HistoryIcon className="h-7 w-7" />}
-      title={t("home.sections.latestListings")}
-      items={listings}
-      renderItem={(listing) => <RecentlyViewedListingCard listing={listing} />}
-      contentClasses="" // Example height
-      carouselItemContainerClasses="w-[256px] md:min-w-[336px] h-[342px]"
-      carouselItemClasses="h-full"
-    />
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ContentCarousel
+          icon={<HistoryIcon className="h-7 w-7" />}
+          title={t("home.sections.latestListings")}
+          items={listings}
+          renderItem={(listing) => (
+            <RecentlyViewedListingCard listing={listing} />
+          )}
+          contentClasses="" // Example height
+          carouselItemContainerClasses="w-[256px] md:min-w-[336px] h-[342px]"
+          carouselItemClasses="h-full"
+        />
+      </Suspense>
+    </>
   );
 }

@@ -1,12 +1,14 @@
+"use client";
+
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { User } from "@prisma/client";
 interface UserGreetingProps {
   user: User;
 }
-export default async function UserGreeting({ user }: UserGreetingProps) {
-  const t = await getTranslations();
+export default function UserGreeting({ user }: UserGreetingProps) {
+  const t = useTranslations();
 
   return (
     <div className="mx-auto flex w-full max-w-7xl items-center justify-between rounded-t-lg border-b border-slate-300 bg-slate-50 p-4 md:p-5">
