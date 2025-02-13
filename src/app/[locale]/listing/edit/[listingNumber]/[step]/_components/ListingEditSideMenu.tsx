@@ -17,6 +17,8 @@ import {
   ListingWithRelations,
   UploadedImageData,
 } from "@/types/listing.types";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/routing";
 
 interface ListingEditSideMenuProps {
   currentStep: string;
@@ -354,7 +356,7 @@ export default function ListingEditSideMenu({
     0,
   )!;
   const formProgress = Math.round((stepsProgressSum / 800) * 100);
-  const t = useTranslations("");
+  const t = useTranslations();
   const locale = useLocale();
   const stepStatus: StepStatus = calculateStepStatus(listing, steps);
   const stepDescriptions: StepDescription = generateStepDescriptions(
@@ -384,6 +386,20 @@ export default function ListingEditSideMenu({
                 </span>
               )}
             </p>
+            <Link
+              target="_blank"
+              href={`/listing/${listing.listingNumber}`}
+              className=""
+            >
+              <Button
+                role="button"
+                variant={"outline"}
+                size={"sm"}
+                className="mt-1.5 w-full border-brand-light-blue bg-blue-50 text-sm"
+              >
+                {t(`common.actions.openListing`)}
+              </Button>
+            </Link>
           </div>
 
           <div className="mt-4">

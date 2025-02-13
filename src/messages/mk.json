@@ -173,6 +173,7 @@
     },
     "actions": {
       "submitting": "Се закачува",
+      "openListing": "Погледни го огласот",
       "creating": "Се креира",
       "saving": "Се зачувува",
       "hide": "Сокриј",

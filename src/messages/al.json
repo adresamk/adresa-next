@@ -165,6 +165,7 @@
   "common": {
     "actions": {
       "creating": "Duke krijuar",
+      "openListing": "Shiko shpalljen",
       "saving": "Duke ruajtur",
       "upload": "Ngarko",
       "select": "Zgjidh",

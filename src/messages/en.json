@@ -165,6 +165,7 @@
   "common": {
     "actions": {
       "creating": "Creating",
+      "openListing": "View listing",
       "saving": "Saving",
       "upload": "Upload",
       "select": "Select",

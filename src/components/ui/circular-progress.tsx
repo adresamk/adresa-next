@@ -5,7 +5,7 @@ export default function CircularProgress({
 }) {
   return (
     <div className="flex h-full items-center justify-center">
-      <div className="relative h-[200px] w-[200px]">
+      <div className="relative h-[80px] w-[80px]">
         <svg
           className="absolute left-0 top-0 h-full w-full -rotate-90 transform"
           viewBox="0 0 100 100"

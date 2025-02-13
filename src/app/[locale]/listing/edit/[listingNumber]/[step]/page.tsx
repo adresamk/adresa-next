@@ -1,11 +1,8 @@
 import { redirect } from "@/i18n/routing";
-import prismadb from "@/lib/db";
 import ListingEditForm from "./ListingEditForm";
-import { Step, steps } from "./types";
-import { getCurrentUser } from "@/lib/sessions";
+import { steps } from "./types";
 import { ListingWithRelations } from "@/types/listing.types";
 import { getLocale } from "next-intl/server";
-import NoAccessRedirectMessage from "./_components/NoAccessRedirectMessage";
 import { Metadata } from "next";
 import {
   getListingWithRelations,
