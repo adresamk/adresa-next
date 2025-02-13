@@ -4,38 +4,21 @@ import ContentCarousel from "./ContentCarousel";
 import prismadb from "@/lib/db";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
-import { Agency, ListingStatus } from "@prisma/client";
+import { Agency, Listing, ListingStatus } from "@prisma/client";
 import { UploadedImageData } from "@/types/listing.types";
+import { AgencyWithListingsCount } from "@/types/agency.types";
 
-type AgencyWithListings = Agency & {
-  listings: { id: string }[];
-};
-
-async function getFeaturedAgencies() {
-  return prismadb.agency.findMany({
-    take: 6,
-
-    include: {
-      listings: {
-        where: {
-          status: ListingStatus.ACTIVE,
-          isPublished: true,
-          isAvailable: true,
-        },
-        select: {
-          id: true, // You can select any field, but we only need the count
-        },
-      },
-    },
-  });
-}
-export default async function FeaturedAgencies() {
-  const [t, agencies] = await Promise.all([
+export default async function FeaturedAgencies({
+  featuredAgenciesPromise,
+}: {
+  featuredAgenciesPromise: Promise<AgencyWithListingsCount[]>;
+}) {
+  const [t, featuredAgencies] = await Promise.all([
     getTranslations(),
-    getFeaturedAgencies(),
+    featuredAgenciesPromise,
   ]);
 
-  if (agencies.length === 0) {
+  if (featuredAgencies.length === 0) {
     return null;
   }
 
@@ -43,8 +26,8 @@ export default async function FeaturedAgencies() {
     <ContentCarousel
       icon={<Gem className="h-7 w-7" />}
       title={t("home.sections.featuredAgencies")}
-      items={agencies}
-      renderItem={(agency: AgencyWithListings) => {
+      items={featuredAgencies}
+      renderItem={(agency: AgencyWithListingsCount) => {
         const logoUrl =
           (agency.logo as UploadedImageData)?.url ||
           "/assets/missing-image2.jpg";

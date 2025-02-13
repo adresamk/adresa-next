@@ -7,6 +7,10 @@ import { ListingWithRelations } from "@/types/listing.types";
 import { getLocale } from "next-intl/server";
 import NoAccessRedirectMessage from "./_components/NoAccessRedirectMessage";
 import { Metadata } from "next";
+import {
+  getListingWithRelations,
+  getStaticCategoryFeatures,
+} from "@/server/gets/everything";
 
 type Params = Promise<{ listingNumber: string; step: string }>;
 export const metadata: Metadata = {
@@ -16,76 +20,35 @@ export const metadata: Metadata = {
   },
   description: "Уредување на оглас за Adresa.mk",
 };
+export async function generateStaticParams() {
+  const locales = ["mk", "sq", "en"]; // Your supported locales
+
+  return locales.flatMap((locale) =>
+    steps.map((step) => ({
+      locale,
+      step: step.uniquePath,
+      // Note: listingNumber remains dynamic and shouldn't be included here
+    })),
+  );
+}
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
+
 export default async function EditListingPage({ params }: { params: Params }) {
   const { listingNumber, step: requestedStep } = await params;
 
   const locale = await getLocale();
-  const stepExists = steps.find(
-    (step: Step) => step.uniquePath === requestedStep,
+
+  const listing: ListingWithRelations | null = await getListingWithRelations(
+    Number(listingNumber),
   );
-  const { user, agency, account } = await getCurrentUser();
-
-  if (!account || isNaN(Number(listingNumber))) {
-    redirect({ href: "/", locale: locale });
-  }
-
-  const listing: ListingWithRelations | null =
-    await prismadb.listing.findUnique({
-      where: {
-        listingNumber: Number(listingNumber),
-      },
-      include: {
-        agency: true,
-        user: true,
-        commercial: true,
-        residential: true,
-        land: true,
-        other: true,
-        listingFeatures: {
-          include: {
-            feature: true,
-          },
-        },
-        favoritedBy: true,
-        professionalPromotion: true,
-      },
-    });
 
   if (!listing) {
-    redirect({ href: "/404", locale: locale });
-    return <div>Listing not found</div>;
+    redirect({ href: "/404", locale });
+    return;
   }
 
-  // Total mismatch
-  if (listing?.agencyId && user) {
-    return <NoAccessRedirectMessage />;
-  }
-  if (listing?.userId && agency) {
-    return <NoAccessRedirectMessage />;
-  }
-  // Correct User Type but not his listing
-  if (listing?.agencyId && agency?.id !== listing.agencyId) {
-    return <NoAccessRedirectMessage />;
-  }
-  // Correct User Type but not his listing
-  if (listing?.userId && user?.id !== listing.userId) {
-    return <NoAccessRedirectMessage />;
-  }
-
-  if (!stepExists) {
-    redirect({
-      href: `/listing/edit/${listingNumber}/${steps[0].uniquePath}`,
-      locale: locale,
-    });
-  }
-
-  const allCategoryFeatures = await prismadb.feature.findMany({
-    where: {
-      applicableTypes: {
-        hasSome: [listing.category, "all"],
-      },
-    },
-  });
+  const allCategoryFeatures = await getStaticCategoryFeatures(listing.category);
   return (
     <div className="flex gap-2 p-2">
       <ListingEditForm

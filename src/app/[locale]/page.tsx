@@ -1,20 +1,22 @@
-import Banner from "@/components/shared/Banner";
 import SearchHero from "./_components/SearchHero";
-import UserGreeting from "./_components/UserGreeting";
-import LastSearches from "./_components/LastSearches";
-import RecentlyViewedListings from "./_components/RecentlyViewedListings";
+
 import FeaturedListings from "./_components/FeaturedListings";
 import FeaturedAgencies from "./_components/FeaturedAgencies";
-import { getCurrentUser } from "@/lib/sessions";
-import { redirect } from "@/i18n/routing";
-import { getLocale } from "next-intl/server";
-import { AccountType } from "@prisma/client";
+
+// export const dynamic = "force-static";
 import LatestListings from "./_components/LatestListings";
 import { Metadata } from "next";
-import UserComponents from "./_components/UserComponents";
+// import UserComponents from "./_components/UserComponents";
+
 import { ListingsLoadingSkeleton } from "./_components/skeletons/ListingsLoadingSkeleton";
 import { Suspense } from "react";
 import { AgenciesLoadingSkeleton } from "./_components/skeletons/AgenciesLoadingSkeleton";
+
+import UserComponentsClient from "./_components/UserComponentsClient";
+import {
+  getCachedFeaturedAgencies,
+  getCachedFeaturedListings,
+} from "@/server/gets/cached";
 
 export const metadata: Metadata = {
   title: "Недвижини во Македонија",
@@ -60,12 +62,19 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
+export async function generateStaticParams() {
+  return [{ locale: "mk" }, { locale: "en" }, { locale: "al" }];
+}
+
 export default async function Home({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const featuredListingsPromise = getCachedFeaturedListings();
+  const featuredAgenciesPromise = getCachedFeaturedAgencies();
+
+  // TODO:
   // Prefetch user data in parallel with page render
   // const userDataPromise = getCurrentUser();
   // // Only check and redirect if needed after initial content is shown
@@ -90,20 +99,18 @@ export default async function Home({
       <SearchHero />
       {/* Personalized content */}
       <section className="mb-3 mt-6 w-full max-w-7xl rounded-lg border border-slate-300 bg-slate-100">
-        <Suspense>
-          <UserComponents />
-        </Suspense>
+        <UserComponentsClient />
         <Suspense fallback={<ListingsLoadingSkeleton />}>
           <LatestListings />
         </Suspense>
         {/* <SuggestedProperties /> */}
         <Suspense fallback={<ListingsLoadingSkeleton />}>
-          <FeaturedListings />
+          <FeaturedListings featuredListingsPromise={featuredListingsPromise} />
         </Suspense>
         {/* <Banner /> */}
         {/* <SuggestedAgencies /> */}
         <Suspense fallback={<AgenciesLoadingSkeleton />}>
-          <FeaturedAgencies />
+          <FeaturedAgencies featuredAgenciesPromise={featuredAgenciesPromise} />
         </Suspense>
       </section>
     </main>

@@ -10,11 +10,14 @@ import { getLocale, getTranslations } from "next-intl/server";
 import HireAgencyBanner from "../searches/_components/HireAgencyBanner";
 import FeaturedAgencies from "../../_components/FeaturedAgencies";
 import { Metadata } from "next";
+import { getFeaturedListings } from "@/server/gets/everything";
+import { getCachedFeaturedAgencies } from "@/server/gets/cached";
 export const metadata: Metadata = {
   title: "Сочувани огласи",
   description: "Сочувани огласи за корисничкиот профил на Adresa.mk",
 };
 export default async function ProfileLikedPage() {
+  const featuredAgenciesPromise = getCachedFeaturedAgencies();
   const { isAuthenticated, user } = await getCurrentUser();
   const t = await getTranslations();
   const locale = await getLocale();
@@ -46,7 +49,7 @@ export default async function ProfileLikedPage() {
       </div>
       <HireAgencyBanner />
       <div className="verflow-x-auto rounded-lg bg-white shadow">
-        <FeaturedAgencies />
+        <FeaturedAgencies featuredAgenciesPromise={featuredAgenciesPromise} />
       </div>
     </div>
   );
