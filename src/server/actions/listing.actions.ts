@@ -1,9 +1,9 @@
 "use server";
 
 import prismadb from "@/lib/db";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { notFound } from "next/navigation";
-import { redirect } from "@/i18n/routing";
+import { redirect, routing } from "@/i18n/routing";
 import { IResult, UAParser } from "ua-parser-js";
 
 import {
@@ -27,7 +27,31 @@ import {
 import { ParsedQueryParams } from "@/lib/filters";
 import { getLocale } from "next-intl/server";
 import { checkListingCompleteness } from "@/lib/utils";
+export async function revalidateListingPage(listingNumber: number) {
+  // Revalidate the specific listing page across all locales
+  routing.locales.forEach((locale) => {
+    revalidatePath(`/${locale}/listing/${listingNumber}`);
+  });
+  // Also revalidate listing-related tags
+  // revalidateTag("listings");
+}
 
+// Add this function to generate static page when listing becomes active
+export async function generateStaticListingPage(listingNumber: number) {
+  try {
+    // Generate static pages for all locales
+    const promises = routing.locales.map(async (locale) => {
+      const url = `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/listing/${listingNumber}`;
+      await fetch(url, { method: "GET" });
+    });
+
+    await Promise.all(promises);
+    return true;
+  } catch (error) {
+    console.error("Failed to generate static page:", error);
+    return false;
+  }
+}
 export async function getListingsByIdForRecentlyViewed(
   listingNumbers: number[],
 ) {
@@ -1440,6 +1464,12 @@ async function editPublishing(formData: FormData) {
     },
   });
 
+  if (newStatus === ListingStatus.ACTIVE) {
+    // we dont wait for this to finish, because it is not critical
+    console.log("Generating static listing page for ", listingId);
+    generateStaticListingPage(Number(listingId));
+  }
+
   const updatedListing = (await prismadb.listing.findUnique({
     where: {
       id: Number(listingId),
@@ -1555,6 +1585,10 @@ export async function editListing(
     default:
       break;
   }
+
+  // we dont wait for this to finish, because it is not critical
+  console.log("Revalidating listing page for ", listingId);
+  revalidateListingPage(Number(listingId));
   return output;
 }
 

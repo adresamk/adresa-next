@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { User, Agency, Account } from "@prisma/client";
+import { deleteCookie } from "@/lib/utils";
+import { redirect } from "next/navigation";
 export type GetCurrentUserResult = {
   account: Account | null;
   isAuthenticated: boolean;
@@ -40,5 +42,7 @@ export const useCurrentUser = create<CurrentUserState>((set) => ({
       agency: null,
       admin: null,
     });
+    deleteCookie("auth-session");
+    redirect("/");
   },
 }));

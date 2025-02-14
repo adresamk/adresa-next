@@ -1,19 +1,34 @@
-// export const dynamic = "force-static";
-export const revalidate = 60;
+export const dynamic = "force-static";
+export const revalidate = 3600;
 
-// export const metadata = {
-//   title: "Listing Details",
-//   description: "View property listing details",
-//   openGraph: {
-//     title: "Listing Details",
-//     description: "View property listing details",
-//   },
-// };
+export async function generateStaticParams() {
+  // Get all active listings
+  const listings = await prismadb.listing.findMany({
+    where: {
+      status: ListingStatus.ACTIVE,
+    },
+    select: {
+      listingNumber: true,
+    },
+    take: 1,
+  });
+
+  // Generate params for all locales and listings
+  const params = listings.flatMap((listing) => {
+    const locales = ["en", "mk", "al"];
+    return locales.map((locale) => ({
+      locale,
+      listingNumber: listing.listingNumber.toString(),
+    }));
+  });
+  console.log("Params for generateStaticParams", params);
+
+  return params;
+}
 
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Edit, Info } from "lucide-react";
+import { Edit, Info } from "lucide-react";
 
-import { AirVentIcon, Heart, Percent } from "lucide-react";
 import MiniContactForm from "./_components/MiniContactForm";
 import RevealButton from "@/components/shared/RevealButton";
 import { cn, displayArea, displayDate } from "@/lib/utils";
@@ -48,23 +63,18 @@ import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantD
 import ListingFeatures from "./_components/ListingFeatures";
 import { ExpandableDescription } from "./_components/ExpandableDescription";
 import { Metadata } from "next";
-import {
-  getListing,
-  registerListingView,
-} from "@/server/actions/listing.actions";
+import { registerListingView } from "@/server/actions/listing.actions";
 import { headers } from "next/headers";
 import CalculateMortgageButton from "./_components/CalculateMortgageButton";
 import ImportantFeatures from "./_components/ImportantFeatures";
 import BackButton from "./_components/BackButton";
 import RecentlyViewedListingHandler from "./_components/RecentlyViewedListingHandler";
-import { getUser } from "@/lib/auth";
-import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
-import TransactionType from "@/components/shared/filters/primary/TransactionTypeFilter";
-import { RoutingConfig } from "next-intl/routing";
+import { getCurrentUser } from "@/lib/sessions";
 
 interface SingleListingPageProps {
   params: Promise<{
     listingNumber: string;
+    locale: string;
   }>;
 }
 
@@ -74,7 +84,10 @@ export const generateMetadata = async ({
   params: Promise<{ listingNumber: string; locale: string }>;
 }): Promise<Metadata> => {
   const { listingNumber, locale } = await params;
+  console.log("Params for generateMetadata", locale);
   const t = await getTranslations();
+  const locale2 = await getLocale();
+  console.log("Current locale from getTranslations:", locale2);
   const listing = await prismadb.listing.findUnique({
     where: {
       listingNumber: Number(listingNumber),
@@ -164,14 +177,14 @@ function generateDescriptionAndTitle(listing: Listing, loc: string) {
 export default async function SingleListingPage({
   params,
 }: SingleListingPageProps) {
-  const { listingNumber } = await params;
+  const { listingNumber, locale } = await params;
   const { agency, user } = await getCurrentUser();
 
   // console.log("listingNumber", listingNumber);
   if (isNaN(Number(listingNumber))) {
     return <div>Not a listing number</div>;
   }
-  const locale = await getLocale();
+  // const locale = await getLocale();
   const headersList = await headers();
 
   const listing = (await prismadb.listing.findUnique({
@@ -227,6 +240,7 @@ export default async function SingleListingPage({
   // let title = listing[`${locale}Title` as keyof ListingTitles] || "";
 
   const { description, title } = generateDescriptionAndTitle(listing, locale);
+  console.log("Generated content for locale:", locale, { title, description });
   const fullAddress = `${currentMunicipalityLabel || t("common.words.missingValue")}, ${currentPlaceLabel || t("common.words.missingValue")}, ${listing.address || t("common.words.missingValue")}`;
   const pinPopupText = `${t(`common.property.type.${listing.type}`)}, ${displayArea(listing.area)}, ${currentPlaceLabel}, ${currentMunicipalityLabel}, `;
   // const rawListing = await getListing(listingNumber);

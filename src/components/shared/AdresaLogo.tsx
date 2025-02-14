@@ -4,7 +4,7 @@ import { Link } from "@/i18n/routing";
 import { useLocale } from "next-intl";
 export default function AdresaLogo() {
   const locale = useLocale();
-  console.log("locale", locale);
+  // console.log("locale", locale);
   return (
     <Link href="/">
       {/* eslint-disable-next-line @next/next/no-img-element */}

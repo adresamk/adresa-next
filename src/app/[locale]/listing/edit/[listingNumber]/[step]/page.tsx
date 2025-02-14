@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "Уредување на оглас за Adresa.mk",
 };
 export async function generateStaticParams() {
-  const locales = ["mk", "sq", "en"]; // Your supported locales
+  const locales = ["mk", "al", "en"]; // Your supported locales
 
   return locales.flatMap((locale) =>
     steps.map((step) => ({
