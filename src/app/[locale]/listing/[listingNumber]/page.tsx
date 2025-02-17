@@ -10,7 +10,7 @@ export async function generateStaticParams() {
     select: {
       listingNumber: true,
     },
-    take: 5,
+    // take: 5,
   });
 
   // Generate params for all locales and listings
