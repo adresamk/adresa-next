@@ -16,6 +16,7 @@ import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
 import { headers } from "next/headers";
 import { AuthProvider } from "@/providers/auth-provider";
+import OfflineDetector from "@/components/OfflineDetector";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -79,6 +80,7 @@ export default async function RootLayout({
           fontSans.variable,
         )}
       >
+        <OfflineDetector />
         <NextIntlClientProvider messages={messages}>
           <NuqsAdapter>
             <AuthProvider>
