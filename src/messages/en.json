@@ -32,6 +32,7 @@
     "securityMessage": "By clicking \"Complete purchase\" you will be redirected to a secure banking system."
   },
   "map": {
+    "refocus": "Refocus",
     "notSet": "Location not set",
     "attribution": "© OpenStreetMap contributors",
     "searchInArea": "Search in this area",

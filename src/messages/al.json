@@ -32,6 +32,7 @@
     "securityMessage": "Duke klikuar \"Përfundo blerjen\" do të ridrejtoheni në një sistem të sigurt bankar."
   },
   "map": {
+    "refocus": "Vendos në lokacionin",
     "notSet": "Lokacioni nuk është vendosur",
     "attribution": "© Kontribuesit e OpenStreetMap",
     "searchInArea": "Kërko në këtë zonë",

@@ -46,6 +46,7 @@ const LanguagePicker = () => {
             { pathname, params },
             {
               locale: nextLocale as Locale,
+              scroll: false,
             },
           );
         }}

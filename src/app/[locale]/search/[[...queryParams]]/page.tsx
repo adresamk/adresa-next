@@ -43,10 +43,10 @@ export async function generateMetadata({
   const locationLabel = l
     ?.split(",")
     .map((place: string) => {
-      console.log("place", place);
+      // console.log("place", place);
       if (place.startsWith("0")) {
         const region = regions.find((r) => r.value === place);
-        console.log("region", region);
+        // console.log("region", region);
         return region?.label[locale as keyof typeof region.label];
       }
       const municipality = muniTranslated.find((m) => m.value === place)?.label;
@@ -100,8 +100,8 @@ export default async function SearchPage({
 
   const { queryParams, locale } = await params;
 
-  console.log("queryParams", queryParams);
-  console.log("searchParams", parsedSearchParams);
+  // console.log("queryParams", queryParams);
+  // console.log("searchParams", parsedSearchParams);
 
   const parsedQueryParams = parseQueryParams(queryParams);
   // console.log("parsedQueryParams", parsedQueryParams);

@@ -57,7 +57,7 @@ const footerColumns: FooterColumnProps[] = [
     title: "Terms",
     items: [
       { text: "Terms of Use", href: "terms-of-use" },
-      { text: "Policies", href: "policies" },
+      { text: "Policies", href: "privacy-policy" },
     ],
   },
   {

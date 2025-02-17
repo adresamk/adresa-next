@@ -10,7 +10,7 @@ export async function generateStaticParams() {
     select: {
       listingNumber: true,
     },
-    take: 1,
+    take: 5,
   });
 
   // Generate params for all locales and listings
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
       listingNumber: listing.listingNumber.toString(),
     }));
   });
-  console.log("Params for generateStaticParams", params);
+  // console.log("Params for generateStaticParams", params);
 
   return params;
 }
@@ -46,7 +46,7 @@ import { Link, redirect, routing } from "@/i18n/routing";
 import ListingActions from "./_components/ListingActions";
 import ListingImages from "./_components/ListingImages";
 import FeaturesTable from "./_components/FeaturesTable";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 
 import StickyControls from "./_components/StickyControls";
 
@@ -70,6 +70,7 @@ import ImportantFeatures from "./_components/ImportantFeatures";
 import BackButton from "./_components/BackButton";
 import RecentlyViewedListingHandler from "./_components/RecentlyViewedListingHandler";
 import { getCurrentUser } from "@/lib/sessions";
+import { Suspense } from "react";
 
 interface SingleListingPageProps {
   params: Promise<{
@@ -84,10 +85,12 @@ export const generateMetadata = async ({
   params: Promise<{ listingNumber: string; locale: string }>;
 }): Promise<Metadata> => {
   const { listingNumber, locale } = await params;
-  console.log("Params for generateMetadata", locale);
-  const t = await getTranslations();
-  const locale2 = await getLocale();
-  console.log("Current locale from getTranslations:", locale2);
+  setRequestLocale(locale);
+
+  // console.log("Params for generateMetadata", locale);
+  const t = await getTranslations({ locale });
+  // const locale2 = await getLocale();
+  // console.log("Current locale from getTranslations:", locale2);
   const listing = await prismadb.listing.findUnique({
     where: {
       listingNumber: Number(listingNumber),
@@ -178,6 +181,8 @@ export default async function SingleListingPage({
   params,
 }: SingleListingPageProps) {
   const { listingNumber, locale } = await params;
+  setRequestLocale(locale);
+
   const { agency, user } = await getCurrentUser();
 
   // console.log("listingNumber", listingNumber);
@@ -206,7 +211,7 @@ export default async function SingleListingPage({
     return null;
   }
 
-  await registerListingView(listing.id, {
+  registerListingView(listing.id, {
     headersList,
     locale,
   });
@@ -240,7 +245,7 @@ export default async function SingleListingPage({
   // let title = listing[`${locale}Title` as keyof ListingTitles] || "";
 
   const { description, title } = generateDescriptionAndTitle(listing, locale);
-  console.log("Generated content for locale:", locale, { title, description });
+  // console.log("Generated content for locale:", locale, { title, description });
   const fullAddress = `${currentMunicipalityLabel || t("common.words.missingValue")}, ${currentPlaceLabel || t("common.words.missingValue")}, ${listing.address || t("common.words.missingValue")}`;
   const pinPopupText = `${t(`common.property.type.${listing.type}`)}, ${displayArea(listing.area)}, ${currentPlaceLabel}, ${currentMunicipalityLabel}, `;
   // const rawListing = await getListing(listingNumber);
@@ -299,11 +304,15 @@ export default async function SingleListingPage({
       <StickyControls listing={listing} />
       {/* Images */}
       <section className="mx-auto w-full px-5 lg:max-w-7xl">
-        <ListingImages
-          listing={listing}
-          currentMunicipalityLabel={currentMunicipalityLabel || ""}
-          currentPlaceLabel={currentPlaceLabel || ""}
-        />
+        <Suspense
+          fallback={<div className="h-[400px] animate-pulse bg-slate-200" />}
+        >
+          <ListingImages
+            listing={listing}
+            currentMunicipalityLabel={currentMunicipalityLabel || ""}
+            currentPlaceLabel={currentPlaceLabel || ""}
+          />
+        </Suspense>
       </section>
       {/* Main section with Info */}
       <section className="mx-auto w-full px-5 lg:max-w-7xl">
@@ -394,15 +403,28 @@ export default async function SingleListingPage({
                 {t("common.property.location")}
               </h3>
               <p className="my-2.5 text-xl font-light">{fullAddress}</p>
-              <MapLocationPreview
-                listing={listing}
-                pinPopupText={pinPopupText}
-              />
+              <Suspense
+                fallback={
+                  <div className="h-[400px] animate-pulse bg-slate-200" />
+                }
+              >
+                <MapLocationPreview
+                  listing={listing}
+                  pinPopupText={pinPopupText}
+                />
+              </Suspense>
             </div>
+
             <Separator className="my-3 bg-slate-400" />
             {/* Mortgage Calculator */}
             {listing.transactionType === PropertyTransactionType.sale && (
-              <MortgageCalculator initialPrice={listing.price || 0} />
+              <Suspense
+                fallback={
+                  <div className="h-[400px] animate-pulse bg-slate-200" />
+                }
+              >
+                <MortgageCalculator initialPrice={listing.price || 0} />
+              </Suspense>
             )}
             {/* Publisher  */}
             <div className="my-6">
@@ -414,7 +436,13 @@ export default async function SingleListingPage({
           </div>
           {/* Listing Sidebar */}
           <div className="w-full max-w-full flex-shrink-0 pt-9 md:w-[330px] lg:w-[380px]">
-            <MiniContactForm listing={listing} />
+            <Suspense
+              fallback={
+                <div className="h-[400px] animate-pulse bg-slate-200" />
+              }
+            >
+              <MiniContactForm listing={listing} />
+            </Suspense>
           </div>
         </div>
         {/* Publisher (Agency) Details */}

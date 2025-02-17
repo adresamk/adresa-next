@@ -13,14 +13,14 @@ import { useLocale, useTranslations } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { useParams } from "next/navigation";
 
-export default async function FeaturesTable({ listing }: { listing: Listing }) {
+export default function FeaturesTable({ listing }: { listing: Listing }) {
   // const t = await getTranslations();
   // const locale = await getLocale();
   const t = useTranslations();
   const locale = useLocale();
   const params = useParams();
-  console.log("locale from FT", locale);
-  console.log("params from FT", params);
+  // console.log("locale from FT", locale);
+  // console.log("params from FT", params);
   const lwr = listing as ListingWithRelations;
 
   const features = {
