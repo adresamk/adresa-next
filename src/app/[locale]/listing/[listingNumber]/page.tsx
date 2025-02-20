@@ -159,19 +159,19 @@ function generateDescriptionAndTitle(listing: Listing, loc: string) {
       "";
     const title = listing.enTitle || listing.mkTitle || listing.alTitle || "";
   } else if (locale === "al") {
-    const description =
+    description =
       listing.alDescription ||
       listing.mkDescription ||
       listing.enDescription ||
       "";
-    const title = listing.alTitle || listing.mkTitle || listing.enTitle || "";
+    title = listing.alTitle || listing.mkTitle || listing.enTitle || "";
   } else if (locale === "mk") {
-    const description =
+    description =
       listing.mkDescription ||
       listing.enDescription ||
       listing.alDescription ||
       "";
-    const title = listing.mkTitle || listing.enTitle || listing.alTitle || "";
+    title = listing.mkTitle || listing.enTitle || listing.alTitle || "";
   }
   return { description, title };
 }
