@@ -44,9 +44,10 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
     <Breadcrumb>
       <BreadcrumbList className="justify-center gap-0.5 md:gap-0.5">
         <BreadcrumbItem className="text-xs">
-          <BreadcrumbLink href={`/search?mode=${listing.transactionType}`}>
-            {t("search.filters.mode." + listing.transactionType)}
-          </BreadcrumbLink>
+          {/* it is not link but it should return to homepage with sale/rent  preselected i think */}
+          {/* <BreadcrumbLink href={`/search?mode=${listing.transactionType}`}> */}
+          {t("search.filters.mode." + listing.transactionType)}
+          {/* </BreadcrumbLink> */}
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem className="text-xs">
