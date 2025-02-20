@@ -10,7 +10,7 @@ export async function generateStaticParams() {
     select: {
       listingNumber: true,
     },
-    // take: 5,
+    take: 1,
   });
 
   // Generate params for all locales and listings
@@ -85,8 +85,7 @@ export const generateMetadata = async ({
   params: Promise<{ listingNumber: string; locale: string }>;
 }): Promise<Metadata> => {
   const { listingNumber, locale } = await params;
-  setRequestLocale(locale);
-
+  setRequestLocale(locale); // probably not needed here since we have it down
   // console.log("Params for generateMetadata", locale);
   const t = await getTranslations({ locale });
   // const locale2 = await getLocale();
@@ -254,7 +253,9 @@ export default async function SingleListingPage({
 
   return (
     <article className="">
-      <RecentlyViewedListingHandler listing={listing} />
+      <Suspense>
+        <RecentlyViewedListingHandler listing={listing} />
+      </Suspense>
       {isOwner && (
         <section className="mx-auto w-full px-5 py-5 text-sm lg:max-w-7xl">
           <div

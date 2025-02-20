@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import PublishingDetails from "./PublishingDetails";
 import { Listing } from "@prisma/client";
+import { Link } from "@/i18n/routing";
 
 interface Step9Props {
   listing: Listing;

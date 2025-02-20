@@ -27,9 +27,9 @@ const icons = {
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> => {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const agency = await prismadb.agency.findUnique({
     where: {
       slug: slug,
@@ -38,6 +38,8 @@ export const generateMetadata = async ({
       logo: true,
     },
   });
+  // get the Stranica na agencija from translations
+  // but we need to pass const t = await getTranslations({locale, namespace: 'path'});
   return {
     title: `${slug} Страница на агенција`,
     description: `${slug} Страница на агенција`,

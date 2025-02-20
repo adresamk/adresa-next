@@ -21,6 +21,7 @@ export default function RecentlyViewedListingHandler({
   // and hompage counts for the savedsearches to get count and new links
   // load then show
   useEffect(() => {
+    console.log("RecentlyViewedListingHandler");
     const addToRecentlyViewed = () => {
       const recentlyViewedListings: RecentlyViewedListing[] =
         readFromLocalStorage("recentlyViewedListings") || [];

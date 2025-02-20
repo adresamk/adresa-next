@@ -17,7 +17,7 @@ export default function UserComponents() {
       {/* en_recentSearches */}
       {/* en_latestSearchedGeographies */}
       <LastSearches />
-      {/* Comes from LS or COOKIES, keep last search there */},
+      {/* Comes from LS or COOKIES, keep last search there */}
       {/* en_recentlyViewedProperties */}
       {/* Latest Searches ? */}
       <RecentlyViewedListings />
