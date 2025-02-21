@@ -276,7 +276,7 @@ export default async function SingleListingPage({
               </h4>
               <Link href={`/listing/edit/${listing.listingNumber}`}>
                 <Button>
-                  {" "}
+                  {"  "}
                   <Edit className="mr-2 h-4 w-4" /> {t("common.actions.edit")}
                 </Button>
               </Link>
