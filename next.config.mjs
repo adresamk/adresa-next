@@ -35,6 +35,9 @@ const nextConfig = {
       {
         hostname: "avatars.githubusercontent.com",
       },
+      {
+        hostname: "media.pazar3.mk",
+      },
     ],
   },
   transpilePackages: ["leaflet", "react-leaflet"],

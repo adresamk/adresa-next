@@ -292,7 +292,8 @@ export default function LocationFilter({ variant }: LocationFilterProps) {
         setisOpen(true);
       }}
       className={cn(
-        "location relative w-full flex-grow rounded-b-none border-b border-slate-200 sm:pr-[220px] xl:w-auto xl:flex-1 xl:rounded-xl xl:border-b-0 xl:pr-0",
+        // xl:w-auto xl:flex-1 xl:rounded-xl xl:border-b-0 xl:pr-0
+        "location relative w-full flex-grow rounded-b-none border-b border-slate-200 sm:pr-[220px]",
       )}
     >
       {/* <div>{isOpen ? "is" : "|"}</div> */}

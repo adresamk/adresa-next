@@ -380,7 +380,7 @@ export default async function SingleListingPage({
               <ExpandableDescription
                 text={description}
                 maxHeight={130}
-                className="text-lg text-gray-700 duration-1000"
+                className="text-base text-gray-700 duration-1000"
               />
             </div>
 

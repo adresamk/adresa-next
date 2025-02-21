@@ -13,7 +13,8 @@ export default function SearchFilter() {
   const focusedFilter = useSelectedFilter((store) => store.selectedFilter);
 
   return (
-    <section className="mx-5 flex w-full max-w-7xl flex-col gap-1 rounded-3xl border border-slate-300 bg-white/30 p-6 px-5 backdrop-blur">
+    <section className="mx-5 flex w-full max-w-4xl flex-col gap-1 rounded-3xl border border-slate-300 bg-white/30 p-6 px-5 backdrop-blur">
+      {/* max-w-7xl */}
       <TransactionTypeFilter variant="homepage" />
       <div
         className={cn(
@@ -26,7 +27,8 @@ export default function SearchFilter() {
         <PriceFilter variant="homepage" />
         <AreaFilter variant="homepage" />
 
-        <div className="xl:right flex w-full items-center justify-center p-5 pl-1.5 sm:absolute sm:right-0 sm:top-0 sm:max-w-[205px] xl:static xl:top-0">
+        {/* xl:static xl:right-0 xl:top-0 */}
+        <div className="flex w-full items-center justify-center p-5 pl-1.5 sm:absolute sm:right-0 sm:top-0 sm:max-w-[205px]">
           <SearchButton variant="homepage" />
         </div>
       </div>
