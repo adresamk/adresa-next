@@ -81,6 +81,9 @@ model Agency {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // 
+  isPublic Boolean @default(true)
+
   // Owner info for when Adresa needs to contact the agency
   ownerFirstName         String? @db.VarChar(50)
   ownerLastName          String? @db.VarChar(50)
