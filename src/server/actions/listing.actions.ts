@@ -20,6 +20,7 @@ import {
 } from "@prisma/client";
 import { getCurrentSession, getCurrentUser } from "@/lib/sessions";
 import {
+  ExternalListingData,
   ListingWithRelations,
   listingWithRelationsInclude,
   UploadedImageData,
@@ -1820,91 +1821,14 @@ export async function registerListingView(
     },
   });
 }
+function figureOutListing(listingsToProcess: ExternalListingData[]) {
+  //
 
-type ExternalListingData = {
-  externalRef: string;
-  transactionType: PropertyTransactionType;
-  category: PropertyCategory;
-  type: PropertyType;
-  // Location
-  municipality?: string;
-  place?: string;
-  address?: string;
-  coordinates?: {
-    latitude: number;
-    longitude: number;
-  };
-  locationPrecision?: LocationPrecision;
-  // Main characteristics
-  title: {
-    en?: string;
-    mk?: string;
-    al?: string;
-  };
-  description: {
-    en?: string;
-    mk?: string;
-    al?: string;
-  };
-  price: number;
-  area: number;
-  // Media
-  images?: UploadedImageData[];
-  videoLink?: string;
-  // Additional data based on category
-  residential?: {
-    propertyType: ResidentalPropertyType;
-    floor?: string;
-    totalFloors?: number;
-    orientation?: string;
-    zone?: string;
-    constructionYear?: number;
-    totalPropertyArea?: number;
-    isFurnished?: boolean;
-    isForStudents?: boolean;
-    isForHolidayHome?: boolean;
-    commonExpenses?: number;
-    heatingType?: string;
-    heatingMedium?: string;
-    bathroomCount?: number;
-    wcCount?: number;
-    kitchenCount?: number;
-    livingRoomCount?: number;
-    bedroomCount?: number;
-  };
-  commercial?: {
-    propertyType: CommercialPropertyType;
-    constructionYear?: number;
-    totalPropertyArea?: number;
-    floor?: number;
-    isCornerProperty?: boolean;
-    isOnTopFloor?: boolean;
-    accessFrom?: string;
-    commonExpenses?: number;
-    heatingType?: string;
-    heatingMedium?: string;
-    wcCount?: number;
-  };
-  land?: {
-    propertyType: LandPropertyType;
-    isCornerProperty?: boolean;
-    orientation?: string;
-    zone?: string;
-    accessFrom?: string;
-    slope?: string;
-  };
-  other?: {
-    propertyType: OtherPropertyType;
-    accessFrom?: string;
-    totalPropertyArea?: number;
-  };
-  // Publishing info
-  status?: ListingStatus;
-  isPublished?: boolean;
-};
-
+  const listings = [] as ListingWithRelations[];
+  return listings;
+}
 export async function createListingsFromWebhook(
-  data: ExternalListingData[],
+  listingsToProcessRaw: ExternalListingData[],
   clientSlug: string,
 ) {
   // Verify API key
@@ -1927,144 +1851,126 @@ export async function createListingsFromWebhook(
       };
     }
 
-    // Get the next available listing number
-    // let listingNumber = await prismadb.counter.findUnique({
-    //   where: {
-    //     name: "listing-number-counter",
-    //   },
-    // });
-
-    // if (!listingNumber) {
-    //   listingNumber = await prismadb.counter.create({
-    //     data: {
-    //       name: "listing-number-counter",
-    //       value: 10000,
-    //     },
-    //   });
-    // }
-
-    // let currentListingNumber = listingNumber.value;
-
+    const listingsToProcess = figureOutListing(listingsToProcessRaw);
     // Process all listings in a transaction
     const createdListings = await prismadb.$transaction(async (tx) => {
       const listings = [];
 
-      for (const item of data) {
+      for (const l of listingsToProcess) {
         // currentListingNumber++;
 
         // Create the listing with all related data
         const listing = await tx.listing.create({
           data: {
             uuid: crypto.randomUUID(),
-            externalRef: item.externalRef,
+            externalRef: l.externalRef,
             // listingNumber: currentListingNumber,
             // Assign to agency
             agencyId: agency.id,
-            transactionType: item.transactionType,
-            category: item.category,
-            type: item.type,
+            transactionType: l.transactionType,
+            category: l.category,
+            type: l.type,
 
             // Location data
-            municipality: item.municipality,
-            place: item.place,
-            address: item.address,
-            fullAddress: item.address
-              ? `${item.municipality}, ${item.place}, ${item.address}`
+            municipality: l.municipality,
+            place: l.place,
+            address: l.address,
+            fullAddress: l.address
+              ? `${l.municipality}, ${l.place}, ${l.address}`
               : "",
-            longitude: item.coordinates?.longitude,
-            latitude: item.coordinates?.latitude,
-            locationPrecision: item.locationPrecision || "exact",
+            // longitude: l.coordinates?.longitude,
+            // latitude: l.coordinates?.latitude,
+            locationPrecision: l.locationPrecision || "exact",
 
             // Main characteristics
-            enTitle: item.title.en || "",
-            mkTitle: item.title.mk || "",
-            alTitle: item.title.al || "",
-            enDescription: item.description.en,
-            mkDescription: item.description.mk,
-            alDescription: item.description.al,
-            price: item.price,
-            area: item.area,
+            // enTitle: l.title.en || "",
+            // mkTitle: l.title.mk || "",
+            // alTitle: l.title.al || "",
+            // enDescription: l.description.en,
+            // mkDescription: l.description.mk,
+            // alDescription: l.description.al,
+            price: l.price,
+            area: l.area,
 
             // Media
-            images: item.images || [],
-            mainImage: item.images?.[0] || {},
-            videoLink: item.videoLink,
+            images: l.images || [],
+            // mainImage: l.images?.[0] || {},
+            videoLink: l.videoLink,
 
             // Publishing info
-            status: item.status || ListingStatus.DRAFT,
-            isPublished: item.isPublished || false,
-            publishedAt: item.isPublished ? new Date() : null,
-            publishEndDate: item.isPublished
-              ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) // 30 days
-              : null,
+            status: ListingStatus.ACTIVE,
+            substatus: "autogenerated",
+            isPublished: true,
+            publishedAt: new Date(),
+            publishEndDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30 * 6), // 30 days
 
             // Category-specific data
-            ...(item.category === "residential" && item.residential
+            ...(l.category === "residential" && l.residential
               ? {
                   residential: {
                     create: {
-                      propertyType: item.residential.propertyType,
-                      floor: item.residential.floor,
-                      totalFloors: item.residential.totalFloors,
-                      orientation: item.residential.orientation,
-                      zone: item.residential.zone,
-                      constructionYear: item.residential.constructionYear,
-                      totalPropertyArea: item.residential.totalPropertyArea,
-                      isFurnished: item.residential.isFurnished,
-                      isForStudents: item.residential.isForStudents,
-                      isForHolidayHome: item.residential.isForHolidayHome,
-                      commonExpenses: item.residential.commonExpenses,
-                      heatingType: item.residential.heatingType,
-                      heatingMedium: item.residential.heatingMedium,
-                      bathroomCount: item.residential.bathroomCount,
-                      wcCount: item.residential.wcCount,
-                      kitchenCount: item.residential.kitchenCount,
-                      livingRoomCount: item.residential.livingRoomCount,
-                      bedroomCount: item.residential.bedroomCount,
+                      propertyType: l.residential.propertyType,
+                      floor: l.residential.floor,
+                      totalFloors: l.residential.totalFloors,
+                      orientation: l.residential.orientation,
+                      zone: l.residential.zone,
+                      constructionYear: l.residential.constructionYear,
+                      totalPropertyArea: l.residential.totalPropertyArea,
+                      isFurnished: l.residential.isFurnished,
+                      isForStudents: l.residential.isForStudents,
+                      isForHolidayHome: l.residential.isForHolidayHome,
+                      commonExpenses: l.residential.commonExpenses,
+                      heatingType: l.residential.heatingType,
+                      heatingMedium: l.residential.heatingMedium,
+                      bathroomCount: l.residential.bathroomCount,
+                      wcCount: l.residential.wcCount,
+                      kitchenCount: l.residential.kitchenCount,
+                      livingRoomCount: l.residential.livingRoomCount,
+                      bedroomCount: l.residential.bedroomCount,
                     },
                   },
                 }
               : {}),
-            ...(item.category === "commercial" && item.commercial
+            ...(l.category === "commercial" && l.commercial
               ? {
                   commercial: {
                     create: {
-                      propertyType: item.commercial.propertyType,
-                      constructionYear: item.commercial.constructionYear,
-                      totalPropertyArea: item.commercial.totalPropertyArea,
-                      floor: item.commercial.floor,
-                      isCornerProperty: item.commercial.isCornerProperty,
-                      isOnTopFloor: item.commercial.isOnTopFloor,
-                      accessFrom: item.commercial.accessFrom,
-                      commonExpenses: item.commercial.commonExpenses,
-                      heatingType: item.commercial.heatingType,
-                      heatingMedium: item.commercial.heatingMedium,
-                      wcCount: item.commercial.wcCount,
+                      propertyType: l.commercial.propertyType,
+                      constructionYear: l.commercial.constructionYear,
+                      totalPropertyArea: l.commercial.totalPropertyArea,
+                      floor: l.commercial.floor,
+                      isCornerProperty: l.commercial.isCornerProperty,
+                      isOnTopFloor: l.commercial.isOnTopFloor,
+                      accessFrom: l.commercial.accessFrom,
+                      commonExpenses: l.commercial.commonExpenses,
+                      heatingType: l.commercial.heatingType,
+                      heatingMedium: l.commercial.heatingMedium,
+                      wcCount: l.commercial.wcCount,
                     },
                   },
                 }
               : {}),
-            ...(item.category === "land" && item.land
+            ...(l.category === "land" && l.land
               ? {
                   land: {
                     create: {
-                      propertyType: item.land.propertyType,
-                      isCornerProperty: item.land.isCornerProperty,
-                      orientation: item.land.orientation,
-                      zone: item.land.zone,
-                      accessFrom: item.land.accessFrom,
-                      slope: item.land.slope,
+                      propertyType: l.land.propertyType,
+                      isCornerProperty: l.land.isCornerProperty,
+                      orientation: l.land.orientation,
+                      zone: l.land.zone,
+                      accessFrom: l.land.accessFrom,
+                      slope: l.land.slope,
                     },
                   },
                 }
               : {}),
-            ...(item.category === "other" && item.other
+            ...(l.category === "other" && l.other
               ? {
                   other: {
                     create: {
-                      propertyType: item.other.propertyType,
-                      accessFrom: item.other.accessFrom,
-                      totalPropertyArea: item.other.totalPropertyArea,
+                      propertyType: l.other.propertyType,
+                      accessFrom: l.other.accessFrom,
+                      totalPropertyArea: l.other.totalPropertyArea,
                     },
                   },
                 }

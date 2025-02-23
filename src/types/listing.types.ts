@@ -10,6 +10,15 @@ import {
   Commercial,
   Residential,
   ListingViewCount,
+  ListingStatus,
+  ResidentalPropertyType,
+  LocationPrecision,
+  PropertyType,
+  PropertyCategory,
+  PropertyTransactionType,
+  CommercialPropertyType,
+  LandPropertyType,
+  OtherPropertyType,
 } from "@prisma/client";
 
 // Define the exact include type we're using
@@ -157,3 +166,28 @@ export interface ListingTitles {
   mkTitle: string;
   alTitle: string;
 }
+
+export type ExternalListingData = {
+  url: string;
+  mkTitle: string;
+  price: string;
+  address: string;
+  mkDescription: string;
+  images: string[];
+  mainImage: string;
+  externalRef: string;
+  externalRefCleared: string;
+  publishedAtDate: string;
+  publishedAtTime: string;
+  tagTransactionType: string;
+  tagAddressData: string;
+  tagRooms: string;
+  tagArea: string;
+  tagLocation: string;
+  tags: {
+    label: string;
+    value: string;
+  }[];
+  coordinates: string;
+  addressData: string;
+};
