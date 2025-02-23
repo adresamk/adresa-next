@@ -48,15 +48,9 @@ async function processExternalImage(imageUrl: string) {
 
 export async function POST(req: NextRequest) {
   try {
-    const apiKey = req.headers.get("x-api-key");
+    const { listingsToProcess, agencySlug } = await req.json();
 
-    if (!apiKey) {
-      return NextResponse.json({ error: "API key required" }, { status: 401 });
-    }
-
-    const data = await req.json();
-
-    if (!Array.isArray(data)) {
+    if (!Array.isArray(listingsToProcess)) {
       return NextResponse.json(
         { error: "Data must be an array" },
         { status: 400 },
@@ -65,7 +59,7 @@ export async function POST(req: NextRequest) {
 
     // Process all listings and their images
     const processedData = await Promise.all(
-      data.map(async (listing) => {
+      listingsToProcess.map(async (listing) => {
         // Process images if they exist
         if (listing.images && Array.isArray(listing.images)) {
           const processedImages = await Promise.all(
@@ -100,7 +94,7 @@ export async function POST(req: NextRequest) {
       }),
     );
 
-    const result = await createListingsFromWebhook(processedData, apiKey);
+    const result = await createListingsFromWebhook(processedData, agencySlug);
 
     if (!result.success) {
       return NextResponse.json({ error: result.error }, { status: 400 });
@@ -120,7 +114,9 @@ export async function POST(req: NextRequest) {
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "10mb", // Adjust based on your needs
+      sizeLimit: "80mb", // This size limit applies to the entire request body
     },
   },
 };
+
+// Note: To enforce individual image size limits, implement validation logic within the request handler instead of relying solely on bodyParser sizeLimit.

@@ -3,11 +3,26 @@ import { PrismaClient } from "@prisma/client";
 declare global {
   var prisma: PrismaClient | undefined;
 }
-
-const prisma: PrismaClient = global.prisma || new PrismaClient();
+const extendedPrisma = new PrismaClient().$extends({
+  query: {
+    listing: {
+      async create({ args, query }) {
+        const listing = await query(args);
+        if (!listing.id) {
+          throw new Error("Listing ID is undefined");
+        }
+        return await extendedPrisma.listing.update({
+          where: { id: listing.id },
+          data: { listingNumber: 10000 + listing.id },
+        });
+      },
+    },
+  },
+}) as PrismaClient;
+const prisma: PrismaClient = global.prisma || extendedPrisma;
 if (process.env.NODE_ENV === "production") {
   if (!global.prisma) {
-    global.prisma = new PrismaClient();
+    global.prisma = extendedPrisma;
   }
 }
 if (process.env.NODE_ENV === "development") {

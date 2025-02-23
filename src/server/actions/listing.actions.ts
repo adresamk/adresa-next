@@ -326,21 +326,21 @@ export async function createNewListing(formData: FormData) {
     };
   }
 
-  let listingNumber = await prismadb.counter.findUnique({
-    where: {
-      name: "listing-number-counter",
-    },
-  });
+  // let listingNumber = await prismadb.counter.findUnique({
+  //   where: {
+  //     name: "listing-number-counter",
+  //   },
+  // });
 
   // will be missing if we restart the db, and initiall we need to create the counter
-  if (!listingNumber) {
-    listingNumber = await prismadb.counter.create({
-      data: {
-        name: "listing-number-counter",
-        value: 10000,
-      },
-    });
-  }
+  // if (!listingNumber) {
+  //   listingNumber = await prismadb.counter.create({
+  //     data: {
+  //       name: "listing-number-counter",
+  //       value: 10000,
+  //     },
+  //   });
+  // }
 
   // TODO: create a way to separate contact data
   // create listing
@@ -352,7 +352,7 @@ export async function createNewListing(formData: FormData) {
       type: type as PropertyType,
       userId: user ? user.id : null,
       agencyId: agency ? agency.id : null,
-      listingNumber: listingNumber.value + 1,
+      // listingNumber: listingNumber.value + 1,
       queryHash: "", // Will be updated later
 
       // Only create the relevant subcategory based on category
@@ -1906,6 +1906,7 @@ type ExternalListingData = {
 export async function createListingsFromWebhook(
   data: ExternalListingData[],
   apiKey: string,
+  clientSlug: string,
 ) {
   // Verify API key
   if (apiKey !== process.env.WEBHOOK_API_KEY) {
@@ -1916,37 +1917,56 @@ export async function createListingsFromWebhook(
   }
 
   try {
-    // Get the next available listing number
-    let listingNumber = await prismadb.counter.findUnique({
+    // Find the agency by slug
+    const agency = await prismadb.agency.findUnique({
       where: {
-        name: "listing-number-counter",
+        slug: clientSlug,
+      },
+      select: {
+        id: true,
       },
     });
 
-    if (!listingNumber) {
-      listingNumber = await prismadb.counter.create({
-        data: {
-          name: "listing-number-counter",
-          value: 10000,
-        },
-      });
+    if (!agency) {
+      return {
+        success: false,
+        error: `Agency not found with slug: ${clientSlug}`,
+      };
     }
 
-    let currentListingNumber = listingNumber.value;
+    // Get the next available listing number
+    // let listingNumber = await prismadb.counter.findUnique({
+    //   where: {
+    //     name: "listing-number-counter",
+    //   },
+    // });
+
+    // if (!listingNumber) {
+    //   listingNumber = await prismadb.counter.create({
+    //     data: {
+    //       name: "listing-number-counter",
+    //       value: 10000,
+    //     },
+    //   });
+    // }
+
+    // let currentListingNumber = listingNumber.value;
 
     // Process all listings in a transaction
     const createdListings = await prismadb.$transaction(async (tx) => {
       const listings = [];
 
       for (const item of data) {
-        currentListingNumber++;
+        // currentListingNumber++;
 
         // Create the listing with all related data
         const listing = await tx.listing.create({
           data: {
             uuid: crypto.randomUUID(),
             externalRef: item.externalRef,
-            listingNumber: currentListingNumber,
+            // listingNumber: currentListingNumber,
+            // Assign to agency
+            agencyId: agency.id,
             transactionType: item.transactionType,
             category: item.category,
             type: item.type,
@@ -2068,14 +2088,14 @@ export async function createListingsFromWebhook(
       }
 
       // Update the counter
-      await tx.counter.update({
-        where: {
-          name: "listing-number-counter",
-        },
-        data: {
-          value: currentListingNumber,
-        },
-      });
+      // await tx.counter.update({
+      //   where: {
+      //     name: "listing-number-counter",
+      //   },
+      //   data: {
+      //     value: currentListingNumber,
+      //   },
+      // });
 
       return listings;
     });
