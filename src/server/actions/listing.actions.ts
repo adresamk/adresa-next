@@ -1820,3 +1820,277 @@ export async function registerListingView(
     },
   });
 }
+
+type ExternalListingData = {
+  externalRef: string;
+  transactionType: PropertyTransactionType;
+  category: PropertyCategory;
+  type: PropertyType;
+  // Location
+  municipality?: string;
+  place?: string;
+  address?: string;
+  coordinates?: {
+    latitude: number;
+    longitude: number;
+  };
+  locationPrecision?: LocationPrecision;
+  // Main characteristics
+  title: {
+    en?: string;
+    mk?: string;
+    al?: string;
+  };
+  description: {
+    en?: string;
+    mk?: string;
+    al?: string;
+  };
+  price: number;
+  area: number;
+  // Media
+  images?: UploadedImageData[];
+  videoLink?: string;
+  // Additional data based on category
+  residential?: {
+    propertyType: ResidentalPropertyType;
+    floor?: string;
+    totalFloors?: number;
+    orientation?: string;
+    zone?: string;
+    constructionYear?: number;
+    totalPropertyArea?: number;
+    isFurnished?: boolean;
+    isForStudents?: boolean;
+    isForHolidayHome?: boolean;
+    commonExpenses?: number;
+    heatingType?: string;
+    heatingMedium?: string;
+    bathroomCount?: number;
+    wcCount?: number;
+    kitchenCount?: number;
+    livingRoomCount?: number;
+    bedroomCount?: number;
+  };
+  commercial?: {
+    propertyType: CommercialPropertyType;
+    constructionYear?: number;
+    totalPropertyArea?: number;
+    floor?: number;
+    isCornerProperty?: boolean;
+    isOnTopFloor?: boolean;
+    accessFrom?: string;
+    commonExpenses?: number;
+    heatingType?: string;
+    heatingMedium?: string;
+    wcCount?: number;
+  };
+  land?: {
+    propertyType: LandPropertyType;
+    isCornerProperty?: boolean;
+    orientation?: string;
+    zone?: string;
+    accessFrom?: string;
+    slope?: string;
+  };
+  other?: {
+    propertyType: OtherPropertyType;
+    accessFrom?: string;
+    totalPropertyArea?: number;
+  };
+  // Publishing info
+  status?: ListingStatus;
+  isPublished?: boolean;
+};
+
+export async function createListingsFromWebhook(
+  data: ExternalListingData[],
+  apiKey: string,
+) {
+  // Verify API key
+  if (apiKey !== process.env.WEBHOOK_API_KEY) {
+    return {
+      success: false,
+      error: "Invalid API key",
+    };
+  }
+
+  try {
+    // Get the next available listing number
+    let listingNumber = await prismadb.counter.findUnique({
+      where: {
+        name: "listing-number-counter",
+      },
+    });
+
+    if (!listingNumber) {
+      listingNumber = await prismadb.counter.create({
+        data: {
+          name: "listing-number-counter",
+          value: 10000,
+        },
+      });
+    }
+
+    let currentListingNumber = listingNumber.value;
+
+    // Process all listings in a transaction
+    const createdListings = await prismadb.$transaction(async (tx) => {
+      const listings = [];
+
+      for (const item of data) {
+        currentListingNumber++;
+
+        // Create the listing with all related data
+        const listing = await tx.listing.create({
+          data: {
+            uuid: crypto.randomUUID(),
+            externalRef: item.externalRef,
+            listingNumber: currentListingNumber,
+            transactionType: item.transactionType,
+            category: item.category,
+            type: item.type,
+
+            // Location data
+            municipality: item.municipality,
+            place: item.place,
+            address: item.address,
+            fullAddress: item.address
+              ? `${item.municipality}, ${item.place}, ${item.address}`
+              : "",
+            longitude: item.coordinates?.longitude,
+            latitude: item.coordinates?.latitude,
+            locationPrecision: item.locationPrecision || "exact",
+
+            // Main characteristics
+            enTitle: item.title.en || "",
+            mkTitle: item.title.mk || "",
+            alTitle: item.title.al || "",
+            enDescription: item.description.en,
+            mkDescription: item.description.mk,
+            alDescription: item.description.al,
+            price: item.price,
+            area: item.area,
+
+            // Media
+            images: item.images || [],
+            mainImage: item.images?.[0] || {},
+            videoLink: item.videoLink,
+
+            // Publishing info
+            status: item.status || ListingStatus.DRAFT,
+            isPublished: item.isPublished || false,
+            publishedAt: item.isPublished ? new Date() : null,
+            publishEndDate: item.isPublished
+              ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) // 30 days
+              : null,
+
+            // Category-specific data
+            ...(item.category === "residential" && item.residential
+              ? {
+                  residential: {
+                    create: {
+                      propertyType: item.residential.propertyType,
+                      floor: item.residential.floor,
+                      totalFloors: item.residential.totalFloors,
+                      orientation: item.residential.orientation,
+                      zone: item.residential.zone,
+                      constructionYear: item.residential.constructionYear,
+                      totalPropertyArea: item.residential.totalPropertyArea,
+                      isFurnished: item.residential.isFurnished,
+                      isForStudents: item.residential.isForStudents,
+                      isForHolidayHome: item.residential.isForHolidayHome,
+                      commonExpenses: item.residential.commonExpenses,
+                      heatingType: item.residential.heatingType,
+                      heatingMedium: item.residential.heatingMedium,
+                      bathroomCount: item.residential.bathroomCount,
+                      wcCount: item.residential.wcCount,
+                      kitchenCount: item.residential.kitchenCount,
+                      livingRoomCount: item.residential.livingRoomCount,
+                      bedroomCount: item.residential.bedroomCount,
+                    },
+                  },
+                }
+              : {}),
+            ...(item.category === "commercial" && item.commercial
+              ? {
+                  commercial: {
+                    create: {
+                      propertyType: item.commercial.propertyType,
+                      constructionYear: item.commercial.constructionYear,
+                      totalPropertyArea: item.commercial.totalPropertyArea,
+                      floor: item.commercial.floor,
+                      isCornerProperty: item.commercial.isCornerProperty,
+                      isOnTopFloor: item.commercial.isOnTopFloor,
+                      accessFrom: item.commercial.accessFrom,
+                      commonExpenses: item.commercial.commonExpenses,
+                      heatingType: item.commercial.heatingType,
+                      heatingMedium: item.commercial.heatingMedium,
+                      wcCount: item.commercial.wcCount,
+                    },
+                  },
+                }
+              : {}),
+            ...(item.category === "land" && item.land
+              ? {
+                  land: {
+                    create: {
+                      propertyType: item.land.propertyType,
+                      isCornerProperty: item.land.isCornerProperty,
+                      orientation: item.land.orientation,
+                      zone: item.land.zone,
+                      accessFrom: item.land.accessFrom,
+                      slope: item.land.slope,
+                    },
+                  },
+                }
+              : {}),
+            ...(item.category === "other" && item.other
+              ? {
+                  other: {
+                    create: {
+                      propertyType: item.other.propertyType,
+                      accessFrom: item.other.accessFrom,
+                      totalPropertyArea: item.other.totalPropertyArea,
+                    },
+                  },
+                }
+              : {}),
+          },
+        });
+
+        listings.push(listing);
+
+        // Generate static page if listing is active
+        if (listing.status === ListingStatus.ACTIVE) {
+          await generateStaticListingPage(listing.listingNumber);
+        }
+      }
+
+      // Update the counter
+      await tx.counter.update({
+        where: {
+          name: "listing-number-counter",
+        },
+        data: {
+          value: currentListingNumber,
+        },
+      });
+
+      return listings;
+    });
+
+    return {
+      success: true,
+      data: {
+        listings: createdListings,
+      },
+    };
+  } catch (error) {
+    console.error("Error creating listings:", error);
+    return {
+      success: false,
+      error: "Failed to create listings",
+    };
+  }
+}
