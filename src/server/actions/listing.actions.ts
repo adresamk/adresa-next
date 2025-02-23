@@ -1905,16 +1905,9 @@ type ExternalListingData = {
 
 export async function createListingsFromWebhook(
   data: ExternalListingData[],
-  apiKey: string,
   clientSlug: string,
 ) {
   // Verify API key
-  if (apiKey !== process.env.WEBHOOK_API_KEY) {
-    return {
-      success: false,
-      error: "Invalid API key",
-    };
-  }
 
   try {
     // Find the agency by slug
