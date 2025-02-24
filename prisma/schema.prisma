@@ -99,7 +99,7 @@ model Agency {
   // Unique fields
   name             String?   @unique @db.VarChar(80)
   slug             String?   @unique @db.VarChar(80)
-  address          String?   @db.VarChar(150)
+  address          String?   @db.VarChar(250)
   website          String?   @db.VarChar(50)
   phone            String?   @db.VarChar(20)
   phoneVerified    DateTime?
@@ -288,8 +288,8 @@ model Listing {
   // Location Step
   municipality String?      @db.Char(5) // ID of municipality 20411
   place        String?      @db.Char(5) // ID of village or town
-  address      String?      @db.VarChar(150) // the name of street and number
-  fullAddress  String?      @default("") @db.VarChar(170) // the full address (municipality + place + district + address)
+  address      String?      @db.VarChar(300) // the name of street and number
+  fullAddress  String?      @default("") @db.VarChar(470) // the full address (municipality + place + district + address)
 
   // probably would be disabled
   district String? @db.Char(5) // ID of naseleno mesto

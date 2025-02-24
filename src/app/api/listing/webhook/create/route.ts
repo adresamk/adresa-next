@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
             // @ts-ignore
             listing.images.map((imgUrl) => imgUrl),
           );
-          console.log("Uploaded files:", uploadedFiles); // Debug uploaded files
+          // console.log("Uploaded files:", uploadedFiles); // Debug uploaded files
           // @ts-ignore
 
           listing.images = uploadedFiles.map((file) => file.data);

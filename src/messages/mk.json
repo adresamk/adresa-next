@@ -256,6 +256,15 @@
           "RESIDENTIAL_OTHER": "За живеење"
         },
         "keys": {
+          "used_solid_condition": "Користен: совршена состојба",
+          "used_in_good_condition": "Користен: добра состојба",
+          "used_as_new": "Користен: како нов",
+          "new": "Нова",
+          "ground_floor": "Приземје",
+          "detached_house": "Одделена куќа",
+          "interfone": "Интерфон",
+          "new_building": "Нова градба",
+          "garage": "Гаража",
           "parking": "Паркинг",
           "new_kitchen": "Нова кујна",
           "electric_car_charger": "Полнач за електричен автомобил",

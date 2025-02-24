@@ -247,6 +247,15 @@
           "RESIDENTIAL_OTHER": "Banesore"
         },
         "keys": {
+          "used_solid_condition": "Përdorur në dobë",
+          "used_in_good_condition": "Përdorur në dobë",
+          "used_as_new": "Përdorur si e re",
+          "new": "E re",
+          "ground_floor": "Kati përdhes",
+          "detached_house": "Shtëpi të pavarura",
+          "interfone": "Интерфона",
+          "new_building": "Нова градба",
+          "garage": "Гаража",
           "new_kitchen": "Kuzhinë e re",
           "electric_car_charger": "Karikues për makinë elektrike",
           "in_center": "Ndodhet në qendër",

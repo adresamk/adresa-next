@@ -246,6 +246,15 @@
           "RESIDENTIAL_OTHER": "Residential other"
         },
         "keys": {
+          "used_solid_condition": "Used in solid condition",
+          "used_in_good_condition": "Used in good condition",
+          "used_as_new": "Used as new",
+          "new": "New",
+          "ground_floor": "Ground floor",
+          "detached_house": "Detached house",
+          "interfone": "Interfone",
+          "new_building": "New building",
+          "garage": "Garage",
           "new_kitchen": "New kitchen",
           "electric_car_charger": "Electric car charger",
           "in_center": "In center",
