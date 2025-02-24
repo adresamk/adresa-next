@@ -246,6 +246,9 @@
           "RESIDENTIAL_OTHER": "Residential other"
         },
         "keys": {
+          "water": "Water",
+          "electricity": "Electricity",
+          "building_permit": "Building permit",
           "used_solid_condition": "Used in solid condition",
           "used_in_good_condition": "Used in good condition",
           "used_as_new": "Used as new",

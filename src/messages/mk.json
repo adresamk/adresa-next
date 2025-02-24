@@ -256,6 +256,9 @@
           "RESIDENTIAL_OTHER": "За живеење"
         },
         "keys": {
+          "water": "Вода",
+          "electricity": "Струја",
+          "building_permit": "Дозвола за градење",
           "used_solid_condition": "Користен: совршена состојба",
           "used_in_good_condition": "Користен: добра состојба",
           "used_as_new": "Користен: како нов",

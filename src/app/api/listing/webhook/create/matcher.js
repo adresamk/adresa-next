@@ -15,6 +15,20 @@ export const tagsMatcher = {
   "Користено - Како Ново": "used_as_new",
   "Користено - Во добра состојба": "used_in_good_condition",
   "Користено - Во солидна состојба": "used_solid_condition",
+  "Балкон / Тераса": "balcony",
+  Реновиран: "renovated",
+  Наместен: "furnished",
+  Лифт: "elevator",
+  "Нова градба": "new_building",
+  "Паркинг простор / Гаража": "parking",
+  Интерфон: "intercom",
+  "Самостојна куќа": "detached_house",
+  Подрум: "basement",
+  Приземје: "ground_floor",
+  Поткровје: "attic",
+  Вода: "water",
+  Струја: "electricity",
+  "Дозвола за градење": "building_permit",
 };
 
 // export const featureMatcher = {
@@ -44,6 +58,14 @@ export const municipalityMatcher = {
   "Илинден, Скопjе": "10014",
   "Аеродром, Скопjе": "10002",
   "Ѓорче Петров, Скопjе": "10007",
+  //
+  "Кисела Вода, Скопjе": "10001",
+  "Центар, Скопjе": "10079",
+  "Аеродром, Скопjе": "10002",
+  "Гази Баба, Скопjе": "10003",
+  "Скопје, Скопjе": "10079",
+  "Ѓорче Петров, Скопjе": "10007",
+  "Сопиште, Скопjе": "10010",
 };
 
 export const placeMatcher = {
@@ -164,6 +186,11 @@ const categoryMapping = {
   land: ["construction", "agricultural"],
   other: ["garage", "business", "assembly_facilities", "other"],
 };
+// "zivealista/stanovi",
+//     "zivealista/kukji-vili",
+//     "deloven-prostor/dukani-trafiki",
+//     "deloven-prostor/kancelarija",
+//     "zivealista/placovi-nivi-farmi"
 export const typeMatcher = {
   stanovi: "apartment",
   kancelarija: "office",
@@ -171,6 +198,7 @@ export const typeMatcher = {
   magacin: "warehouse",
   "dukani-trafiki": "store",
   "baraki-garazi": "garage",
+  "placovi-nivi-farmi": "agricultural",
 };
 export const categoryMatcher = {
   stanovi: "residential",
@@ -179,4 +207,5 @@ export const categoryMatcher = {
   magacin: "commercial",
   "dukani-trafiki": "commercial",
   "baraki-garazi": "other",
+  "placovi-nivi-farmi": "land",
 };

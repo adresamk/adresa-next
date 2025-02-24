@@ -247,6 +247,9 @@
           "RESIDENTIAL_OTHER": "Banesore"
         },
         "keys": {
+          "water": "Ujë",
+          "electricity": "Elektricitet",
+          "building_permit": "Leja për ndërtim",
           "used_solid_condition": "Përdorur në dobë",
           "used_in_good_condition": "Përdorur në dobë",
           "used_as_new": "Përdorur si e re",

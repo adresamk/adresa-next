@@ -1928,7 +1928,9 @@ function figureOutListing(
   const listing: ParsedListingData = {
     area: Number(a.tagArea.split(" ")[0]),
     price: a.price === "missing" ? 0 : Number(a.price),
-    externalRef: a.externalRefCleared,
+    externalRef: a.mkDescription.includes("ШИФРА")
+      ? a.mkDescription.split("ШИФРА ")[1]?.split(" ")[0]
+      : "",
     images: a.images,
     mainImage: a.mainImage,
     transactionType: tryGetTransactionType(a.tags),
@@ -2118,10 +2120,10 @@ export async function createListingsFromWebhook(
                   residential: {
                     create: {
                       propertyType: l.type as ResidentalPropertyType,
-                      wcCount: 1,
+                      bathroomCount: 1,
                       kitchenCount: 1,
                       livingRoomCount: 1,
-                      bedroomCount: l.rooms - 1,
+                      bedroomCount: Math.max(0, l.rooms - 1),
                       // You might want to make this a parameter
                     },
                   },
