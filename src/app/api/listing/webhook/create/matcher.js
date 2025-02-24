@@ -17,6 +17,25 @@ export const tagsMatcher = {
   "Користено - Во солидна состојба": "used_solid_condition",
 };
 
+// export const featureMatcher = {
+//   balcony: 11,
+//   elevator: 10,
+//   parking: 9,
+//   new_building: 2,
+//   furnished: 33,
+//   interfone: 3,
+//   fireplace: 41,
+//   renovated: "renovated",
+//   detached_house: "detached_house",
+//   basement: "basement",
+//   ground_floor: "ground_floor",
+//   attic: "attic",
+//   new: "new",
+//   used_as_new: "used_as_new",
+//   used_in_good_condition: "used_in_good_condition",
+//   used_solid_condition: "used_solid_condition",
+// };
+
 export const municipalityMatcher = {
   "Скопје, Скопjе": "10079",
   "Центар, Скопjе": "10079",

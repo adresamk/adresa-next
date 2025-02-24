@@ -2021,6 +2021,7 @@ export async function createListingsFromWebhook(
     clientSlug,
   });
 
+  const features = await prismadb.feature.findMany();
   try {
     const agency = await prismadb.agency.findUnique({
       where: { slug: clientSlug },
@@ -2120,6 +2121,10 @@ export async function createListingsFromWebhook(
                   residential: {
                     create: {
                       propertyType: l.type as ResidentalPropertyType,
+                      wcCount: 1,
+                      kitchenCount: 1,
+                      livingRoomCount: 1,
+                      bedroomCount: l.rooms - 1,
                       // You might want to make this a parameter
                     },
                   },
@@ -2132,6 +2137,7 @@ export async function createListingsFromWebhook(
                     residential: undefined,
                     commercial: {
                       create: {
+                        wcCount: 1,
                         propertyType: l.type as CommercialPropertyType,
                       },
                     },
@@ -2161,14 +2167,11 @@ export async function createListingsFromWebhook(
                       },
                     }),
             listingFeatures: {
-              create: mapTagsToFeatureKeys(ld.tags).map((key) => ({
-                feature: {
-                  connect: {
-                    id: key,
-                  },
-                },
-                key: key,
-              })),
+              createMany: {
+                data: mapTagsToFeatureKeys(ld.tags).map((key) => ({
+                  featureId: features.find((f) => f.key === key)?.id!,
+                })),
+              },
             },
           },
         });
