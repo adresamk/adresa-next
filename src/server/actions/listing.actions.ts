@@ -28,6 +28,14 @@ import {
 import { ParsedQueryParams } from "@/lib/filters";
 import { getLocale } from "next-intl/server";
 import { checkListingCompleteness } from "@/lib/utils";
+import {
+  categoryMatcher,
+  municipalityMatcher,
+  placeMatcher,
+  tagsMatcher,
+  typeMatcher,
+} from "@/app/api/listing/webhook/create/matcher";
+import { de, tr } from "@faker-js/faker";
 export async function revalidateListingPage(listingNumber: number) {
   // Revalidate the specific listing page across all locales
   routing.locales.forEach((locale) => {
@@ -1821,17 +1829,197 @@ export async function registerListingView(
     },
   });
 }
-function figureOutListing(listingsToProcess: ExternalListingData[]) {
-  //
 
-  const listings = [] as ListingWithRelations[];
-  return listings;
+export type ParsedListingData = {
+  area: number;
+  price: number;
+  mkTitle: string;
+  mkDescription: string;
+  externalRef: string;
+  images: UploadedImageData[];
+  mainImage: UploadedImageData;
+  transactionType: PropertyTransactionType;
+  category: PropertyCategory;
+  type: PropertyType;
+  municipality: string | null;
+  place: string | null;
+  address: string;
+  latitude: number;
+  longitude: number;
+  rooms: number;
+};
+function figureOutListing(
+  listingToProcess: ExternalListingData,
+): ParsedListingData {
+  //
+  // let a: ExternalListingData = {
+  //   url: "https://www.pazar3.mk/oglas/zivealista/stanovi/izdavanje/skopje/skopje-opstina/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate/2825258",
+  //   mkTitle: "Nov dvosoben 56m2 kaj hotel Kontinental-East Gate",
+  //   price: "370",
+  //   address:
+  //     "Džon Kenedi, Топаана, Chair, Skopje, Municipality of Chair, City of Skopje, 1009, North Macedonia",
+  //   mkDescription:
+  //     "Sifra> 23711\n\nSe izdava NOV kompletno namesten dvosoben 56m2 na 1- vi kat vo novite zgradi kaj hotel Kontinental - East Gate, edna spalna, terasa, juzna orientacija, stanot e ureden so nov mebel i vednas vseliv !\n2 parking mesta!\nCena: 370 evra\n\nKontakt:\n077 705 108\n075 534 820\n02 3051 300\nAgencija Doma Dom\nwww.domadom.mk\ninfo@domadom.mk\nstanovi Skopje-Avtokomanda/\nстанови Скопје-Автокоманда\nОпис на линк\nReal estate DOMA DOM\nАгенцијата за недвижности Real Estate DOMA DOM е доверлива агенција за недвижности во Скопје, Македонија, која е посветена на помагање на своите клиенти во наоѓање на совршениот дом или инвестициска можност. Со долгогодишно искуство во областа на недвижности, Агенцијата за недвижности DOMA DOM Ви нуди широк избор на недвижности - куќи, станови, викендички, и деловни простори, како и други имоти ширум Македонија.\n\nКако агенција на која може да и верувате, Real Estate DOMA DOM поседува тим од професионалци кои се секогаш подготвени да Ви помогнат во секој чекор од процесот, било да сте во потрага по нов стан, куќа или имот за инвестиција. Секој клиент добива индивидуален пристап и целосна поддршка со цел постигнување на најдоброто можно решение при купување, издавање или продажба на куќи и станови.\n\nПонудата на недвижности вклучува различни типови на имоти во сите делови на Скопје и пошироко, така што без разлика дали барате нов дом или деловен простор, Real Estate DOMA DOM е тука за Вас. Преку Агенцијата за недвижности DOMA DOM, можете да ги пронајдете најдобрите недвижности кои ќе ги исполнат Вашите потреби и очекувања.\n\nДоверете се на агенција со искуство, професионализам и квалитетна услуга во областа на недвижности. (stanovi vo Skopje, Centar, Karpos,Taftalidze)\n\nОвластен агент за MoneyGram -money transfer,\nПосети ја страната на нашата продавница\nstr.Mitropolit Teodosij Gologanov nb.72b lok.18 Прикажи на мапата\n00389023051300\nhttps://www.domadom.mk",
+  //   images: [
+  //     "https://media.pazar3.mk/Image/61202d00626b465b9a1f0ec1fb617a1d/20250221/false/false/1280/960/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate.jpeg?noLogo=true",
+  //     "https://media.pazar3.mk/Image/70fcb75f0cd14c5dbb083bba78560d52/20250221/false/false/1280/960/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate.jpeg?noLogo=true",
+  //     "https://media.pazar3.mk/Image/7d2ef8563fdb4c6693091cae3bcba9f3/20250221/false/false/1280/960/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate.jpeg?noLogo=true",
+  //     "https://media.pazar3.mk/Image/31113f30da5d4db9bd98504ba507ae22/20250221/false/false/1280/960/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate.jpeg?noLogo=true",
+  //     "https://media.pazar3.mk/Image/ee8130012e6549c382513f054637d00a/20250221/false/false/1280/960/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate.jpeg?noLogo=true",
+  //     "https://media.pazar3.mk/Image/207fdb8d8e4b48f58378f9d854954d5d/20250221/false/false/1280/960/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate.jpeg?noLogo=true",
+  //     "https://media.pazar3.mk/Image/708be54be21f4aa6be4d5cd907889f4d/20250221/false/false/1280/960/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate.jpeg?noLogo=true",
+  //   ],
+  //   mainImage:
+  //     "https://media.pazar3.mk/Image/61202d00626b465b9a1f0ec1fb617a1d/20250221/false/false/1280/960/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate.jpeg?noLogo=true",
+  //   externalRef: "Sifra&gt; 23711",
+  //   externalRefCleared: "23711",
+  //   publishedAtDate: "фев. 21 2025",
+  //   publishedAtTime: "02:15",
+  //   tagTransactionType: "N/A",
+  //   tagAddressData: "Avtokomanda -East Gate",
+  //   tagRooms: "2",
+  //   tagArea: "56 m2",
+  //   tagLocation: "Скопје, Скопjе",
+  //   tags: [
+  //     {
+  //       label: "Број на соби:",
+  //       value: "2",
+  //     },
+  //     {
+  //       label: "Состојба:",
+  //       value: "Ново",
+  //     },
+  //     {
+  //       label: "Адреса:",
+  //       value: "Avtokomanda -East Gate",
+  //     },
+  //     {
+  //       label: "Површина:",
+  //       value: "56 m2",
+  //     },
+  //     {
+  //       label: "За живеалиштето:",
+  //       value:
+  //         "Балкон / Тераса, Лифт, Паркинг простор / Гаража, Нова градба, Наместен, Интерфон",
+  //     },
+  //     {
+  //       label: "Вид на оглас:",
+  //       value: "Се изнајмува",
+  //     },
+  //     {
+  //       label: "Огласено од:",
+  //       value: "Продавница",
+  //     },
+  //     {
+  //       label: "Локација:",
+  //       value: "Скопје, Скопjе",
+  //     },
+  //   ],
+  //   coordinates: "21.439862 42.013463",
+  //   addressData:
+  //     "Džon Kenedi, Топаана, Chair, Skopje, Municipality of Chair, City of Skopje, 1009, North Macedonia",
+  //   lastBreadcrumb: "https://www.pazar3.mk/oglasi/zivealista/stanovi",
+  // };
+  let a = listingToProcess;
+  const breadcrumb = a.lastBreadcrumb.split("/");
+  const importantString = breadcrumb[breadcrumb.length - 1];
+
+  const listing: ParsedListingData = {
+    area: Number(a.tagArea.split(" ")[0]),
+    price: Number(a.price),
+    externalRef: a.externalRefCleared,
+    images: a.images,
+    mainImage: a.mainImage,
+    transactionType: tryGetTransactionType(a.tags),
+    category: categoryMatcher[
+      importantString as keyof typeof categoryMatcher
+    ] as PropertyCategory,
+    type: typeMatcher[
+      importantString as keyof typeof typeMatcher
+    ] as PropertyType,
+    municipality: tryMatchMunicipality(a.tags),
+    place: tryMatchPlace(a.tags),
+    address:
+      a.tags.find((tag) => tag.label === "Адреса:")?.value +
+      ", " +
+      a.addressData,
+    latitude: Number(a.coordinates.split(" ")[1]),
+    longitude: Number(a.coordinates.split(" ")[0]),
+    mkTitle: a.mkTitle,
+    mkDescription: a.mkDescription,
+    rooms: Number(a.tagRooms),
+  };
+  return listing;
 }
+const tryMatchMunicipality = (tags: { label: string; value: string }[]) => {
+  const addressTag = tags.find((tag) => tag.label === "Локација:");
+  const address = addressTag ? addressTag.value : null;
+  console.log("address", address);
+  const municipality = address
+    ? municipalityMatcher[address as keyof typeof municipalityMatcher]
+    : null;
+  return municipality || null;
+};
+const tryGetTransactionType = (tags: { label: string; value: string }[]) => {
+  const transactionTypeTag = tags.find((tag) => tag.label === "Вид на оглас:");
+  const transactionType = transactionTypeTag
+    ? transactionTypeTag.value === "Се изнајмува"
+      ? "rent"
+      : "sale"
+    : "sale";
+  return transactionType as PropertyTransactionType;
+};
+
+const tryGetPropertyType = (tags: { label: string; value: string }[]) => {
+  const propertyTypeTag = tags.find((tag) => tag.label === "Број на соби:");
+  const propertyType = propertyTypeTag ? propertyTypeTag.value : null;
+  return propertyType || null;
+};
+
+const tryGetCategory = (tags: { label: string; value: string }[]) => {
+  const categoryTag = tags.find((tag) => tag.label === "Огласено од:");
+  const category = categoryTag ? categoryTag.value : null;
+  return category || null;
+};
+
+const tryMatchPlace = (tags: { label: string; value: string }[]) => {
+  const addressTag = tags.find((tag) => tag.label === "Адреса:");
+  const address = addressTag ? addressTag.value : null;
+  const place = address
+    ? placeMatcher[address as keyof typeof placeMatcher]
+    : null;
+  return place || null;
+};
+
+function mapTagsToFeatureKeys(
+  tags: { label: string; value: string }[],
+): string[] {
+  console.log("tags called");
+  const zTags = tags.find((tag) => tag.label === "За живеалиштето:");
+  const zTagsValues = zTags ? zTags.value.split(",").map((f) => f.trim()) : [];
+  const sTags = tags.find((tag) => tag.label === "Состојба:");
+  const sTagsValues = sTags ? sTags.value.split(",").map((f) => f.trim()) : [];
+  const allFeatures = [...zTagsValues, ...sTagsValues].filter(
+    (f) => f !== undefined,
+  );
+  if (!allFeatures) return [];
+
+  const featureKeys = allFeatures.map(
+    (f) => tagsMatcher[f as keyof typeof tagsMatcher],
+  );
+  console.log("tags created into features", featureKeys);
+
+  return featureKeys;
+}
+
 export async function createListingsFromWebhook(
   listingsToProcessRaw: ExternalListingData[],
   clientSlug: string,
 ) {
-  // Verify API key
+  console.log("Starting webhook process with:", {
+    listingsCount: listingsToProcessRaw.length,
+    clientSlug,
+  });
 
   try {
     // Find the agency by slug
@@ -1845,160 +2033,134 @@ export async function createListingsFromWebhook(
     });
 
     if (!agency) {
+      console.log("Agency not found:", clientSlug);
       return {
         success: false,
         error: `Agency not found with slug: ${clientSlug}`,
       };
     }
 
-    const listingsToProcess = figureOutListing(listingsToProcessRaw);
-    // Process all listings in a transaction
+    console.log("Processing listings for agency:", agency.id);
+
     const createdListings = await prismadb.$transaction(async (tx) => {
-      const listings = [];
+      const listings: Listing[] = [];
 
-      for (const l of listingsToProcess) {
-        // currentListingNumber++;
-
-        // Create the listing with all related data
-        const listing = await tx.listing.create({
-          data: {
-            uuid: crypto.randomUUID(),
-            externalRef: l.externalRef,
-            // listingNumber: currentListingNumber,
-            // Assign to agency
-            agencyId: agency.id,
-            transactionType: l.transactionType,
-            category: l.category,
-            type: l.type,
-
-            // Location data
-            municipality: l.municipality,
-            place: l.place,
-            address: l.address,
-            fullAddress: l.address
-              ? `${l.municipality}, ${l.place}, ${l.address}`
-              : "",
-            // longitude: l.coordinates?.longitude,
-            // latitude: l.coordinates?.latitude,
-            locationPrecision: l.locationPrecision || "exact",
-
-            // Main characteristics
-            // enTitle: l.title.en || "",
-            // mkTitle: l.title.mk || "",
-            // alTitle: l.title.al || "",
-            // enDescription: l.description.en,
-            // mkDescription: l.description.mk,
-            // alDescription: l.description.al,
-            price: l.price,
-            area: l.area,
-
-            // Media
-            images: l.images || [],
-            // mainImage: l.images?.[0] || {},
-            videoLink: l.videoLink,
-
-            // Publishing info
-            status: ListingStatus.ACTIVE,
-            substatus: "autogenerated",
-            isPublished: true,
-            publishedAt: new Date(),
-            publishEndDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30 * 6), // 30 days
-
-            // Category-specific data
-            ...(l.category === "residential" && l.residential
-              ? {
-                  residential: {
-                    create: {
-                      propertyType: l.residential.propertyType,
-                      floor: l.residential.floor,
-                      totalFloors: l.residential.totalFloors,
-                      orientation: l.residential.orientation,
-                      zone: l.residential.zone,
-                      constructionYear: l.residential.constructionYear,
-                      totalPropertyArea: l.residential.totalPropertyArea,
-                      isFurnished: l.residential.isFurnished,
-                      isForStudents: l.residential.isForStudents,
-                      isForHolidayHome: l.residential.isForHolidayHome,
-                      commonExpenses: l.residential.commonExpenses,
-                      heatingType: l.residential.heatingType,
-                      heatingMedium: l.residential.heatingMedium,
-                      bathroomCount: l.residential.bathroomCount,
-                      wcCount: l.residential.wcCount,
-                      kitchenCount: l.residential.kitchenCount,
-                      livingRoomCount: l.residential.livingRoomCount,
-                      bedroomCount: l.residential.bedroomCount,
-                    },
-                  },
-                }
-              : {}),
-            ...(l.category === "commercial" && l.commercial
-              ? {
-                  commercial: {
-                    create: {
-                      propertyType: l.commercial.propertyType,
-                      constructionYear: l.commercial.constructionYear,
-                      totalPropertyArea: l.commercial.totalPropertyArea,
-                      floor: l.commercial.floor,
-                      isCornerProperty: l.commercial.isCornerProperty,
-                      isOnTopFloor: l.commercial.isOnTopFloor,
-                      accessFrom: l.commercial.accessFrom,
-                      commonExpenses: l.commercial.commonExpenses,
-                      heatingType: l.commercial.heatingType,
-                      heatingMedium: l.commercial.heatingMedium,
-                      wcCount: l.commercial.wcCount,
-                    },
-                  },
-                }
-              : {}),
-            ...(l.category === "land" && l.land
-              ? {
-                  land: {
-                    create: {
-                      propertyType: l.land.propertyType,
-                      isCornerProperty: l.land.isCornerProperty,
-                      orientation: l.land.orientation,
-                      zone: l.land.zone,
-                      accessFrom: l.land.accessFrom,
-                      slope: l.land.slope,
-                    },
-                  },
-                }
-              : {}),
-            ...(l.category === "other" && l.other
-              ? {
-                  other: {
-                    create: {
-                      propertyType: l.other.propertyType,
-                      accessFrom: l.other.accessFrom,
-                      totalPropertyArea: l.other.totalPropertyArea,
-                    },
-                  },
-                }
-              : {}),
-          },
+      for (const ld of listingsToProcessRaw) {
+        console.log("Processing listing:", {
+          title: ld.mkTitle,
+          ref: ld.externalRef,
         });
 
-        listings.push(listing);
+        const l = figureOutListing(ld);
+        console.log("Figured out listing data:", {
+          title: l.mkTitle,
+          type: l.type,
+          category: l.category,
+        });
 
-        // Generate static page if listing is active
-        if (listing.status === ListingStatus.ACTIVE) {
-          await generateStaticListingPage(listing.listingNumber);
+        const lData: Partial<Listing> = {
+          uuid: crypto.randomUUID(),
+          externalRef: l.externalRef,
+          agencyId: agency.id,
+          transactionType: l.transactionType as PropertyTransactionType,
+          category: l.category as PropertyCategory,
+          type: l.type as PropertyType,
+          municipality: l.municipality,
+          place: l.place,
+          address: l.address,
+          fullAddress: l.address
+            ? `${l.municipality}, ${l.place}, ${l.address}`
+            : "",
+          locationPrecision: "exact",
+          mkTitle: l.mkTitle,
+          mkDescription: l.mkDescription,
+          price: l.price,
+          area: l.area,
+          images: l.images || [],
+          mainImage: l.mainImage,
+          status: ListingStatus.ACTIVE,
+          substatus: "autogenerated",
+          isPublished: true,
+          publishedAt: new Date(),
+          publishEndDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30 * 6), // 30 days
+          // ...(l.category === "residential"
+          //   ? {
+          //       residential: {
+          //         create: {
+          //           propertyType: l.type as ResidentalPropertyType,
+          //           wcCount: 1,
+          //           kitchenCount: 1,
+          //           livingRoomCount: 1,
+          //           bedroomCount: l.rooms,
+          //         },
+          //       },
+          //       commercial: undefined,
+          //       land: undefined,
+          //       other: undefined,
+          //     }
+          //   : l.category === "commercial"
+          //     ? {
+          //         residential: undefined,
+          //         commercial: {
+          //           create: {
+          //             propertyType: l.type as CommercialPropertyType,
+          //             wcCount: 1,
+          //           },
+          //         },
+          //         land: undefined,
+          //         other: undefined,
+          //       }
+          //     : l.category === "land"
+          //       ? {
+          //           residential: undefined,
+          //           commercial: undefined,
+          //           land: {
+          //             create: {
+          //               propertyType: l.type as LandPropertyType,
+          //             },
+          //           },
+          //           other: undefined,
+          //         }
+          //       : {
+          //           residential: undefined,
+          //           commercial: undefined,
+          //           land: undefined,
+          //           other: {
+          //             create: {
+          //               propertyType: l.type as OtherPropertyType,
+          //             },
+          //           },
+          //         }),
+        };
+        console.log("Constructed listing data:", {
+          title: lData.mkTitle,
+          type: lData.type,
+        });
+
+        try {
+          const listing = await tx.listing.create({
+            data: lData,
+          });
+          console.log("Successfully created listing:", listing.id);
+          listings.push(listing);
+        } catch (error) {
+          if (error instanceof Error) {
+            console.log("Error stuff 3: ", error.stack);
+          }
+          console.error("Failed to create listing:", {
+            error,
+            title: lData.mkTitle,
+            externalRef: lData.externalRef,
+          });
+          return error;
         }
       }
 
-      // Update the counter
-      // await tx.counter.update({
-      //   where: {
-      //     name: "listing-number-counter",
-      //   },
-      //   data: {
-      //     value: currentListingNumber,
-      //   },
-      // });
-
+      console.log("Finished processing all listings:", listings.length);
       return listings;
     });
 
+    console.log("Transaction completed, returning response");
     return {
       success: true,
       data: {
@@ -2006,10 +2168,15 @@ export async function createListingsFromWebhook(
       },
     };
   } catch (error) {
-    console.error("Error creating listings:", error);
-    return {
-      success: false,
-      error: "Failed to create listings",
-    };
+    if (error instanceof Error) {
+      console.log("Error stuff 2: ", error.stack);
+    }
+    return error;
+    // console.error("Top-level error in createListingsFromWebhook:", error);
+    // return {
+    //   success: false,
+    //   error: "Failed to create listings",
+    //   details: error,
+    // };
   }
 }

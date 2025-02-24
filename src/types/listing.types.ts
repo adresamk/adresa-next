@@ -173,8 +173,8 @@ export type ExternalListingData = {
   price: string;
   address: string;
   mkDescription: string;
-  images: string[];
-  mainImage: string;
+  images: UploadedImageData[];
+  mainImage: UploadedImageData;
   externalRef: string;
   externalRefCleared: string;
   publishedAtDate: string;
@@ -190,4 +190,5 @@ export type ExternalListingData = {
   }[];
   coordinates: string;
   addressData: string;
+  lastBreadcrumb: string;
 };
