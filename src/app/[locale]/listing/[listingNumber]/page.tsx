@@ -1,5 +1,6 @@
 export const dynamic = "force-static";
-export const revalidate = 60;
+export const revalidate = 120;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   // Get all active listings
