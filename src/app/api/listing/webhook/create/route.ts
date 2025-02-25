@@ -1,7 +1,7 @@
 import { createListingsFromWebhook } from "@/server/actions/listing.actions";
 import { ExternalListingData } from "@/types/listing.types";
 import { NextRequest, NextResponse } from "next/server";
-import { UTApi } from "uploadthing/server";
+import { UploadThingError, UTApi } from "uploadthing/server";
 import { FileEsque } from "uploadthing/types";
 
 const utapi = new UTApi();
@@ -77,8 +77,9 @@ export async function POST(req: NextRequest) {
       if (listing.images && Array.isArray(listing.images)) {
         try {
           const uploadedFiles = await utapi.uploadFilesFromUrl(
-            // @ts-ignore
-            listing.images.map((imgUrl) => imgUrl),
+            listing.images
+              .filter((imgUrl: string) => imgUrl !== "javascript:void(0)")
+              .map((imgUrl: string) => imgUrl),
           );
           // console.log("Uploaded files:", uploadedFiles); // Debug uploaded files
           // @ts-ignore
@@ -88,7 +89,19 @@ export async function POST(req: NextRequest) {
 
           listing.mainImage = listing.images[0];
         } catch (uploadError) {
-          console.error("Image upload error:", uploadError);
+          console.log(listing.images);
+          if (uploadError instanceof UploadThingError) {
+            console.log("UploadThingError", uploadError);
+          }
+          // const e = uploadError as Error;
+          // console.error("Image upload error:", uploadError);
+          // console.error(
+          //   "Image upload error:",
+          //   e.message,
+          //   e.cause,
+          //   e.name,
+          //   e.stack,
+          // );
           // Continue with other listings even if one fails
         }
       }
@@ -147,6 +160,10 @@ export const config = {
 };
 
 export async function GET(req: NextRequest) {
+  const uploadedFiles = await utapi.uploadFilesFromUrl([
+    "https://media.pazar3.mk/Image/7590180b-e8ef-43f3-bdec-47fa0752c514/20250225/false/false/1280/960/komoten-stan-od-116m2-itno-poradi-preselba-vo-drug-grad.jpeg?noLogo=true",
+  ]);
+  console.log("uploadedFiles", uploadedFiles);
   const testObj = {
     url: "https://www.pazar3.mk/oglas/zivealista/stanovi/izdavanje/skopje/skopje-opstina/nov-dvosoben-56m2-kaj-hotel-kontinental-east-gate/2825258",
     mkTitle: "Nov dvosoben 56m2 kaj hotel Kontinental-East Gate",
