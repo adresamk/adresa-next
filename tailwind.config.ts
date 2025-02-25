@@ -29,6 +29,9 @@ const config = withUt({
     },
     fontSize,
     extend: {
+      transitionDuration: {
+        1500: "1500ms",
+      },
       boxShadow: {
         "blue-glow": "0 0 20px 12px rgba(0, 123, 255, 0.8)",
         "blue-glow-bigger": "0 0 30px 25px rgba(0, 123, 255, 0.8)",

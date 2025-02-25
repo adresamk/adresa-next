@@ -60,7 +60,7 @@ export default function CreateSavedSearch() {
     <>
       <AuthDialog />
       <Button
-        className="h-8 px-1.5 py-0.5 md:h-10 md:px-2 md:py-1"
+        className="duration-1500 fixed right-2 top-[150px] z-[3000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 md:static md:h-10 md:animate-none md:rounded-md md:px-2 md:py-1"
         onClick={() => {
           withAuthCheck(() => {
             setIsSavedSearchModalOpen(true);
@@ -68,8 +68,10 @@ export default function CreateSavedSearch() {
           });
         }}
       >
-        <BellPlus className="mr-2 h-4 w-4 md:h-5 md:w-5" />{" "}
-        {t("common.actions.saveSearch")}
+        <BellPlus className="m-2 mr-2 h-6 w-6 md:mr-2 md:h-5 md:w-5" />
+        <span className="hidden md:block">
+          {t("common.actions.saveSearch")}
+        </span>
       </Button>
       <SmartOverlay
         isOpen={isSavedSearchModalOpen}
