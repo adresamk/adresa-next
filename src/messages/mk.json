@@ -936,6 +936,8 @@
       "houses": "Куќи",
       "forSale": "За продажба",
       "forRent": "За изнајмување",
+      "fromUser": "од сопственик",
+      "fromAgency": "од агенција",
       "allListings": "Сите огласи",
       "popularListings": "Популарни огласи од {agencyName}"
     },

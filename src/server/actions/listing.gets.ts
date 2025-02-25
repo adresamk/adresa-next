@@ -198,6 +198,19 @@ export async function getAllListings(
       ],
     },
     include: {
+      residential: {
+        select: {
+          bathroomCount: true,
+          bedroomCount: true,
+          floor: true,
+        },
+      },
+      commercial: {
+        select: {
+          floor: true,
+          wcCount: true,
+        },
+      },
       listingFeatures: {
         include: {
           feature: {

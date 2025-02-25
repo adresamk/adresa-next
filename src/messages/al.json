@@ -914,6 +914,8 @@
       "houses": "Shtëpi",
       "forSale": "Për shitje",
       "forRent": "Për qira",
+      "fromUser": "nërsojtë",
+      "fromAgency": "nërsojtë",
       "allListings": "Të gjitha shpalljet",
       "popularListings": "Shpallje të popullarizuara nga {agencyName}"
     },
