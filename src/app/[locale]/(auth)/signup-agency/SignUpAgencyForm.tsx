@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Form } from "@/components/Form";
 import { Link } from "@/i18n/routing";
 import SignUpAgencyFormWrapper from "./SignUpAgencyFormWrapper";
+import GoogleOAuthButton from "../GoogleOAuthButton";
 
 interface SignUpAgencyFormProps {}
 export default function SignUpAgencyForm({}: SignUpAgencyFormProps) {
@@ -24,13 +25,28 @@ export default function SignUpAgencyForm({}: SignUpAgencyFormProps) {
         </p>
       </div>
 
-      <Alert className="mb-4 mt-10 border-orange-400 text-orange-400 sm:mx-auto sm:w-full sm:max-w-sm">
-        <Info className="h-4 w-4" />
-        <AlertTitle>{t("auth.agencySignUp.important")}</AlertTitle>
+      <Alert className="mb-4 mt-10 border-orange-400 p-2 text-sm text-orange-400 sm:mx-auto sm:w-full sm:max-w-sm">
+        <Info className="m-0 h-4 w-4" />
+        <AlertTitle className="mt-2">
+          {t("auth.agencySignUp.important")}
+        </AlertTitle>
         <AlertDescription className="text-slate-900">
           {t("auth.agencySignUp.profileInfo")}
         </AlertDescription>
       </Alert>
+      <div className="mt-6 w-full sm:mx-auto sm:max-w-sm">
+        <GoogleOAuthButton />
+        <div className="relative my-2">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="bg-white px-2 text-gray-500">
+              {t("auth.oauth.or")}
+            </span>
+          </div>
+        </div>
+      </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <SignUpAgencyFormWrapper>
           <div>

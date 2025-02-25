@@ -2,6 +2,7 @@
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import SignUpFormWrapper from "./SignUpFormWrapper";
+import GoogleOAuthButton from "../GoogleOAuthButton";
 interface SignUpFormProps {}
 export default function SignUpForm({}: SignUpFormProps) {
   const t = useTranslations();
@@ -16,8 +17,20 @@ export default function SignUpForm({}: SignUpFormProps) {
           {t("auth.signUp.subtitle")}
         </p>
       </div>
-
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-6 w-full sm:mx-auto sm:max-w-sm">
+        <GoogleOAuthButton />
+        <div className="relative my-4">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="bg-white px-2 text-gray-500">
+              {t("auth.oauth.or")}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="mt-1 sm:mx-auto sm:w-full sm:max-w-sm">
         <SignUpFormWrapper>
           <div>
             <label
