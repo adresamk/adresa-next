@@ -18,7 +18,6 @@ import { useTranslations } from "next-intl";
 import AdditionalFeaturesFilters from "./AdditionalFeaturesFilters";
 import { Feature, Listing } from "@prisma/client";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
-import { cn } from "@/lib/utils";
 
 export default function Filters({ listings }: { listings: Listing[] }) {
   // not sure why we need this
@@ -52,12 +51,17 @@ export default function Filters({ listings }: { listings: Listing[] }) {
   const [searchHits, setSearchHits] = useState(listings.length);
   useEffect(() => {
     const fetchFeatures = async () => {
-      setIsLoading(true);
-      const response = await fetch("/api/listing/features");
-      const data = await response.json();
-      // console.log(data);
-      setFeatures(data.features);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const response = await fetch("/api/listing/features");
+        const data = await response.json();
+        // console.log(data);
+        setFeatures(data.features);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        console.error("Error fetching features:", error);
+      }
     };
     fetchFeatures();
   }, []);

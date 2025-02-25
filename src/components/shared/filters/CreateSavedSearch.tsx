@@ -41,6 +41,15 @@ export default function CreateSavedSearch() {
     }
   }, [pathname]);
 
+  //open randomly
+  useEffect(() => {
+    if (Math.random() > 0.7) {
+      setTimeout(() => {
+        setIsSavedSearchModalOpen(true);
+      }, 2000);
+    }
+  }, []);
+
   useEffect(() => {
     if (response?.success) {
       setIsSavedSearchModalOpen(false);
