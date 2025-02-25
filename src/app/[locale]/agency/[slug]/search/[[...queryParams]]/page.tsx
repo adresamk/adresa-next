@@ -42,20 +42,21 @@ export default async function SearchPage({
   const parsedQueryParams = parseQueryParams(queryParams);
 
   const listings = await unstable_cache(
-    async () => getAllListings(parsedQueryParams),
-    ["listings", JSON.stringify(parsedQueryParams)],
+    async () => {
+      const listings = await getAllListings(parsedQueryParams);
+      return listings.filter((listing) => listing.agencyId === agency.id);
+    },
+    ["listings-for-" + slug, JSON.stringify(parsedQueryParams)],
     {
       revalidate: 60,
     },
   )();
 
-  const filteredListings = listings.filter(
-    (listing) => listing.agencyId === agency.id,
-  );
+  console.log(listings.length);
 
   return (
     <main className="min-h-screen bg-white">
-      <SearchResults listings={filteredListings} agency={agency} />
+      <SearchResults listings={listings} agency={agency} />
     </main>
   );
 }
