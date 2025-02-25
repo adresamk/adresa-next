@@ -49,9 +49,13 @@ export default async function SearchPage({
     },
   )();
 
+  const filteredListings = listings.filter(
+    (listing) => listing.agencyId === agency.id,
+  );
+
   return (
     <main className="min-h-screen bg-white">
-      <SearchResults listings={listings} agency={agency} />
+      <SearchResults listings={filteredListings} agency={agency} />
     </main>
   );
 }
