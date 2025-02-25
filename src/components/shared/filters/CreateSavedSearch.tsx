@@ -60,7 +60,13 @@ export default function CreateSavedSearch() {
     <>
       <AuthDialog />
       <Button
-        className="duration-1500 fixed right-2 top-[150px] z-[20000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 md:static md:h-10 md:animate-none md:rounded-md md:px-2 md:py-1"
+        className="duration-1500 fixed right-2 top-[150px] z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:rounded-md md:px-2 md:py-1"
+        style={{
+          position: "fixed",
+          zIndex: 999999,
+          WebkitTransform: "translateZ(999999px)",
+          transform: "translateZ(999999px)",
+        }}
         onClick={() => {
           withAuthCheck(() => {
             setIsSavedSearchModalOpen(true);
