@@ -58,6 +58,8 @@ const footerColumns: FooterColumnProps[] = [
     items: [
       { text: "Terms of Use", href: "terms-of-use" },
       { text: "Policies", href: "privacy-policy" },
+      { text: "Terms for Listings", href: "terms-for-listings" },
+      { text: "Cookies", href: "cookies-policy" },
     ],
   },
   {

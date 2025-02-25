@@ -1,9 +1,10 @@
 import createNextIntlPlugin from "next-intl/plugin";
-
+import createMDX from "@next/mdx";
 const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -43,4 +44,12 @@ const nextConfig = {
   transpilePackages: ["leaflet", "react-leaflet"],
 };
 
-export default withNextIntl(nextConfig);
+const withMDX = createMDX({
+  options: {
+    // remarkPlugins: [],
+    // rehypePlugins: [],
+    // providerImportSource: "@mdx-js/react",
+  },
+});
+
+export default withNextIntl(withMDX(nextConfig));

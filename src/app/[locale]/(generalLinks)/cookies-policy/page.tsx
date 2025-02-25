@@ -7,16 +7,13 @@ export default async function Page({
   const locale = (await params).locale;
 
   console.log(locale);
-  const { default: PrivacyPolicy } = await import(
-    `@/content/privacy-policy/${locale}.mdx`
+  const { default: CookiesPolicy } = await import(
+    `@/content/cookies-policy/${locale}.mdx`
   );
 
-  // console.log(a);
-
-  // return <div>{"ASD"}</div>;
   return (
     <article className="mx-auto max-w-4xl px-8 py-6">
-      <PrivacyPolicy />
+      <CookiesPolicy />
     </article>
   );
 }

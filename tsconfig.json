@@ -38,7 +38,8 @@
     ".next/types/**/*.ts",
     "prismaConnectionTest.js",
     "prisma/seeds/**/*.ts",
-    "prisma/seeds/**/*.mts"
+    "prisma/seeds/**/*.mts",
+    "src/app/[locale]/(generalLinks)/privacy-policy/page.mdx"
   ],
   "exclude": ["node_modules"]
 }

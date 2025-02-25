@@ -7,8 +7,8 @@ export default async function Page({
   const locale = (await params).locale;
 
   console.log(locale);
-  const { default: PrivacyPolicy } = await import(
-    `@/content/privacy-policy/${locale}.mdx`
+  const { default: TermsForListings } = await import(
+    `@/content/terms-for-listings/${locale}.mdx`
   );
 
   // console.log(a);
@@ -16,7 +16,7 @@ export default async function Page({
   // return <div>{"ASD"}</div>;
   return (
     <article className="mx-auto max-w-4xl px-8 py-6">
-      <PrivacyPolicy />
+      <TermsForListings />
     </article>
   );
 }

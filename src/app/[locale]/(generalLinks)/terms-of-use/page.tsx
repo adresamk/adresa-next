@@ -1,10 +1,26 @@
-import { Metadata } from "next";
+import "@/content/metadata.css";
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = (await params).locale;
 
-interface TermsOfUseProps {}
-export const metadata: Metadata = {
-  title: "Услови за користење | Adresa.mk",
-  description: "Услови за користење",
-};
-export default async function TermsOfUse({}: TermsOfUseProps) {
-  return <div>TermsOfUse works</div>;
+  console.log(locale);
+  const { default: TOC } = await import(`@/content/terms-of-use/${locale}.mdx`);
+
+  // console.log(a);
+
+  // return <div>{"ASD"}</div>;
+  return (
+    <article className="mx-auto max-w-4xl px-8 py-6">
+      <TOC />
+    </article>
+  );
 }
+
+export function generateStaticParams() {
+  return [{ locale: "mk" }, { locale: "en" }, { locale: "al" }];
+}
+
+export const dynamicParams = false;
