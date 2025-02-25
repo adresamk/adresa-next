@@ -125,6 +125,19 @@ export default function SearchShowcase({
               {t(`common.property.type.${listing.type}`)},{" "}
               {displayArea(listing.area)}
             </figcaption>
+            {/* TAGS */}
+            <div className="absolute bottom-1 left-1">
+              <div className="flex gap-1">
+                {tags.map((tag) => (
+                  <span
+                    className="rounded-md bg-white px-1.5 py-0.5 text-xs font-bold text-slate-700"
+                    key={tag}
+                  >
+                    {t(`agency.properties.${tag}`)}
+                  </span>
+                ))}
+              </div>
+            </div>
           </figure>
           <div className="relative flex-1 px-5 pb-2.5 pt-3.5">
             <div className="flex h-full flex-col justify-between">
@@ -329,19 +342,6 @@ export default function SearchShowcase({
               )}
             </div>
           )}
-          {/* TAGS */}
-          <div className="absolute bottom-1 left-1">
-            <div className="flex gap-1">
-              {tags.map((tag) => (
-                <span
-                  className="rounded-md bg-white px-1.5 py-0.5 text-xs font-bold text-slate-700"
-                  key={tag}
-                >
-                  {t(`agency.properties.${tag}`)}
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
       </article>
     </li>
