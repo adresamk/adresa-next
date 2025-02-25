@@ -361,17 +361,18 @@ export default async function SingleListingPage({
 
             {/* Mortgages Options */}
             <Separator className="my-3 bg-slate-400" />
-            {listing.transactionType === PropertyTransactionType.sale && (
-              <>
-                <div className="my-4 flex flex-wrap items-center justify-center gap-4 lg:flex-nowrap lg:justify-start">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  {/* <img src="/assets/halkbank-logo.png" alt="Halkbank" /> */}
-                  {/* <span>{t("common.property.mortgage.options")}</span> */}
-                  <CalculateMortgageButton />
-                </div>
-                <Separator className="my-3 bg-slate-400" />
-              </>
-            )}
+            {listing.transactionType === PropertyTransactionType.sale &&
+              false && (
+                <>
+                  <div className="my-4 flex flex-wrap items-center justify-center gap-4 lg:flex-nowrap lg:justify-start">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {/* <img src="/assets/halkbank-logo.png" alt="Halkbank" /> */}
+                    {/* <span>{t("common.property.mortgage.options")}</span> */}
+                    <CalculateMortgageButton />
+                  </div>
+                  <Separator className="my-3 bg-slate-400" />
+                </>
+              )}
 
             {/* Description */}
             <div className="my-7">
@@ -425,7 +426,7 @@ export default async function SingleListingPage({
                   <div className="h-[400px] animate-pulse bg-slate-200" />
                 }
               >
-                <MortgageCalculator initialPrice={listing.price || 0} />
+                {/* <MortgageCalculator initialPrice={listing.price || 0} /> */}
               </Suspense>
             )}
             {/* Publisher  */}

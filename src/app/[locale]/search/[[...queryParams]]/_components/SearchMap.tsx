@@ -422,12 +422,12 @@ export default function SearchMap({
           </div>
         </aside>
         <aside className="absolute bottom-[20px] right-[36px] z-[1050] rounded">
-          <div className="rounded bg-white text-xs shadow-lg md:text-sm">
+          {/* <div className="rounded bg-white text-xs shadow-lg md:text-sm">
             <Button variant={"ghost"} onClick={() => setIsDrawing(!isDrawing)}>
               <Pencil className="mr-2 h-4 w-4" />
               Draw
             </Button>
-          </div>
+          </div> */}
         </aside>
 
         <MapContainer
