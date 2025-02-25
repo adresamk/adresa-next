@@ -247,6 +247,7 @@
           "RESIDENTIAL_OTHER": "Banesore"
         },
         "keys": {
+          "duplex": "Дуплекс",
           "water": "Ujë",
           "electricity": "Elektricitet",
           "building_permit": "Leja për ndërtim",

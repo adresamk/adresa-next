@@ -256,6 +256,7 @@
           "RESIDENTIAL_OTHER": "За живеење"
         },
         "keys": {
+          "duplex": "Дуплекс",
           "water": "Вода",
           "electricity": "Струја",
           "building_permit": "Дозвола за градење",

@@ -246,6 +246,7 @@
           "RESIDENTIAL_OTHER": "Residential other"
         },
         "keys": {
+          "duplex": "Duplex",
           "water": "Water",
           "electricity": "Electricity",
           "building_permit": "Building permit",
