@@ -24,6 +24,9 @@ export async function GET(req: NextRequest) {
   const cookieStore = await cookies();
   const codeVerifier = cookieStore.get("codeVerifier")?.value;
   const savedState = cookieStore.get("state")?.value;
+  const savedRole = cookieStore.get("role")?.value;
+
+  console.log({ savedRole });
 
   if (!codeVerifier || !savedState) {
     console.error("No code verifier or state");
@@ -75,23 +78,35 @@ export async function GET(req: NextRequest) {
     const [firstName, lastName] = googleData.name.split(" ");
     const account = await prismadb.account.create({
       data: {
-        role: AccountType.USER,
+        role: savedRole as AccountType,
         email: googleData.email,
         emailVerified: new Date(),
       },
     });
-    await prismadb.user.create({
-      data: {
-        accountId: account.id,
-        pictureUrl: googleData.picture,
-        firstName,
-        lastName,
-        uuid: account.uuid,
-        contactName: `${firstName} ${lastName}`,
-        contactEmail: googleData.email,
-        contactEmailVerified: new Date(),
-      },
-    });
+    if (savedRole === AccountType.USER) {
+      await prismadb.user.create({
+        data: {
+          accountId: account.id,
+          pictureUrl: googleData.picture,
+          firstName,
+          lastName,
+          uuid: account.uuid,
+          contactName: `${firstName} ${lastName}`,
+          contactEmail: googleData.email,
+          contactEmailVerified: new Date(),
+        },
+      });
+      console.log("created user");
+    }
+    if (savedRole === AccountType.AGENCY) {
+      await prismadb.agency.create({
+        data: {
+          accountId: account.id,
+          uuid: account.uuid,
+        },
+      });
+      console.log("created agency");
+    }
     accountId = account.id;
     accountUuid = account.uuid;
   }
@@ -112,8 +127,39 @@ export async function GET(req: NextRequest) {
   //   httpOnly: false,
   // });
 
-  redirect({
-    href: "/",
-    locale: locale,
-  });
+  if (existingUser) {
+    if (existingUser.role === AccountType.USER) {
+      redirect({
+        href: "/",
+        locale: locale,
+      });
+    }
+    const missingFields = false;
+    if (missingFields) {
+      if (existingUser.role === AccountType.AGENCY) {
+        redirect({
+          href: `/agency/profile/details`,
+          locale: locale,
+        });
+      }
+    } else {
+      redirect({
+        href: "/",
+        locale: locale,
+      });
+    }
+  } else {
+    if (savedRole === AccountType.USER) {
+      redirect({
+        href: "/profile/info",
+        locale: locale,
+      });
+    }
+    if (savedRole === AccountType.AGENCY) {
+      redirect({
+        href: `/agency/profile/details`,
+        locale: locale,
+      });
+    }
+  }
 }

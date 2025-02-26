@@ -3,6 +3,7 @@ import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import SignUpFormWrapper from "./SignUpFormWrapper";
 import GoogleOAuthButton from "../GoogleOAuthButton";
+import { AccountType } from "@prisma/client";
 interface SignUpFormProps {}
 export default function SignUpForm({}: SignUpFormProps) {
   const t = useTranslations();
@@ -18,7 +19,7 @@ export default function SignUpForm({}: SignUpFormProps) {
         </p>
       </div>
       <div className="mt-6 w-full sm:mx-auto sm:max-w-sm">
-        <GoogleOAuthButton />
+        <GoogleOAuthButton role={AccountType.USER} />
         <div className="relative my-4">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300"></div>

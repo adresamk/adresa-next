@@ -9,6 +9,7 @@ import { Form } from "@/components/Form";
 import { Link } from "@/i18n/routing";
 import SignUpAgencyFormWrapper from "./SignUpAgencyFormWrapper";
 import GoogleOAuthButton from "../GoogleOAuthButton";
+import { AccountType } from "@prisma/client";
 
 interface SignUpAgencyFormProps {}
 export default function SignUpAgencyForm({}: SignUpAgencyFormProps) {
@@ -35,7 +36,7 @@ export default function SignUpAgencyForm({}: SignUpAgencyFormProps) {
         </AlertDescription>
       </Alert>
       <div className="mt-6 w-full sm:mx-auto sm:max-w-sm">
-        <GoogleOAuthButton />
+        <GoogleOAuthButton role={AccountType.AGENCY} />
         <div className="relative my-2">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300"></div>

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 import GoogleOAuthButton from "../GoogleOAuthButton";
 import SignInFormWrapper from "./SignInFormWrapper";
+import { AccountType } from "@prisma/client";
 
 interface SignInFormProps {
   searchParams: Record<string, string> | null;
@@ -25,7 +26,7 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
       </div>
 
       <div className="mt-6 w-full sm:mx-auto sm:max-w-sm">
-        <GoogleOAuthButton />
+        <GoogleOAuthButton role={AccountType.USER} />
         <div className="relative my-4">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300"></div>
