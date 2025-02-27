@@ -14,8 +14,6 @@ export default function LogoutButton({}: LogoutButtonProps) {
   const logoutClient = useCurrentUser((state) => state.logout);
 
   async function handleLogout() {
-    logoutClient();
-
     try {
       const response = await logout();
       if (response?.success) {
@@ -26,6 +24,8 @@ export default function LogoutButton({}: LogoutButtonProps) {
             backgroundColor: "var(--alice-blue)",
           },
         });
+        logoutClient();
+
         // router.push("/");
       }
     } catch (error) {
