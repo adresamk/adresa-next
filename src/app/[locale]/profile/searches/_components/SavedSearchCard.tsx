@@ -11,8 +11,10 @@ import {
 } from "@/server/actions/savedSearche.actions";
 import { Link, useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import { ConfirmDeleteButton } from "@/components/ConfirmDeleteButton";
+import { Separator } from "@/components/ui/separator";
 
-const notificationIntervalOptions = ["daily", "weekly", "live"];
+const notificationIntervalOptions = ["live", "daily", "weekly"];
 export default function SavedSearchCard({
   savedSearch,
 }: {
@@ -58,100 +60,61 @@ export default function SavedSearchCard({
     },
   );
   return (
-    <div
+    <article
       id={"ss" + savedSearch.id}
-      className="w-[280px] rounded-md border p-3 shadow-md"
+      className="relative mb-4 flex flex-col rounded-md border border-slate-200 shadow-lg"
     >
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          {/* {searchParamsExtracted} */}
-          <div className="text-lg font-semibold">
-            <h4>
-              <div
-                // target="_blank"
-                // href={"/search?" + savedSearch.searchParams}
-                className="text-brand-dark-blue hover:text-brand-light-blue"
-              >
-                <span
-                  className="flex cursor-pointer items-center"
-                  onClick={async (e) => {
-                    console.log("here");
-                    const resp = await updateSavedSearch(
-                      savedSearch.id,
-                      "lastOpenedAt",
-                      null,
-                    );
-                    if (resp.success) {
-                      // or change this to click a hidden link element
-                      router.push(savedSearch.searchParams);
-                    }
-                  }}
-                >
-                  <LinkIcon className="mr-2 h-5 w-5" /> {savedSearch.name}
-                </span>
-              </div>
-            </h4>
-            Search params here
-            {/* <span className="capitalize">{savedSearch.type}</span>
-            &apos;s for
-            <span className="capitalize">
-              {savedSearch.transactionType}
-            </span>
-            ing in {savedSearch.location},{savedSearch.municipality} */}
+      {/* top */}
+      <div className="relative mt-1.5 flex h-[73px] items-center justify-between gap-3 pl-4 pr-2">
+        <div className="relative flex w-full items-center justify-between gap-4">
+          <h2 className="line-clamp-3 h-full overflow-hidden text-base font-semibold leading-5">
+            {savedSearch.name}
+          </h2>
+          <div className="ml-4 flex-shrink-0 basis-14">
+            <img
+              src="/assets/region-map-preview.png"
+              alt="saved search map area"
+              loading="eager"
+              width={56}
+              height={56}
+              className="aspect-square max-w-full"
+            />
           </div>
-        </div>
-        <div>
-          <Button
-            variant={"outline"}
-            className="h-10 w-10 rounded-full p-2"
-            onClick={async () => {
-              const resp = await deleteSavedSearch(savedSearch.id);
-              if (resp.success) {
-                // console.log("Deleted");
-                const cardNode = document.getElementById("ss" + savedSearch.id);
-                if (cardNode) {
-                  cardNode.remove();
-                }
-                // revalidatePath("/profile/searches");
-              }
-            }}
-          >
-            <Trash className="h-4 w-4 text-red-500" />
-          </Button>
+          <Link
+            href={savedSearch.searchParams}
+            target="_blank"
+            className="absolute inset-0 z-20"
+          />
         </div>
       </div>
-      <div className="my-4 flex h-4 gap-1.5 text-sm">
-        {listingsCount !== null && (
-          <span>
-            {listingsCount}{" "}
-            {listingsCount > 0
-              ? "listings"
-              : listingsCount === 0
-                ? "no listings"
-                : "listing"}
-          </span>
-        )}
-        {newListingsCount !== null && (
-          <span className="text-brand-light-blue">
-            {newListingsCount > 0 ? `+${newListingsCount} new` : "0 new"}
-          </span>
-        )}
-      </div>
-      <div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={savedSearch.img || "/assets/saved-search-map-area.png"}
-          width={250}
-          height={88}
-          alt="saved search map area"
-        />
-      </div>
+      <div className="relative flex h-9 items-center px-4">
+        <p className="text-sm">
+          {listingsCount} {listingsCount === 0 && t("common.words.noListings")}
+          {listingsCount === 1 && t("common.words.listing")}
+          {listingsCount && listingsCount > 1 && t("common.words.listings")}
+        </p>
 
-      <div>
-        <p className="mb-2.5 mt-5">
+        {newListingsCount !== null && (
+          <Link
+            href={savedSearch.searchParams + "&published=new_24h"}
+            className="relative z-20 inline-flex cursor-pointer items-center gap-1 overflow-hidden rounded-sm px-3 py-2.5 text-sm font-bold text-slate-950 hover:bg-slate-50"
+          >
+            <span className="block h-1 w-1 rounded-full bg-brand-light-blue"></span>
+            <span className="text-brand-light-blue">
+              {newListingsCount} {t(`common.words.newListings`)}
+            </span>
+          </Link>
+        )}
+      </div>
+      <a href=""></a>
+      <Separator className="bg-slate-200" />
+
+      <div className="ml-auto flex flex-col items-end gap-2 p-2.5">
+        <p className="">
           <Button
             variant={"ghost"}
-            className="flex gap-2"
+            className="flex gap-2 text-sm"
+            size={"sm"}
             onClick={async () => {
               const resp = await updateSavedSearch(
                 savedSearch.id,
@@ -163,32 +126,51 @@ export default function SavedSearchCard({
               }
             }}
           >
-            {isNotificationOn ? <Bell /> : <BellOff />}
+            {isNotificationOn ? (
+              <Bell className="h-4 w-4" />
+            ) : (
+              <BellOff className="h-4 w-4" />
+            )}
             {isNotificationOn
               ? t("savedSearches.notificationsOn")
               : t("savedSearches.notificationsOff")}
           </Button>
         </p>
-        <SelectDemo
-          disabled={!isNotificationOn}
-          placeholder={
-            isNotificationOn ? "Select Notification Interval" : "Off"
-          }
-          name="notificationInterval"
-          options={notificationIntervalOptionsTranslated}
-          value={notificationInterval}
-          onClick={async (value) => {
-            const resp = await updateSavedSearch(
-              savedSearch.id,
-              "notificationInterval",
-              value,
-            );
-            if (resp.success) {
-              setNotificationInterval(value);
+        <div className="flex items-center justify-between gap-2">
+          <SelectDemo
+            disabled={!isNotificationOn}
+            placeholder={
+              isNotificationOn ? "Select Notification Interval" : "Off"
             }
-          }}
-        />
+            name="notificationInterval"
+            options={notificationIntervalOptionsTranslated}
+            value={notificationInterval}
+            onClick={async (value) => {
+              const resp = await updateSavedSearch(
+                savedSearch.id,
+                "notificationInterval",
+                value,
+              );
+              if (resp.success) {
+                setNotificationInterval(value);
+              }
+            }}
+          />
+          <ConfirmDeleteButton
+            onDelete={async () => {
+              const resp = await deleteSavedSearch(savedSearch.id);
+              if (resp.success) {
+                const cardNode = document.getElementById("ss" + savedSearch.id);
+                if (cardNode) {
+                  cardNode.remove();
+                }
+              }
+            }}
+            icon={<Trash className="h-4 w-4 text-red-500" />}
+            deleteText={t("common.actions.delete")}
+          />
+        </div>
       </div>
-    </div>
+    </article>
   );
 }

@@ -168,6 +168,7 @@ export default function CreateSavedSearch() {
 
                 <div className="flex items-start gap-2 px-2">
                   <RadioGroupDemo
+                    allDisabled={!areNotificationsOn}
                     name="notificationInterval"
                     defaultValue={
                       notificationIntervalOptionsTranslated[2].value
@@ -178,10 +179,11 @@ export default function CreateSavedSearch() {
                   <div className="ml-auto mt-4 flex items-start gap-2">
                     <Label
                       htmlFor="isNotificationOnCheckbox"
-                      className="text-right text-lg leading-4"
+                      className="text-right text-base leading-4"
                     >
                       {t("savedSearches.notifications")}
                     </Label>
+
                     <input
                       type="text"
                       className="hidden"

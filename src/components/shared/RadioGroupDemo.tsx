@@ -1,5 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
 import { cx } from "class-variance-authority";
 
 interface RadioGroupDemoProps {
@@ -11,6 +12,7 @@ interface RadioGroupDemoProps {
   options: { label: string; value: string }[];
   onChange?: (value: string) => void;
   description?: string;
+  allDisabled?: boolean;
 }
 export function RadioGroupDemo({
   title = "Default title",
@@ -21,6 +23,7 @@ export function RadioGroupDemo({
   direction = "vertical",
   onChange,
   description,
+  allDisabled = false,
 }: RadioGroupDemoProps) {
   if (options.length === 0) {
     return null;
@@ -33,7 +36,7 @@ export function RadioGroupDemo({
       )}
     >
       <h2 className={cx("font-semibold", direction === "vertical" && "mb-2")}>
-        {title}
+        <span className={cn("", allDisabled && "text-gray-500")}>{title}</span>
         {description && (
           <p className="text-xs text-gray-500">
             {description}
@@ -50,6 +53,7 @@ export function RadioGroupDemo({
         {options.map((option) => (
           <div key={option.value} className="flex items-center space-x-2">
             <RadioGroupItem
+              disabled={allDisabled}
               value={option.value}
               id={option.value}
               className="text-brand-light-blue accent-current"
