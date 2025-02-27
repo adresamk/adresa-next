@@ -1,10 +1,22 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Bookmark, Contact, Heart, HousePlus, UserIcon } from "lucide-react";
+import {
+  Bookmark,
+  Contact,
+  Heart,
+  HousePlus,
+  Info,
+  UserIcon,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { User } from "@prisma/client";
 import { useTranslations } from "next-intl";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function ProfileSideMenu({ user }: { user: User | null }) {
   const pathname = usePathname();
@@ -14,11 +26,13 @@ export default function ProfileSideMenu({ user }: { user: User | null }) {
       label: t("user.profile.menu.profile"),
       icon: <UserIcon className="h-5 w-5" />,
       path: "/profile/info",
+      issues: !user?.firstName || !user?.lastName,
     },
     {
       label: t("user.profile.menu.contactInfo"),
       icon: <Contact className="h-5 w-5" />,
       path: "/profile/contact",
+      issues: !user?.contactName || !user?.contactPhone || !user?.contactEmail,
     },
     {
       label: t("user.profile.menu.myListings"),
@@ -71,6 +85,18 @@ export default function ProfileSideMenu({ user }: { user: User | null }) {
             >
               <div>{nav.icon}</div>
               <span>{nav.label}</span>
+              {nav.issues && (
+                <span className="ml-auto text-red-500">
+                  <Popover defaultOpen={true}>
+                    <PopoverTrigger>
+                      <Info className="h-4 w-4" />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <p className="p-2 text-xs text-red-700">Missing fields</p>
+                    </PopoverContent>
+                  </Popover>
+                </span>
+              )}
             </li>
           </Link>
         ))}

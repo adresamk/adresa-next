@@ -26,6 +26,7 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
       </div>
 
       <div className="mt-6 w-full sm:mx-auto sm:max-w-sm">
+        {/* Passing role here doesn't matter it's to justify requrirement for prop, but it takes care base on current user type, if they don't have account we assume they want to make USER account */}
         <GoogleOAuthButton role={AccountType.USER} />
         <div className="relative my-4">
           <div className="absolute inset-0 flex items-center">

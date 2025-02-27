@@ -75,10 +75,10 @@ export default async function ProfileInfoPage() {
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="ownerPhone">
             {t("agency.profile.info.ownerPhone")}{" "}
-            <span className="text-red-500">*</span>
+            {/* <span className="text-red-500">*</span> */}
           </Label>
           <Input
-            required
+            // required
             id="ownerPhone"
             name="ownerPhone"
             defaultValue={agency?.ownerPhone || ""}

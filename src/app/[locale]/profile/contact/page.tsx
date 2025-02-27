@@ -124,10 +124,10 @@ export default async function ProfileInfoPage({
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="contactHours">
             {t("user.profile.contactInfo.contactHours")}{" "}
-            <span className="text-red-500">*</span>
+            {/* <span className="text-red-500">*</span> */}
           </Label>
           <Textarea
-            required
+            // required
             id="contactHours"
             name="contactHours"
             defaultValue={user?.contactHours || ""}

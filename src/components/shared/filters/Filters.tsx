@@ -75,31 +75,31 @@ export default function Filters({ listings }: { listings: Listing[] }) {
     // console.log("pathname", pathname);
     // console.log("isFirstRender", isFirstRender.current);
     // this will execute on every render except the first one
-
-    const fetchListingCount = async () => {
-      setIsRetrievingSearchHits(true);
-      // const newDestination = pathname;
-      // console.log("newDestination", newDestination);
-      const response = await fetch(
-        `/api/listing/count?path=${pathname}&${
-          selectedFeaturesKeys ? `f=${selectedFeaturesKeys.toString()}` : ""
-        }`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
+    if (areMoreFiltersOpen) {
+      const fetchListingCount = async () => {
+        setIsRetrievingSearchHits(true);
+        // const newDestination = pathname;
+        // console.log("newDestination", newDestination);
+        const response = await fetch(
+          `/api/listing/count?path=${pathname}&${
+            selectedFeaturesKeys ? `f=${selectedFeaturesKeys.toString()}` : ""
+          }`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        },
-      );
-      const data = await response.json();
-      console.log(data);
-      setSearchHits(data.count);
-      setIsRetrievingSearchHits(false);
-    };
-    fetchListingCount();
-
+        );
+        const data = await response.json();
+        console.log(data);
+        setSearchHits(data.count);
+        setIsRetrievingSearchHits(false);
+      };
+      fetchListingCount();
+    }
     // setSearchHits(listings.length);
-  }, [listings, selectedFeaturesKeys, pathname]);
+  }, [listings, selectedFeaturesKeys, pathname, areMoreFiltersOpen]);
   const moreFiltersFooter = (
     <div className="flex w-full items-end justify-between">
       <Button

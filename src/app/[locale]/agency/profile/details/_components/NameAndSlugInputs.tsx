@@ -36,7 +36,10 @@ export default function NameAndSlugInputs({ agency }: NameAndSlugInputsProps) {
 
       {/* Agency Slug */}
       <div className="mb-2 flex flex-col gap-3">
-        <Label htmlFor="slug">{t("agency.profile.details.agencySlug")} </Label>
+        <Label htmlFor="slug">
+          {t("agency.profile.details.agencySlug")}
+          <span className="ml-1 text-red-500">*</span>
+        </Label>
         <span className="text-xs text-slate-500">
           {t("agency.profile.details.agencySlugInfo")}
         </span>

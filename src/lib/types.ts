@@ -34,7 +34,8 @@ export type LocalStorageKeysOptions =
   | "recentlyViewedListings"
   | "recentSearches"
   | "prevMapBounds"
-  | "map-bounds";
+  | "map-bounds"
+  | "returnPathname";
 
 export interface RecentlyViewedListing {
   listingNumber: number;

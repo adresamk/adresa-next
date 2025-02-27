@@ -16,11 +16,12 @@ export default function AgencyLogoUpload({
   const t = useTranslations();
 
   return (
-    <div>
+    <div className="relative">
       <input
         type="text"
         name="logo"
-        className="hidden"
+        required
+        className="sr-only absolute left-12 top-6"
         value={logoDataStringified}
         onChange={() => {}}
       />

@@ -5,11 +5,23 @@ import { UserIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { useTranslations } from "next-intl";
+import { writeToLocalStorage } from "@/lib/utils";
 export default function AuthOptionsPopup() {
   const t = useTranslations();
   return (
     <div>
-      <Popover>
+      <Popover
+        onOpenChange={(open) => {
+          console.log("open", open);
+          if (open) {
+            console.log("writing to local storage", window.location.pathname);
+            writeToLocalStorage(
+              "returnPathname",
+              window.location.pathname + window.location.search,
+            );
+          }
+        }}
+      >
         <PopoverTrigger>
           <Avatar>
             <AvatarFallback>

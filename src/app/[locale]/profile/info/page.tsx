@@ -70,10 +70,10 @@ export default async function ProfileInfoPage({
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="phone">
             {t("user.profile.info.phone")}{" "}
-            <span className="text-red-500">*</span>
+            {/* <span className="text-red-500">*</span> */}
           </Label>
           <Input
-            required
+            // required
             id="phone"
             name="phone"
             defaultValue={user?.phone || ""}

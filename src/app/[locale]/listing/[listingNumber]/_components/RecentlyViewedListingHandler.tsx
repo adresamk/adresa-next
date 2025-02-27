@@ -46,6 +46,6 @@ export default function RecentlyViewedListingHandler({
     };
 
     addToRecentlyViewed();
-  }, []);
+  }, [listing.listingNumber]);
   return null;
 }

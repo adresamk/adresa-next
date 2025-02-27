@@ -84,10 +84,10 @@ export default async function AgencyProfileDetailsPage({
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="address">
             {t("agency.profile.details.agencyAdress")}{" "}
-            <span className="text-red-500">*</span>
+            {/* <span className="text-red-500">*</span> */}
           </Label>
           <Input
-            required
+            // required
             id="address"
             defaultValue={agency?.address || ""}
             name="address"
@@ -116,7 +116,7 @@ export default async function AgencyProfileDetailsPage({
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="website">
             {t("agency.profile.details.agencyWebsite")}{" "}
-            <span className="text-red-500">*</span>
+            {/* <span className="text-red-500">*</span> */}
           </Label>
           <Input
             id="website"
@@ -130,7 +130,7 @@ export default async function AgencyProfileDetailsPage({
         <div className="mb-2 flex flex-col gap-3">
           <Label htmlFor="phone">
             {t("agency.profile.details.agencyPhone")}{" "}
-            <span className="text-red-500">*</span>
+            {/* <span className="text-red-500">*</span> */}
           </Label>
           <Input
             id="phone"

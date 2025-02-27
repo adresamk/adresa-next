@@ -284,7 +284,10 @@ export async function logout() {
   return { success: true };
 }
 
-export async function getGoogleOAuthConsentURL(role: AccountType) {
+export async function getGoogleOAuthConsentURL(
+  role: AccountType,
+  returnUrl: string,
+) {
   try {
     const state = generateState();
     const codeVerifier = generateCodeVerifier();
@@ -298,6 +301,10 @@ export async function getGoogleOAuthConsentURL(role: AccountType) {
       secure: process.env.NODE_ENV === "production",
     });
     cookieStore.set("role", role, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+    cookieStore.set("returnUrl", returnUrl, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     });

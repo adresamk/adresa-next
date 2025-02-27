@@ -25,9 +25,7 @@ export async function GET(req: NextRequest) {
   const codeVerifier = cookieStore.get("codeVerifier")?.value;
   const savedState = cookieStore.get("state")?.value;
   const savedRole = cookieStore.get("role")?.value;
-
-  console.log({ savedRole });
-
+  const savedReturnUrl = cookieStore.get("returnUrl")?.value || "/";
   if (!codeVerifier || !savedState) {
     console.error("No code verifier or state");
     return new Response("Invalid Request", { status: 400 });
@@ -62,7 +60,6 @@ export async function GET(req: NextRequest) {
   let accountUuid: string;
 
   // if the email exists in our record we can create a cookie for them and sign the in
-
   // if the email doesn't exist we create a new user, then create a cookie to sign them in
 
   const existingUser = await prismadb.account.findUnique({
@@ -103,6 +100,9 @@ export async function GET(req: NextRequest) {
         data: {
           accountId: account.id,
           uuid: account.uuid,
+          ownerFirstName: firstName,
+          ownerLastName: lastName,
+          ownerEmail: googleData.email,
         },
       });
       console.log("created agency");
@@ -115,36 +115,37 @@ export async function GET(req: NextRequest) {
   const session = await createSession(token, accountId);
   await setSessionTokenCookie(token, session.expiresAt, accountUuid);
 
-  // const session = await lucia.createSession(userId, {});
-  // const sessionCookie = await lucia.createSessionCookie(session.id);
-  // cookieStore.set(
-  //   sessionCookie.name,
-  //   sessionCookie.value,
-  //   sessionCookie.attributes,
-  // );
-  // cookieStore.set("auth-cookie-exists", userId, {
-  //   ...sessionCookie.attributes,
-  //   httpOnly: false,
-  // });
-
   if (existingUser) {
     if (existingUser.role === AccountType.USER) {
       redirect({
-        href: "/",
+        href: savedReturnUrl,
         locale: locale,
       });
     }
-    const missingFields = false;
-    if (missingFields) {
-      if (existingUser.role === AccountType.AGENCY) {
-        redirect({
-          href: `/agency/profile/details`,
-          locale: locale,
-        });
+    if (existingUser.role === AccountType.AGENCY) {
+      const agency = await prismadb.agency.findUnique({
+        where: {
+          accountId: existingUser.id,
+        },
+      });
+      const missingDetails = !agency?.name || !agency?.slug || !agency?.logo;
+      const missingInfo =
+        !agency?.ownerFirstName ||
+        !agency?.ownerLastName ||
+        !agency?.ownerEmail;
+
+      let href;
+      if (missingDetails) {
+        href = "/agency/profile/details";
+      } else if (missingInfo) {
+        href = "/agency/profile/info";
+      } else {
+        href = savedReturnUrl;
       }
-    } else {
+      console.log("redirecting to", href);
+
       redirect({
-        href: "/",
+        href,
         locale: locale,
       });
     }

@@ -38,6 +38,7 @@ export default function ImagesCarousel({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={image?.url || missingImage}
+              loading={index === 0 ? "eager" : "lazy"}
               // hack for now
               className="h-full min-w-full rounded-tl-lg rounded-tr-lg object-cover"
               width={width}
