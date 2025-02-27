@@ -13,10 +13,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   try {
     const { userName, verificationLink, email } = await request.json();
+    const fromEmail =
+      process.env.NEXT_PUBLIC_URL === "http://localhost:3000"
+        ? "onboarding@resend.dev"
+        : "no-reply@adresa.mk";
+
+    const toEmail =
+      process.env.NEXT_PUBLIC_URL === "http://localhost:3000"
+        ? "macesmajli@gmail.com"
+        : email;
 
     const { data, error } = await resend.emails.send({
-      from: "Adresa <no-reply@adresa.mk>",
-      to: [email],
+      from: `Adresa <${fromEmail}>`,
+      to: [toEmail],
       subject: "Verify your account on Adresa",
       html: await render(VerifyUserEmail({ userName, verificationLink })),
     });

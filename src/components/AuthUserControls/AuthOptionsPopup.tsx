@@ -1,3 +1,4 @@
+"use client";
 import { Link } from "@/i18n/routing";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";

@@ -229,4 +229,12 @@ export async function deleteSessionTokenCookie(): Promise<void> {
     maxAge: 0,
     path: "/",
   });
+
+  cookieStore.set("role", "", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 0,
+    path: "/",
+  });
 }

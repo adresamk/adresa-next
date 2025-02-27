@@ -1,9 +1,10 @@
+"use client";
 import { UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import LogoutButton from "./LogoutButton";
-export default async function AuthButNoProfilePopup() {
+export default function AuthButNoProfilePopup() {
   return (
     <div>
       <Popover>

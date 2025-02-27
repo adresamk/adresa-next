@@ -25,7 +25,7 @@ export const VerifyUserEmail = ({
     <Preview>Please verify your email address.</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Text style={paragraph}>Hi {userName},</Text>
+        <Text style={paragraph}>Hi,</Text>
         <Text style={paragraph}>
           Please click the link below to verify your email address:
         </Text>

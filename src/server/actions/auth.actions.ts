@@ -22,6 +22,7 @@ import { getVerificationLink } from "./verification.actions";
 import { sendResetPasswordEmail, sendVerificationEmail } from "./email.actions";
 import { generateUniqueToken } from "@/lib/utils";
 import { getLocale } from "next-intl/server";
+import { a } from "../../../prisma/seeds/staticData";
 
 export async function signIn(
   prevState: any,
@@ -154,10 +155,10 @@ export async function signUpAsUser(
         hashedPassword,
       },
     });
-
+    const locale = await getLocale();
     const verificationLink = await getVerificationLink(account.id);
     // console.log("verificationLink", verificationLink);
-    await sendVerificationEmail(email, verificationLink);
+    await sendVerificationEmail(email, verificationLink, locale);
     // console.log("Verification email sent successfully 2");
 
     const token = await generateSessionToken();
@@ -167,13 +168,14 @@ export async function signUpAsUser(
     //
     console.log("Verification email sent successfully 3");
 
-    // redirect({
-    //   href: "/profile/info",
-    //   locale: "mk",
-    // });
     return {
       success: true,
       error: null,
+      data: {
+        account: account,
+        isAuthenticated: true,
+        user: null,
+      },
     };
   } catch (error) {
     console.error("error", error);
@@ -267,6 +269,7 @@ export async function signUpAsAgency(
 export async function logout() {
   const { session } = await getCurrentSession();
   const locale = await getLocale();
+  console.log("session", session);
   if (!session) {
     return redirect({
       href: "/",

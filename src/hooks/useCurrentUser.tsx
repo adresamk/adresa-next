@@ -42,7 +42,13 @@ export const useCurrentUser = create<CurrentUserState>((set) => ({
       agency: null,
       admin: null,
     });
-    deleteCookie("auth-session");
-    redirect("/");
+
+    deleteCookie("auth_session");
+    deleteCookie("codeVerifier");
+    deleteCookie("returnUrl");
+    deleteCookie("state");
+    deleteCookie("role");
+    console.log("deletd cookies");
+    // redirect("/");
   },
 }));

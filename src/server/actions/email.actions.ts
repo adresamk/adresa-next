@@ -3,10 +3,11 @@
 export async function sendVerificationEmail(
   email: string,
   verificationLink: string,
+  locale: string,
 ) {
   console.log("verificationLink 2 ", verificationLink);
   console.log(process.env.NEXT_PUBLIC_URL);
-  console.log({ email, verificationLink });
+  console.log({ email, verificationLink, locale });
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/send/verifyuser`,

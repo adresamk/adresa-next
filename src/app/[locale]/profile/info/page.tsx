@@ -35,7 +35,21 @@ export default async function ProfileInfoPage({
           "use server";
           const result = await updateUserInfo(formData);
           if (result?.success) {
+            // if (result.data?.account && !result.data?.user) {
+            //   setCurrentUser({
+            //     account: result.data.account,
+            //     isAuthenticated: true,
+            //     user: null,
+            //     agency: null,
+            //     admin: null,
+            //   });
+            // }
             revalidatePath("/profile/info");
+            // getCurrentUser().then((authResult: GetCurrentUserResult) => {
+            //   console.log("authResult", authResult);
+            //   setCurrentUser(authResult);
+            //   redirect({ href: "/", locale: locale });
+            // });
           }
         }}
       >

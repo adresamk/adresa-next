@@ -14,10 +14,18 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const { email, resetPasswordLink } = await request.json();
 
-    resend.apiKeys.list;
+    const fromEmail =
+      process.env.NEXT_PUBLIC_URL === "http://localhost:3000"
+        ? "onboarding@resend.dev>"
+        : "no-reply@adresa.mk";
+
+    const toEmail =
+      process.env.NEXT_PUBLIC_URL === "http://localhost:3000"
+        ? "macesmajli@gmail.com"
+        : email;
     const { data, error } = await resend.emails.send({
-      from: "Adresa <no-reply@adresa.mk>",
-      to: [email],
+      from: `Adresa <${fromEmail}>`,
+      to: [toEmail],
       subject: "Reset your password on Adresa",
       html: await render(ResetPasswordEmail({ resetPasswordLink })),
     });
