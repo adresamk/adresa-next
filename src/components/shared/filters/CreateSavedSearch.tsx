@@ -11,11 +11,16 @@ import { createSavedSearch } from "@/server/actions/savedSearche.actions";
 import { useTranslations } from "next-intl";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { useParams, usePathname } from "next/navigation";
+import SavedSearchPromoDialog from "./SavedSearchPromoDialog";
+import { isLoggedInClient, readFromLocalStorage } from "@/lib/utils";
+import { markPromoDialogAsSeen } from "@/client/actions/savedSearches";
 
 const notificationIntervalOptions = ["daily", "weekly", "live"];
 
 export default function CreateSavedSearch() {
   const [isSavedSearchModalOpen, setIsSavedSearchModalOpen] = useState(false);
+  const [isSavedSearchPromoDialogOpen, setIsSavedSearchPromoDialogOpen] =
+    useState(false);
   const [areNotificationsOn, setareNotificationsOn] = useState(false);
   const pathname = usePathname();
   const [searchParams, setSearchParams] = useState("");
@@ -43,9 +48,20 @@ export default function CreateSavedSearch() {
 
   //open randomly
   useEffect(() => {
-    if (Math.random() > 0.7) {
+    const timesSeen = readFromLocalStorage("savedSearchPromoDialogSeen") || 0;
+    // Probability decreases as timesSeen increases
+    // timesSeen: 0 -> 100% chance (1.0)
+    // timesSeen: 1 -> 80% chance (0.8)
+    // timesSeen: 2 -> 60% chance (0.6)
+    // timesSeen: 3 -> 40% chance (0.4)
+    // timesSeen: 4 -> 20% chance (0.2)
+    const probability = Math.max(0, 1 - timesSeen * 0.2);
+    const shouldShow =
+      timesSeen < 5 && Math.random() < probability && !isLoggedInClient();
+
+    if (shouldShow) {
       setTimeout(() => {
-        setIsSavedSearchModalOpen(true);
+        setIsSavedSearchPromoDialogOpen(true);
       }, 2000);
     }
   }, []);
@@ -59,6 +75,13 @@ export default function CreateSavedSearch() {
   return (
     <>
       <AuthDialog />
+      <SavedSearchPromoDialog
+        isOpen={isSavedSearchPromoDialogOpen}
+        onClose={() => {
+          setIsSavedSearchPromoDialogOpen(false);
+          markPromoDialogAsSeen();
+        }}
+      />
       <Button
         className="fixed right-2 top-[150px] z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 duration-1500 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:rounded-md md:px-2 md:py-1"
         style={{

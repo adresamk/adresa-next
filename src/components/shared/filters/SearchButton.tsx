@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl";
 import { useFilters } from "@/hooks/useFilters";
 import { generateSearchUrl } from "@/lib/filters";
 import { useEffect, useState } from "react";
+import { writeToLocalStorage } from "@/lib/utils";
+import { registerLastSearch } from "@/client/actions/lastSearches";
 interface SearchButtonProps {
   variant: "homepage" | "search";
 }
@@ -40,26 +42,36 @@ export default function SearchButton({ variant }: SearchButtonProps) {
       setIsLoading(false);
     };
     fetchListingCount();
-  }, [filters, newDestination]);
+  }, [filters, newDestination, router]);
   return (
     <Link href={listingCount === 0 ? "#" : newDestination} prefetch={true}>
-      <Button
-        size={"lg"}
-        className="h-12 w-full min-w-[180px] px-2.5 py-0.5 text-sm font-bold uppercase tracking-tight"
+      <div
+        onClick={() => {
+          if (listingCount === 0) {
+            return;
+          }
+          console.log({ newDestination });
+          registerLastSearch(newDestination);
+        }}
       >
-        {isLoading ? (
-          <Loader2 className="h-6 w-6 animate-spin" />
-        ) : (
-          <>
-            {newDestination === "#"
-              ? t("common.actions.search")
-              : listingCount === 1
-                ? "1 " + t("search.filters.result")
-                : t("search.filters.results", { count: listingCount })}
-            <Search className="ml-3 h-4 w-4" />
-          </>
-        )}
-      </Button>
+        <Button
+          size={"lg"}
+          className="h-12 w-full min-w-[180px] px-2.5 py-0.5 text-sm font-bold uppercase tracking-tight"
+        >
+          {isLoading ? (
+            <Loader2 className="h-6 w-6 animate-spin" />
+          ) : (
+            <>
+              {newDestination === "#"
+                ? t("common.actions.search")
+                : listingCount === 1
+                  ? "1 " + t("search.filters.result")
+                  : t("search.filters.results", { count: listingCount })}
+              <Search className="ml-3 h-4 w-4" />
+            </>
+          )}
+        </Button>
+      </div>
     </Link>
   );
 }
