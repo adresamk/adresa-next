@@ -23,23 +23,17 @@ export default function SignUpFormWrapper({
   const locale = useLocale();
   useEffect(() => {
     if (state.success) {
-      // router.back();
-      // send to that page if it doesnt have a user created
-      if (state.data?.account && !state.data?.user) {
-        setCurrentUser({
-          account: state.data.account,
-          isAuthenticated: true,
-          user: null,
-          agency: null,
-          admin: null,
-        });
-      } else {
-        console.log("This should never happen");
-      }
-      router.back();
+      setCurrentUser({
+        account: state.data.account,
+        isAuthenticated: true,
+        user: state.data.user,
+        agency: null,
+        admin: null,
+      });
 
+      router.back();
       setTimeout(() => {
-        router.push("/profile/info", { locale: locale });
+        router.refresh();
       }, 100);
     }
   }, [state.success, router, pathname, locale]);

@@ -5,10 +5,7 @@ import { signIn } from "@/server/actions/auth.actions";
 import { useRouter, usePathname } from "next/navigation";
 import { toast } from "sonner";
 import { useLocale, useTranslations } from "next-intl";
-import { isLoggedInClient } from "@/lib/utils";
-import { getCurrentUser } from "@/lib/sessions";
-import { GetCurrentUserResult, useCurrentUser } from "@/hooks/useCurrentUser";
-import { redirect } from "@/i18n/routing";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function SignInFormWrapper({
   children,
@@ -27,16 +24,14 @@ export default function SignInFormWrapper({
     if (state.success) {
       // Revalidate all router cache
       // router.refresh();
-      getCurrentUser().then((authResult: GetCurrentUserResult) => {
-        console.log("authResult", authResult);
-        setCurrentUser(authResult);
-        // redirect({ href: "/", locale: locale });
+
+      setCurrentUser({
+        account: state.data.account,
+        isAuthenticated: true,
+        user: state.data.user,
+        agency: state.data.agency,
+        admin: null,
       });
-      // Check if we're in a modal route (contains @modal)
-      // console.log("pathname", pathname);
-      // setTimeout(() => {
-      //   console.log("otposle", window.location.href);
-      // }, 1000);
 
       toast.success(t("common.notifications.loggedInSuccessfully"), {
         duration: 2000,
@@ -45,39 +40,16 @@ export default function SignInFormWrapper({
           backgroundColor: "var(--alice-blue)",
         },
       });
+      router.back();
       const referrer = document.referrer;
-      if (referrer && referrer !== "" && referrer !== "about:blank") {
-        router.back();
-      } else {
-        router.push("/");
-      }
+      console.log("referrer", referrer);
+      // if (referrer && referrer !== "" && referrer !== "about:blank") {
+      //   console.log("referrer ima", referrer);
+      // } else {
+      //   router.push("/");
+      // }
     }
   }, [state.success, router, pathname, t, setCurrentUser]);
-
-  useEffect(() => {
-    // const isLoggedIn = isLoggedInClient();
-    // toast.success("test");
-    // if (isLoggedIn) {
-    //   console.log("isLoggedIn", isLoggedIn);
-    //   console.log(toast);
-    //   toast.success(
-    //     t("common.notifications.alreadyLoggedIn") +
-    //       " " +
-    //       t("common.notifications.youWillBeRedirected"),
-    //     {
-    //       duration: 3000,
-    //     },
-    //   );
-    //   const referrer = document.referrer;
-    //   setTimeout(() => {
-    //     if (referrer && referrer !== "" && referrer !== "about:blank") {
-    //       router.back();
-    //     } else {
-    //       router.push("/");
-    //     }
-    //   }, 1500);
-    // }
-  }, [router, t]);
 
   return (
     <Form action={formAction} state={state}>

@@ -97,8 +97,8 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
             <SubmitButton
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               type="submit"
-              loadingText={t("auth.actions.signIn")}
-              defaultText={t("auth.actions.signIn")}
+              loadingText={t("auth.signIn.button")}
+              defaultText={t("auth.signIn.button")}
             />
           </div>
         </SignInFormWrapper>

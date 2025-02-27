@@ -87,9 +87,6 @@ export default function CreateSavedSearch() {
 
   const defaultName = "";
 
-  if (!user) {
-    return null;
-  }
   return (
     <>
       <SavedSearchPromoDialog
@@ -104,137 +101,149 @@ export default function CreateSavedSearch() {
           markPromoDialogAsSeen();
         }}
       />
-      <Button
-        className="fixed right-2 top-[150px] z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 duration-1500 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:rounded-md md:px-2 md:py-1"
-        style={{
-          // position: "fixed",
-          // zIndex: 999999,
-          WebkitTransform: "translateZ(999999px)",
-          transform: "translateZ(999999px)",
-        }}
-        onClick={() => {
-          withAuthCheck(() => {
-            setIsSavedSearchModalOpen(true);
-            return Promise.resolve();
-          });
-        }}
-      >
-        <BellPlus className="m-2 mr-2 h-6 w-6 md:mr-2 md:h-5 md:w-5" />
-        <span className="hidden md:block">
-          {t("common.actions.saveSearch")}
-        </span>
-      </Button>
-      <SmartOverlay
-        isOpen={isSavedSearchModalOpen}
-        onClose={() => setIsSavedSearchModalOpen(false)}
-        title={t("common.actions.saveSearch")}
-        description={t("savedSearches.saveSearchDescription")}
-        innerScroll
-        footerJSX={null}
-      >
-        <div className="mx-auto mb-10 flex max-w-md flex-col gap-3 px-2 md:mb-0">
-          <form action={formAction}>
-            <input
-              type="text"
-              className="hidden"
-              name="searchParams"
-              value={searchParams}
-              onChange={(e) => {
-                // setSearchParams(e.target.value);
-              }}
-            />
-            <Label htmlFor="name">{t("savedSearches.savedSearchName")}</Label>
-            <Input
-              placeholder={t("savedSearches.savedSearchNamePlaceholder")}
-              required
-              minLength={3}
-              className="my-2"
-              maxLength={50}
-              defaultValue={defaultName}
-              name="name"
-              id={"name"}
-            />
-            <div className="my-2 flex justify-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                width={440}
-                height={140}
-                className="aspect-video h-[144px] w-[230px]"
-                src="/assets/region-map-preview.png"
-                alt="saved search polygon img"
-              />
-            </div>
-
-            <div className="flex items-start gap-2 px-2">
-              <RadioGroupDemo
-                name="notificationInterval"
-                defaultValue={notificationIntervalOptionsTranslated[2].value}
-                title={t("savedSearches.notificationInterval.title")}
-                options={notificationIntervalOptionsTranslated}
-              />
-              <div className="ml-auto mt-4 flex items-start gap-2">
-                <Label
-                  htmlFor="isNotificationOnCheckbox"
-                  className="text-right text-lg leading-4"
-                >
-                  {t("savedSearches.notifications")}
-                </Label>
+      {user && (
+        <>
+          <Button
+            className="fixed right-2 top-[150px] z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 duration-1500 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:rounded-md md:px-2 md:py-1"
+            style={{
+              // position: "fixed",
+              // zIndex: 999999,
+              WebkitTransform: "translateZ(999999px)",
+              transform: "translateZ(999999px)",
+            }}
+            onClick={() => {
+              withAuthCheck(() => {
+                setIsSavedSearchModalOpen(true);
+                return Promise.resolve();
+              });
+            }}
+          >
+            <BellPlus className="m-2 mr-2 h-6 w-6 md:mr-2 md:h-5 md:w-5" />
+            <span className="hidden md:block">
+              {t("common.actions.saveSearch")}
+            </span>
+          </Button>
+          <SmartOverlay
+            isOpen={isSavedSearchModalOpen}
+            onClose={() => setIsSavedSearchModalOpen(false)}
+            title={t("common.actions.saveSearch")}
+            description={t("savedSearches.saveSearchDescription")}
+            innerScroll
+            footerJSX={null}
+          >
+            <div className="mx-auto mb-10 flex max-w-md flex-col gap-3 px-2 md:mb-0">
+              <form action={formAction}>
                 <input
                   type="text"
                   className="hidden"
-                  name="isNotificationOn"
-                  id="isNotificationOn"
-                  value={areNotificationsOn ? "on" : "off"}
+                  name="searchParams"
+                  value={searchParams}
                   onChange={(e) => {
-                    // setareNotificationsOn(e.target.checked);
+                    // setSearchParams(e.target.value);
                   }}
                 />
+                <Label htmlFor="name">
+                  {t("savedSearches.savedSearchName")}
+                </Label>
                 <Input
-                  className="h-4 w-4"
-                  type="checkbox"
-                  checked={areNotificationsOn}
-                  onChange={(e) => {
-                    setareNotificationsOn(e.target.checked);
-                  }}
-                  id={"isNotificationOnCheckbox"}
+                  placeholder={t("savedSearches.savedSearchNamePlaceholder")}
+                  required
+                  minLength={3}
+                  className="my-2"
+                  maxLength={50}
+                  defaultValue={defaultName}
+                  name="name"
+                  id={"name"}
                 />
-                {/* <span className="text-base">
+                <div className="my-2 flex justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    width={440}
+                    height={140}
+                    className="aspect-video h-[144px] w-[230px]"
+                    src="/assets/region-map-preview.png"
+                    alt="saved search polygon img"
+                  />
+                </div>
+
+                <div className="flex items-start gap-2 px-2">
+                  <RadioGroupDemo
+                    name="notificationInterval"
+                    defaultValue={
+                      notificationIntervalOptionsTranslated[2].value
+                    }
+                    title={t("savedSearches.notificationInterval.title")}
+                    options={notificationIntervalOptionsTranslated}
+                  />
+                  <div className="ml-auto mt-4 flex items-start gap-2">
+                    <Label
+                      htmlFor="isNotificationOnCheckbox"
+                      className="text-right text-lg leading-4"
+                    >
+                      {t("savedSearches.notifications")}
+                    </Label>
+                    <input
+                      type="text"
+                      className="hidden"
+                      name="isNotificationOn"
+                      id="isNotificationOn"
+                      value={areNotificationsOn ? "on" : "off"}
+                      onChange={(e) => {
+                        // setareNotificationsOn(e.target.checked);
+                      }}
+                    />
+                    <Input
+                      className="h-4 w-4"
+                      type="checkbox"
+                      checked={areNotificationsOn}
+                      onChange={(e) => {
+                        setareNotificationsOn(e.target.checked);
+                      }}
+                      id={"isNotificationOnCheckbox"}
+                    />
+                    {/* <span className="text-base">
                   {areNotificationsOn
                     ? t("common.actions.on")
                     : t("common.actions.off")}
                 </span> */}
-              </div>
-            </div>
+                  </div>
+                </div>
 
-            <div className="flex w-full items-center justify-end">
-              <div>
-                {!isSSSaved && (
-                  <SubmitButton
-                    key={"toSave"}
-                    loadingText={t("common.actions.saving")}
-                    defaultText={t("common.actions.save")}
-                    disabled={isPending}
-                    // className={cn(
-                    //   "bg-brand-light-blue",
-                    //   isSSSaved && "bg-green-600",
-                    // )}
-                  />
-                )}
-              </div>
-              <div>
-                {isSSSaved && (
-                  <Button key={"saved"} type="button" className="bg-green-600">
-                    <CheckCircle className="mr-2 h-4 w-4" />{" "}
-                    {t("common.actions.saved")}
-                  </Button>
-                )}
-              </div>
+                <div className="flex w-full items-center justify-end">
+                  <div>
+                    {!isSSSaved && (
+                      <SubmitButton
+                        key={"toSave"}
+                        loadingText={t("common.actions.saving")}
+                        defaultText={t("common.actions.save")}
+                        disabled={isPending}
+                        // className={cn(
+                        //   "bg-brand-light-blue",
+                        //   isSSSaved && "bg-green-600",
+                        // )}
+                      />
+                    )}
+                  </div>
+                  <div>
+                    {isSSSaved && (
+                      <Button
+                        key={"saved"}
+                        type="button"
+                        className="bg-green-600"
+                      >
+                        <CheckCircle className="mr-2 h-4 w-4" />{" "}
+                        {t("common.actions.saved")}
+                      </Button>
+                    )}
+                  </div>
 
-              {/* <Button type="submit">{t("common.actions.save")}</Button> */}
+                  {/* <Button type="submit">{t("common.actions.save")}</Button> */}
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-      </SmartOverlay>
+          </SmartOverlay>
+        </>
+      )}
     </>
   );
 }

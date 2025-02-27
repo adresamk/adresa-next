@@ -1072,6 +1072,7 @@
   },
   "auth": {
     "errors": {
+      "firstNameAndLastNameAreRequired": "Emri dhe mbiemri janë të detyrueshëm",
       "incorrectEmailOrPassword": "Email ose fjalëkalim i pasaktë",
       "alreadyLoggedIn": "Jeni tashmë të kyçur",
       "invalidEmail": "Email i pavlefshëm",

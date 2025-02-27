@@ -1094,6 +1094,7 @@
   },
   "auth": {
     "errors": {
+      "firstNameAndLastNameAreRequired": "Име и презиме се задолжителни полиња",
       "incorrectEmailOrPassword": "Неточна е-пошта или лозинка",
       "alreadyLoggedIn": "Веќе сте најавени",
       "invalidEmail": "Невалидна е-пошта",

@@ -123,6 +123,7 @@ export const getCurrentSession: () => Promise<SessionValidationResult> = cache(
       return { session: null, account: null };
     }
     const result = await validateSessionToken(token);
+    console.log("result stuff", result);
     return result;
   },
 );
@@ -197,6 +198,7 @@ export async function setSessionTokenCookie(
 ): Promise<void> {
   "use server";
   const cookieStore = await cookies();
+  console.log("token from sessions 1", token);
   cookieStore.set("auth_session", token, {
     httpOnly: true,
     sameSite: "lax",
@@ -216,6 +218,7 @@ export async function setSessionTokenCookie(
 
 export async function deleteSessionTokenCookie(): Promise<void> {
   const cookieStore = await cookies();
+  console.log("deleting session token cookie for auth_session");
   cookieStore.set("auth_session", "", {
     httpOnly: true,
     sameSite: "lax",

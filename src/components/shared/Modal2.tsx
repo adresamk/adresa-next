@@ -14,7 +14,7 @@ export function Modal2({ children }: { children: React.ReactNode }) {
   return (
     <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange}>
       <DialogOverlay className="bg-black/70">
-        <DialogContent className="overflow-y-hidden">
+        <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogTitle className="hidden"> </DialogTitle>
           <DialogDescription className="hidden"></DialogDescription>
           {children}

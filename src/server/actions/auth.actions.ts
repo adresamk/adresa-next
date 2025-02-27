@@ -20,7 +20,7 @@ import {
 
 import { getVerificationLink } from "./verification.actions";
 import { sendResetPasswordEmail, sendVerificationEmail } from "./email.actions";
-import { generateUniqueToken } from "@/lib/utils";
+import { capitalizeString, generateUniqueToken } from "@/lib/utils";
 import { getLocale } from "next-intl/server";
 import { a } from "../../../prisma/seeds/staticData";
 
@@ -30,6 +30,8 @@ export async function signIn(
 ): Promise<ActionResult> {
   // this should be done in middleware and the cookies to be attached there
   const { session: existingSession } = await getCurrentSession();
+
+  console.log("existingSession", existingSession);
   if (existingSession) {
     // console.log("session, already logged in", existingSession);
     // redirect("/");
@@ -61,6 +63,10 @@ export async function signIn(
     where: {
       email,
     },
+    include: {
+      user: true,
+      agency: true,
+    },
   });
 
   if (!existingAccount) {
@@ -69,10 +75,6 @@ export async function signIn(
       success: false,
     };
   }
-
-  const token = await generateSessionToken();
-  const session = await createSession(token, existingAccount.id);
-  await setSessionTokenCookie(token, session.expiresAt, existingAccount.uuid);
 
   const validPassword = await new Argon2id().verify(
     existingAccount.hashedPassword!,
@@ -95,9 +97,19 @@ export async function signIn(
     };
   }
 
+  const token = await generateSessionToken();
+  const session = await createSession(token, existingAccount.id);
+  console.log("token from auth actions", token);
+  await setSessionTokenCookie(token, session.expiresAt, existingAccount.uuid);
+
   return {
     success: true,
     error: null,
+    data: {
+      account: existingAccount,
+      user: existingAccount.user,
+      agency: existingAccount.agency,
+    },
   };
 }
 
@@ -108,6 +120,18 @@ export async function signUpAsUser(
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const confirmPassword = formData.get("confirm-password")?.toString();
+  const firstName = formData.get("firstName")?.toString();
+  const lastName = formData.get("lastName")?.toString();
+  const phone = formData.get("phone")?.toString();
+
+  console.log({
+    email,
+    password,
+    confirmPassword,
+    firstName,
+    lastName,
+    phone,
+  });
   // validations, in if statement to make it easier to read so i can fold
   if (true) {
     if (!email || !emailRegex.test(email)) {
@@ -127,6 +151,13 @@ export async function signUpAsUser(
     if (typeof confirmPassword !== "string" || confirmPassword !== password) {
       return {
         error: "confirmPasswordDoesNotMatchPassword",
+        success: false,
+      };
+    }
+
+    if (typeof firstName !== "string" || typeof lastName !== "string") {
+      return {
+        error: "firstNameAndLastNameAreRequired",
         success: false,
       };
     }
@@ -155,6 +186,16 @@ export async function signUpAsUser(
         hashedPassword,
       },
     });
+
+    const user = await prismadb.user.create({
+      data: {
+        uuid: account.uuid,
+        accountId: account.id,
+        firstName: capitalizeString(firstName),
+        lastName: capitalizeString(lastName),
+        phone: phone,
+      },
+    });
     const locale = await getLocale();
     const verificationLink = await getVerificationLink(account.id);
     // console.log("verificationLink", verificationLink);
@@ -174,7 +215,7 @@ export async function signUpAsUser(
       data: {
         account: account,
         isAuthenticated: true,
-        user: null,
+        user: user,
       },
     };
   } catch (error) {
@@ -267,18 +308,36 @@ export async function signUpAsAgency(
 }
 
 export async function logout() {
+  // const response = await fetch(process.env.NEXT_PUBLIC_URL + "/api/logout", {
+  //   method: "POST",
+  // });
+  // if (response.ok) {
+  //   console.log("Logged out successfully!");
+  // }
   const { session } = await getCurrentSession();
   const locale = await getLocale();
-  console.log("session", session);
+  console.log("session from authsessions logout", session);
   if (!session) {
+    console.log("redirecting to home because no session");
     return redirect({
       href: "/",
       locale: locale,
     });
   }
+  console.log("logout 1");
+  try {
+    await invalidateSession(session.id);
+  } catch (error) {
+    console.error("error invalidating session", error);
+  }
+  console.log("logout 2");
 
-  await invalidateSession(session.id);
-  await deleteSessionTokenCookie();
+  try {
+    await deleteSessionTokenCookie();
+  } catch (error) {
+    console.error("error deleting session token cookie", error);
+  }
+  console.log("logout 3");
 
   // redirect({
   //   href: "/",

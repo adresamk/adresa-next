@@ -140,7 +140,7 @@ export function isLoggedInClient() {
   return authCookieExists;
 }
 
-function checkCookie(cookieName: string) {
+export function checkCookie(cookieName: string) {
   const cookies = document.cookie.split(";"); // Split the cookie string by semicolons to get individual cookies
   // console.log(cookies);
 

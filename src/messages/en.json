@@ -1069,6 +1069,7 @@
   },
   "auth": {
     "errors": {
+      "firstNameAndLastNameAreRequired": "First name and last name are required",
       "incorrectEmailOrPassword": "Incorrect email or password",
       "alreadyLoggedIn": "You are already logged in",
       "invalidEmail": "Invalid email",

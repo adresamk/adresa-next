@@ -10,18 +10,18 @@ export default function SignUpForm({}: SignUpFormProps) {
   const t = useTranslations();
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex flex-1 flex-col justify-center px-6 py-0 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+        <h2 className="mt-1 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           {t("auth.signUp.title")}
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
+        <p className="mt-1 text-center text-sm text-gray-600">
           {t("auth.signUp.subtitle")}
         </p>
       </div>
       <div className="mt-6 w-full sm:mx-auto sm:max-w-sm">
         <GoogleOAuthButton role={AccountType.USER} />
-        <div className="relative my-4">
+        <div className="relative my-2">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300"></div>
           </div>
@@ -91,6 +91,63 @@ export default function SignUpForm({}: SignUpFormProps) {
                 name="confirm-password"
                 type="password"
                 required
+                autoComplete="off"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="firstName"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              {t("common.contact.firstName")}{" "}
+              <span className="text-red-500">*</span>
+            </label>
+            <div className="mt-2">
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                required
+                autoComplete="off"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="lastName"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              {t("common.contact.lastName")}{" "}
+              <span className="text-red-500">*</span>
+            </label>
+            <div className="mt-2">
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                required
+                autoComplete="off"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              {t("common.contact.phone")}{" "}
+            </label>
+            <div className="mt-2">
+              <input
+                id="phone"
+                name="phone"
+                type="text"
                 autoComplete="off"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />

@@ -118,6 +118,7 @@ export async function GET(req: NextRequest) {
 
   const token = await generateSessionToken();
   const session = await createSession(token, accountId);
+  console.log("token from google auth actions", token);
   await setSessionTokenCookie(token, session.expiresAt, accountUuid);
 
   if (existingUser) {

@@ -45,18 +45,9 @@ export async function updateUserInfo(formData: FormData) {
         phone: phone,
       },
     });
-  } else {
-    const user = await prismadb.user.create({
-      data: {
-        uuid: account.uuid,
-        accountId: account.id,
-        firstName: capitalizeString(firstName),
-        lastName: capitalizeString(lastName),
-        phone: phone,
-      },
-    });
-    // update user info
   }
+  // update user info
+
   redirect({
     href: "/profile/info",
     locale: locale,

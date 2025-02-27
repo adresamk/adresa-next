@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { getCurrentUser } from "@/lib/sessions";
+import { checkCookie } from "@/lib/utils";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const setCurrentUser = useCurrentUser((state) => state.setCurrentUser);
@@ -10,6 +11,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
       try {
+        setCurrentUser({
+          isAuthenticated: checkCookie("auth-cookie-exists"),
+          account: null,
+          user: null,
+          agency: null,
+          admin: null,
+        });
         const data = await getCurrentUser();
         setCurrentUser({
           ...data,

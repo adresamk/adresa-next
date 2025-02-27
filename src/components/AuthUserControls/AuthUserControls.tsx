@@ -12,19 +12,8 @@ export default function AuthUserControls({
     user: User | null;
     agency: Agency | null;
     isAuthenticated: boolean;
-    // isLoading: boolean;
   };
 }) {
-  // if (authState.isLoading) {
-  //   return (
-  //     <Avatar>
-  //       <AvatarFallback>
-  //         <Loader2Icon className="animate-spin" />
-  //       </AvatarFallback>
-  //     </Avatar>
-  //   ); // Or return a loading spinner/skeleton
-  // }
-
   if (authState.user) {
     return <UserControls user={authState.user} />;
   }

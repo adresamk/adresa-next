@@ -15,6 +15,8 @@ const nextConfig = {
     return config;
   },
   experimental: {
+    // cpus: 1,
+    // workerThreads: false,
     // serverActions: true,
     // reactCompiler: true,
     // optimizeCss: true,
