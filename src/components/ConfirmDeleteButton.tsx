@@ -16,6 +16,7 @@ interface ConfirmDeleteButtonProps {
   deleteText?: string;
   deletingText?: string;
   triggerIcon?: ReactNode;
+  className?: string;
 }
 
 export function ConfirmDeleteButton({
@@ -24,6 +25,7 @@ export function ConfirmDeleteButton({
   triggerIcon,
   deleteText = "",
   deletingText = "",
+  className,
 }: ConfirmDeleteButtonProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const defaultTriggerIcon = <EllipsisVerticalIcon className="h-4 w-4" />;
@@ -31,7 +33,9 @@ export function ConfirmDeleteButton({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        {triggerIcon || defaultTriggerIcon}
+        <Button variant="ghost" size="icon" className={className}>
+          {triggerIcon || defaultTriggerIcon}
+        </Button>
       </PopoverTrigger>
       <PopoverContent
         align="start"

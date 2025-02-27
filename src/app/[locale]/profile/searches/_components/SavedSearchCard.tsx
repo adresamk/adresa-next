@@ -109,11 +109,11 @@ export default function SavedSearchCard({
       <a href=""></a>
       <Separator className="bg-slate-200" />
 
-      <div className="ml-auto flex flex-col items-end gap-2 p-2.5">
+      <div className="flex flex-col items-start gap-2 p-2.5">
         <p className="">
           <Button
             variant={"ghost"}
-            className="flex gap-2 text-sm"
+            className="flex gap-2 pl-1.5 text-sm"
             size={"sm"}
             onClick={async () => {
               const resp = await updateSavedSearch(
@@ -136,7 +136,7 @@ export default function SavedSearchCard({
               : t("savedSearches.notificationsOff")}
           </Button>
         </p>
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex w-full items-center justify-between gap-2">
           <SelectDemo
             disabled={!isNotificationOn}
             placeholder={
@@ -156,19 +156,25 @@ export default function SavedSearchCard({
               }
             }}
           />
-          <ConfirmDeleteButton
-            onDelete={async () => {
-              const resp = await deleteSavedSearch(savedSearch.id);
-              if (resp.success) {
-                const cardNode = document.getElementById("ss" + savedSearch.id);
-                if (cardNode) {
-                  cardNode.remove();
+          <div className="ml-auto">
+            {" "}
+            <ConfirmDeleteButton
+              onDelete={async () => {
+                const resp = await deleteSavedSearch(savedSearch.id);
+                if (resp.success) {
+                  const cardNode = document.getElementById(
+                    "ss" + savedSearch.id,
+                  );
+                  if (cardNode) {
+                    cardNode.remove();
+                  }
                 }
-              }
-            }}
-            icon={<Trash className="h-4 w-4 text-red-500" />}
-            deleteText={t("common.actions.delete")}
-          />
+              }}
+              icon={<Trash className="h-4 w-4 text-red-500" />}
+              deleteText={t("common.actions.delete")}
+              className="ml-auto"
+            />
+          </div>
         </div>
       </div>
     </article>

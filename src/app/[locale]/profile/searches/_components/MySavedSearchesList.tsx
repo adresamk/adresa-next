@@ -16,7 +16,7 @@ export default async function MySavedSearchesList({
     );
   }
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="grid grid-cols-[repeat(1,minmax(236px,1fr))] gap-4 md:grid-cols-[repeat(2,minmax(236px,1fr))] lg:grid-cols-[repeat(3,minmax(236px,1fr))]">
       {savedSearches.map((savedSearch) => (
         <SavedSearchCard key={savedSearch.id} savedSearch={savedSearch} />
       ))}
