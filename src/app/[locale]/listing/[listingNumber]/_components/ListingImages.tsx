@@ -56,7 +56,7 @@ export default function ListingImages({
         description={t("listing.listingImages.modalDescription", {
           place: currentPlaceLabel,
           municipality: currentMunicipalityLabel,
-          price: displayPrice(listing.price),
+          price: displayPrice(listing.price, undefined, t),
         })}
         isOpen={isOpen}
         onClose={onClose}

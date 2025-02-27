@@ -2,7 +2,6 @@ import MyListingsList from "@/components/shared/profile/MyListingsList";
 import { Separator } from "@/components/ui/separator";
 import { redirect } from "@/i18n/routing";
 
-import { getUser } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { getCurrentUser } from "@/lib/sessions";
 import { getLocale, getTranslations } from "next-intl/server";

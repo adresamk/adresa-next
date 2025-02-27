@@ -43,6 +43,7 @@ export const useCurrentUser = create<CurrentUserState>((set) => ({
       admin: null,
     });
 
+    // this wont be deleted since its server only
     deleteCookie("auth_session");
     deleteCookie("codeVerifier");
     deleteCookie("returnUrl");

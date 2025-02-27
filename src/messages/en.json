@@ -208,6 +208,15 @@
       "showLess": "Show less"
     },
     "words": {
+      "tags": {
+        "forSale": "For sale",
+        "forRent": "For rent",
+        "fromUser": "from user",
+        "fromAgency": "from agency",
+        "featured": "featured",
+        "new": "new"
+      },
+      "notFixed": "not fixed",
       "numberAbbr": "no.",
       "number": "number",
       "missingValue": "missing",
@@ -223,7 +232,9 @@
       "without": "without",
       "filledOut": "filled out",
       "done": "done",
-      "monthly": "monthly"
+      "monthly": "monthly",
+      "featured": "featured",
+      "new": "new"
     },
     "property": {
       "type": {

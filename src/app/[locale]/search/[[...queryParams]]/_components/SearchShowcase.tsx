@@ -34,6 +34,12 @@ import {
   getMunicipalityPlaces,
   getMunicipalityPlacesTranslated,
 } from "@/lib/data/macedonia/importantData";
+import { figureOutTags } from "@/server/specific-utils/listings.utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 interface SearchShowcaseProps {
   listing: Listing;
   images: UploadedImageData[];
@@ -66,21 +72,7 @@ export default function SearchShowcase({
   const place = places.find((p) => p.value === listing.place);
   const locationTranslated = place ? place.label : municipality?.label;
 
-  const tags: string[] = [];
-  if (listing.transactionType === "rent") {
-    tags.push("forRent");
-  }
-  if (listing.transactionType === "sale") {
-    tags.push("forSale");
-  }
-
-  if (listing.userId) {
-    tags.push("fromUser");
-  }
-
-  if (listing.agencyId) {
-    tags.push("fromAgency");
-  }
+  const tags: string[] = figureOutTags(listing);
 
   return (
     <li
@@ -128,14 +120,37 @@ export default function SearchShowcase({
             {/* TAGS */}
             <div className="absolute bottom-1 left-1">
               <div className="flex gap-1">
-                {tags.map((tag) => (
+                {tags.slice(0, 3).map((tag) => (
                   <span
-                    className="rounded-md bg-white px-1.5 py-0.5 text-xs font-bold text-slate-700"
+                    className="rounded-md bg-white px-1.5 py-0.5 text-xs font-bold lowercase text-slate-700"
                     key={tag}
                   >
-                    {t(`agency.properties.${tag}`)}
+                    {t(`common.words.tags.${tag}`)}
                   </span>
                 ))}
+                {tags.length > 3 && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <div className="relative h-1 w-4">
+                        <span className="absolute z-[1000] whitespace-nowrap rounded-lg bg-white p-0.5 px-1.5 text-xs font-semibold uppercase">
+                          +{tags.length - 3}
+                        </span>
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent side="top" align="start">
+                      <div className="flex w-[94%] flex-col gap-0.5 p-1 text-slate-800">
+                        {tags.slice(3).map((tag: string) => (
+                          <span
+                            key={tag}
+                            className="w-fit whitespace-nowrap text-nowrap rounded-lg border border-slate-200 bg-white p-0.5 px-1.5 text-[10px] font-semibold uppercase shadow-sm"
+                          >
+                            {t(`common.words.tags.${tag}`)}
+                          </span>
+                        ))}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                )}
               </div>
             </div>
           </figure>
@@ -257,7 +272,7 @@ export default function SearchShowcase({
                   {listing.transactionType === "sale" && (
                     <div className="mb-1.5 flex items-center">
                       <p className="relative text-2xl font-bold leading-4 tracking-tighter">
-                        {displayPrice(listing.price)}
+                        {displayPrice(listing.price, undefined, t)}
                       </p>
                       {listing.previousPrice &&
                         listing.previousPrice > (listing.price ?? 0) && (
@@ -267,13 +282,19 @@ export default function SearchShowcase({
                               stroke="green"
                             />
                             <span className="text-sm text-gray-400 line-through">
-                              €{displayPrice(listing.previousPrice)}
+                              {displayPrice(
+                                listing.previousPrice,
+                                undefined,
+                                t,
+                              )}
                             </span>
                           </div>
                         )}
 
                       <p className="ml-3 text-lg font-normal text-slate-700">
-                        {displayPricePerSquare(listing.price, listing.area)}
+                        {!!listing.price &&
+                          listing.price > 20 &&
+                          displayPricePerSquare(listing.price, listing.area)}
                       </p>
                     </div>
                   )}

@@ -44,7 +44,10 @@ export default function ListingPostPreview({
               {t(`search.filters.mode.${listing.transactionType}`)},{" "}
               {displayArea(listing.area)}
             </h4>
-            <p className="text-sm"> {displayPrice(listing.price)}</p>
+            <p className="text-sm">
+              {" "}
+              {displayPrice(listing.price, undefined, t)}
+            </p>
           </div>
         </div>
         <div className="mt-4 lg:mt-0">

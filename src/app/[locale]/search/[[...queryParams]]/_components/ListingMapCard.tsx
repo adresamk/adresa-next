@@ -23,13 +23,16 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
   const t = useTranslations();
   const images = listing.images as UploadedImageData[];
   const locale = useLocale();
+
   const { municipality, places } = getMunicipalityPlacesTranslated(
     listing.municipality || "",
     locale,
   );
 
   const place = places.find((p) => p.value === listing.place);
-  const locationTranslated = place ? place.label : municipality?.label;
+  const locationTranslated = place
+    ? place.label + ", " + municipality?.label
+    : municipality?.label;
 
   return (
     <div className="no-scrollbar max-h-[260px] max-w-[220px] overflow-y-auto rounded-md border border-slate-500 bg-white md:max-h-[280px] md:max-w-[250px]">
@@ -145,7 +148,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                 marginBottom: 8,
               }}
             >
-              €{displayPrice(listing.price)}
+              {displayPrice(listing.price, undefined, t)}
             </p>
             {/* old price */}
             {listing.previousPrice &&
@@ -156,7 +159,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
                     stroke="green"
                   />
                   <span className="text-xs text-gray-400 line-through md:text-sm">
-                    €{displayPrice(listing.previousPrice)}
+                    {displayPrice(listing.previousPrice, undefined, t)}
                   </span>
                 </div>
               )}

@@ -32,14 +32,16 @@ export default async function FeaturedAgencies({
           (agency.logo as UploadedImageData)?.url ||
           "/assets/missing-image2.jpg";
         return (
-          <div className="relative flex h-[190px] flex-col items-center justify-center rounded bg-white p-4 hover:shadow-lg">
+          <div className="relative flex h-[190px] max-w-[186px] flex-col items-center justify-center rounded bg-white p-3 hover:shadow-lg">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={logoUrl}
               alt={agency.name || ""}
               className="h-[86px] w-[112px]"
             />
-            <h3 className="mt-2 text-center text-base">{agency.name}</h3>
+            <h3 className="mt-2 break-words text-center text-base leading-4">
+              {agency.name}
+            </h3>
             {agency.listings.length > 0 && (
               <Link
                 href={`/agency/${agency.slug}/search`}
@@ -49,8 +51,8 @@ export default async function FeaturedAgencies({
 
                 <span className="ml-1">
                   {agency.listings.length === 0 && t("search.noResults.title")}
-                  {agency.listings.length === 1 && t("search.result")}
-                  {agency.listings.length > 1 && t("search.results")}
+                  {agency.listings.length === 1 && t("common.words.listing")}
+                  {agency.listings.length > 1 && t("common.words.listings")}
                 </span>
               </Link>
             )}

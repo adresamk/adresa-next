@@ -38,10 +38,19 @@ export function formatPrice(value: number | null) {
 }
 export function displayPrice(
   value: number | null,
-  currency: AllowedCurrencies = "EUR",
+  currency?: AllowedCurrencies | undefined,
+  t?: Function,
 ) {
+  if (currency === undefined) {
+    currency = "EUR";
+  }
   if (value === null) {
-    return null;
+    return t ? t("common.words.missingValue") : "N/A";
+  }
+  if (value < 20) {
+    if (t) {
+      return t("common.words.notFixed");
+    }
   }
   if (currency !== "USD" && currency !== "EUR") {
     throw new Error("Invalid currency. Only USD and EUR are allowed.");

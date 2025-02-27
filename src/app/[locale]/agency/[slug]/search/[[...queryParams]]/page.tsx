@@ -44,6 +44,7 @@ export default async function SearchPage({
   const listings = await unstable_cache(
     async () => {
       const listings = await getAllListings(parsedQueryParams);
+
       return listings.filter((listing) => listing.agencyId === agency.id);
     },
     ["listings-for-" + slug, JSON.stringify(parsedQueryParams)],

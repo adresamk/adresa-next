@@ -218,6 +218,16 @@
     },
 
     "words": {
+      "tags": {
+        "forSale": "Се продава",
+        "forRent": "Се изнајмува",
+        "fromUser": "од сопственик",
+        "blabla": "bla3",
+        "fromAgency": "од агенција",
+        "featured": "промоција",
+        "new": "ново"
+      },
+      "notFixed": "По договор",
       "numberAbbr": "бр.",
       "number": "број",
       "missingValue": "недостасува",

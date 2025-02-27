@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { redirect } from "@/i18n/routing";
-import { getUser } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/sessions";
 import { updateUserContactInfo } from "@/server/actions/user.actions";
 import { Info } from "lucide-react";

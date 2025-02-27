@@ -22,7 +22,7 @@ export default function ListingMutualFields({
 }: ListingMutualFieldsProps) {
   const t = useTranslations();
   const [propertyPrice, setPropertyPrice] = useState(
-    listing.price ? displayPrice(listing.price) : "",
+    listing.price ? displayPrice(listing.price, undefined, t) : "",
   );
   const [propertyArea, setPropertyArea] = useState(listing.area?.toString());
   const lwr = listing as ListingWithRelations;

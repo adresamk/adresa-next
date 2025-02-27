@@ -4,6 +4,8 @@
 // import { UploadThingError, UTApi } from "uploadthing/server";
 // import { FileEsque } from "uploadthing/types";
 
+import { NextRequest, NextResponse } from "next/server";
+
 // const utapi = new UTApi();
 
 // async function processExternalImage(imageUrl: string) {
@@ -236,3 +238,7 @@
 //   return NextResponse.json(result);
 // }
 // // Note: To enforce individual image size limits, implement validation logic within the request handler instead of relying solely on bodyParser sizeLimit.
+
+export async function POST(req: NextRequest) {
+  return NextResponse.json({ success: true });
+}

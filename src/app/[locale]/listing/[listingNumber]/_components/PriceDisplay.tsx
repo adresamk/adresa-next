@@ -12,7 +12,7 @@ export default function PriceDisplay({ listing }: PriceDisplayProps) {
   return (
     <div className="flex w-fit flex-col items-center text-center">
       <div className="w-full bg-brand-dark-blue px-2 py-0.5 text-2xl font-semibold text-white">
-        {displayPrice(listing.price, "EUR") || t("common.words.missingValue")}
+        {displayPrice(listing.price, "EUR", t)}
       </div>
       {listing.transactionType === PropertyTransactionType.sale && (
         <div className="w-full bg-blue-100 px-2 py-0.5 text-lg text-brand-light-blue">

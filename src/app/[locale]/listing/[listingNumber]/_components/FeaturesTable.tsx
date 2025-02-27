@@ -26,7 +26,7 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
   const features = {
     price:
       listing.transactionType === "sale"
-        ? displayPrice(listing.price, "EUR") || t("common.words.missingValue")
+        ? displayPrice(listing.price, "EUR", t)
         : displayPriceMonthly(
             listing.price,
             "EUR",

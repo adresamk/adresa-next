@@ -55,13 +55,7 @@ export default function StickyControls({ listing }: { listing: Listing }) {
             </div>
             <div className="flex-1 flex-shrink pl-[8%]">
               <div className="font-semibold">
-                <span>
-                  {displayPrice(listing.price, "EUR") || (
-                    <span className="text-red-500">
-                      {t("common.words.missingValue")}
-                    </span>
-                  )}
-                </span>
+                <span>{displayPrice(listing.price, "EUR", t)}</span>
               </div>
             </div>
           </div>

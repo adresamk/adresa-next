@@ -124,7 +124,19 @@ export default async function SearchPage({
     );
   } else {
     listings = await unstable_cache(
-      async () => getAllListings(parsedQueryParams),
+      async () => {
+        let listings = await getAllListings(parsedQueryParams);
+
+        // Separate listings into valid prices and special cases (null or < 20)
+        const validPrices = listings.filter((l) => l.price && l.price >= 20);
+        const specialCases = listings.filter((l) => !l.price || l.price < 20);
+
+        // Sort valid prices in descending order
+        // validPrices.sort((a, b) => b.price! - a.price!);
+
+        // Combine arrays with special cases at the end
+        return [...validPrices, ...specialCases];
+      },
       ["listings", JSON.stringify(parsedQueryParams)],
       {
         revalidate: 60,

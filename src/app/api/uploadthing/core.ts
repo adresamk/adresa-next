@@ -1,4 +1,3 @@
-import { getUser } from "@/lib/auth";
 import { getCurrentSession } from "@/lib/sessions";
 import { cookies } from "next/headers";
 import { createUploadthing, type FileRouter } from "uploadthing/next";

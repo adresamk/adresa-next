@@ -13,7 +13,7 @@ import { displayPrice } from "@/lib/utils";
 import { Eye, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { ListingTitles } from "@/types/listing.types";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface AdminListingsTableProps {
   listings: Listing[];
@@ -23,6 +23,7 @@ export default function AdminListingsTable({
   listings,
 }: AdminListingsTableProps) {
   const locale = useLocale();
+  const t = useTranslations();
   return (
     <div className="rounded-md border">
       <Table>
@@ -49,7 +50,9 @@ export default function AdminListingsTable({
                 <TableCell className="max-w-[200px] truncate">
                   {title || `${listing.type}, ${listing.area}m²`}
                 </TableCell>
-                <TableCell>{displayPrice(listing.price)}</TableCell>
+                <TableCell>
+                  {displayPrice(listing.price, undefined, t)}
+                </TableCell>
                 <TableCell className="capitalize">{listing.type}</TableCell>
                 <TableCell>
                   <Badge
