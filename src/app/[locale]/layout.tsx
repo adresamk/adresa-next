@@ -80,7 +80,7 @@ export default async function RootLayout({
           fontSans.variable,
         )}
       >
-        <OfflineDetector />
+        {/* <OfflineDetector /> */}
         <NextIntlClientProvider messages={messages}>
           <NuqsAdapter>
             <AuthProvider>

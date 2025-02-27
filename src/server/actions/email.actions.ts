@@ -5,6 +5,8 @@ export async function sendVerificationEmail(
   verificationLink: string,
 ) {
   console.log("verificationLink 2 ", verificationLink);
+  console.log(process.env.NEXT_PUBLIC_URL);
+  console.log({ email, verificationLink });
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/send/verifyuser`,
@@ -16,6 +18,8 @@ export async function sendVerificationEmail(
       body: JSON.stringify({ userName: email, email, verificationLink }),
     },
   );
+
+  console.log("response", response);
   // console.log("response", response);
 
   if (!response.ok) {

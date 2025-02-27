@@ -83,8 +83,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const verificationLink = await getVerificationLink(account.id);
-    await sendVerificationEmail(googleData.email, verificationLink);
+    // no need for verification because its from google
 
     if (savedRole === AccountType.USER) {
       await prismadb.user.create({
