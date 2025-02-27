@@ -12,26 +12,44 @@ export default function LogoutButton({}: LogoutButtonProps) {
   const t = useTranslations();
   const router = useRouter();
   const logoutClient = useCurrentUser((state) => state.logout);
-  const [response, logoutAction] = useFormState(logout, undefined);
-  //effect description
-  useEffect(() => {
-    if (response?.success) {
-      logoutClient();
-      toast.success(t("common.notifications.loggedOutSuccessfully"), {
-        duration: 2000,
-        style: {
-          border: "1px solid var(--brandeis-blue)",
-          backgroundColor: "var(--alice-blue)",
-        },
-      });
-      router.push("/");
+
+  async function handleLogout() {
+    logoutClient();
+    toast.success(t("common.notifications.loggedOutSuccessfully"), {
+      duration: 2000,
+      style: {
+        border: "1px solid var(--brandeis-blue)",
+        backgroundColor: "var(--alice-blue)",
+      },
+    });
+
+    try {
+      const response = await logout();
+      if (response?.success) {
+        // router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
     }
-  }, [response]);
+  }
+  // const [response, logoutAction] = useFormState(logout, undefined);
+  //effect description
+  // useEffect(() => {
+  //   if (response?.success) {
+  //     logoutClient();
+  //     toast.success(t("common.notifications.loggedOutSuccessfully"), {
+  //       duration: 2000,
+  //       style: {
+  //         border: "1px solid var(--brandeis-blue)",
+  //         backgroundColor: "var(--alice-blue)",
+  //       },
+  //     });
+  //     router.push("/");
+  //   }
+  // }, [response]);
 
   return (
-    <form action={logoutAction}>
-      <button>{t("header.userControls.logout")}</button>
-    </form>
+    <button onClick={handleLogout}>{t("header.userControls.logout")}</button>
   );
 }
 
