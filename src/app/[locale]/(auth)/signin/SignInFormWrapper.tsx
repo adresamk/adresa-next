@@ -30,7 +30,7 @@ export default function SignInFormWrapper({
       getCurrentUser().then((authResult: GetCurrentUserResult) => {
         console.log("authResult", authResult);
         setCurrentUser(authResult);
-        redirect({ href: "/", locale: locale });
+        // redirect({ href: "/", locale: locale });
       });
       // Check if we're in a modal route (contains @modal)
       // console.log("pathname", pathname);
@@ -38,22 +38,19 @@ export default function SignInFormWrapper({
       //   console.log("otposle", window.location.href);
       // }, 1000);
 
-      // toast.success(t("common.notifications.loggedInSuccessfully"), {
-      //   duration: 2000,
-      //   style: {
-      //     border: "1px solid var(--brandeis-blue)",
-      //     backgroundColor: "var(--alice-blue)",
-      //   },
-      // });
-      // const referrer = document.referrer;
-      // if (referrer && referrer !== "" && referrer !== "about:blank") {
-      //   router.back();
-      // } else {
-      //   router.push("/");
-      // }
-      // } else {
-      // router.push("/");
-      // }
+      toast.success(t("common.notifications.loggedInSuccessfully"), {
+        duration: 2000,
+        style: {
+          border: "1px solid var(--brandeis-blue)",
+          backgroundColor: "var(--alice-blue)",
+        },
+      });
+      const referrer = document.referrer;
+      if (referrer && referrer !== "" && referrer !== "about:blank") {
+        router.back();
+      } else {
+        router.push("/");
+      }
     }
   }, [state.success, router, pathname, t, setCurrentUser]);
 
