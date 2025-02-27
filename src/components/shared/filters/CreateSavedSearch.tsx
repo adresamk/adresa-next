@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { BellPlus } from "lucide-react";
+import { BellPlus, Check, CheckCircle } from "lucide-react";
 import SmartOverlay from "../SmartOverlay";
 import { useActionState, useEffect, useState } from "react";
 import { RadioGroupDemo } from "../RadioGroupDemo";
@@ -12,22 +12,27 @@ import { useLocale, useTranslations } from "next-intl";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { useParams, usePathname } from "next/navigation";
 import SavedSearchPromoDialog from "./SavedSearchPromoDialog";
-import { isLoggedInClient, readFromLocalStorage } from "@/lib/utils";
+import { cn, isLoggedInClient, readFromLocalStorage } from "@/lib/utils";
 import { markPromoDialogAsSeen } from "@/client/actions/savedSearches";
 import { useRouter } from "@/i18n/routing";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { SubmitButton } from "@/components/SubmitButton";
+import { toast } from "sonner";
 
 const notificationIntervalOptions = ["live", "daily", "weekly"];
 
 export default function CreateSavedSearch() {
   const router = useRouter();
-  const locale = useLocale();
+  const { user } = useCurrentUser();
+
   const [isSavedSearchModalOpen, setIsSavedSearchModalOpen] = useState(false);
+  const [isSSSaved, setIsSSSaved] = useState(false);
   const [isSavedSearchPromoDialogOpen, setIsSavedSearchPromoDialogOpen] =
     useState(false);
   const [areNotificationsOn, setareNotificationsOn] = useState(false);
   const pathname = usePathname();
   const [searchParams, setSearchParams] = useState("");
-  const [response, formAction] = useActionState(createSavedSearch, {
+  const [response, formAction, isPending] = useActionState(createSavedSearch, {
     success: false,
     error: null,
   });
@@ -45,7 +50,7 @@ export default function CreateSavedSearch() {
 
   useEffect(() => {
     if (pathname) {
-      setSearchParams(pathname);
+      setSearchParams(pathname + window.location.search);
     }
   }, [pathname]);
 
@@ -71,12 +76,20 @@ export default function CreateSavedSearch() {
 
   useEffect(() => {
     if (response?.success) {
-      setIsSavedSearchModalOpen(false);
+      setIsSSSaved(true);
+      setTimeout(() => {
+        setIsSavedSearchModalOpen(false);
+        toast.success(t("common.actions.savedSearch"));
+        setIsSSSaved(false);
+      }, 1500);
     }
   }, [response]);
 
   const defaultName = "";
 
+  if (!user) {
+    return null;
+  }
   return (
     <>
       <SavedSearchPromoDialog
@@ -147,7 +160,7 @@ export default function CreateSavedSearch() {
                 width={440}
                 height={140}
                 className="aspect-video h-[144px] w-[230px]"
-                src="/assets/saved-search-map-polygon2.png"
+                src="/assets/region-map-preview.png"
                 alt="saved search polygon img"
               />
             </div>
@@ -155,7 +168,7 @@ export default function CreateSavedSearch() {
             <div className="flex items-start gap-2 px-2">
               <RadioGroupDemo
                 name="notificationInterval"
-                defaultValue={notificationIntervalOptionsTranslated[1].value}
+                defaultValue={notificationIntervalOptionsTranslated[2].value}
                 title={t("savedSearches.notificationInterval.title")}
                 options={notificationIntervalOptionsTranslated}
               />
@@ -194,7 +207,30 @@ export default function CreateSavedSearch() {
             </div>
 
             <div className="flex w-full items-center justify-end">
-              <Button type="submit">{t("common.actions.save")}</Button>
+              <div>
+                {!isSSSaved && (
+                  <SubmitButton
+                    key={"toSave"}
+                    loadingText={t("common.actions.saving")}
+                    defaultText={t("common.actions.save")}
+                    disabled={isPending}
+                    // className={cn(
+                    //   "bg-brand-light-blue",
+                    //   isSSSaved && "bg-green-600",
+                    // )}
+                  />
+                )}
+              </div>
+              <div>
+                {isSSSaved && (
+                  <Button key={"saved"} type="button" className="bg-green-600">
+                    <CheckCircle className="mr-2 h-4 w-4" />{" "}
+                    {t("common.actions.saved")}
+                  </Button>
+                )}
+              </div>
+
+              {/* <Button type="submit">{t("common.actions.save")}</Button> */}
             </div>
           </form>
         </div>

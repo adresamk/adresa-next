@@ -4,9 +4,6 @@ import UserControls from "./UserControls";
 import AuthOptionsPopup from "./AuthOptionsPopup";
 import AuthButNoProfilePopup from "./AuthButNoProfilePopup";
 import { Agency, User } from "@prisma/client";
-import { AvatarFallback } from "../ui/avatar";
-import { Avatar } from "../ui/avatar";
-import { Loader2Icon } from "lucide-react";
 
 export default function AuthUserControls({
   authState,

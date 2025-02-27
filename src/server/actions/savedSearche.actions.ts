@@ -34,6 +34,7 @@ export const createSavedSearch = async (
   console.log("ss", formData);
 
   const { user } = await getCurrentUser();
+
   if (!user) {
     return {
       success: false,
@@ -63,7 +64,7 @@ export const createSavedSearch = async (
   await prismadb.savedSearch.create({
     data: {
       name,
-      img: "/assets/saved-search-map-polygon2.png",
+      img: "/assets/region-map-preview.png",
       searchParams,
       isNotificationOn: isNotificationOn === "on",
       notificationInterval: (notificationInterval as string) || "weekly",

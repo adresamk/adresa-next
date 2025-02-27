@@ -15,12 +15,22 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { UploadedImageData } from "@/types/listing.types";
+import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantData";
 
 export default function ListingMapCard({ listing }: { listing: Listing }) {
   const t = useTranslations();
   const images = listing.images as UploadedImageData[];
+  const locale = useLocale();
+  const { municipality, places } = getMunicipalityPlacesTranslated(
+    listing.municipality || "",
+    locale,
+  );
+
+  const place = places.find((p) => p.value === listing.place);
+  const locationTranslated = place ? place.label : municipality?.label;
+
   return (
     <div className="no-scrollbar max-h-[260px] max-w-[220px] overflow-y-auto rounded-md border border-slate-500 bg-white md:max-h-[280px] md:max-w-[250px]">
       <figure className="relative mx-auto my-0 block">
@@ -75,7 +85,7 @@ export default function ListingMapCard({ listing }: { listing: Listing }) {
           </h3>
           {/* Location */}
           <h3 className="mb-1.5 overflow-hidden text-xs leading-5">
-            {listing.municipality || t("common.listing.defaultMunicipality")}
+            {locationTranslated || t("common.listing.defaultMunicipality")}
           </h3>
 
           {/* Features */}

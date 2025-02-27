@@ -10,6 +10,8 @@ import {
   setSessionTokenCookie,
 } from "@/lib/sessions";
 import { getLocale } from "next-intl/server";
+import { getVerificationLink } from "@/server/actions/verification.actions";
+import { sendVerificationEmail } from "@/server/actions/email.actions";
 
 export async function GET(req: NextRequest) {
   const url = req.nextUrl;
@@ -80,6 +82,10 @@ export async function GET(req: NextRequest) {
         emailVerified: new Date(),
       },
     });
+
+    const verificationLink = await getVerificationLink(account.id);
+    await sendVerificationEmail(googleData.email, verificationLink);
+
     if (savedRole === AccountType.USER) {
       await prismadb.user.create({
         data: {

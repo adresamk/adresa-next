@@ -18,14 +18,12 @@ import { useTranslations } from "next-intl";
 import AdditionalFeaturesFilters from "./AdditionalFeaturesFilters";
 import { Feature, Listing } from "@prisma/client";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function Filters({ listings }: { listings: Listing[] }) {
   // not sure why we need this
-  const router = useRouter();
   const pathname = usePathname();
-  const shouldUpdate = useFilters((store) => store.shouldUpdate);
   const t = useTranslations("");
-
   const [appliedFeatures, setAppliedFeatures] = useQueryState(
     "f",
     parseAsArrayOf(parseAsString).withOptions({
@@ -41,12 +39,7 @@ export default function Filters({ listings }: { listings: Listing[] }) {
   const [selectedFeaturesKeys, setSelectedFeaturesKeys] = useState<string[]>(
     () => appliedFeatures || [],
   );
-  const filters = useFilters((store) => store.filters);
-  const updateFilters = useFilters((store) => store.updateFilters);
 
-  const clearSecondaryFilters = useFilters(
-    (store) => store.clearSecondaryFilters,
-  );
   const isFirstRender = useRef(true);
   const [searchHits, setSearchHits] = useState(listings.length);
   useEffect(() => {
