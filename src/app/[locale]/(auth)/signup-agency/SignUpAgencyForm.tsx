@@ -10,6 +10,7 @@ import { Link } from "@/i18n/routing";
 import SignUpAgencyFormWrapper from "./SignUpAgencyFormWrapper";
 import GoogleOAuthButton from "../GoogleOAuthButton";
 import { AccountType } from "@prisma/client";
+import { SubmitButton } from "@/components/SubmitButton";
 
 interface SignUpAgencyFormProps {}
 export default function SignUpAgencyForm({}: SignUpAgencyFormProps) {
@@ -115,12 +116,12 @@ export default function SignUpAgencyForm({}: SignUpAgencyFormProps) {
           </div>
 
           <div className="my-4">
-            <button
-              type="submit"
+            <SubmitButton
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              {t("auth.agencySignUp.button")}
-            </button>
+              type="submit"
+              loadingText={t("auth.agencySignUp.button")}
+              defaultText={t("auth.agencySignUp.button")}
+            />
           </div>
         </SignUpAgencyFormWrapper>
 

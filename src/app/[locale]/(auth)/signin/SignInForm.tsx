@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import GoogleOAuthButton from "../GoogleOAuthButton";
 import SignInFormWrapper from "./SignInFormWrapper";
 import { AccountType } from "@prisma/client";
+import { SubmitButton } from "@/components/SubmitButton";
 
 interface SignInFormProps {
   searchParams: Record<string, string> | null;
@@ -93,12 +94,12 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
           </div>
 
           <div className="mt-4">
-            <button
-              type="submit"
+            <SubmitButton
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              {t("auth.signIn.button")}
-            </button>
+              type="submit"
+              loadingText={t("auth.actions.signIn")}
+              defaultText={t("auth.actions.signIn")}
+            />
           </div>
         </SignInFormWrapper>
 

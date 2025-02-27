@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import SignUpFormWrapper from "./SignUpFormWrapper";
 import GoogleOAuthButton from "../GoogleOAuthButton";
 import { AccountType } from "@prisma/client";
+import { SubmitButton } from "@/components/SubmitButton";
 interface SignUpFormProps {}
 export default function SignUpForm({}: SignUpFormProps) {
   const t = useTranslations();
@@ -97,12 +98,12 @@ export default function SignUpForm({}: SignUpFormProps) {
           </div>
 
           <div className="my-4">
-            <button
+            <SubmitButton
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              {t("auth.signUp.button")}
-            </button>
+              loadingText={t("auth.signUp.button")}
+              defaultText={t("auth.signUp.button")}
+            />
           </div>
         </SignUpFormWrapper>
         <p className="mt-10 text-center text-sm text-gray-500">
