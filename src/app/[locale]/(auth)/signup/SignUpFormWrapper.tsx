@@ -33,12 +33,14 @@ export default function SignUpFormWrapper({
           agency: null,
           admin: null,
         });
-        setTimeout(() => {
-          router.push("/profile/info", { locale: locale });
-        }, 100);
       } else {
         console.log("This should never happen");
       }
+      router.back();
+
+      setTimeout(() => {
+        router.push("/profile/info", { locale: locale });
+      }, 100);
     }
   }, [state.success, router, pathname, locale]);
 
