@@ -86,11 +86,12 @@ export function displayPricePerSquare(
   price: number | null,
   area: number | null,
   currency: AllowedCurrencies = "EUR",
+  t?: Function,
 ) {
   if (!price || !area || area <= 0) return null; // Handle invalid inputs gracefully
 
   const pricePerSquare = price / area;
-  return displayPrice(pricePerSquare, currency) + "/m²"; // Use the displayPrice function
+  return displayPrice(pricePerSquare, currency, t) + "/m²"; // Use the displayPrice function
 }
 
 function parseDateString(dateString: string, delimiter: string): Date | null {

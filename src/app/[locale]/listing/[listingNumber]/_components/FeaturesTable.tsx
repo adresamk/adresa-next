@@ -23,19 +23,22 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
   // console.log("params from FT", params);
   const lwr = listing as ListingWithRelations;
 
+  const price =
+    listing.transactionType === "sale"
+      ? displayPrice(listing.price, "EUR", t)
+      : displayPriceMonthly(
+          listing.price,
+          "EUR",
+          t("mortgageCalculator.month"),
+        );
+
   const features = {
-    price:
-      listing.transactionType === "sale"
-        ? displayPrice(listing.price, "EUR", t)
-        : displayPriceMonthly(
-            listing.price,
-            "EUR",
-            t("mortgageCalculator.month"),
-          ) || t("common.words.missingValue"),
+    price: price,
     pricePerSquare:
       listing.transactionType === "sale"
-        ? displayPricePerSquare(listing.price, listing.area, "EUR") ||
-          t("common.words.missingValue")
+        ? listing.price && listing.price > 20
+          ? displayPricePerSquare(listing.price, listing.area, "EUR", t)
+          : null
         : null,
     area: displayArea(listing.area) || t("common.words.missingValue"),
     ...(lwr.residential && {
@@ -57,15 +60,13 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
       wcCount: lwr.residential.wcCount,
       constructionYear: lwr.residential.constructionYear,
       totalPropertyArea: lwr.residential.totalPropertyArea,
-      isFurnished: lwr.residential.isFurnished
-        ? t("common.words.yes")
-        : t("common.words.no"),
+      isFurnished: lwr.residential.isFurnished ? t("common.words.yes") : null,
       isForStudents: lwr.residential.isForStudents
         ? t("common.words.yes")
-        : t("common.words.no"),
+        : null,
       isForHolidayHome: lwr.residential.isForHolidayHome
         ? t("common.words.yes")
-        : t("common.words.no"),
+        : null,
       commonExpenses: displayPriceMonthly(
         lwr.residential.commonExpenses,
         "EUR",

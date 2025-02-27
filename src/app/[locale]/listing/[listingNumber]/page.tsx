@@ -246,7 +246,7 @@ export default async function SingleListingPage({
 
   const { description, title } = generateDescriptionAndTitle(listing, locale);
   // console.log("Generated content for locale:", locale, { title, description });
-  const fullAddress = `${currentMunicipalityLabel || t("common.words.missingValue")}, ${currentPlaceLabel || t("common.words.missingValue")}, ${listing.address || t("common.words.missingValue")}`;
+  const fullAddress = `${currentMunicipalityLabel || t("common.words.missingValue")}, ${currentPlaceLabel}, ${listing.address || t("common.words.missingValue")}`;
   const pinPopupText = `${t(`common.property.type.${listing.type}`)}, ${displayArea(listing.area)}, ${currentPlaceLabel}, ${currentMunicipalityLabel}, `;
   // const rawListing = await getListing(listingNumber);
   // const listing = serializeDates(rawListing);
