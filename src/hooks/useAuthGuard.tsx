@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { isLoggedInClient } from "@/lib/utils";
+import { isLoggedInClient, writeToLocalStorage } from "@/lib/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +21,10 @@ export function useAuthGuard() {
 
   const withAuthCheck = async <T,>(action: () => Promise<T>) => {
     if (!isLoggedInClient()) {
+      writeToLocalStorage(
+        "returnPathname",
+        window.location.pathname + window.location.search,
+      );
       setIsAuthDialogOpen(true);
       return null;
     }
@@ -29,7 +33,7 @@ export function useAuthGuard() {
 
   const AuthDialog = () => (
     <AlertDialog open={isAuthDialogOpen}>
-      <AlertDialogContent>
+      <AlertDialogContent className="z-[99999]">
         <AlertDialogHeader>
           <AlertDialogTitle>{t("auth.signIn.loginNeeded")}</AlertDialogTitle>
           <AlertDialogDescription>

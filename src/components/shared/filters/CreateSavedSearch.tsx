@@ -8,16 +8,19 @@ import { RadioGroupDemo } from "../RadioGroupDemo";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { createSavedSearch } from "@/server/actions/savedSearche.actions";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { useParams, usePathname } from "next/navigation";
 import SavedSearchPromoDialog from "./SavedSearchPromoDialog";
 import { isLoggedInClient, readFromLocalStorage } from "@/lib/utils";
 import { markPromoDialogAsSeen } from "@/client/actions/savedSearches";
+import { useRouter } from "@/i18n/routing";
 
 const notificationIntervalOptions = ["daily", "weekly", "live"];
 
 export default function CreateSavedSearch() {
+  const router = useRouter();
+  const locale = useLocale();
   const [isSavedSearchModalOpen, setIsSavedSearchModalOpen] = useState(false);
   const [isSavedSearchPromoDialogOpen, setIsSavedSearchPromoDialogOpen] =
     useState(false);
@@ -74,9 +77,13 @@ export default function CreateSavedSearch() {
 
   return (
     <>
-      <AuthDialog />
       <SavedSearchPromoDialog
         isOpen={isSavedSearchPromoDialogOpen}
+        onConfirm={() => {
+          setIsSavedSearchPromoDialogOpen(false);
+          markPromoDialogAsSeen();
+          router.push("/signin");
+        }}
         onClose={() => {
           setIsSavedSearchPromoDialogOpen(false);
           markPromoDialogAsSeen();

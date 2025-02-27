@@ -1,5 +1,14 @@
 {
   "savedSearches": {
+    "promoDialog": {
+      "dialogTitle": "Kërkime të ruajtura",
+      "confirmLabel": "Identifikohu për të ruajtur kërkimin",
+      "title": "Kurrë mos e humbni përputhjen tuaj të përsosur!",
+      "description": "Identifikohuni dhe përdorni butonin 'Ruaj Kërkimin' për të ruajtur këtë kërkim dhe për t'u njoftuar për shpalljet e reja që përputhen me kriteret tuaja. Pasi të identifikoheni, mund të merrni njoftime:",
+      "feature1": "Menjëherë sapo të arrijnë shpalljet e reja",
+      "feature2": "Përmbledhje ditore e shpalljeve",
+      "feature3": "Përmbledhje javore e të gjitha shpalljeve"
+    },
     "moreLocations": "lokacione të tjera",
     "location": "lokacioni",
     "moreCriteria": "kritere të tjera",

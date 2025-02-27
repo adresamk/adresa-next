@@ -20,6 +20,7 @@ interface ModalProps {
   children?: React.ReactNode;
   innerScroll?: boolean;
   footerJSX?: React.ReactNode;
+  confirmLabel?: string;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -31,6 +32,7 @@ export const Modal: React.FC<ModalProps> = ({
   className = "",
   children,
   footerJSX,
+  confirmLabel = "Save",
   innerScroll = false,
 }) => {
   const onChange = (open: boolean) => {
@@ -65,7 +67,7 @@ export const Modal: React.FC<ModalProps> = ({
               footerJSX
             ) : (
               <Button type="submit" onClick={onConfirm}>
-                Save
+                {confirmLabel}
               </Button>
             )}
           </DialogFooter>

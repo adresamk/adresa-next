@@ -1,5 +1,14 @@
 {
   "savedSearches": {
+    "promoDialog": {
+      "dialogTitle": "Saved Searches",
+      "confirmLabel": "Sign in to Save Search",
+      "title": "Never miss your perfect match!",
+      "description": "Sign in and use the 'Save Search' button to save this search and get notified about new listings that match your criteria. Once signed in, you can receive alerts:",
+      "feature1": "Instantly as new listings arrive",
+      "feature2": "Daily digest of listings",
+      "feature3": "Weekly roundup of all listings"
+    },
     "moreLocations": "other locations",
     "location": "location",
     "moreCriteria": "other criteria",
