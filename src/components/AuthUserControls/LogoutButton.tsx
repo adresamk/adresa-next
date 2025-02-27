@@ -15,21 +15,28 @@ export default function LogoutButton({}: LogoutButtonProps) {
 
   async function handleLogout() {
     logoutClient();
-    toast.success(t("common.notifications.loggedOutSuccessfully"), {
-      duration: 2000,
-      style: {
-        border: "1px solid var(--brandeis-blue)",
-        backgroundColor: "var(--alice-blue)",
-      },
-    });
 
     try {
       const response = await logout();
       if (response?.success) {
+        toast.success(t("common.notifications.loggedOutSuccessfully"), {
+          duration: 2000,
+          style: {
+            border: "1px solid var(--brandeis-blue)",
+            backgroundColor: "var(--alice-blue)",
+          },
+        });
         // router.push("/");
       }
     } catch (error) {
       console.error(error);
+      toast.error(t("Error with logging out"), {
+        duration: 2000,
+        style: {
+          border: "1px solid var(--brandeis-blue)",
+          backgroundColor: "var(--alice-blue)",
+        },
+      });
     }
   }
   // const [response, logoutAction] = useFormState(logout, undefined);
