@@ -3,7 +3,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cx } from "class-variance-authority";
 
 interface RadioGroupDemoProps {
-  title: string;
+  title?: string;
   name: string;
   required?: boolean;
   defaultValue?: string;

@@ -16,7 +16,7 @@ import { isLoggedInClient, readFromLocalStorage } from "@/lib/utils";
 import { markPromoDialogAsSeen } from "@/client/actions/savedSearches";
 import { useRouter } from "@/i18n/routing";
 
-const notificationIntervalOptions = ["daily", "weekly", "live"];
+const notificationIntervalOptions = ["live", "daily", "weekly"];
 
 export default function CreateSavedSearch() {
   const router = useRouter();
@@ -75,6 +75,8 @@ export default function CreateSavedSearch() {
     }
   }, [response]);
 
+  const defaultName = "";
+
   return (
     <>
       <SavedSearchPromoDialog
@@ -117,7 +119,7 @@ export default function CreateSavedSearch() {
         innerScroll
         footerJSX={null}
       >
-        <div className="flex flex-col gap-3 px-2">
+        <div className="mx-auto mb-10 flex max-w-md flex-col gap-3 px-2 md:mb-0">
           <form action={formAction}>
             <input
               type="text"
@@ -135,24 +137,35 @@ export default function CreateSavedSearch() {
               minLength={3}
               className="my-2"
               maxLength={50}
-              defaultValue={""}
+              defaultValue={defaultName}
               name="name"
               id={"name"}
             />
-            <div className="my-2">
+            <div className="my-2 flex justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                width={380}
-                height={230}
+                width={440}
+                height={140}
+                className="aspect-video h-[144px] w-[230px]"
                 src="/assets/saved-search-map-polygon2.png"
                 alt="saved search polygon img"
               />
             </div>
-            <div className="flex items-center gap-3">
-              <Label htmlFor="isNotificationOnCheckbox" className="text-xl">
-                {t("savedSearches.notifications")}
-              </Label>
-              <div className="flex items-center gap-2">
+
+            <div className="flex items-start gap-2 px-2">
+              <RadioGroupDemo
+                name="notificationInterval"
+                defaultValue={notificationIntervalOptionsTranslated[1].value}
+                title={t("savedSearches.notificationInterval.title")}
+                options={notificationIntervalOptionsTranslated}
+              />
+              <div className="ml-auto mt-4 flex items-start gap-2">
+                <Label
+                  htmlFor="isNotificationOnCheckbox"
+                  className="text-right text-lg leading-4"
+                >
+                  {t("savedSearches.notifications")}
+                </Label>
                 <input
                   type="text"
                   className="hidden"
@@ -164,7 +177,7 @@ export default function CreateSavedSearch() {
                   }}
                 />
                 <Input
-                  className=""
+                  className="h-4 w-4"
                   type="checkbox"
                   checked={areNotificationsOn}
                   onChange={(e) => {
@@ -172,21 +185,14 @@ export default function CreateSavedSearch() {
                   }}
                   id={"isNotificationOnCheckbox"}
                 />
-                <span className="text-base">
+                {/* <span className="text-base">
                   {areNotificationsOn
                     ? t("common.actions.on")
                     : t("common.actions.off")}
-                </span>
+                </span> */}
               </div>
             </div>
-            {areNotificationsOn && (
-              <RadioGroupDemo
-                name="notificationInterval"
-                defaultValue={notificationIntervalOptionsTranslated[1].value}
-                title={t("savedSearches.notificationInterval.title")}
-                options={notificationIntervalOptionsTranslated}
-              />
-            )}
+
             <div className="flex w-full items-center justify-end">
               <Button type="submit">{t("common.actions.save")}</Button>
             </div>

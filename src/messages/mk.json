@@ -13,15 +13,15 @@
     "location": "локација",
     "moreCriteria": "други критериуми",
     "criteria": "критериум",
-    "saveSearchDescription": "Можете да добивате известувања кога ќе бидат нови огласи кои ќе се појават на вашиот критериум",
-    "notifications": "Известувања",
+    "saveSearchDescription": "Добивајте известувања за нови огласи",
+    "notifications": "Сакам известувања",
     "notificationsOn": "Известувања вклучени",
     "notificationsOff": "Известувања исклучени",
     "notificationInterval": {
-      "title": "Интервал на известувања",
-      "daily": "Секој ден",
+      "title": "Интервал",
+      "daily": "Дневно",
       "weekly": "Неделно",
-      "live": "Во живо"
+      "live": "Со секој нов оглас"
     },
     "savedSearchName": "Име на пребарување",
     "savedSearchNamePlaceholder": "пр: Омилени во Скопје"
