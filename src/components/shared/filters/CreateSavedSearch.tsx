@@ -20,6 +20,7 @@ import { SubmitButton } from "@/components/SubmitButton";
 import { toast } from "sonner";
 import { parseQueryParams } from "@/lib/filters";
 import { getAllMunicipalitiesWithPlacesTranslated } from "@/lib/data/macedonia/importantData";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const notificationIntervalOptions = ["live", "daily", "weekly"];
 
@@ -236,12 +237,12 @@ export default function CreateSavedSearch() {
                         // setareNotificationsOn(e.target.checked);
                       }}
                     />
-                    <Input
+                    <Checkbox
                       className="h-4 w-4"
-                      type="checkbox"
+                      // type="checkbox"
                       checked={areNotificationsOn}
-                      onChange={(e) => {
-                        setareNotificationsOn(e.target.checked);
+                      onCheckedChange={(nextValue) => {
+                        setareNotificationsOn(!!nextValue);
                       }}
                       id={"isNotificationOnCheckbox"}
                     />

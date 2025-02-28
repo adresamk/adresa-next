@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { checkListingCompleteness } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Terminal } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface PublishingDetailsProps {
   listing: Listing;
@@ -58,11 +59,12 @@ export default function PublishingDetails({ listing }: PublishingDetailsProps) {
       <div className="mt-3 flex items-center space-x-4">
         {!listing.isPublished && (
           <div className="flex items-center">
-            <input
-              type="checkbox"
+            <Checkbox
+              // type="checkbox"
               name="isPublished"
               id="isPublishedYes"
-              disabled={!isComplete}
+              // disabled={!isComplete}
+              // defaultChecked={!!listing.isPublished === true}
               value="yes"
               //   defaultChecked={!!listing.isPublished === true}
               className="mr-2"
@@ -74,8 +76,8 @@ export default function PublishingDetails({ listing }: PublishingDetailsProps) {
         )}
         {listing.isPublished && (
           <div className="flex items-center">
-            <input
-              type="checkbox"
+            <Checkbox
+              // type="checkbox"
               name="isPublished"
               id="isPublishedNo"
               //   defaultChecked={!!listing.isPublished === false}

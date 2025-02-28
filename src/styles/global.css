@@ -16,8 +16,10 @@ input[type="number"]::placeholder,
 input[type="password"]::placeholder {
   color: var(--default-black-muted);
 }
+button[role="radio"][aria-checked="true"] {
+  border-color: var(--brand-dark-blue);
+}
 
-/*  Start Generation Here */
 * {
   color: var(--default-black);
 }

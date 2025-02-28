@@ -59,15 +59,15 @@ export default function PaymentMethod({ amount }: PaymentMethodProps) {
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png"
                 alt="Visa"
-                width={35}
-                height={24}
+                width={48}
+                height={27}
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/2560px-Mastercard-logo.svg.png"
                 alt="Mastercard"
                 width={35}
-                height={24}
+                height={27}
               />
             </div>
           </label>
