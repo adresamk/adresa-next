@@ -151,7 +151,7 @@ export default function Filters({ listings }: { listings: Listing[] }) {
   );
 
   return (
-    <aside className="sticky top-[60px] z-10 flex w-full items-center gap-3 overflow-x-auto bg-white px-6 py-2 shadow-md md:top-[80px]">
+    <aside className="sticky top-[60px] z-10 flex w-full items-center gap-2 overflow-x-auto bg-white px-6 py-2 shadow-md md:top-[80px]">
       <ModeFilter variant="search" />
       <CategoryFilter variant="search" />
       <Type variant="search" />
@@ -159,7 +159,7 @@ export default function Filters({ listings }: { listings: Listing[] }) {
       <AreaFilter variant="search" />
       <Button
         variant="outline"
-        className="h-8 px-1 py-0.5 md:h-10 md:px-2 md:py-1"
+        className="h-8 rounded-xl px-2 py-0.5 md:h-10 md:px-5 md:py-2"
         onClick={() => {
           setAreMoreFiltersOpen(true);
         }}

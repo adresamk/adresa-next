@@ -89,7 +89,7 @@ export default async function Footer() {
                   <div className="mt-2.5 text-sm font-medium text-neutral-600">
                     {tHome("title")}
                   </div>
-                  <div className="mt-5 flex justify-between gap-5 self-start">
+                  <div className="mt-5 flex w-full justify-center gap-5 self-start md:w-fit md:justify-between">
                     <Link
                       target="_blank"
                       href={"https://www.facebook.com/adresamacedonia"}

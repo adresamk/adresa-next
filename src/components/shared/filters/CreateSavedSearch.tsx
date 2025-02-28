@@ -144,28 +144,29 @@ export default function CreateSavedSearch() {
           markPromoDialogAsSeen();
         }}
       />
+      <Button
+        className="fixed right-2 top-[150px] z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-2 p-4 px-1.5 py-0.5 duration-1500 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:px-4 md:py-1"
+        style={{
+          // position: "fixed",
+          // zIndex: 999999,
+          WebkitTransform: "translateZ(999999px)",
+          transform: "translateZ(999999px)",
+        }}
+        disabled={!user}
+        onClick={() => {
+          withAuthCheck(() => {
+            setIsSavedSearchModalOpen(true);
+            return Promise.resolve();
+          });
+        }}
+      >
+        <BellPlus className="m-2 mr-2 h-6 w-6 md:mr-2 md:h-5 md:w-5" />
+        <span className="hidden md:block">
+          {t("common.actions.saveSearch")}
+        </span>
+      </Button>
       {user && (
         <>
-          <Button
-            className="fixed right-2 top-[150px] z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 duration-1500 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:rounded-md md:px-2 md:py-1"
-            style={{
-              // position: "fixed",
-              // zIndex: 999999,
-              WebkitTransform: "translateZ(999999px)",
-              transform: "translateZ(999999px)",
-            }}
-            onClick={() => {
-              withAuthCheck(() => {
-                setIsSavedSearchModalOpen(true);
-                return Promise.resolve();
-              });
-            }}
-          >
-            <BellPlus className="m-2 mr-2 h-6 w-6 md:mr-2 md:h-5 md:w-5" />
-            <span className="hidden md:block">
-              {t("common.actions.saveSearch")}
-            </span>
-          </Button>
           <SmartOverlay
             isOpen={isSavedSearchModalOpen}
             onClose={() => setIsSavedSearchModalOpen(false)}
