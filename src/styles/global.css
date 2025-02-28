@@ -1,5 +1,7 @@
 /* This is basically index.css */
-
+.lucide {
+  stroke-width: 1.4;
+}
 .p-inputgroup {
   display: flex;
   /* align-items: stretch; */

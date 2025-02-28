@@ -265,7 +265,23 @@
         "assembly_facilities": "Монтажни објекти",
         "garage": "Гаража",
         "store": "Комерцијален простор",
-        "other": "Други"
+        "other": "Други",
+        "plural": {
+          "residential": "Домови",
+          "construction": "Градежи објекти",
+          "agricultural": "Земјишта",
+          "apartment": "Станови",
+          "business": "Бизниси",
+          "house": "Куќи",
+          "vacation_house": "Викендици",
+          "office": "Канцеларии",
+          "warehouse": "Складишта",
+          "industrial_space": "Индустриски објекти",
+          "assembly_facilities": "Монтажни објекти",
+          "garage": "Гаражи",
+          "store": "Дуќани",
+          "other": "Останати недвижини"
+        }
       },
       "feature": {
         "category": {

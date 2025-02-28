@@ -254,7 +254,23 @@
         "assembly_facilities": "Assembly facilities",
         "garage": "Garage",
         "store": "Commercial space",
-        "other": "Other"
+        "other": "Other",
+        "plural": {
+          "residential": "Homes",
+          "construction": "Construction objects",
+          "agricultural": "Land",
+          "apartment": "Apartments",
+          "business": "Business",
+          "house": "Houses",
+          "vacation_house": "Vacation houses",
+          "office": "Offices",
+          "warehouse": "Warehouses",
+          "industrial_space": "Industrial facilities",
+          "assembly_facilities": "Assembly facilities",
+          "garage": "Garages",
+          "store": "Commercial spaces",
+          "other": "Other"
+        }
       },
       "feature": {
         "category": {

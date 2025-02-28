@@ -80,7 +80,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
           >
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
-                <label className="flex h-5 w-full items-center gap-2">
+                <label className="flex h-5 w-full items-center gap-2 font-medium">
                   {<Proportions className="h-4 w-4" />}{" "}
                   {t("search.filters.surface.label")}
                 </label>

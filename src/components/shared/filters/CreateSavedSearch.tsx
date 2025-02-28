@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { BellPlus, Check, CheckCircle } from "lucide-react";
+import { BellPlus, CheckCircle } from "lucide-react";
 import SmartOverlay from "../SmartOverlay";
 import { useActionState, useEffect, useState } from "react";
 import { RadioGroupDemo } from "../RadioGroupDemo";
@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { createSavedSearch } from "@/server/actions/savedSearche.actions";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import SavedSearchPromoDialog from "./SavedSearchPromoDialog";
 import { cn, isLoggedInClient, readFromLocalStorage } from "@/lib/utils";
 import { markPromoDialogAsSeen } from "@/client/actions/savedSearches";
@@ -18,6 +18,8 @@ import { useRouter } from "@/i18n/routing";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { SubmitButton } from "@/components/SubmitButton";
 import { toast } from "sonner";
+import { parseQueryParams } from "@/lib/filters";
+import { getAllMunicipalitiesWithPlacesTranslated } from "@/lib/data/macedonia/importantData";
 
 const notificationIntervalOptions = ["live", "daily", "weekly"];
 
@@ -31,6 +33,7 @@ export default function CreateSavedSearch() {
     useState(false);
   const [areNotificationsOn, setareNotificationsOn] = useState(false);
   const pathname = usePathname();
+  const locale = useLocale();
   const [searchParams, setSearchParams] = useState("");
   const [response, formAction, isPending] = useActionState(createSavedSearch, {
     success: false,
@@ -85,7 +88,46 @@ export default function CreateSavedSearch() {
     }
   }, [response]);
 
-  const defaultName = "";
+  console.log({ searchParams });
+  const pqp = parseQueryParams(pathname.split("/"));
+  console.log({ pqp });
+  const municipalities = getAllMunicipalitiesWithPlacesTranslated(locale);
+  let allTogether = municipalities.map((m) => {
+    return [
+      { label: m.label, value: m.value },
+      ...(m.places?.map((p) => ({ label: p.label, value: p.value })) || []),
+    ].flat(1);
+  });
+
+  // Fix the type assertion
+  const flattenedLocations = allTogether.flat(1) as Array<{
+    label: string;
+    value: string;
+  }>;
+
+  const bigObjectMap = flattenedLocations.reduce<Record<string, string[]>>(
+    (acc, curr) => {
+      if (acc[curr.value]) {
+        acc[curr.value] = [...acc[curr.value], curr.label];
+      } else {
+        acc[curr.value] = [curr.label];
+      }
+      return acc;
+    },
+    {},
+  );
+  console.log({ bigObjectMap });
+
+  let locationsTranslatedArray = !Array.isArray(pqp.location)
+    ? [pqp.location]
+    : pqp.location;
+  locationsTranslatedArray = locationsTranslatedArray.map((l) => {
+    return bigObjectMap[l]?.join(", ");
+  });
+
+  const locationsTranslated = locationsTranslatedArray.join("; ");
+
+  const defaultName = `${pqp.type ? t(`common.property.type.plural.${pqp.type}`) : t(`search.filters.category.${pqp.category}`)} ${t(`common.words.for`)} ${pqp.transactionType && t(`listing.transactionType.${pqp.transactionType}`).toLowerCase()} ${t(`common.words.in`)} ${locationsTranslated}`;
 
   return (
     <>

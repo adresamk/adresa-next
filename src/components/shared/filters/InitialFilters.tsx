@@ -19,7 +19,7 @@ export default function SearchFilter() {
       <div
         className={cn(
           "relative mt-1.5 flex w-full flex-wrap rounded-xl bg-slate-50 xl:min-h-[90px]",
-          focusedFilter === "location" && "rounded-bl-none",
+          focusedFilter === "location" && "",
         )}
       >
         <LocationFilter variant="homepage" />

@@ -119,7 +119,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
           >
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
-                <label className="flex h-5 w-full items-center gap-2">
+                <label className="flex h-5 w-full items-center gap-2 font-medium">
                   {<Tag className="h-4 w-4" />}{" "}
                   {t("search.filters.price.label")}
                 </label>

@@ -51,7 +51,7 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
             className={cn(
               "h-6 bg-white px-4 py-0.5 font-semibold text-brand-light-blue hover:bg-slate-50",
               transactionType === "sale" &&
-                "bg-blue-400 text-white hover:bg-blue-500",
+                "bg-[#409EF4] text-white hover:bg-blue-500",
               transactionType !== "sale" && "border border-brand-light-blue",
             )}
           >

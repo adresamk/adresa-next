@@ -255,7 +255,23 @@
         "assembly_facilities": "Objekte montimi",
         "garage": "Garazh",
         "store": "Hapësirë komerciale",
-        "other": "Të tjera"
+        "other": "Të tjera",
+        "plural": {
+          "residential": "Shtëpimet",
+          "construction": "Objekte të ndërtimit",
+          "agricultural": "Zemër",
+          "apartment": "Apartamentet",
+          "business": "Bizneset",
+          "house": "Shtëpimet",
+          "vacation_house": "Shtëpimet pushimi",
+          "office": "Zyrët",
+          "warehouse": "Magazinët",
+          "industrial_space": "Objekte industriale",
+          "assembly_facilities": "Objekte montimi",
+          "garage": "Garazhet",
+          "store": "Дуќanet",
+          "other": "Të tjera"
+        }
       },
       "feature": {
         "category": {

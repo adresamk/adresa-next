@@ -64,7 +64,7 @@ export default function TypeFilter({ variant }: TypeFilterProps) {
             <div className="">
               <div className="flex flex-col gap-1.5 text-brand-dark-blue">
                 <label
-                  className="flex h-5 w-full items-center gap-2"
+                  className="flex h-5 w-full items-center gap-2 font-medium"
                   htmlFor={"property-type"}
                 >
                   {<House size={22} />} {"Property Type"}

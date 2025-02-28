@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter as FontSans } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import "@/styles/global.css";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
@@ -18,9 +18,9 @@ import { headers } from "next/headers";
 import { AuthProvider } from "@/providers/auth-provider";
 import OfflineDetector from "@/components/OfflineDetector";
 
-const fontSans = FontSans({
+const nunito = Nunito_Sans({
   subsets: ["latin"],
-  variable: "--font-sans",
+  weight: ["400", "600", "700"],
 });
 
 export const viewport: Viewport = {
@@ -76,8 +76,8 @@ export default async function RootLayout({
     <html lang={locale} className={`group ${deviceType}`}>
       <body
         className={cn(
-          "min-h-screen bg-background pt-[60px] font-sans antialiased md:pt-[80px]",
-          fontSans.variable,
+          "min-h-screen bg-background pt-[60px] antialiased md:pt-[80px]",
+          nunito.className,
         )}
       >
         {/* <OfflineDetector /> */}

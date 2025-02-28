@@ -179,7 +179,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
         )}
       >
         <label
-          className="flex h-5 w-full items-center gap-2"
+          className="flex h-5 w-full items-center gap-2 font-medium"
           htmlFor={"location"}
         >
           {<MapPin className="h-4 w-4" />} {t("search.filters.location.label")}

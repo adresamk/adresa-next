@@ -59,6 +59,9 @@ export default function SavedSearchCard({
       };
     },
   );
+  const img = savedSearch.searchParams.includes("l-")
+    ? "/assets/region-map-preview.png"
+    : "/assets/polygon-map-preview.png";
   return (
     <article
       id={"ss" + savedSearch.id}
@@ -72,7 +75,7 @@ export default function SavedSearchCard({
           </h2>
           <div className="ml-4 flex-shrink-0 basis-14">
             <img
-              src="/assets/region-map-preview.png"
+              src={img}
               alt="saved search map area"
               loading="eager"
               width={56}
