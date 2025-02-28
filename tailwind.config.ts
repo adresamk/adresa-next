@@ -27,7 +27,10 @@ const config = withUt({
       ...screens,
       smaller: "460px",
     },
-    fontSize,
+    fontSize: {
+      ...fontSize,
+      "2xs": "0.625rem",
+    },
     extend: {
       transitionDuration: {
         1500: "1500ms",
@@ -48,6 +51,8 @@ const config = withUt({
           ["light-blue"]: "var(--brandeis-blue)",
           purple: "var(--lavander-indigo)",
           muted: "var(--alice-blue)",
+          black: "var(--default-black)",
+          "black-muted": "var(--default-black-muted)",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

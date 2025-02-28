@@ -8,6 +8,20 @@
   width: 100%;
 }
 
+/* input::placeholder {
+  color: var(--default-black-muted) !important;
+} */
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+input[type="password"]::placeholder {
+  color: var(--default-black-muted);
+}
+
+/*  Start Generation Here */
+* {
+  color: var(--default-black);
+}
+
 .p-inputgroup-addon:first-child,
 .p-inputgroup button:first-child,
 .p-inputgroup input:first-child,

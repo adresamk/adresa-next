@@ -146,7 +146,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
                   )}
                   {/* nothing is set */}
                   {!priceLow && !priceHigh && (
-                    <span className="tracking-tighter text-gray-400">
+                    <span className="text-brand-black-muted tracking-tighter">
                       € {t("search.filters.price.from")} -{" "}
                       {t("search.filters.price.to")}
                     </span>

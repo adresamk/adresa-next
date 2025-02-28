@@ -79,7 +79,7 @@ export default function ReacentlyViewedListingCard({
           {tags.slice(0, 3).map((tag: string) => (
             <span
               key={tag}
-              className="text-nowrap rounded-lg bg-white p-0.5 px-1.5 font-semibold uppercase text-brand-light-blue"
+              className="text-2xs text-nowrap rounded-sm bg-white p-[1.5px] px-[3px] font-medium uppercase text-brand-light-blue"
             >
               {t(`common.words.tags.${tag}`)}
             </span>

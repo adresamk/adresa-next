@@ -29,7 +29,7 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({
 }) => {
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-1.5 px-14 pb-3 pt-6">
-      <div className="flex items-center gap-4 text-xl font-bold">
+      <div className="flex items-center gap-4 text-2xl font-semibold">
         {icon} <h3>{title}</h3>
       </div>
       <Carousel opts={{ align: "start" }} className="shadcn-carousel">

@@ -38,6 +38,9 @@
     --brandeis-blue: #0069fe;
     --lavander-indigo: #4c3bcf;
     --alice-blue: #eef7ff;
+
+    --default-black: 0 0% 31%;
+    --default-black-muted: hsla(0, 0%, 31%, 0.5);
   }
 
   .dark {

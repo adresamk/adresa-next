@@ -107,7 +107,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                   )}
                   {/* nothing is set */}
                   {!areaLow && !areaHigh && (
-                    <span className="tracking-tighter text-gray-400">
+                    <span className="text-brand-black-muted tracking-tighter">
                       m² {t("search.filters.surface.from")} -{" "}
                       {t("search.filters.surface.to")}
                     </span>
@@ -203,7 +203,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                 }}
               />
             </div>
-            <ul className="relative max-h-[175px] overflow-y-auto rounded bg-white p-2 text-sm">
+            <ul className="text-brand-black relative max-h-[175px] overflow-y-auto rounded bg-white p-2 text-sm">
               {areaFilterOptions.map((area) => (
                 <li
                   key={area}
@@ -284,7 +284,7 @@ export default function AreaFilter({ variant }: AreaFilterProps) {
                 }}
               />
             </div>
-            <ul className="relative max-h-[175px] overflow-y-auto rounded rounded-t-none bg-white p-2 text-sm">
+            <ul className="bg-brand-black text-brand-black relative max-h-[175px] overflow-y-auto rounded rounded-t-none bg-white p-2 text-sm">
               {areaFilterOptions.map((area) => (
                 <li
                   key={area}
