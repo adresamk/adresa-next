@@ -1,7 +1,10 @@
 "use client";
 
 import { RadioGroupDemo } from "@/components/shared/RadioGroupDemo";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "@/i18n/routing";
 import {
   listingCategoryOptions,
   listingTransactionTypeOptions,
@@ -90,6 +93,63 @@ export default function InitialStep() {
             window.setInitialListing("transactionType", value);
         }}
       />
+      <Separator className="my-2 mt-4" />
+
+      <div className="my-5 flex gap-2">
+        <Checkbox id="terms" defaultChecked required name="terms" />
+        <Label
+          htmlFor="terms"
+          className="max-w-[400px] text-sm leading-4 text-slate-700"
+        >
+          {t("listing.new.agreeToTerms")}
+
+          <Link
+            href="/terms-of-use"
+            className="ml-2 text-brand-light-blue underline"
+          >
+            {t("footer.Terms of Use")}
+          </Link>
+        </Label>
+      </div>
+
+      <div className="my-5 flex gap-2">
+        <Checkbox
+          id="listingTerms"
+          defaultChecked
+          required
+          name="listingTerms"
+        />
+        <Label
+          htmlFor="listingTerms"
+          className="max-w-[400px] text-sm leading-4 text-slate-700"
+        >
+          {t("listing.new.agreeToListingTerms")}
+
+          <Link
+            href="/terms-for-listings"
+            className="ml-2 text-brand-light-blue underline"
+          >
+            {t("footer.Terms for Listings")}
+          </Link>
+        </Label>
+      </div>
+
+      <div className="my-5 flex gap-2">
+        <Checkbox id="dataUsage" defaultChecked required name="dataUsage" />
+        <Label
+          htmlFor="dataUsage"
+          className="max-w-[400px] text-sm leading-4 text-slate-700"
+        >
+          {t("listing.new.agreeToDataUsage")}
+
+          <Link
+            href="/privacy-policy"
+            className="ml-2 text-brand-light-blue underline"
+          >
+            {t("footer.Policies")}
+          </Link>
+        </Label>
+      </div>
     </div>
   );
 }

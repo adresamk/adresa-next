@@ -57,7 +57,7 @@ export default async function NewListingPage() {
         <SubmitButton
           size={"sm"}
           className="my-2"
-          defaultText={t("common.actions.next")}
+          defaultText={t("common.actions.start")}
           loadingText={t("common.actions.creating")}
         />
       </form>

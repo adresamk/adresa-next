@@ -200,6 +200,7 @@
       "notes": "Notes",
       "publish": "Publish",
       "next": "Next",
+      "start": "Start",
       "search": "Search",
       "submit": "Submit",
       "cancel": "Cancel",
@@ -549,6 +550,9 @@
       "toggleFavorite": "Add/Remove from favorites"
     },
     "new": {
+      "agreeToTerms": "Yes, I approve the use of my personal data by Adresa.mk. The submitted data will be used exclusively for the needs of my listing and will not be misused by the application.",
+      "agreeToListingTerms": "Yes, I agree to the terms for creating listings on Adresa.mk.",
+      "agreeToDataUsage": "Yes, I agree to the terms and privacy policy of Adresa.mk. More details about your rights regarding the processing of personal data on Adresa.mk can be read in",
       "completed": "completed",
       "inProgress": "in progress",
       "selectCategory": "Select category",

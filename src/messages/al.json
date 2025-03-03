@@ -201,6 +201,7 @@
       "publish": "Publiko",
       "next": "Tjetër",
       "search": "Kërko",
+      "start": "Kalo",
       "submit": "Konfirmo",
       "cancel": "Anulo",
       "back": "Kthehu",
@@ -552,6 +553,9 @@
       "toggleFavorite": "Shto/Hiq nga të preferuarat"
     },
     "new": {
+      "agreeToTerms": "Po, e pranoj përdorimin e të dhënave të mia personale nga Adresa.mk. Të dhënat e futura do të përdoren ekskluzivisht për nevojat e shpalljes time dhe nuk do të abuzohet me aplikacionin.",
+      "agreeToListingTerms": "Po, pajtohem me kushtet për krijimin e shpalljeve në Adresa.mk.",
+      "agreeToDataUsage": "Po, pajtohem me kushtet dhe politikën e privatësisë së Adresa.mk. Më shumë detaje për të drejtat tuaja për përpunimin e të dhënave personale në Adresa.mk, mund të lexoni në",
       "completed": "përfunduar",
       "inProgress": "në proces",
       "selectCategory": "Zgjidhni kategorinë",
