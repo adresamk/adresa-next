@@ -7,6 +7,10 @@ import { ListingWithRelations, UploadedImageData } from "@/types/listing.types";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 export function generateUniqueToken() {
   return Math.random().toString(36).slice(2, 11); // Simple token generation
 }

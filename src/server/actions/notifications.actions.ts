@@ -1,15 +1,45 @@
 "use server";
 
-import { Listing, SavedSearch, User } from "@prisma/client";
+import { Account, Listing, SavedSearch, User } from "@prisma/client";
 import prismadb from "@/lib/db";
-import { Resend } from "resend";
+import {
+  CreateEmailResponse,
+  CreateEmailResponseSuccess,
+  Resend,
+} from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 import { render } from "@react-email/render";
 import NewListingsThatMatchesNotification from "../../../emails/newListingsThatMatchesNotification";
 import { ListingWithRelations } from "@/types/listing.types";
+import { wait } from "@/lib/utils";
+
+// First, let's define the types for the saved search result
+type SavedSearchWithUser = {
+  id: number;
+  userId: number;
+  name: string;
+  img: string | null;
+  isNotificationOn: boolean;
+  notificationInterval: string; // adjust intervals as needed
+  searchParams: string;
+  createdAt: Date;
+  updatedAt: Date;
+  lastOpenedAt: Date;
+  user: {
+    id: number;
+    firstName: string | null;
+    lastName: string | null;
+    account: {
+      id: number;
+      email: string;
+    };
+  };
+};
+
 function isMatchingSearch(savedSearch: SavedSearch, listing: Listing) {
   return true;
 }
+
 export async function notifyConcernedUsersAboutNewListing(
   listing: ListingWithRelations,
 ) {
@@ -32,12 +62,13 @@ export async function notifyConcernedUsersAboutNewListing(
   if (!listing) return;
 
   // Fetch all saved searches
+  let savedSearches: SavedSearchWithUser[] = [];
   try {
-    const savedSearches = await prismadb.savedSearch.findMany({
+    savedSearches = await prismadb.savedSearch.findMany({
       where: {
         isNotificationOn: true,
         notificationInterval: "live",
-        userId: listing.userId ? { not: listing.userId } : undefined,
+        // userId: listing.userId ? { not: listing.userId } : undefined,
       },
       include: {
         user: {
@@ -57,6 +88,7 @@ export async function notifyConcernedUsersAboutNewListing(
     });
     console.log("Found Saved Searches");
     console.log(savedSearches.slice(0, 2));
+    console.log(savedSearches.slice(0, 2).map((ss) => ss.user.account));
   } catch (error) {
     console.error(
       "Error fetching saved searches:",
@@ -64,49 +96,74 @@ export async function notifyConcernedUsersAboutNewListing(
     );
   }
 
-  return;
+  //   return;
 
-  //   // Check if the listing matches the saved search
-  //   const matchingSearches = savedSearches.filter((ss) => {
-  //     return isMatchingSearch(ss, listing);
-  //   });
+  // Check if the listing matches the saved search
+  const matchingSearches = savedSearches.filter((ss) => {
+    return isMatchingSearch(ss, listing);
+  });
 
-  //   // The matching saved searches group them by user.id
-  //   const userSearchMap = new Map<
-  //     string,
-  //     { user: User; searches: SavedSearch[] }
-  //   >();
+  // The matching saved searches group them by user.id
+  const userSearchMap = new Map<
+    string,
+    { user: Partial<User>; searches: SavedSearchWithUser[] }
+  >();
 
-  //   for (const search of matchingSearches) {
-  //     if (!userSearchMap.has(search.userId)) {
-  //       userSearchMap.set(search.userId, { user: search.user, searches: [] });
-  //     }
-  //     userSearchMap.get(search.userId)!.searches.push(search);
-  //   }
+  for (const search of matchingSearches) {
+    if (!userSearchMap.has(search.user.id.toString())) {
+      userSearchMap.set(search.user.id.toString(), {
+        user: search.user,
+        searches: [],
+      });
+    }
+    userSearchMap.get(search.user.id.toString())!.searches.push(search);
+  }
 
-  //   // Send emails in batches with a delay to avoid spam
-  //   const users = Array.from(userSearchMap.values());
-  //   for (let i = 0; i < users.length; i++) {
-  //     const { user, searches } = users[i];
+  console.log("userSearchMap", userSearchMap);
+  // Send emails in batches with a delay to avoid spam
+  const users = Array.from(userSearchMap.values());
+  for (let i = 0; i < users.length; i++) {
+    const { user, searches } = users[i];
+    console.log("user", user);
+    const fromEmail =
+      process.env.NEXT_PUBLIC_URL === "http://localhost:3000"
+        ? "onboarding@resend.dev"
+        : "no-reply@adresa.mk";
 
-  //     const fromEmail =
-  //       process.env.NEXT_PUBLIC_URL === "http://localhost:3000"
-  //         ? "onboarding@resend.dev>"
-  //         : "no-reply@adresa.mk";
+    const toEmail =
+      process.env.NEXT_PUBLIC_URL === "http://localhost:3000"
+        ? "macesmajli@gmail.com"
+        : searches[0].user.account.email;
 
-  //     const toEmail =
-  //       process.env.NEXT_PUBLIC_URL === "http://localhost:3000"
-  //         ? "macesmajli@gmail.com"
-  //         : user.email;
+    console.log("fromEmail", fromEmail);
+    console.log("toEmail", toEmail);
 
-  //     const { data, error } = await resend.emails.send({
-  //       from: `Adresa <${fromEmail}>`,
-  //       to: [toEmail],
-  //       subject: "New Listing Matches Your Saved Search",
-  //       html: await render(NewListingsThatMatchesNotification({ listing })),
-  //     });
+    try {
+      const { data, error } = await resend.emails.send({
+        from: `Adresa <${fromEmail}>`,
+        to: [toEmail],
+        subject: "New Listing Matches Your Saved Search",
+        html: await render(
+          NewListingsThatMatchesNotification({
+            listing,
+            matchedSearches: searches,
+            user: user as Partial<User> & { account: Partial<Account> },
+          }),
+        ),
+      });
 
-  //     // Introduce delay (1000ms = 1s per email)
-  //     if (i < users.length - 1) await wait(1000);
-  //   }
+      console.log("Data from resend", data);
+      console.log("Error from resend", error);
+      if (data as CreateEmailResponseSuccess) {
+        console.log("Email sent successfully", data?.id);
+      } else {
+        console.error("Error sending email:", error);
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+
+    // Introduce delay (1000ms = 1s per email)
+    if (i < users.length - 1) await wait(1000);
+  }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
-import EmailTemplate from "../../emails/newListings";
+import EmailTemplate from "../../emails/newListingsThatMatchesNotification";
 import {
   Listing,
   ListingStatus,
@@ -166,13 +166,14 @@ const typedListingData: Listing = {
   professionalPromotionId: listingData.professionalPromotionId as number | null,
 };
 
-const emailHTML = ReactDOMServer.renderToStaticMarkup(
-  <EmailTemplate
-    listing={typedListingData}
-    matchedSearches={[savedSearchData]}
-  />,
-);
-
+// const emailHTML = ReactDOMServer.renderToStaticMarkup(
+//   <EmailTemplate
+//     listing={typedListingData}
+//     matchedSearches={[savedSearchData]}
+//     user={user}
+//   />,
+// );
+const emailHTML = "";
 export default function TestEmail() {
   return <div>{emailHTML}</div>;
 }

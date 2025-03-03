@@ -1494,7 +1494,7 @@ async function editPublishing(formData: FormData) {
     console.log("Notifying concerned users about new listing");
     notifyConcernedUsersAboutNewListing(updatedListing);
     console.log("Generating static listing page for ", listingId);
-    generateStaticListingPage(Number(updatedListing.listingNumber));
+    // generateStaticListingPage(Number(updatedListing.listingNumber));
   }
 
   return {

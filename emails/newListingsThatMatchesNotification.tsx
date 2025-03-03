@@ -11,6 +11,7 @@ import {
   Html,
 } from "@react-email/components";
 import {
+  Account,
   Listing,
   ListingStatus,
   LocationPrecision,
@@ -18,6 +19,7 @@ import {
   PropertyTransactionType,
   PropertyType,
   SavedSearch,
+  User,
 } from "@prisma/client";
 import { UploadedImageData } from "@/types/listing.types";
 const listingData = {
@@ -161,9 +163,11 @@ const savedSearchData: SavedSearch = {
 const NewListingsThatMatchesNotification = ({
   listing = typedListingData,
   matchedSearches = [savedSearchData],
+  user,
 }: {
   listing: Listing;
   matchedSearches: SavedSearch[];
+  user: Partial<User> & { account: Partial<Account> };
 }) => {
   return (
     <Html>
@@ -175,6 +179,30 @@ const NewListingsThatMatchesNotification = ({
           fontFamily: "Arial, sans-serif",
         }}
       >
+        <Container
+          style={{
+            width: "100%",
+            maxWidth: "600px",
+            margin: "20px auto",
+            backgroundColor: "#ffffff",
+            padding: "20px",
+            borderRadius: "8px",
+            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <Section style={{ paddingBottom: "20px" }}>
+            <Text
+              style={{ fontSize: "16px", color: "#333", margin: "0 0 10px 0" }}
+            >
+              Dear {user.firstName} {user.lastName},
+            </Text>
+            <Text style={{ fontSize: "14px", color: "#666", margin: "0" }}>
+              We&apos;re sending this notification to {user.account.email}{" "}
+              because we found some exciting new listings that match your saved
+              searches.
+            </Text>
+          </Section>
+        </Container>
         <Container
           style={{
             width: "100%",
@@ -291,7 +319,7 @@ const NewListingsThatMatchesNotification = ({
                     </Text>
                     <Text style={{ fontSize: "14px", margin: "5px 0" }}>
                       <Link
-                        href={`https://dev.adresa.mk/${search.searchParams}`}
+                        href={`https://dev.adresa.mk${search.searchParams}`}
                         style={{ color: "#0073e6" }}
                       >
                         View More Listings
