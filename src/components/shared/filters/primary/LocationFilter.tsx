@@ -67,10 +67,74 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
 
     // console.log("optionsWithRegions", optionsWithRegions);
 
+    const priorityTerms = {
+      Капиштец: 6,
+      Kapishtec: 6,
+
+      Скопје: 3,
+      "Кисела Вода, Скопје": 3,
+      "Аеродром, Скопје": 3,
+      "Гази Баба, Скопје": 3,
+      "Бутел, Скопје": 3,
+      "Шуто Оризари, Скопје": 3,
+      "Сарај, Скопје": 3,
+      "Ѓорче Петров, Скопје": 3,
+      "Карпош, Скопје": 3,
+      "Центар, Скопје": 3,
+      "Чаир, Скопје": 3,
+
+      "Kisela Vodës, Shkupi": 3,
+      "Aerodromit, Shkupi": 3,
+      "Gazi Babës, Shkupi": 3,
+      "Butelit, Shkupi": 3,
+      "Shuto Orizarit, Shkupi": 3,
+      "Sarajit, Shkupi": 3,
+      "Gjorçe Petrovit, Shkupi": 3,
+      "Karposhit, Shkupi": 3,
+      "Qendrës, Shkupi": 3,
+      "Çairit, Shkupi": 3,
+
+      "Kisela Voda, Skopje": 4,
+      "Aerodrom, Skopje": 4,
+      "Gazi Baba, Skopje": 4,
+      "Butel, Skopje": 4,
+      "Shuto Orizari, Skopje": 4,
+      "Saraj, Skopje": 4,
+      "Gjorche Petrov, Skopje": 4,
+      "Karposh, Skopje": 4,
+      "Centar, Skopje": 4,
+      "Chair, Skopje": 4,
+
+      // Add more common locations with their priority weights
+    };
     const fuse = new Fuse(optionsWithRegions, {
-      keys: ["label.mk", "label.en", "label.al"],
+      keys: [
+        { name: `label.${locale}`, weight: 2 }, // Current language gets higher priority
+        {
+          name: `label.${locale}`,
+          weight: 2,
+          getFn: (obj) => {
+            const label = obj.label[locale as keyof typeof obj.label];
+            // Boost priority terms
+            if (label && priorityTerms[label as keyof typeof priorityTerms]) {
+              return `${"!".repeat(
+                priorityTerms[label as keyof typeof priorityTerms],
+              )}${label}`; // Prefix with ! to boost priority
+            }
+            return label;
+          },
+        },
+        { name: "label.en", weight: 1 },
+        { name: "label.mk", weight: 1 },
+        { name: "label.al", weight: 1 },
+      ],
+      threshold: 0.7,
+      distance: 110,
+      minMatchCharLength: 3,
+      shouldSort: true,
     });
 
+    // console.log("debouncedLocation", debouncedLocation);
     const filteredOptions = fuse.search(debouncedLocation);
     // console.log("filteredOptions", filteredOptions);
     const existingLocations = filters.location
@@ -86,15 +150,15 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
       translatedPlaces: optionsWithRegions,
       fuseResults: results,
     };
-  }, [debouncedLocation, filters.location]);
+  }, [debouncedLocation, filters.location, locale]);
 
   const locationDropdown = getLocationDropdownOptions();
-  console.log("locationDropdown fuseResults", locationDropdown.fuseResults);
-  console.log("locationDropdown options", locationDropdown.options);
-  console.log(
-    "locationDropdown translatedPlaces",
-    locationDropdown.translatedPlaces,
-  );
+  // console.log("locationDropdown fuseResults", locationDropdown.fuseResults);
+  // console.log("locationDropdown options", locationDropdown.options);
+  // console.log(
+  //   "locationDropdown translatedPlaces",
+  //   locationDropdown.translatedPlaces,
+  // );
   const [tags, setTags] = useState<Tag[]>(() => {
     // return filters.location
     //   ? filters.location.split(",").map((value) => ({

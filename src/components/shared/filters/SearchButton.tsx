@@ -19,7 +19,7 @@ export default function SearchButton({ variant }: SearchButtonProps) {
   const newDestination =
     filters.location === "" ? "#" : generateSearchUrl(filters);
 
-  console.log("newDestination", newDestination);
+  // console.log("newDestination", newDestination);
   const router = useRouter();
 
   useEffect(() => {
