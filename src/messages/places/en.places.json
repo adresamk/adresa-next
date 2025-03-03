@@ -1,14 +1,14 @@
 {
-  "00001": "Region of Skopje",
+  "00001": "Skopje",
 
-  "10001": "Municipality of Kisela Voda, Skopje",
-  "10002": "Municipality of Aerodrom, Skopje",
-  "10003": "Municipality of Gazi Baba, Skopje",
-  "10004": "Municipality of Butel, Skopje",
-  "10005": "Municipality of Shuto Orizari, Skopje",
-  "10006": "Municipality of Saraj, Skopje",
-  "10007": "Municipality of Gjorche Petrov, Skopje",
-  "10008": "Municipality of Karposh, Skopje",
+  "10001": "Kisela Voda, Skopje",
+  "10002": "Aerodrom, Skopje",
+  "10003": "Gazi Baba, Skopje",
+  "10004": "Butel, Skopje",
+  "10005": "Shuto Orizari, Skopje",
+  "10006": "Saraj, Skopje",
+  "10007": "Gjorche Petrov, Skopje",
+  "10008": "Karposh, Skopje",
 
   "20801": "Vlae",
   "20802": "Dolno Nerezi",
@@ -25,7 +25,7 @@
   "20813": "Taftalidze 2",
   "20814": "Trnodol",
   "20815": "Bardovci",
-  "10079": "Municipality of Centar, Skopje",
+  "10079": "Centar, Skopje",
 
   "27901": "Debar Maalo",
   "27902": "Bunjakovec",
@@ -39,7 +39,7 @@
   "27910": "Madzir Maalo",
   "27911": "Krnjevo",
 
-  "10080": "Municipality of Chair, Skopje",
+  "10080": "Chair, Skopje",
 
   "28001": "Gazi Baba",
   "28002": "Dukjanjik",
