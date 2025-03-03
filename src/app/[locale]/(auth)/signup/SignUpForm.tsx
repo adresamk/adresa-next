@@ -1,7 +1,6 @@
 "use client";
-import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
-import SignUpFormWrapper from "./SignUpFormWrapper";
+import { Link, usePathname } from "@/i18n/routing";
+import { useLocale, useTranslations } from "next-intl";
 import GoogleOAuthButton from "../GoogleOAuthButton";
 import { AccountType } from "@prisma/client";
 import { SubmitButton } from "@/components/SubmitButton";
@@ -9,10 +8,39 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
+import { useActionState, useEffect } from "react";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useRouter } from "@/i18n/routing";
+import { signUpAsUser } from "@/server/actions/auth.actions";
+import { Form } from "@/components/Form";
 interface SignUpFormProps {}
 export default function SignUpForm({}: SignUpFormProps) {
   const t = useTranslations();
+  const initialState = { error: null, success: false };
+  const [state, formAction, isPending] = useActionState(
+    signUpAsUser,
+    initialState,
+  );
+  const setCurrentUser = useCurrentUser((state) => state.setCurrentUser);
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+  useEffect(() => {
+    if (state.success) {
+      setCurrentUser({
+        account: state.data.account,
+        isAuthenticated: true,
+        user: state.data.user,
+        agency: null,
+        admin: null,
+      });
 
+      router.back();
+      setTimeout(() => {
+        router.refresh();
+      }, 100);
+    }
+  }, [state.success, router, pathname, locale, setCurrentUser, state.data]);
   return (
     <div className="flex flex-1 flex-col justify-center px-6 py-0 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -37,7 +65,7 @@ export default function SignUpForm({}: SignUpFormProps) {
         </div>
       </div>
       <div className="mt-1 sm:mx-auto sm:w-full sm:max-w-sm">
-        <SignUpFormWrapper>
+        <Form action={formAction} state={state}>
           <div>
             <Label
               htmlFor="email"
@@ -227,7 +255,7 @@ export default function SignUpForm({}: SignUpFormProps) {
               defaultText={t("auth.signUp.button")}
             />
           </div>
-        </SignUpFormWrapper>
+        </Form>
         <p className="mt-10 text-center text-sm text-gray-500">
           {t("auth.signUp.hasAccount")}{" "}
           <Link

@@ -1,14 +1,18 @@
 "use client";
 
-import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
+import { Link, useRouter, usePathname } from "@/i18n/routing";
+import { useLocale, useTranslations } from "next-intl";
 
 import GoogleOAuthButton from "../GoogleOAuthButton";
-import SignInFormWrapper from "./SignInFormWrapper";
 import { AccountType } from "@prisma/client";
 import { SubmitButton } from "@/components/SubmitButton";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Form } from "@/components/Form";
+import { toast } from "sonner";
+import { useActionState, useEffect } from "react";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { signIn } from "@/server/actions/auth.actions";
 
 interface SignInFormProps {
   searchParams: Record<string, string> | null;
@@ -16,6 +20,43 @@ interface SignInFormProps {
 
 export default function SignInForm({ searchParams = null }: SignInFormProps) {
   const t = useTranslations();
+  const initialState = { error: null, success: false };
+  const [state, formAction, isPending] = useActionState(signIn, initialState);
+  const router = useRouter();
+  const locale = useLocale();
+  const pathname = usePathname();
+  const setCurrentUser = useCurrentUser((state) => state.setCurrentUser);
+
+  useEffect(() => {
+    if (state.success) {
+      // Revalidate all router cache
+      // router.refresh();
+
+      setCurrentUser({
+        account: state.data.account,
+        isAuthenticated: true,
+        user: state.data.user,
+        agency: state.data.agency,
+        admin: null,
+      });
+
+      toast.success(t("common.notifications.loggedInSuccessfully"), {
+        duration: 2000,
+        style: {
+          border: "1px solid var(--brandeis-blue)",
+          backgroundColor: "var(--alice-blue)",
+        },
+      });
+      router.back();
+      const referrer = document.referrer;
+      console.log("referrer", referrer);
+      // if (referrer && referrer !== "" && referrer !== "about:blank") {
+      //   console.log("referrer ima", referrer);
+      // } else {
+      //   router.push("/");
+      // }
+    }
+  }, [router, pathname, t, setCurrentUser, state]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -44,7 +85,7 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-        <SignInFormWrapper>
+        <Form action={formAction} state={state}>
           <div>
             <Label
               htmlFor="email"
@@ -77,7 +118,7 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
                 <Link
                   replace
                   tabIndex={-1}
-                  href="/forgot-password"
+                  href={`/${locale}/forgot-password`}
                   className="font-semibold text-indigo-600 hover:text-indigo-500"
                 >
                   {t("auth.signIn.forgotPassword")}
@@ -104,7 +145,7 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
               defaultText={t("auth.signIn.button")}
             />
           </div>
-        </SignInFormWrapper>
+        </Form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
           {t("auth.signIn.noAccount")}{" "}

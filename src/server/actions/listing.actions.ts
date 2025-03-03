@@ -1053,6 +1053,7 @@ async function editFeatures(formData: FormData) {
         key: {
           in: [...newFeatureKeys],
         },
+        isActive: true,
       },
       select: {
         id: true,
@@ -2023,7 +2024,11 @@ export async function createListingsFromWebhook(
     clientSlug,
   });
 
-  const allFeatures = await prismadb.feature.findMany();
+  const allFeatures = await prismadb.feature.findMany({
+    where: {
+      isActive: true,
+    },
+  });
   try {
     const agency = await prismadb.agency.findUnique({
       where: { slug: clientSlug },

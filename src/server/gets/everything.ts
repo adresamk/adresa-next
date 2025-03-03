@@ -29,6 +29,7 @@ export async function getStaticCategoryFeatures(category: string) {
       applicableTypes: {
         hasSome: [category as ApplicablePropertyCategory, "all"],
       },
+      isActive: true,
     },
   });
 }

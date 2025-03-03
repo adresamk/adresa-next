@@ -1,13 +1,12 @@
 "use client";
 
 import { Info } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { Form } from "@/components/Form";
-import { Link } from "@/i18n/routing";
-import SignUpAgencyFormWrapper from "./SignUpAgencyFormWrapper";
+import { Link, usePathname, useRouter } from "@/i18n/routing";
 import GoogleOAuthButton from "../GoogleOAuthButton";
 import { AccountType } from "@prisma/client";
 import { SubmitButton } from "@/components/SubmitButton";
@@ -15,11 +14,28 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
+import { signUpAsAgency } from "@/server/actions/auth.actions";
+import { useActionState, useEffect } from "react";
 
 interface SignUpAgencyFormProps {}
 export default function SignUpAgencyForm({}: SignUpAgencyFormProps) {
   const t = useTranslations();
-
+  const initialState = { error: null, success: false };
+  const [state, formAction, isPending] = useActionState(
+    signUpAsAgency,
+    initialState,
+  );
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+  useEffect(() => {
+    if (state.success) {
+      router.back();
+      setTimeout(() => {
+        router.push("/agency/profile/details", { locale: locale });
+      }, 400);
+    }
+  }, [state.success, router, pathname, locale]);
   return (
     <div className="flex flex-1 flex-col justify-center px-6 py-4 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -54,7 +70,7 @@ export default function SignUpAgencyForm({}: SignUpAgencyFormProps) {
         </div>
       </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <SignUpAgencyFormWrapper>
+        <Form action={formAction} state={state}>
           <div>
             <Label
               htmlFor="email"
@@ -188,7 +204,7 @@ export default function SignUpAgencyForm({}: SignUpAgencyFormProps) {
               defaultText={t("auth.agencySignUp.button")}
             />
           </div>
-        </SignUpAgencyFormWrapper>
+        </Form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
           {t("auth.signUp.hasAccount")}{" "}

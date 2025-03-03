@@ -7,7 +7,11 @@ export async function GET(request: NextRequest) {
   try {
     const features = await unstable_cache(
       async () => {
-        return prismadb.feature.findMany();
+        return prismadb.feature.findMany({
+          where: {
+            isActive: true,
+          },
+        });
       },
       ["features"],
       {
