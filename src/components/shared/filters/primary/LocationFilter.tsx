@@ -67,7 +67,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
       };
     })[] = getAllLocationOptionsTranslated2();
 
-    console.log("options", options);
+    // console.log("options", options);
 
     const regions = getAllRegionsTranslated();
     // console.log("options", options);
@@ -116,15 +116,15 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
 
       // Add more common locations with their priority weights
     };
-    console.log("optionsWithRegions", optionsWithRegions);
+    // console.log("optionsWithRegions", optionsWithRegions);
     const fuse = new Fuse(optionsWithRegions, {
       keys: [
-        { name: `label.${locale}`, weight: 2 }, // Current language gets higher priority
+        { name: `fuseLabel.${locale}`, weight: 2 }, // Current language gets higher priority
         {
-          name: `label.${locale}`,
+          name: `fuseLabel.${locale}`,
           weight: 2,
           getFn: (obj) => {
-            const label = obj.label[locale as keyof typeof obj.label];
+            const label = obj.fuseLabel[locale as keyof typeof obj.fuseLabel];
             let prefix = "";
 
             // First check for exact match (case-insensitive)
@@ -148,9 +148,9 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
             return `${prefix}${label}`;
           },
         },
-        { name: "label.en", weight: 1 },
-        { name: "label.mk", weight: 1 },
-        { name: "label.al", weight: 1 },
+        { name: "fuseLabel.en", weight: 1 },
+        { name: "fuseLabel.mk", weight: 1 },
+        { name: "fuseLabel.al", weight: 1 },
       ],
       threshold: 0.7,
       distance: 110,
@@ -161,7 +161,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
 
     // console.log("debouncedLocation", debouncedLocation);
     const filteredOptions = fuse.search(debouncedLocation);
-    console.log("filteredOptions", filteredOptions);
+    // console.log("filteredOptions", filteredOptions);
     const existingLocations = filters.location
       ? filters.location.split(",")
       : [];
@@ -282,7 +282,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
         </label>
         <div className="relative flex min-h-10 flex-wrap items-center text-sm">
           {tags.map((t) => {
-            console.log("t", t);
+            // console.log("t", t);
             return (
               <div
                 className="relative mr-2.5 mt-1 inline-flex min-h-10 items-center gap-2 rounded-md bg-slate-200 py-2 pl-2.5 pr-8 text-sm tracking-tight text-slate-900"

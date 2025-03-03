@@ -281,8 +281,8 @@ export function getAllLocationOptionsTranslated2(): (TranslatedOptionMultipleLan
   const keyValue = getRegionsFully();
   const regionKey = keyValue[0][0];
   const regionMunicipalities = keyValue[0][1];
-  console.log("regionKey", regionKey);
-  console.log("regionMunicipalities", regionMunicipalities);
+  // console.log("regionKey", regionKey);
+  // console.log("regionMunicipalities", regionMunicipalities);
 
   const options = Object.entries(mkTranslations).map(([id]) => {
     let longID = "";
