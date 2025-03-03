@@ -7,6 +7,8 @@ import GoogleOAuthButton from "../GoogleOAuthButton";
 import SignInFormWrapper from "./SignInFormWrapper";
 import { AccountType } from "@prisma/client";
 import { SubmitButton } from "@/components/SubmitButton";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 interface SignInFormProps {
   searchParams: Record<string, string> | null;
@@ -44,36 +46,37 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
         <SignInFormWrapper>
           <div>
-            <label
+            <Label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               {t("auth.signIn.email")} <span className="text-red-500">*</span>
-            </label>
-            <div className="mt-2">
-              <input
+            </Label>
+            <div className="mb-2">
+              <Input
                 id="email"
                 name="email"
                 type="email"
                 required
                 autoComplete="email"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full shadow-sm"
               />
             </div>
           </div>
 
           <div>
             <div className="flex items-center justify-between">
-              <label
+              <Label
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 {t("auth.signIn.password")}{" "}
                 <span className="text-red-500">*</span>
-              </label>
+              </Label>
               <div className="text-sm">
                 <Link
                   replace
+                  tabIndex={-1}
                   href="/forgot-password"
                   className="font-semibold text-indigo-600 hover:text-indigo-500"
                 >
@@ -81,14 +84,14 @@ export default function SignInForm({ searchParams = null }: SignInFormProps) {
                 </Link>
               </div>
             </div>
-            <div className="mt-2">
-              <input
+            <div className="mb-2">
+              <Input
                 id="password"
                 name="password"
                 type="password"
                 required
                 autoComplete="current-password"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full shadow-sm"
               />
             </div>
           </div>
