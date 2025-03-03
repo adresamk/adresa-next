@@ -24,6 +24,20 @@ const icons = {
   [PropertyCategory.other]: <Building className="h-8 w-8" />,
 };
 
+export const revalidate = 3 * 24 * 60 * 60 * 1000;
+export async function generateStaticParams({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  return [
+    { locale: "mk", slug },
+    { locale: "en", slug },
+    { locale: "al", slug },
+  ];
+}
+
 export const generateMetadata = async ({
   params,
 }: {
