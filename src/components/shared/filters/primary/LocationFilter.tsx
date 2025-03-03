@@ -17,6 +17,7 @@ import { useSelectedFilter } from "@/hooks/useSelectedFilter";
 import { useLocale, useTranslations } from "next-intl";
 import {
   getAllLocationOptionsTranslated,
+  getAllLocationOptionsTranslated2,
   getAllMunicipalitiesWithPlacesTranslated,
   getAllRegionsTranslated,
   TranslatedOption,
@@ -58,12 +59,20 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
 
   const locale = useLocale();
   const getLocationDropdownOptions = useCallback(() => {
-    const options: TranslatedOptionMultipleLanguages[] =
-      getAllLocationOptionsTranslated();
+    const options: (TranslatedOptionMultipleLanguages & {
+      fuseLabel: {
+        mk: string;
+        en: string;
+        al: string;
+      };
+    })[] = getAllLocationOptionsTranslated2();
+
+    console.log("options", options);
 
     const regions = getAllRegionsTranslated();
     // console.log("options", options);
-    const optionsWithRegions = [...regions, ...options];
+    // const optionsWithRegions = [...regions, ...options];
+    const optionsWithRegions = options;
 
     // console.log("optionsWithRegions", optionsWithRegions);
 
@@ -107,6 +116,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
 
       // Add more common locations with their priority weights
     };
+    console.log("optionsWithRegions", optionsWithRegions);
     const fuse = new Fuse(optionsWithRegions, {
       keys: [
         { name: `label.${locale}`, weight: 2 }, // Current language gets higher priority
@@ -115,13 +125,27 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
           weight: 2,
           getFn: (obj) => {
             const label = obj.label[locale as keyof typeof obj.label];
-            // Boost priority terms
-            if (label && priorityTerms[label as keyof typeof priorityTerms]) {
-              return `${"!".repeat(
-                priorityTerms[label as keyof typeof priorityTerms],
-              )}${label}`; // Prefix with ! to boost priority
+            let prefix = "";
+
+            // First check for exact match (case-insensitive)
+            if (
+              label &&
+              debouncedLocation &&
+              label.toLowerCase() === debouncedLocation.toLowerCase()
+            ) {
+              prefix = "!".repeat(20); // Much higher priority for exact matches
             }
-            return label;
+            // Then check priority terms
+            else if (
+              label &&
+              priorityTerms[label as keyof typeof priorityTerms]
+            ) {
+              prefix = "!".repeat(
+                priorityTerms[label as keyof typeof priorityTerms],
+              );
+            }
+
+            return `${prefix}${label}`;
           },
         },
         { name: "label.en", weight: 1 },
@@ -132,11 +156,12 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
       distance: 110,
       minMatchCharLength: 3,
       shouldSort: true,
+      useExtendedSearch: true,
     });
 
     // console.log("debouncedLocation", debouncedLocation);
     const filteredOptions = fuse.search(debouncedLocation);
-    // console.log("filteredOptions", filteredOptions);
+    console.log("filteredOptions", filteredOptions);
     const existingLocations = filters.location
       ? filters.location.split(",")
       : [];

@@ -51,6 +51,10 @@ export function getRegionsOptions(): string[] {
   return Object.keys(mappedStructure.regions);
 }
 
+export function getRegionsFully(): any {
+  return Object.entries(mappedStructure.regions);
+}
+
 export function getRegionsMunicipalitiesIds(regionId: string): string[] {
   if (!regionId) return [];
   if (
@@ -259,6 +263,69 @@ export function getAllLocationOptionsTranslated(): TranslatedOptionMultipleLangu
     },
     [] as TranslatedOptionMultipleLanguages[],
   );
+
+  return options;
+}
+
+export function getAllLocationOptionsTranslated2(): (TranslatedOptionMultipleLanguages & {
+  fuseLabel: {
+    mk: string;
+    en: string;
+    al: string;
+  };
+})[] {
+  const mkTranslations = require(`../../../messages/places/mk.places.json`);
+  const enTranslations = require(`../../../messages/places/en.places.json`);
+  const alTranslations = require(`../../../messages/places/al.places.json`);
+
+  const keyValue = getRegionsFully();
+  const regionKey = keyValue[0][0];
+  const regionMunicipalities = keyValue[0][1];
+  console.log("regionKey", regionKey);
+  console.log("regionMunicipalities", regionMunicipalities);
+
+  const options = Object.entries(mkTranslations).map(([id]) => {
+    let longID = "";
+
+    // Determine type and build longID based on ID prefix
+    if (id.startsWith("2")) {
+      // Place
+      const muniId = `100${id.slice(1, 3)}`;
+      const belongsToRegion = regionMunicipalities.includes(muniId);
+      longID = `${belongsToRegion ? regionKey + "," : ""}${muniId},${id}`;
+    } else if (id.startsWith("1")) {
+      // Municipality
+      const belongsToRegion = regionMunicipalities.includes(id);
+      longID = `${belongsToRegion ? regionKey + "," : ""}${id}`;
+    } else if (id.startsWith("0")) {
+      // Region
+      longID = id;
+    }
+
+    // console.log("longID", longID);
+
+    // Create labels with hierarchy
+    const createLabel = (translations: Record<string, string>) =>
+      longID
+        .split(",")
+        .filter(Boolean)
+        .map((partId) => translations[partId] || partId)
+        .join(", ");
+
+    return {
+      value: id,
+      label: {
+        mk: createLabel(mkTranslations),
+        en: createLabel(enTranslations),
+        al: createLabel(alTranslations),
+      },
+      fuseLabel: {
+        mk: mkTranslations[id] || id,
+        en: enTranslations[id] || id,
+        al: alTranslations[id] || id,
+      },
+    };
+  });
 
   return options;
 }
