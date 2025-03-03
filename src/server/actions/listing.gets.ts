@@ -119,6 +119,7 @@ export async function getAllListings(
   parsedParams: Record<string, any>,
 ): Promise<Listing[]> {
   const pp = parsedParams as ParsedQueryParams;
+  // console.log({ pp });
   console.log("API CALL");
   // console.log("pp", pp);
 
@@ -244,6 +245,8 @@ export async function getAllListings(
       createdAt: pp.sorting === "new" ? "desc" : undefined,
     },
   });
+
+  // console.log("listings length", listings.length);
   //   // Assuming you have the current userId from session or JWT
   // const currentUserId = 'some-user-id';
 

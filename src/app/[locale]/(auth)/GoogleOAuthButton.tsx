@@ -5,19 +5,22 @@ import { getGoogleOAuthConsentURL } from "@/server/actions/auth.actions";
 import { AccountType } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function GoogleOAuthButton({ role }: { role: AccountType }) {
   const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
-  const returnUrl = readFromLocalStorage("returnPathname");
-
+  const [returnUrlState, setReturnUrlState] = useState("");
+  useEffect(() => {
+    const returnUrl = readFromLocalStorage("returnPathname");
+    setReturnUrlState(returnUrl);
+  }, []);
   return (
     <button
       disabled={isLoading}
       onClick={async () => {
         setIsLoading(true);
-        const { url } = await getGoogleOAuthConsentURL(role, returnUrl);
+        const { url } = await getGoogleOAuthConsentURL(role, returnUrlState);
         if (url) {
           window.location.href = url;
           // setIsLoading(false);

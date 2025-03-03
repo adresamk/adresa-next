@@ -36,7 +36,7 @@ export default function SignUpFormWrapper({
         router.refresh();
       }, 100);
     }
-  }, [state.success, router, pathname, locale]);
+  }, [state.success, router, pathname, locale, setCurrentUser, state.data]);
 
   return (
     <Form action={formAction} state={state}>

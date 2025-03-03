@@ -5,6 +5,10 @@ import SignUpFormWrapper from "./SignUpFormWrapper";
 import GoogleOAuthButton from "../GoogleOAuthButton";
 import { AccountType } from "@prisma/client";
 import { SubmitButton } from "@/components/SubmitButton";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
 interface SignUpFormProps {}
 export default function SignUpForm({}: SignUpFormProps) {
   const t = useTranslations();
@@ -35,123 +39,184 @@ export default function SignUpForm({}: SignUpFormProps) {
       <div className="mt-1 sm:mx-auto sm:w-full sm:max-w-sm">
         <SignUpFormWrapper>
           <div>
-            <label
+            <Label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               {t("auth.signUp.email")} <span className="text-red-500">*</span>
-            </label>
-            <div className="mt-2">
-              <input
+            </Label>
+            <div className="mb-2">
+              <Input
                 id="email"
                 name="email"
                 type="email"
                 required
                 autoComplete="off"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full shadow-sm"
               />
             </div>
           </div>
 
           <div>
             <div className="flex items-center justify-between">
-              <label
+              <Label
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 {t("auth.signUp.password")}{" "}
                 <span className="text-red-500">*</span>
-              </label>
+              </Label>
             </div>
-            <div className="mt-2">
-              <input
+            <div className="mb-2">
+              <Input
                 id="password"
                 name="password"
                 type="password"
                 required
                 autoComplete="off"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full shadow-sm"
               />
             </div>
           </div>
 
           <div>
             <div className="flex items-center justify-between">
-              <label
+              <Label
                 htmlFor="confirm-password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 {t("auth.signUp.confirmPassword")}{" "}
                 <span className="text-red-500">*</span>
-              </label>
+              </Label>
             </div>
-            <div className="mt-2">
-              <input
+            <div className="mb-2">
+              <Input
                 id="confirm-password"
                 name="confirm-password"
                 type="password"
                 required
                 autoComplete="off"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full shadow-sm"
               />
             </div>
           </div>
 
           <div>
-            <label
+            <Label
               htmlFor="firstName"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               {t("common.contact.firstName")}{" "}
               <span className="text-red-500">*</span>
-            </label>
-            <div className="mt-2">
-              <input
+            </Label>
+            <div className="mb-2">
+              <Input
                 id="firstName"
                 name="firstName"
                 type="text"
                 required
                 autoComplete="off"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full shadow-sm"
               />
             </div>
           </div>
 
           <div>
-            <label
+            <Label
               htmlFor="lastName"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               {t("common.contact.lastName")}{" "}
               <span className="text-red-500">*</span>
-            </label>
-            <div className="mt-2">
-              <input
+            </Label>
+            <div className="mb-2">
+              <Input
                 id="lastName"
                 name="lastName"
                 type="text"
                 required
                 autoComplete="off"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full shadow-sm"
               />
             </div>
           </div>
           <div>
-            <label
+            <Label
               htmlFor="phone"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               {t("common.contact.phone")}{" "}
-            </label>
-            <div className="mt-2">
-              <input
+            </Label>
+            <div className="mb-2">
+              <Input
                 id="phone"
                 name="phone"
                 type="text"
                 autoComplete="off"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full shadow-sm"
               />
             </div>
+          </div>
+
+          <Separator className="my-2 mt-4" />
+
+          <div className="my-3 flex gap-2">
+            <Checkbox id="terms" defaultChecked required name="terms" />
+            <Label
+              htmlFor="terms"
+              className="max-w-[400px] text-xs leading-4 text-slate-700"
+            >
+              {t("listing.new.agreeToTerms")}
+
+              <Link
+                href="/terms-of-use"
+                target="_blank"
+                className="ml-2 text-brand-light-blue underline"
+              >
+                {t("footer.Terms of Use")}
+              </Link>
+            </Label>
+          </div>
+
+          <div className="my-3 flex gap-2">
+            <Checkbox
+              id="listingTerms"
+              defaultChecked
+              required
+              name="listingTerms"
+            />
+            <Label
+              htmlFor="listingTerms"
+              className="max-w-[400px] text-xs leading-4 text-slate-700"
+            >
+              {t("listing.new.agreeToListingTerms")}
+
+              <Link
+                href="/terms-for-listings"
+                target="_blank"
+                className="ml-2 text-brand-light-blue underline"
+              >
+                {t("footer.Terms for Listings")}
+              </Link>
+            </Label>
+          </div>
+
+          <div className="my-3 flex gap-2">
+            <Checkbox id="dataUsage" defaultChecked required name="dataUsage" />
+            <Label
+              htmlFor="dataUsage"
+              className="max-w-[400px] text-xs leading-4 text-slate-700"
+            >
+              {t("listing.new.agreeToDataUsage")}
+
+              <Link
+                href="/privacy-policy"
+                target="_blank"
+                className="ml-2 text-brand-light-blue underline"
+              >
+                {t("footer.Policies")}
+              </Link>
+            </Label>
           </div>
 
           <div className="my-4">
