@@ -23,19 +23,29 @@ const icons = {
   [PropertyCategory.land]: <LandPlot className="h-8 w-8" />,
   [PropertyCategory.other]: <Building className="h-8 w-8" />,
 };
+export const dynamic = "force-static";
+export const revalidate = 360;
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  const listings = await prismadb.agency.findMany({
+    where: {
+      isPublic: true,
+    },
+    select: {
+      slug: true,
+    },
+  });
 
-export const revalidate = 3 * 24 * 60 * 60 * 1000;
-export async function generateStaticParams({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  return [
-    { locale: "mk", slug },
-    { locale: "en", slug },
-    { locale: "al", slug },
-  ];
+  // Generate params for all locales and listings
+  const params = listings.flatMap((listing) => {
+    const locales = ["en", "mk", "al"];
+    return locales.map((locale) => ({
+      locale,
+      slug: listing.slug,
+    }));
+  });
+  console.log("Generated static params for agency", params);
+  return params;
 }
 
 export const generateMetadata = async ({
