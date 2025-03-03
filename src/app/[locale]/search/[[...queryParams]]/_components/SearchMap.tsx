@@ -269,7 +269,13 @@ export default function SearchMap({
     return () => {
       map.off("moveend", handleMoveEnd);
     };
-  }, [searchOnMove, boundsAreUpdatedAfterPan, setBoundingBoxCoordinatesQP]);
+  }, [
+    searchOnMove,
+    boundsAreUpdatedAfterPan,
+    setBoundingBoxCoordinatesQP,
+    router,
+    pathname,
+  ]);
 
   const mapMovedWithoutSearching = false;
 
@@ -525,7 +531,8 @@ export default function SearchMap({
                         listing.locationPrecision,
                         zoom,
                         listing.isPaidPromo,
-                        selectedListingId === listing.id,
+                        selectedListingId === listing.id ||
+                          activeListing?.id === listing.id,
                         listing,
                         idx,
                       )}

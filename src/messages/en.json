@@ -891,7 +891,11 @@
       }
     },
     "errors": {
-      "requiredFields": "Fill in all the required fields!"
+      "requiredFields": "Fill in all the required fields!",
+      "connectionError": "Connection Error",
+      "somethingWentWrong": "Something went wrong!",
+      "checkInternetTryAgain": "Please check your internet connection and try again",
+      "unexpectedError": "An unexpected error occurred"
     },
     "listingImages": {
       "modalTitle": "{type}, {area}m²",

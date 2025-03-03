@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { WifiOff } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function Error({
   error,
@@ -10,6 +11,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations("error");
   useEffect(() => {
     // Optionally log the error to an error reporting service
     console.error(error);
@@ -26,13 +28,13 @@ export default function Error({
         <WifiOff className="mx-auto mb-4 h-12 w-12 text-red-500" />
         <h2 className="mb-2 text-xl font-semibold">
           {isPrismaConnectionError
-            ? "Connection Error"
-            : "Something went wrong!"}
+            ? t("listing.errors.connectionError")
+            : t("listing.errors.somethingWentWrong")}
         </h2>
         <p className="mb-4 text-gray-600">
           {isPrismaConnectionError
-            ? "Please check your internet connection and try again"
-            : "An unexpected error occurred"}
+            ? t("listing.errors.checkInternetTryAgain")
+            : t("listing.errors.unexpectedError")}
         </p>
         <div className="space-x-4">
           <button

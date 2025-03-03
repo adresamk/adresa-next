@@ -900,7 +900,11 @@
       }
     },
     "errors": {
-      "requiredFields": "Пополнете ги сите потребни полиња!"
+      "requiredFields": "Пополнете ги сите потребни полиња!",
+      "connectionError": "Грешка при поврзување",
+      "somethingWentWrong": "Нешто не е во ред!",
+      "checkInternetTryAgain": "Ве молиме проверете ја вашата интернет конекција и обидете се повторно",
+      "unexpectedError": "Настана неочекувана грешка"
     },
     "listingImages": {
       "modalTitle": "{type}, {area}m²",

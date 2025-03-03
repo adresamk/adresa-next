@@ -893,7 +893,11 @@
       }
     },
     "errors": {
-      "requiredFields": "Vendosni të gjithë fusha të nevojshme!"
+      "requiredFields": "Vendosni të gjithë fusha të nevojshme!",
+      "connectionError": "Gabim në lidhje",
+      "somethingWentWrong": "Diçka nuk shkoi siç duhet!",
+      "checkInternetTryAgain": "Ju lutem kontrolloni lidhjen tuaj të internetit dhe provoni përsëri",
+      "unexpectedError": "Ndodhi një gabim i papritur"
     },
     "listingImages": {
       "modalTitle": "{type}, {area}m²",
