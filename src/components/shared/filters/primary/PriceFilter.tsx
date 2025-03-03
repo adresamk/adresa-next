@@ -73,7 +73,7 @@ export default function PriceFilter({ variant }: PriceFilterProps) {
         priceHigh: "",
       });
     }
-  }, [filters.transactionType]);
+  }, [filters.transactionType, updateFilters, variant]);
 
   if (variant === "homepage") {
     priceLow = filters.priceLow ? formatPrice(Number(filters.priceLow)) : "";

@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   if (request.method === "GET") {
     const response = await handleI18nMiddleware(request);
     const token = request.cookies.get("auth_session")?.value ?? null;
-    console.log("Token from middleware", token);
+    // console.log("Token from middleware", token);
     if (token !== null) {
       response.cookies.set("auth_session", token, {
         path: "/",

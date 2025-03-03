@@ -158,7 +158,7 @@ const savedSearchData: SavedSearch = {
   lastOpenedAt: new Date("2025-02-27 17:19:30.005"),
 };
 
-const EmailTemplate = ({
+const NewListingsThatMatchesNotification = ({
   listing = typedListingData,
   matchedSearches = [savedSearchData],
 }: {
@@ -404,4 +404,4 @@ const EmailTemplate = ({
   );
 };
 
-export default EmailTemplate;
+export default NewListingsThatMatchesNotification;

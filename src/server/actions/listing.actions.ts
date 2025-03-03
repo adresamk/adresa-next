@@ -37,6 +37,7 @@ import {
 } from "@/app/api/listing/webhook/create/matcher";
 import { de, tr } from "@faker-js/faker";
 import { PrismaClientValidationError } from "@prisma/client/runtime/library";
+import { notifyConcernedUsersAboutNewListing } from "./notifications.actions";
 export async function revalidateListingPage(listingNumber: number) {
   // Revalidate the specific listing page across all locales
   routing.locales.forEach((locale) => {
@@ -51,7 +52,7 @@ export async function generateStaticListingPage(listingNumber: number) {
   try {
     // Generate static pages for all locales
     const promises = routing.locales.map(async (locale) => {
-      const url = `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/listing/${listingNumber}`;
+      const url = `${process.env.NEXT_PUBLIC_URL}/${locale}/listing/${listingNumber}`;
       await fetch(url, { method: "GET" });
     });
 
@@ -59,7 +60,7 @@ export async function generateStaticListingPage(listingNumber: number) {
     return true;
   } catch (error) {
     console.error("Failed to generate static page:", error);
-    // return false;
+    return false;
   }
 }
 export async function getListingsByIdForRecentlyViewed(
@@ -1460,7 +1461,7 @@ async function editPublishing(formData: FormData) {
     }
   }
 
-  await prismadb.listing.update({
+  const updatedListing = (await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
@@ -1471,18 +1472,6 @@ async function editPublishing(formData: FormData) {
       status: newStatus,
       substatus: newSubstatus,
       queryHash: "NEW_QUERY_HASH_CALCULATED_HERE",
-    },
-  });
-
-  if (newStatus === ListingStatus.ACTIVE) {
-    // we dont wait for this to finish, because it is not critical
-    console.log("Generating static listing page for ", listingId);
-    generateStaticListingPage(Number(listingId));
-  }
-
-  const updatedListing = (await prismadb.listing.findUnique({
-    where: {
-      id: Number(listingId),
     },
     include: {
       agency: true,
@@ -1498,6 +1487,16 @@ async function editPublishing(formData: FormData) {
       },
     },
   })) as ListingWithRelations;
+
+  console.log("newStatus for Listing", newStatus);
+  if (newStatus === ListingStatus.ACTIVE) {
+    // we dont wait for this to finish, because it is not critical
+    console.log("Notifying concerned users about new listing");
+    notifyConcernedUsersAboutNewListing(updatedListing);
+    console.log("Generating static listing page for ", listingId);
+    generateStaticListingPage(Number(updatedListing.listingNumber));
+  }
+
   return {
     success: true,
     data: {
@@ -1597,8 +1596,8 @@ export async function editListing(
   }
 
   // we dont wait for this to finish, because it is not critical
-  console.log("Revalidating listing page for ", listingId);
-  revalidateListingPage(Number(listingId));
+  // console.log("Revalidating listing page for ", listingId);
+  revalidateListingPage(Number(listing.listingNumber));
   return output;
 }
 

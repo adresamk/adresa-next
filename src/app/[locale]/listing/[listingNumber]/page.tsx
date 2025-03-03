@@ -86,11 +86,14 @@ export const generateMetadata = async ({
   params: Promise<{ listingNumber: string; locale: string }>;
 }): Promise<Metadata> => {
   const { listingNumber, locale } = await params;
+
   setRequestLocale(locale); // probably not needed here since we have it down
   // console.log("Params for generateMetadata", locale);
   const t = await getTranslations({ locale });
   // const locale2 = await getLocale();
   // console.log("Current locale from getTranslations:", locale2);
+
+  console.log("listingNumber", listingNumber, typeof listingNumber);
   const listing = await prismadb.listing.findUnique({
     where: {
       listingNumber: Number(listingNumber),
@@ -106,6 +109,13 @@ export const generateMetadata = async ({
       images: true,
     },
   });
+  if (!listing) {
+    console.log("Listing not found in metadata");
+    return {
+      title: "Listing not found",
+      description: "Listing not found",
+    };
+  }
   const { municipality, places } = getMunicipalityPlacesTranslated(
     listing?.municipality,
     locale,
@@ -115,6 +125,13 @@ export const generateMetadata = async ({
   const currentPlaceLabel = places?.find(
     (place) => place.value === listing?.place,
   )?.label;
+  console.log("METADATA for listing", {
+    type: listing?.type,
+    category: listing?.category,
+    transactionType: listing?.transactionType,
+    area: listing?.area,
+    price: listing?.price,
+  });
 
   const fullAddress = `${currentMunicipalityLabel || t("common.words.missingValue")}, ${currentPlaceLabel || t("common.words.missingValue")}`;
   const title = `${t(`listing.transactionType.${listing?.transactionType}`)},${t(`common.property.type.${listing?.type}`)},  ${listing?.area}m²  ${t(`common.words.in`)} ${fullAddress} |  ${t("common.words.listing")}  ${t("common.words.numberAbbr")} ${listingNumber}`;

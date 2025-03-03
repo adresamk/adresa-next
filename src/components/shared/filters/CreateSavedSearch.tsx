@@ -87,7 +87,7 @@ export default function CreateSavedSearch() {
         setIsSSSaved(false);
       }, 1500);
     }
-  }, [response]);
+  }, [response, t]);
 
   console.log({ searchParams });
   const pqp = parseQueryParams(pathname.split("/"));
@@ -148,7 +148,7 @@ export default function CreateSavedSearch() {
         }}
       />
       <Button
-        className="fixed right-2 top-[150px] z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-2 p-4 px-1.5 py-0.5 duration-1500 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:px-4 md:py-1"
+        className="fixed right-2 top-[150px] z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 duration-1500 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:px-4 md:py-1"
         style={{
           // position: "fixed",
           // zIndex: 999999,

@@ -83,7 +83,7 @@ async function checkSessionValidity(
     where: { id: sessionId },
     data: { lastValidatedAt: new Date() },
   });
-  console.log("session token validated");
+  // console.log("session token validated");
 
   if (Date.now() >= session.expiresAt.getTime()) {
     await prismadb.session.delete({ where: { id: sessionId } });
@@ -123,7 +123,7 @@ export const getCurrentSession: () => Promise<SessionValidationResult> = cache(
       return { session: null, account: null };
     }
     const result = await validateSessionToken(token);
-    console.log("result stuff", result);
+    // console.log("result stuff", result);
     return result;
   },
 );

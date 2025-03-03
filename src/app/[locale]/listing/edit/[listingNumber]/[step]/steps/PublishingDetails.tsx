@@ -39,7 +39,7 @@ export default function PublishingDetails({ listing }: PublishingDetailsProps) {
         },
       });
     }
-  }, [listing.isPublished]);
+  }, [listing.isPublished, t]);
   const isComplete = checkListingCompleteness(listing);
   return (
     <div className="px-2">
