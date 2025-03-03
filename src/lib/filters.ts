@@ -6,7 +6,8 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 const mainFiltersDefaults = {
   location: undefined,
   transactionType: PropertyTransactionType.sale,
-  category: PropertyCategory.residential,
+  // category: PropertyCategory.residential,
+  category: undefined,
   type: undefined,
   priceLow: undefined,
   priceHigh: undefined,
@@ -89,6 +90,13 @@ function cleanedUpLocation(location: string | string[]) {
 }
 
 export function parseQueryParams(params: string[] = []) {
+  // Check for "allOfThem" first
+  // if (params.some((param) => param === "allOfThem")) {
+  //   return {
+  //     transactionType: PropertyTransactionType.sale,
+  //   };
+  // }
+
   const parsedParams: Record<string, string | string[] | number> = {};
   // console.log("params3", params);
 

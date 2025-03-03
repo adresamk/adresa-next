@@ -118,12 +118,13 @@ export default function CategoryFilter({ variant }: CategoryFilterProps) {
                         _category,
                         searchParams,
                       );
+                      router.push(newPath);
 
-                      window.history.replaceState(
-                        null,
-                        "",
-                        `${newPath}${searchParams ? `?${searchParams.toString()}` : ""}`,
-                      );
+                      // window.history.replaceState(
+                      //   null,
+                      //   "",
+                      //   `${newPath}${searchParams ? `?${searchParams.toString()}` : ""}`,
+                      // );
                       // router.replace(newPath);
                     }
                     // setCategory(_category);

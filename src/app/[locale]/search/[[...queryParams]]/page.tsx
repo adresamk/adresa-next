@@ -54,7 +54,7 @@ export async function generateMetadata({
     })
     .join(", ");
 
-  let title = `${t(`search.filters.category.${c}`)} ${t("common.words.for")} ${t(`search.filters.mode.${tt}`).toLowerCase()} ${t("common.words.in")} ${locationLabel}`;
+  let title = `${c && t(`search.filters.category.${c}`)} ${t("common.words.for")} ${t(`search.filters.mode.${tt}`).toLowerCase()} ${t("common.words.in")} ${locationLabel}`;
 
   // console.log("title", paramss);
   return {

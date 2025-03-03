@@ -89,9 +89,9 @@ export default function CreateSavedSearch() {
     }
   }, [response, t]);
 
-  console.log({ searchParams });
+  // console.log({ searchParams });
   const pqp = parseQueryParams(pathname.split("/"));
-  console.log({ pqp });
+  // console.log({ pqp });
   const municipalities = getAllMunicipalitiesWithPlacesTranslated(locale);
   let allTogether = municipalities.map((m) => {
     return [
@@ -117,7 +117,7 @@ export default function CreateSavedSearch() {
     },
     {},
   );
-  console.log({ bigObjectMap });
+  // console.log({ bigObjectMap });
 
   let locationsTranslatedArray = !Array.isArray(pqp.location)
     ? [pqp.location]
@@ -128,7 +128,7 @@ export default function CreateSavedSearch() {
 
   const locationsTranslated = locationsTranslatedArray.join("; ");
 
-  const defaultName = `${pqp.type ? t(`common.property.type.plural.${pqp.type}`) : t(`search.filters.category.${pqp.category}`)} ${t(`common.words.for`)} ${pqp.transactionType && t(`listing.transactionType.${pqp.transactionType}`).toLowerCase()} ${t(`common.words.in`)} ${locationsTranslated}`;
+  const defaultName = `${pqp.type ? t(`common.property.type.plural.${pqp.type}`) : (pqp.category && t(`search.filters.category.${pqp.category}`)) || t("common.words.allOfThem")} ${t(`common.words.for`)} ${pqp.transactionType && t(`listing.transactionType.${pqp.transactionType}`).toLowerCase()} ${t(`common.words.in`)} ${locationsTranslated}`;
 
   if (pathname.includes("/agency")) {
     return null;

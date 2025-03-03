@@ -16,6 +16,7 @@ import {
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/sessions";
 import { Metadata } from "next";
+import { Link } from "@/i18n/routing";
 
 const icons = {
   [PropertyCategory.commercial]: <Store className="h-8 w-8" />,
@@ -44,7 +45,7 @@ export async function generateStaticParams() {
       slug: listing.slug,
     }));
   });
-  console.log("Generated static params for agency", params);
+  // console.log("Generated static params for agency", params);
   return params;
 }
 
@@ -169,13 +170,13 @@ export default async function AgencyPage({
         <Container>
           {/* Hero */}
           <div className="relative z-10 flex w-full flex-col justify-center">
-            <div className="mb-5 flex gap-3">
-              <div className="flex max-w-[250px] items-center justify-center rounded-xl border border-slate-400 bg-white px-5 py-4">
+            <div className="mb-5 flex flex-col gap-3 sm:flex-row">
+              <div className="flex max-w-[160px] items-center justify-center rounded-xl border border-slate-400 bg-white p-1 sm:max-w-[250px] sm:px-5 sm:py-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={logoUrl}
                   alt={agency.name || ""}
-                  className="aspect-square object-contain"
+                  className="aspect-square h-[160px] w-[160px] rounded-xl object-contain sm:h-fit sm:w-fit"
                 />
               </div>
               <div className="flex flex-1 flex-col justify-between py-2">
@@ -187,28 +188,51 @@ export default async function AgencyPage({
             </div>
             <p className="whitespace-pre-line">{agency.description}</p>
             {/* Grouped Listings */}
-            <div className="my-7 flex gap-3">
+            <div className="my-7 flex flex-wrap items-stretch gap-3">
               {topFourGroups.map(([key, count]) => {
                 const [transactionType, category, type] = key.split("-");
 
                 return (
-                  <div
+                  <Link
+                    href={`/agency/${slug}/search/t-${transactionType}/c-${category}/t-${type}`}
+                    // prefetch
+                    target="_blank"
+                    className="min-w-36"
                     key={key}
-                    className="cursor-pointer rounded-md bg-blue-950 p-2 text-sm text-white"
                   >
-                    <div className="mb-2 flex items-end gap-1">
-                      {icons[category as PropertyCategory]}
-                      <div>
-                        <p>{count}</p>
-                        <p>{t(`common.property.category.${category}`)}</p>
+                    <div className="cursor-pointer rounded-lg bg-blue-950 p-2 text-sm text-white">
+                      <div className="mb-2 flex items-end gap-1">
+                        {icons[category as PropertyCategory]}
+                        <div>
+                          <p>{count}</p>
+                          <p>{t(`common.property.category.${category}`)}</p>
+                        </div>
                       </div>
+                      <p className="text-nowrap">
+                        {t(`listing.transactionType.${transactionType}`)} {">"}
+                      </p>
                     </div>
-                    <p className="text-nowrap">
-                      {t(`listing.transactionType.${transactionType}`)} {">"}
-                    </p>
-                  </div>
+                  </Link>
                 );
               })}
+
+              {/* <Link
+                href={`/agency/${slug}/search/allOfThem/tt-sale`}
+                // prefetch
+                target="_blank"
+                key={"all"}
+              >
+                <div className="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-blue-950 p-2 text-sm text-white">
+                  <div className="mb-2 gap-1">
+                    <p className="text-left text-3xl font-semibold">
+                      {agency._count.listings}
+                    </p>
+                  </div>
+                  <p className="mt-auto text-nowrap">
+                    {t(`agency.properties.allListings`)} {">"}
+                  </p>
+                </div>
+              </Link> */}
             </div>
             <div className="my-3 text-slate-700">
               <p>{agency.address}</p>

@@ -1,5 +1,3 @@
-import Custom404 from "@/app/[locale]/search/[[...queryParams]]/_components/Custom404";
-import { searchParamsCache } from "@/app/[locale]/searchParams";
 import SearchResults from "@/components/shared/SearchResults";
 import prismadb from "@/lib/db";
 import { parseQueryParams } from "@/lib/filters";
@@ -40,16 +38,18 @@ export default async function SearchPage({
   }
 
   const parsedQueryParams = parseQueryParams(queryParams);
+  console.log({ parsedQueryParams });
 
   const listings = await unstable_cache(
     async () => {
       const listings = await getAllListings(parsedQueryParams);
-
+      console.log({ l: listings.length });
+      console.log({ agencyId: agency.id });
       return listings.filter((listing) => listing.agencyId === agency.id);
     },
     ["listings-for-" + slug, JSON.stringify(parsedQueryParams)],
     {
-      revalidate: 60,
+      revalidate: false,
     },
   )();
 

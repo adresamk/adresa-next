@@ -26,13 +26,15 @@ import {
   TranslatedOption,
 } from "@/lib/data/macedonia/importantData";
 import { Listing } from "@prisma/client";
-import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { replaceFilterInUrl } from "@/lib/filters";
+import { usePathname, useRouter } from "@/i18n/routing";
 
 export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
   const router = useRouter();
   const t = useTranslations();
   const locale = useLocale();
+  const pathname = usePathname();
   const { municipality, places } = getMunicipalityPlacesTranslated(
     listing.municipality,
     locale,
@@ -54,9 +56,7 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
           <Select
             value={listing.municipality || ""}
             onValueChange={(value) => {
-              router.push(
-                `/search?mode=${listing.transactionType}&municipality=${value}`,
-              );
+              router.push(`/search/tt-${listing.transactionType}/l-${value}`);
             }}
           >
             <SelectTrigger className="h-auto border-0 p-0 text-xs hover:no-underline [&>span]:p-0">
@@ -79,7 +79,7 @@ export default function ListingBreadcrumbs({ listing }: { listing: Listing }) {
                 value={listing.place || ""}
                 onValueChange={(value) => {
                   router.push(
-                    `/search?mode=${listing.transactionType}&municipality=${listing.municipality}&place=${value}`,
+                    `/search/tt-${listing.transactionType}/l-${value}`,
                   );
                 }}
               >

@@ -227,6 +227,7 @@
         "featured": "featured",
         "new": "new"
       },
+      "allOfThem": "All",
       "newListings": "new",
       "noListings": "no listings",
       "notFixed": "not fixed",

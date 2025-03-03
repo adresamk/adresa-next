@@ -18,6 +18,8 @@ export default function SearchButton({ variant }: SearchButtonProps) {
   const t = useTranslations();
   const newDestination =
     filters.location === "" ? "#" : generateSearchUrl(filters);
+
+  console.log("newDestination", newDestination);
   const router = useRouter();
 
   useEffect(() => {
@@ -44,7 +46,10 @@ export default function SearchButton({ variant }: SearchButtonProps) {
     fetchListingCount();
   }, [filters, newDestination, router]);
   return (
-    <Link href={listingCount === 0 ? "#" : newDestination} prefetch={true}>
+    <Link
+      href={listingCount === 0 ? "/search/l-10001/tt-sale" : newDestination}
+      prefetch={true}
+    >
       <div
         onClick={() => {
           if (listingCount === 0) {

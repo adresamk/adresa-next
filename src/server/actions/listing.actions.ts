@@ -1641,12 +1641,12 @@ export default async function getAllListings(
           isAvailable: true,
           status: ListingStatus.ACTIVE,
           area: {
-            gte: Number(pp.areaLow) || undefined,
-            lte: Number(pp.areaHigh) || undefined,
+            gte: pp.areaLow ? Number(pp.areaLow) : undefined,
+            lte: pp.areaHigh ? Number(pp.areaHigh) : undefined,
           },
           price: {
-            gte: Number(pp.priceLow) || undefined,
-            lte: Number(pp.priceHigh) || undefined,
+            gte: pp.priceLow ? Number(pp.priceLow) : undefined,
+            lte: pp.priceHigh ? Number(pp.priceHigh) : undefined,
           },
           category: pp.category as PropertyCategory,
           type: pp.type as PropertyType,
@@ -1672,6 +1672,16 @@ export default async function getAllListings(
     },
     // take: 20,
   });
+  console.log({ ll2: listings.length });
+  const uniqueAgencyIds = new Set(listings.map((listing) => listing.agencyId));
+  const uniqueListings = listings
+    .filter(
+      (listing) =>
+        uniqueAgencyIds.has(listing.agencyId) &&
+        uniqueAgencyIds.delete(listing.agencyId),
+    )
+    .map((l) => l.agencyId);
+  console.log({ uniqueListings });
   // Optimize with this
   //   // Assuming you have the current userId from session or JWT
   // const currentUserId = 'some-user-id';
