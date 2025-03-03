@@ -86,9 +86,15 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
       translatedPlaces: optionsWithRegions,
       fuseResults: results,
     };
-  }, [locale, debouncedLocation, filters.location]);
+  }, [debouncedLocation, filters.location]);
 
   const locationDropdown = getLocationDropdownOptions();
+  console.log("locationDropdown fuseResults", locationDropdown.fuseResults);
+  console.log("locationDropdown options", locationDropdown.options);
+  console.log(
+    "locationDropdown translatedPlaces",
+    locationDropdown.translatedPlaces,
+  );
   const [tags, setTags] = useState<Tag[]>(() => {
     // return filters.location
     //   ? filters.location.split(",").map((value) => ({
@@ -158,7 +164,7 @@ function BigVariant({ isOpen }: { isOpen: boolean }) {
     if (filters.location && filters.location.length === 0) {
       setTags([]);
     }
-  }, [filters.location]);
+  }, [filters.location, getLocationDropdownOptions]);
 
   return (
     <div
