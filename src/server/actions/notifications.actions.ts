@@ -12,6 +12,11 @@ import { render } from "@react-email/render";
 import NewListingsThatMatchesNotification from "../../../emails/newListingsThatMatchesNotification";
 import { ListingWithRelations } from "@/types/listing.types";
 import { wait } from "@/lib/utils";
+import {
+  unpackOriginalSavedSearchParams,
+  unpackSavedSearchParams,
+} from "../specific-utils/notifications.utils";
+import { getRegionsMunicipalitiesIds } from "@/lib/data/macedonia/importantData";
 
 // First, let's define the types for the saved search result
 type SavedSearchWithUser = {
@@ -36,6 +41,84 @@ type SavedSearchWithUser = {
 };
 
 function isMatchingSearch(savedSearch: SavedSearch, listing: Listing) {
+  console.log({
+    type: listing.type,
+    category: listing.category,
+    price: listing.price,
+    area: listing.area,
+    municipality: listing.municipality,
+    place: listing.place,
+    transactionType: listing.transactionType,
+  });
+  const unpackedSearch = unpackOriginalSavedSearchParams(
+    savedSearch.searchParams,
+  );
+  const sp = unpackedSearch;
+
+  if (sp.category !== listing.category) {
+    // console.log("category not matching");
+    return false;
+  }
+  if (sp.transactionType !== listing.transactionType) {
+    // console.log("transactionType not matching");
+    return false;
+  }
+  if (sp.type !== listing.type) {
+    // console.log("type not matching");
+    // console.log("sp.type", sp.type);
+    // console.log("listing.type", listing.type);
+    return false;
+  }
+
+  let regions: string[] = [];
+  regions = sp.location.filter((l: string) => l.startsWith("0"));
+  let regionMunicipalities: string[] = [];
+  if (regions.length > 0) {
+    regionMunicipalities =
+      regions.length > 0
+        ? regions
+            .map((r) => {
+              return getRegionsMunicipalitiesIds(r);
+            })
+            .flat()
+        : [];
+    // console.log("regionMunicipalities", regionMunicipalities);
+  }
+  //   console.log("regionMunicipalities", regionMunicipalities);
+  //   console.log("listing.municipality", listing.municipality);
+  //   console.log("listing.place", listing.place);
+  //   console.log("sp.location", sp.location);
+
+  const locationMatches = sp.location.some(
+    (location: string) =>
+      (listing.place && location.includes(listing.place)) ||
+      (listing.municipality && location.includes(listing.municipality)) ||
+      (listing.municipality &&
+        regionMunicipalities.includes(listing.municipality)),
+  );
+
+  if (!locationMatches) {
+    // console.log("location not matching");
+    return false;
+  }
+
+  if (listing.price && sp.priceLow > listing.price) {
+    // console.log("price not matching");
+    return false;
+  }
+  if (listing.price && sp.priceHigh < listing.price) {
+    // console.log("price not matching");
+    return false;
+  }
+  if (listing.area && sp.areaLow > listing.area) {
+    // console.log("area not matching");
+    return false;
+  }
+  if (listing.area && sp.areaHigh < listing.area) {
+    // console.log("area not matching");
+    return false;
+  }
+
   return true;
 }
 
@@ -85,8 +168,8 @@ export async function notifyConcernedUsersAboutNewListing(
       },
     });
     console.log("Found Saved Searches");
-    console.log(savedSearches.slice(0, 2));
-    console.log(savedSearches.slice(0, 2).map((ss) => ss.user.account));
+    // console.log(savedSearches.slice(0, 2));
+    // console.log(savedSearches.slice(0, 2).map((ss) => ss.user.account));
   } catch (error) {
     console.error(
       "Error fetching saved searches:",

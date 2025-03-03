@@ -438,7 +438,9 @@ const NewListingsThatMatchesNotification = ({
           </Section>
 
           {/* Search Criteria Section */}
-          {matchedSearches.length > 0 && (
+          {matchedSearches.sort(
+            (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+          ).length > 0 && (
             <Section
               style={{
                 paddingTop: "20px",
