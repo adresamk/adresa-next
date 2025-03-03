@@ -22,6 +22,15 @@ import {
   User,
 } from "@prisma/client";
 import { UploadedImageData } from "@/types/listing.types";
+import { unpackSavedSearchParams } from "@/server/specific-utils/notifications.utils";
+import { figureOutTags } from "@/server/specific-utils/listings.utils";
+import { getMunicipalityPlacesTranslated } from "@/lib/data/macedonia/importantData";
+import {
+  camelCaseToNormal,
+  displayDate,
+  displayPrice,
+  displayPriceMonthly,
+} from "@/lib/utils";
 const listingData = {
   id: 385,
   uuid: "0e69749a-516c-4bc4-b101-11bb421dc2d8",
@@ -169,12 +178,25 @@ const NewListingsThatMatchesNotification = ({
   matchedSearches: SavedSearch[];
   user: Partial<User> & { account: Partial<Account> };
 }) => {
+  const { municipality, places } = getMunicipalityPlacesTranslated(
+    listing?.municipality,
+    "en",
+  );
+
+  const currentMunicipalityLabel = municipality?.label;
+  const currentPlaceLabel = places?.find(
+    (place) => place.value === listing?.place,
+  )?.label;
+  const fullAddress = `${currentMunicipalityLabel || ""}, ${currentPlaceLabel || ""}, ${listing?.address || ""}`;
+  const isNew =
+    listing.publishedAt &&
+    listing.publishedAt.getTime() === listing.updatedAt.getTime();
   return (
     <Html>
       <Body
         style={{
           margin: 0,
-          padding: 0,
+          padding: 24,
           backgroundColor: "#f9f9f9",
           fontFamily: "Arial, sans-serif",
         }}
@@ -190,16 +212,17 @@ const NewListingsThatMatchesNotification = ({
             boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Section style={{ paddingBottom: "20px" }}>
+          <Section
+            style={{ paddingBottom: "20px", borderBottom: "1px solid #ddd" }}
+          >
             <Text
               style={{ fontSize: "16px", color: "#333", margin: "0 0 10px 0" }}
             >
               Dear {user.firstName} {user.lastName},
             </Text>
             <Text style={{ fontSize: "14px", color: "#666", margin: "0" }}>
-              We&apos;re sending this notification to {user.account.email}{" "}
-              because we found some exciting new listings that match your saved
-              searches.
+              We&apos;re sending this notification because we found some
+              exciting new listings that matches your saved searches.
             </Text>
           </Section>
         </Container>
@@ -230,38 +253,177 @@ const NewListingsThatMatchesNotification = ({
               We found a property that matches your interests.
             </Text>
           </Section>
-
           {/* Listing Details Section */}
           <Section
             style={{
               padding: "10px 0",
-              borderTop: "1px solid #ddd",
+              borderBottom: "1px solid #ddd",
               marginTop: "20px",
             }}
           >
-            <Text
-              style={{
-                fontSize: "18px",
-                fontWeight: "bold",
-                marginBottom: "10px",
-              }}
-            >
-              {listing.mkTitle || listing.enTitle || "Listing Title"}
-            </Text>
-            <Text style={{ fontSize: "14px", margin: "5px 0" }}>
-              <strong>Location:</strong> {listing.fullAddress}
-            </Text>
-            <Text style={{ fontSize: "14px", margin: "5px 0" }}>
-              <strong>Price:</strong> ${listing.price}
-            </Text>
-            <Text style={{ fontSize: "14px", margin: "5px 0" }}>
-              <strong>Description:</strong> {listing.mkDescription}
-            </Text>
+            <Row>
+              <Column width="30%" style={{ padding: 0 }}>
+                <Img
+                  src={(listing.mainImage as UploadedImageData)?.url ?? ""}
+                  width="100%"
+                  alt="Listing Image"
+                  style={{ display: "block", objectFit: "contain" }}
+                />
+                <Section style={{ padding: "10px" }}>
+                  <Row style={{ padding: "0 10px" }}>
+                    {figureOutTags(listing).map((tag, index) => (
+                      <Column
+                        key={index}
+                        style={{
+                          paddingRight: "0px",
+                          paddingBottom: "5px",
+                          paddingLeft: "2px",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: "12px",
+                            color: "#555",
+                            margin: "0",
+                            display: "inline-block",
+                          }}
+                        >
+                          <span
+                            style={{
+                              padding: "2px 4px",
+                              borderRadius: "4px",
+                              backgroundColor: "#f0f0f0",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {camelCaseToNormal(tag)}
+                          </span>
+                        </Text>
+                      </Column>
+                    ))}
+                  </Row>
+                </Section>
+              </Column>
+              <Column
+                width="70%"
+                style={{ padding: "20px", paddingTop: 0, verticalAlign: "top" }}
+              >
+                <Text
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "600",
+                    marginBottom: "5px",
+                    marginTop: 0,
+                  }}
+                >
+                  {listing.enTitle || listing.mkTitle || listing.alTitle}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: "14px",
+                    color: "#555",
+                    marginBottom: "10px",
+                  }}
+                >
+                  {fullAddress}
+                </Text>
+                <Row
+                  style={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                    marginTop: 0,
+                  }}
+                >
+                  <Column>
+                    <Text
+                      style={{ fontSize: "12px", color: "#555", margin: 0 }}
+                    >
+                      Posted on {displayDate(listing.publishedAt)}{" "}
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "blue",
+                          fontWeight: "bold",
+                          marginTop: 0,
+                          marginBottom: 6,
+                          display: "inline-block",
+                          marginLeft: 6,
+                          padding: "4px",
+                          border: "1px solid blue",
+                          borderRadius: "4px",
+                        }}
+                      >
+                        {isNew ? "Ново" : "Ажурирано"}
+                      </span>
+                    </Text>
+                  </Column>
+                </Row>
+                <Text
+                  style={{
+                    fontSize: "14px",
+                    color: "#333",
+                    marginBottom: "15px",
+                    lineClamp: 2,
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    display: "block",
+                    maxHeight: "3em",
+                    lineHeight: "1.5em",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  {listing.mkDescription ||
+                    listing.enDescription ||
+                    listing.alDescription}
+                </Text>
+                <Row style={{ marginBottom: "10px" }}>
+                  <Column style={{ paddingRight: "10px" }}>
+                    <Text
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        margin: "0",
+                      }}
+                    >
+                      {listing.transactionType === "sale"
+                        ? displayPrice(listing.price)
+                        : displayPriceMonthly(listing.price)}
+                    </Text>
+                  </Column>
+                  {listing.previousPrice &&
+                    listing.price &&
+                    listing.previousPrice > listing.price && (
+                      <Column style={{ paddingRight: "10px" }}>
+                        <Text
+                          style={{
+                            fontSize: "16px",
+                            color: "red",
+                            textDecoration: "line-through",
+                            margin: "0",
+                          }}
+                        >
+                          {displayPrice(listing.previousPrice)}
+                        </Text>
+                      </Column>
+                    )}
+                  {listing.area && listing.price && (
+                    <Column>
+                      <Text style={{ fontSize: "14px", margin: "0" }}>
+                        {displayPrice(listing.price / listing.area)} /m²
+                      </Text>
+                    </Column>
+                  )}
+                </Row>
+              </Column>
+            </Row>
             <Link
               href={`https://dev.adresa.mk/listing/${listing.id}`}
               style={{
                 display: "block",
-                width: "100%",
+                width: "94%",
+                margin: "0 auto",
                 backgroundColor: "#0073e6",
                 color: "#fff",
                 textAlign: "center",
@@ -275,27 +437,6 @@ const NewListingsThatMatchesNotification = ({
             </Link>
           </Section>
 
-          {/* Property Images */}
-          <Section style={{ paddingTop: "20px" }}>
-            {Array.isArray(listing.images) && listing.images.length > 0 && (
-              <Row>
-                {listing.images.slice(0, 3).map((image: any, index) => (
-                  <Column key={index} style={{ width: "33%" }}>
-                    <Img
-                      src={image.url}
-                      alt={`Listing Image ${index + 1}`}
-                      width="100%"
-                      style={{
-                        borderRadius: "5px",
-                        marginBottom: "10px",
-                      }}
-                    />
-                  </Column>
-                ))}
-              </Row>
-            )}
-          </Section>
-
           {/* Search Criteria Section */}
           {matchedSearches.length > 0 && (
             <Section
@@ -306,23 +447,40 @@ const NewListingsThatMatchesNotification = ({
                 borderTop: "1px solid #ddd",
               }}
             >
-              <Text style={{ fontSize: "14px", color: "#333" }}>
+              <Text style={{ fontSize: "16px", color: "#333" }}>
                 This listing matches your saved search criteria:
               </Text>
               {matchedSearches.map((search, index) => (
-                <Row key={index} style={{ marginBottom: "10px" }}>
+                <Row
+                  key={index}
+                  style={{
+                    marginBottom: "10px",
+                  }}
+                >
                   <Column>
-                    <Text style={{ fontSize: "14px", margin: "5px 0" }}>
+                    <Text style={{ fontSize: "12px", margin: "2px 0" }}>
                       <strong>Name:</strong> {search.name} |{" "}
+                    </Text>
+                    <Text style={{ fontSize: "12px", margin: "2px 0" }}>
                       <strong>Saved on:</strong>{" "}
                       {search.createdAt.toLocaleDateString()}
                     </Text>
-                    <Text style={{ fontSize: "14px", margin: "5px 0" }}>
+                    {/* Unpacked search params */}
+
+                    {Object.entries(
+                      unpackSavedSearchParams(search.searchParams),
+                    ).map(([key, value]) => (
+                      <Text style={{ fontSize: "12px", margin: "2px 0" }}>
+                        <strong>{camelCaseToNormal(key)}:</strong>{" "}
+                        {Array.isArray(value) ? value.join(", ") : value}
+                      </Text>
+                    ))}
+                    <Text style={{ fontSize: "12px", margin: "2px 0" }}>
                       <Link
                         href={`https://dev.adresa.mk${search.searchParams}`}
                         style={{ color: "#0073e6" }}
                       >
-                        View More Listings
+                        Search listings for this criteria
                       </Link>
                     </Text>
                   </Column>
@@ -347,84 +505,7 @@ const NewListingsThatMatchesNotification = ({
               </Link>
               .
             </Text>
-            <Text>© 2025 Your Company. All rights reserved.</Text>
-          </Section>
-        </Container>
-
-        <Container
-          style={{
-            width: "325px",
-            margin: "20px auto",
-            backgroundColor: "white",
-            borderRadius: "8px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <Section style={{ position: "relative", padding: "0" }}>
-            <Img
-              src={(typedListingData.mainImage as UploadedImageData)?.url ?? ""}
-              width="323"
-              height="194"
-              alt=""
-              style={{
-                display: "block",
-                borderRadius: "8px 8px 0 0",
-                objectFit: "cover",
-              }}
-            />
-          </Section>
-          <Section
-            style={{ padding: "8px 16px", borderBottom: "1px solid #eee" }}
-          >
-            <Text style={{ fontSize: "16px", fontWeight: "600" }}>
-              {typedListingData.mkTitle}
-            </Text>
-            <Text
-              style={{
-                fontSize: "14px",
-                textTransform: "capitalize",
-                marginTop: "4px",
-              }}
-            >
-              {typedListingData.address}
-            </Text>
-          </Section>
-          <Section
-            style={{
-              padding: "12px 16px",
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ fontSize: "18px", fontWeight: "600" }}>
-              {typedListingData.price}
-            </Text>
-            {typedListingData.previousPrice &&
-              typedListingData.price &&
-              typedListingData.previousPrice > typedListingData.price && (
-                <Text
-                  style={{
-                    marginLeft: "10px",
-                    fontSize: "12px",
-                    color: "#777",
-                    textDecoration: "line-through",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "green",
-                      fontSize: "16px",
-                      marginRight: "4px",
-                    }}
-                  >
-                    ↓
-                  </Text>
-                  {typedListingData.previousPrice}
-                </Text>
-              )}
+            <Text>© 2025 Adresa.mk. All rights reserved.</Text>
           </Section>
         </Container>
       </Body>

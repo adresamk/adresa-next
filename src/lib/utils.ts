@@ -7,6 +7,11 @@ import { ListingWithRelations, UploadedImageData } from "@/types/listing.types";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+export function camelCaseToNormal(str: string) {
+  return str.replace(/([A-Z])/g, " $1").replace(/^./, function (match) {
+    return match.toUpperCase();
+  });
+}
 
 export function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));

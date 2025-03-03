@@ -30,7 +30,6 @@ type SavedSearchWithUser = {
     firstName: string | null;
     lastName: string | null;
     account: {
-      id: number;
       email: string;
     };
   };
@@ -68,7 +67,7 @@ export async function notifyConcernedUsersAboutNewListing(
       where: {
         isNotificationOn: true,
         notificationInterval: "live",
-        // userId: listing.userId ? { not: listing.userId } : undefined,
+        userId: listing.userId ? { not: listing.userId } : undefined,
       },
       include: {
         user: {
@@ -78,7 +77,6 @@ export async function notifyConcernedUsersAboutNewListing(
             lastName: true,
             account: {
               select: {
-                id: true,
                 email: true,
               },
             },
@@ -166,4 +164,5 @@ export async function notifyConcernedUsersAboutNewListing(
     // Introduce delay (1000ms = 1s per email)
     if (i < users.length - 1) await wait(1000);
   }
+  return true;
 }
