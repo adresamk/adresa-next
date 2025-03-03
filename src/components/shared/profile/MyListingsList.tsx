@@ -95,7 +95,8 @@ export default function MyListingsList({
                     <div className="flex justify-end text-xs">
                       {!l.publishedAt ? (
                         <Link
-                          href={`/listing/edit/${l.listingNumber}/whatever`}
+                          href={`/listing/edit/${l.listingNumber}/characteristics`}
+                          prefetch
                         >
                           <Button
                             variant={"ghost"}

@@ -165,37 +165,26 @@ export async function getLikedListingsByUser(userId: number) {
   return listings;
 }
 
-export async function deleteListing(formData: FormData) {
-  // console.log(formData);
-  const listingId = formData.get("listingId")?.valueOf();
+export async function deleteListing(listingId: number) {
+  try {
+    await prismadb.listing.delete({
+      where: {
+        id: Number(listingId),
+      },
+    });
 
-  if (typeof listingId !== "string" || !listingId) {
+    revalidatePath("/profile/listings");
+    return {
+      success: true,
+      error: false,
+    };
+  } catch (error) {
+    console.error("Error deleting listing:", error);
     return {
       success: false,
-      error: "Listing ID necessary",
+      error: "Error deleting listing",
     };
   }
-
-  const { session } = await getCurrentSession();
-
-  if (!session) {
-    return {
-      success: false,
-      error: "Unauthorized",
-    };
-  }
-
-  await prismadb.listing.delete({
-    where: {
-      id: Number(listingId),
-    },
-  });
-
-  revalidatePath("/profile/listings");
-  return {
-    success: true,
-    error: false,
-  };
 }
 
 export async function adjustListingVisibility(formData: FormData) {

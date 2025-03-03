@@ -1,7 +1,7 @@
 import { deleteListing } from "@/server/actions/listing.actions";
-import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ConfirmDeleteButton } from "@/components/ConfirmDeleteButton";
 
 export default function ListingDeleteButton({
   listingId,
@@ -10,26 +10,16 @@ export default function ListingDeleteButton({
 }) {
   const t = useTranslations();
   return (
-    <form
-      onSubmit={async (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const result = await deleteListing(formData);
+    <ConfirmDeleteButton
+      onDelete={async () => {
+        const resp = await deleteListing(listingId);
+        if (resp.success) {
+          // router.refresh();
+        }
       }}
-    >
-      <Button
-        variant={"ghost"}
-        size={"sm"}
-        className="px-2 text-xs text-red-400 hover:text-red-600"
-      >
-        <Trash className="mr-2" /> {t("common.actions.delete")}
-      </Button>
-      <input
-        type="text"
-        className="hidden"
-        name="listingId"
-        defaultValue={listingId}
-      />
-    </form>
+      icon={<Trash className="h-4 w-4 text-red-500" />}
+      deleteText={t("common.actions.delete")}
+      className="ml-auto"
+    />
   );
 }

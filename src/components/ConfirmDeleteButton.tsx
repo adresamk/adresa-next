@@ -61,7 +61,7 @@ export function ConfirmDeleteButton({
             deletingText ? (
               deleteText
             ) : (
-              <Loader2Icon className="spin h-4 w-4" />
+              <Loader2Icon className="h-4 w-4 animate-spin" />
             )
           ) : (
             deleteText
