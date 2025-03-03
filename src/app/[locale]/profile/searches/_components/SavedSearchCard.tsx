@@ -74,6 +74,7 @@ export default function SavedSearchCard({
             {savedSearch.name}
           </h2>
           <div className="ml-4 flex-shrink-0 basis-14">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={img}
               alt="saved search map area"
