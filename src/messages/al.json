@@ -15,6 +15,8 @@
     "criteria": "kriteri",
     "saveSearchDescription": "Mund të merrni njoftime kur shfaqen shpallje të reja që përputhen me kriteret tuaja",
     "notifications": "Njoftimet",
+    "notificationsOn": "Njoftimet në",
+    "notificationsOff": "Njoftimet off",
     "notificationInterval": {
       "title": "Intervali i njoftimeve",
       "daily": "Çdo ditë",
@@ -173,7 +175,14 @@
     }
   },
   "common": {
+    "notifications": {
+      "loggedOutSuccessfully": "You have been logged out successfully!",
+      "loggedInSuccessfully": "You have been logged in successfully!",
+      "alreadyLoggedIn": "You are already logged in!",
+      "youWillBeRedirected": "You will be redirected back!"
+    },
     "actions": {
+      "submitting": "Duke krijuar",
       "savedSearch": "Kërkesa e ruajtura është ruajtur. Mund të gjeni atë në Profilin tuaj > Kërkesat e ruajtura",
       "creating": "Duke krijuar",
       "openListing": "Shiko shpalljen",
@@ -209,6 +218,7 @@
     },
     "words": {
       "tags": {
+        "blabla": "bla3",
         "forSale": "Për shitje",
         "forRent": "Për qira",
         "fromUser": "nga përdoruesi",
@@ -216,6 +226,8 @@
         "featured": "veçantë",
         "new": "të re"
       },
+      "newListings": "të reja",
+      "noListings": "nuk ka shpallje",
       "notFixed": "në marrëveshje",
       "numberAbbr": "nr.",
       "number": "numër",
@@ -660,7 +672,8 @@
             },
             "totalPropertyArea": {
               "label": "Sipërfaqja totale",
-              "placeholder": "Vendosni sipërfaqen në m²"
+              "placeholder": "Vendosni sipërfaqen në m²",
+              "description": "Sipërfaqja totale e pronës"
             },
             "heatingType": {
               "label": "Lloji i ngrohjes",
@@ -842,6 +855,8 @@
             "description": "Detajet e pagimit"
           },
           "publish": {
+            "itsIncomplete": "Shpallja nuk është plotësuar me të gjitha të dhënat e nevojshme",
+            "itsIncompleteDescription": "Ju lutem plotësoni të gjitha të dhënat e nevojshme për të publikuar shpalljen. Mund të kontrolloni në menunë ku ka probleme me shpalljen.",
             "requestProfessionalPromotion": {
               "title": "Shërbim falas",
               "description": "Do ta dërgojmë shpalljen tuaj te agjentët e patundshmërive që janë të specializuar në fushën e pronës suaj, për t'ju ndihmuar.",
@@ -854,6 +869,7 @@
             "listingId": "ID e shpalljes",
             "publishDuration": "Periudha e publikimit",
             "publish": "Publiko",
+            "currentStatus": "Shpallja momentalisht është",
             "withNextSave": "me nënruajtjen",
             "published": "Publikuar",
             "unpublished": "Nuk publikuar",
