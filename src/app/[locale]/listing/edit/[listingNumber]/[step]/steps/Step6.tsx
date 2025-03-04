@@ -65,6 +65,8 @@ const compressImageALot = async (file: File) => {
   return compressedFile;
 };
 const compressImage = async (file: File) => {
+  console.log("file name: ", file.name);
+  console.log("file size: ", file.size);
   const fileSizeMB = file.size / (1024 * 1024);
   const webpFileName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
 
@@ -96,6 +98,8 @@ const compressImage = async (file: File) => {
       quality,
     );
   });
+
+  console.log("webpBlob size: ", webpBlob.size);
 
   // Now compress the WebP image if needed
   const afterCompressionFileSizeMB = webpBlob.size / (1024 * 1024);
@@ -139,10 +143,15 @@ const compressImage = async (file: File) => {
         maxIteration: 15,
       },
     );
+    console.log("compressedFile size: ", compressedFile.size);
     return compressedFile;
   }
 
-  return new File([webpBlob], webpFileName, { type: "image/webp" });
+  const compressedFile = new File([webpBlob], webpFileName, {
+    type: "image/webp",
+  });
+  console.log("compressedFile size: ", compressedFile.size);
+  return compressedFile;
 };
 
 const compareCompression = (files: File[], compressedFiles: File[]) => {
