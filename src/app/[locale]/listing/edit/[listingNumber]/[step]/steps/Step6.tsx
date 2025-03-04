@@ -91,12 +91,10 @@ const compressImage = async (file: File) => {
   const fileSizeKB = file.size / 1024;
   const webpFileName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
 
-  console.log("Initial file:", {
-    name: file.name,
-    type: file.type,
-    sizeMB: fileSizeMB.toFixed(2),
-    sizeKB: fileSizeKB.toFixed(2),
-  });
+  console.log("Initial file name: " + file.name);
+  console.log("Initial file type: " + file.type);
+  console.log("Initial file size in MB: " + fileSizeMB.toFixed(2));
+  console.log("Initial file size in KB: " + fileSizeKB.toFixed(2));
 
   // Skip compression for small files (less than 150KB)
   if (fileSizeKB < 150) {
@@ -129,9 +127,9 @@ const compressImage = async (file: File) => {
       fileType: "image/webp",
     });
 
-    console.log("After pre-compression:", {
-      sizeMB: (workingFile.size / (1024 * 1024)).toFixed(2),
-    });
+    console.log(
+      `After pre-compression: sizeMB: ${(workingFile.size / (1024 * 1024)).toFixed(2)}`,
+    );
   }
 
   // Convert to WebP and apply final compression
@@ -156,9 +154,9 @@ const compressImage = async (file: File) => {
     );
   });
 
-  console.log("After WebP conversion:", {
-    sizeMB: (webpBlob.size / (1024 * 1024)).toFixed(2),
-  });
+  console.log(
+    `After WebP conversion: sizeMB: ${(webpBlob.size / (1024 * 1024)).toFixed(2)}`,
+  );
 
   // Final compression pass
   const compressedFile = await imageCompression(
@@ -174,9 +172,9 @@ const compressImage = async (file: File) => {
     },
   );
 
-  console.log("Final compressed size:", {
-    sizeMB: (compressedFile.size / (1024 * 1024)).toFixed(2),
-  });
+  console.log(
+    `Final compressed size: sizeMB: ${(compressedFile.size / (1024 * 1024)).toFixed(2)}`,
+  );
 
   return compressedFile;
 };
