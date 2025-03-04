@@ -656,6 +656,7 @@
             }
           },
           "mainCharacteristics": {
+            "pricePerAgreement": "Price per agreement",
             "externalRef": "Code if you need to mark the listing according to your internal reference",
             "externalRefPlaceholder": "Enter code",
             "title": "Main characteristics",

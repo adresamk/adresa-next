@@ -659,6 +659,7 @@
             }
           },
           "mainCharacteristics": {
+            "pricePerAgreement": "Çmimi për dokument",
             "externalRef": "Kodi nëse vihet nevoja të shënohet shpallja në bazë të kodit tuaj internal",
             "externalRefPlaceholder": "Vendosni kodin",
             "title": "Karakteristikat kryesore",

@@ -657,6 +657,7 @@
             }
           },
           "mainCharacteristics": {
+            "pricePerAgreement": "Цена по договор",
             "title": "Основни карактеристики",
             "description": "Внесете основни карактеристики на имотот",
             "externalRef": {
@@ -664,8 +665,12 @@
               "placeholder": "Внесете код"
             },
             "price": {
-              "label": "Цена",
+              "label": "Вкупна цена",
               "placeholder": "Внесете цена во евра"
+            },
+            "pricePerSquare": {
+              "label": "Цена по м²",
+              "placeholder": "Внесете цена по м²"
             },
             "area": {
               "label": "Површина",

@@ -655,27 +655,38 @@ async function editCharacteristics(formData: FormData) {
   const category = listingCategory as PropertyCategory;
   console.log("category", category);
 
+  const pricePerAgreement = formData.get("pricePerAgreement");
   const price = formData.get("price");
   const area = formData.get("area");
   const externalRef = formData.get("externalRef");
   console.log("externalRef", externalRef);
+
   if (
-    typeof price !== "string" ||
-    typeof area !== "string"
-    // typeof externalRef !== "string"
+    typeof area !== "string" || // Area is always required
+    // Either price OR isPricePerAgreement must be valid
+    (typeof price !== "string" && typeof pricePerAgreement !== "string") ||
+    (typeof price === "string" && typeof pricePerAgreement === "string")
   ) {
     return {
       success: false,
-      error: "Invalid Inputs",
+      error:
+        "Invalid Inputs: Area is required and exactly one of price or isPricePerAgreement must be provided",
     };
   }
-  const priceCleaned = price.replace(".", "").replace(" ", "").replace(",", "");
+  console.log("price", price);
+  console.log("pricePerAgreement", pricePerAgreement);
+  const priceCleaned = price
+    ? Number(price.toString().replace(/\D/g, ""))
+    : pricePerAgreement === "on"
+      ? 0
+      : undefined;
+  console.log("priceCleaned", priceCleaned);
   await prismadb.listing.update({
     where: {
       id: Number(listingId),
     },
     data: {
-      price: Number(priceCleaned),
+      price: priceCleaned,
       area: Number(area),
       externalRef: externalRef ? (externalRef as string) : null,
     },

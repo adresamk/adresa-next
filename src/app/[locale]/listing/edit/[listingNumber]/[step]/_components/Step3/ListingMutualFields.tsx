@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Euro, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { displayPrice } from "@/lib/utils";
+import { cn, displayPrice } from "@/lib/utils";
 import { Listing } from "@prisma/client";
 import { useState } from "react";
 import { ListingWithRelations } from "@/types/listing.types";
@@ -13,6 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface ListingMutualFieldsProps {
   listing: Listing;
@@ -21,11 +22,49 @@ export default function ListingMutualFields({
   listing,
 }: ListingMutualFieldsProps) {
   const t = useTranslations();
-  const [propertyPrice, setPropertyPrice] = useState(
-    listing.price ? displayPrice(listing.price, undefined, t) : "",
+  const [propertyArea, setPropertyArea] = useState(
+    listing.area?.toString() ?? "",
   );
-  const [propertyArea, setPropertyArea] = useState(listing.area?.toString());
+  const [propertyPrice, setPropertyPrice] = useState(
+    listing.price?.toString() ?? "",
+  );
+  const [propertyPricePerSquare, setPropertyPricePerSquare] = useState(
+    listing.price && listing.area
+      ? (listing.price / listing.area).toFixed(2)
+      : "",
+  );
+  const [isPricePerAgreement, setIsPricePerAgreement] = useState(
+    listing.price === 0,
+  );
   const lwr = listing as ListingWithRelations;
+
+  const updatePriceAndPricePerSquare = (area: string, price: string) => {
+    const areaNum = Number(area);
+    const priceNum = Number(price);
+
+    if (areaNum && priceNum) {
+      const pricePerSquare = priceNum / areaNum;
+      setPropertyPricePerSquare(pricePerSquare.toFixed(2));
+    } else {
+      setPropertyPricePerSquare("");
+    }
+  };
+
+  const updatePriceFromPricePerSquare = (
+    area: string,
+    pricePerSquare: string,
+  ) => {
+    const areaNum = Number(area);
+    const pricePerSquareNum = Number(pricePerSquare);
+
+    if (areaNum && pricePerSquareNum) {
+      const totalPrice = areaNum * pricePerSquareNum;
+      setPropertyPrice(totalPrice.toString());
+    } else {
+      setPropertyPrice("");
+    }
+  };
+
   return (
     <>
       {/* ExternalRef for agencies only */}
@@ -46,40 +85,6 @@ export default function ListingMutualFields({
           />
         </div>
       )}
-      {/* Price */}
-      <div className="inline-flex flex-col gap-3">
-        <Label htmlFor="price">
-          {t("listing.new.progress.steps.mainCharacteristics.price.label")}
-          <span className="text-red-500">*</span>
-        </Label>
-        <div className="relative mb-2 flex w-1/2 min-w-[300px] items-center">
-          <div className="absolute left-1 mr-2 w-5 font-semibold">
-            <Euro className="h-4 w-4" />
-          </div>
-          <Input
-            required
-            className="pl-6"
-            name="price"
-            id="price"
-            placeholder={t(
-              "listing.new.progress.steps.mainCharacteristics.price.placeholder",
-            )}
-            value={propertyPrice?.replace("$", "").replace("€", "")}
-            onChange={(e) => {
-              // With Ai tell the code to make a splitter for number, comma after 3 digits
-
-              // setPropertyPrice(e.target.value);
-              const newValue = e.target.value.replace(/[^0-9]/g, "");
-              const formattedValue = newValue
-                ? displayPrice(Number(newValue))
-                    ?.replace("$", "")
-                    .replace("€", "")
-                : "";
-              setPropertyPrice(formattedValue || null);
-            }}
-          />
-        </div>
-      </div>
       {/* Area */}
       <div className="flex flex-col gap-3">
         <Label htmlFor="area" className="inline-flex items-center">
@@ -98,7 +103,7 @@ export default function ListingMutualFields({
             </PopoverContent>
           </Popover>
         </Label>
-        <div className="relative mb-2 flex w-1/2 min-w-[300px] items-center">
+        <div className="relative mb-2 flex min-w-[300px] items-center">
           <div className="absolute left-1 mr-2 w-5 text-sm font-semibold">
             m<sup>2</sup>
           </div>
@@ -115,11 +120,120 @@ export default function ListingMutualFields({
             )}
             value={propertyArea}
             onChange={(e) => {
-              let newValue = e.target.value.replace(/[^0-9]/g, "");
-              if (Number(newValue) > 3000) {
-                newValue = "3000";
+              const newArea = e.target.value.replace(/[^0-9]/g, "");
+              const limitedArea = Number(newArea) > 3000 ? "3000" : newArea;
+              setPropertyArea(limitedArea);
+
+              if (propertyPrice) {
+                updatePriceAndPricePerSquare(limitedArea, propertyPrice);
+              } else if (propertyPricePerSquare) {
+                updatePriceFromPricePerSquare(
+                  limitedArea,
+                  propertyPricePerSquare,
+                );
               }
-              setPropertyArea(newValue);
+            }}
+          />
+        </div>
+      </div>
+      {/* Price Per Agreement Checkbox */}
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          id="pricePerAgreement"
+          name="pricePerAgreement"
+          checked={isPricePerAgreement}
+          onCheckedChange={(checked) => {
+            setIsPricePerAgreement(checked === true);
+            if (checked) {
+              setPropertyPrice("0");
+              setPropertyPricePerSquare("");
+            }
+          }}
+        />
+        <Label htmlFor="pricePerAgreement">
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.pricePerAgreement",
+          )}
+        </Label>
+      </div>
+      {/* Price field */}
+      <div
+        className={cn(
+          "inline-flex w-full flex-col gap-3",
+          isPricePerAgreement && "hidden",
+        )}
+      >
+        <Label htmlFor="price">
+          {t("listing.new.progress.steps.mainCharacteristics.price.label")}
+          <span className="text-red-500">*</span>
+        </Label>
+        <div className="relative mb-2 flex min-w-[300px] items-center">
+          <div className="absolute left-1 mr-2 w-5 font-semibold">
+            <Euro className="h-4 w-4" />
+          </div>
+          <Input
+            required
+            className={"pl-6"}
+            name="price"
+            id="price"
+            disabled={isPricePerAgreement}
+            placeholder={t(
+              "listing.new.progress.steps.mainCharacteristics.price.placeholder",
+            )}
+            value={propertyPrice}
+            onChange={(e) => {
+              if (!isPricePerAgreement) {
+                const newPrice = e.target.value.replace(/[^0-9]/g, "");
+                setPropertyPrice(newPrice);
+
+                if (propertyArea) {
+                  updatePriceAndPricePerSquare(propertyArea, newPrice);
+                }
+              }
+            }}
+          />
+        </div>
+      </div>
+      {/* Price per square meter */}
+      <div
+        className={cn(
+          "inline-flex w-full flex-col gap-3",
+          isPricePerAgreement && "hidden",
+          listing.transactionType === "rent" && "hidden",
+        )}
+      >
+        <Label htmlFor="pricePerSquare">
+          {t(
+            "listing.new.progress.steps.mainCharacteristics.pricePerSquare.label",
+          )}
+          <span className="text-red-500">*</span>
+        </Label>
+        <div className="relative mb-2 flex min-w-[300px] items-center">
+          <div className="absolute left-1 mr-2 w-5 font-semibold">
+            <Euro className="h-4 w-4" />
+          </div>
+          <Input
+            required
+            className="pl-6"
+            name="pricePerSquare"
+            id="pricePerSquare"
+            disabled={isPricePerAgreement}
+            placeholder={t(
+              "listing.new.progress.steps.mainCharacteristics.pricePerSquare.placeholder",
+            )}
+            value={propertyPricePerSquare}
+            onChange={(e) => {
+              if (!isPricePerAgreement) {
+                const newPricePerSquare = e.target.value.replace(/[^0-9]/g, "");
+                setPropertyPricePerSquare(newPricePerSquare);
+
+                if (propertyArea) {
+                  updatePriceFromPricePerSquare(
+                    propertyArea,
+                    newPricePerSquare,
+                  );
+                }
+              }
             }}
           />
         </div>
