@@ -419,7 +419,7 @@ const NewListingsThatMatchesNotification = ({
               </Column>
             </Row>
             <Link
-              href={`https://dev.adresa.mk/listing/${listing.id}`}
+              href={`${process.env.NEXT_PUBLIC_URL}/listing/${listing.id}`}
               style={{
                 display: "block",
                 width: "94%",
@@ -469,17 +469,20 @@ const NewListingsThatMatchesNotification = ({
                     </Text>
                     {/* Unpacked search params */}
 
-                    {Object.entries(
+                    {/* {Object.entries(
                       unpackSavedSearchParams(search.searchParams),
                     ).map(([key, value]) => (
-                      <Text style={{ fontSize: "12px", margin: "2px 0" }}>
+                      <Text
+                        key={key}
+                        style={{ fontSize: "12px", margin: "2px 0" }}
+                      >
                         <strong>{camelCaseToNormal(key)}:</strong>{" "}
                         {Array.isArray(value) ? value.join(", ") : value}
                       </Text>
-                    ))}
+                    ))} */}
                     <Text style={{ fontSize: "12px", margin: "2px 0" }}>
                       <Link
-                        href={`https://dev.adresa.mk${search.searchParams}`}
+                        href={`${process.env.NEXT_PUBLIC_URL}${search.searchParams}`}
                         style={{ color: "#0073e6" }}
                       >
                         Search listings for this criteria
