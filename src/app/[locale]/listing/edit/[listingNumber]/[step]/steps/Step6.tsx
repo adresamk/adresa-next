@@ -158,6 +158,12 @@ const compressImage = async (file: File) => {
     `After WebP conversion: sizeMB: ${(webpBlob.size / (1024 * 1024)).toFixed(2)}`,
   );
 
+  // If WebP conversion resulted in a larger file, revert to first pass result
+  if (webpBlob.size > workingFile.size) {
+    console.log("WebP conversion increased size, using first pass result");
+    return workingFile;
+  }
+
   // Final compression pass
   const compressedFile = await imageCompression(
     new File([webpBlob], webpFileName, { type: "image/webp" }),
