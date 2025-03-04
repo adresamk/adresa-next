@@ -17,7 +17,7 @@ export default function ImagesPreview({
   setImages: (images: UploadedImageData[]) => void;
   listing: Listing;
 }) {
-  console.log("images: ", images);
+  // console.log("images: ", images);
   const t = useTranslations("listing.new.progress.steps.media.imagesPreview");
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
