@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Adresa.mk - Homepage",
     description: "Вебсајт за огласи за недвижнини",
-    images: ["/assets/adresa-share-logo.png"],
+    images: ["/assets/adresa-share-og.png"],
   },
   robots: {
     index: true,
