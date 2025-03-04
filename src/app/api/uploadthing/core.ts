@@ -37,7 +37,7 @@ export const ourFileRouter = {
       };
     }),
   listingImagesUpload: f({
-    image: { maxFileSize: "4MB", maxFileCount: 15 },
+    image: { maxFileSize: "8MB", maxFileCount: 15 },
   })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req, files }) => {
