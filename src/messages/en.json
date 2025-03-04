@@ -970,6 +970,7 @@
     "month": "monthly"
   },
   "agency": {
+    "realEstateAgency": "Real estate agency",
     "notFound": "Agency not found",
     "properties": {
       "other": "Apartments",

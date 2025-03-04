@@ -53,6 +53,7 @@ const config = withUt({
           muted: "var(--alice-blue)",
           black: "var(--default-black)",
           "black-muted": "var(--default-black-muted)",
+          "darker-blue": "var(--darker-blue)",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

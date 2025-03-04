@@ -200,7 +200,7 @@ export default async function AgencyPage({
                     className="min-w-36"
                     key={key}
                   >
-                    <div className="cursor-pointer rounded-lg bg-blue-950 p-2 text-sm text-white">
+                    <div className="bg-brand-darker-blue cursor-pointer rounded-lg p-2 text-sm text-white">
                       <div className="mb-2 flex items-end gap-1">
                         {icons[category as PropertyCategory]}
                         <div>
@@ -216,8 +216,8 @@ export default async function AgencyPage({
                 );
               })}
 
-              {/* <Link
-                href={`/agency/${slug}/search/allOfThem/tt-sale`}
+              <Link
+                href={`/agency/${slug}/search`}
                 // prefetch
                 target="_blank"
                 key={"all"}
@@ -232,7 +232,7 @@ export default async function AgencyPage({
                     {t(`agency.properties.allListings`)} {">"}
                   </p>
                 </div>
-              </Link> */}
+              </Link>
             </div>
             <div className="my-3 text-slate-700">
               <p>{agency.address}</p>
@@ -257,7 +257,7 @@ export default async function AgencyPage({
         {/* Popular Agency Properties */}
       </div>
       {agency.listings.length > 0 && (
-        <div className="bg-blue-950 text-white">
+        <div className="bg-brand-darker-blue text-white">
           <PopularAgencyListings
             listings={agency.listings.slice(0, 8)}
             title={t("agency.properties.popularListings", {

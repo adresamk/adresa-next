@@ -973,6 +973,7 @@
     "month": "në muaj"
   },
   "agency": {
+    "realEstateAgency": "Agjencë e pronëve",
     "notFound": "Agjencia nuk u gjet",
     "properties": {
       "other": "Apartamente",

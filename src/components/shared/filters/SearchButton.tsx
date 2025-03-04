@@ -16,8 +16,10 @@ export default function SearchButton({ variant }: SearchButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const filters = useFilters((store) => store.filters);
   const t = useTranslations();
-  const newDestination =
-    filters.location === "" ? "#" : generateSearchUrl(filters);
+  const newDestination = generateSearchUrl({
+    ...filters,
+    location: filters.location === "" ? "10001" : filters.location,
+  });
 
   // console.log("newDestination", newDestination);
   const router = useRouter();
@@ -46,10 +48,7 @@ export default function SearchButton({ variant }: SearchButtonProps) {
     fetchListingCount();
   }, [filters, newDestination, router]);
   return (
-    <Link
-      href={listingCount === 0 ? "/search/l-10001/tt-sale" : newDestination}
-      prefetch={true}
-    >
+    <Link href={listingCount === 0 ? "#" : newDestination} prefetch={true}>
       <div
         onClick={() => {
           if (listingCount === 0) {

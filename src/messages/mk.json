@@ -984,6 +984,7 @@
     "month": "месечно"
   },
   "agency": {
+    "realEstateAgency": "Агенција за недвижности",
     "notFound": "Агенцијата не е пронајдена",
     "properties": {
       "other": "Станови",
