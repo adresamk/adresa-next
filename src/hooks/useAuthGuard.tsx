@@ -32,8 +32,11 @@ export function useAuthGuard() {
   };
 
   const AuthDialog = () => (
-    <AlertDialog open={isAuthDialogOpen}>
-      <AlertDialogContent className="z-[99999]">
+    <AlertDialog open={isAuthDialogOpen} onOpenChange={setIsAuthDialogOpen}>
+      <AlertDialogContent
+        className="z-[99999]"
+        onClose={() => setIsAuthDialogOpen(false)}
+      >
         <AlertDialogHeader>
           <AlertDialogTitle>{t("auth.signIn.loginNeeded")}</AlertDialogTitle>
           <AlertDialogDescription>
