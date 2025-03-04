@@ -14,6 +14,13 @@ import { attachImagesToListing } from "@/server/actions/listing.actions";
 import { UploadedFileData } from "uploadthing/types";
 import { UploadedImageData } from "@/types/listing.types";
 import { Button } from "@/components/ui/button";
+
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
+};
+
 const compressImageALot = async (file: File) => {
   const fileSizeMB = file.size / (1024 * 1024);
   const fileSizeKB = file.size / 1024;
@@ -64,7 +71,23 @@ const compressImageALot = async (file: File) => {
 
   return compressedFile;
 };
+
+const analyzeImage = async (file: File) => {
+  const img = await createImageBitmap(file);
+  console.log("Image analysis:", {
+    fileName: file.name,
+    fileType: file.type,
+    fileSize: (file.size / (1024 * 1024)).toFixed(2) + "MB",
+    width: img.width,
+    height: img.height,
+    aspectRatio: (img.width / img.height).toFixed(2),
+    deviceType: isMobileDevice() ? "mobile" : "desktop",
+    lastModified: new Date(file.lastModified).toISOString(),
+  });
+};
+
 const compressImage = async (file: File) => {
+  await analyzeImage(file);
   console.log("file name: ", file.name);
   console.log("file size: ", file.size);
   const fileSizeMB = file.size / (1024 * 1024);
@@ -192,6 +215,7 @@ const compareCompression = (files: File[], compressedFiles: File[]) => {
   console.log(`  Compressed size: ${totalCompressedMB} MB`);
   console.log(`  Overall compression ratio: ${totalCompressionRatio}%`);
 };
+
 export default function Step6({ listing }: { listing: Listing }) {
   const t = useTranslations("listing.new.progress.steps.media");
   const [ytLink, setYtLink] = useState(listing.videoLink || "");
