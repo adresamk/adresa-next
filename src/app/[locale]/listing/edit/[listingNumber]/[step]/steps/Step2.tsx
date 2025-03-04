@@ -3,7 +3,7 @@ import { InputSelect } from "@/components/shared/InputSelect";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Listing } from "@prisma/client";
 
 import {
@@ -12,16 +12,14 @@ import {
   TranslatedOption,
 } from "@/lib/data/macedonia/importantData";
 
-import MapPinSetup from "./MapPinSetup";
 import { getLocaleFromCookies } from "@/utils/cookies";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import MapPinSetupClient from "./MapPinSetupClient";
 
 export default function Step2({ listing }: { listing: Listing }) {
-  const locale = getLocaleFromCookies();
   const [municipality, setMunicipality] = useState(listing.municipality);
   const [place, setPlace] = useState(listing.place);
-
+  const locale = useLocale();
   const [placeOptions, setPlaceOptions] = useState<TranslatedOption[]>(() => {
     if (listing.municipality) {
       return getMunicipalityPlacesTranslated(listing.municipality, locale)
@@ -33,9 +31,23 @@ export default function Step2({ listing }: { listing: Listing }) {
   const [address, setAddress] = useState(listing.address);
 
   const t = useTranslations();
+  const handleMunicipalitySelect = useCallback(
+    (municipalityId: string) => {
+      setMunicipality(municipalityId);
+      const populatedPlacesOptions = getMunicipalityPlacesTranslated(
+        municipalityId,
+        locale,
+      ).places;
+      setPlaceOptions(populatedPlacesOptions);
+      setPlace("");
+    },
+    [locale],
+  );
   console.log({ locale });
-  const municipalityOptions = getMunicipalityOptionsTranslated(locale);
-
+  const municipalityOptions = useMemo(
+    () => getMunicipalityOptionsTranslated(locale),
+    [locale],
+  );
   return (
     <div className="p-2">
       <input type="string" className="hidden" defaultValue="2" name="step" />
@@ -51,17 +63,10 @@ export default function Step2({ listing }: { listing: Listing }) {
         label={t("listing.new.progress.steps.location.municipality")}
         name="municipality"
         required
-        onSelect={(municipalityId) => {
-          setMunicipality(municipalityId);
-          const populatedPlacesOptions = getMunicipalityPlacesTranslated(
-            municipalityId,
-            locale,
-          ).places;
-          setPlaceOptions(populatedPlacesOptions);
-          setPlace("");
-        }}
+        onSelect={handleMunicipalitySelect}
         options={municipalityOptions}
         defaultValue={municipality}
+        className="mb-2"
       />
       {(listing.municipality || municipality) && (
         <InputSelect
@@ -77,6 +82,7 @@ export default function Step2({ listing }: { listing: Listing }) {
           onSelect={setPlace}
           options={placeOptions}
           defaultValue={place}
+          className="mb-2"
         />
       )}
       {(listing.place || place) && (listing.municipality || municipality) && (

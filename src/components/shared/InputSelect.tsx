@@ -18,7 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Label } from "../ui/label";
 import { set } from "react-hook-form";
 import { getPlaceInfo } from "@/lib/data/macedoniaOld/importantData";
@@ -36,88 +36,106 @@ type InputSelectProps = {
   notFoundText: string;
   placeholder: string;
   onSelect: (value: string) => void;
+  className?: string;
 };
 
 export function InputSelect({
   options,
-  required,
+  required = false,
   name,
   label,
-  defaultValue,
+  defaultValue = null,
   notFoundText,
   placeholder,
   onSelect,
+  className,
 }: InputSelectProps) {
   const [open, setOpen] = useState(false);
-  const startingValue = defaultValue ?? "";
-  const [value, setValue] = useState(startingValue);
+  const [value, setValue] = useState(defaultValue || "");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const selectedOption = useMemo(() => {
+    return options.find((option) => option.value === value);
+  }, [options, value]);
+
+  const filteredOptions = useMemo(() => {
+    if (!searchQuery) return options;
+
+    return options.filter((option) =>
+      option.label.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+  }, [options, searchQuery]);
+
+  const handleSelect = useCallback(
+    (currentValue: string) => {
+      setValue(currentValue);
+      setOpen(false);
+      onSelect(currentValue);
+    },
+    [onSelect],
+  );
 
   return (
-    <div className="mb-2 flex flex-col">
-      <div className="mb-2">
-        <Label>{label}</Label>{" "}
-        {required && <span className="text-red-500">*</span>}
-      </div>
-      <div className="relative">
-        {name && (
-          <input
-            type="text"
-            value={value}
-            onChange={() => {}}
-            required={required}
-            name={name}
-            tabIndex={-1}
-            className="sr-only bottom-0 left-10"
-          />
-        )}
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              className={cn(
-                "max-w-[400px] justify-between",
-                !defaultValue && "text-muted-foreground",
-              )}
-            >
-              {defaultValue
-                ? options.find((option) => option.value === defaultValue)?.label
-                : placeholder}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent align="start" className="max-w-[400px] p-0">
-            <Command>
-              <CommandInput placeholder={placeholder} />
-              <CommandList>
-                <CommandEmpty>{notFoundText}</CommandEmpty>
-                <CommandGroup>
-                  {options.map((option) => (
-                    <CommandItem
-                      value={option.value}
-                      key={option.value}
-                      onSelect={() => {
-                        //   console.log(option.value);
-                        setValue(option.value);
-                        onSelect(option.value);
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          option.value === value ? "opacity-100" : "opacity-0",
-                        )}
-                      />
-                      {option.label}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
-      </div>
+    <div className={cn("grid w-full gap-1.5", className)}>
+      {label && (
+        <Label
+          htmlFor={name}
+          className={cn(
+            required && "after:ml-0.5 after:text-red-500 after:content-['*']",
+          )}
+        >
+          {label}
+        </Label>
+      )}
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            aria-label={label}
+            className={cn(
+              "w-full justify-between",
+              !value && "text-muted-foreground",
+            )}
+            // id={name}
+            // name={name}
+          >
+            {selectedOption ? selectedOption.label : placeholder}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+          <Command shouldFilter={false}>
+            <CommandInput
+              placeholder={`${label.toLowerCase()}...`}
+              className="h-9"
+              onValueChange={setSearchQuery}
+              value={searchQuery}
+            />
+            <CommandList>
+              <CommandEmpty>{notFoundText}</CommandEmpty>
+              <CommandGroup>
+                {filteredOptions.map((option) => (
+                  <CommandItem
+                    key={option.value}
+                    value={option.value}
+                    onSelect={handleSelect}
+                  >
+                    {option.label}
+                    <Check
+                      className={cn(
+                        "ml-auto h-4 w-4",
+                        value === option.value ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }

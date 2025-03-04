@@ -1,14 +1,14 @@
 {
   "00001": "Skopje",
 
-  "10001": "Skopje, Kisela Voda",
-  "10002": "Skopje, Aerodrom",
-  "10003": "Skopje, Gazi Baba",
-  "10004": "Skopje, Butel",
-  "10005": "Skopje, Shuto Orizari",
-  "10006": "Skopje, Saraj",
-  "10007": "Skopje, Gjorche Petrov",
-  "10008": "Skopje, Karposh",
+  "10001": "Kisela Voda",
+  "10002": "Aerodrom",
+  "10003": "Gazi Baba",
+  "10004": "Butel",
+  "10005": "Shuto Orizari",
+  "10006": "Saraj",
+  "10007": "Gjorche Petrov",
+  "10008": "Karposh",
 
   "20801": "Vlae",
   "20802": "Dolno Nerezi",
@@ -25,7 +25,7 @@
   "20813": "Taftalidze 2",
   "20814": "Trnodol",
   "20815": "Bardovci",
-  "10079": "Skopje, Centar",
+  "10079": "Centar",
 
   "27901": "Debar Maalo",
   "27902": "Bunjakovec",
@@ -39,7 +39,7 @@
   "27910": "Madzir Maalo",
   "27911": "Krnjevo",
 
-  "10180": "Skopje, Chair",
+  "10180": "Chair",
 
   "28001": "Gazi Baba",
   "28002": "Dukjanjik",
@@ -401,6 +401,9 @@
   "21927": "Rudnik",
   "21928": "Mamutchevo",
   "21929": "Ivankovci",
+
+  "10080": "Skopje, Chair",
+
   "22001": "Vinichani",
   "22002": "Ubogo",
   "22003": "Nogaevci",
