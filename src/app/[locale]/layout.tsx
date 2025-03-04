@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | Adresa.mk",
   },
 
-  description: "Вебсајт за огласи за недвижини",
+  description: "Вебсајт за огласи за недвижнини",
   icons: {
     icon: "/assets/adresa-favicon.png",
   },

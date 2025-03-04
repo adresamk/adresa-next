@@ -59,11 +59,11 @@ export async function generateMetadata({
   // console.log("title", paramss);
   return {
     title: title,
-    description: "Пребарајте недвижини",
+    description: "Пребарајте недвижнини",
     keywords: [
       "realestate",
       "real estate",
-      "недвижини",
+      "недвижнини",
       "недвижински огласи",
       "apartment",
     ],
@@ -81,8 +81,8 @@ export async function generateMetadata({
   };
 }
 // export const metadata: Metadata = {
-//   title: "1 Adresa.mk - Пребарајте недвижини",
-//   description: "1 Пребарајте недвижини",
+//   title: "1 Adresa.mk - Пребарајте недвижнини",
+//   description: "1 Пребарајте недвижнини",
 // };
 
 interface SearchPageProps {

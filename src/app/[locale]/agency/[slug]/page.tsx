@@ -82,7 +82,7 @@ export const generateMetadata = async ({
     twitter: {
       card: "summary_large_image",
       title: "Adresa.mk - Homepage",
-      description: "Вебсајт за огласи за недвижини",
+      description: "Вебсајт за огласи за недвижнини",
       images: [`${(agency?.logo as UploadedImageData)?.url}`],
     },
     robots: {

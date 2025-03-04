@@ -19,12 +19,12 @@ import {
 } from "@/server/gets/cached";
 
 export const metadata: Metadata = {
-  title: "Недвижини во Македонија",
-  description: "Огласи за недвижини во Македонија",
+  title: "Недвижнини во Македонија",
+  description: "Огласи за недвижнини во Македонија",
   keywords: [
     "realestate",
     "real estate",
-    "недвижини",
+    "недвижнини",
     "огласи",
     "агенции",
     "продажба",
@@ -33,19 +33,19 @@ export const metadata: Metadata = {
     "куќи",
     "земјишта",
   ],
-  authors: [{ name: "Mario K", url: "https://mariok.mk" }],
-  creator: "Mario K",
+  authors: [{ name: "Mario Krstevski", url: "https://mariok.mk" }],
+  creator: "Mario Krstevski",
   publisher: "Adresa",
   twitter: {
     card: "summary_large_image",
     title: "Adresa.mk - Homepage",
-    description: "Вебсајт за огласи за недвижини",
+    description: "Вебсајт за огласи за недвижнини",
     images: ["/twitter-image.png"],
   },
   openGraph: {
     title: "Adresa.mk - Homepage",
-    description: "Вебсајт за огласи за недвижини",
-    images: ["/og-image.png"],
+    description: "Вебсајт за огласи за недвижнини",
+    images: ["/assets/adresa-share-logo.png"],
   },
   robots: {
     index: true,

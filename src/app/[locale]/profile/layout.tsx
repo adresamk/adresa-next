@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   keywords: [
     "realestate",
     "real estate",
-    "недвижини",
+    "недвижнини",
     "огласи",
     "агенции",
     "продажба",
