@@ -53,7 +53,12 @@ export default function MapLocationPreview({
           />
           <ZoomTracker onZoomChange={setZoom} />
           <Marker
-            icon={getMapPinIcon("SL", locationPrecision, zoom)}
+            icon={getMapPinIcon({
+              map: "SL",
+              type: locationPrecision,
+              zoom,
+              listingIdx: 0,
+            })}
             position={location}
           >
             {pinPopupText && (

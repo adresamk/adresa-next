@@ -259,15 +259,16 @@ export default function SearchMap({
 
                 return [
                   <Marker
-                    icon={getMapPinIcon(
-                      "S",
-                      listing.locationPrecision,
+                    icon={getMapPinIcon({
+                      map: "S",
+                      type: listing.locationPrecision,
                       zoom,
-                      listing.isPaidPromo,
-                      selectedListingId === listing.id,
+                      isFeatured: listing.isPaidPromo,
+                      isSelectedInSearch: selectedListingId === listing.id,
                       listing,
-                      idx,
-                    )}
+                      listingIdx: idx,
+                      isSelectedInMap: selectedListingId === listing.id,
+                    })}
                     key={listing.id}
                     position={location}
                     eventHandlers={{
