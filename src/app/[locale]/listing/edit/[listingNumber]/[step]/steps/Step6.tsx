@@ -87,6 +87,7 @@ const analyzeImage = async (file: File) => {
 };
 
 const compressImage = async (file: File) => {
+  await analyzeImage(file);
   const fileSizeMB = file.size / (1024 * 1024);
   const fileSizeKB = file.size / 1024;
   const webpFileName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
@@ -120,10 +121,12 @@ const compressImage = async (file: File) => {
   if (needsPreCompression) {
     console.log("Large image detected, applying pre-compression");
     workingFile = await imageCompression(file, {
-      maxSizeMB: Math.min(fileSizeMB / 2, 2), // Reduce by at least 50% but cap at 2MB
-      maxWidthOrHeight: 2000, // Reasonable size for web
+      maxSizeMB: 1, // Reduce by at least 50% but cap at 2MB
+      maxWidthOrHeight: 1920, // Reasonable size for web
       useWebWorker: true,
-      initialQuality: 0.5,
+      alwaysKeepResolution: true,
+      initialQuality: 0.3,
+      maxIteration: 15,
       fileType: "image/webp",
     });
 
@@ -163,18 +166,21 @@ const compressImage = async (file: File) => {
     console.log("WebP conversion increased size, using first pass result");
     return workingFile;
   }
+  console.log(
+    "WebP conversion did not increase size, continuing with final compression",
+  );
 
   // Final compression pass
   const compressedFile = await imageCompression(
     new File([webpBlob], webpFileName, { type: "image/webp" }),
     {
-      maxSizeMB: 0.3,
+      maxSizeMB: 0.4,
       maxWidthOrHeight: 1920,
       useWebWorker: true,
       fileType: "image/webp",
       alwaysKeepResolution: true,
       initialQuality: quality,
-      maxIteration: 20,
+      maxIteration: 15,
     },
   );
 
