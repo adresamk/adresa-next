@@ -35,18 +35,28 @@ function zoomToMultiplier(
 }
 // single listing , search ,edit listing
 type MapOptions = "SL" | "S" | "EL";
-export const getMapPinIcon = (
-  map: MapOptions,
-  type: LocationPrecision,
-  zoom?: number,
-  isFeatured?: boolean,
-  isSelectedInSearch?: boolean,
-  listing?: Listing,
-  listingIdx: number = 1,
-) => {
+export const getMapPinIcon = ({
+  map,
+  type,
+  zoom,
+  isFeatured,
+  isSelectedInSearch,
+  listing,
+  listingIdx,
+  isSelectedInMap,
+}: {
+  map: MapOptions;
+  type: LocationPrecision;
+  zoom?: number;
+  isFeatured?: boolean;
+  isSelectedInSearch?: boolean;
+  listing?: Listing;
+  listingIdx: number;
+  isSelectedInMap?: boolean;
+}) => {
   const multiplier = type === "approximate" ? 1 : 2;
   const areaClass = `area-circle area-${type === "exact" ? 0 : zoomToMultiplier(zoom, multiplier)}`;
-  const showCircleExact = zoom === 15 || zoom === 14;
+  const showCircleExact = zoom === 15 || zoom === 14 || zoom === 13;
   const exactClass = type;
   const listingIdClass = `l-${listing?.id}`;
   const vipClass = listing?.isPaidPromo ? "vip" : "";
