@@ -62,8 +62,8 @@ export default function ListingImages({
         onClose={onClose}
         className="h-full max-w-[97vw]"
       >
-        <div className="h-[calc(100vh_-_120px)] max-h-[97vh] overflow-y-scroll">
-          <Tabs value={openTab} className="w-fit">
+        <div className="h-[calc(100vh_-_150px)] max-h-[97vh] overflow-y-scroll">
+          <Tabs value={openTab} className="h-[100%] w-fit">
             <TabsList className="grid w-fit grid-cols-2">
               <TabsTrigger
                 value="overview"
@@ -78,7 +78,7 @@ export default function ListingImages({
                 <ImageIcon />
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="overview">
+            <TabsContent value="overview" className="h-full">
               <div className="photoGridContainer flex flex-grow flex-wrap overflow-y-hidden">
                 {images.map((image, idx) => {
                   const imageUrl = image?.url || "/assets/missing-image2.jpg";
@@ -106,8 +106,8 @@ export default function ListingImages({
                 })}
               </div>
             </TabsContent>
-            <TabsContent value="singleAtATime">
-              <div className="relative max-h-full w-full px-12">
+            <TabsContent value="singleAtATime" className="h-[89%]">
+              <div className="relative h-full max-h-full w-full px-12">
                 <Carousel
                   className="h-full"
                   opts={{
@@ -115,13 +115,16 @@ export default function ListingImages({
                     startIndex: openImageIndex || 0,
                   }}
                 >
-                  <CarouselContent className="max-w-full">
+                  <CarouselContent
+                    className="h-full max-w-full"
+                    outerDivWrapperClassName="h-full"
+                  >
                     {images.map((image, idx) => (
                       <CarouselItem
                         key={idx}
-                        className="flex max-h-[75vh] basis-full items-center justify-center"
+                        className="flex h-full max-h-[75vh] basis-full items-center justify-center"
                       >
-                        <figure className="max-w-fit">
+                        <figure className="h-full max-w-fit">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={image?.url || "/assets/missing-image2.jpg"}
@@ -130,7 +133,7 @@ export default function ListingImages({
                             })}
                             width={800}
                             height={533}
-                            className="h-full w-full object-cover object-center"
+                            className="h-full object-contain object-center"
                             loading="lazy"
                           />
                         </figure>

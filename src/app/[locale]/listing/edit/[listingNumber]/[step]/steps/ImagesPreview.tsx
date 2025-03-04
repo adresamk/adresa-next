@@ -112,7 +112,7 @@ export default function ImagesPreview({
               key={image.url + idx}
               className={cn(
                 "inline-flex max-w-[48%] basis-[48%] cursor-move gap-1 py-0 transition-all duration-300 ease-in-out",
-                isDragging && "object-fill opacity-50",
+                isDragging && "object-contain opacity-50",
                 isHovered && "border-primary",
               )}
               draggable
@@ -128,7 +128,7 @@ export default function ImagesPreview({
                 <img
                   src={image.url}
                   alt={t("propertyImageAlt", { index: idx + 1 })}
-                  className="object-fit relative inset-0 h-full min-w-full rounded"
+                  className="relative inset-0 h-full min-w-full rounded object-contain"
                   width={325}
                   height={198}
                 />

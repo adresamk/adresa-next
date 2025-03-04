@@ -14,6 +14,56 @@ import { attachImagesToListing } from "@/server/actions/listing.actions";
 import { UploadedFileData } from "uploadthing/types";
 import { UploadedImageData } from "@/types/listing.types";
 import { Button } from "@/components/ui/button";
+const compressImageALot = async (file: File) => {
+  const fileSizeMB = file.size / (1024 * 1024);
+  const fileSizeKB = file.size / 1024;
+  const webpFileName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
+
+  // Skip compression for small files (less than 150KB)
+  if (fileSizeKB < 150) {
+    return file;
+  }
+
+  // First convert to canvas to enable WebP conversion
+  const bitmap = await createImageBitmap(file);
+  const canvas = document.createElement("canvas");
+  canvas.width = bitmap.width;
+  canvas.height = bitmap.height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Could not get canvas context");
+
+  ctx.drawImage(bitmap, 0, 0);
+
+  // Always use aggressive quality setting
+  const quality = 0.2;
+
+  // Get WebP blob
+  const webpBlob = await new Promise<Blob>((resolve) => {
+    canvas.toBlob(
+      (blob) => {
+        if (blob) resolve(blob);
+      },
+      "image/webp",
+      quality,
+    );
+  });
+
+  // Always apply maximum compression
+  const compressedFile = await imageCompression(
+    new File([webpBlob], webpFileName, { type: "image/webp" }),
+    {
+      maxSizeMB: 0.3,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+      fileType: "image/webp",
+      alwaysKeepResolution: true,
+      initialQuality: quality,
+      maxIteration: 20,
+    },
+  );
+
+  return compressedFile;
+};
 const compressImage = async (file: File) => {
   const fileSizeMB = file.size / (1024 * 1024);
   const webpFileName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
