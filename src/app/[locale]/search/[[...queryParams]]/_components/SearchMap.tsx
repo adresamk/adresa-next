@@ -141,7 +141,8 @@ export default function SearchMap({
           [Number(NELat), Number(NELng)],
         );
         mapRef.current.fitBounds(newBounds, {
-          padding: [30, 30],
+          padding: [0, 0],
+          animate: false,
         });
       }
       // mapRef.current.setView(skopjeLatLng, 11);
@@ -368,7 +369,7 @@ export default function SearchMap({
                 >
                   <Compass className="mr-2" /> {t("map.searchInArea")}
                 </Button>
-              ) : (
+              ) : true ? (
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="search-on-pan"
@@ -379,7 +380,7 @@ export default function SearchMap({
                     {t("map.searchAsMove")}
                   </Label>
                 </div>
-              )}
+              ) : null}
             </div>
           </aside>
         )}
@@ -441,7 +442,7 @@ export default function SearchMap({
           ref={mapRef}
           // className={cn(isDrawing && "cursor-crosshair")}
           bounds={bounds}
-          boundsOptions={{ padding: [30, 30], animate: true }}
+          boundsOptions={{ padding: [15, 15], animate: false }}
           style={{
             height: "100%",
             width: "100%",
@@ -460,7 +461,7 @@ export default function SearchMap({
                 positions={drawnPolygonCoords}
                 pathOptions={{ color: "red" }}
               ></Polygon>
-              {false &&
+              {true &&
                 drawnPolygonCoords.length > 0 &&
                 drawnPolygonCoords.map((coord, idx) => (
                   <CircleMarker
