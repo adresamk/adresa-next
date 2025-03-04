@@ -25,7 +25,7 @@ export default function ConfirmLocation({
   municipality,
 }: MapConfirmLocationProps) {
   return (
-    <div>
+    <div className="relative z-10">
       <MapConfirmLocation
         pinLocation={pinLocation}
         setPinLocation={setPinLocation}

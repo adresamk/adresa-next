@@ -630,6 +630,7 @@
             "map": {
               "confirmLocation": "Confirm location",
               "howToFindCoordinates": "Enter coordinates manually or select on map",
+              "youHaveSelectedCoordinates": "You have selected coordinates on the map, make sure they are correct",
               "seeExample": "See example",
               "instructions": {
                 "description": "You can find the coordinates of your location by:",
@@ -649,7 +650,8 @@
               "locationPrecisionOptions": {
                 "exact": "Exact",
                 "approximate": "Approximate",
-                "wide": "Wide"
+                "wide": "Wide",
+                "anonymous": "Anonymous"
               }
             }
           },

@@ -630,7 +630,8 @@
             "addressPlaceholder": "Внесете адреса",
             "map": {
               "confirmLocation": "Потврди ја локацијата",
-              "howToFindCoordinates": "Внесете ги координатите рачно или изберете на мапата",
+              "howToFindCoordinates": "Кликнете на мапата за да ја изберете локацијата на имотот",
+              "youHaveSelectedCoordinates": "Имате избрано координати на мапа, осигурајте се дека се точни",
               "seeExample": "Погледај пример",
               "instructions": {
                 "description": "You can find the coordinates of your location by:",
@@ -650,7 +651,8 @@
               "locationPrecisionOptions": {
                 "exact": "Прецизно",
                 "approximate": "Приближно",
-                "wide": "Широк"
+                "wide": "Широк",
+                "anonymous": "Анонимно"
               }
             }
           },

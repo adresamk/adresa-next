@@ -89,13 +89,20 @@ export default function MapPinSetup({
       </div>
       <div className="mt-2 space-y-2">
         <div className="flex items-center justify-between">
-          <Label htmlFor="coordinates">
+          <Label htmlFor="coordinates" className="text-base">
             {t("listing.new.progress.steps.location.map.coordinates")}
             <span className="ml-1.5 text-red-500">*</span>
           </Label>
         </div>
-        <p className="text-xs leading-3 text-gray-500">
-          {t("listing.new.progress.steps.location.map.howToFindCoordinates")}
+        <p className="text-sm leading-3 text-gray-600">
+          {!coordinatesAsText &&
+            t("listing.new.progress.steps.location.map.howToFindCoordinates")}
+          <span className="text-green-600">
+            {coordinatesAsText &&
+              t(
+                "listing.new.progress.steps.location.map.youHaveSelectedCoordinates",
+              )}
+          </span>
         </p>
 
         <Input
@@ -108,12 +115,12 @@ export default function MapPinSetup({
               e.target.value.replace(/\s/g, "").replace(/\(|\)/g, ""),
             );
           }}
-          required
+          // required
           name="coordinates"
           id="coordinates"
-          type="text"
+          type="hidden"
         />
-        <Button
+        {/* <Button
           variant="outline"
           onClick={(e) => {
             const value = coordinatesAsText;
@@ -138,7 +145,7 @@ export default function MapPinSetup({
           className="h-auto text-sm text-blue-600"
         >
           {t("listing.new.progress.steps.location.map.applyCoordinates")}
-        </Button>
+        </Button> */}
       </div>
 
       <Separator className="my-4" />

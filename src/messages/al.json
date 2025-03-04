@@ -633,6 +633,7 @@
             "map": {
               "confirmLocation": "Konfirmo vendndodhjen",
               "howToFindCoordinates": "Vendosni koordinatat manualisht ose zgjidhni në hartë",
+              "youHaveSelectedCoordinates": "Keni zgjedhur koordinatat në hartë, veçoni se janë të saktë",
               "seeExample": "Shih shembullin",
               "instructions": {
                 "description": "Mund të gjeni koordinatat e vendndodhjes suaj duke:",
@@ -652,7 +653,8 @@
               "locationPrecisionOptions": {
                 "exact": "E saktë",
                 "approximate": "E përafërt",
-                "wide": "E gjerë"
+                "wide": "E gjerë",
+                "anonymous": "Anonim"
               }
             }
           },
