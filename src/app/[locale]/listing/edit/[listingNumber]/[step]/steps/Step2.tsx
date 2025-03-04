@@ -44,10 +44,31 @@ export default function Step2({ listing }: { listing: Listing }) {
     [locale],
   );
   console.log({ locale });
-  const municipalityOptions = useMemo(
-    () => getMunicipalityOptionsTranslated(locale),
-    [locale],
-  );
+  const municipalityOptions = useMemo(() => {
+    const allOptions = getMunicipalityOptionsTranslated(locale);
+    const priorityIds = [
+      "10002",
+      "10079",
+      "10001",
+      "10003",
+      "10007",
+      "10008",
+      "10004",
+      "10005",
+      "10006",
+      "10080",
+    ];
+
+    const priorityOptions = priorityIds
+      .map((id) => allOptions.find((opt) => opt.value === id))
+      .filter(Boolean) as TranslatedOption[];
+
+    const remainingOptions = allOptions.filter(
+      (opt) => !priorityIds.includes(opt.value),
+    );
+
+    return [...priorityOptions, ...remainingOptions];
+  }, [locale]);
   return (
     <div className="p-2">
       <input type="string" className="hidden" defaultValue="2" name="step" />
