@@ -87,6 +87,9 @@ export function InputSelect({
           {label}
         </Label>
       )}
+      {name && (
+        <input type="hidden" name={name} value={value} onChange={(e) => {}} />
+      )}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

@@ -630,7 +630,7 @@
             "addressPlaceholder": "Внесете адреса",
             "map": {
               "confirmLocation": "Потврди ја локацијата",
-              "howToFindCoordinates": "Кликнете на мапата за да ја изберете локацијата на имотот",
+              "howToFindCoordinates": "Кликнете на мапа и изберете локација на имотот",
               "youHaveSelectedCoordinates": "Имате избрано координати на мапа, осигурајте се дека се точни",
               "seeExample": "Погледај пример",
               "instructions": {
