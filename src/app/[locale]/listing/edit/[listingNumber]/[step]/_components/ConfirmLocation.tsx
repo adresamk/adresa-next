@@ -14,14 +14,12 @@ interface Location {
 interface MapConfirmLocationProps {
   pinLocation: Location | null;
   setPinLocation: (location: Location) => void;
-  place: string | null;
   municipality: string | null;
 }
 
 export default function ConfirmLocation({
   pinLocation,
   setPinLocation,
-  place,
   municipality,
 }: MapConfirmLocationProps) {
   return (
@@ -29,7 +27,6 @@ export default function ConfirmLocation({
       <MapConfirmLocation
         pinLocation={pinLocation}
         setPinLocation={setPinLocation}
-        place={place}
         municipality={municipality}
       />
     </div>

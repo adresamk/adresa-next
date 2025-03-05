@@ -19,8 +19,6 @@ export default async function EditListingLayout({
 }: EditListingLayoutProps) {
   const { listingNumber, step, locale } = await params;
 
-  console.log({ listingNumber, step, locale });
-
   if (isNaN(Number(listingNumber))) {
     redirect({ href: "/", locale });
   }

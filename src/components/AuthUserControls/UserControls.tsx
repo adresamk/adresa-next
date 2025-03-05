@@ -25,7 +25,6 @@ export default function UserControls({ user }: { user: User }) {
 
   useEffect(() => {
     setIsOpen(false);
-    console.log("staging only");
   }, [pathname]);
 
   const avatarImg = user

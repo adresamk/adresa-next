@@ -43,7 +43,6 @@ export default function Step2({ listing }: { listing: Listing }) {
     },
     [locale],
   );
-  console.log({ locale });
   const municipalityOptions = useMemo(() => {
     const allOptions = getMunicipalityOptionsTranslated(locale);
     const priorityIds = [
@@ -126,17 +125,9 @@ export default function Step2({ listing }: { listing: Listing }) {
           />
         </>
       )}
-      {(listing.place || place) &&
-        (listing.municipality || municipality) &&
-        (listing.address || address) &&
-        municipality &&
-        place && (
-          <MapPinSetupClient
-            listing={listing}
-            municipality={municipality}
-            place={place}
-          />
-        )}
+      {municipality && (
+        <MapPinSetupClient listing={listing} municipality={municipality} />
+      )}
     </div>
   );
 }

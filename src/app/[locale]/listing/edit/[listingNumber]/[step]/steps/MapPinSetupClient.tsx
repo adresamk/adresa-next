@@ -29,13 +29,9 @@ function MapLoadingPlaceholder() {
 export default function SearchMapClient({
   listing,
   municipality,
-  place,
 }: {
   listing: Listing;
   municipality: string;
-  place: string;
 }) {
-  return (
-    <MapPinSetup listing={listing} municipality={municipality} place={place} />
-  );
+  return <MapPinSetup listing={listing} municipality={municipality} />;
 }

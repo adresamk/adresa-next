@@ -1,7 +1,7 @@
 import { LatLngExpression } from "leaflet";
 import mappedStructure from "./mappedStructure.json";
 import mappedCoordinatesCustom from "./mappedCoordinatesCustom.json";
-
+import municipalityCenterPoints from "./municipalityCenterPoints.json";
 // Define the MappedCoordinates type
 export type MappedCoordinates = {
   [key: string]: LatLngExpression[][][]; // Expecting a 3D array
@@ -147,6 +147,21 @@ export function getAllRegionsTranslated(): TranslatedOptionMultipleLanguages[] {
  * @param locale The current locale (e.g., 'en', 'mk', 'al')
  * @returns Array of objects with label (translated name) and value (place ID)
  */
+
+export function getMunicipalityCenterPoints(
+  id: string | null,
+): number[] | null {
+  if (!id) {
+    console.error(`No municipality ID provided`);
+    return null;
+  }
+  if (!municipalityCenterPoints[id as keyof typeof municipalityCenterPoints]) {
+    console.error(`No center points found for municipality ID: ${id}`);
+    return null;
+  }
+
+  return municipalityCenterPoints[id as keyof typeof municipalityCenterPoints];
+}
 export function getMunicipalityPlacesTranslated(
   municipalityId: string | undefined | null,
   locale: string = "mk",

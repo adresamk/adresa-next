@@ -24,11 +24,9 @@ import MapConfirmLocation from "../_components/MapConfirmLocation";
 export default function MapPinSetup({
   listing,
   municipality,
-  place,
 }: {
   listing: Listing;
   municipality: string;
-  place: string;
 }) {
   // municipality and place should be there otherwise the map wont render
   const t = useTranslations();
@@ -153,7 +151,6 @@ export default function MapPinSetup({
       <ConfirmLocation
         pinLocation={pinLocation}
         setPinLocation={setPinLocation}
-        place={place}
         municipality={municipality}
       />
     </div>

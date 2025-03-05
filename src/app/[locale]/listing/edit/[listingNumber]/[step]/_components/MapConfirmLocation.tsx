@@ -3,16 +3,16 @@
 import L, { LatLngExpression, LatLngBoundsExpression } from "leaflet";
 import { MapContainer, Marker, TileLayer, useMapEvent } from "react-leaflet";
 import { MapPosition } from "./mapHelpers";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "./map.css";
 import { northMacedoniaCoordinates } from "@/lib/data/macedoniaOld/importantData";
+import { getMunicipalityCenterPoints } from "@/lib/data/macedonia/importantData";
 
 interface MapConfirmLocationProps {
   municipality: string | null;
-  place: string | null;
   pinLocation: MapPosition | null;
   setPinLocation: (location: MapPosition) => void;
 }
@@ -44,10 +44,16 @@ function MapClickHandler({
 export default function MapConfirmLocation({
   pinLocation,
   setPinLocation,
+  municipality,
 }: MapConfirmLocationProps) {
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
 
+  const municipalityCenterPoints = useMemo(
+    () => getMunicipalityCenterPoints(municipality),
+    [municipality],
+  );
+  const initialMunicipalityCenterPoints = useRef(municipalityCenterPoints);
   const eventHandlers = {
     dragend() {
       const marker = markerRef.current;
@@ -82,12 +88,30 @@ export default function MapConfirmLocation({
     ? ([pinLocation.lat, pinLocation.lng] as LatLngExpression)
     : null;
 
+  const mapCenter =
+    pinCoords ||
+    (municipalityCenterPoints as LatLngExpression) ||
+    northMacedoniaCoordinates;
+  const mapZoom = pinCoords ? 15 : municipalityCenterPoints ? 13 : 7;
+
+  console.log(mapCenter, mapZoom);
+  useEffect(() => {
+    if (
+      municipalityCenterPoints &&
+      municipalityCenterPoints?.toString() !==
+        initialMunicipalityCenterPoints.current?.toString()
+    ) {
+      mapRef.current?.setView(municipalityCenterPoints as LatLngExpression, 13);
+    } else {
+      mapRef.current?.setView(mapCenter, mapZoom);
+    }
+  }, [mapCenter, mapZoom, municipalityCenterPoints]);
   return (
     <div className="space-y-2">
       <MapContainer
         ref={mapRef}
-        center={pinCoords || northMacedoniaCoordinates}
-        zoom={pinCoords ? 13 : 7}
+        center={mapCenter}
+        zoom={mapZoom}
         className="h-[250px] w-full rounded"
       >
         <TileLayer
