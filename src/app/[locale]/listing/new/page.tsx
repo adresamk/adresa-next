@@ -19,28 +19,9 @@ export const metadata: Metadata = {
   description: "Креирање на нов оглас за Adresa.mk",
 };
 
-type StepStatus = {
-  [key: string]: "completed" | "incomplete" | "in-progress";
-};
-type Step = {
-  title: string;
-  key: string;
-  description: string;
-  fieldsMentioned: string[];
-};
-const stepStatus: StepStatus = {
-  "property.category": "completed",
-};
-// const initialStepTranslated: Step = {
-//   title: "Property Category",
-//   description: "Select the category",
-//   fieldsMentioned: ["category"],
-// };
-
 export default async function NewListingPage() {
-  const [t] = await Promise.all([getTranslations()]);
+  const t = await getTranslations();
 
-  // const progress = 10;
   return (
     <div className="mt-2 rounded bg-white p-2 shadow-md">
       <form

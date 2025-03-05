@@ -22,9 +22,9 @@ export default async function NewListingLayout({
     });
   }
   return (
-    <div className="flex gap-2 p-2">
+    <div className="flex flex-col gap-2 p-2 sm:flex-row">
       <ListingNewSideMenu steps={initialSteps} />
-      <div className="min-w-[460px]">{children}</div>
+      <div className="p-2 sm:min-w-[460px] sm:p-0">{children}</div>
     </div>
   );
 }

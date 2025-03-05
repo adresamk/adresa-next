@@ -136,22 +136,25 @@ export default function ListingNewSideMenu({ steps }: ListingNewSideMenuProps) {
   // console.log("stepProgress", stepsProgress);
   // console.log("stepDescriptions", stepDescriptions);
   return (
-    <div className="w-[335px]">
+    <div className="sticky top-[50px] z-10 w-full sm:w-[335px]">
       <div className="m-2 rounded bg-white shadow-md">
-        <div className="flex items-center gap-1 p-2">
-          <div className="h-20 w-20">
+        {/* Progress bar */}
+        <div className="flex items-center gap-1 p-1 px-1.5 sm:p-2">
+          <div className="h-12 w-12 sm:h-20 sm:w-20">
             <CircularProgress percentage={formProgress} />
           </div>
-          <p className="text-sm">
-            {formProgress}% {t(`common.words.filledOut`)}
-          </p>
-          <p>
-            {stepStatus["publish"] === "in-progress" && (
-              <span className="text-sm text-red-500">
-                {t("listing.new.steps.fillOut")}
-              </span>
-            )}
-          </p>
+          <div className="flex w-full flex-row items-start gap-0.5 sm:flex-col">
+            <p className="text-sm">
+              {formProgress}% {t(`common.words.filledOut`)}
+            </p>
+            <p>
+              {stepStatus["publish"] === "in-progress" && (
+                <span className="text-sm text-red-500">
+                  {t("listing.new.steps.fillOut")}
+                </span>
+              )}
+            </p>
+          </div>
 
           <div className="mt-4">
             <Progress
@@ -160,7 +163,7 @@ export default function ListingNewSideMenu({ steps }: ListingNewSideMenuProps) {
             />
           </div>
         </div>
-        <Separator className="mt-2" />
+        <Separator className="sm:mt-2" />
         <div>
           <ul>
             {steps.map((step: Step, index) => {
@@ -169,18 +172,11 @@ export default function ListingNewSideMenu({ steps }: ListingNewSideMenuProps) {
               return (
                 <li
                   key={step.key}
-                  onClick={() => {
-                    window.history.pushState(
-                      {},
-                      "",
-                      `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[index].uniquePath}`,
-                    );
-                  }}
                   className={cn(
-                    "relative flex cursor-pointer border-l-4 border-l-brand-light-blue bg-gray-50 hover:bg-gray-50",
+                    "relative flex w-full cursor-pointer hover:bg-gray-50 sm:border-l-4 sm:border-l-brand-light-blue sm:bg-gray-50",
                   )}
                 >
-                  <div className="w-full px-4 py-3">
+                  <div className="w-full px-1.5 py-2.5 sm:px-4 sm:py-3">
                     <div className="absolute right-0 top-1.5 flex items-center px-2">
                       {stepStatus[step.key] === "completed" && (
                         <CircleCheck stroke="green" strokeWidth={1.2} />
@@ -194,7 +190,7 @@ export default function ListingNewSideMenu({ steps }: ListingNewSideMenuProps) {
                         <CircleAlert stroke="red" strokeWidth={1.2} />
                       )}
                     </div>
-                    <p className="">
+                    <p className="mb-1.5 text-sm leading-3 sm:mb-1 sm:text-base sm:leading-4">
                       {t(`listing.new.progress.steps.${step.key}.title`)}
                     </p>
                     <p className="line-clamp-2 w-full overflow-x-hidden text-ellipsis whitespace-nowrap text-sm text-gray-500">
