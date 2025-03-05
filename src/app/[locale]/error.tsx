@@ -11,7 +11,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  const t = useTranslations("error");
+  const t = useTranslations("");
   useEffect(() => {
     // Optionally log the error to an error reporting service
     console.error(error);
@@ -41,13 +41,13 @@ export default function Error({
             onClick={() => window.location.reload()}
             className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           >
-            Reload Page
+            {t("common.actions.reloadPage")}
           </button>
           <button
             onClick={() => reset()}
             className="rounded border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-50"
           >
-            Try Again
+            {t("common.actions.tryAgain")}
           </button>
         </div>
       </div>

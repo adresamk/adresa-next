@@ -182,6 +182,8 @@
       "youWillBeRedirected": "Do të ridrejtoheni mbrapa!"
     },
     "actions": {
+      "reloadPage": "Reload page",
+      "tryAgain": "Try again",
       "submitting": "Submitting",
       "savedSearch": "Your search was saved. You can find it in your Profile > Saved Searches",
       "creating": "Creating",
@@ -657,14 +659,25 @@
           },
           "mainCharacteristics": {
             "pricePerAgreement": "Price per agreement",
-            "externalRef": "Code if you need to mark the listing according to your internal reference",
-            "externalRefPlaceholder": "Enter code",
             "title": "Main characteristics",
             "description": "Enter basic property characteristics",
-            "price": "Price",
-            "pricePlaceholder": "Enter price in euros",
-            "area": "Area",
-            "areaPlaceholder": "Enter area in m²",
+            "externalRef": {
+              "label": "Code if you need to mark the listing according to your internal reference",
+              "placeholder": "Enter code"
+            },
+            "price": {
+              "label": "Price",
+              "placeholder": "Enter price in euros"
+            },
+            "pricePerSquare": {
+              "label": "Price per m²",
+              "placeholder": "Enter price per m²"
+            },
+            "area": {
+              "label": "Area",
+              "placeholder": "Enter area in m²",
+              "description": "Area of the property that can be estimated in m²"
+            },
             "floor": {
               "label": "Floor",
               "placeholder": "Enter floor number"

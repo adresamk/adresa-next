@@ -94,7 +94,7 @@ export default function MapConfirmLocation({
     northMacedoniaCoordinates;
   const mapZoom = pinCoords ? 15 : municipalityCenterPoints ? 13 : 7;
 
-  console.log(mapCenter, mapZoom);
+  // console.log(mapCenter, mapZoom);
   useEffect(() => {
     if (
       municipalityCenterPoints &&

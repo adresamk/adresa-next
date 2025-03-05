@@ -26,5 +26,5 @@ export default async function EditListingLayout({
     redirect({ href: "/", locale });
   }
 
-  return <div>{children}</div>;
+  return <main>{children}</main>;
 }

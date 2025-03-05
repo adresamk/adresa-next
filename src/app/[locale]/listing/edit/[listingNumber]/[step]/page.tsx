@@ -47,12 +47,10 @@ export default async function EditListingPage({ params }: { params: Params }) {
 
   const allCategoryFeatures = await getStaticCategoryFeatures(listing.category);
   return (
-    <div className="flex gap-2 p-2">
-      <ListingEditForm
-        loadedListing={listing}
-        requestedStep={requestedStep}
-        allCategoryFeatures={allCategoryFeatures}
-      />
-    </div>
+    <ListingEditForm
+      loadedListing={listing}
+      requestedStep={requestedStep}
+      allCategoryFeatures={allCategoryFeatures}
+    />
   );
 }

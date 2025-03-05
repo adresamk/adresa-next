@@ -45,7 +45,7 @@ export default function SharedAdditionalFeatures({
       {} as Record<FeatureCategory, Feature[]>,
     );
 
-  console.log(sharedFeatures);
+  // console.log(sharedFeatures);
 
   return (
     <>

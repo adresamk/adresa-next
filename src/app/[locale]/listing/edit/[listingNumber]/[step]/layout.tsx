@@ -77,5 +77,5 @@ export default async function EditListingLayout({
   //     locale,
   //   });
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 }

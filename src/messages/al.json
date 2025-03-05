@@ -182,6 +182,8 @@
       "youWillBeRedirected": "You will be redirected back!"
     },
     "actions": {
+      "reloadPage": "Oshte një problem. Mund të provoni të ndryshoni kërkesën ose të kontaktoni administratorin.",
+      "tryAgain": "Duke krijuar",
       "submitting": "Duke krijuar",
       "savedSearch": "Kërkesa e ruajtura është ruajtur. Mund të gjeni atë në Profilin tuaj > Kërkesat e ruajtura",
       "creating": "Duke krijuar",
@@ -660,14 +662,25 @@
           },
           "mainCharacteristics": {
             "pricePerAgreement": "Çmimi për dokument",
-            "externalRef": "Kodi nëse vihet nevoja të shënohet shpallja në bazë të kodit tuaj internal",
-            "externalRefPlaceholder": "Vendosni kodin",
             "title": "Karakteristikat kryesore",
             "description": "Vendosni karakteristikat kryesore të pronës",
-            "price": "Çmimi",
-            "pricePlaceholder": "Vendosni çmimin në euro",
-            "area": "Sipërfaqja",
-            "areaPlaceholder": "Vendosni sipërfaqen në m²",
+            "externalRef": {
+              "label": "Kodi nëse vihet nevoja të shënohet shpallja në bazë të kodit tuaj internal",
+              "placeholder": "Vendosni kodin"
+            },
+            "price": {
+              "label": "Çmimi",
+              "placeholder": "Vendosni çmimin në euro"
+            },
+            "pricePerSquare": {
+              "label": "Çmimi për m²",
+              "placeholder": "Vendosni çmimin për m²"
+            },
+            "area": {
+              "label": "Sipërfaqja",
+              "placeholder": "Vendosni sipërfaqen në m²",
+              "description": "Sipërfaqja e pronës që mund të njehsohet në m²"
+            },
             "floor": {
               "label": "Kati",
               "placeholder": "Vendosni në cilin kat ndodhet"
