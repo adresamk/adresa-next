@@ -399,7 +399,7 @@ export default function ListingEditSideMenu({
   // console.log("stepProgress", stepsProgress);
   // console.log("stepDescriptions", stepDescriptions);
   return (
-    <div className="w-full sm:w-[335px]">
+    <div className="sticky top-[50px] z-10 w-full sm:w-[335px]">
       <div className="m-2 rounded bg-white shadow-md">
         {/* Progress bar */}
         <div className="flex items-center gap-1 p-1 px-1.5 sm:p-2">
