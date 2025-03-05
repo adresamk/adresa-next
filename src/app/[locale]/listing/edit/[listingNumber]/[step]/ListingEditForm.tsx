@@ -105,14 +105,14 @@ export default function ListingEditForm({
   }
 
   return (
-    <div className="flex flex-col gap-2 p-2 smaller:flex-row">
+    <div className="flex flex-col gap-2 p-2 sm:flex-row">
       <ListingEditSideMenu
         currentStep={currentStep}
         listing={listing}
         setCurrentStep={setCurrentStep}
         steps={steps}
       />
-      <div className="p-2 smaller:min-w-[460px] smaller:p-0">
+      <div className="p-2 sm:min-w-[460px] sm:p-0">
         <div className="mt-2 rounded bg-white p-2 shadow-md">
           <form onSubmit={handleFormSubmit}>
             <input

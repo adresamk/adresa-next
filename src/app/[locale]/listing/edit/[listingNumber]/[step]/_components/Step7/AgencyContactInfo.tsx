@@ -136,7 +136,9 @@ export default function AgencyContactInfo({ agency }: AgencyContactInfoProps) {
           id="preferredContactMethod"
           name="preferredContactMethod"
           defaultValue={
-            t(`agency.profile.details.${agency.preferredContactMethod}`) ?? ""
+            agency.preferredContactMethod
+              ? t(`agency.profile.details.${agency.preferredContactMethod}`)
+              : t("agency.profile.details.both")
           }
         />
       </div>

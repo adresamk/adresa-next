@@ -93,7 +93,7 @@ model Agency {
   contactPersonFullName  String? @db.VarChar(50)
   contactPersonEmail     String? @db.VarChar(60)
   contactPersonPhone     String? @db.VarChar(20)
-  preferredContactMethod String? @db.VarChar(10) // email, phone, both
+  preferredContactMethod String? @default("both") @db.VarChar(10) // email, phone, both
   contactHours           String? @db.VarChar(200)
 
   // Unique fields

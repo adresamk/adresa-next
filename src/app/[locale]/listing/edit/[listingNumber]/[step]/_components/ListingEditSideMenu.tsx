@@ -310,6 +310,30 @@ function generateStepDescriptions(
   }
   return descriptions;
 }
+
+function navigateToStep(
+  direction: "prev" | "next",
+  currentStep: string,
+  steps: Step[],
+  setCurrentStep: (step: string) => void,
+) {
+  const currentIndex = steps.findIndex(
+    (step) => step.uniquePath === currentStep,
+  );
+  const newIndex = direction === "prev" ? currentIndex - 1 : currentIndex + 1;
+
+  // Check bounds
+  if (newIndex < 0 || newIndex >= steps.length) return;
+
+  // Update step and URL
+  setCurrentStep(steps[newIndex].uniquePath);
+  window.history.pushState(
+    {},
+    "",
+    `${window.location.pathname.split("/").slice(0, -1).join("/")}/${steps[newIndex].uniquePath}`,
+  );
+}
+
 export default function ListingEditSideMenu({
   currentStep,
   listing,
@@ -375,14 +399,14 @@ export default function ListingEditSideMenu({
   // console.log("stepProgress", stepsProgress);
   // console.log("stepDescriptions", stepDescriptions);
   return (
-    <div className="w-full smaller:w-[335px]">
+    <div className="w-full sm:w-[335px]">
       <div className="m-2 rounded bg-white shadow-md">
         {/* Progress bar */}
-        <div className="flex items-center gap-1 p-0.5 smaller:p-2">
-          <div className="h-12 w-12 smaller:h-20 smaller:w-20">
+        <div className="flex items-center gap-1 p-1 px-1.5 sm:p-2">
+          <div className="h-12 w-12 sm:h-20 sm:w-20">
             <CircularProgress percentage={formProgress} />
           </div>
-          <div className="flex w-full flex-row items-start gap-0.5 smaller:flex-col">
+          <div className="flex w-full flex-row items-start gap-0.5 sm:flex-col">
             <div className="w-full">
               <p className="text-sm">
                 {formProgress}% {t(`common.words.filledOut`)}
@@ -398,7 +422,7 @@ export default function ListingEditSideMenu({
             <Link
               target="_blank"
               href={`/listing/${listing.listingNumber}`}
-              className="ml-auto smaller:ml-0"
+              className="ml-auto sm:ml-0"
             >
               <Button
                 role="button"
@@ -406,10 +430,10 @@ export default function ListingEditSideMenu({
                 size={"sm"}
                 className="mt-1.5 w-full border-brand-light-blue bg-blue-50 text-sm"
               >
-                <span className="smaller:hidden">
+                <span className="sm:hidden">
                   <ExternalLinkIcon className="h-4 w-4" />
                 </span>
-                <span className="hidden smaller:block">
+                <span className="hidden sm:block">
                   {t(`common.actions.openListing`)}
                 </span>
               </Button>
@@ -425,16 +449,23 @@ export default function ListingEditSideMenu({
         </div>
         <Separator className="mt-2" />
         {/* Steps */}
-        <div className="relative flex h-full flex-row items-center gap-0.5">
-          <div className="relative flex h-full w-11 smaller:hidden">
-            <Button variant={"outline"} size={"icon"} className="m-1">
+        <div className="relative flex h-full w-full flex-row items-center gap-0.5">
+          <div className="relative flex h-full w-11 sm:hidden">
+            <Button
+              variant="outline"
+              size="icon"
+              className="m-1"
+              onClick={() =>
+                navigateToStep("prev", currentStep, steps, setCurrentStep)
+              }
+            >
               <ChevronLeftIcon
                 className="h-5 w-5"
                 style={{ strokeWidth: 1.5 }}
               />
             </Button>
           </div>
-          <ul className="w-full flex-1">
+          <ul className="max-w-[calc(100%-92px)] flex-1 sm:max-w-full">
             {steps.map((step: Step, index) => {
               const stepProgress = stepsProgress[index];
 
@@ -452,13 +483,13 @@ export default function ListingEditSideMenu({
                   className={cn(
                     "relative cursor-pointer hover:bg-gray-50",
                     currentStep === steps[index].uniquePath &&
-                      "smaller:border-l-4 smaller:border-l-brand-light-blue smaller:bg-gray-50",
+                      "sm:border-l-4 sm:border-l-brand-light-blue sm:bg-gray-50",
                     currentStep === steps[index].uniquePath
                       ? "flex w-full"
-                      : "hidden smaller:flex",
+                      : "hidden sm:flex",
                   )}
                 >
-                  <div className="w-full px-4 py-3">
+                  <div className="w-full px-0.5 py-1.5 sm:px-4 sm:py-3">
                     <div className="absolute right-0 top-1.5 flex items-center px-2">
                       {stepStatus[step.key] === "completed" && (
                         <CircleCheck stroke="green" strokeWidth={1.2} />
@@ -472,13 +503,13 @@ export default function ListingEditSideMenu({
                         <CircleAlert stroke="red" strokeWidth={1.2} />
                       )}
                     </div>
-                    <p className="">
+                    <p className="mb-1.5 text-sm leading-4 sm:mb-0 sm:text-base">
                       {t(`listing.new.progress.steps.${step.key}.title`)}
                     </p>
-                    <p className="line-clamp-2 w-full overflow-x-hidden text-ellipsis whitespace-nowrap text-sm text-gray-500">
+                    <p className="line-clamp-2 w-full overflow-x-hidden text-ellipsis whitespace-nowrap text-sm text-gray-500 sm:text-base">
                       {stepDescriptions[step.key]}
                     </p>
-                    <div className="mt-3 rounded-2xl bg-slate-100">
+                    <div className="mt-0.5 rounded-2xl bg-slate-100 sm:mt-3">
                       <div
                         className="h-1 rounded-2xl bg-slate-400"
                         style={{
@@ -491,8 +522,15 @@ export default function ListingEditSideMenu({
               );
             })}
           </ul>
-          <div className="relative flex h-full w-11 smaller:hidden">
-            <Button variant={"outline"} size={"icon"} className="m-1">
+          <div className="relative flex h-full w-11 sm:hidden">
+            <Button
+              variant="outline"
+              size="icon"
+              className="m-1"
+              onClick={() =>
+                navigateToStep("next", currentStep, steps, setCurrentStep)
+              }
+            >
               <ChevronRightIcon
                 className="h-5 w-5"
                 style={{ strokeWidth: 1.5 }}
