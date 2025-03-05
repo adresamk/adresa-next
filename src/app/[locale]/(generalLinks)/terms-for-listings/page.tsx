@@ -1,5 +1,5 @@
 import "@/content/metadata.css";
-export default async function Page({
+export default async function TermsForListingsPage({
   params,
 }: {
   params: Promise<{ locale: string }>;

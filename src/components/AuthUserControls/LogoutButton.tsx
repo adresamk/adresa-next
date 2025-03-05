@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "sonner";
+import { Button } from "../ui/button";
 
 interface LogoutButtonProps {}
 export default function LogoutButton({}: LogoutButtonProps) {
@@ -56,7 +57,9 @@ export default function LogoutButton({}: LogoutButtonProps) {
   // }, [response]);
 
   return (
-    <button onClick={handleLogout}>{t("header.userControls.logout")}</button>
+    <Button variant={"ghost"} onClick={handleLogout} className="w-full">
+      {t("header.userControls.logout")}
+    </Button>
   );
 }
 

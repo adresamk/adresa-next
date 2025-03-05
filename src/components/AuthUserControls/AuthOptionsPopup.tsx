@@ -30,9 +30,9 @@ export default function AuthOptionsPopup() {
             </AvatarFallback>
           </Avatar>
         </PopoverTrigger>
-        <PopoverContent className="z-[220] p-4">
+        <PopoverContent className="z-[220] p-3" side="bottom" align="end">
           <div>
-            <ul className="gap1 flex justify-between">
+            <ul className="my-0 flex justify-between gap-2 p-0">
               <li>
                 <Link href="/signin">
                   <Button size={"sm"}> {t("auth.signIn.button")} </Button>

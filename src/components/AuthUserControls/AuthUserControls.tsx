@@ -4,6 +4,7 @@ import UserControls from "./UserControls";
 import AuthOptionsPopup from "./AuthOptionsPopup";
 import AuthButNoProfilePopup from "./AuthButNoProfilePopup";
 import { Agency, User } from "@prisma/client";
+import AgencyControls from "./AgencyControls";
 
 export default function AuthUserControls({
   authState,
@@ -19,7 +20,7 @@ export default function AuthUserControls({
   }
 
   if (authState.agency) {
-    return <UserControls agency={authState.agency} />;
+    return <AgencyControls agency={authState.agency} />;
   }
 
   if (authState.isAuthenticated && !authState.user && !authState.agency) {

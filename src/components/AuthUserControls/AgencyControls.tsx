@@ -8,16 +8,15 @@ import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import LogoutButton from "./LogoutButton";
 import { Separator } from "../ui/separator";
+import { UploadedImageData } from "@/types/listing.types";
 import {
-  BookmarkIcon,
-  ContactIcon,
-  HeartIcon,
   HousePlusIcon,
+  LayoutDashboardIcon,
   UserCircle2Icon,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export default function UserControls({ user }: { user: User }) {
+export default function AgencyControls({ agency }: { agency: Agency }) {
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations();
@@ -27,12 +26,8 @@ export default function UserControls({ user }: { user: User }) {
     setIsOpen(false);
   }, [pathname]);
 
-  const avatarImg = user
-    ? user.pictureUrl
-      ? user.pictureUrl
-      : user.firstName && user.lastName
-        ? userProfileBg.src
-        : undefined
+  const avatarImg = (agency.logo as UploadedImageData)?.url
+    ? (agency.logo as UploadedImageData).url
     : undefined;
 
   return (
@@ -41,48 +36,30 @@ export default function UserControls({ user }: { user: User }) {
         <Avatar>
           <AvatarImage src={avatarImg} />
           <AvatarFallback>
-            {user && user.firstName && user.lastName ? (
-              <span>
-                {user.firstName![0].toUpperCase()}
-                {user.lastName![0].toUpperCase()}
-              </span>
-            ) : null}
+            {agency.name?.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </PopoverTrigger>
       <PopoverContent className="z-[220] p-3">
         <ul className="flex flex-col gap-2">
-          <Link href={`/profile/info`} prefetch>
+          <Link href={`/agency/profile/info`} prefetch>
             <li className="inline-flex h-9 w-full items-center gap-2.5 rounded-lg px-2 py-1 text-center hover:bg-gray-100 md:h-10">
               <UserCircle2Icon className="h-5 w-5" />{" "}
-              {t("user.profile.menu.profile")}
+              {t("agency.profile.menu.info")}
             </li>
           </Link>
 
-          <Link href={`/profile/contact`} prefetch>
+          <Link href={`/agency/profile/details`} prefetch>
             <li className="inline-flex h-9 w-full items-center gap-2.5 rounded-lg px-2 py-1 text-center hover:bg-gray-100 md:h-10">
-              <ContactIcon className="h-5 w-5" />{" "}
-              {t("user.profile.menu.contactInfo")}
+              <LayoutDashboardIcon className="h-5 w-5" />{" "}
+              {t("agency.profile.menu.details")}
             </li>
           </Link>
 
-          <Link href={`/profile/listings`} prefetch>
+          <Link href={`/agency/profile/listings`} prefetch>
             <li className="inline-flex h-9 w-full items-center gap-2.5 rounded-lg px-2 py-1 text-center hover:bg-gray-100 md:h-10">
               <HousePlusIcon className="h-5 w-5" />{" "}
-              {t("user.profile.menu.myListings")}
-            </li>
-          </Link>
-
-          <Link href={`/profile/searches`} prefetch>
-            <li className="inline-flex h-9 w-full items-center gap-2.5 rounded-lg px-2 py-1 text-center hover:bg-gray-100 md:h-10">
-              <BookmarkIcon className="h-5 w-5" />{" "}
-              {t("user.profile.menu.savedSearches")}
-            </li>
-          </Link>
-          <Link href={`/profile/liked`} prefetch>
-            <li className="inline-flex h-9 w-full items-center gap-2.5 rounded-lg px-2 py-1 text-center hover:bg-gray-100 md:h-10">
-              <HeartIcon className="h-5 w-5" />{" "}
-              {t("user.profile.menu.likedListings")}
+              {t("agency.profile.menu.listings")}
             </li>
           </Link>
 
