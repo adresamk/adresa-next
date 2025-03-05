@@ -18,7 +18,7 @@ export default function SearchButton({ variant }: SearchButtonProps) {
   const t = useTranslations();
   const newDestination = generateSearchUrl({
     ...filters,
-    location: filters.location === "" ? "10001" : filters.location,
+    location: filters.location === "" ? "00001" : filters.location,
   });
 
   // console.log("newDestination", newDestination);
