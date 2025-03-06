@@ -1062,6 +1062,8 @@
       "finishSetup": "Ju lutemi, plotësoni detajet e agjencisë",
       "welcome": "Mirë se vini",
       "menu": {
+        "missingFields": "Plotësoni të gjitha fusha",
+        "more": "Më shumë",
         "dashboard": "Paneli",
         "listings": "Shpalljet",
         "details": "Detajet",
@@ -1086,6 +1088,8 @@
   "user": {
     "profile": {
       "menu": {
+        "missingFields": "Plotësoni të gjitha fusha",
+        "more": "Më shumë",
         "profile": "Profili",
         "contactInfo": "Informacionet e kontaktit",
         "myListings": "Shpalljet e mia",

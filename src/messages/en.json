@@ -1059,6 +1059,8 @@
       "finishSetup": "Please complete agency details",
       "welcome": "Welcome",
       "menu": {
+        "missingFields": "Fill in all the required fields",
+        "more": "More options",
         "dashboard": "Dashboard",
         "listings": "Listings",
         "details": "Details",
@@ -1083,6 +1085,8 @@
   "user": {
     "profile": {
       "menu": {
+        "missingFields": "Fill in all the required fields",
+        "more": "More options",
         "profile": "Profile",
         "contactInfo": "Contact information",
         "myListings": "My listings",

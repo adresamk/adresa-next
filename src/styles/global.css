@@ -50,7 +50,7 @@ button[role="radio"][aria-checked="true"] {
 }
 
 body[data-scroll-locked] {
-  padding-top: 80px !important;
+  padding-top: 60px !important;
 }
 
 /* Leaflet overrides */

@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { HousePlus, Info, LayoutDashboard, User } from "lucide-react";
+import { HousePlus, Info, LayoutDashboard, User, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
@@ -10,6 +10,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function ProfileSideMenu({ agency }: { agency: Agency | null }) {
   const pathname = usePathname();
@@ -38,35 +44,84 @@ export default function ProfileSideMenu({ agency }: { agency: Agency | null }) {
       path: "/agency/profile/listings",
     },
   ];
-  if (!agency) {
-    return (
-      <nav>
-        <ul>
-          <Link href={profileNavigation[1].path} prefetch>
-            <li
-              className={cn(
-                "flex items-center gap-3 px-5 py-3",
-                pathname === profileNavigation[1].path &&
-                  "border-l-2 border-brand-light-blue",
-              )}
-            >
-              {profileNavigation[1].icon} {profileNavigation[1].label}
-            </li>
-          </Link>
-        </ul>
-      </nav>
-    );
-  }
 
   return (
     <nav>
-      <ul>
+      {/* Mobile View */}
+      <div className="sm:hidden">
+        <ul>
+          {/* Show current path item or first item */}
+          {profileNavigation
+            .filter(
+              (nav) =>
+                nav.path === pathname ||
+                (!pathname.includes("/agency/profile/") &&
+                  nav === profileNavigation[0]),
+            )
+            .map((nav) => (
+              <Link key={nav.path} href={nav.path} prefetch>
+                <li
+                  className={cn(
+                    "flex cursor-pointer items-center gap-3 px-2 py-2.5 hover:bg-gray-50",
+                    "border-l-2 border-brand-light-blue",
+                  )}
+                >
+                  <div>{nav.icon}</div>
+                  <span>{nav.label}</span>
+                  {nav.issues && (
+                    <span className="ml-auto text-red-500">
+                      <Popover>
+                        <PopoverTrigger>
+                          <Info className="h-4 w-4" />
+                        </PopoverTrigger>
+                        <PopoverContent>
+                          <p className="p-2 text-xs text-red-700">
+                            {t("agency.profile.menu.missingFields")}
+                          </p>
+                        </PopoverContent>
+                      </Popover>
+                    </span>
+                  )}
+                </li>
+              </Link>
+            ))}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex w-full items-center gap-3 px-2 py-2.5 hover:bg-gray-50">
+              <Menu className="h-4 w-4" />
+              <span>{t("agency.profile.menu.more")}</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {profileNavigation
+                .filter((nav) => nav.path !== pathname)
+                .map((nav) => (
+                  <DropdownMenuItem key={nav.path} asChild>
+                    <Link
+                      href={nav.path}
+                      prefetch
+                      className="flex w-[calc(100vw-24px)] cursor-pointer items-center gap-3 px-2 py-2.5 hover:bg-gray-50"
+                    >
+                      <div>{nav.icon}</div>
+                      <span className="text-base">{nav.label}</span>
+                      {nav.issues && (
+                        <Info className="ml-2 h-4 w-4 text-red-500" />
+                      )}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </ul>
+      </div>
+
+      {/* Desktop View */}
+      <ul className="hidden sm:block">
         {profileNavigation.map((nav) => (
-          <Link key={nav.path} href={nav.path} prefetch>
+          <Link key={nav.path} href={nav.path} prefetch className="">
             <li
               key={nav.label}
               className={cn(
-                "flex items-center gap-3 px-5 py-3",
+                "flex items-center gap-3 px-2 py-2.5 hover:bg-gray-50 sm:gap-3 sm:px-5 sm:py-3",
                 pathname === nav.path && "border-l-2 border-brand-light-blue",
               )}
             >

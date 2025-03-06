@@ -73,12 +73,14 @@ export default async function ProfileLayout({
   }
 
   return (
-    <main className="mx-auto flex max-w-7xl px-6">
-      <div className="min-h-screen w-[220px] bg-white shadow">
-        <div className="px-3 py-6">
-          <p>{t("user.profile.menu.welcome")}</p>
+    <main className="mx-auto flex max-w-[1200px] flex-col px-3 pb-12 group-[.mobile]:flex-col sm:flex-row sm:px-6">
+      <div className="mt-3 min-w-[220px] rounded-md bg-white shadow group-[.mobile]:min-h-fit sm:mt-0 sm:min-h-screen">
+        <div className="flex flex-row-reverse items-start justify-end gap-3 px-2 py-3 sm:flex-col sm:gap-1 sm:px-3 sm:py-6">
+          <p className="text-lg font-light text-brand-black-muted text-slate-500 sm:text-base">
+            {t("user.profile.menu.welcome")}
+          </p>
           {isAuthenticated && !user && (
-            <p className="mt-2 text-xl text-red-400">
+            <p className="mt-2 text-xl font-semibold text-red-400">
               {t("user.profile.finishSetup")}
             </p>
           )}
@@ -91,7 +93,7 @@ export default async function ProfileLayout({
         <ProfileSideMenu user={user} />
       </div>
 
-      <div className="flex-1 p-4">{children}</div>
+      <div className="w-full">{children}</div>
     </main>
   );
 }
