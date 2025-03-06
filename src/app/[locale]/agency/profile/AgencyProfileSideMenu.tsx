@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { HousePlus, Info, LayoutDashboard, User, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Agency } from "@prisma/client";
 import {
   Popover,
@@ -20,7 +20,7 @@ import {
 export default function ProfileSideMenu({ agency }: { agency: Agency | null }) {
   const pathname = usePathname();
   const t = useTranslations();
-
+  const locale = useLocale();
   const missingDetails = !agency?.name || !agency?.slug || !agency?.logo;
   const missingInfo =
     !agency?.ownerFirstName || !agency?.ownerLastName || !agency?.ownerEmail;
@@ -45,6 +45,7 @@ export default function ProfileSideMenu({ agency }: { agency: Agency | null }) {
     },
   ];
 
+  const pathNameWithoutLocale = pathname.replace(`/${locale}/`, "/");
   return (
     <nav>
       {/* Mobile View */}
@@ -52,12 +53,7 @@ export default function ProfileSideMenu({ agency }: { agency: Agency | null }) {
         <ul>
           {/* Show current path item or first item */}
           {profileNavigation
-            .filter(
-              (nav) =>
-                nav.path === pathname ||
-                (!pathname.includes("/agency/profile/") &&
-                  nav === profileNavigation[0]),
-            )
+            .filter((nav) => nav.path === pathNameWithoutLocale)
             .map((nav) => (
               <Link key={nav.path} href={nav.path} prefetch>
                 <li

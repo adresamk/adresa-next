@@ -176,10 +176,10 @@
   },
   "common": {
     "notifications": {
-      "loggedOutSuccessfully": "You have been logged out successfully!",
-      "loggedInSuccessfully": "You have been logged in successfully!",
-      "alreadyLoggedIn": "You are already logged in!",
-      "youWillBeRedirected": "You will be redirected back!"
+      "loggedOutSuccessfully": "Keni dalë me sukses!",
+      "loggedInSuccessfully": "Keni hyrë me sukses!",
+      "alreadyLoggedIn": "Jeni tashmë të kyçur!",
+      "youWillBeRedirected": "Do të ridrejtoheni përsëri!"
     },
     "actions": {
       "reloadPage": "Oshte një problem. Mund të provoni të ndryshoni kërkesën ose të kontaktoni administratorin.",

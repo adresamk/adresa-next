@@ -47,7 +47,7 @@ export default async function ProfileLikedPage() {
           </div>
         )}
       </div>
-      <HireAgencyBanner />
+      {/* <HireAgencyBanner /> */}
       <div className="verflow-x-auto rounded-lg bg-white shadow">
         <FeaturedAgencies featuredAgenciesPromise={featuredAgenciesPromise} />
       </div>

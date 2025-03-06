@@ -12,7 +12,7 @@ import {
 import { usePathname } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { User } from "@prisma/client";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Popover,
   PopoverContent,
@@ -28,7 +28,7 @@ import {
 export default function ProfileSideMenu({ user }: { user: User | null }) {
   const pathname = usePathname();
   const t = useTranslations();
-
+  const locale = useLocale();
   const missingProfile = !user?.firstName || !user?.lastName;
   const missingContact =
     !user?.contactName || !user?.contactPhone || !user?.contactEmail;
@@ -63,19 +63,15 @@ export default function ProfileSideMenu({ user }: { user: User | null }) {
     },
   ];
 
+  const pathNameWithoutLocale = pathname.replace(`/${locale}/`, "/");
   return (
-    <nav>
+    <nav className="">
       {/* Mobile View */}
-      <div className="sm:hidden">
+      <div className="relative sm:hidden">
         <ul>
           {/* Show current path item or first item */}
           {profileNavigation
-            .filter(
-              (nav) =>
-                nav.path === pathname ||
-                (!pathname.includes("/profile/") &&
-                  nav === profileNavigation[0]),
-            )
+            .filter((nav) => nav.path === pathNameWithoutLocale)
             .map((nav) => (
               <Link key={nav.path} href={nav.path} prefetch>
                 <li
