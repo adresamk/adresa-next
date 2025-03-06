@@ -74,15 +74,84 @@ const compressImageALot = async (file: File) => {
 
 const analyzeImage = async (file: File) => {
   const img = await createImageBitmap(file);
-  console.log("Image analysis:", {
-    fileName: file.name,
-    fileType: file.type,
-    fileSize: (file.size / (1024 * 1024)).toFixed(2) + "MB",
-    width: img.width,
-    height: img.height,
-    aspectRatio: (img.width / img.height).toFixed(2),
-    deviceType: isMobileDevice() ? "mobile" : "desktop",
-    lastModified: new Date(file.lastModified).toISOString(),
+  // console.log("Image analysis:", {
+  //   fileName: file.name,
+  //   fileType: file.type,
+  //   fileSize: (file.size / (1024 * 1024)).toFixed(2) + "MB",
+  //   width: img.width,
+  //   height: img.height,
+  //   aspectRatio: (img.width / img.height).toFixed(2),
+  //   deviceType: isMobileDevice() ? "mobile" : "desktop",
+  //   lastModified: new Date(file.lastModified).toISOString(),
+  // });
+};
+
+const addImageWatermark = async (file: File) => {
+  // Create canvas and load image
+  const bitmap = await createImageBitmap(file);
+  const canvas = document.createElement("canvas");
+  canvas.width = bitmap.width;
+  canvas.height = bitmap.height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Could not get canvas context");
+
+  // Draw original image
+  ctx.drawImage(bitmap, 0, 0);
+
+  // Add watermark
+  await new Promise<void>((resolve) => {
+    const watermark = new Image();
+    watermark.crossOrigin = "anonymous";
+    watermark.src = "https://adresa.mk/assets/adresa-logo.png";
+
+    watermark.onload = () => {
+      // Original logo aspect ratio (width/height = 286/61 ≈ 4.69)
+      const logoAspectRatio = 286 / 61;
+
+      // Calculate watermark dimensions (10% of image width)
+      const watermarkWidth = Math.round(canvas.width * 0.2);
+      const watermarkHeight = Math.round(watermarkWidth / logoAspectRatio);
+      const padding = 20;
+
+      const x = canvas.width - watermarkWidth - padding;
+      const y = canvas.height - watermarkHeight - padding;
+
+      // console.log("Watermark loaded, applying to canvas at:", {
+      //   x,
+      //   y,
+      //   width: watermarkWidth,
+      //   height: watermarkHeight,
+      //   imageWidth: canvas.width,
+      //   aspectRatio: logoAspectRatio,
+      // });
+
+      ctx.globalAlpha = 0.5;
+      ctx.drawImage(watermark, x, y, watermarkWidth, watermarkHeight);
+      ctx.globalAlpha = 1.0;
+
+      // console.log("Watermark applied successfully");
+      resolve();
+    };
+
+    watermark.onerror = (e) => {
+      console.error("Error loading watermark:", e);
+      resolve();
+    };
+  });
+
+  // Convert to blob
+  const blob = await new Promise<Blob>((resolve) => {
+    canvas.toBlob(
+      (blob) => {
+        if (blob) resolve(blob);
+      },
+      "image/webp",
+      1.0, // Use high quality since we're not compressing here
+    );
+  });
+
+  return new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".webp", {
+    type: "image/webp",
   });
 };
 
@@ -92,14 +161,14 @@ const compressImage = async (file: File) => {
   const fileSizeKB = file.size / 1024;
   const webpFileName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
 
-  console.log("Initial file name: " + file.name);
-  console.log("Initial file type: " + file.type);
-  console.log("Initial file size in MB: " + fileSizeMB.toFixed(2));
-  console.log("Initial file size in KB: " + fileSizeKB.toFixed(2));
+  // console.log("Initial file name: " + file.name);
+  // console.log("Initial file type: " + file.type);
+  // console.log("Initial file size in MB: " + fileSizeMB.toFixed(2));
+  // console.log("Initial file size in KB: " + fileSizeKB.toFixed(2));
 
   // Skip compression for small files (less than 150KB)
   if (fileSizeKB < 150) {
-    console.log("File too small, skipping compression");
+    // console.log("File too small, skipping compression");
     return file;
   }
 
@@ -107,7 +176,7 @@ const compressImage = async (file: File) => {
   const img = await createImageBitmap(file);
   const { width, height } = img;
 
-  console.log("Image dimensions:", { width, height });
+  // console.log("Image dimensions:", { width, height });
 
   // Determine if pre-compression is needed based on file characteristics
   const needsPreCompression =
@@ -119,7 +188,7 @@ const compressImage = async (file: File) => {
   let workingFile = file;
 
   if (needsPreCompression) {
-    console.log("Large image detected, applying pre-compression");
+    // console.log("Large image detected, applying pre-compression");
     workingFile = await imageCompression(file, {
       maxSizeMB: 1, // Reduce by at least 50% but cap at 2MB
       maxWidthOrHeight: 1920, // Reasonable size for web
@@ -130,9 +199,9 @@ const compressImage = async (file: File) => {
       fileType: "image/webp",
     });
 
-    console.log(
-      `After pre-compression: sizeMB: ${(workingFile.size / (1024 * 1024)).toFixed(2)}`,
-    );
+    // console.log(
+    //   `After pre-compression: sizeMB: ${(workingFile.size / (1024 * 1024)).toFixed(2)}`,
+    // );
   }
 
   // Convert to WebP and apply final compression
@@ -144,6 +213,11 @@ const compressImage = async (file: File) => {
   if (!ctx) throw new Error("Could not get canvas context");
 
   ctx.drawImage(bitmap, 0, 0);
+
+  // Add image watermark
+  // console.log("Starting watermark application");
+  const watermarkedFile = await addImageWatermark(workingFile);
+  // console.log("Watermark process completed");
 
   const quality = 0.2;
 
@@ -157,18 +231,18 @@ const compressImage = async (file: File) => {
     );
   });
 
-  console.log(
-    `After WebP conversion: sizeMB: ${(webpBlob.size / (1024 * 1024)).toFixed(2)}`,
-  );
+  // console.log(
+  //   `After WebP conversion: sizeMB: ${(webpBlob.size / (1024 * 1024)).toFixed(2)}`,
+  // );
 
   // If WebP conversion resulted in a larger file, revert to first pass result
   if (webpBlob.size > workingFile.size) {
-    console.log("WebP conversion increased size, using first pass result");
+    // console.log("WebP conversion increased size, using first pass result");
     return workingFile;
   }
-  console.log(
-    "WebP conversion did not increase size, continuing with final compression",
-  );
+  // console.log(
+  // "WebP conversion did not increase size, continuing with final compression",
+  // );
 
   // Final compression pass
   const compressedFile = await imageCompression(
@@ -184,9 +258,9 @@ const compressImage = async (file: File) => {
     },
   );
 
-  console.log(
-    `Final compressed size: sizeMB: ${(compressedFile.size / (1024 * 1024)).toFixed(2)}`,
-  );
+  // console.log(
+  //   `Final compressed size: sizeMB: ${(compressedFile.size / (1024 * 1024)).toFixed(2)}`,
+  // );
 
   return compressedFile;
 };
@@ -201,11 +275,11 @@ const compareCompression = (files: File[], compressedFiles: File[]) => {
       100
     ).toFixed(1);
 
-    console.log(`File: ${originalFile.name}`);
-    console.log(`  Original size: ${originalSizeMB} MB`);
-    console.log(`  Compressed size: ${compressedSizeMB} MB`);
-    console.log(`  Compression ratio: ${compressionRatio}%`);
-    console.log("---");
+    // console.log(`File: ${originalFile.name}`);
+    // console.log(`  Original size: ${originalSizeMB} MB`);
+    // console.log(`  Compressed size: ${compressedSizeMB} MB`);
+    // console.log(`  Compression ratio: ${compressionRatio}%`);
+    // console.log("---");
   });
 
   // Log total statistics
@@ -224,10 +298,10 @@ const compareCompression = (files: File[], compressedFiles: File[]) => {
     100
   ).toFixed(1);
 
-  console.log("Total Statistics:");
-  console.log(`  Original size: ${totalOriginalMB} MB`);
-  console.log(`  Compressed size: ${totalCompressedMB} MB`);
-  console.log(`  Overall compression ratio: ${totalCompressionRatio}%`);
+  // console.log("Total Statistics:");
+  // console.log(`  Original size: ${totalOriginalMB} MB`);
+  // console.log(`  Compressed size: ${totalCompressedMB} MB`);
+  // console.log(`  Overall compression ratio: ${totalCompressionRatio}%`);
 };
 
 export default function Step6({ listing }: { listing: Listing }) {
@@ -280,7 +354,7 @@ export default function Step6({ listing }: { listing: Listing }) {
           }}
           endpoint="listingImagesUpload"
           onClientUploadComplete={async (res) => {
-            console.log("Files: ", res);
+            // console.log("Files: ", res);
             const imagesAttachingToListing = await attachImagesToListing(
               [
                 ...images,
@@ -303,7 +377,7 @@ export default function Step6({ listing }: { listing: Listing }) {
               listing.listingNumber,
             );
 
-            console.log("imagesAttachingToListing: ", imagesAttachingToListing);
+            // console.log("imagesAttachingToListing: ", imagesAttachingToListing);
 
             if (imagesAttachingToListing.success) {
               setImages([
@@ -327,28 +401,28 @@ export default function Step6({ listing }: { listing: Listing }) {
             }
           }}
           onBeforeUploadBegin={async (files) => {
-            // Compress each image before upload
-            // console.log("files: ", files[0]);
-            // console.log("files: ", files);
+            const processedFiles = await Promise.all(
+              files.map(async (file) => {
+                // First try compression
+                const compressed = await compressImage(file);
 
-            const totalSizeMB =
-              files.reduce((total, file) => total + file.size, 0) / 1024 / 1024;
-            console.log(`Total compressed files size: ${totalSizeMB} MB`);
-            const compressedFiles = await Promise.all(
-              files.map(async (file) => await compressImage(file)),
-            );
-            compareCompression(files, compressedFiles);
+                // If compression made the file larger, use original file
+                if (compressed.size > file.size) {
+                  // console.log(
+                  // `Compression increased size for ${file.name}, using original with watermark only`,
+                  // );
+                  // Just add watermark to original file
+                  return await addImageWatermark(file);
+                }
 
-            // console.log("compressedFiles: ", compressedFiles[0]);
-            // console.log("compressedFiles: ", compressedFiles);
-            const totalCompressedSizeMB =
-              compressedFiles.reduce((total, file) => total + file.size, 0) /
-              1024 /
-              1024;
-            console.log(
-              `Total compressed files size: ${totalCompressedSizeMB} MB`,
+                // If compression helped, add watermark to compressed version
+                return await addImageWatermark(compressed);
+              }),
             );
-            return compressedFiles;
+
+            compareCompression(files, processedFiles);
+
+            return processedFiles;
           }}
           onUploadError={(error: Error) => {
             alert(`ERROR! ${error.message}`);

@@ -22,7 +22,6 @@ import { getVerificationLink } from "./verification.actions";
 import { sendResetPasswordEmail, sendVerificationEmail } from "./email.actions";
 import { capitalizeString, generateUniqueToken } from "@/lib/utils";
 import { getLocale } from "next-intl/server";
-import { a } from "../../../prisma/seeds/staticData";
 
 export async function signIn(
   prevState: any,
