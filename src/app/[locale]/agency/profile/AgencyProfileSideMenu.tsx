@@ -89,7 +89,7 @@ export default function ProfileSideMenu({ agency }: { agency: Agency | null }) {
           <DropdownMenu>
             <DropdownMenuTrigger className="flex w-full items-center gap-3 px-2 py-2.5 hover:bg-gray-50">
               <Menu className="h-4 w-4" />
-              <span>{t("agency.profile.menu.more")}</span>
+              <span>{t("agency.profile.menu.label")}</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {profileNavigation

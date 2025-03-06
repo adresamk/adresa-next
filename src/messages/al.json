@@ -1063,7 +1063,7 @@
       "welcome": "Mirë se vini",
       "menu": {
         "missingFields": "Plotësoni të gjitha fusha",
-        "more": "Më shumë",
+        "label": "Menu",
         "dashboard": "Paneli",
         "listings": "Shpalljet",
         "details": "Detajet",
@@ -1089,7 +1089,7 @@
     "profile": {
       "menu": {
         "missingFields": "Plotësoni të gjitha fusha",
-        "more": "Më shumë",
+        "label": "Menu",
         "profile": "Profili",
         "contactInfo": "Informacionet e kontaktit",
         "myListings": "Shpalljet e mia",

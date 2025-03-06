@@ -1060,7 +1060,7 @@
       "welcome": "Welcome",
       "menu": {
         "missingFields": "Fill in all the required fields",
-        "more": "More options",
+        "label": "Menu",
         "dashboard": "Dashboard",
         "listings": "Listings",
         "details": "Details",
@@ -1086,7 +1086,7 @@
     "profile": {
       "menu": {
         "missingFields": "Fill in all the required fields",
-        "more": "More options",
+        "label": "Menu",
         "profile": "Profile",
         "contactInfo": "Contact information",
         "myListings": "My listings",

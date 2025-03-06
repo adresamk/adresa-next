@@ -1063,7 +1063,7 @@
       "welcome": "Добредојдовте",
       "menu": {
         "missingFields": "Пополни ги важните полиња",
-        "more": "Други опции",
+        "label": "Мени",
         "dashboard": "Контролна табла",
         "listings": "Огласи",
         "details": "Детали",
@@ -1089,7 +1089,7 @@
     "profile": {
       "menu": {
         "missingFields": "Пополни ги важните полиња",
-        "more": "Други опции",
+        "label": "Мени",
         "profile": "Профил",
         "contactInfo": "Контакт информации",
         "myListings": "Мои огласи",
