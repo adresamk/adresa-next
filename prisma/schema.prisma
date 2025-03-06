@@ -7,6 +7,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
 model ResetPasswordLink {
   id        Int       @id @default(autoincrement())
   accountId Int
@@ -29,12 +35,6 @@ model VerificationLink {
   token       String    @unique @db.VarChar(50)
   isActivated Boolean   @default(false)
   activatedAt DateTime?
-}
-
-datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 enum AccountType {
@@ -553,4 +553,18 @@ model Notification {
   message   String           @db.VarChar(200)
   isRead    Boolean          @default(false)
   createdAt DateTime         @default(now())
+}
+
+// we not hooking it up to the listing
+model ListingInterestMessage {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  listingId       Int
+  ownerId         Int      @default(0)
+  ownerType       String   @default("")
+  fullName        String   @default("")
+  email           String   @default("")
+  phone           String   @default("")
+  message         String   @default("")
+  senderAccountId Int?
 }

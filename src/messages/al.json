@@ -179,11 +179,13 @@
       "loggedOutSuccessfully": "Keni dalë me sukses!",
       "loggedInSuccessfully": "Keni hyrë me sukses!",
       "alreadyLoggedIn": "Jeni tashmë të kyçur!",
-      "youWillBeRedirected": "Do të ridrejtoheni përsëri!"
+      "youWillBeRedirected": "Do të ridrejtoheni përsëri!",
+      "listingInterestMessageSent": "Mesazhi juaj është dërguar me sukses! Ju do të kontaktoheni nga pronësitë së shpejti!"
     },
     "actions": {
       "reloadPage": "Oshte një problem. Mund të provoni të ndryshoni kërkesën ose të kontaktoni administratorin.",
       "tryAgain": "Duke krijuar",
+      "isSending": "Duke dërguar",
       "submitting": "Duke krijuar",
       "savedSearch": "Kërkesa e ruajtura është ruajtur. Mund të gjeni atë në Profilin tuaj > Kërkesat e ruajtura",
       "creating": "Duke krijuar",

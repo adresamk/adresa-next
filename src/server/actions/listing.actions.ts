@@ -38,6 +38,7 @@ import {
 import { de, tr } from "@faker-js/faker";
 import { PrismaClientValidationError } from "@prisma/client/runtime/library";
 import { notifyConcernedUsersAboutNewListing } from "./notifications.actions";
+import { ActionResult } from "@/components/Form";
 export async function revalidateListingPage(listingNumber: number) {
   // Revalidate the specific listing page across all locales
   routing.locales.forEach((locale) => {
@@ -272,6 +273,65 @@ export async function getListing(listingNumber: number) {
   } catch (error) {
     console.error("Error fetching listing:", error);
     notFound();
+  }
+}
+
+export async function saveListingInterest(
+  prevState: {
+    success: boolean;
+    error: string | null;
+  },
+  formData: FormData,
+) {
+  console.log("saveListingInterest", formData);
+
+  const listingId = formData.get("listingId")?.valueOf();
+  const ownerId = formData.get("ownerId")?.valueOf();
+  const ownerType = formData.get("ownerType")?.valueOf();
+  const fullName = formData.get("fullName")?.valueOf();
+  const email = formData.get("email")?.valueOf();
+  const phone = formData.get("phone")?.valueOf();
+  const message = formData.get("message")?.valueOf();
+  const senderAccountId = formData.get("senderAccountId")?.valueOf();
+  if (
+    typeof listingId !== "string" ||
+    typeof ownerId !== "string" ||
+    typeof ownerType !== "string" ||
+    typeof fullName !== "string" ||
+    typeof email !== "string" ||
+    typeof message !== "string" ||
+    typeof phone !== "string"
+  ) {
+    return {
+      success: false,
+      error: "Invalid form data",
+    };
+  }
+  try {
+    const listingInterestMessage = await prismadb.listingInterestMessage.create(
+      {
+        data: {
+          listingId: Number(listingId),
+          ownerId: Number(ownerId),
+          ownerType: ownerType,
+          fullName: fullName,
+          email: email,
+          phone: phone,
+          message: message,
+          senderAccountId: senderAccountId ? Number(senderAccountId) : null,
+        },
+      },
+    );
+    return {
+      success: true,
+      error: null,
+    };
+  } catch (error) {
+    console.error("Error creating listing interest message:", error);
+    return {
+      success: false,
+      error: "Error creating listing interest message",
+    };
   }
 }
 
@@ -1859,6 +1919,7 @@ export type ParsedListingData = {
   longitude: number;
   rooms: number;
 };
+
 function figureOutListing(
   listingToProcess: ExternalListingData,
 ): ParsedListingData {
@@ -1964,6 +2025,7 @@ function figureOutListing(
   };
   return listing;
 }
+
 const tryMatchMunicipality = (tags: { label: string; value: string }[]) => {
   const addressTag = tags.find((tag) => tag.label === "Локација:");
   const address = addressTag ? addressTag.value : null;
@@ -1973,6 +2035,7 @@ const tryMatchMunicipality = (tags: { label: string; value: string }[]) => {
     : null;
   return municipality || null;
 };
+
 const tryGetTransactionType = (tags: { label: string; value: string }[]) => {
   const transactionTypeTag = tags.find((tag) => tag.label === "Вид на оглас:");
   const transactionType = transactionTypeTag
@@ -1981,18 +2044,6 @@ const tryGetTransactionType = (tags: { label: string; value: string }[]) => {
       : "sale"
     : "sale";
   return transactionType as PropertyTransactionType;
-};
-
-const tryGetPropertyType = (tags: { label: string; value: string }[]) => {
-  const propertyTypeTag = tags.find((tag) => tag.label === "Број на соби:");
-  const propertyType = propertyTypeTag ? propertyTypeTag.value : null;
-  return propertyType || null;
-};
-
-const tryGetCategory = (tags: { label: string; value: string }[]) => {
-  const categoryTag = tags.find((tag) => tag.label === "Огласено од:");
-  const category = categoryTag ? categoryTag.value : null;
-  return category || null;
 };
 
 const tryMatchPlace = (tags: { label: string; value: string }[]) => {

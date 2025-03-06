@@ -179,12 +179,14 @@
       "loggedOutSuccessfully": "Успешно сте одјавени!",
       "loggedInSuccessfully": "Успешно сте најавени!",
       "alreadyLoggedIn": "Веќе сте најавени!",
-      "youWillBeRedirected": "Вие ќе бидете пренасочени назад!"
+      "youWillBeRedirected": "Вие ќе бидете пренасочени назад!",
+      "listingInterestMessageSent": "Вашето порака е успешно испратена! Наскоро ќе бидете контактирани од сопствениците!"
     },
     "actions": {
       "reloadPage": "Освежи ја страницата",
       "tryAgain": "Пробај повторно",
       "submitting": "Се закачува",
+      "isSending": "Се испраќа",
       "savedSearch": "Пребарувањето е зачувано. Можете да го најдете во вашиот Профил > Зачувани пребарувања",
       "openListing": "Погледни го огласот",
       "creating": "Се креира",

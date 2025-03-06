@@ -4,22 +4,63 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Listing } from "@prisma/client";
 import { Link } from "@/i18n/routing";
 import { UploadedImageData } from "@/types/listing.types";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useFormState, useFormStatus } from "react-dom";
+import { saveListingInterest } from "@/server/actions/listing.actions";
+import { toast } from "sonner";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default function MiniContactForm({ listing }: { listing: Listing }) {
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [tel, setTel] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
+  const loggedInUser = useCurrentUser((store) => store.user);
+  const loggedInAgency = useCurrentUser((store) => store.agency);
+  const loggedInAccount = useCurrentUser((store) => store.account);
+  const [state, formAction, isPending] = useActionState(saveListingInterest, {
+    success: false,
+    error: null,
+  });
+  const t = useTranslations("");
+
+  //effect description
+  useEffect(() => {
+    if (loggedInUser) {
+      if (loggedInUser.firstName && loggedInUser.lastName) {
+        setFullName(loggedInUser.firstName + " " + loggedInUser.lastName);
+      }
+      if (loggedInAccount) {
+        setEmail(loggedInAccount.email);
+      }
+    }
+  }, [loggedInUser, loggedInAccount]);
+
+  //effect description
+  useEffect(() => {
+    if (state.success) {
+      toast.success(t("common.notifications.listingInterestMessageSent"));
+      if (loggedInUser) {
+        if (loggedInUser.firstName && loggedInUser.lastName) {
+          setFullName(loggedInUser.firstName + " " + loggedInUser.lastName);
+        }
+        if (loggedInAccount) {
+          setEmail(loggedInAccount.email);
+        }
+      }
+      setPhone("");
+      setMessage("");
+    }
+  }, [state.success, t, loggedInUser, loggedInAccount]);
+
   // I know there is an agency or null, but cant bother typing it now
   // @ts-ignore
   const agency = listing.agency;
-  const t = useTranslations("");
 
   return (
     <div
@@ -30,47 +71,36 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
         <h3 className="my-3 mb-3 px-6 text-xl">
           {t("common.contact.imInterested")}
         </h3>
-        <form className="px-6 py-2" action="">
+        <form className="px-6 py-2" action={formAction}>
+          <input type="hidden" name="listingId" value={listing.id} />
+          <input
+            type="hidden"
+            name="senderAccountId"
+            value={loggedInAccount?.id || ""}
+          />
+          <input
+            type="hidden"
+            name="ownerId"
+            value={listing.agencyId || listing.userId || ""}
+          />
+          <input
+            type="hidden"
+            name="ownerType"
+            value={listing.agencyId ? "agency" : listing.userId ? "user" : ""}
+          />
           <div className="mb-2 flex flex-col gap-3">
-            <Label htmlFor="name">
-              {t("common.contact.firstName")}{" "}
-              <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              required
-              id="name"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder={t("common.contact.firstNamePlaceholder")}
-            />
-          </div>
-          <div className="mb-2 flex flex-col gap-3">
-            <Label htmlFor="last-name">
+            <Label htmlFor="fullName">
+              {t("common.contact.firstName")} {t("common.words.and")}{" "}
               {t("common.contact.lastName")}{" "}
               <span className="text-red-500">*</span>
             </Label>
             <Input
               required
-              id="last-name"
-              name="last-name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder={t("common.contact.lastNamePlaceholder")}
-            />
-          </div>
-          <div className="mb-2 flex flex-col gap-3">
-            <Label htmlFor="tel">
-              {t("common.contact.phone")}{" "}
-              <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              required
-              id="tel"
-              name="tel"
-              value={tel}
-              onChange={(e) => setTel(e.target.value)}
-              placeholder="(389)77 777 777 "
+              id="fullName"
+              name="fullName"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder={t("common.contact.firstNamePlaceholder")}
             />
           </div>
           <div className="mb-2 flex flex-col gap-3">
@@ -88,6 +118,17 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
             />
           </div>
           <div className="mb-2 flex flex-col gap-3">
+            <Label htmlFor="phone">{t("common.contact.phone")} </Label>
+            <Input
+              id="phone"
+              name="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="(389)77 777 777 "
+            />
+          </div>
+
+          <div className="mb-2 flex flex-col gap-3">
             <Label htmlFor="message">
               {t("common.contact.message")}{" "}
               <span className="text-red-500">*</span>
@@ -95,14 +136,18 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
             <Textarea
               required
               id="message"
+              rows={5}
               name="message"
+              maxLength={3000}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
           </div>
-          <Button className="h-12 w-full text-lg uppercase">
-            {t("common.contact.sendMessage")}
-          </Button>
+          <SubmitButton
+            className="w-full"
+            defaultText={t("common.contact.sendMessage")}
+            loadingText={t("common.actions.isSending")}
+          />
         </form>
         {agency && (
           <div className="border-t-2 px-5 py-4">

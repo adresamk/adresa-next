@@ -176,15 +176,17 @@
   },
   "common": {
     "notifications": {
-      "loggedOutSuccessfully": "Ju keni dalë me sukses!",
-      "loggedInSuccessfully": "Ju keni hyrë me sukses!",
-      "alreadyLoggedIn": "Ju jeni tashmë të regjistruar!",
-      "youWillBeRedirected": "Do të ridrejtoheni mbrapa!"
+      "loggedOutSuccessfully": "You have logged out successfully!",
+      "loggedInSuccessfully": "You have logged in successfully!",
+      "alreadyLoggedIn": "You are already logged in!",
+      "youWillBeRedirected": "You will be redirected back!",
+      "listingInterestMessageSent": "Your message has been sent successfully! You will be contacted by the owners soon!"
     },
     "actions": {
       "reloadPage": "Reload page",
       "tryAgain": "Try again",
       "submitting": "Submitting",
+      "isSending": "Sending",
       "savedSearch": "Your search was saved. You can find it in your Profile > Saved Searches",
       "creating": "Creating",
       "openListing": "View listing",
