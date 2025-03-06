@@ -56,7 +56,7 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
       setPhone("");
       setMessage("");
     }
-  }, [state.success, t, loggedInUser, loggedInAccount]);
+  }, [state, t, loggedInUser, loggedInAccount]);
 
   // I know there is an agency or null, but cant bother typing it now
   // @ts-ignore
@@ -110,6 +110,7 @@ export default function MiniContactForm({ listing }: { listing: Listing }) {
             </Label>
             <Input
               required
+              type="email"
               id="email"
               name="email"
               value={email}
