@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function LikeListingButton({
   listingId,
@@ -23,6 +24,7 @@ export default function LikeListingButton({
   const t = useTranslations();
   const router = useRouter();
   const { withAuthCheck, AuthDialog } = useAuthGuard();
+  const user = useCurrentUser((store) => store.user);
   const [isLoading, setIsLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(isLiked);
 
@@ -32,11 +34,15 @@ export default function LikeListingButton({
 
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
+
     await withAuthCheck(async () => {
       setIsLoading(true);
+      if (!user) {
+        return;
+      }
       const resp = isFavorite
-        ? await removeListingAsFavorite(listingId)
-        : await addListingAsFavorite(listingId);
+        ? await removeListingAsFavorite(listingId, user.id)
+        : await addListingAsFavorite(listingId, user.id);
       if (resp.success) {
         setIsFavorite(!isFavorite);
       }

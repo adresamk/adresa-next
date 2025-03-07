@@ -5,7 +5,7 @@ import prismadb from "@/lib/db";
 import { getTranslations } from "next-intl/server";
 import PopularAgencyListings from "./PopularAgencyListings";
 import { UploadedImageData } from "@/types/listing.types";
-import { ListingStatus, PropertyCategory } from "@prisma/client";
+import { Listing, ListingStatus, PropertyCategory } from "@prisma/client";
 import { getCurrentUser } from "@/lib/sessions";
 import { Metadata } from "next";
 import { Link } from "@/i18n/routing";
@@ -104,32 +104,31 @@ export default async function AgencyPage({
     where: {
       slug: slug,
     },
-
     include: {
-      _count: {
-        select: {
-          listings: true,
-        },
-      },
       listings: {
-        where: {
-          status: ListingStatus.ACTIVE,
-          isPublished: true,
-
-          isAvailable: true,
-        },
-        include: {
+        select: {
+          category: true,
+          id: true,
+          type: true,
+          transactionType: true,
           favoritedBy: {
-            where: {
-              userId: user?.id,
+            select: {
+              userId: true,
             },
           },
         },
+        where: {
+          status: ListingStatus.ACTIVE,
+          isPublished: true,
+          isAvailable: true,
+        },
+
         // take: 8,
       },
     },
   });
 
+  console.log("agency", agency?.listings);
   if (!agency) {
     return <div>{t("agency.notFound")}</div>;
   }
@@ -233,7 +232,7 @@ export default async function AgencyPage({
                 <div className="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-brand-darker-blue p-2 text-sm text-white hover:bg-sky-950">
                   <div className="mb-2 gap-1">
                     <p className="text-left text-3xl font-semibold">
-                      {agency._count.listings}
+                      {agency.listings.length}
                     </p>
                   </div>
                   <p className="mt-auto text-nowrap">
@@ -269,7 +268,9 @@ export default async function AgencyPage({
       {agency.listings.length > 0 && (
         <div className="bg-brand-darker-blue text-white">
           <PopularAgencyListings
-            listings={agency.listings.slice(0, 8)}
+            listings={
+              (agency.listings.slice(0, 8) as unknown as Listing[]) || []
+            }
             title={t("agency.properties.popularListings", {
               agencyName: agency.name,
             })}

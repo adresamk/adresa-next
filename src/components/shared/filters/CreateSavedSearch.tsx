@@ -130,9 +130,9 @@ export default function CreateSavedSearch() {
 
   const defaultName = `${pqp.type ? t(`common.property.type.plural.${pqp.type}`) : (pqp.category && t(`search.filters.category.${pqp.category}`)) || t("common.words.allOfThem")} ${t(`common.words.for`)} ${pqp.transactionType && t(`listing.transactionType.${pqp.transactionType}`).toLowerCase()} ${t(`common.words.in`)} ${locationsTranslated}`;
 
-  if (pathname.includes("/agency")) {
-    return null;
-  }
+  // if (pathname.includes("/agency")) {
+  //   return null;
+  // }
   return (
     <>
       <SavedSearchPromoDialog

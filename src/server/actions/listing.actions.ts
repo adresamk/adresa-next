@@ -77,25 +77,18 @@ export async function getListingsByIdForRecentlyViewed(
   return listings;
 }
 
-export async function addListingAsFavorite(listingId: number) {
-  const { user } = await getCurrentUser();
-
-  if (!user) {
-    return {
-      status: 401,
-      success: false,
-      error: "Unauthorized",
-    };
-  }
-
+export async function addListingAsFavorite(listingId: number, userId: number) {
   // Check if favorite already exists
   const existingFavorite = await prismadb.favorite.findFirst({
     where: {
-      userId: user.id,
+      userId: userId,
       listingId: listingId,
     },
   });
 
+  console.log("existingFavorite", existingFavorite);
+  console.log("userId", userId);
+  console.log("listingId", listingId);
   if (existingFavorite) {
     console.log("Favorite already exists");
     return {
@@ -108,7 +101,7 @@ export async function addListingAsFavorite(listingId: number) {
   // Create new favorite if it doesn't exist
   await prismadb.favorite.create({
     data: {
-      userId: user.id,
+      userId: userId,
       listingId: listingId,
     },
   });
@@ -120,21 +113,14 @@ export async function addListingAsFavorite(listingId: number) {
   };
 }
 
-export async function removeListingAsFavorite(listingId: number) {
-  const { user } = await getCurrentUser();
-
-  if (!user) {
-    return {
-      status: 401,
-      success: false,
-      error: "Unauthorized",
-    };
-  }
-
+export async function removeListingAsFavorite(
+  listingId: number,
+  userId: number,
+) {
   await prismadb.favorite.delete({
     where: {
       userId_listingId: {
-        userId: user.id,
+        userId: userId,
         listingId: listingId,
       },
     },
