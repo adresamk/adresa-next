@@ -26,13 +26,14 @@ export default function ImagesCarousel({
 
   return (
     <Carousel className="relative w-full">
-      <CarouselContent>
+      <CarouselContent className="">
         {images.map((image, index) => (
           <CarouselItem
             key={index}
             className={`w-full`}
             style={{
               height: `${height}px`,
+              paddingLeft: "2px",
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

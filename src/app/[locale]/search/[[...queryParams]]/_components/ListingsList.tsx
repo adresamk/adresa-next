@@ -20,7 +20,7 @@ export default function ListingsList({ listings }: ListingListProps) {
   return (
     <div>
       <ListingsListTitle />
-      <div className="my-2.5 flex items-center justify-between">
+      <div className="my-2 flex items-center justify-between">
         <div className="text-sm">
           <span>
             {listings.length} {t("search.results")}

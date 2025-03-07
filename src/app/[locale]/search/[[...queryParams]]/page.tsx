@@ -16,6 +16,8 @@ import {
   getAllRegionsTranslated,
   getMunicipalityOptionsTranslated,
 } from "@/lib/data/macedonia/importantData";
+import prismadb from "@/lib/db";
+import { getCurrentUser } from "@/lib/sessions";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -99,6 +101,7 @@ export default async function SearchPage({
   // const parsedParams = searchParamsCache.parse(parsedSearchParams);
 
   const { queryParams, locale } = await params;
+  const { user } = await getCurrentUser();
 
   // console.log("queryParams", queryParams);
   // console.log("searchParams", parsedSearchParams);
@@ -144,6 +147,23 @@ export default async function SearchPage({
     )();
   }
 
+  const userFavorites = await prismadb.favorite.findMany({
+    where: {
+      userId: user?.id, // Assuming you have session data
+      listingId: {
+        in: listings.map((listing) => listing.id),
+      },
+    },
+    select: {
+      listingId: true,
+    },
+  });
+
+  // Create a Set for O(1) lookup
+  const favoriteSet = new Set(userFavorites.map((fav) => fav.listingId));
+
+  // Add isLiked to listings
+
   // FILTER BY FEATURES
   const featureKeysAsString = parsedSearchParams.f;
   // console.log("featureKeysAsString", featureKeysAsString);
@@ -163,10 +183,13 @@ export default async function SearchPage({
       //
     });
   }
-
+  let listingsWithLikeStatus = listings.map((listing) => ({
+    ...listing,
+    isLiked: favoriteSet.has(listing.id),
+  }));
   return (
     <main className="min-h-screen bg-white">
-      <SearchResults listings={listings} />
+      <SearchResults listings={listingsWithLikeStatus} />
     </main>
   );
 }

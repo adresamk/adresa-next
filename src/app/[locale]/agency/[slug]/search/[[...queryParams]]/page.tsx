@@ -1,6 +1,7 @@
 import SearchResults from "@/components/shared/SearchResults";
 import prismadb from "@/lib/db";
 import { parseQueryParams } from "@/lib/filters";
+import { getCurrentUser } from "@/lib/sessions";
 import getAllListings from "@/server/actions/listing.actions";
 import { Metadata } from "next";
 import { unstable_cache } from "next/cache";
@@ -27,6 +28,7 @@ export default async function SearchPage({
 }: SearchPageProps) {
   const { queryParams, locale, slug } = await params;
   console.log("everything", queryParams, locale, slug);
+  const { user } = await getCurrentUser();
 
   const agency = await prismadb.agency.findUnique({
     where: {
@@ -49,8 +51,6 @@ export default async function SearchPage({
           ? undefined
           : parsedQueryParams.transactionType,
       });
-      // console.log({ l: listings.length });
-      // console.log({ agencyId: agency.id });
       return listings.filter((listing) => listing.agencyId === agency.id);
     },
     ["listings-for-" + slug, JSON.stringify(parsedQueryParams)],
@@ -59,11 +59,31 @@ export default async function SearchPage({
     },
   )();
 
-  // console.log(listings.length);
+  // After getting cached listings, fetch favorites for the current user
+  const userFavorites = await prismadb.favorite.findMany({
+    where: {
+      userId: user?.id, // Assuming you have session data
+      listingId: {
+        in: listings.map((listing) => listing.id),
+      },
+    },
+    select: {
+      listingId: true,
+    },
+  });
+
+  // Create a Set for O(1) lookup
+  const favoriteSet = new Set(userFavorites.map((fav) => fav.listingId));
+
+  // Add isLiked to listings
+  const listingsWithLikeStatus = listings.map((listing) => ({
+    ...listing,
+    isLiked: favoriteSet.has(listing.id),
+  }));
 
   return (
     <main className="min-h-screen bg-white">
-      <SearchResults listings={listings} agency={agency} />
+      <SearchResults listings={listingsWithLikeStatus} agency={agency} />
     </main>
   );
 }

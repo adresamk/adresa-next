@@ -13,10 +13,11 @@ interface SelectDemoProps {
   value: string;
   placeholder?: string;
   onClick?: (value: string) => void;
-  options: { label: string; value: string }[];
+  options: { label: string; value: string; icon?: React.ReactNode }[];
   triggerWidth?: string;
   name?: string;
   disabled?: boolean;
+  align?: "start" | "end";
 }
 
 export function SelectDemo({
@@ -27,6 +28,7 @@ export function SelectDemo({
   triggerWidth = "180px",
   name,
   disabled,
+  align = "start",
 }: SelectDemoProps) {
   return (
     <Select
@@ -40,10 +42,13 @@ export function SelectDemo({
       <SelectTrigger className={`w-[${triggerWidth}] z-[140]`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent className="z-[140] max-h-64">
+      <SelectContent className="z-[140] max-h-64" align={align}>
         {options.map((option) => (
           <SelectItem key={option.value} value={option.value}>
-            {option.label}
+            <div className="flex items-center gap-2">
+              {option.icon && option.icon}
+              {option.label}
+            </div>
           </SelectItem>
         ))}
       </SelectContent>

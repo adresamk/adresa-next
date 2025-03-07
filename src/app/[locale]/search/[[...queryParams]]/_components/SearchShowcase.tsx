@@ -62,7 +62,7 @@ export default function SearchShowcase({
       floor: number;
       wcCount: number;
     };
-  };
+  } & { isLiked: boolean };
   const locale = useLocale();
   const { municipality, places } = getMunicipalityPlacesTranslated(
     listing.municipality || "",
@@ -70,7 +70,8 @@ export default function SearchShowcase({
   );
 
   const place = places.find((p) => p.value === listing.place);
-  const locationTranslated = place ? place.label : municipality?.label;
+  // const locationTranslated = place ? place.label : municipality?.label;
+  const locationTranslated = `${municipality?.label + ","} ${place?.label}`;
 
   const tags: string[] = figureOutTags(listing);
 
@@ -79,7 +80,7 @@ export default function SearchShowcase({
       key={listing.id}
       className={cn("")}
       onMouseOver={() => {
-        console.log("", listing);
+        // console.log("", listing);
         window &&
           // @ts-ignore
           window.setSelectedListingId &&
@@ -98,7 +99,7 @@ export default function SearchShowcase({
       <article className="mb-5 w-full @container">
         <div
           className={cn(
-            "group relative flex w-full flex-col overflow-hidden rounded-lg border border-solid bg-white shadow drop-shadow transition-all ease-linear hover:shadow-xl sm:flex-row sm:items-center",
+            "group relative flex w-full flex-col items-stretch overflow-hidden rounded-lg border border-solid bg-white text-brand-black shadow drop-shadow transition-all ease-linear hover:shadow-xl sm:flex-row sm:items-center",
             listing.isPaidPromo && "border border-orange-500",
           )}
         >
@@ -154,11 +155,11 @@ export default function SearchShowcase({
               </div>
             </div>
           </figure>
-          <div className="relative flex-1 px-5 pb-2.5 pt-3.5">
+          <div className="relative flex-1 self-stretch px-5 pb-2.5 pt-3.5">
             <div className="flex h-full flex-col justify-between">
               <div className="relative mb-2 max-w-full">
                 <div className="flex items-start gap-2">
-                  <h3 className="mb-1.5 overflow-hidden text-lg font-medium leading-6">
+                  <h3 className="mb-1.5 overflow-hidden text-base font-semibold leading-6">
                     <span className="capitalize">
                       {t(`common.property.type.${listing.type}`)}
                     </span>
@@ -184,11 +185,11 @@ export default function SearchShowcase({
                     )}
                   </div>
                 </div>
-                <h3 className="mb-2.5 overflow-hidden text-xs leading-5">
+                <h3 className="mb-2.5 overflow-hidden text-sm leading-5">
                   {locationTranslated || t("listing.defaultMunicipality")}
                 </h3>
-                <p className="text-xs">
-                  <span className="text-gray-500">
+                <p className="text-2xs">
+                  <span className="text-brand-black-muted">
                     {t("common.listing.published")}{" "}
                   </span>
                   <time dateTime={displayDate(listing.publishedAt) || ""}>
@@ -276,12 +277,12 @@ export default function SearchShowcase({
                       </p>
                       {listing.previousPrice &&
                         listing.previousPrice > (listing.price ?? 0) && (
-                          <div className="flex items-center text-xl">
+                          <div className="flex items-center text-lg font-semibold">
                             <ArrowDown
                               className="lowered-price ml-1 mr-0.5 h-5 w-5"
                               stroke="green"
                             />
-                            <span className="text-sm text-gray-400 line-through">
+                            <span className="text-gray-400 line-through">
                               {displayPrice(
                                 listing.previousPrice,
                                 undefined,
@@ -291,7 +292,7 @@ export default function SearchShowcase({
                           </div>
                         )}
 
-                      <p className="ml-3 text-lg font-normal text-slate-700">
+                      <p className="ml-3 text-base font-semibold">
                         {!!listing.price &&
                           listing.price > 20 &&
                           displayPricePerSquare(listing.price, listing.area)}
@@ -310,6 +311,12 @@ export default function SearchShowcase({
                     </div>
                   )}
                 </div>
+
+                <LikeListingButton
+                  listingId={listing.id}
+                  isLiked={lwu.isLiked}
+                  className="absolute bottom-3 right-3 z-10"
+                />
               </div>
             </div>
             <Link
@@ -323,45 +330,43 @@ export default function SearchShowcase({
           {/* User or Agency */}
           {lwu.agency && (
             <Link href={`/agency/${lwu.agency?.slug}`}>
-              <div className="group absolute right-3 top-3 z-10 h-[30px] w-[70px] overflow-hidden rounded-md bg-slate-500">
-                {/* {JSON.stringify(lwu.agency.logo)} */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={
-                    lwu.agency?.logo
-                      ? (lwu.agency.logo as UploadedImageData).url
-                      : "/assets/missing-image2.jpg"
-                  }
-                  alt={lwu.agency?.name || ""}
-                  className="h-full w-full object-contain opacity-30 grayscale transition-all duration-200 group-hover:opacity-100 group-hover:grayscale-0"
-                />
-              </div>
+              {/* {JSON.stringify(lwu.agency.logo)} */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                width={70}
+                height={40}
+                src={
+                  lwu.agency?.logo
+                    ? (lwu.agency.logo as UploadedImageData).url
+                    : "/assets/missing-image2.jpg"
+                }
+                alt={lwu.agency?.name || ""}
+                className="absolute right-3 top-3 h-[40px] w-[70px] border border-slate-300 object-fill opacity-30 grayscale transition-all duration-200 group-hover:opacity-100 group-hover:grayscale-0"
+              />
             </Link>
           )}
           {lwu.user && (
-            <div className="group absolute right-3 top-3 z-10 h-[40px] w-[40px] overflow-hidden rounded-md">
+            <>
               {lwu.user.pictureUrl ? (
-                <div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    width={40}
-                    height={40}
-                    src={lwu.user?.pictureUrl || "/assets/missing-image.png"}
-                    alt={lwu.user?.contactName || ""}
-                    className="h-full w-full object-contain opacity-30 grayscale transition-all duration-200 group-hover:opacity-100 group-hover:grayscale-0"
-                  />
-                </div>
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  width={70}
+                  height={40}
+                  src={lwu.user.pictureUrl || "/assets/missing-image.png"}
+                  alt={lwu.user.contactName || ""}
+                  className="absolute right-3 top-3 h-[40px] w-[70px] border border-slate-300 object-fill opacity-30 grayscale transition-all duration-200 group-hover:opacity-100 group-hover:grayscale-0"
+                />
               ) : (
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200">
                   {lwu.user?.contactName ? (
-                    lwu.user.contactName?.split(" ")[0].charAt(0) +
-                    lwu.user.contactName?.split(" ")[1].charAt(0)
+                    lwu.user.contactName.split(" ")[0].charAt(0) +
+                    lwu.user.contactName.split(" ")[1].charAt(0)
                   ) : (
                     <UserIcon className="h-8 w-8" />
                   )}
                 </div>
               )}
-            </div>
+            </>
           )}
         </div>
       </article>
