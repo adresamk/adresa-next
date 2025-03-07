@@ -20,10 +20,14 @@ export default async function AgencyBanner({ agency }: { agency?: Agency }) {
       className={`z-40 flex h-[80px] items-center justify-between px-5 py-1 text-white ${primaryBgColor}`}
     >
       <div className="flex gap-2">
-        <div className="flex h-[60px] w-[100px] items-center justify-center rounded bg-white px-3 py-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logoUrl} alt="Agency logo" width={55} height={42} />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={logoUrl}
+          alt="Agency logo"
+          width={100}
+          height={60}
+          className="h-[60px] w-[100px] object-scale-down"
+        />
         <div>
           <p className="text-white/60">{t("agency.realEstateAgency")}</p>
           <p className="text-2xl font-bold">{agency?.name}</p>

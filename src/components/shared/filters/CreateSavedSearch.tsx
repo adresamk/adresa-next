@@ -91,6 +91,11 @@ export default function CreateSavedSearch() {
 
   // console.log({ searchParams });
   const pqp = parseQueryParams(pathname.split("/"));
+  const isAgencySearch = pathname.includes("/agency");
+  const isMissingTransactionType = !pathname.includes("tt-");
+  if (isAgencySearch && isMissingTransactionType) {
+    pqp.transactionType = "all";
+  }
   // console.log({ pqp });
   const municipalities = getAllMunicipalitiesWithPlacesTranslated(locale);
   let allTogether = municipalities.map((m) => {
@@ -127,8 +132,14 @@ export default function CreateSavedSearch() {
   });
 
   const locationsTranslated = locationsTranslatedArray.join("; ");
-
-  const defaultName = `${pqp.type ? t(`common.property.type.plural.${pqp.type}`) : (pqp.category && t(`search.filters.category.${pqp.category}`)) || t("common.words.allOfThem")} ${t(`common.words.for`)} ${pqp.transactionType && t(`listing.transactionType.${pqp.transactionType}`).toLowerCase()} ${t(`common.words.in`)} ${locationsTranslated}`;
+  let locationOrAgency = "";
+  if (isAgencySearch && !locationsTranslated) {
+    const agencySlug = pathname.split("/")[2];
+    locationOrAgency = t(`common.words.from`) + " " + agencySlug;
+  } else if (locationsTranslated) {
+    locationOrAgency = t(`common.words.in`) + " " + locationsTranslated;
+  }
+  const defaultName = `${pqp.type ? t(`common.property.type.plural.${pqp.type}`) : (pqp.category && t(`search.filters.category.${pqp.category}`)) || t("common.words.allOfThem")} ${t(`common.words.for`)} ${pqp.transactionType && t(`search.filters.mode.${pqp.transactionType === "all" ? "both" : pqp.transactionType}`).toLowerCase()} ${locationOrAgency}`;
 
   // if (pathname.includes("/agency")) {
   //   return null;
