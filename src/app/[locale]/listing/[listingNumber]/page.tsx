@@ -429,7 +429,11 @@ export default async function SingleListingPage({
                 }
               >
                 <MapLocationPreview
-                  listing={listing}
+                  coordinates={{
+                    latitude: listing.latitude,
+                    longitude: listing.longitude,
+                  }}
+                  locationPrecision={listing.locationPrecision}
                   pinPopupText={pinPopupText}
                 />
               </Suspense>

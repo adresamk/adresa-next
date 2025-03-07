@@ -1,6 +1,6 @@
 "use client";
 import { LatLngExpression } from "leaflet";
-import { Listing } from "@prisma/client";
+import { Listing, LocationPrecision } from "@prisma/client";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { useState } from "react";
 import "leaflet/dist/leaflet.css";
@@ -30,15 +30,20 @@ function RefocusControl({ center }: { center: LatLngExpression }) {
 }
 
 export default function MapLocationPreview({
-  listing,
+  coordinates,
+  locationPrecision,
   pinPopupText,
 }: {
-  listing: Listing;
+  coordinates: {
+    latitude: number | null;
+    longitude: number | null;
+  };
+  locationPrecision: LocationPrecision;
   pinPopupText: string;
 }) {
   const t = useTranslations();
-  const { latitude, longitude, locationPrecision } = listing;
   const [zoom, setZoom] = useState(11);
+  const { latitude, longitude } = coordinates;
   if (!longitude || !latitude) return <div>{t("map.notSet")}</div>;
 
   const location: LatLngExpression = [latitude, longitude];

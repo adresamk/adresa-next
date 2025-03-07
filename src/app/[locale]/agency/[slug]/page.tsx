@@ -5,24 +5,18 @@ import prismadb from "@/lib/db";
 import { getTranslations } from "next-intl/server";
 import PopularAgencyListings from "./PopularAgencyListings";
 import { UploadedImageData } from "@/types/listing.types";
-import {
-  CommercialPropertyType,
-  LandPropertyType,
-  ListingStatus,
-  OtherPropertyType,
-  PropertyCategory,
-  PropertyTransactionType,
-  ResidentalPropertyType,
-} from "@prisma/client";
+import { ListingStatus, PropertyCategory } from "@prisma/client";
 import { getCurrentUser } from "@/lib/sessions";
 import { Metadata } from "next";
 import { Link } from "@/i18n/routing";
+import { Suspense } from "react";
+import MapLocationPreview from "@/components/shared/MapLocationPreviewClient";
 
 const icons = {
-  [PropertyCategory.commercial]: <Store className="h-8 w-8" />,
-  [PropertyCategory.residential]: <House className="h-8 w-8" />,
-  [PropertyCategory.land]: <LandPlot className="h-8 w-8" />,
-  [PropertyCategory.other]: <Building className="h-8 w-8" />,
+  [PropertyCategory.commercial]: <Store className="mr-1 h-9 w-9" />,
+  [PropertyCategory.residential]: <House className="mr-1 h-9 w-9" />,
+  [PropertyCategory.land]: <LandPlot className="mr-1 h-9 w-9" />,
+  [PropertyCategory.other]: <Building className="mr-1 h-9 w-9" />,
 };
 export const dynamic = "force-static";
 export const revalidate = 360;
@@ -110,6 +104,7 @@ export default async function AgencyPage({
     where: {
       slug: slug,
     },
+
     include: {
       _count: {
         select: {
@@ -130,6 +125,7 @@ export default async function AgencyPage({
             },
           },
         },
+        // take: 8,
       },
     },
   });
@@ -155,6 +151,13 @@ export default async function AgencyPage({
     .slice(0, 4);
   const logoUrl =
     (agency.logo as UploadedImageData)?.url || "/assets/missing-image2.jpg";
+
+  const coords = agency.gpsLocation?.split(",");
+  const coordinates = {
+    latitude: coords?.[0] ? parseFloat(coords[0]) : null,
+    longitude: coords?.[1] ? parseFloat(coords[1]) : null,
+  };
+  console.log("coordinates", coordinates);
   return (
     <main className="min-h-screen">
       <div
@@ -169,24 +172,28 @@ export default async function AgencyPage({
 
         <Container>
           {/* Hero */}
-          <div className="relative z-10 flex w-full flex-col justify-center">
+          <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col justify-center">
             <div className="mb-5 flex flex-col gap-3 sm:flex-row">
-              <div className="flex max-w-[160px] items-center justify-center rounded-xl border border-slate-400 bg-white p-1 sm:max-w-[250px] sm:px-5 sm:py-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={logoUrl}
-                  alt={agency.name || ""}
-                  className="aspect-square h-[160px] w-[160px] rounded-xl object-contain sm:h-fit sm:w-fit"
-                />
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                width={160}
+                height={120}
+                src={logoUrl}
+                alt={agency.name || ""}
+                className="h-[120px] w-[160px] rounded-xl border border-slate-300 object-fill"
+              />
               <div className="flex flex-1 flex-col justify-between py-2">
-                <p className="max-w-[42ch]">{agency.shortDescription}</p>
+                <p className="max-w-[42ch] leading-4 text-brand-black">
+                  {agency.shortDescription}
+                </p>
                 <h3 className="max-w-[72ch] text-4xl font-semibold">
                   {agency.name}
                 </h3>
               </div>
             </div>
-            <p className="whitespace-pre-line">{agency.description}</p>
+            <p className="whitespace-pre-line text-brand-black">
+              {agency.description}
+            </p>
             {/* Grouped Listings */}
             <div className="my-7 flex flex-wrap items-stretch gap-3">
               {topFourGroups.map(([key, count]) => {
@@ -200,15 +207,16 @@ export default async function AgencyPage({
                     className="min-w-36"
                     key={key}
                   >
-                    <div className="bg-brand-darker-blue cursor-pointer rounded-lg p-2 text-sm text-white">
+                    <div className="cursor-pointer rounded-lg bg-brand-darker-blue p-2 text-sm text-white hover:bg-sky-950">
                       <div className="mb-2 flex items-end gap-1">
                         {icons[category as PropertyCategory]}
-                        <div>
+                        <div className="font-bold">
                           <p>{count}</p>
                           <p>{t(`common.property.category.${category}`)}</p>
                         </div>
                       </div>
-                      <p className="text-nowrap">
+                      <p className="text-nowrap text-xs font-medium lowercase">
+                        {t(`common.words.for`)}{" "}
                         {t(`listing.transactionType.${transactionType}`)} {">"}
                       </p>
                     </div>
@@ -222,7 +230,7 @@ export default async function AgencyPage({
                 target="_blank"
                 key={"all"}
               >
-                <div className="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-blue-950 p-2 text-sm text-white">
+                <div className="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-brand-darker-blue p-2 text-sm text-white hover:bg-sky-950">
                   <div className="mb-2 gap-1">
                     <p className="text-left text-3xl font-semibold">
                       {agency._count.listings}
@@ -235,20 +243,22 @@ export default async function AgencyPage({
               </Link>
             </div>
             <div className="my-3 text-slate-700">
-              <p>{agency.address}</p>
-              <p>{t("agency.contact.hours")}</p>
-              <p className="whitespace-pre-line">{agency.workHours}</p>
+              <p className="font-light">{agency.address}</p>
+              {/* <p>{t("agency.contact.hours")}</p>
+              <p className="whitespace-pre-line">{agency.workHours}</p> */}
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <RevealButton
                 usecase="website"
                 value={agency.website ?? ""}
                 variant="outline"
+                className="bg-white"
               />
               <RevealButton
                 usecase="phone"
                 variant="outline"
                 value={agency.contactPersonPhone ?? ""}
+                className="bg-white"
               />
             </div>
           </div>
@@ -266,6 +276,51 @@ export default async function AgencyPage({
           />
         </div>
       )}
+
+      <article className="mx-auto flex max-w-4xl flex-col gap-5 px-8 py-14 text-brand-black sm:flex-row">
+        {/* Agency Info */}
+        <div>
+          <h3 className="mb-4 text-2xl font-bold">{agency.name}</h3>
+          <p className="mb-6">{agency.address}</p>
+
+          <div className="my-4 flex flex-col gap-3">
+            <h4 className="font-light">{t("agency.contact.hours")}</h4>
+            <p className="font-semibold">{agency.workHours}</p>
+          </div>
+
+          <div className="my-4 flex flex-col gap-3">
+            <h4 className="font-light">
+              {t("agency.profile.details.contactPerson")}
+            </h4>
+            <p className="font-semibold">{agency.contactPersonFullName}</p>
+          </div>
+
+          <RevealButton
+            usecase="website"
+            value={agency.website ?? ""}
+            variant="outline"
+            className="bg-white"
+          />
+          <RevealButton
+            usecase="phone"
+            value={agency.contactPersonPhone ?? ""}
+            variant="outline"
+            className="bg-white"
+          />
+        </div>
+        {/* Map */}
+        <div className="w-full">
+          <Suspense
+            fallback={<div className="h-[400px] animate-pulse bg-slate-200" />}
+          >
+            <MapLocationPreview
+              coordinates={coordinates}
+              locationPrecision={"exact"}
+              pinPopupText={agency.name || ""}
+            />
+          </Suspense>
+        </div>
+      </article>
     </main>
   );
 }

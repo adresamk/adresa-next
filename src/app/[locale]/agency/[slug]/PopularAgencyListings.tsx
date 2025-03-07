@@ -30,7 +30,7 @@ export default function PopularAgencyListings({
       items={listings}
       renderItem={(listing) => <ListingCard listing={listing} />}
       contentClasses=""
-      carouselItemContainerClasses="w-[256px] md:min-w-[336px] h-[342px]"
+      carouselItemContainerClasses="w-[256px] md:min-w-[336px] h-[280px]"
       carouselItemClasses="h-full"
     />
   );

@@ -20,9 +20,15 @@ button[role="radio"][aria-checked="true"] {
   border-color: var(--brand-dark-blue);
 }
 
-* {
+/* p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--default-black);
-}
+} */
 
 .p-inputgroup-addon:first-child,
 .p-inputgroup button:first-child,

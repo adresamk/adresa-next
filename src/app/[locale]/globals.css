@@ -5,7 +5,8 @@
 @layer base {
   :root {
     --background: 0 0% 99%;
-    --foreground: 222.2 84% 4.9%;
+    /* --foreground: 222.2 84% 4.9%; */
+    --foreground: hsl(0 0% 31%);
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
@@ -39,8 +40,7 @@
     --lavander-indigo: #4c3bcf;
     --alice-blue: #eef7ff;
     --darker-blue: #1c2d45;
-
-    --default-black: 0 0% 31%;
+    --default-black: hsl(0 0% 31%);
     --default-black-muted: hsla(0, 0%, 31%, 0.5);
   }
 

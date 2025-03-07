@@ -56,12 +56,12 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           ))}
         </div>
       </CardHeader>
-      <CardContent className="px-4 pb-0 pt-2">
+      <CardContent className="px-2.5 pb-0 pt-2 text-brand-black">
         <Link
           href={`/listing/${listing.listingNumber}`}
           className="absolute inset-0 z-0"
         ></Link>
-        <p>
+        <p className="leading-4">
           <span className="capitalize">
             {t(`common.property.type.${listing.type}`)}
           </span>
@@ -74,7 +74,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           <p className="text-sm capitalize">{municipalityName}</p>
         )}
       </CardContent>
-      <CardFooter className="mt-auto flex justify-around px-4 pb-3 @container">
+      <CardFooter className="mt-auto flex items-end justify-around px-3 pb-2 @container">
         <div className="prices gap 2 relative flex items-center">
           <div className="text-lg font-bold">{displayPrice(listing.price)}</div>
           {listing.previousPrice &&
@@ -89,7 +89,12 @@ export default function ListingCard({ listing }: { listing: Listing }) {
             )}
         </div>
         <span className="relative z-10 ml-auto">
-          <LikeListingButton listingId={listing.id} isLiked={isLiked} />
+          <LikeListingButton
+            listingId={listing.id}
+            isLiked={isLiked}
+            // className="items-end justify-end"
+            className="absolute -bottom-1.5 -right-2"
+          />
         </span>
       </CardFooter>
     </Card>

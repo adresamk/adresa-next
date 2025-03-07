@@ -1,5 +1,6 @@
 // src/components/shared/MapLocationPreviewClient.tsx
 "use client"; // This makes it a Client Component
+import { LocationPrecision } from "@prisma/client";
 import dynamicImport from "next/dynamic";
 
 const MapLocationPreview = dynamicImport(
@@ -9,6 +10,23 @@ const MapLocationPreview = dynamicImport(
   },
 );
 
-export default function MapLocationPreviewClient(props: any) {
-  return <MapLocationPreview {...props} />;
+export default function MapLocationPreviewClient({
+  coordinates,
+  locationPrecision,
+  pinPopupText,
+}: {
+  coordinates: {
+    latitude: number | null;
+    longitude: number | null;
+  };
+  locationPrecision: LocationPrecision;
+  pinPopupText: string;
+}) {
+  return (
+    <MapLocationPreview
+      coordinates={coordinates}
+      locationPrecision={locationPrecision}
+      pinPopupText={pinPopupText}
+    />
+  );
 }

@@ -9,12 +9,14 @@ interface RevealButtonProps {
   value: string | null | undefined;
   usecase: "website" | "phone";
   variant?: "ghost" | "outline";
+  className?: string;
 }
 
 export default function RevealButton({
   value,
   usecase,
   variant = "ghost",
+  className,
 }: RevealButtonProps) {
   const [isRevealed, setIsRevealed] = useState(false);
   const t = useTranslations();
@@ -25,9 +27,13 @@ export default function RevealButton({
     <Button
       type="button"
       variant={variant}
-      className={cn("reveal-button m-0.5 whitespace-nowrap", {
-        loading: isRevealed,
-      })}
+      className={cn(
+        "reveal-button m-0.5 whitespace-nowrap text-brand-black",
+        className,
+        {
+          loading: isRevealed,
+        },
+      )}
       onClick={() => {
         setIsRevealed(true);
       }}
