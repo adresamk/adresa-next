@@ -17,6 +17,13 @@ export default function TransactionTypeSwitchButton() {
     () =>
       extractFromUrl(pathname, "transactionType") as PropertyTransactionType,
   );
+
+  const oppositeTransactionType =
+    transactionType === "sale"
+      ? "rent"
+      : transactionType === "rent"
+        ? "sale"
+        : "all";
   return (
     <Button
       variant={"outline"}
@@ -27,7 +34,10 @@ export default function TransactionTypeSwitchButton() {
           const newPath = replaceFilterInUrl(
             pathname,
             "transactionType",
-            transactionType === "sale" ? "rent" : "sale",
+            // @ts-ignore
+            transactionType === "sale" || transactionType === "all"
+              ? "rent"
+              : "sale",
             searchParams,
           );
           // console.log("newPath", newPath);
@@ -38,7 +48,10 @@ export default function TransactionTypeSwitchButton() {
       {" "}
       <Repeat className="mr-2" size={16} />{" "}
       <span className="text-sm capitalize">
-        {t(`search.filters.mode.${transactionType}`)}
+        {/* @ts-ignore */}
+        {transactionType === "all"
+          ? t(`search.filters.mode.sale`)
+          : t(`search.filters.mode.${oppositeTransactionType}`)}
       </span>
     </Button>
   );

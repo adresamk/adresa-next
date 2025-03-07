@@ -37,14 +37,20 @@ export default async function SearchPage({
     return <div>Agency not found</div>;
   }
 
+  const ttIsMissing = !slug.includes("tt-");
   const parsedQueryParams = parseQueryParams(queryParams);
-  console.log({ parsedQueryParams });
+  console.log("pqp4", { parsedQueryParams });
 
   const listings = await unstable_cache(
     async () => {
-      const listings = await getAllListings(parsedQueryParams);
-      console.log({ l: listings.length });
-      console.log({ agencyId: agency.id });
+      const listings = await getAllListings({
+        ...parsedQueryParams,
+        transactionType: ttIsMissing
+          ? undefined
+          : parsedQueryParams.transactionType,
+      });
+      // console.log({ l: listings.length });
+      // console.log({ agencyId: agency.id });
       return listings.filter((listing) => listing.agencyId === agency.id);
     },
     ["listings-for-" + slug, JSON.stringify(parsedQueryParams)],
@@ -53,7 +59,7 @@ export default async function SearchPage({
     },
   )();
 
-  console.log(listings.length);
+  // console.log(listings.length);
 
   return (
     <main className="min-h-screen bg-white">

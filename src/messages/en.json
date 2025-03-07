@@ -116,6 +116,7 @@
         "sale": "Sale",
         "rent": "Rent",
         "all": "All",
+        "both": "Buying and Renting",
         "availableFor": "Available for"
       },
       "secondaryFilters": {

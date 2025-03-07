@@ -85,7 +85,10 @@ export default function TransactionType({ variant }: TransactionTypeProps) {
             >
               <span className="capitalize">
                 {transactionType
-                  ? t(`search.filters.mode.${transactionType}`)
+                  ? // @ts-ignore
+                    transactionType === "all"
+                    ? t(`search.filters.mode.both`)
+                    : t(`search.filters.mode.${transactionType}`)
                   : t("search.filters.mode.availableFor")}
               </span>
               <ChevronDown

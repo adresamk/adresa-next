@@ -164,7 +164,13 @@ export function extractFromUrl(pathname: string | null, filter: MainFilters) {
   pathname = pathname.split("?")[0];
   const parsedQueryParams = parseQueryParams(pathname.split("/"));
 
-  // console.log("parsedQueryParams", parsedQueryParams);
+  console.log("pathname", pathname);
+  console.log("parsedQueryParams", parsedQueryParams);
+  const isAgencySearch = pathname.includes("/agency/");
+  const isMissingTransactionType = !pathname.includes("tt-");
+  if (isAgencySearch && isMissingTransactionType) {
+    parsedQueryParams.transactionType = "all";
+  }
   // console.log("output", filter, parsedQueryParams[filter] || "");
   return parsedQueryParams[filter] || "";
 }

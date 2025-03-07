@@ -96,7 +96,11 @@ export default function SearchBreadcrumbs({
         <BreadcrumbList className="gap-1 sm:gap-1">
           <BreadcrumbItem className="text-xs">
             {/* <BreadcrumbLink href={`/search?mode=${transactionType}`}> */}
-            {t("search.filters.mode." + transactionType)}
+            {t(
+              "search.filters.mode." +
+                // @ts-ignore
+                (transactionType === "all" ? "both" : transactionType),
+            )}
             {/* </BreadcrumbLink> */}
           </BreadcrumbItem>
           <BreadcrumbSeparator />

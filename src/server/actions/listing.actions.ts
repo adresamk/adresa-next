@@ -1729,7 +1729,7 @@ export default async function getAllListings(
     },
     // take: 20,
   });
-  console.log({ ll2: listings.length });
+  // console.log({ ll2: listings.length });
   const uniqueAgencyIds = new Set(listings.map((listing) => listing.agencyId));
   const uniqueListings = listings
     .filter(
@@ -1738,7 +1738,7 @@ export default async function getAllListings(
         uniqueAgencyIds.delete(listing.agencyId),
     )
     .map((l) => l.agencyId);
-  console.log({ uniqueListings });
+  // console.log({ uniqueListings });
   // Optimize with this
   //   // Assuming you have the current userId from session or JWT
   // const currentUserId = 'some-user-id';

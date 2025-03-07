@@ -47,7 +47,8 @@ export default function ListingsListTitle() {
       return municipality;
     })
     .join(", ");
-  const title = `${category ? t(`search.filters.category.${category}`) : t("common.words.allOfThem")} ${t("common.words.for")} ${t(`search.filters.mode.${transactionType}`).toLowerCase()}:${locationLabel}`;
+  // @ts-ignore
+  const title = `${category ? t(`search.filters.category.${category}`) : t("common.words.allOfThem")} ${t("common.words.for")} ${t(`search.filters.mode.${transactionType === "all" ? "both" : transactionType}`).toLowerCase()}:${locationLabel}`;
 
   return (
     <div className="flex items-start justify-between">

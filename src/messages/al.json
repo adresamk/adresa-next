@@ -116,6 +116,7 @@
         "sale": "Shitje",
         "rent": "Qira",
         "all": "Të gjitha",
+        "both": "Shitje dhe Qira",
         "availableFor": "Në dispozicion për"
       },
       "secondaryFilters": {
