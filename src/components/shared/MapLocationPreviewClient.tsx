@@ -14,6 +14,7 @@ export default function MapLocationPreviewClient({
   coordinates,
   locationPrecision,
   pinPopupText,
+  isAgency,
 }: {
   coordinates: {
     latitude: number | null;
@@ -21,12 +22,14 @@ export default function MapLocationPreviewClient({
   };
   locationPrecision: LocationPrecision;
   pinPopupText: string;
+  isAgency?: boolean;
 }) {
   return (
     <MapLocationPreview
       coordinates={coordinates}
       locationPrecision={locationPrecision}
       pinPopupText={pinPopupText}
+      isAgency={isAgency}
     />
   );
 }

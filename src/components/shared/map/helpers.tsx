@@ -5,7 +5,7 @@ import CirclePinDiv from "./icons/CirclePinDiv";
 import ExactPinHard from "./icons/ExactPinHard";
 import ExactPinSoft from "./icons/ExactPinSoft";
 import { cn, displayPrice, displayPricePerSquare } from "@/lib/utils";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Building2Icon } from "lucide-react";
 type AreaMultiplier = 0 | 2 | 3 | 5 | 7;
 type AreaMultiplierFull = 0 | 2 | 3 | 5 | 7 | 4 | 6 | 10 | 14 | 9 | 15 | 21;
 function zoomToMultiplier(
@@ -44,12 +44,14 @@ export const getMapPinIcon = ({
   listing,
   listingIdx,
   isSelectedInMap,
+  isAgency,
 }: {
   map: MapOptions;
   type: LocationPrecision;
   zoom?: number;
   isFeatured?: boolean;
   isSelectedInSearch?: boolean;
+  isAgency?: boolean;
   listing?: Listing;
   listingIdx: number;
   isSelectedInMap?: boolean;
@@ -97,12 +99,21 @@ export const getMapPinIcon = ({
     slPin: divIcon({
       html: renderToStaticMarkup(
         <div className={`icon-combo ${exactClass} ${vipClass}`}>
-          {type === "approximate" ? <ExactPinSoft /> : <ExactPinHard />}
+          {isAgency ? (
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-full border border-white bg-brand-dark-blue text-white">
+              <Building2Icon className="h-5 w-5" />
+              <div className="absolute -bottom-[10px] left-1/2 h-0 w-4 -translate-x-1/2 transform border-x-[8px] border-t-[12px] border-x-transparent border-t-brand-dark-blue" />
+            </div>
+          ) : type === "approximate" ? (
+            <ExactPinSoft />
+          ) : (
+            <ExactPinHard />
+          )}
         </div>,
       ),
       className: `marker-pin sl-pin area-base ${areaClass} ${listingIdClass}`,
-      iconSize: [12, 12],
-      // iconAnchor: [13, 12],
+      iconSize: isAgency ? [40, 40] : [12, 12],
+      iconAnchor: isAgency ? [20, 48] : [6, 14],
     }),
     elPin: divIcon({
       html: renderToStaticMarkup(<ExactPinHard />),

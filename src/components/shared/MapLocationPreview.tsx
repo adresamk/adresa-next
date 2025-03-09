@@ -1,7 +1,15 @@
 "use client";
 import { LatLngExpression } from "leaflet";
 import { Listing, LocationPrecision } from "@prisma/client";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+  Circle,
+  CircleMarker,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+} from "react-leaflet";
 import { useState } from "react";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
@@ -33,6 +41,7 @@ export default function MapLocationPreview({
   coordinates,
   locationPrecision,
   pinPopupText,
+  isAgency = false,
 }: {
   coordinates: {
     latitude: number | null;
@@ -40,6 +49,7 @@ export default function MapLocationPreview({
   };
   locationPrecision: LocationPrecision;
   pinPopupText: string;
+  isAgency?: boolean;
 }) {
   const t = useTranslations();
   const [zoom, setZoom] = useState(11);
@@ -61,6 +71,7 @@ export default function MapLocationPreview({
             icon={getMapPinIcon({
               map: "SL",
               type: locationPrecision,
+              isAgency: isAgency,
               zoom,
               listingIdx: 0,
             })}
@@ -72,7 +83,11 @@ export default function MapLocationPreview({
               </Popup>
             )}
           </Marker>
-          {/* <Circle center={location} radius={5} pathOptions={{ color: "red" }} /> */}
+          {/* <CircleMarker
+            center={location}
+            radius={5}
+            pathOptions={{ color: "red" }}
+          /> */}
         </MapContainer>
       </div>
     </div>

@@ -324,6 +324,7 @@ export default async function AgencyPage({
               coordinates={coordinates}
               locationPrecision={"exact"}
               pinPopupText={agency.name || ""}
+              isAgency={true}
             />
           </Suspense>
         </div>
