@@ -151,6 +151,8 @@ export default async function AgencyPage({
   const logoUrl =
     (agency.logo as UploadedImageData)?.url || "/assets/missing-image2.jpg";
 
+  console.log("Agency Listings", agency.listings.slice(0, 8));
+
   const coords = agency.gpsLocation?.split(",");
   const coordinates = {
     latitude: coords?.[0] ? parseFloat(coords[0]) : null,
