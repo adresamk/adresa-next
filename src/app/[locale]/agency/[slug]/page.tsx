@@ -109,6 +109,13 @@ export default async function AgencyPage({
         select: {
           category: true,
           id: true,
+          price: true,
+          previousPrice: true,
+          mainImage: true,
+          listingNumber: true,
+          municipality: true,
+          place: true,
+          area: true,
           type: true,
           transactionType: true,
           favoritedBy: {
