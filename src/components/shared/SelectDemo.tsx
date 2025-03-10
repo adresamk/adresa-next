@@ -18,6 +18,7 @@ interface SelectDemoProps {
   name?: string;
   disabled?: boolean;
   align?: "start" | "end";
+  triggerClassName?: string;
 }
 
 export function SelectDemo({
@@ -29,6 +30,7 @@ export function SelectDemo({
   name,
   disabled,
   align = "start",
+  triggerClassName = "",
 }: SelectDemoProps) {
   return (
     <Select
@@ -39,7 +41,9 @@ export function SelectDemo({
         onClick?.(value);
       }}
     >
-      <SelectTrigger className={`w-[${triggerWidth}] z-[140]`}>
+      <SelectTrigger
+        className={`w-[${triggerWidth}] z-[140] ${triggerClassName}`}
+      >
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent className="z-[140] max-h-64" align={align}>

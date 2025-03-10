@@ -51,6 +51,7 @@ export default function SortingFilter() {
       value={sorting}
       align="end"
       options={sortingOptionsTranslated}
+      triggerClassName="border-none bg-transparent"
       onClick={(newValue) => {
         if (pathname) {
           const newPath = replaceFilterInUrl(

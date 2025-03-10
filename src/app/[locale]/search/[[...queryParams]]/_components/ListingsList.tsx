@@ -31,9 +31,7 @@ export default function ListingsList({ listings }: ListingListProps) {
             </span>
           )}
         </div>
-        <div>
-          <SortingFilter />
-        </div>
+        <SortingFilter />
       </div>
       <ul className="">
         {listings.map((listing: Listing) => (

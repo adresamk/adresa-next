@@ -34,27 +34,27 @@ export default async function PublisherInfo({
           )}
           <div className="">
             <div>
-              <h4 className="text-sm font-medium">
+              <h4 className="text-base font-medium">
                 {t("common.property.publisherDetails.agency")}
               </h4>
               <Link href={`/agency/${agency.slug}`}>
-                <p className="my-2 mb-1.5 text-lg font-semibold leading-4 hover:underline">
+                <p className="my-2 mb-1.5 text-2xl font-semibold leading-4 hover:underline">
                   {agency.name}
                 </p>
               </Link>
               <p className="mb-1.5 leading-4">{agency.address}</p>
             </div>
             <div className="mb-4 mt-6 sm:mt-10">
-              <p className="text-sm text-slate-600">
+              <p className="text-sm">
                 {t("common.property.publisherDetails.workHours")}
               </p>
-              <p className="mb-3 whitespace-pre-line text-sm">
+              <p className="mb-3 whitespace-pre-line text-sm font-semibold">
                 {agency.workHours}
               </p>
-              <p className="text-sm text-slate-600">
+              <p className="text-sm">
                 {t("common.property.publisherDetails.preferredContactMethod")}
               </p>
-              <p className="text-sm">
+              <p className="text-sm font-semibold">
                 {t(
                   `agency.profile.details.${agency.preferredContactMethod || "both"}`,
                 )}
