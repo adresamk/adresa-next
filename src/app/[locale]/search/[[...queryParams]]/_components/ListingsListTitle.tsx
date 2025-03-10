@@ -51,9 +51,11 @@ export default function ListingsListTitle() {
   const title = `${category ? t(`search.filters.category.${category}`) : t("common.words.allOfThem")} ${t("common.words.for")} ${t(`search.filters.mode.${transactionType === "all" ? "both" : transactionType}`).toLowerCase()}:${locationLabel}`;
 
   return (
-    <div className="flex items-start justify-between">
-      <h3 className="mb-3.5 mt-2.5 text-xl font-medium md:text-2xl">{title}</h3>
-      <div className="mt-2.5">
+    <div className="flex items-center justify-between">
+      <h3 className="my-1.5 text-xl font-medium md:mb-3.5 md:mt-2.5 md:text-2xl">
+        {title}
+      </h3>
+      <div className="mt:mt-2.5 mt-0">
         <TransactionTypeSwitchButton />
       </div>
     </div>

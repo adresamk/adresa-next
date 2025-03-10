@@ -313,7 +313,7 @@ export default function SearchMap({
   }, []);
 
   return (
-    <div className="order-2 mb-10 h-[300px] shrink-0 overflow-hidden border md:h-[380px] lg:sticky lg:top-[150px] lg:z-20 lg:h-[calc(100vh_-_150px)] lg:flex-row-reverse">
+    <div className="order-2 h-[calc(100vh-310px)] min-h-[calc(50vh-150px)] shrink-0 overflow-hidden border sm:h-[320px] md:h-[calc(100vh-150px)] lg:sticky lg:top-[150px] lg:z-20 lg:flex-row-reverse">
       <div
         id="search-page-map"
         className={cn(

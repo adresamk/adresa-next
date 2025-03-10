@@ -159,7 +159,10 @@ export default function CreateSavedSearch() {
         }}
       />
       <Button
-        className="fixed right-2 top-[150px] z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 duration-1500 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:px-4 md:py-1"
+        className={cn(
+          "fixed right-2 z-[30000] h-12 animate-bounce items-center justify-center rounded-full p-4 px-1.5 py-0.5 duration-1500 ![transform:translateZ(999999px)] md:static md:h-10 md:animate-none md:px-4 md:py-1",
+          isAgencySearch ? "top-[190px]" : "top-[150px]",
+        )}
         style={{
           // position: "fixed",
           // zIndex: 999999,

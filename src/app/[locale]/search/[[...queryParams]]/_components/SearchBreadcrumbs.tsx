@@ -91,7 +91,7 @@ export default function SearchBreadcrumbs({
   const listing = listings[0];
 
   return (
-    <div className="py-3 text-sm">
+    <div className="pb-1 pt-2 text-sm md:py-3">
       <Breadcrumb>
         <BreadcrumbList className="gap-1 sm:gap-1">
           <BreadcrumbItem className="text-xs">
