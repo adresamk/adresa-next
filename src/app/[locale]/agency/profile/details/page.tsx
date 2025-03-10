@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import NameAndSlugInputs from "./_components/NameAndSlugInputs";
 import { Metadata } from "next";
+import { SubmitButton } from "@/components/SubmitButton";
 
 type Params = Promise<Record<string, string>>;
 
@@ -298,10 +299,11 @@ export default async function AgencyProfileDetailsPage({
             name="workHours"
           />
         </div>
-
-        <Button className="group-[.mobile]:mt-8 group-[.mobile]:w-full">
-          {t("common.actions.save")}
-        </Button>
+        <SubmitButton
+          className="group-[.mobile]:mt-8 group-[.mobile]:w-full"
+          defaultText={t("common.actions.save")}
+          loadingText={t("common.actions.saving")}
+        />
       </form>
     </div>
   );

@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { Alert } from "@/components/ui/alert";
 import { AlertDescription } from "@/components/ui/alert";
 import { Info } from "lucide-react";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export const metadata: Metadata = {
   title: "Информации",
@@ -114,7 +115,11 @@ export default async function ProfileInfoPage() {
           />
         </div>
 
-        <Button>{t("common.actions.save")}</Button>
+        <SubmitButton
+          className="mt-4"
+          defaultText={t("common.actions.save")}
+          loadingText={t("common.actions.saving")}
+        />
       </form>
     </div>
   );

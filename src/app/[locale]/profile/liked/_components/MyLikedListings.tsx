@@ -6,12 +6,12 @@ import { useTranslations } from "next-intl";
 import { use, useState } from "react";
 
 export default function MyLikedListings({ listings }: { listings: Listing[] }) {
-  const [activeFilter, setActiveFilter] = useState("sale");
+  const [activeFilter, setActiveFilter] = useState("all");
   const t = useTranslations();
   console.log("listings343", listings);
   return (
-    <div>
-      <div className="mb-2 flex justify-between">
+    <>
+      <div className="mb-2 flex justify-between pr-4">
         <div className="flex gap-2">
           <div
             onClick={() => setActiveFilter("sale")}
@@ -43,7 +43,7 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
         </div>
         <div>{t("user.profile.likedListings.sort")} </div>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1">
         {listings
           .filter((listing) => {
             if (activeFilter === "sale") {
@@ -59,6 +59,6 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
           ))}
       </div>
       {/* <pre>{JSON.stringify(listings, null, 2)}</pre> */}
-    </div>
+    </>
   );
 }

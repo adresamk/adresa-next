@@ -31,8 +31,8 @@ export default async function ProfileLikedPage() {
   const myLikedListings = await getLikedListingsByUser(user.id);
   console.log("myLikedListings", myLikedListings);
   return (
-    <div className="flex flex-col gap-3">
-      <div className="rounded-lg bg-white p-8 shadow">
+    <div className="flex flex-col gap-3 md:max-w-2xl">
+      <div className="rounded-lg bg-white shadow md:pl-2">
         <h3 className="mb-3 text-2xl font-semibold">
           {t("user.profile.likedListings.title")}
           <span className="ml-3 text-base text-gray-500">

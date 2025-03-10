@@ -1,4 +1,5 @@
 import { SelectSelfContained } from "@/components/shared/SelectSelfContained";
+import { SubmitButton } from "@/components/SubmitButton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -36,7 +37,7 @@ export default async function ProfileInfoPage({
     { label: t("agency.profile.details.both"), value: "both" },
   ];
   return (
-    <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+    <div className="mt-4 rounded-lg bg-white p-8 shadow md:ml-4 md:max-w-lg">
       <h3 className="mb-3 text-2xl font-semibold">
         {t("user.profile.contactInfo.title")}
       </h3>
@@ -146,7 +147,11 @@ export default async function ProfileInfoPage({
             options={prefferedContactMethodOptionsTranslated}
           />
         </div>
-        <Button>{t("common.actions.save")}</Button>
+        <SubmitButton
+          className="group-[.mobile]:mt-8 group-[.mobile]:w-full"
+          defaultText={t("common.actions.save")}
+          loadingText={t("common.actions.saving")}
+        />
       </form>
     </div>
   );

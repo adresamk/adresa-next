@@ -93,7 +93,7 @@ export default async function ProfileLayout({
         <ProfileSideMenu user={user} />
       </div>
 
-      <div className="w-full">{children}</div>
+      <div className="">{children}</div>
     </main>
   );
 }

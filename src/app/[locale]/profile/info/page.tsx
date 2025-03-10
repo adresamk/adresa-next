@@ -1,3 +1,4 @@
+import { SubmitButton } from "@/components/SubmitButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,7 +25,7 @@ export default async function ProfileInfoPage({
   //   redirect("/signin?redirect=/profile/info");
   // }
   return (
-    <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+    <div className="mt-4 rounded-lg bg-white p-8 shadow md:ml-4 md:max-w-lg">
       <h3 className="mb-3 text-2xl font-semibold">
         {t("user.profile.info.title")}
       </h3>
@@ -105,7 +106,11 @@ export default async function ProfileInfoPage({
           />
         </div>
 
-        <Button>{t("common.actions.save")}</Button>
+        <SubmitButton
+          className="group-[.mobile]:mt-8 group-[.mobile]:w-full"
+          defaultText={t("common.actions.save")}
+          loadingText={t("common.actions.saving")}
+        />
       </form>
     </div>
   );
