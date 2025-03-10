@@ -141,7 +141,11 @@ export default function MyListingsList({
                     <div className="">
                       {!isComplete ? (
                         <div className="flex items-center gap-3">
-                          <AlertCircle stroke="orange" />{" "}
+                          {" "}
+                          <AlertCircle
+                            stroke="orange"
+                            className="h-4 w-4 shrink-0"
+                          />{" "}
                           <span className="leading-3">
                             {t("listing.errors.requiredFields")}
                           </span>
