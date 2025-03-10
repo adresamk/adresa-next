@@ -13,7 +13,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
   const t = useTranslations();
 
   return (
-    <ul className="mt-2 flex h-10 items-center gap-1 p-0 sm:gap-2.5 md:ml-auto md:mt-0">
+    <ul className="flex h-10 items-center gap-1 p-0 sm:gap-2.5 md:ml-auto md:mt-0">
       {false && (
         <li>
           <Button

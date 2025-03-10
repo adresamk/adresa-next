@@ -146,10 +146,10 @@ export default function FeaturesTable({ listing }: { listing: Listing }) {
 
           return (
             <tr key={key} className="first:rounded-t-md last:rounded-b-md">
-              <td className="px- w-[150px] border border-slate-300 bg-slate-100 py-2 pl-4 text-left text-slate-900">
+              <td className="px- w-[150px] border border-slate-300 bg-slate-100 py-1.5 pl-4 text-left text-slate-900 sm:py-2">
                 {capitalizeString(t(`listing.fieldsKeys.${key}`))}
               </td>
-              <td className="border border-slate-300 bg-white px-4 font-semibold text-black">
+              <td className="border border-slate-300 bg-white px-4 font-semibold">
                 {value === t("common.words.missingValue") ? (
                   <b className="text-red-500">{value}</b>
                 ) : (

@@ -19,6 +19,7 @@ export function ExpandableDescription({
   const [showToggle, setShowToggle] = useState(false);
   const [height, setHeight] = useState<string>(`${maxHeight}px`);
   const contentRef = useRef<HTMLParagraphElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("");
 
   useEffect(() => {
@@ -31,10 +32,21 @@ export function ExpandableDescription({
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
+
+    // Only scroll on mobile screens (< 550px) when collapsing
+    if (isExpanded && containerRef.current && window.innerWidth < 550) {
+      const elementPosition = containerRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - 100; // 100px offset from top
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
-    <div className="relative">
+    <div ref={containerRef} className="relative">
       <p
         ref={contentRef}
         className={cn(

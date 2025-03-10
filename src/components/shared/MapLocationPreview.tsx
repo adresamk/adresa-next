@@ -59,7 +59,7 @@ export default function MapLocationPreview({
   const location: LatLngExpression = [latitude, longitude];
   return (
     <div>
-      <div className="relative mb-10 h-[276px] overflow-hidden border">
+      <div className="relative mb-10 h-[230px] overflow-hidden border sm:h-[276px]">
         <MapContainer center={location} zoom={zoom} className="h-full w-full">
           <RefocusControl center={location} />
           <TileLayer

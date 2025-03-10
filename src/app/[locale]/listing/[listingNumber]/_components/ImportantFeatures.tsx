@@ -23,12 +23,15 @@ export default function ImportantFeatures({ listing }: ImportantFeaturesProps) {
   };
   const lwr = listing as ListingWithRelations;
   return (
-    <div className="mb-6 flex gap-2">
+    <div className="flex gap-2">
       {importantFeatures[listing.category].map((key: string, idx) => {
         if (!listing.category) return null;
 
         const categoryData = lwr[listing.category];
         if (!categoryData || !(key in categoryData)) return null;
+
+        const value = categoryData[key as keyof typeof categoryData];
+        if (!value) return null;
 
         return (
           <div key={key}>

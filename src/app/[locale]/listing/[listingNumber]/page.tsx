@@ -270,7 +270,7 @@ export default async function SingleListingPage({
   // const publisherData = extractPublisherData(listing);
 
   return (
-    <article className="">
+    <article className="text-brand-black">
       <Suspense>
         <RecentlyViewedListingHandler listing={listing} />
       </Suspense>
@@ -311,10 +311,12 @@ export default async function SingleListingPage({
         </section>
       )}
       {/* Above Images Breadcrumbs and Action Buttons */}
-      <section className="px-0 py-4">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-5 md:flex-row">
+      <section className="px-0 py-2 sm:py-4">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 md:flex-row">
           <BackButton />
-          <ListingBreadcrumbs listing={listing} />
+          <div className="hidden sm:block">
+            <ListingBreadcrumbs listing={listing} />
+          </div>
           <ListingActions listing={listing} />
         </div>
       </section>
@@ -322,7 +324,7 @@ export default async function SingleListingPage({
       {/* Sticky Header */}
       <StickyControls listing={listing} />
       {/* Images */}
-      <section className="mx-auto w-full px-5 lg:max-w-7xl">
+      <section className="mx-auto w-full px-1.5 md:px-5 lg:max-w-7xl">
         <Suspense
           fallback={<div className="h-[400px] animate-pulse bg-slate-200" />}
         >
@@ -332,6 +334,9 @@ export default async function SingleListingPage({
             currentPlaceLabel={currentPlaceLabel || ""}
           />
         </Suspense>
+        <div className="mx-4 mt-3 flex items-start sm:hidden">
+          <ListingBreadcrumbs listing={listing} />
+        </div>
       </section>
       {/* Main section with Info */}
       <section className="mx-auto w-full px-5 lg:max-w-7xl">
@@ -339,25 +344,27 @@ export default async function SingleListingPage({
           {/* Listing Main */}
           <div className="flex-1 md:pr-2.5 lg:pr-12">
             {/* Main Info - Title - Address Phone */}
-            <div className="flex pb-5 pt-9 md:py-9">
+            <div className="flex flex-col pb-5 pt-4 sm:flex-row md:py-9">
               <div className="flex-1 pr-2 md:pr-7">
-                <h1 className="text-xl font-medium md:text-3xl">{title}</h1>
-                <p className="pt-2 text-sm tracking-tight md:text-base">
+                <h1 className="text-xl font-semibold md:text-2xl">{title}</h1>
+                <p className="pt-2 text-lg font-light tracking-tight md:text-base">
                   {fullAddress}
                 </p>
               </div>
-              <div className="max-w-[230px] flex-shrink-0 flex-grow-0">
+              <div className="hidden max-w-[230px] flex-shrink-0 flex-grow-0 text-right sm:block">
                 <span className="float-right mb-3">
                   <RevealButton
                     variant="outline"
                     usecase="phone"
                     value={
-                      lwr.user?.phone || lwr.agency?.contactPersonPhone || ""
+                      lwr.user?.contactPhone ||
+                      lwr.agency?.contactPersonPhone ||
+                      ""
                     }
                   />
                 </span>
-                <p className="mt-2.5 text-sm">
-                  {t("common.property.metadata.posted")}{" "}
+                <p className="mt-2.5 text-right text-sm">
+                  {t("common.property.metadata.posted")} <br />
                   {listing.publishedAt ? (
                     displayDate(listing.publishedAt)
                   ) : (
@@ -370,10 +377,18 @@ export default async function SingleListingPage({
             </div>
 
             {/* Price and Buttons - Interactions */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col">
               {/* Features Highlight - some imporant features mentioned */}
-              <ImportantFeatures listing={listing} />
               <PriceDisplay listing={listing} />
+              <ImportantFeatures listing={listing} />
+              <RevealButton
+                variant="outline"
+                usecase="phone"
+                value={
+                  lwr.user?.contactPhone || lwr.agency?.contactPersonPhone || ""
+                }
+                className="mt-3 block w-full sm:hidden"
+              />
             </div>
 
             {/* Mortgages Options */}
@@ -392,8 +407,8 @@ export default async function SingleListingPage({
               )}
 
             {/* Description */}
-            <div className="my-7">
-              <h3 className="mb-3 text-lg font-semibold">
+            <div className="my-3 md:my-7">
+              <h3 className="mb-3 text-xl font-bold">
                 {t("common.property.description")}
               </h3>
               <ExpandableDescription
@@ -406,8 +421,8 @@ export default async function SingleListingPage({
             <Separator className="my-3 bg-slate-400" />
 
             {/* Characteristics */}
-            <div className="my-7">
-              <h3 className="mb-3 text-lg font-semibold">
+            <div className="my-3 md:my-7">
+              <h3 className="mb-3 text-lg font-bold">
                 {t("common.property.characteristics")}
               </h3>
               <div>
@@ -419,7 +434,7 @@ export default async function SingleListingPage({
 
             {/* Map Location */}
             <div>
-              <h3 className="text-lg font-semibold">
+              <h3 className="text-lg font-bold">
                 {t("common.property.location")}
               </h3>
               <p className="my-2.5 text-xl font-light">{fullAddress}</p>
