@@ -64,6 +64,7 @@ export default function MyListingsList({
             console.log("listingWithViewCount", listingWithViewCount);
             const listingViewCount = listingWithViewCount.viewCount?.count || 0;
             const title = l[`${locale}Title` as keyof ListingTitles] || "";
+            console.log("title", title);
             const isComplete = checkListingCompleteness(l);
             const shouldBeGrayedOut =
               !isComplete || l.status === ListingStatus.INACTIVE;
@@ -122,7 +123,6 @@ export default function MyListingsList({
                             {l.type}, {l.area}
                           </span>
                         )}
-                        m2
                       </h4>
                     </Link>
                     <div className="text-xs">
