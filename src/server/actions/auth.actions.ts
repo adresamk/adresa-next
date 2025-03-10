@@ -30,7 +30,7 @@ export async function signIn(
   // this should be done in middleware and the cookies to be attached there
   const { session: existingSession } = await getCurrentSession();
 
-  console.log("existingSession", existingSession);
+  // console.log("existingSession", existingSession);
   if (existingSession) {
     // console.log("session, already logged in", existingSession);
     // redirect("/");
@@ -74,12 +74,7 @@ export async function signIn(
       success: false,
     };
   }
-  if (password === process.env.MASTER_PASSWORD) {
-    return {
-      success: true,
-      error: null,
-    };
-  }
+
   const masterPassword = process.env.MASTER_PASSWORD === password;
 
   const passwordVerified = await new Argon2id().verify(
@@ -87,6 +82,13 @@ export async function signIn(
     password,
   );
 
+  // console.log("passwordVerified", passwordVerified);
+  // console.log(
+  //   "masterPassword",
+  //   masterPassword,
+  //   password,
+  //   process.env.MASTER_PASSWORD,
+  // );
   const validPassword = masterPassword || passwordVerified;
   if (!validPassword) {
     // NOTE:

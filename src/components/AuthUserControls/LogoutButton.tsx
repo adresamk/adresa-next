@@ -3,19 +3,22 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { logout } from "@/server/actions/auth.actions";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
+import { Loader2 } from "lucide-react";
 
 interface LogoutButtonProps {}
 export default function LogoutButton({}: LogoutButtonProps) {
   const t = useTranslations();
   const router = useRouter();
   const logoutClient = useCurrentUser((state) => state.logout);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleLogout() {
     try {
+      setIsLoading(true);
       const response = await logout();
       if (response?.success) {
         toast.success(t("common.notifications.loggedOutSuccessfully"), {
@@ -38,6 +41,8 @@ export default function LogoutButton({}: LogoutButtonProps) {
           backgroundColor: "var(--alice-blue)",
         },
       });
+    } finally {
+      setIsLoading(false);
     }
   }
   // const [response, logoutAction] = useFormState(logout, undefined);
@@ -58,7 +63,11 @@ export default function LogoutButton({}: LogoutButtonProps) {
 
   return (
     <Button variant={"ghost"} onClick={handleLogout} className="w-full">
-      {t("header.userControls.logout")}
+      {isLoading ? (
+        <Loader2 className="h-4 w-4 animate-spin" />
+      ) : (
+        t("header.userControls.logout")
+      )}
     </Button>
   );
 }
