@@ -1,5 +1,6 @@
 "use client";
 import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
+import { cn } from "@/lib/utils";
 import { UploadedImageData } from "@/types/listing.types";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -26,15 +27,21 @@ export default function AgencyLogoUpload({
         onChange={() => {}}
       />
       <UploadDropzone
-        className="ut-label:leading-4"
+        className={cn("ut-label:leading-4", !logo && "border-1 border-red-400")}
         content={{
           label: ({}) => {
-            return <span>{t("agency.profile.details.logoUploadLabel")}</span>;
+            return (
+              <span
+                className={cn("text-sm leading-3", !logo && "text-red-400")}
+              >
+                {t("agency.profile.details.logoUploadLabel")}
+              </span>
+            );
           },
           button: ({ ready, isUploading, uploadProgress, files }) => {
             console.log({ ready, isUploading, uploadProgress, files });
             return (
-              <span className="inline-flex items-center gap-2">
+              <span className={cn("inline-flex items-center gap-2")}>
                 {isUploading &&
                   `${t("common.actions.isUploading")}... ${uploadProgress}%`}
                 {!isUploading &&

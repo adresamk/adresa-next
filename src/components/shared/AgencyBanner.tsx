@@ -4,6 +4,7 @@ import { Agency } from "@prisma/client";
 import { BrandingType } from "@/global/types";
 import { UploadedImageData } from "@/types/listing.types";
 import { getTranslations } from "next-intl/server";
+import { PhoneIcon } from "lucide-react";
 export default async function AgencyBanner({ agency }: { agency?: Agency }) {
   const branding: BrandingType | null = agency?.branding
     ? JSON.parse(agency.branding)
@@ -26,7 +27,7 @@ export default async function AgencyBanner({ agency }: { agency?: Agency }) {
           alt="Agency logo"
           width={100}
           height={60}
-          className="h-[60px] w-[100px] object-scale-down"
+          className="h-[60px] w-[100px] object-fill"
         />
         <div>
           <p className="text-white/60">{t("agency.realEstateAgency")}</p>
@@ -35,7 +36,12 @@ export default async function AgencyBanner({ agency }: { agency?: Agency }) {
       </div>
       <Link href={`/agency/${agency?.slug}`}>
         <Button variant={"outline"} className={`${primaryBgColor}`}>
-          {t("common.actions.contact")}
+          <span className="hidden smaller:block">
+            {t("common.actions.contact")}
+          </span>
+          <span className="block smaller:hidden">
+            <PhoneIcon className="h-5 w-5" />
+          </span>
         </Button>
       </Link>
     </aside>

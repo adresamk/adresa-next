@@ -7,6 +7,10 @@ import { updateAgencyInfo } from "@/server/actions/agency.actions";
 import {} from "@/server/actions/user.actions";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Metadata } from "next";
+import { cn } from "@/lib/utils";
+import { Alert } from "@/components/ui/alert";
+import { AlertDescription } from "@/components/ui/alert";
+import { Info } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Информации",
@@ -28,10 +32,16 @@ export default async function ProfileInfoPage() {
   }
 
   return (
-    <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+    <div className="mt-4 rounded-lg bg-white p-8 shadow md:ml-4 md:max-w-xl">
       <h3 className="mb-3 text-2xl font-semibold">
         {t("agency.profile.info.title")}
       </h3>
+      <Alert className="mb-4 mt-10 p-2 pb-1" variant={"info"}>
+        <Info className="h-4 w-4" />
+        <AlertDescription className="">
+          {t("agency.profile.info.alertInfo")}
+        </AlertDescription>
+      </Alert>
       <form
         className="py-2"
         action={async (formData: FormData) => {
@@ -47,6 +57,7 @@ export default async function ProfileInfoPage() {
           </Label>
           <Input
             required
+            highlightRequired
             id="ownerFirstName"
             defaultValue={agency?.ownerFirstName || ""}
             name="ownerFirstName"
@@ -61,6 +72,7 @@ export default async function ProfileInfoPage() {
           </Label>
           <Input
             required
+            highlightRequired
             id="ownerLastName"
             name="ownerLastName"
             defaultValue={agency?.ownerLastName || ""}
@@ -93,6 +105,8 @@ export default async function ProfileInfoPage() {
           </Label>
           <Input
             required
+            highlightRequired
+            type="email"
             id="ownerEmail"
             name="ownerEmail"
             defaultValue={agency?.ownerEmail || ""}

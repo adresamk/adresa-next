@@ -53,7 +53,7 @@ export default async function ProfileLayout({
   }
 
   return (
-    <main className="relativemx-auto flex max-w-[1200px] flex-col px-3 pb-12 group-[.mobile]:flex-col sm:flex-row sm:px-6">
+    <main className="relative mx-auto flex max-w-[1200px] flex-col px-3 pb-12 group-[.mobile]:flex-col sm:flex-row sm:px-6">
       <div className="sticky -top-10 z-10 mt-3 min-w-[220px] rounded-md bg-white shadow-md group-[.mobile]:min-h-fit sm:mt-0 sm:min-h-screen">
         <div className="flex flex-row-reverse items-start justify-end gap-3 px-2 py-3 sm:flex-col sm:gap-1 sm:px-3 sm:py-6">
           <p className="text-lg font-light text-brand-black-muted text-slate-500 sm:text-base">
@@ -72,7 +72,7 @@ export default async function ProfileLayout({
         </div>
         <AgencyProfileSideMenu agency={agency} />
       </div>
-      <div className="w-full">{children}</div>
+      <div className="">{children}</div>
     </main>
   );
 }

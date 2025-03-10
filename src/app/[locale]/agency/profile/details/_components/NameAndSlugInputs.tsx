@@ -23,6 +23,7 @@ export default function NameAndSlugInputs({ agency }: NameAndSlugInputsProps) {
         </Label>
         <Input
           required
+          highlightRequired
           id="name"
           value={name}
           onChange={(e) => {
@@ -46,6 +47,7 @@ export default function NameAndSlugInputs({ agency }: NameAndSlugInputsProps) {
         <Input
           className="invalid:border-red-500"
           required
+          highlightRequired
           id="slug"
           value={slug}
           pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$"

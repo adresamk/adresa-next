@@ -196,7 +196,7 @@ export default function SearchShowcase({
                     {displayDate(listing.publishedAt) || ""}
                   </time>
                 </p>
-                <p className="mb-2.5 line-clamp-3 max-h-[64px] min-h-[42px] overflow-hidden text-xs leading-5">
+                <p className="mb-2.5 mt-1.5 line-clamp-3 max-h-[64px] min-h-[42px] overflow-hidden text-xs leading-5">
                   {description}
                 </p>
 

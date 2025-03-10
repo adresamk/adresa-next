@@ -42,7 +42,7 @@ export default async function ProfileListingsPage() {
   //   },
   // });
   return (
-    <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+    <div className="mt-4 rounded-lg bg-white p-8 shadow md:ml-4 md:max-w-3xl">
       <h3 className="mb-3 text-2xl font-semibold">
         {t("agency.profile.listingsPage.title")}
       </h3>

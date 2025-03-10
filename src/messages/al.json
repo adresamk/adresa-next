@@ -1012,7 +1012,8 @@
         "ownerEmail": "Email-i i pronarit",
         "ownerPhone": "Telefoni i pronarit",
         "phone": "Telefoni i pronarit",
-        "contactInfo": "Informacione kontakti"
+        "contactInfo": "Informacione kontakti",
+        "alertInfo": "Këto informacione janë përdorur për të lehtësuar agjencës së Adresa të kontaktojë për çdo pyetje."
       },
       "details": {
         "agencyName": "Emri i agjencisë",

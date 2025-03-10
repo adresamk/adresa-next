@@ -1009,7 +1009,8 @@
         "ownerEmail": "Owner's email",
         "ownerPhone": "Owner's phone",
         "phone": "Owner's phone",
-        "contactInfo": "Contact information"
+        "contactInfo": "Contact information",
+        "alertInfo": "These information are used to allow Adresa to contact you for any questions."
       },
       "details": {
         "agencyName": "Agency name",

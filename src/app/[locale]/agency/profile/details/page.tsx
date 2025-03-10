@@ -57,14 +57,14 @@ export default async function AgencyProfileDetailsPage({
   ];
 
   return (
-    <div className="ml-4 mt-4 rounded-lg bg-white p-8 shadow">
+    <div className="mt-4 rounded-lg bg-white p-8 shadow sm:ml-4 md:max-w-lg">
       <h3 className="mb-3 text-2xl font-semibold">
         {t("agency.profile.details.title")}
       </h3>
 
-      <Alert className="mb-4 mt-10">
+      <Alert className="my-2 p-2 pb-2" variant={"info"}>
         <Info className="h-4 w-4" />
-        <AlertDescription className="text-slate-900">
+        <AlertDescription className="">
           {t("agency.profile.details.info")}
         </AlertDescription>
       </Alert>

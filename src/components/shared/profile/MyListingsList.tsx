@@ -86,7 +86,7 @@ export default function MyListingsList({
                     )}
                   />
                 </div>
-                <div className="flex w-8/12 flex-col p-5">
+                <div className="flex w-8/12 flex-col p-1 pl-4">
                   <div className="flex items-center justify-between">
                     <p className="text-sm">
                       <Link href={`/listing/${l.listingNumber}`}>
@@ -142,7 +142,9 @@ export default function MyListingsList({
                       {!isComplete ? (
                         <div className="flex items-center gap-3">
                           <AlertCircle stroke="orange" />{" "}
-                          <span>{t("listing.errors.requiredFields")}</span>
+                          <span className="leading-3">
+                            {t("listing.errors.requiredFields")}
+                          </span>
                         </div>
                       ) : (
                         <div className="flex h-9 items-center gap-3">
