@@ -30,6 +30,7 @@ function RefocusControl({ center }: { center: LatLngExpression }) {
         size="sm"
         variant="secondary"
         onClick={() => map.flyTo(center, 11, { duration: 1.5 })}
+        className="text-sm md:text-base"
       >
         {t("map.refocus")}
       </Button>

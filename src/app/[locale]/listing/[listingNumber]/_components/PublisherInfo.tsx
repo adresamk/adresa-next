@@ -44,7 +44,7 @@ export default async function PublisherInfo({
               </Link>
               <p className="mb-1.5 leading-4">{agency.address}</p>
             </div>
-            <div className="mt-10">
+            <div className="mb-4 mt-6 sm:mt-10">
               <p className="text-sm text-slate-600">
                 {t("common.property.publisherDetails.workHours")}
               </p>
@@ -83,18 +83,26 @@ export default async function PublisherInfo({
         <div className="flex gap-2">
           <div className="flex-1">
             <div>
-              <h4 className="text-lg font-medium">
+              <h4 className="text-sm">
                 {t("common.property.publisherDetails.title")}
               </h4>
-              <p className="mb-1.5 leading-4">{user.contactName}</p>
+              <p className="mb-1.5 mt-2 text-2xl font-semibold leading-5">
+                {user.contactName}
+              </p>
             </div>
-            <div className="mt-10">
-              <p>{t("common.property.publisherDetails.contactHoursUser")}</p>
-              <p>{user.contactHours}</p>
-              <p>
+            <div className="mb-4 mt-6 sm:mt-10">
+              {user.contactHours && (
+                <>
+                  <p>
+                    {t("common.property.publisherDetails.contactHoursUser")}
+                  </p>
+                  <p className="font-semibold">{user.contactHours}</p>
+                </>
+              )}
+              <p className="text-sm">
                 {t("common.property.publisherDetails.preferredContactMethod")}
               </p>
-              <p className="text-sm">
+              <p className="font-semibold">
                 {t(
                   `agency.profile.details.${user.preferredContactMethod || "both"}`,
                 )}

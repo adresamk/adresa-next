@@ -466,8 +466,8 @@ export default async function SingleListingPage({
               </Suspense>
             )}
             {/* Publisher  */}
-            <div className="my-6">
-              <h3 className="mb-3 text-lg font-semibold">
+            <div className="my-3 md:my-6">
+              <h3 className="mb-3 text-lg font-bold">
                 {t("common.property.publisher")}
               </h3>
               <PublisherInfo agency={lwr.agency} user={lwr.user} />

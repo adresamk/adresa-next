@@ -60,10 +60,10 @@ export default function ListingImages({
         })}
         isOpen={isOpen}
         onClose={onClose}
-        className="h-full max-w-[97vw]"
+        className="h-full max-w-[97vw] px-1.5 sm:px-6"
       >
         <div className="h-[calc(100vh_-_150px)] max-h-[97vh] overflow-y-scroll">
-          <Tabs value={openTab} className="h-[100%] w-fit">
+          <Tabs value={openTab} className="h-[100%]">
             <TabsList className="grid w-fit grid-cols-2">
               <TabsTrigger
                 value="overview"
@@ -107,22 +107,22 @@ export default function ListingImages({
               </div>
             </TabsContent>
             <TabsContent value="singleAtATime" className="h-[89%]">
-              <div className="relative h-full max-h-full w-full px-12">
+              <div className="relative h-full max-h-full w-full px-0 sm:px-12">
                 <Carousel
-                  className="h-full"
+                  className="relative h-full"
                   opts={{
                     align: "start",
                     startIndex: openImageIndex || 0,
                   }}
                 >
                   <CarouselContent
-                    className="h-full max-w-full"
+                    className="h-full max-w-full gap-x-4"
                     outerDivWrapperClassName="h-full"
                   >
                     {images.map((image, idx) => (
                       <CarouselItem
                         key={idx}
-                        className="flex h-full max-h-[75vh] basis-full items-center justify-center"
+                        className="flex h-full max-h-[75vh] basis-full items-center justify-center pl-0"
                       >
                         <figure className="h-full max-w-fit">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -140,8 +140,10 @@ export default function ListingImages({
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className="ml-2 border-slate-400" />
-                  <CarouselNext className="mr-2 border-slate-400" />
+                  <CarouselPrevious className="absolute left-0.5 top-[50%] ml-1 border-slate-400 disabled:hidden sm:static sm:hidden" />
+                  <CarouselNext className="absolute right-0.5 top-[50%] mr-1 border-slate-400 disabled:hidden sm:static sm:hidden" />
+                  <CarouselPrevious className="ml-2 hidden border-slate-400 sm:flex" />
+                  <CarouselNext className="mr-2 hidden border-slate-400 sm:flex" />
                 </Carousel>
               </div>
             </TabsContent>
