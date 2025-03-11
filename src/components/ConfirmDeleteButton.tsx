@@ -50,6 +50,7 @@ export function ConfirmDeleteButton({
             "flex items-center justify-between gap-2 px-2",
             !deleteText && "w-full rounded-full",
             deleteText && "w-fit",
+            className,
           )}
           onClick={() => {
             setIsDeleting(true);

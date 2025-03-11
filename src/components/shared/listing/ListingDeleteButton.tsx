@@ -19,7 +19,7 @@ export default function ListingDeleteButton({
       }}
       icon={<Trash className="h-4 w-4 text-red-500" />}
       deleteText={t("common.actions.delete")}
-      className="ml-auto"
+      className="ml-auto text-sm md:text-base"
     />
   );
 }
