@@ -1794,8 +1794,9 @@ export async function registerListingView(
   listingId: number,
   data: RegisterListingViewData,
 ) {
+  console.log("registerListingView", listingId);
   const { account } = await getCurrentUser();
-
+  console.log("account", account);
   let ip =
     data.headersList.get("x-forwarded-for") ||
     data.headersList.get("remote-addr") ||
@@ -1815,6 +1816,25 @@ export async function registerListingView(
   if (ipAddress === "unknown") {
     ipAddress = "";
   }
+  console.log("ipAddress", ipAddress);
+  console.log("account", account);
+
+  console.log("upserting view count");
+  // Update view count only after successful view creation
+  await prismadb.listingViewCount.upsert({
+    where: {
+      listingId,
+    },
+    update: {
+      count: {
+        increment: 1,
+      },
+    },
+    create: {
+      listingId,
+      count: 1,
+    },
+  });
   // If no way to identify viewer (no IP and no account), skip
   if (!ipAddress && !account) {
     return;
@@ -1825,6 +1845,7 @@ export async function registerListingView(
 
   // Check for recent view from same account/IP
 
+  console.log("checking for recent view");
   const recentView = await prismadb.listingView.findFirst({
     where: {
       listingId,
@@ -1841,10 +1862,12 @@ export async function registerListingView(
     },
   });
 
+  console.log("recentView", recentView);
   // If recent view exists, don't create new view or update count
   if (recentView) {
     return;
   }
+  console.log("no recent view, creating new view");
   const ipInfoResponse = await fetch(`http://ip-api.com/json/${ipAddress}`);
   const ipInfo = await ipInfoResponse.json();
 
@@ -1859,6 +1882,7 @@ export async function registerListingView(
     userAgent,
   };
   // Create new view record
+  console.log("creating new view");
   await prismadb.listingView.create({
     data: {
       listingId,
@@ -1870,21 +1894,7 @@ export async function registerListingView(
     },
   });
 
-  // Update view count only after successful view creation
-  await prismadb.listingViewCount.upsert({
-    where: {
-      listingId,
-    },
-    update: {
-      count: {
-        increment: 1,
-      },
-    },
-    create: {
-      listingId,
-      count: 1,
-    },
-  });
+  console.log("registerListingView done", listingId);
 }
 
 export type ParsedListingData = {
