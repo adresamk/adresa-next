@@ -10,13 +10,16 @@ export default async function MySavedSearchesList({
   const t = await getTranslations();
   if (savedSearches.length === 0) {
     return (
-      <div className="text-center">
+      <div className="flex min-h-[200px] items-center justify-center text-brand-black-muted">
         {t("user.profile.savedSearches.noSavedSearches")}
       </div>
     );
   }
   return (
-    <div className="grid max-w-5xl grid-cols-[repeat(1,minmax(236px,1fr))] gap-4 md:grid-cols-[repeat(2,minmax(236px,1fr))] lg:grid-cols-[repeat(3,minmax(236px,1fr))]">
+    <div
+      // className=" grid max-w-5xl grid-cols-[repeat(auto-fill,minmax(229px,328px))] justify-center gap-4 overflow-x-auto sm:justify-start"
+      className="flex flex-wrap justify-center gap-3 md:justify-start"
+    >
       {savedSearches.map((savedSearch) => (
         <SavedSearchCard key={savedSearch.id} savedSearch={savedSearch} />
       ))}

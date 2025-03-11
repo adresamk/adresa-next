@@ -20,18 +20,16 @@ export default async function MySavedSearchesPage() {
   }
   const mySavedSearches = await getMySavedSearches();
   return (
-    <div className="flex flex-col gap-3">
-      <div className="rounded-lg bg-white p-8 shadow">
-        <h3 className="mb-3 flex items-center justify-between text-2xl font-semibold">
-          {t("user.profile.savedSearches.title")}
-          {/* <Button className="uppercase" size={"sm"}>
+    <div className="mx:m-4 mt-4 flex w-full flex-col gap-3 rounded-lg bg-white p-4 shadow md:m-8 md:max-w-3xl md:p-8">
+      <h3 className="mb-3 flex items-center justify-between text-2xl font-semibold">
+        {t("user.profile.savedSearches.title")}
+        {/* <Button className="uppercase" size={"sm"}>
             <Search className="mr-2" />{" "}
             {t("user.profile.savedSearches.newSearch")}
           </Button> */}
-        </h3>
-        <Separator className="my-3" />
-        <MySavedSearchesList savedSearches={mySavedSearches || []} />
-      </div>
+      </h3>
+      <Separator className="" />
+      <MySavedSearchesList savedSearches={mySavedSearches || []} />
       {/* <HireAgencyBanner /> */}
     </div>
   );

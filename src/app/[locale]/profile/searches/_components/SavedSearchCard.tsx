@@ -65,12 +65,12 @@ export default function SavedSearchCard({
   return (
     <article
       id={"ss" + savedSearch.id}
-      className="relative mb-4 flex flex-col rounded-md border border-slate-200 shadow-lg"
+      className="relative mb-4 flex max-w-[342px] flex-1 flex-col rounded-md border border-slate-200 shadow-lg"
     >
       {/* top */}
       <div className="relative mt-1.5 flex h-[73px] items-center justify-between gap-3 pl-4 pr-2">
         <div className="relative flex w-full items-center justify-between gap-4">
-          <h2 className="line-clamp-3 h-full overflow-hidden text-base font-semibold leading-5">
+          <h2 className="line-clamp-3 h-full max-w-[240px] overflow-hidden text-base font-semibold leading-4">
             {savedSearch.name}
           </h2>
           <div className="ml-4 flex-shrink-0 basis-14">
@@ -95,7 +95,9 @@ export default function SavedSearchCard({
         <p className="text-sm">
           {listingsCount} {listingsCount === 0 && t("common.words.noListings")}
           {listingsCount === 1 && t("common.words.listing")}
-          {listingsCount && listingsCount > 1 && t("common.words.listings")}
+          {listingsCount !== null &&
+            listingsCount > 1 &&
+            t("common.words.listings")}
         </p>
 
         {newListingsCount !== null && (
@@ -149,6 +151,7 @@ export default function SavedSearchCard({
             name="notificationInterval"
             options={notificationIntervalOptionsTranslated}
             value={notificationInterval}
+            triggerClassName="text-left leading-3"
             onClick={async (value) => {
               const resp = await updateSavedSearch(
                 savedSearch.id,

@@ -1793,6 +1793,13 @@ export type RegisterListingViewData = {
   account: Account | null;
 };
 
+export async function incrementListingViewCount(listingId: number) {
+  await prismadb.listingViewCount.upsert({
+    where: { listingId },
+    update: { count: { increment: 1 } },
+    create: { listingId, count: 1 },
+  });
+}
 export async function registerListingView(
   listingId: number,
   data?: RegisterListingViewData,

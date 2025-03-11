@@ -2,7 +2,10 @@
 
 import { LocalStorageKeysOptions } from "@/lib/types";
 import { readFromLocalStorage, writeToLocalStorage } from "@/lib/utils";
-import { registerListingView } from "@/server/actions/listing.actions";
+import {
+  incrementListingViewCount,
+  registerListingView,
+} from "@/server/actions/listing.actions";
 import { Listing } from "@prisma/client";
 import { useLocale } from "next-intl";
 import { useEffect } from "react";
@@ -22,12 +25,7 @@ export default function RecentlyViewedListingHandler({
   // and hompage counts for the savedsearches to get count and new links
   // load then show
   useEffect(() => {
-    console.log("RecentlyViewedListingHandler");
-    const registerView = () => {
-      registerListingView(listing.id);
-    };
-
-    registerView();
+    window && incrementListingViewCount(listing.id);
   }, [listing.listingNumber]);
   return null;
 }
