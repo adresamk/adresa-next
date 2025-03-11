@@ -1025,6 +1025,7 @@
         "agencyAdress": "Адреса на агенција",
         "agencyAdressPlaceholder": "ex: ул. Петровац 12, 1000 Скопје",
         "agencyLogo": "Лого на агенција",
+        "agencyLogoInfo": "Изберете лого со приближни димензии приближни до 320x160px / 16:9",
         "logoUploadLabel": "Изберете слика со клик или повлечи и спушти ја овде",
         "logoUploadContent": "Избери",
         "logoUploadAllowedContent": "Максимум 1 слика до 4MB",

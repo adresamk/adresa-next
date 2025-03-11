@@ -8,7 +8,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-
+  // watchOptions: {
+  //   pollIntervalMs: 1000,
+  // },
   reactStrictMode: false,
   webpack: (config) => {
     config.externals.push("@node-rs/argon2", "@node-rs/bcrypt");

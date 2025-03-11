@@ -1025,6 +1025,7 @@
         "agencyAdress": "Adresa e agjencisë",
         "agencyAdressPlaceholder": "p.sh: rr. Petrovac 12, 1000 Shkup",
         "agencyLogo": "Logoja e agjencisë",
+        "agencyLogoInfo": "Zgjidhni dimensione të afërta 320x160px / 16:9",
         "logoUploadLabel": "Zgjidhni logo me klik ose drag and drop",
         "logoUploadContent": "Zgjidhni",
         "logoUploadAllowedContent": "Maksimum 1 foto",

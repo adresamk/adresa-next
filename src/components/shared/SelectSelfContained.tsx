@@ -20,6 +20,7 @@ interface SelectSelfContainedProps {
   triggerWidth?: string;
   name?: string;
   id?: string;
+  triggerClassName?: string;
 }
 
 export function SelectSelfContained({
@@ -27,7 +28,8 @@ export function SelectSelfContained({
   options,
   onClick,
   placeholder = "",
-  triggerWidth = "180px",
+  triggerWidth,
+  triggerClassName,
   name,
   id,
 }: SelectSelfContainedProps) {
@@ -52,7 +54,10 @@ export function SelectSelfContained({
         <SelectTrigger
           id={id}
           style={{ width: triggerWidth }}
-          className={cn(`select-self-contained z-[140]`)}
+          className={cn(
+            `select-self-contained z-[140] w-fit`,
+            triggerClassName,
+          )}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

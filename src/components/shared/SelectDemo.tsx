@@ -26,19 +26,23 @@ export function SelectDemo({
   options,
   onClick,
   placeholder = "",
-  triggerWidth = "180px",
+  // triggerWidth = "180px",
+  triggerWidth,
   name,
   disabled,
   align = "start",
   triggerClassName = "",
 }: SelectDemoProps) {
+  const [selectValue, setSelectValue] = React.useState(value);
+
   return (
     <Select
       disabled={disabled}
       name={name}
-      value={value}
+      value={selectValue || undefined}
       onValueChange={(value) => {
         onClick?.(value);
+        setSelectValue(value);
       }}
     >
       <SelectTrigger

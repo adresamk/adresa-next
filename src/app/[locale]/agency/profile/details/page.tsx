@@ -104,6 +104,9 @@ export default async function AgencyProfileDetailsPage({
             {t("agency.profile.details.agencyLogo")}{" "}
             <span className="text-red-500">*</span>
           </Label>
+          <small className="text-xs text-brand-black-muted">
+            {t("agency.profile.details.agencyLogoInfo")}
+          </small>
           <AgencyLogoUpload existingLogo={agency?.logo as UploadedImageData} />
           {/* <Input
             id="logo"
@@ -230,6 +233,7 @@ export default async function AgencyProfileDetailsPage({
             {t("agency.profile.details.contactPersonEmail")}
           </Label>
           <Input
+            type="email"
             id="contactPersonEmail"
             defaultValue={agency?.contactPersonEmail || ""}
             name="contactPersonEmail"
@@ -258,7 +262,8 @@ export default async function AgencyProfileDetailsPage({
           <Label htmlFor="preferredContactMethod">
             {t("agency.profile.details.preferredContactMethod")}
           </Label>
-          <SelectSelfContained
+          <SelectDemo
+            triggerClassName="w-fit"
             name="preferredContactMethod"
             placeholder={t(
               "agency.profile.details.preferredContactMethodPlaceholder",
@@ -289,9 +294,9 @@ export default async function AgencyProfileDetailsPage({
         </h3>
         {/* Contact Person Full Name */}
         <div className="mb-3 flex flex-col gap-1">
-          <Label htmlFor="workHours">
+          {/* <Label htmlFor="workHours">
             {t("agency.profile.details.workHours")}
-          </Label>
+          </Label> */}
           <Textarea
             rows={6}
             id="workHours"
