@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ButtonProps } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface SubmitButtonProps extends ButtonProps {
   loadingText?: string;
@@ -23,7 +24,7 @@ export function SubmitButton({
   return (
     <Button
       {...props}
-      className={className}
+      className={cn("w-full smaller:w-fit", className)}
       disabled={disabled || pending}
       type="submit"
     >

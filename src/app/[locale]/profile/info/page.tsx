@@ -25,7 +25,7 @@ export default async function ProfileInfoPage({
   //   redirect("/signin?redirect=/profile/info");
   // }
   return (
-    <div className="mt-4 rounded-lg bg-white p-8 shadow md:ml-4 md:max-w-lg">
+    <div className="mt-4 rounded-lg bg-white p-4 shadow md:ml-4 md:max-w-lg md:p-8">
       <h3 className="mb-3 text-2xl font-semibold">
         {t("user.profile.info.title")}
       </h3>
@@ -53,7 +53,7 @@ export default async function ProfileInfoPage({
           }
         }}
       >
-        <div className="mb-2 flex flex-col gap-3">
+        <div className="mb-3 flex flex-col gap-1">
           <Label htmlFor="firstName">
             {t("user.profile.info.firstName")}{" "}
             <span className="text-red-500">*</span>
@@ -67,7 +67,7 @@ export default async function ProfileInfoPage({
           />
         </div>
 
-        <div className="mb-2 flex flex-col gap-3">
+        <div className="mb-3 flex flex-col gap-1">
           <Label htmlFor="lastName">
             {t("user.profile.info.lastName")}{" "}
             <span className="text-red-500">*</span>
@@ -81,7 +81,7 @@ export default async function ProfileInfoPage({
           />
         </div>
 
-        <div className="mb-2 flex flex-col gap-3">
+        <div className="mb-3 flex flex-col gap-1">
           <Label htmlFor="phone">
             {t("user.profile.info.phone")}{" "}
             {/* <span className="text-red-500">*</span> */}
@@ -95,7 +95,7 @@ export default async function ProfileInfoPage({
           />
         </div>
 
-        <div className="mb-2 flex flex-col gap-3">
+        <div className="mb-3 flex flex-col gap-1">
           <Label htmlFor="email">{t("user.profile.info.email")}</Label>
           <Input
             required

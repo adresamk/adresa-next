@@ -33,7 +33,7 @@ export default async function ProfileLikedPage() {
   return (
     <div className="flex flex-col gap-3 md:max-w-2xl">
       <div className="rounded-lg bg-white shadow md:pl-2">
-        <h3 className="mb-3 text-2xl font-semibold">
+        <h3 className="mb-3 mt-2 text-2xl font-semibold sm:mt-0">
           {t("user.profile.likedListings.title")}
           <span className="ml-3 text-base text-gray-500">
             ({myLikedListings.length})

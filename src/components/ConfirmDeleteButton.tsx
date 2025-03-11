@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -30,6 +30,14 @@ export function ConfirmDeleteButton({
   const [isDeleting, setIsDeleting] = useState(false);
   const defaultTriggerIcon = <EllipsisVerticalIcon className="h-4 w-4" />;
   const defaultDeleteIcon = <Trash className="h-4 w-4 text-red-500" />;
+  const [alignSide, setAlignSide] = useState<"start" | "center" | "end">(
+    "start",
+  );
+  useEffect(() => {
+    if (window.innerWidth < 640) {
+      setAlignSide("end");
+    }
+  }, []);
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -38,7 +46,7 @@ export function ConfirmDeleteButton({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        align="start"
+        align={alignSide}
         side="top"
         className="w-44 rounded-md bg-white p-2 shadow-md"
         asChild

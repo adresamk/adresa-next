@@ -37,12 +37,12 @@ export default async function ProfileInfoPage({
     { label: t("agency.profile.details.both"), value: "both" },
   ];
   return (
-    <div className="mt-4 rounded-lg bg-white p-8 shadow md:ml-4 md:max-w-lg">
+    <div className="mt-4 rounded-lg bg-white p-4 shadow md:ml-4 md:max-w-lg md:p-8">
       <h3 className="mb-3 text-2xl font-semibold">
         {t("user.profile.contactInfo.title")}
       </h3>
       <Alert
-        className="mb-4 mt-10 border border-orange-300 bg-orange-50"
+        className="mb-2 mt-4 border border-orange-300 bg-orange-50"
         variant="default"
       >
         <Info className="h-4 w-4" />
@@ -57,7 +57,7 @@ export default async function ProfileInfoPage({
           const result = await updateUserContactInfo(formData);
         }}
       >
-        <div className="mb-2 flex flex-col gap-3">
+        <div className="mb-3 flex flex-col gap-1">
           <Label htmlFor="contactName">
             {t("user.profile.contactInfo.contactName")}{" "}
             <span className="text-red-500">*</span>
@@ -71,7 +71,7 @@ export default async function ProfileInfoPage({
           />
         </div>
 
-        <div className="mb-2 flex flex-col gap-3">
+        <div className="mb-3 flex flex-col gap-1">
           <Label htmlFor="contactPhone">
             {t("user.profile.contactInfo.contactPhone")}{" "}
             <span className="text-red-500">*</span>
@@ -84,7 +84,7 @@ export default async function ProfileInfoPage({
             placeholder={t("user.profile.contactInfo.contactPhonePlaceholder")}
           />
         </div>
-        <div className="mb-2 flex gap-3">
+        {/* <div className="mb-3 flex gap-1">
           <Checkbox
             disabled={true}
             id="contactPhoneVerified"
@@ -94,9 +94,9 @@ export default async function ProfileInfoPage({
           <Label htmlFor="contactPhoneVerified">
             {t("user.profile.contactInfo.contactPhoneVerified")}
           </Label>
-        </div>
+        </div> */}
 
-        <div className="mb-2 flex flex-col gap-3">
+        <div className="mb-3 flex flex-col gap-1">
           <Label htmlFor="contactEmail">
             {t("user.profile.contactInfo.contactEmail")}{" "}
             <span className="text-red-500">*</span>
@@ -110,7 +110,7 @@ export default async function ProfileInfoPage({
             placeholder={t("user.profile.contactInfo.contactEmailPlaceholder")}
           />
         </div>
-        <div className="mb-2 flex gap-3">
+        <div className="mb-3 flex gap-1">
           <Checkbox
             disabled
             id="contactEmailVerified"
@@ -121,7 +121,7 @@ export default async function ProfileInfoPage({
             {t("user.profile.contactInfo.contactEmailVerified")}
           </Label>
         </div>
-        <div className="mb-2 flex flex-col gap-3">
+        <div className="mb-4 flex flex-col gap-2">
           <Label htmlFor="contactHours">
             {t("user.profile.contactInfo.contactHours")}{" "}
             {/* <span className="text-red-500">*</span> */}
@@ -134,7 +134,7 @@ export default async function ProfileInfoPage({
             placeholder={t("user.profile.contactInfo.contactHoursPlaceholder")}
           />
         </div>
-        <div className="mb-2 flex flex-col gap-3">
+        <div className="mb-3 flex flex-col gap-2">
           <Label htmlFor="preferredContactMethod">
             {t("user.profile.contactInfo.preferredContactMethod")}
           </Label>

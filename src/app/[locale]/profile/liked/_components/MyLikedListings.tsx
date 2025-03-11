@@ -11,7 +11,7 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
   console.log("listings343", listings);
   return (
     <>
-      <div className="mb-2 flex justify-between pr-4">
+      <div className="mb-4 flex justify-between pr-4 sm:mb-2">
         <div className="flex gap-2">
           <div
             onClick={() => setActiveFilter("sale")}
@@ -41,9 +41,10 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
             {t("search.filters.mode.all")}
           </div>
         </div>
-        <div>{t("user.profile.likedListings.sort")} </div>
+        {/* Removed sort because doesn't make sense atm we will sort by updatedAt for now*/}
+        {/* <div>{t("user.profile.likedListings.sort")} </div> */}
       </div>
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap justify-center gap-1">
         {listings
           .filter((listing) => {
             if (activeFilter === "sale") {
@@ -54,6 +55,10 @@ export default function MyLikedListings({ listings }: { listings: Listing[] }) {
               return true;
             }
           })
+          .sort(
+            (a, b) =>
+              new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+          )
           .map((listing) => (
             <ListingCard key={listing.id} listing={listing} />
           ))}
