@@ -7,6 +7,7 @@ import { redirect, routing } from "@/i18n/routing";
 import { IResult, UAParser } from "ua-parser-js";
 
 import {
+  Account,
   CommercialPropertyType,
   LandPropertyType,
   Listing,
@@ -39,6 +40,7 @@ import { de, tr } from "@faker-js/faker";
 import { PrismaClientValidationError } from "@prisma/client/runtime/library";
 import { notifyConcernedUsersAboutNewListing } from "./notifications.actions";
 import { ActionResult } from "@/components/Form";
+import { headers } from "next/headers";
 export async function revalidateListingPage(listingNumber: number) {
   // Revalidate the specific listing page across all locales
   routing.locales.forEach((locale) => {
@@ -1788,15 +1790,27 @@ export async function getListingViews(listingId: number) {
 export type RegisterListingViewData = {
   headersList: Headers;
   locale: string;
+  account: Account | null;
 };
 
 export async function registerListingView(
   listingId: number,
-  data: RegisterListingViewData,
+  data?: RegisterListingViewData,
 ) {
   console.log("registerListingView", listingId);
-  const { account } = await getCurrentUser();
-  console.log("account", account);
+  console.log("account", data?.account);
+  if (!data) {
+    const headersList = await headers();
+    const locale = await getLocale();
+    const { account } = await getCurrentUser();
+    data = {
+      headersList,
+      locale,
+      account,
+    };
+    console.log("data", data);
+    // return;
+  }
   let ip =
     data.headersList.get("x-forwarded-for") ||
     data.headersList.get("remote-addr") ||
@@ -1817,26 +1831,30 @@ export async function registerListingView(
     ipAddress = "";
   }
   console.log("ipAddress", ipAddress);
-  console.log("account", account);
+  console.log("account", data.account);
 
   console.log("upserting view count");
   // Update view count only after successful view creation
-  await prismadb.listingViewCount.upsert({
-    where: {
-      listingId,
-    },
-    update: {
-      count: {
-        increment: 1,
-      },
-    },
-    create: {
-      listingId,
-      count: 1,
-    },
-  });
+
   // If no way to identify viewer (no IP and no account), skip
-  if (!ipAddress && !account) {
+  if (!ipAddress && !data.account) {
+    console.log(
+      "no ip address and no account, skipping, just adding the view count",
+    );
+    await prismadb.listingViewCount.upsert({
+      where: {
+        listingId,
+      },
+      update: {
+        count: {
+          increment: 1,
+        },
+      },
+      create: {
+        listingId,
+        count: 1,
+      },
+    });
     return;
   }
 
@@ -1850,7 +1868,7 @@ export async function registerListingView(
     where: {
       listingId,
       OR: [
-        ...(account ? [{ accountId: account.id }] : []),
+        ...(data.account ? [{ accountId: data.account.id }] : []),
         ...(ipAddress ? [{ ipAddress }] : []),
       ],
       viewedAt: {
@@ -1865,6 +1883,7 @@ export async function registerListingView(
   console.log("recentView", recentView);
   // If recent view exists, don't create new view or update count
   if (recentView) {
+    console.log("recent view exists, skipping");
     return;
   }
   console.log("no recent view, creating new view");
@@ -1886,14 +1905,27 @@ export async function registerListingView(
   await prismadb.listingView.create({
     data: {
       listingId,
-      accountId: account ? account.id : null,
+      accountId: data.account ? data.account.id : null,
       locale: data.locale,
       ipAddress,
       ipInfo: ipInfo.status === "success" ? ipInfo : null,
       deviceInfo: JSON.parse(JSON.stringify(deviceInfo)),
     },
   });
-
+  await prismadb.listingViewCount.upsert({
+    where: {
+      listingId,
+    },
+    update: {
+      count: {
+        increment: 1,
+      },
+    },
+    create: {
+      listingId,
+      count: 1,
+    },
+  });
   console.log("registerListingView done", listingId);
 }
 

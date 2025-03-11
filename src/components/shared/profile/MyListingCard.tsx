@@ -19,10 +19,10 @@ export default function MyListingCard({ listing }: MyListingCardProps) {
   const t = useTranslations();
 
   const listingWithViewCount = l as ListingWithViewCount;
-  console.log("listingWithViewCount", listingWithViewCount);
+  // console.log("listingWithViewCount", listingWithViewCount);
   const listingViewCount = listingWithViewCount.viewCount?.count || 0;
   const title = l[`${locale}Title` as keyof ListingTitles] || "";
-  console.log("title", title);
+  // console.log("title", title);
   const isComplete = checkListingCompleteness(l);
   const shouldBeGrayedOut = !isComplete || l.status === ListingStatus.INACTIVE;
 

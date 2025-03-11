@@ -72,6 +72,7 @@ import BackButton from "./_components/BackButton";
 import RecentlyViewedListingHandler from "./_components/RecentlyViewedListingHandler";
 import { getCurrentUser } from "@/lib/sessions";
 import { Suspense } from "react";
+import ListingViewHandler from "./_components/ListingViewHandler";
 
 interface SingleListingPageProps {
   params: Promise<{
@@ -200,7 +201,7 @@ export default async function SingleListingPage({
   const { listingNumber, locale } = await params;
   setRequestLocale(locale);
 
-  const { agency, user } = await getCurrentUser();
+  const { agency, user, account } = await getCurrentUser();
 
   // console.log("listingNumber", listingNumber);
   if (isNaN(Number(listingNumber))) {
@@ -208,6 +209,7 @@ export default async function SingleListingPage({
   }
   // const locale = await getLocale();
   const headersList = await headers();
+  console.log("headersList", headersList);
 
   const listing = (await prismadb.listing.findUnique({
     where: {
@@ -227,12 +229,6 @@ export default async function SingleListingPage({
     redirect({ href: "/404", locale: locale });
     return null;
   }
-
-  registerListingView(listing.id, {
-    headersList,
-    locale,
-  });
-  // Increment view count
 
   // Log or process the IP address and locale
   const isOwner =
@@ -272,7 +268,10 @@ export default async function SingleListingPage({
   return (
     <article className="text-brand-black">
       <Suspense>
-        <RecentlyViewedListingHandler listing={listing} />
+        <>
+          <RecentlyViewedListingHandler listing={listing} />
+          <ListingViewHandler listing={listing} />
+        </>
       </Suspense>
       {isOwner && (
         <section className="mx-auto w-full px-5 py-5 text-sm lg:max-w-7xl">

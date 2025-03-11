@@ -16,7 +16,6 @@ interface RecentlyViewedListingHandlerProps {
 export default function RecentlyViewedListingHandler({
   listing,
 }: RecentlyViewedListingHandlerProps) {
-  const locale = useLocale();
   //   https://www.spitogatos.gr/n_api/v1/properties/by-ids?propertyIds[]=16003934
   // and hompage counts for the savedsearches to get count and new links
   // load then show
