@@ -44,10 +44,16 @@ export default function AgencyLogoUpload({
               <span className={cn("inline-flex items-center gap-2")}>
                 {isUploading &&
                   `${t("common.actions.isUploading")}... ${uploadProgress}%`}
-                {!isUploading &&
+                {!logo &&
+                  !isUploading &&
                   uploadProgress === 0 &&
                   files.length === 0 &&
                   t("common.actions.select")}
+                {logo &&
+                  !isUploading &&
+                  uploadProgress === 0 &&
+                  files.length === 0 &&
+                  t("common.actions.change")}
                 {!isUploading &&
                   uploadProgress === 0 &&
                   files.length === 1 &&

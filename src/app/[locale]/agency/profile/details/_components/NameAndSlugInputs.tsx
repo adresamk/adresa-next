@@ -16,7 +16,7 @@ export default function NameAndSlugInputs({ agency }: NameAndSlugInputsProps) {
   return (
     <>
       {/* Agency Name */}
-      <div className="mb-2 flex flex-col gap-3">
+      <div className="mb-3 flex flex-col gap-1">
         <Label htmlFor="name">
           {t("agency.profile.details.agencyName")}{" "}
           <span className="text-red-500">*</span>
@@ -36,7 +36,7 @@ export default function NameAndSlugInputs({ agency }: NameAndSlugInputsProps) {
       </div>
 
       {/* Agency Slug */}
-      <div className="mb-2 flex flex-col gap-3">
+      <div className="mb-3 flex flex-col gap-1">
         <Label htmlFor="slug">
           {t("agency.profile.details.agencySlug")}
           <span className="ml-1 text-red-500">*</span>
