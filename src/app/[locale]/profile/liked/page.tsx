@@ -29,7 +29,7 @@ export default async function ProfileLikedPage() {
     return null;
   }
   const myLikedListings = await getLikedListingsByUser(user.id);
-  console.log("myLikedListings", myLikedListings);
+  // console.log("myLikedListings", myLikedListings);
   return (
     <div className="md:min-w-lg m-4 ml-0 flex w-full flex-col gap-3 md:ml-4 md:max-w-2xl">
       <div className="w-full rounded-lg bg-white pl-2 shadow md:pl-4">

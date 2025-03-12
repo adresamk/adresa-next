@@ -11,7 +11,7 @@ export default async function Header() {
     >
       <nav className="mr-4 flex items-center gap-6 text-brand-dark-blue">
         <AdresaLogo />
-        <div className="hidden">1</div>
+        <div className="hidden">2</div>
       </nav>
 
       <Suspense fallback={<div>Loading...</div>}>
