@@ -91,6 +91,13 @@ export default function ListingImages({
                       <figure className="h-[25vh] max-h-[300px] min-h-[100px] cursor-pointer overflow-hidden rounded-xl">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
+                          // onLoad={(
+                          //   e: React.SyntheticEvent<HTMLImageElement>,
+                          // ) => {
+                          //   const img = e.target as HTMLImageElement;
+                          //   img.naturalWidth;
+                          //   console.log("image loaded");
+                          // }}
                           src={imageUrl}
                           alt={t("listing.listingImages.photo", {
                             index: idx + 1,
